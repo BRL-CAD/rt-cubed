@@ -1,13 +1,9 @@
 SUBDIRS = \
 	include \
-	man \
 	src
 
 DIST_SUBDIRS = \
-	doc \
 	include \
-	man \
-	misc \
 	src
 
 EXTRA_DIST = \

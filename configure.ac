@@ -271,8 +271,6 @@ AC_CONFIG_FILES([Makefile
 		 include/Image/Makefile
 		 include/Utility/Makefile
 		 include/Raytrace/Makefile
-		 man/Makefile
-		 misc/Makefile
 		 src/Makefile
 		 src/date/Makefile
 		 src/libGeometry/Makefile
@@ -296,7 +294,6 @@ echo RT^3 $RT3_VERSION, Build $CONFIGURE_DATE
 echo
 echo            Binaries: ${prefix}
 echo Configuration files: ${sysconfdir}
-echo        Manual pages: ${mandir}
 echo
 echo CC       = ${CC}
 echo CFLAGS   = ${CFLAGS}
