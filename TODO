@@ -1,0 +1,46 @@
+- put together basic application components:
+	- argument handler
+	- singleton
+	- timer
+	- exception handler
+	- memory manager
+	- file reader/writer
+	- application shell with runtime loop
+	
+- baseline and time empty loop app
+
+
+- consider utilizing the following libraries
+  	- GMP - http://www.swox.com/gmp/
+	  for high-speed arbitrary precision computation
+	  LGPL
+
+	- GiNaC
+	  algebraic manipulation lib
+	  GPL
+
+	- CLN - http://www.ginac.de/CLN/
+	  for high-speed arbitrary precision computation
+	  GPL
+	  
+	- CGAL - http://www.cgal.org
+          computational geometry algorithms library
+
+	- C++ Matrix class - http://www.netwood.net/~edwin/Matrix/
+          double and complex matrix class with backprop, etc
+
+	- CoreX library - http://www.dinkumware.com/
+	  multithreading, allocators, containers, unicode, and more
+	  $$$
+
+	- Newmat - http://www.robertnz.com/
+	  thorough matrix class
+	  public domain (not mentioned)
+
+	- PNGwriter - http://pngwriter.sourceforge.net/
+	  read/write png files (requires libpng)
+	  GPL
+
+	- PPMwriter - http://ket.dyndns.org/ppmwriter/
+          read/write ppm fies (stand-alone)
+	  
