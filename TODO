@@ -9,8 +9,41 @@
 	
 - baseline and time empty loop app
 
+- integrate with the following
+
+	- openil (Dev IL)
+
+	- zlib
+
+	- regex
+
+	- openexr
+
 
 - consider utilizing the following libraries
+
+	- OpenMP
+
+	- openthreads
+
+	- libjpeg
+	
+	- libpng
+
+	- libpgm
+
+	- libopenssl
+
+	- devlib http://www.devlib-central.org/
+
+	- freetype 2
+
+	- python/bash/lua/tcl/etc
+
+	- SDL
+
+	- tinyxml http://sourceforge.net/projects/tinyxml
+
   	- GMP - http://www.swox.com/gmp/
 	  for high-speed arbitrary precision computation
 	  LGPL
@@ -28,10 +61,6 @@
 
 	- C++ Matrix class - http://www.netwood.net/~edwin/Matrix/
           double and complex matrix class with backprop, etc
-
-	- CoreX library - http://www.dinkumware.com/
-	  multithreading, allocators, containers, unicode, and more
-	  $$$
 
 	- Newmat - http://www.robertnz.com/
 	  thorough matrix class
