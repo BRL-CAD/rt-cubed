@@ -34,7 +34,7 @@
 
 	- libopenssl
 
-	- devlib http://www.devlib-central.org/
+	- devlib - http://www.devlib-central.org/
 
 	- freetype 2
 
@@ -73,3 +73,4 @@
 	- PPMwriter - http://ket.dyndns.org/ppmwriter/
           read/write ppm fies (stand-alone)
 	  
+	- CommonC++ - http://www.gnu.org/software/commoncpp/
