@@ -1,0 +1,56 @@
+Rt^3
+
+Rt^3 is a ray intersection engine.  It's built for being the absolute fastest
+it can be while remaining extremely modular, extendable, and maintainable.
+
+
+Author
+======
+
+Christopher Sean Morrison
+morrison@brlcad.org
+
+
+Getting Rt^3
+============
+
+The entire distribution is provided in binary and source form for a variety of
+platforms.  If you are reading this, then you probably already have it.
+
+
+Compilation
+===========
+
+For more details on building the sources and options available, see the BUILD
+file.  To build the sources and get up and running with default settings, run
+the following commands:
+
+sh autogen.sh
+./configure
+make
+sudo make install
+
+
+Installation
+============
+
+If you built the sources, you should already be installed after the
+"sudo make install" step.
+
+
+Known Bugs
+==========
+
+See BUGS
+
+
+Contributors
+============
+
+See AUTHORS
+
+
+Developer
+=========
+
+See HACKING
