@@ -205,60 +205,60 @@ AC_FUNC_STRTOD
 AC_FUNC_UTIME_NULL
 AC_FUNC_VPRINTF
 AC_FUNC_WAIT3
-AC_CHECK_FUNCS([
-	alarm 
-	atexit 
-	bzero 
-	dup2 
-	endgrent 
-	endpwent 
-	floor 
-	ftime 
-	ftruncate 
-	getcwd 
-	gethostbyaddr 
-	gethostbyname 
-	gethostname 
-	getpagesize 
-	gettimeofday 
-	getwd 
-	inet_ntoa 
-	isascii 
-	localtime_r 
-	memchr 
-	memmove 
-	memset 
-	mkdir 
-	mkfifo 
-	modf 
-	munmap 
-	nl_langinfo 
-	pow putenv 
-	re_comp 
-	realpath 
-	regcomp 
-	rmdir 
-	select 
-	setlocale 
-	socket 
-	sqrt   
-	strcasecmp 
-	strchr 
-	strcspn 
-	strdup 
-	strerror 
-	strncasecmp 
-	strpbrk 
-	strrchr 
-	strspn 
-	strstr 
-	strtol 
-	strtoul 
-	strtoull 
-	tzset 
-	uname 
-	utime
-])
+AC_CHECK_FUNCS(\
+	alarm \
+	atexit \
+	bzero \
+	dup2 \
+	endgrent \
+	endpwent \
+	floor \
+	ftime \
+	ftruncate \
+	getcwd \
+	gethostbyaddr \
+	gethostbyname \
+	gethostname \
+	getpagesize \
+	gettimeofday \
+	getwd \
+	inet_ntoa \
+	isascii \
+	localtime_r \
+	memchr \
+	memmove \
+	memset \
+	mkdir \
+	mkfifo \
+	modf \
+	munmap \
+	nl_langinfo \
+	pow putenv \
+	re_comp \
+	realpath \
+	regcomp \
+	rmdir \
+	select \
+	setlocale \
+	socket \
+	sqrt \
+	strcasecmp \
+	strchr \
+	strcspn \
+	strdup \
+	strerror \
+	strncasecmp \
+	strpbrk \
+	strrchr \
+	strspn \
+	strstr \
+	strtol \
+	strtoul \
+	strtoull \
+	tzset \
+	uname \
+	utime \
+)
 
 
 dnl ***********************
