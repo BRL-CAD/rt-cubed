@@ -1,4 +1,5 @@
 #include "Vec.h"
+#include <math.h>
 
 std::ostream&
 operator<<(std::ostream& s, const Vec& vec)
