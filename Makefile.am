@@ -47,7 +47,9 @@ SUBDIRS = \
 	$(required_dirs)
 
 DIST_SUBDIRS = \
-	$(required_dirs)
+	$(required_dirs) \
+	m4 \
+	misc
 
 EXTRA_DIST = \
 	AUTHORS \
