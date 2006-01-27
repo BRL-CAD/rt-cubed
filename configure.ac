@@ -702,6 +702,8 @@ AC_CONFIG_FILES([
 	include/Image/Makefile
 	include/Utility/Makefile
 	include/Raytrace/Makefile
+	m4/Makefile
+	misc/Makefile
 	src/Makefile
 	src/date/Makefile
 	src/libGeometry/Makefile
