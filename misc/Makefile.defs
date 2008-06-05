@@ -1,5 +1,5 @@
 
-.PHONY: fast fast-am fast-recursive noprod prodclean prodclean-recursive
+.PHONY: fast fast-am fast-recursive noprod prodclean prodclean-recursive depends
 
 #
 # compile all sources first, then link on a second pass.  requires 2x
@@ -24,30 +24,43 @@ noprod: prodclean
 prodclean: prodclean-recursive
 	@list='$(bin_PROGRAMS)'; for p in $$list; do \
 	  f=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	  echo " rm -f $$p $$f"; \
+	  echo "rm -f $$p $$f"; \
 	  rm -f $$p $$f ; \
 	done
 	@list='$(noinst_PROGRAMS)'; for p in $$list; do \
 	  f=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	  echo " rm -f $$p $$f"; \
+	  echo "rm -f $$p $$f"; \
 	  rm -f $$p $$f ; \
 	done
-	@test -z "$(lib_LTLIBRARIES)" || echo rm -f $(lib_LTLIBRARIES) && rm -f $(lib_LTLIBRARIES)
+	@list='$(EXTRA_PROGRAMS)'; for p in $$list; do \
+	  f=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  echo "rm -f $$p $$f"; \
+	  rm -f $$p $$f ; \
+	done
+	@if test ! -z "$(lib_LTLIBRARIES)" ; then echo rm -f $(lib_LTLIBRARIES) && rm -f $(lib_LTLIBRARIES) ; fi
 	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test -z "$dir" && dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-	@test -z "$(noinst_LTLIBRARIES)" || echo rm -f $(noinst_LTLIBRARIES) && rm -f $(noinst_LTLIBRARIES)
+	@if test ! -z "$(noinst_LTLIBRARIES)" ; then echo rm -f $(noinst_LTLIBRARIES) && rm -f $(noinst_LTLIBRARIES) ; fi
 	@list='$(noinst_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test -z "$dir" && dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
+	@if test ! -z "$(lib_LIBRARIES)" ; then echo rm -f $(lib_LIBRARIES) && rm -f $(lib_LIBRARIES) ; fi
+	@if test ! -z "$(noinst_LIBRARIES)" ; then echo rm -f $(noinst_LIBRARIES) && rm -f $(noinst_LIBRARIES) ; fi
 
 prodclean-recursive:
 	@list='$(SUBDIRS)'; for subdir in $$list; do \
 	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) prodclean); \
 	done
+
+depends:
+	for dep in ${DEPS} ${DEPENDS} ; do echo "$$dep" ; (cd ${top_builddir}/$$dep && $(MAKE) $(AM_MAKEFLAGS) depends all) ; done
+
+install-depends:
+	for dep in ${DEPS} ${DEPENDS} ; do echo "$$dep" ; (cd ${top_builddir}/$$dep && $(MAKE) $(AM_MAKEFLAGS) install-depends install) ; done

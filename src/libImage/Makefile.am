@@ -1,3 +1,4 @@
+
 noinst_LIBRARIES = libImage.a
 
 libImage_a_SOURCES = \
@@ -5,5 +6,3 @@ libImage_a_SOURCES = \
 	Pixel.cxx \
 	PixelImage.cxx
 
-CLOBBER_FILES = \
-	Makefile.in

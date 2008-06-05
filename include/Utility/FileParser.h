@@ -25,7 +25,7 @@ namespace Utility {
   template < typename FileParserMethod, typename Container >
   bool FileParser<FileParserMethod, Container>::load()
   {
-    _container->add(*parse(_filename));
+    /*    _container->add(*parse(_filename)); */
   }
 
 

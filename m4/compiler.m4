@@ -1,7 +1,7 @@
 #                   C O M P I L E R . M 4
 # BRL-CAD
 #
-# Copyright (C) 2005 United States Government as represented by
+# Copyright (c) 2005-2008 United States Government as represented by
 # the U.S. Army Research Laboratory.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -46,33 +46,40 @@
 # BC_PREPROCESSOR_RECOGNIZES
 # checks if the preprocessor will work with the specified cppflags
 #
+# BC_SANITY_CHECK
+# make sure the compiler actually builds executables that run
+#
 ###
 
 AC_DEFUN([BC_COMPILER_AND_LINKER_RECOGNIZES], [
 __flag="$1"
 bc_[$2]_works=yes
+__keep="$3"
 AC_MSG_CHECKING([if compiler and linker recognize $__flag])
 PRECFLAGS="$CFLAGS"
+PRECXXFLAGS="$CXXFLAGS"
 PRELDFLAGS="$LDFLAGS"
 CFLAGS="$CFLAGS $__flag"
+CXXFLAGS="$CXXFLAGS $__flag"
 LDFLAGS="$LDFLAGS $__flag"
 m4_pushdef([AC_TRY_EVAL], [_AC_EVAL_STDERR]($$[1]))
 AC_TRY_COMPILE( [], [int i;], [if AC_TRY_COMMAND([grep "nrecognize" conftest.err >/dev/null 2>&1]) ; then bc_[$2]_works=no ; fi], [bc_[$2]_works=no])
 m4_popdef([AC_TRY_EVAL])
 rm -f conftest.err
 AC_TRY_RUN( [
-#include <stdio.h>
+#include <stdlib.h>
 int main(){exit(0);}
 ], [], [bc_[$2]_works=no])
 AC_MSG_RESULT($bc_[$2]_works)
-if test "x$bc_[$2]_works" = "xno" ; then
+if test "x$bc_[$2]_works" = "xno" -o "x$__keep" != "x" ; then
 	CFLAGS="$PRECFLAGS"
+	CXXFLAGS="$PRECXXFLAGS"
 	LDFLAGS="$PRELDFLAGS"
 fi
 ])
 
 AC_DEFUN([BC_COMPILER_AND_LINKER_RECOGNIZE], [
-BC_COMPILER_AND_LINKER_RECOGNIZES([$1], [$2])
+BC_COMPILER_AND_LINKER_RECOGNIZES([$1], [$2], [$3])
 ])
 
 
@@ -80,20 +87,24 @@ AC_DEFUN([BC_COMPILER_RECOGNIZES], [
 __flag="$1"
 AC_MSG_CHECKING([if compiler recognizes $__flag])
 bc_[$2]_works=yes
+__keep="$3"
 PRECFLAGS="$CFLAGS"
+PRECXXFLAGS="$CXXFLAGS"
 CFLAGS="$CFLAGS $__flag"
+CXXFLAGS="$CXXFLAGS $__flag"
 m4_pushdef([AC_TRY_EVAL], [_AC_EVAL_STDERR]($$[1]))
 AC_TRY_COMPILE( [], [int i;], [if AC_TRY_COMMAND([grep "nrecognize" conftest.err >/dev/null 2>&1]) ; then bc_[$2]_works=no ; fi], [bc_[$2]_works=no])
 m4_popdef([AC_TRY_EVAL])
 rm -f conftest.err
 AC_MSG_RESULT($bc_[$2]_works)
-if test "x$bc_[$2]_works" = "xno" ; then
+if test "x$bc_[$2]_works" = "xno" -o "x$__keep" != "x" ; then
 	CFLAGS="$PRECFLAGS"
+	CXXFLAGS="$PRECXXFLAGS"
 fi
 ])
 
 AC_DEFUN([BC_COMPILER_RECOGNIZE], [
-BC_COMPILER_RECOGNIZES([$1], [$2])
+BC_COMPILER_RECOGNIZES([$1], [$2], [$3])
 ])
 
 
@@ -101,6 +112,7 @@ AC_DEFUN([BC_LINKER_RECOGNIZES], [
 __flag="$1"
 AC_MSG_CHECKING([if linker recognizes $__flag])
 bc_[$2]_works=yes
+__keep="$3"
 PRELDFLAGS="$LDFLAGS"
 LDFLAGS="$LDFLAGS $__flag"
 m4_pushdef([AC_TRY_EVAL], [_AC_EVAL_STDERR]($$[1]))
@@ -108,13 +120,13 @@ AC_TRY_LINK( [], [int i;], [if AC_TRY_COMMAND([grep "nrecognize" conftest.err >/
 m4_popdef([AC_TRY_EVAL])
 rm -f conftest.err
 AC_MSG_RESULT($bc_[$2]_works)
-if test "x$bc_[$2]_works" = "xno" ; then
+if test "x$bc_[$2]_works" = "xno" -o "x$__keep" != "x" ; then
 	LDFLAGS="$PRELDFLAGS"
 fi
 ])
 
 AC_DEFUN([BC_LINKER_RECOGNIZE], [
-BC_LINKER_RECOGNIZES([$1], [$2])
+BC_LINKER_RECOGNIZES([$1], [$2], [$3])
 ])
 
 
@@ -122,20 +134,43 @@ AC_DEFUN([BC_PREPROCESSOR_RECOGNIZES], [
 __flag="$1"
 AC_MSG_CHECKING([if preprocesser recognizes $__flag])
 bc_[$2]_works=yes
+__keep="$3"
 PRECPPFLAGS="$CPPFLAGS"
+PRECXXCPPFLAGS="$CXXCPPFLAGS"
 CPPFLAGS="$CPPFLAGS $__flag"
+CXXCPPFLAGS="$CXXCPPFLAGS $__flag"
 m4_pushdef([AC_TRY_EVAL], [_AC_EVAL_STDERR]($$[1]))
 AC_TRY_COMPILE( [], [int i;], [if AC_TRY_COMMAND([grep "nrecognize" conftest.err >/dev/null 2>&1]) ; then bc_[$2]_works=no ; fi], [bc_[$2]_works=no])
 m4_popdef([AC_TRY_EVAL])
 rm -f conftest.err
 AC_MSG_RESULT($bc_[$2]_works)
-if test "x$bc_[$2]_works" = "xno" ; then
+if test "x$bc_[$2]_works" = "xno" -o "x$__keep" = "x" ; then
 	CPPFLAGS="$PRECPPFLAGS"
+	CXXCPPFLAGS="$PRECXXCPPFLAGS"
 fi
 ])
 
 AC_DEFUN([BC_PREPROCESSOR_RECOGNIZE], [
-BC_PREPROCESSOR_RECOGNIZES([$1], [$2])
+BC_PREPROCESSOR_RECOGNIZES([$1], [$2], [$3])
+])
+
+AC_DEFUN([BC_SANITY_CHECK], [
+__msg="$1"
+if test "x$__msg" = "x" ; then
+	__msg="compiler and flags for sanity"
+fi
+AC_MSG_CHECKING([$__msg])
+AC_TRY_RUN([
+#include <stdlib.h>
+int main(){exit(0);}
+	],
+	[	AC_MSG_RESULT(yes) ],
+	[
+		AC_MSG_RESULT(no)
+		AC_MSG_NOTICE([}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}])
+		AC_MSG_ERROR([*** compiler cannot create working executables, check config.log ***])
+	]
+)
 ])
 
 # Local Variables:

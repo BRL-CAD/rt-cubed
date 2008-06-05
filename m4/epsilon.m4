@@ -1,7 +1,7 @@
 #                    E P S I L O N . M 4
 # BRL-CAD
 #
-# Copyright (C) 2005 United States Government as represented by
+# Copyright (c) 2005-2008 United States Government as represented by
 # the U.S. Army Research Laboratory.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -120,8 +120,8 @@ AC_MSG_RESULT([$bc_dbl_epsilon])
 # BC_COMPLIANT_FLOAT()
 AC_DEFUN([BC_COMPLIANT_FLOAT], [
 dnl determine whether the floating point implementation seems to be
-dnl IEEE 754 compliant by checking whether -23 power matches the
-dnl tolerance epsilon.  make sure 0 == -0 too.
+dnl IEEE 754 compliant by checking whether the tolerance epsilon
+dnl matches -23 power.  make sure 0 == -0 too.
 AC_MSG_CHECKING([whether floats conform to IEEE 754])
 AC_TRY_RUN([
 typedef union {
@@ -156,16 +156,16 @@ int main (int ac, char *av[]) {
     }
     return 0;
 }
-], [ AC_MSG_RESULT(yes) ], [ AC_MSG_RESULT(no) ]
-)
+], [bc_compliant_float=yes], [bc_compliant_float=no])
+AC_MSG_RESULT([$bc_compliant_float])
 ])
 
 
 # BC_COMPLIANT_DOUBLE()
 AC_DEFUN([BC_COMPLIANT_DOUBLE], [
 dnl determine whether the floating point implementation seems to be
-dnl IEEE 754 compliant by checking whether -52 power matches the
-dnl tolerance epsilon.  make sure 0 == -0 too.
+dnl IEEE 754 compliant by checking whether the tolerance epsilon
+dnl matches -23 power.  make sure 0 == -0 too.
 AC_MSG_CHECKING([whether doubles conform to IEEE 754])
 AC_TRY_RUN([
 typedef union {
@@ -200,6 +200,6 @@ int main (int ac, char *av[]) {
     }
     return 0;
 }
-], [ AC_MSG_RESULT(yes) ], [ AC_MSG_RESULT(no) ]
-)
+], [bc_compliant_double=yes], [bc_compliant_double=no])
+AC_MSG_RESULT([$bc_compliant_double])
 ])

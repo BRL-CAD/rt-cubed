@@ -1,4 +1,11 @@
-- put together basic application components:
+This is a basic developer notepad for keeping notes on development
+activities and ideas.  Until the first 1.0 release, this is not a
+traditional formalized TODO list of pending development actions
+intended for the general public.
+
+
+
+* put together basic application components:
 	- argument handler
 	- singleton
 	- timer
@@ -7,9 +14,9 @@
 	- file reader/writer
 	- application shell with runtime loop
 	
-- baseline and time empty loop app
+* baseline and time empty loop app
 
-- integrate with the following
+* integrate with the following
 
 	- openil (Dev IL)
 
@@ -20,7 +27,7 @@
 	- openexr
 
 
-- consider utilizing the following libraries
+* consider utilizing the following libraries
 
 	- OpenMP
 
@@ -48,14 +55,6 @@
 	  for high-speed arbitrary precision computation
 	  LGPL
 
-	- GiNaC
-	  algebraic manipulation lib
-	  GPL
-
-	- CLN - http://www.ginac.de/CLN/
-	  for high-speed arbitrary precision computation
-	  GPL
-	  
 	- CGAL - http://www.cgal.org
           computational geometry algorithms library
 
@@ -65,10 +64,6 @@
 	- Newmat - http://www.robertnz.com/
 	  thorough matrix class
 	  public domain (not mentioned)
-
-	- PNGwriter - http://pngwriter.sourceforge.net/
-	  read/write png files (requires libpng)
-	  GPL
 
 	- PPMwriter - http://ket.dyndns.org/ppmwriter/
           read/write ppm fies (stand-alone)

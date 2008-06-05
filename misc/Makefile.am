@@ -1,3 +1,4 @@
+
 EXTRA_DIST = \
 	Makefile.defs \
 	elapsed.sh \
@@ -5,8 +6,7 @@ EXTRA_DIST = \
 	header.sh \
 	indent.sh \
 	libtool.m4 \
-	shtool \
-	vers.sh
+	shtool
 
 DISTCLEANFILES = \
 	COPYING.backup \
@@ -17,7 +17,5 @@ DISTCLEANFILES = \
 	ltmain.sh \
 	missing \
 	mkinstalldirs
-
-MAINTAINERCLEANFILES = Makefile.in
 
 include $(top_srcdir)/misc/Makefile.defs

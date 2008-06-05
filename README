@@ -1,66 +1,41 @@
 Rt^3
 
-Rt^3 is a ray intersection engine.  It's intent on being the absolute
-fastest it can be while remaining extremely modular, extendable, and
-maintainable.
+This module is a development framework for a new BRL-CAD GUI.  It's
+intended to be only for developers at this time.  If you're checking
+this out, it's expected that you are a competent developer.  Please
+direct all feedback to the BRL-CAD developer mailing list.  Thank you
+for your patience and understanding.
 
 
-Author
-------
+Compilation & Installation
+--------------------------
 
-Christopher Sean Morrison
-morrison@brlcad.org
-
-
-Getting Rt^3
-------------
-
-The entire distribution is provided in binary and source form for a
-variety of platforms.  If you are reading this, then you probably
-already have it.
-
-
-Compilation
------------
+YOU SHOULD INSTALL BRL-CAD BEFORE COMPILING AND INSTALLING RT^3
 
 For more details on building the sources and options available, see
 the INSTALL file.  To build the sources and get up and running with
 default settings, run the following commands:
 
-./autogen.sh
-./configure
-make
-
-
-Installation
-------------
-
-Performing a "make install" after compilation with the appropriate
-permissions will install the sources into the specified location.  By
-default, the installation is set to /usr/local and may be changed by
-using the --prefix option during configuration.  Example:
-
+# install BRL-CAD into /usr/brlcad before doing this!
 ./autogen.sh
 ./configure --prefix=/usr/brlcad
 make
 sudo make install
 
-See the INSTALL file for more information.
-
 
 Known Bugs
 ----------
 
-See BUGS.
+See BUGS
 
 
 Contributors
 ------------
 
-See AUTHORS.
+See AUTHORS
 
 
-Developer
----------
+Development
+-----------
 
-See HACKING.
+See HACKING

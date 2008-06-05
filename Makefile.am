@@ -56,9 +56,11 @@ EXTRA_DIST = \
 	BUGS \
 	BUILD \
 	COPYING \
-	DEVINFO \
+	ChangeLog \
+	HACKING \
+	INSTALL \
 	Makefile.am \
-	PORTING \
+	NEWS \
 	README \
 	TODO \
 	autogen.sh \
@@ -70,6 +72,7 @@ DISTCLEANFILES = \
 	config.log \
 	config.status \
 	configure \
+	install.$(host_triplet).log \
 	libtool \
 	so_locations
 
@@ -79,25 +82,25 @@ MAINTAINERCLEANFILES = Makefile.in
 # the rules #
 #############
 
-.PHONY : benchmark bench regression regress test
 
-benchmark: all
-	${ECHO} there is presently no benchmark suite
+# make sure all files are in the repository are also in the dist.
+# make sure files that should not be in the distribution in fact are
+# not included.
+dist-hook:
+	files="`find . -name entries -exec grep 'name=' {} /dev/null \; | sed 's/:[[:space:]]*name=\"\(.*\)\"/\1/g' | sed 's/\/\.svn\/entries/\//g' | grep -v 'rt3-' | grep -v '\/$$'`" ; \
+	missing=0 ; \
+	for file in $$files ; do \
+		if test ! -e $(distdir)/$$file ; then \
+			missing=1 ; \
+			echo "MISSING FROM DIST: $$file" ; \
+		fi ; \
+	done ; \
+	if test "x$$missing" = "x1" ; then \
+		exit 1 ; \
+	fi
+	find $(distdir) -type f \( -name '.cvsignore' -or -name 'rt3_config.h' \) -exec rm -f {} \;
+	find $(distdir) -type d \( -name 'CVS' -or -name '.svn' \) -prune -exec rm -rf {} \;
 
-bench: benchmark
-
-regression: all
-	${ECHO} there is presently no test suite
-
-regress: regression
-
-test: regression
-
-
-
-##########################
-# summaries and warnings #
-##########################
 
 # make sure a dangerous umask will not prevent others from using an
 # installed version by checking to make sure the exec mode is set.
@@ -174,7 +177,7 @@ install-data-local:
 	    if test "x$USER" = "x" ; then \
 		USER="unknown" ; \
 	    fi ; \
-	    $(ECHO) "Installed rt^3 Release @BRLCAD_VERSION@ Build @CONFIG_DATE@ by ${USER} to $(DESTDIR)$(prefix) on `date`" >> install.$(host_triplet).log ; \
+	    $(ECHO) "Installed rt^3 Release ${RT3_VERSION} Build ${CONFIG_DATE} by ${USER} to $(DESTDIR)$(prefix) on `date`" >> install.$(host_triplet).log ; \
 	fi
 
 
@@ -189,26 +192,23 @@ install-data-local:
 all-local:
 	@$(ECHO) "Done."
 	@$(ECHO)
-	@$(ECHO) "rt^3 Release @BRLCAD_VERSION@, Build @CONFIG_DATE@"
+	@$(ECHO) "rt^3 Release ${RT3_VERSION}, Build ${CONFIG_DATE}"
 	@$(ECHO)
 	@if test "x$(MAKECMDGOALS)" = "xall-am" -o "x$(.TARGETS)" = "xall-am" -o "x$(MAKECMDGOALS)" = "xfast" -o "x$(.TARGETS)" = "xfast" ; then \
 	  $(ECHO) $(ECHO_N) "Elapsed compilation time: " ;\
-	  sh $(top_srcdir)/misc/elapsed.sh `cat $(top_builddir)/include/brlcad_version.h | grep Compilation` ;\
+	  sh $(top_srcdir)/misc/elapsed.sh `cat $(top_builddir)/include/conf/DATE` ;\
 	  $(ECHO) $(ECHO_N) "Elapsed time since configuration: " ;\
-	  sh $(top_srcdir)/misc/elapsed.sh @CONFIG_TIME@ ;\
+	  sh $(top_srcdir)/misc/elapsed.sh ${CONFIG_TIME} ;\
 	  $(ECHO) "---" ;\
 	  $(ECHO) "Run 'make install' to begin installation into $(prefix)" ;\
-	  $(ECHO) "Run 'make benchmark' to run the rt^3 Benchmark Suite" ;\
 	elif test "x$(MAKECMDGOALS)" = "xinstall-am" -o "x$(.TARGETS)" = "xinstall-am" ; then \
 	  $(ECHO) $(ECHO_N) "Elapsed installation time: " ;\
-	  sh $(top_srcdir)/misc/elapsed.sh `cat $(top_builddir)/include/brlcad_version.h | grep Compilation` ;\
+	  sh $(top_srcdir)/misc/elapsed.sh `cat $(top_builddir)/include/conf/DATE` ;\
 	  $(ECHO) $(ECHO_N) "Elapsed time since configuration: " ;\
-	  sh $(top_srcdir)/misc/elapsed.sh @CONFIG_TIME@ ;\
+	  sh $(top_srcdir)/misc/elapsed.sh ${CONFIG_TIME} ;\
 	  $(ECHO) "---" ;\
-	  $(ECHO) "Run 'make test' to run the rt^3 Test Suite" ;\
-	  $(ECHO) "Run 'make benchmark' to run the rt^3 Benchmark Suite" ;\
 	  $(ECHO) ;\
-	  line1="  rt^3 @BRLCAD_VERSION@ is now installed into $(prefix)" ;\
+	  line1="  rt^3 ${RT3_VERSION} is now installed into $(prefix)" ;\
 	  line2="  Be sure to add $(prefix)/bin to your PATH" ;\
 	  separator="`$(ECHO) $$line1 | tr '[a-zA-Z0-9.\-/ ]' '*'`" ;\
 	  $(ECHO) "$${separator}****" ;\
@@ -217,11 +217,10 @@ all-local:
 	  $(ECHO) "$${separator}****" ;\
 	elif test "x$(MAKECMDGOALS)" = "x" -a "x$(.TARGETS)" = "x" ; then \
 	  $(ECHO) $(ECHO_N) "Elapsed time: " ;\
-	  sh $(top_srcdir)/misc/elapsed.sh `cat $(top_builddir)/include/brlcad_version.h | grep Compilation` ;\
+	  sh $(top_srcdir)/misc/elapsed.sh `cat $(top_builddir)/include/conf/DATE` ;\
 	  $(ECHO) $(ECHO_N) "Elapsed time since configuration: " ;\
-	  sh $(top_srcdir)/misc/elapsed.sh @CONFIG_TIME@ ;\
+	  sh $(top_srcdir)/misc/elapsed.sh ${CONFIG_TIME} ;\
 	  $(ECHO) "---" ;\
-	  $(ECHO) "Run 'make benchmark' to run the rt^3 Benchmark Suite" ;\
 	fi
 	@$(ECHO)
 

@@ -1,3 +1,4 @@
+
 noinst_LIBRARIES = libUtility.a
 
 libUtility_a_SOURCES = \
@@ -7,5 +8,3 @@ libUtility_a_SOURCES = \
 	Time.cxx \
 	Timer.cxx
 
-CLOBBER_FILES = \
-	Makefile.in

@@ -16,5 +16,3 @@ libGeometry_a_SOURCES = \
 	Vec.h \
 	View.cxx
 
-CLOBBER_FILES = \
-	Makefile.in

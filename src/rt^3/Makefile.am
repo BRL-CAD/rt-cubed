@@ -1,7 +1,5 @@
-bin_PROGRAMS = rt^3
 
-CLOBBER_FILES = \
-	Makefile.in
+bin_PROGRAMS = rt^3
 
 rt_3_SOURCES = \
 	RtApplication.cxx \

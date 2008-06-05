@@ -11,5 +11,3 @@ SUBDIRS = \
 	rt^3dbd \
 	scratch
 
-CLOBBER_FILES = \
-	Makefile.in
