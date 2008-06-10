@@ -64,6 +64,8 @@
 #error "No platform manager available"
 #endif
 
+#include "GuiConsole.h"
+
 #include "Application.h"
 
 using namespace std;
@@ -342,7 +344,7 @@ void Application::initialize()
 
   // Create the GUI manager and set the default theme
   _guiCore = new RBGui::Core(new RBGui::OgreTextureManager(), platformManager, new RBGui::OgreResourceManager());
-  _guiCore->getThemeManager().setDefaultTheme("monochrome_grape.theme");
+  _guiCore->getThemeManager().setDefaultTheme("brlcad.theme");
   _guiManager = _guiCore->createGui("g3d GUI", new RBGui::OgreBrush(_scene, _viewport));
 
   // The following code can be used to setup a custom cursor
@@ -351,7 +353,10 @@ void Application::initialize()
 				Mocha::Vector2(3.0f, 8.0f), RBGui::BRUSHBLEND_INVERT);
   bcursorManager->setCursorType(RBGui::CURSOR_RESIZE, "cursor_resize.png",
 				Mocha::Vector2(8.0f, 8.0f));
-  bcursorManager->setCursorType(RBGui::CURSOR_DEFAULT, "cursor.png"); 
+  bcursorManager->setCursorType(RBGui::CURSOR_HAND, "cursor_hand.png",
+				Mocha::Vector2(8.0f, 8.0f));
+  bcursorManager->setCursorType(RBGui::CURSOR_DEFAULT, "cursor.png");
+
 
   // Set the default window animator and fader for all created windows
   _guiManager->setDefaultWindowAnimator("Wobble");
@@ -367,7 +372,7 @@ void Application::initialize()
   _scene->addRenderQueueListener(new RBGui::OgreRenderQueueListener(*_guiManager));
 
   createTestingWindows();
-};
+}
 
 
 void Application::setupInput()
@@ -525,12 +530,17 @@ void Application::createTestingWindows()
   w->updateAttribute("SPLINE", v);
 
   // Test persistance
-
+  /*
   Mocha::DataSection s;
   win->getRoot()->save(s);
-
   Mocha::RefPointer<CustomStream> stream = new CustomStream("test.widget");
   s.write(*stream);
+  */
+
+  /// \todo mafm: not destroyed, unless RBGui does it in the end --
+  /// it's not harmful anyway, the console it's supposed to be active
+  /// always
+  new GuiConsole(*_guiManager);
 }
 
 void Application::browserResized(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
