@@ -66,152 +66,182 @@
 
 #include "Application.h"
 
+using namespace std;
 
-//--------------------------------
+
+/** @brief
+ *
+ *	Internal class for writing files.
+ */
 class CustomStream : public Mocha::Stream
 {
-private:
-  FILE* mFile;
-
 public:
-  CustomStream(const std::string& vName)
-    {
-      mFile = fopen(vName.c_str(), "wb+");
-    }
+  /** Default constructor
+   *
+   * @param name Name of the file
+   */
+  CustomStream(const string& name) { _file = fopen(name.c_str(), "wb+"); }
 
-  virtual ~CustomStream()
-    {
-      fclose(mFile);
-    }
+  /** Default destructor */
+  virtual ~CustomStream() { fclose(_file); }
 
-  virtual size_t writeData(const void* vData, size_t vSize)
-    {
-      return fwrite(vData, 1, vSize, mFile);
-    }
+  /** Write given data to the stream */
+  virtual size_t writeData(const void* data, size_t size) { return fwrite(data, 1, size, _file); }
 
-  virtual size_t readData(void* vData, size_t vSize) const
-    {
-      return 0;
-    }
+  /** Read data from stream \note (NOT IMPLEMENTED) */
+  virtual size_t readData(void* /* data */, size_t /* size */) const { return 0; }
 
-  virtual void seek(size_t vPosition) const
-    {
-      // ...
-    }
+  /** Seek position in the stream \note (NOT IMPLEMENTED) */
+  virtual void seek(size_t /* position */) const { }
 
-  virtual size_t getSize() const
-    {
-      return 0;
-    }
+  /** Get size of the stream \note (NOT IMPLEMENTED) */
+  virtual size_t getSize() const { return 0; }
 
-  virtual size_t getPosition() const
-    {
-      return ftell(mFile);
-    }
+  /** Get the position being used for the stream */
+  virtual size_t getPosition() const { return ftell(_file); }
 
-  virtual bool getEndOfStream() const
-    {
-      return feof(mFile);
-    }
+  /** Check whether we're at the end of the stream */
+  virtual bool getEndOfStream() const { return feof(_file); }
+
+private:
+  /** Low level file pointer */
+  FILE* _file;
 };
 
-//--------------------------------
+
+/** @brief
+ *
+ *	Internal class for mouse related updates from the 3D engine,
+ *	to pass them to the GUI (and move windows, be able to click on
+ *	buttons, etc).
+ */
 class MouseListener : public OIS::MouseListener
 {
-private:
-  Application& mOwner;
-
-  Mocha::Vector2 mPrevPos;
-
-  bool mFirst;
-
 public:
-  MouseListener(Application& vOwner)
-    : mOwner(vOwner), mFirst(true)
-    {
-      // ...
-    }
+  /** Default constructor
+   *
+   * @param app The application that this listener is related to
+   * @param guiMgr The GUI Manager that this listener is related to
+   */
+  MouseListener(Application& app, RBGui::GuiManager& guiMgr) :
+    _app(app), _guiMgr(guiMgr), _prevPos(Mocha::Vector2(0.0f, 0.0f))
+    { }
 
-  virtual bool mouseMoved(const OIS::MouseEvent& vEvent)
+  /** Method for Mouse Moved events */
+  virtual bool mouseMoved(const OIS::MouseEvent& event)
     {
       // Get absolute position
-
-      Mocha::Vector2 abspos = Mocha::Vector2((float)vEvent.state.X.abs, (float)vEvent.state.Y.abs);
-      if (mFirst)
-      {
-	mPrevPos = abspos;
-	mFirst = false;
-      }
+      Mocha::Vector2 absPos = Mocha::Vector2(static_cast<float>(event.state.X.abs), 
+					     static_cast<float>(event.state.Y.abs));
 
       // Inject mouse scroll event
-
-      if (vEvent.state.Z.rel != 0)
-	mOwner._guiManager->injectMouseScrolled((float)(vEvent.state.Z.rel / 120.0f), abspos);
+      if (event.state.Z.rel != 0) {
+	_guiMgr.injectMouseScrolled(static_cast<float>(event.state.Z.rel / 120.0f),
+				    absPos);
+      }
 
       // Calculate relative position in pixels
+      Mocha::Vector2 relPos = absPos - _prevPos;
+      _prevPos = absPos;
 
-      Mocha::Vector2 relpos = abspos - mPrevPos;
-      mPrevPos = abspos;
-
-      // Send event to gui
-
-      mOwner._guiManager->injectMouseMotion(relpos, abspos);
+      // Send event to GUI
+      _guiMgr.injectMouseMotion(relPos, absPos);
       return true;
     }
 	
-  virtual bool mousePressed(const OIS::MouseEvent& vEvent, OIS::MouseButtonID id)
+  /** Method for Mouse Pressed events */
+  virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
     {
-      mOwner._guiManager->injectMousePressed((RBGui::MouseButtonID)id, Mocha::Vector2((float)vEvent.state.X.abs, (float)vEvent.state.Y.abs));
+      _guiMgr.injectMousePressed(static_cast<RBGui::MouseButtonID>(id),
+				 Mocha::Vector2(static_cast<float>(event.state.X.abs),
+						static_cast<float>(event.state.Y.abs)));
       return true;
     }
 
-  virtual bool mouseReleased(const OIS::MouseEvent& vEvent, OIS::MouseButtonID id)
+  /** Method for Mouse Released events */
+  virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
     {
-      mOwner._guiManager->injectMouseReleased((RBGui::MouseButtonID)id, Mocha::Vector2((float)vEvent.state.X.abs, (float)vEvent.state.Y.abs));
+      _guiMgr.injectMouseReleased(static_cast<RBGui::MouseButtonID>(id),
+				  Mocha::Vector2(static_cast<float>(event.state.X.abs),
+						 static_cast<float>(event.state.Y.abs)));
       return true;
     }
+
+private:
+  /** Link to the Application that this listener applies */
+  Application& _app;
+  /** Link to the GUI manager */
+  RBGui::GuiManager& _guiMgr;
+  /** Variable to save the state of the previous position of the
+   * mouse */
+  Mocha::Vector2 _prevPos;
 };
 
-//--------------------------------
+
+/** @brief
+ *
+ *	Internal class for keyboard related updates from the 3D
+ *	engine, to pass them to the GUI (and write in text areas,
+ *	etc).
+ */
 class KeyListener : public OIS::KeyListener
 {
-private:
-  Application& mOwner;
-
 public:
-  KeyListener(Application& vOwner)
-    : mOwner(vOwner)
-    {
-      // ...
-    }
+  /** Default constructor
+   *
+   * @param app The application that this listener is related to
+   * @param guiMgr The GUI Manager that this listener is related to
+   */
+  KeyListener(Application& app, RBGui::GuiManager& guiMgr) :
+    _app(app), _guiMgr(guiMgr)
+    { }
 
-  virtual bool keyPressed(const OIS::KeyEvent& vEvent)
+  /** Method for Key Pressed events */
+  virtual bool keyPressed(const OIS::KeyEvent& event)
     {
-      // We don't need to translate key IDs because the Key IDs in the Gui are the same as OIS
+      // ESC key to quit -- hack for convenience while developing
+      if (event.key == OIS::KC_ESCAPE) {
+	_app.quit();
+	return true;
+      }
 
-      mOwner._guiManager->injectKeyPressed((RBGui::KeyID)vEvent.key);
+      // No need to translate key IDs because they are the same as OIS
+      _guiMgr.injectKeyPressed(static_cast<RBGui::KeyID>(event.key));
       return true;
     }
 	
-  virtual bool keyReleased(const OIS::KeyEvent& vEvent)
+  /** Method for Key released events */
+  virtual bool keyReleased(const OIS::KeyEvent& event)
     {
-      // We don't need to translate key IDs because the Key IDs in the Gui are the same as OIS
-
-      mOwner._guiManager->injectKeyReleased((RBGui::KeyID)vEvent.key);
+      // No need to translate key IDs because they are the same as OIS
+      _guiMgr.injectKeyReleased(static_cast<RBGui::KeyID>(event.key));
       return true;
     }
+
+private:
+  /** Link to the Application that this listener applies */
+  Application& _app;
+  /** Link to the GUI manager */
+  RBGui::GuiManager& _guiMgr;
 };
 
-//--------------------------------
+
+/** @brief
+ *
+ *	Internal class for the event "DeviceLost" from the 3D engine,
+ *	to pass them to the GUI.
+ */
 class LostDeviceListener : public Ogre::RenderSystem::Listener 
 {
 public:
-  virtual void eventOccurred(const Ogre::String& eventName, const Ogre::NameValuePairList *parameters)
+  /** Method for any event */
+  virtual void eventOccurred(const Ogre::String& eventName,
+			     const Ogre::NameValuePairList* /* parameters */)
     {
-      // Redraw the Gui if the device has been lost
-
-      if (eventName == "DeviceLost")
+      // Redraw the GUI if the device has been lost
+      if (eventName == "DeviceLost") {
 	RBGui::Core::Get().invalidate();
+      }
     }
 };
 
@@ -220,107 +250,169 @@ public:
  * Application
  ******************************************************************************/
 Application::Application() :
-  _quit(false), _scene(0), _viewport(0), _root(0), _window(0), _mouse(0),
-  _keyboard(0), _camera(0), _mouseListener(0), _keyListener(0), _inputManager(0)
+  _root(0), _scene(0), _camera(0), _viewport(0), _window(0),
+  _guiCore(0), _guiManager(0), _mouse(0), _keyboard(0), _inputManager(0),
+  _mouseListener(0), _keyListener(0), _quit(false)
 {
-  // ...
+  initialize();
+}
+
+Application::~Application()
+{
+  // Destroy input listeners
+  delete _mouseListener; _mouseListener = 0;
+  delete _keyListener; _keyListener = 0;
+
+  // Destroy OIS
+  if (_inputManager) {
+    if (_mouse)
+      _inputManager->destroyInputObject(_mouse);
+    if (_keyboard)
+      _inputManager->destroyInputObject(_keyboard);
+    _inputManager->destroyInputSystem(_inputManager);
+  }
+
+  // Release GUI resources
+  delete _guiManager; _guiManager = 0;
+  delete _guiCore; _guiCore = 0;
+
+  // Shutdown OGRE
+  delete _root; _root = 0;
 }
 
 void Application::initialize()
 {
   // Create ogre root
-
   _root = new Ogre::Root("ogreplugins.cfg");
 
   // Setup resource locations
+  {
+    Ogre::ConfigFile config;
+    config.load("resources.cfg");
 
-  addResourceLocations();
+    // Go through all sections & settings in the file
+    Ogre::ConfigFile::SectionIterator seci = config.getSectionIterator();
+    while (seci.hasMoreElements()) {
+      Ogre::String secName = seci.peekNextKey();
+      Ogre::ConfigFile::SettingsMultiMap* settings = seci.getNext();
+      for (Ogre::ConfigFile::SettingsMultiMap::iterator i = settings->begin();
+	   i != settings->end(); ++i) {
+	Ogre::String typeName = i->first;
+	Ogre::String archName = i->second;
 
-  // Try to initialize Ogre core
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+      }
+    }
+  }
 
-  if (_root->showConfigDialog())
-    _window = _root->initialise(true, "Ogre Gui Sample");
-  else
-    throw RBGui::Exception("Unable to initialize Ogre");
+  // Try to initialize OGRE core
+  if (_root->restoreConfig() || _root->showConfigDialog()) {
+    _window = _root->initialise(true, "BRL-CAD 3D Geometry Editor (g3d)");
+  } else {
+    throw RBGui::Exception("Unable to initialize OGRE");
+  }
 
   // Create lost device listener
-
   Ogre::Root::getSingleton().getRenderSystem()->addListener(new LostDeviceListener());
 
   // Initialize resource groups
-
   Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-  // Create scene
-
-  _scene = _root->createSceneManager("DefaultSceneManager", "Gui Sample Scene");
-
-  // Create camera
-
-  _camera = _scene->createCamera("Gui Sample Camera");
-
-  // Add viewport
-
+  // Create scene, camera, viewport
+  _scene = _root->createSceneManager("DefaultSceneManager", "g3d Editor");
+  _camera = _scene->createCamera("g3d Camera");
   _viewport = _window->addViewport(_camera);
   _viewport->setBackgroundColour(Ogre::ColourValue(0.4f, 0.4f, 0.4f, 1.0f));
 
-  // Setup all the input stuff
-
-  setupInput();
-
-  // Initialize the Gui. This adds all of the default widget factories
-
+  // Initialize the GUI. This adds all of the default widget factories
   RBGui::Initialize();
 
   // Choose the platform and cursor manager to use
-
   Mocha::RefPointer<RBGui::PlatformManager> platformManager;
   Mocha::RefPointer<RBGui::CursorManager> cursorManager;
 
 #if defined(WIN32)
   platformManager = new RBGui::Win32PlatformManager();
-  cursorManager = new RBGui::Win32CursorManager();
+//  cursorManager = new RBGui::Win32CursorManager();
 #elif defined(POSIX)
   platformManager = new RBGui::PosixPlatformManager();
 #elif defined(MACOSX)
   manager = new RBGui::MacOSPlatformManager();
 #endif
 
-  // The following code can be used to setup a custom cursor
-
-/*
-  Mocha::RefPointer<RBGui::BrushCursorManager> bcursorManager = new RBGui::BrushCursorManager();
-  bcursorManager->setCursorType(RBGui::CURSOR_TEXT, "cursor_text.png", Mocha::Vector2(3.0f, 8.0f), RBGui::BRUSHBLEND_INVERT);
-  bcursorManager->setCursorType(RBGui::CURSOR_RESIZE, "cursor_resize.png", Mocha::Vector2(8.0f, 8.0f));
-  bcursorManager->setCursorType(RBGui::CURSOR_DEFAULT, "cursor.png"); 
-
-  _guiManager->setCursorManager(bcursorManager);
-*/
-
-  // Create the gui manager and set the default theme
-
+  // Create the GUI manager and set the default theme
   _guiCore = new RBGui::Core(new RBGui::OgreTextureManager(), platformManager, new RBGui::OgreResourceManager());
   _guiCore->getThemeManager().setDefaultTheme("monochrome_grape.theme");
+  _guiManager = _guiCore->createGui("g3d GUI", new RBGui::OgreBrush(_scene, _viewport));
 
-  // Create a gui
-
-  _guiManager = _guiCore->createGui("My Gui", new RBGui::OgreBrush(_scene, _viewport));
+  // The following code can be used to setup a custom cursor
+  Mocha::RefPointer<RBGui::BrushCursorManager> bcursorManager = new RBGui::BrushCursorManager();
+  bcursorManager->setCursorType(RBGui::CURSOR_TEXT, "cursor_text.png",
+				Mocha::Vector2(3.0f, 8.0f), RBGui::BRUSHBLEND_INVERT);
+  bcursorManager->setCursorType(RBGui::CURSOR_RESIZE, "cursor_resize.png",
+				Mocha::Vector2(8.0f, 8.0f));
+  bcursorManager->setCursorType(RBGui::CURSOR_DEFAULT, "cursor.png"); 
 
   // Set the default window animator and fader for all created windows
-
   _guiManager->setDefaultWindowAnimator("Wobble");
   _guiManager->setDefaultWindowFader("Simple");
 
-  // Set the cursor manager to use
+  // Setup all the input stuff
+  setupInput();
 
-  _guiManager->setCursorManager(cursorManager);
+  // Set the cursor manager to use
+  _guiManager->setCursorManager(bcursorManager);
 
   // Add a render queue listener to draw the GUI
-
   _scene->addRenderQueueListener(new RBGui::OgreRenderQueueListener(*_guiManager));
 
-  // Setup a test window
+  createTestingWindows();
+};
 
+
+void Application::setupInput()
+{
+  // Setup param list
+  size_t data;
+  _window->getCustomAttribute("WINDOW", &data);
+
+  ostringstream windowString;
+  windowString << data;
+
+  OIS::ParamList paramList;
+  paramList.insert(make_pair(string("WINDOW"), windowString.str()));
+  paramList.insert(make_pair(string("w32_mouse"), string("DISCL_FOREGROUND")));
+  paramList.insert(make_pair(string("w32_mouse"), string("DISCL_NONEXCLUSIVE")));
+  paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_FOREGROUND")));
+  paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_NONEXCLUSIVE")));
+
+  // Create input object using parameter list
+  _inputManager = OIS::InputManager::createInputSystem(paramList);
+
+  // Create the mouse
+  _mouseListener = new MouseListener(*this, *_guiManager);
+  _mouse = static_cast<OIS::Mouse*>(_inputManager->createInputObject(OIS::OISMouse, true));
+  _mouse->setEventCallback(_mouseListener);
+
+  // Create the keyboard
+  _keyListener = new KeyListener(*this, *_guiManager);
+  _keyboard = static_cast<OIS::Keyboard*>(_inputManager->createInputObject(OIS::OISKeyboard, true));
+  _keyboard->setEventCallback(_keyListener);
+}
+
+void Application::updateMouseWindowMetrics()
+{
+  int x, y;
+  unsigned int w, h, depth;
+  _window->getMetrics(w, h, depth, x, y);
+
+  _mouse->getMouseState().width = static_cast<int>(w);
+  _mouse->getMouseState().height = static_cast<int>(h);
+}
+
+void Application::createTestingWindows()
+{
+  // Setup a test window
   Mocha::RefPointer<RBGui::Window> win = _guiManager->createWindow();
   win->setPosition(Mocha::Vector2(64.0f, 64.0f));
   win->setSize(Mocha::Vector2(300.0f, 300.0f));
@@ -353,7 +445,6 @@ void Application::initialize()
   option2->setText("No, select me!");
 
   // Create a menu along the top of the screen
-
   win = _guiManager->createWindow();
   win->setBorderVisible(false);
   win->setSize(Mocha::Vector2(_window->getWidth(), 22.0f));
@@ -442,125 +533,6 @@ void Application::initialize()
   s.write(*stream);
 }
 
-Application::~Application()
-{
-  // Destroy input listeners
-  delete _mouseListener;
-  delete _keyListener;
-
-  // Destroy OIS
-  if (_inputManager)
-  {
-    // Destroy mouse
-
-    if (_mouse)
-      _inputManager->destroyInputObject(_mouse);
-
-    // Destory keyboard
-
-    if (_keyboard)
-      _inputManager->destroyInputObject(_keyboard);
-
-    // Destroy manager
-
-    _inputManager->destroyInputSystem(_inputManager);
-  }
-
-  // Release Gui manager
-  _guiManager = 0;
-
-  // Destroy Gui core
-  _guiCore = 0;
-
-  // Shutdown Ogre
-  delete _root;
-}
-
-
-void Application::addResourceLocations()
-{
-  Ogre::ConfigFile config;
-  config.load("resources.cfg");
-
-  // Go through all sections & settings in the file
-
-  Ogre::ConfigFile::SectionIterator seci = config.getSectionIterator();
-
-  Ogre::String secName, typeName, archName;
-  while(seci.hasMoreElements())
-  {
-    secName = seci.peekNextKey();
-
-    Ogre::ConfigFile::SettingsMultiMap *settings = seci.getNext();
-    Ogre::ConfigFile::SettingsMultiMap::iterator i;
-
-    for (i = settings->begin(); i != settings->end(); ++i)
-    {
-      typeName = i->first;
-      archName = i->second;
-
-      Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
-    }
-  }
-}
-
-
-void Application::updateMouseWindowMetrics()
-{
-  int x;
-  int y;
-  unsigned int  w;
-  unsigned int  h;
-  unsigned int  depth;
-  _window->getMetrics(w, h, depth, x, y);
-
-  const OIS::MouseState& state = _mouse->getMouseState();
-  state.width = (int)w;
-  state.height = (int)h;
-}
-
-
-void Application::setupInput()
-{
-  // Setup param list
-
-  size_t data;
-  _window->getCustomAttribute("WINDOW", &data);
-
-  std::ostringstream windowString;
-  windowString << data;
-
-  OIS::ParamList paramList;
-  paramList.insert(std::make_pair(std::string("WINDOW"), windowString.str()));
-  paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND")));
-  paramList.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
-  paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
-  paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
-
-  // Create input object using parameter list
-
-  _inputManager = OIS::InputManager::createInputSystem(paramList);
-
-  // Create the mouse
-
-  _mouseListener = new MouseListener(*this);
-
-  _mouse = static_cast<OIS::Mouse*>(_inputManager->createInputObject(OIS::OISMouse, true));
-  _mouse->setEventCallback(_mouseListener);
-
-  // Set mouse window metrics
-
-  updateMouseWindowMetrics();
-
-  // Create the keyboard
-
-  _keyListener = new KeyListener(*this);
-
-  _keyboard = static_cast<OIS::Keyboard*>(_inputManager->createInputObject(OIS::OISKeyboard, true));
-  _keyboard->setEventCallback(_keyListener);
-}
-
-
 void Application::browserResized(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
   RBGui::Window& win = static_cast<RBGui::Window&>(vElement);
@@ -589,7 +561,9 @@ void Application::attributeChanged(RBGui::GuiElement& vElement, const Mocha::Val
   if (name == "BUTTON")
     _guiManager->createMessageBox("Hooray!", "You clicked me!")->show();
   else if (name == "SELECT_FILE")
-    _guiManager->createFileSelectWindow("Select File", ".", "ilk;dll", new RBGui::MemberGuiCallback<Application>(&Application::fileSelected, this), RBGui::FILESELECTWINDOW_SAVE)->show();
+    _guiManager->createFileSelectWindow("Select File", ".", "ilk;dll",
+					new RBGui::MemberGuiCallback<Application>(&Application::fileSelected, this),
+					RBGui::FILESELECTWINDOW_SAVE)->show();
 }
 
 
@@ -608,38 +582,37 @@ void Application::menuPicked(RBGui::GuiElement& vElement, const Mocha::ValueList
 }
 
 
-void Application::tick(float vDelta)
+void Application::tick(float delta)
 {
-  // Pump message events
+  // If window was closed, we need to exit
+  if (_window->isClosed()) {
+    quit();
+    return;
+  }
 
+  // Pump message events
   Ogre::WindowEventUtilities::messagePump();
 
   // Make sure mouse region is up to date
-
   updateMouseWindowMetrics();
 
-  // Capture mouse state
-
+  // Capture mouse and keyboard state
   if (_mouse)
     _mouse->capture();
-
-  // Capture keyboard state
-
   if (_keyboard)
     _keyboard->capture();
 
-  // Tick the gui manager
+  // Sleep for a bit if windows is not visible...
+  if (_window->isVisible()) {
+    // Tick the gui manager
+    _guiManager->tick(delta);
 
-  _guiManager->tick(vDelta);
-
-  // Tell Ogre to render a frame. The GUI will get drawn as part of the Ogre render queue
-
-  _root->renderOneFrame();
-
-  // If window was closed, we need to exit
-
-  if (_window->isClosed())
-    _quit = true;
+    // Tell OGRE to render a frame. The GUI will get drawn as part of
+    // the OGRE render queue
+    _root->renderOneFrame();
+  } else {
+    usleep(100*1000); // in microseconds
+  }
 }
 
 
@@ -661,12 +634,9 @@ void Application::run()
 #endif
 
   // Run the main loop
-
   Mocha::Timer timer;
-  while (_quit == false)
-  {
-    float delta = (float)timer.getDeltaSeconds();
-    tick(delta);
+  while (!_quit) {
+    tick(static_cast<float>(timer.getDeltaSeconds()));
   }
 }
 

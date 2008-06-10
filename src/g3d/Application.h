@@ -51,49 +51,39 @@ public:
   /** Default destructor */
   ~Application();
 
-  void initialize();
-
-  void tick(float vDelta);
+  void tick(float delta);
 
   void run();
 
   void quit();
 
-  friend class LostDeviceListener;
-  friend class MouseListener;
-  friend class KeyListener;
-
 private:
-  Mocha::RefPointer<RBGui::Core> _guiCore;
-
-  Mocha::RefPointer<RBGui::GuiManager> _guiManager;
-
-  MouseListener* _mouseListener;
-
-  KeyListener* _keyListener;
-
-  OIS::Mouse* _mouse;
-
-  OIS::Keyboard* _keyboard;
-
-  OIS::InputManager* _inputManager;
-
+  Ogre::Root* _root;
   Ogre::SceneManager* _scene;
-
+  Ogre::Camera* _camera;
+  Ogre::Viewport* _viewport;
   Ogre::RenderWindow* _window;
 
-  Ogre::Viewport* _viewport;
+  RBGui::Core* _guiCore;
+  RBGui::GuiManager* _guiManager;
 
-  Ogre::Camera* _camera;
+  OIS::Mouse* _mouse;
+  OIS::Keyboard* _keyboard;
+  OIS::InputManager* _inputManager;
 
-  Ogre::Root* _root;
+  MouseListener* _mouseListener;
+  KeyListener* _keyListener;
 
   bool _quit;
 
 
-  void addResourceLocations();
+  void initialize();
 
   void setupInput();
+
+  void createTestingWindows();
+
+  void updateMouseWindowMetrics();
 
   void fileSelected(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 
@@ -102,8 +92,6 @@ private:
   void attributeChanged(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 
   void menuPicked(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
-
-  void updateMouseWindowMetrics();
 };
 
 #endif
