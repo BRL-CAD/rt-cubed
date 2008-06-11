@@ -70,16 +70,13 @@ public:
   string getByIndex(size_t i)
     {
       if (i < _lines.size()) {
+	// index is in proper range (and _lines not empty, since 0<=i<lines.size())
 	cout << "History: getByIndex[" << _index << "]: " << _lines[i] << endl;
 	return _lines[i];
       } else {
-	if (_lines.size() > 0) {
-	  cout << "History: getByIndex: n>size, returning history[back]: " << _lines.back() << endl;
-	  return _lines.back();
-	} else {
-	  cout << "History: getByIndex: _lines empty, returning 0" << endl;
-	  return string("");
-	}
+	// index out of range -- return empty string
+	cout << "History: getByIndex: _lines empty or index out of range, returning empty string" << endl;
+	return string("");
       }
     }
 
@@ -91,7 +88,7 @@ public:
 	cout << "History: getNext: [" << _index << "] " << getByIndex(_index) << endl;
 	return getByIndex(_index);
       } else {
-	// when "returning" from history (we past the last command
+	// when "returning" from history (we past the most recent
 	// typed), the prompt is cleared
 	return string("");
       }
@@ -221,12 +218,7 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
     } else if (key == OIS::KC_DOWN) {
       cmd = _history->getNext();
     }
-
-    if (cmd.length() > 0) {
-      _consolePrompt->setText(cmd);
-    } else {
-      _consolePrompt->setText("");
-    }
+    _consolePrompt->setText(cmd);
     break;
   default:
     // nothing
