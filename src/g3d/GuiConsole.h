@@ -68,12 +68,18 @@ private:
   /** History service for the console */
   History* _history;
 
+
+  /** Resize console */
+  void resize();
+
   /** Callback for "ReturnPressed" in console prompt */
   void callbackPromptReturnPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "KeyPressed" in console prompt */
   void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "KeyReleased" in console prompt */
   void callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  /** Callback for "Resized" in render window */
+  void callbackWindowResized(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 
 #endif
