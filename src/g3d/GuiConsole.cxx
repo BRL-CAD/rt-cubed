@@ -25,15 +25,11 @@
  *	(g3d), along with some internal classes.
  */
 
-#include <OIS/OIS.h>
-#include <OGRE/Ogre.h>
-
-#include <Mocha/DataSection.h>
-#include <Mocha/Stream.h>
-#include <Mocha/Timer.h>
-
+#include <OIS/OISKeyboard.h>
+#include <OGRE/OgreRoot.h>
+#include <OGRE/OgreRenderWindow.h>
 #include <RBGui/GuiDefines.h>
-#include <RBGui/Widgets/ScrollWidget.h>
+#include <RBGui/Window.h>
 #include <RBGui/Widgets/TextWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
 
