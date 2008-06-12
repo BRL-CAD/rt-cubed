@@ -36,6 +36,7 @@
 
 class MouseListener;
 class KeyListener;
+class LostDeviceListener;
 
 /** @brief Main class of the 3D Geometry Editor.
  *
@@ -51,10 +52,11 @@ public:
   /** Default destructor */
   ~Application();
 
-  void tick(float delta);
-
+  /** Main application loop -- will quit only shortly thereafter
+   * calling to that method */
   void run();
 
+  /** Tell application to stop main loop */
   void quit();
 
 private:
@@ -62,7 +64,7 @@ private:
   Ogre::SceneManager* _scene;
   Ogre::Camera* _camera;
   Ogre::Viewport* _viewport;
-  Ogre::RenderWindow* _window;
+  Ogre::RenderWindow* _renderWindow;
 
   RBGui::Core* _guiCore;
   RBGui::GuiManager* _guiManager;
@@ -73,7 +75,9 @@ private:
 
   MouseListener* _mouseListener;
   KeyListener* _keyListener;
+  LostDeviceListener* _lostDeviceListener;
 
+  /** Flag to control when to stop run()ning */
   bool _quit;
 
 
@@ -81,9 +85,9 @@ private:
 
   void setupInput();
 
-  void createTestingWindows();
+  void tick(float delta);
 
-  void updateMouseWindowMetrics();
+  void createTestingWindows();
 
   void fileSelected(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 

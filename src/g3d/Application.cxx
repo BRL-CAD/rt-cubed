@@ -252,7 +252,7 @@ public:
  * Application
  ******************************************************************************/
 Application::Application() :
-  _root(0), _scene(0), _camera(0), _viewport(0), _window(0),
+  _root(0), _scene(0), _camera(0), _viewport(0), _renderWindow(0),
   _guiCore(0), _guiManager(0), _mouse(0), _keyboard(0), _inputManager(0),
   _mouseListener(0), _keyListener(0), _quit(false)
 {
@@ -261,10 +261,6 @@ Application::Application() :
 
 Application::~Application()
 {
-  // Destroy input listeners
-  delete _mouseListener; _mouseListener = 0;
-  delete _keyListener; _keyListener = 0;
-
   // Destroy OIS
   if (_inputManager) {
     if (_mouse)
@@ -274,12 +270,19 @@ Application::~Application()
     _inputManager->destroyInputSystem(_inputManager);
   }
 
-  // Release GUI resources
-  delete _guiManager; _guiManager = 0;
-  delete _guiCore; _guiCore = 0;
-
+  // Destroy input listeners
+  delete _mouseListener; _mouseListener = 0;
+  delete _keyListener; _keyListener = 0;
+  delete _lostDeviceListener; _lostDeviceListener = 0;
   // Shutdown OGRE
   delete _root; _root = 0;
+
+  /// \todo mafm: segfaulting and thus commented out at the moment,
+  /// look more closely later
+
+  // Release GUI resources
+  //delete _guiCore; _guiCore = 0;
+  //delete _guiManager; _guiManager = 0;
 }
 
 void Application::initialize()
@@ -309,21 +312,22 @@ void Application::initialize()
 
   // Try to initialize OGRE core
   if (_root->restoreConfig() || _root->showConfigDialog()) {
-    _window = _root->initialise(true, "BRL-CAD 3D Geometry Editor (g3d)");
+    _renderWindow = _root->initialise(true, "BRL-CAD 3D Geometry Editor (g3d)");
   } else {
     throw RBGui::Exception("Unable to initialize OGRE");
   }
 
   // Create lost device listener
-  Ogre::Root::getSingleton().getRenderSystem()->addListener(new LostDeviceListener());
+  _lostDeviceListener = new LostDeviceListener();
+  Ogre::Root::getSingleton().getRenderSystem()->addListener(_lostDeviceListener);
 
   // Initialize resource groups
   Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
   // Create scene, camera, viewport
-  _scene = _root->createSceneManager("DefaultSceneManager", "g3d Editor");
+  _scene = _root->createSceneManager("DefaultSceneManager", "g3d SceneManager");
   _camera = _scene->createCamera("g3d Camera");
-  _viewport = _window->addViewport(_camera);
+  _viewport = _renderWindow->addViewport(_camera);
   _viewport->setBackgroundColour(Ogre::ColourValue(0.4f, 0.4f, 0.4f, 1.0f));
 
   // Initialize the GUI. This adds all of the default widget factories
@@ -365,7 +369,7 @@ void Application::initialize()
   // Setup all the input stuff
   setupInput();
 
-  // Set the cursor manager to use
+  // Set the cursor manager to use -- after setting mouse and so on
   _guiManager->setCursorManager(bcursorManager);
 
   // Add a render queue listener to draw the GUI
@@ -379,7 +383,7 @@ void Application::setupInput()
 {
   // Setup param list
   size_t data;
-  _window->getCustomAttribute("WINDOW", &data);
+  _renderWindow->getCustomAttribute("WINDOW", &data);
 
   ostringstream windowString;
   windowString << data;
@@ -409,16 +413,75 @@ void Application::setupInput()
   _keyboard->setEventCallback(_keyListener);
 }
 
-void Application::updateMouseWindowMetrics()
+void Application::tick(float delta)
 {
-  int x, y;
-  unsigned int w, h, depth;
-  _window->getMetrics(w, h, depth, x, y);
+  // If window was closed, we need to exit
+  if (_renderWindow->isClosed()) {
+    quit();
+    return;
+  }
 
-  _mouse->getMouseState().width = static_cast<int>(w);
-  _mouse->getMouseState().height = static_cast<int>(h);
+  // Pump message events
+  Ogre::WindowEventUtilities::messagePump();
+
+  // Make sure mouse region is up to date
+  _mouse->getMouseState().width = static_cast<int>(_renderWindow->getWidth());
+  _mouse->getMouseState().height = static_cast<int>(_renderWindow->getHeight());
+
+  // Capture mouse and keyboard state
+  if (_mouse)
+    _mouse->capture();
+  if (_keyboard)
+    _keyboard->capture();
+
+  // Sleep for a bit if windows is not visible...
+  if (_renderWindow->isVisible()) {
+    // Tick the gui manager
+    if (_guiManager)
+      _guiManager->tick(delta);
+
+    // Tell OGRE to render a frame. The GUI will get drawn as part of
+    // the OGRE render queue
+    if (_root)
+      _root->renderOneFrame();
+  } else {
+    usleep(100*1000); // in microseconds
+  }
 }
 
+
+void Application::run()
+{
+#if defined(WIN32)
+  // HACK!
+  // This is required on Windows XP because of a bug that causes
+  // timing to be wrong when more than one CPU is available.
+  // This issue has been fixed in Vista.
+
+  HANDLE id = GetCurrentThread();
+  DWORD pmask;
+  DWORD psysmask;
+  GetProcessAffinityMask(id, &pmask, &psysmask);
+  DWORD res = SetThreadAffinityMask(id, 1);
+#endif
+
+  // Run the main loop
+  Mocha::Timer timer;
+  while (!_quit) {
+    tick(static_cast<float>(timer.getDeltaSeconds()));
+  }
+}
+
+
+void Application::quit()
+{
+  _quit = true;
+}
+
+
+/*-----------------------------------------------------------------------------
+ * Testing code ahead...
+ *-----------------------------------------------------------------------------/
 void Application::createTestingWindows()
 {
   // Setup a test window
@@ -456,7 +519,7 @@ void Application::createTestingWindows()
   // Create a menu along the top of the screen
   win = _guiManager->createWindow();
   win->setBorderVisible(false);
-  win->setSize(Mocha::Vector2(_window->getWidth(), 22.0f));
+  win->setSize(Mocha::Vector2(_renderWindow->getWidth(), 22.0f));
   win->show();
 
   Mocha::RefPointer<RBGui::MenuWidget> menu = static_cast<RBGui::MenuWidget*>(win->createWidget("Menu"));
@@ -595,70 +658,6 @@ void Application::menuPicked(RBGui::GuiElement& vElement, const Mocha::ValueList
     _guiManager->createMessageBox("About", "Right Brain Games GUI\nOgre Sample Application\nVersion 1.0")->show();
 }
 
-
-void Application::tick(float delta)
-{
-  // If window was closed, we need to exit
-  if (_window->isClosed()) {
-    quit();
-    return;
-  }
-
-  // Pump message events
-  Ogre::WindowEventUtilities::messagePump();
-
-  // Make sure mouse region is up to date
-  updateMouseWindowMetrics();
-
-  // Capture mouse and keyboard state
-  if (_mouse)
-    _mouse->capture();
-  if (_keyboard)
-    _keyboard->capture();
-
-  // Sleep for a bit if windows is not visible...
-  if (_window->isVisible()) {
-    // Tick the gui manager
-    _guiManager->tick(delta);
-
-    // Tell OGRE to render a frame. The GUI will get drawn as part of
-    // the OGRE render queue
-    _root->renderOneFrame();
-  } else {
-    usleep(100*1000); // in microseconds
-  }
-}
-
-
-void Application::run()
-{
-#ifdef WIN32
-  // HACK!
-  // This is required on Windows XP because of a bug that causes
-  // timing to be wrong when more than one CPU is available.
-  // This issue has been fixed in Vista.
-
-  HANDLE id = GetCurrentThread();
-
-  DWORD pmask;
-  DWORD psysmask;
-
-  GetProcessAffinityMask(id, &pmask, &psysmask);
-  DWORD res = SetThreadAffinityMask(id, 1);
-#endif
-
-  // Run the main loop
-  Mocha::Timer timer;
-  while (!_quit) {
-    tick(static_cast<float>(timer.getDeltaSeconds()));
-  }
-}
-
-
-void Application::quit()
-{
-  _quit = true;
-}
 
 
 // Local Variables: ***
