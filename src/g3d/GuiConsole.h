@@ -29,6 +29,7 @@
 
 
 class History;
+class WindowResizedListener;
 namespace Ogre {
   class RenderWindow;
 }
@@ -75,6 +76,9 @@ private:
 
   /** History service for the console */
   History* _history;
+  /** WindowResized listener, to get notified when the OGRE render
+   * window is resized and act accordingly */
+  WindowResizedListener* _windowResizedListener;
 
 
   /** Callback for "KeyPressed" in console prompt */

@@ -143,7 +143,8 @@ private:
  * GuiConsole
  ******************************************************************************/
 GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
-  _guiMgr(guiMgr), _mainWin(0), _consolePrompt(0), _consolePanel(0), _history(0)
+  _guiMgr(guiMgr), _mainWin(0), _consolePrompt(0), _consolePanel(0),
+  _history(0), _windowResizedListener(0)
 {
   // creating history
   _history = new History();
@@ -171,8 +172,9 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyReleased, this, "onKeyReleased");
 
   // listener for [OGRE] window resized
+  _windowResizedListener = new WindowResizedListener(*this);
   Ogre::WindowEventUtilities::addWindowEventListener(Ogre::Root::getSingleton().getAutoCreatedWindow(),
-						     new WindowResizedListener(*this));
+						     _windowResizedListener);
 
   // set initial size
   resize(Ogre::Root::getSingleton().getAutoCreatedWindow());
@@ -184,6 +186,7 @@ GuiConsole::~GuiConsole()
   delete _consolePanel; _consolePanel = 0;
   delete _mainWin; _mainWin = 0;
   delete _history; _history = 0;
+  delete _windowResizedListener; _windowResizedListener = 0;
 }
 
 void GuiConsole::resize(Ogre::RenderWindow* rw)
@@ -209,7 +212,7 @@ void GuiConsole::resize(Ogre::RenderWindow* rw)
 
 void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
-  cout << "GuiConsole key pressed, value: " << vData[0].getAsNumber() << endl;
+  //cout << "GuiConsole key pressed, value: " << vData[0].getAsNumber() << endl;
   int key = static_cast<int>(vData[0].getAsNumber());
   string cmd("");
   switch (key) {
