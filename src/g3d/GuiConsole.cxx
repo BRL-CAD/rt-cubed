@@ -201,6 +201,7 @@ void GuiConsole::resize(Ogre::RenderWindow* rw)
 
   _consolePanel->setPosition(Mocha::Vector2(0.0f, 0.00f));
   _consolePanel->setSize(consolePanelSize);
+  _consolePanel->setWrap(true);
 
   _consolePrompt->setPosition(Mocha::Vector2(0.0f, consolePanelSize.y));
   _consolePrompt->setSize(Mocha::Vector2(consolePanelSize.x, promptHeight));

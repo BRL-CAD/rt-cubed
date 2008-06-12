@@ -386,10 +386,14 @@ void Application::setupInput()
 
   OIS::ParamList paramList;
   paramList.insert(make_pair(string("WINDOW"), windowString.str()));
+#if defined(WIN32)
   paramList.insert(make_pair(string("w32_mouse"), string("DISCL_FOREGROUND")));
   paramList.insert(make_pair(string("w32_mouse"), string("DISCL_NONEXCLUSIVE")));
   paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_FOREGROUND")));
   paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_NONEXCLUSIVE")));
+#elif defined(POSIX)
+  paramList.insert(make_pair(string("XAutoRepeatOn"), string("true")));
+#endif
 
   // Create input object using parameter list
   _inputManager = OIS::InputManager::createInputSystem(paramList);
