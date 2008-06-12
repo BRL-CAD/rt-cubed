@@ -38,6 +38,7 @@ class MouseListener;
 class KeyListener;
 class LostDeviceListener;
 
+
 /** @brief Main class of the 3D Geometry Editor.
  *
  * This class implements the main application using OGRE render loop
