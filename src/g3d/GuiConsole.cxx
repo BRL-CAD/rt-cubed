@@ -60,7 +60,7 @@ public:
       if (s.length() != 0) {
 	_lines.push_back(s);
 	_index = _lines.size();
-	cout << "History: inserted: [" << _index << "] " << s << endl;
+	//cout << "History: inserted: [" << _index << "] " << s << endl;
       }
     }
 
@@ -69,11 +69,11 @@ public:
     {
       if (i < _lines.size()) {
 	// index is in proper range (and _lines not empty, since 0<=i<lines.size())
-	cout << "History: getByIndex[" << _index << "]: " << _lines[i] << endl;
+	//cout << "History: getByIndex[" << _index << "]: " << _lines[i] << endl;
 	return _lines[i];
       } else {
 	// index out of range -- return empty string
-	cout << "History: getByIndex: _lines empty or index out of range, returning empty string" << endl;
+	//cout << "History: getByIndex: _lines empty or index out of range, returning empty string" << endl;
 	return string("");
       }
     }
@@ -83,7 +83,7 @@ public:
     {
       if (_index < (_lines.size() - 1)) {
 	_index++;
-	cout << "History: getNext: [" << _index << "] " << getByIndex(_index) << endl;
+	//cout << "History: getNext: [" << _index << "] " << getByIndex(_index) << endl;
 	return getByIndex(_index);
       } else {
 	// when "returning" from history (we past the most recent
@@ -99,7 +99,7 @@ public:
       if (_index > 0)
 	_index--;
 
-      cout << "History: getPrev: [" << _index << "] " << getByIndex(_index) << endl;
+      //cout << "History: getPrev: [" << _index << "] " << getByIndex(_index) << endl;
       return getByIndex(_index);
     }
 
@@ -125,9 +125,7 @@ public:
    * @param guiConsole The GUI Console that this listener is related
    * to
    */
-  WindowResizedListener(GuiConsole& guiConsole) :
-    _guiConsole(guiConsole)
-    { }
+  WindowResizedListener(GuiConsole& guiConsole) : _guiConsole(guiConsole) { }
 
   /** Method for Window Resized events */
   virtual void windowResized(Ogre::RenderWindow* rw)
@@ -218,12 +216,12 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
     // return key -- insert in history
     cmd = _consolePrompt->getText();
     if (cmd.length() > 0) {
-      cout << "GuiConsole return pressed, inserting: '" << cmd << "'" << endl;
+      //cout << "GuiConsole return pressed, inserting: '" << cmd << "'" << endl;
       _history->insert(cmd.c_str());
       _consolePanel->setText(_consolePanel->getText() + "\n" + cmd);
       _consolePrompt->setText("");
     } else {
-      cout << "GuiConsole return pressed, but empty command" << endl;
+      //cout << "GuiConsole return pressed, but empty command" << endl;
     }
     break;
   case OIS::KC_UP:
@@ -244,7 +242,7 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
 
 void GuiConsole::callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
-  cout << "GuiConsole key released" << endl;
+  //cout << "GuiConsole key released" << endl;
 }
 
 
