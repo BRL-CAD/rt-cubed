@@ -28,12 +28,17 @@
 #define __G3D_GUICONSOLE_H__
 
 
-#include <RBGui/Core.h>
-#include <RBGui/Widgets/TextWidget.h>
-#include <RBGui/Widgets/TextEntryWidget.h>
-
 class History;
-
+namespace Ogre {
+  class RenderWindow;
+}
+namespace RBGui {
+  class GuiElement;
+  class GuiManager;
+  class TextEntryWidget;
+  class TextWidget;
+  class Window;
+}
 
 /** @brief GUI Console class of the 3D Geometry Editor.
  *
@@ -53,6 +58,9 @@ public:
   /** Default destructor */
   ~GuiConsole();
 
+  /** Resize console */
+  void resize(Ogre::RenderWindow* rw);
+
 private:
   /** Link to the RBGui's GUI manager */
   RBGui::GuiManager& _guiMgr;
@@ -69,17 +77,10 @@ private:
   History* _history;
 
 
-  /** Resize console */
-  void resize();
-
-  /** Callback for "ReturnPressed" in console prompt */
-  void callbackPromptReturnPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "KeyPressed" in console prompt */
   void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "KeyReleased" in console prompt */
   void callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
-  /** Callback for "Resized" in render window */
-  void callbackWindowResized(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 
 #endif

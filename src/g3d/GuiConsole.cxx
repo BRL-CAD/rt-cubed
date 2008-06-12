@@ -26,9 +26,11 @@
  */
 
 #include <OIS/OISKeyboard.h>
-#include <OGRE/OgreRoot.h>
 #include <OGRE/OgreRenderWindow.h>
+#include <OGRE/OgreRoot.h>
+#include <OGRE/OgreWindowEventUtilities.h>
 #include <RBGui/GuiDefines.h>
+#include <RBGui/GuiManager.h>
 #include <RBGui/Window.h>
 #include <RBGui/Widgets/TextWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
@@ -109,6 +111,36 @@ private:
 };
 
 
+/** @brief
+ *
+ *	Internal class for [OGRE] Window Resized events, so the
+ *	Console accomodates to the new size of the render window
+ *	automatically.
+ */
+class WindowResizedListener : public Ogre::WindowEventListener
+{
+public:
+  /** Default constructor
+   *
+   * @param guiConsole The GUI Console that this listener is related
+   * to
+   */
+  WindowResizedListener(GuiConsole& guiConsole) :
+    _guiConsole(guiConsole)
+    { }
+
+  /** Method for Window Resized events */
+  virtual void windowResized(Ogre::RenderWindow* rw)
+    {
+      _guiConsole.resize(rw);
+    }
+
+private:
+  /** Link to the GuiConsole that this listener applies */
+  GuiConsole& _guiConsole;
+};
+
+
 /*******************************************************************************
  * GuiConsole
  ******************************************************************************/
@@ -134,18 +166,18 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
 
   _consolePrompt = static_cast<RBGui::TextEntryWidget*>(_mainWin->createWidget("TextEntry"));
   _consolePrompt->setName("ConsolePrompt");
-  _consolePrompt->setText("Type in something.");
 
-  // set initial size
-  resize();
-
-  // setting callbacks for window/widget events within RBGui
-  // return managed in KeyPressed, since both are called anyway
-  // _consolePrompt->setCallback(&GuiConsole::callbackPromptReturnPressed, this, "onReturnPressed");
+  // setting callbacks for window/widget events within RBGui.
+  // ReturnPressed managed in KeyPressed, since both are called anyway
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyReleased, this, "onKeyReleased");
 
-  _mainWin->setCallback(&GuiConsole::callbackWindowResized, this, "Resized");
+  // listener for [OGRE] window resized
+  Ogre::WindowEventUtilities::addWindowEventListener(Ogre::Root::getSingleton().getAutoCreatedWindow(),
+						     new WindowResizedListener(*this));
+
+  // set initial size
+  resize(Ogre::Root::getSingleton().getAutoCreatedWindow());
 }
 
 GuiConsole::~GuiConsole()
@@ -156,10 +188,10 @@ GuiConsole::~GuiConsole()
   delete _history; _history = 0;
 }
 
-void GuiConsole::resize()
+void GuiConsole::resize(Ogre::RenderWindow* rw)
 {
-  unsigned int w = Ogre::Root::getSingleton().getAutoCreatedWindow()->getWidth();
-  unsigned int h = Ogre::Root::getSingleton().getAutoCreatedWindow()->getHeight();
+  unsigned int w = rw->getWidth();
+  unsigned int h = rw->getHeight();
 
   _mainWin->setPosition(Mocha::Vector2(0, h*0.7f));
   _mainWin->setSize(Mocha::Vector2(static_cast<float>(w), h*0.3f));
@@ -175,18 +207,6 @@ void GuiConsole::resize()
   _consolePrompt->setPosition(Mocha::Vector2(0.0f, consolePanelSize.y));
   _consolePrompt->setSize(Mocha::Vector2(consolePanelSize.x, promptHeight));
 }
-
-/** \note not used, see above
-void GuiConsole::callbackPromptReturnPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
-{
-  cout << "GuiConsole return pressed" << endl;
-  _history->insert(_consolePrompt->getText().c_str());
-
-  string text = _consolePanel->getText() + "\n" + _consolePrompt->getText();
-  _consolePanel->setText(text);
-  _consolePrompt->setText("");
-}
-*/
 
 void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
@@ -225,12 +245,6 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
 void GuiConsole::callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
   cout << "GuiConsole key released" << endl;
-}
-
-void GuiConsole::callbackWindowResized(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
-{
-  cout << "GuiConsole window resized" << endl;
-  resize();
 }
 
 
