@@ -66,6 +66,7 @@
 #error "No platform manager available"
 #endif
 
+#include "Logger.h"
 #include "GuiConsole.h"
 
 #include "Application.h"
@@ -268,6 +269,8 @@ Application::Application() :
 
 Application::~Application()
 {
+  Logger::logDEBUG("Application being destroyed");
+
   // Destroy OIS
   if (_inputManager) {
     if (_mouse)
@@ -290,6 +293,8 @@ Application::~Application()
   // Release GUI resources
   //delete _guiCore; _guiCore = 0;
   //delete _guiManager; _guiManager = 0;
+
+  Logger::logINFO("Application stopped.");
 }
 
 void Application::initialize()

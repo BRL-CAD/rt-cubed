@@ -37,6 +37,8 @@
 #include <RBGui/Widgets/TextWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
 
+#include "Logger.h"
+
 #include "GuiConsole.h"
 
 using namespace std;
