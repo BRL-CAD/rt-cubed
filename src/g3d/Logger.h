@@ -30,6 +30,12 @@
 #define __G3D_LOGGER_H__
 
 
+/// If not using GCC, elide __attribute__
+#ifndef __GNUC__
+#define __attribute__(x)	/* nothing */
+#endif
+
+
 /** @brief Class implementing logging facilities
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -60,15 +66,15 @@ public:
   static void setLevelFilter(Level level);
 
   /** Log a FATAL message */
-  static void logFATAL(const char* msg, ...);
+  static void logFATAL(const char* msg, ...) __attribute__((format(printf, 1, 2)));
   /** Log an ERROR message */
-  static void logERROR(const char* msg, ...);
+  static void logERROR(const char* msg, ...) __attribute__((format(printf, 1, 2)));
   /** Log a WARNING */
-  static void logWARNING(const char* msg, ...);
+  static void logWARNING(const char* msg, ...) __attribute__((format(printf, 1, 2)));
   /** Log a INFO message */
-  static void logINFO(const char* msg, ...);
+  static void logINFO(const char* msg, ...) __attribute__((format(printf, 1, 2)));
   /** Log a DEBUG message */
-  static void logDEBUG(const char* msg, ...);
+  static void logDEBUG(const char* msg, ...) __attribute__((format(printf, 1, 2)));
 
 private:
   /** Attribute to save the logging level desired */

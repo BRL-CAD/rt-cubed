@@ -79,17 +79,13 @@ void Logger::log(Level level, const char* msg)
 {
   // log it only if it's equal or above the configured level
   if (level >= _levelFilter) {
-    static char ts[sizeof("YYYYmmdd_HH:MM:SS")];
+    char ts[sizeof("YYYYmmdd HH:MM:SS")];
     time_t now = time(0);
-    strftime(ts, sizeof(ts), "%Y%m%d_%H:%M:%S", localtime(&now));
-    string timeStamped = ts;
-    timeStamped += " :: ";
-    timeStamped += translateToString(level);
-    timeStamped += " :: ";
-    timeStamped += msg;
-    timeStamped += "\n";
-
-    fprintf(stderr, timeStamped.c_str());
+    strftime(ts, sizeof(ts), "%Y%m%d %H:%M:%S", localtime(&now));
+    char fullMsg[LOGSTR_LENGTH] = { 0 };
+    snprintf(fullMsg, sizeof(fullMsg),
+	     "%s :: %s :: %s\n", ts, translateToString(level), msg);
+    fprintf(stderr, fullMsg);
   }
 }
 
