@@ -20,6 +20,8 @@
 
 /** @file Application.h
  *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
  * @brief
  *	Header of the Application class of 3D Geometry Editor (g3d).
  */
@@ -40,6 +42,8 @@ class LostDeviceListener;
 
 
 /** @brief Main class of the 3D Geometry Editor.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * This class implements the main application using OGRE render loop
  * and the GUI.

@@ -20,6 +20,8 @@
 
 /** @file GuiConsole.cxx
  *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
  * @brief
  *	Implementation of the GUI Console class of 3D Geometry Editor
  *	(g3d), along with some internal classes.
@@ -41,6 +43,8 @@ using namespace std;
 
 
 /** @brief Implements History service for the Console
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * The class store the commands the user has entered into the
  * entrybox/prompt of the console window.  It keeps all of them in
@@ -112,6 +116,8 @@ private:
 
 
 /** @brief
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  *	Internal class for [OGRE] Window Resized events, so the
  *	Console accomodates to the new size of the render window

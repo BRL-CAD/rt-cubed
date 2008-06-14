@@ -20,6 +20,8 @@
 
 /** @file main.cxx
  *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
  * @brief
  *	Entry point of the 3D Geometry Editor (g3d).
  */

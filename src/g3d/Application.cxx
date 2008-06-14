@@ -20,6 +20,8 @@
 
 /** @file Application.cxx
  *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
  * @brief
  *	Implementation of the Application class of 3D Geometry Editor
  *	(g3d), along with some internal classes.
@@ -71,9 +73,9 @@
 using namespace std;
 
 
-/** @brief
+/** @brief Internal class for writing files.
  *
- *	Internal class for writing files.
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  */
 class CustomStream : public Mocha::Stream
 {
@@ -113,9 +115,11 @@ private:
 
 /** @brief
  *
- *	Internal class for mouse related updates from the 3D engine,
- *	to pass them to the GUI (and move windows, be able to click on
- *	buttons, etc).
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * Internal class for mouse related updates from the 3D engine, to
+ * pass them to the GUI (and move windows, be able to click on
+ * buttons, etc).
  */
 class MouseListener : public OIS::MouseListener
 {
@@ -182,9 +186,10 @@ private:
 
 /** @brief
  *
- *	Internal class for keyboard related updates from the 3D
- *	engine, to pass them to the GUI (and write in text areas,
- *	etc).
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * Internal class for keyboard related updates from the 3D engine, to
+ * pass them to the GUI (and write in text areas, etc).
  */
 class KeyListener : public OIS::KeyListener
 {
@@ -230,8 +235,10 @@ private:
 
 /** @brief
  *
- *	Internal class for the event "DeviceLost" from the 3D engine,
- *	to pass them to the GUI.
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * Internal class for the event "DeviceLost" from the 3D engine, to
+ * pass them to the GUI.
  */
 class LostDeviceListener : public Ogre::RenderSystem::Listener 
 {

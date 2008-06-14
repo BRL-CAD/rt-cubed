@@ -20,6 +20,8 @@
 
 /** @file GuiConsole.h
  *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
  * @brief
  *	Header of the GuiConsole class of 3D Geometry Editor (g3d).
  */
@@ -42,6 +44,8 @@ namespace RBGui {
 }
 
 /** @brief GUI Console class of the 3D Geometry Editor.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * This class implements the Console for the application.  It tries to
  * work as a regular terminal, letting the user to enter commands and
