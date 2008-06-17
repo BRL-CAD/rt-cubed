@@ -16,7 +16,7 @@
 find_program(PKGCONFIG_EXECUTABLE NAMES pkg-config PATHS /usr/local/bin /usr/bin)
 
 
-macro(PKGCONFIG_ATLEAST _return_var _package _atleast_version)
+macro(PKGCONFIG_ATLEAST _package _atleast_version _return_var)
   # reset the variables at the beginning
   remove(${_return_var})
 
@@ -29,6 +29,17 @@ macro(PKGCONFIG_ATLEAST _return_var _package _atleast_version)
     endif(NOT _return_VALUE)
   endif(PKGCONFIG_EXECUTABLE)
 endmacro(PKGCONFIG_ATLEAST _return_var _package _atleast_version)
+
+
+macro(PKGCONFIG_WRAPPER _args _output)
+  # reset the variables at the beginning
+  remove(${_output})
+
+  # if pkg-config has been found
+  if(PKGCONFIG_EXECUTABLE)
+    exec_program(${PKGCONFIG_EXECUTABLE} ARGS ${_args} RETURN_VALUE _return_VALUE OUTPUT_VARIABLE ${_output} )
+  endif(PKGCONFIG_EXECUTABLE)
+endmacro(PKGCONFIG_WRAPPER _package _args _output)
 
 
 macro(PKGCONFIG _package _atleast_version _include_DIR _link_DIR _link_FLAGS _cflags)
@@ -54,5 +65,7 @@ macro(PKGCONFIG _package _atleast_version _include_DIR _link_DIR _link_FLAGS _cf
     endif(NOT _return_VALUE)
   endif(PKGCONFIG_EXECUTABLE)
 endmacro(PKGCONFIG _package _atleast_version _include_DIR _link_DIR _link_FLAGS _cflags)
+
+
 
 mark_as_advanced(PKGCONFIG_EXECUTABLE)
