@@ -354,7 +354,7 @@ void Application::initialize()
 //  cursorManager = new RBGui::Win32CursorManager();
 #elif defined(POSIX)
   platformManager = new RBGui::PosixPlatformManager();
-#elif defined(MACOSX)
+#elif defined(APPLE)
   manager = new RBGui::MacOSPlatformManager();
 #endif
 
