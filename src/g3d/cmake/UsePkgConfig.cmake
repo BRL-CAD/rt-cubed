@@ -13,35 +13,47 @@
 # variable will be empty when the function returns, otherwise they will contain the respective information
 #
 
+# Get the executable pkg-config path, if exists
 find_program(PKGCONFIG_EXECUTABLE NAMES pkg-config PATHS /usr/local/bin /usr/bin)
 
 
-macro(PKGCONFIG_ATLEAST _package _atleast_version _return_var)
+# Macro to check whether the package exist, with at least the given
+# version
+macro(PKGCONFIG_ATLEAST _package _atleast_version _found)
   # reset the variables at the beginning
   remove(${_return_var})
 
   # if pkg-config has been found
   if(PKGCONFIG_EXECUTABLE)
-    # check --atleast-version
-    exec_program(${PKGCONFIG_EXECUTABLE} ARGS ${_package} --atleast-version=${_atleast_version} RETURN_VALUE _return_VALUE OUTPUT_VARIABLE _pkgconfigDevNull )
-    if(NOT _return_VALUE)
-      set(${_return_var} 1)
-    endif(NOT _return_VALUE)
+    exec_program(${PKGCONFIG_EXECUTABLE} ARGS ${_package} --atleast-version=${_atleast_version}
+      RETURN_VALUE _exitCode OUTPUT_VARIABLE _pkgconfigDevNull )
+    if(NOT _exitCode)
+      set(${_found} 1)
+    endif(NOT _exitCode)
   endif(PKGCONFIG_EXECUTABLE)
-endmacro(PKGCONFIG_ATLEAST _return_var _package _atleast_version)
+endmacro(PKGCONFIG_ATLEAST _package _atleast_version _return)
 
 
-macro(PKGCONFIG_WRAPPER _args _output)
+# Macro to simplify calls of pkg-config: it accepts arguments freely,
+# and returns the output and the exit code
+macro(PKGCONFIG_WRAPPER _args _output _exitCode)
   # reset the variables at the beginning
   remove(${_output})
 
   # if pkg-config has been found
   if(PKGCONFIG_EXECUTABLE)
-    exec_program(${PKGCONFIG_EXECUTABLE} ARGS ${_args} RETURN_VALUE _return_VALUE OUTPUT_VARIABLE ${_output} )
+    exec_program(${PKGCONFIG_EXECUTABLE} ARGS ${_args} RETURN_VALUE ${_exitCode} OUTPUT_VARIABLE ${_output} )
   endif(PKGCONFIG_EXECUTABLE)
-endmacro(PKGCONFIG_WRAPPER _package _args _output)
+endmacro(PKGCONFIG_WRAPPER _args _output _exitCode)
 
 
+# Macro to get all useful variables at once for a package.  Better to
+# get one kind of flags (CFLAGS, etc) for multiple packages (with the
+# wrapper above): the output is merged so the final result is cleaner
+# and optimized.
+#
+# !!!!!!!!!!!!!!!!!!!!!!! DEPRECATED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# !!!!!!!!!! USEFUL FOR IMPLEMENTING FUTURE MACROS, MAYBE !!!!!!!!!!
 macro(PKGCONFIG _package _atleast_version _include_DIR _link_DIR _link_FLAGS _cflags)
   # reset the variables at the beginning
   remove(${_package}_FOUND)
@@ -65,7 +77,6 @@ macro(PKGCONFIG _package _atleast_version _include_DIR _link_DIR _link_FLAGS _cf
     endif(NOT _return_VALUE)
   endif(PKGCONFIG_EXECUTABLE)
 endmacro(PKGCONFIG _package _atleast_version _include_DIR _link_DIR _link_FLAGS _cflags)
-
 
 
 mark_as_advanced(PKGCONFIG_EXECUTABLE)
