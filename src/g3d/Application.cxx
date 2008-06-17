@@ -60,7 +60,7 @@
 #include <RBGui/Win32CursorManager.h>
 #elif defined(POSIX)
 #include <RBGui/PosixPlatformManager.h>
-#elif defined(MACOS)
+#elif defined(APPLE)
 #include <RBGui/MacOSPlatformManager.h>
 #else
 #error "No platform manager available"
@@ -300,12 +300,12 @@ Application::~Application()
 void Application::initialize()
 {
   // Create ogre root
-  _root = new Ogre::Root("ogreplugins.cfg");
+  _root = new Ogre::Root(DATA_DIR "ogreplugins.cfg");
 
   // Setup resource locations
   {
     Ogre::ConfigFile config;
-    config.load("resources.cfg");
+    config.load(DATA_DIR "resources.cfg");
 
     // Go through all sections & settings in the file
     Ogre::ConfigFile::SectionIterator seci = config.getSectionIterator();
