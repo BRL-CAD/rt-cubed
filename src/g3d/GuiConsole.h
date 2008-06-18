@@ -1,8 +1,8 @@
-/*
+/*                    G U I C O N S O L E . H
  * BRL-CAD
  *
- * Copyright (c) 2008 United States Government as represented by the
- * U.S. Army Research Laboratory.
+ * Copyright (c) 2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -17,7 +17,6 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file GuiConsole.h
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -43,9 +42,8 @@ namespace RBGui {
   class Window;
 }
 
-/** @brief GUI Console class of the 3D Geometry Editor.
- *
- * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+/**
+ * @brief GUI Console class of the 3D Geometry Editor.
  *
  * This class implements the Console for the application.  It tries to
  * work as a regular terminal, letting the user to enter commands and
@@ -54,7 +52,8 @@ namespace RBGui {
 class GuiConsole
 {
 public:
-  /** Default constructor
+  /**
+   * Default constructor
    *
    * @param guiMgr Link to RBGui's GuiManager
    */
@@ -74,14 +73,18 @@ private:
   RBGui::Window* _mainWin;
   /** Prompt of the console, to enter commands */
   RBGui::TextEntryWidget* _consolePrompt;
-  /** Panel of the console, to show text (information, commands
-   * entered, etc) */
+  /**
+   * Panel of the console, to show text (information, commands
+   * entered, etc)
+   */
   RBGui::TextWidget* _consolePanel;
 
   /** History service for the console */
   History* _history;
-  /** WindowResized listener, to get notified when the OGRE render
-   * window is resized and act accordingly */
+  /**
+   * WindowResized listener, to get notified when the OGRE render
+   * window is resized and act accordingly
+   */
   WindowResizedListener* _windowResizedListener;
 
 
