@@ -44,9 +44,6 @@
 #include "History.h"
 
 
-using namespace std;
-
-
 /**
  * Internal class for [OGRE] Window Resized events, so the Console
  * accomodates to the new size of the render window automatically.
@@ -63,9 +60,9 @@ public:
 
   /** Method for Window Resized events */
   virtual void windowResized(Ogre::RenderWindow* rw)
-    {
-      _guiConsole.resize(rw);
-    }
+  {
+    _guiConsole.resize(rw);
+  }
 
 private:
   /** Link to the GuiConsole that this listener applies */
@@ -148,33 +145,33 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
 {
   //cout << "GuiConsole key pressed, value: " << vData[0].getAsNumber() << endl;
   int key = static_cast<int>(vData[0].getAsNumber());
-  string cmd("");
+  std::string cmd("");
   switch (key) {
-  case OIS::KC_RETURN:
-    // return key -- insert in history
-    cmd = _consolePrompt->getText();
-    if (cmd.length() > 0) {
-      //cout << "GuiConsole return pressed, inserting: '" << cmd << "'" << endl;
-      _history->insert(cmd.c_str());
-      _consolePanel->setText(_consolePanel->getText() + "\n" + cmd);
-      _consolePrompt->setText("");
-    } else {
-      //cout << "GuiConsole return pressed, but empty command" << endl;
-    }
-    break;
-  case OIS::KC_UP:
-  case OIS::KC_DOWN:
-    // up & down keys -- navigate history
-    if (key == OIS::KC_UP) {
-      cmd = _history->getPrev();
-    } else if (key == OIS::KC_DOWN) {
-      cmd = _history->getNext();
-    }
-    _consolePrompt->setText(cmd);
-    break;
-  default:
-    // nothing
-    ;
+    case OIS::KC_RETURN:
+      // return key -- insert in history
+      cmd = _consolePrompt->getText();
+      if (cmd.length() > 0) {
+	//cout << "GuiConsole return pressed, inserting: '" << cmd << "'" << endl;
+	_history->insert(cmd.c_str());
+	_consolePanel->setText(_consolePanel->getText() + "\n" + cmd);
+	_consolePrompt->setText("");
+      } else {
+	//cout << "GuiConsole return pressed, but empty command" << endl;
+      }
+      break;
+    case OIS::KC_UP:
+    case OIS::KC_DOWN:
+      // up & down keys -- navigate history
+      if (key == OIS::KC_UP) {
+	cmd = _history->getPrev();
+      } else if (key == OIS::KC_DOWN) {
+	cmd = _history->getNext();
+      }
+      _consolePrompt->setText(cmd);
+      break;
+    default:
+      // nothing
+      ;
   }
 }
 
