@@ -1,8 +1,8 @@
-/*
+/*                        M A I N . C X X
  * BRL-CAD
  *
- * Copyright (c) 2008 United States Government as represented by the
- * U.S. Army Research Laboratory.
+ * Copyright (c) 2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -17,7 +17,6 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file main.cxx
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -30,10 +29,10 @@
 
 int main(int /* argc */, char** /*argv*/)
 {
-        Application app;
-	app.run();
+  Application app;
+  app.run();
 
-        return 0;
+  return 0;
 }
 
 
