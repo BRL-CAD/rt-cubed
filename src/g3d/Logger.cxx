@@ -92,18 +92,18 @@ void Logger::log(Level level, const char* msg)
 const char* Logger::translateToString(Level level)
 {
   switch (level) {
-  case DEBUG:
-    return "DEBUG";
-  case INFO:
-    return "INFO";
-  case WARNING:
-    return "WARNING";
-  case ERROR:
-    return "ERROR";
-  case FATAL:
-    return "FATAL";
-  default:
-    return "INVALID LEVEL";
+    case DEBUG:
+      return "DEBUG";
+    case INFO:
+      return "INFO";
+    case WARNING:
+      return "WARNING";
+    case ERROR:
+      return "ERROR";
+    case FATAL:
+      return "FATAL";
+    default:
+      return "INVALID LEVEL";
   }
 }
 
