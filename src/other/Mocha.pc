@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Mocha
+Description: Helper library for RBGui
+Version: 0.1.3
+Libs: -L${libdir} -lmocha
+Cflags: -I${includedir} -I${includedir}/Mocha

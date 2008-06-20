@@ -5,6 +5,6 @@ ogre:
 ois:
 	echo 'Type: cd ois; ./bootstrap && ./configure && make -s && su -c "make -s install"; cd ..'
 mocha:
-	echo 'TODO'
+	echo 'Type: cd mocha; scons && cp libmocha.{a,so} /usr/local/lib && ldconfig && cp ../Mocha.pc /usr/local/lib/pkgconfig; cd ..'
 rbgui:
-	echo 'TODO'
+	echo 'Type: mkdir rbgui/build; cd rbgui/build; cmake ../Gui/ && make -s && su -c "make -s install"; cd ../..'
