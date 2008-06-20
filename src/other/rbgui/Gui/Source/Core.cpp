@@ -83,7 +83,7 @@ void Core::draw( )
 //--------------------------------
 GuiManager* Core::createGui( const Mocha::String& vName, Brush* vBrush )
 {
-	Mocha::RefPointer<GuiManager> gui = new GuiManager( ( vBrush == 0 ) ? mDefaultBrush : vBrush );
+	Mocha::RefPointer<GuiManager> gui = new GuiManager(( vBrush == 0 ) ? mDefaultBrush.get() : vBrush );
 	mGuis[vName] = gui;
 
 	return gui;

@@ -48,8 +48,13 @@ void DirectoryListWidget::onDoubleClick( MouseButtonID vID, const Mocha::Vector2
 	int selected = getSelected( );
 	if ( selected < 0 )
 		return;
-
+	
+	#ifdef __amd64
+	int type = (long int)getEntryData( selected );
+	#else
 	int type = (int)getEntryData( selected );
+	#endif
+	
 	if ( type == DIRENTRY_DIRECTORY )
 	{
 		// Switch directories...
@@ -86,8 +91,13 @@ void DirectoryListWidget::onMousePressed( MouseButtonID vID, const Mocha::Vector
 
 	if ( picked < 0 )
 		return;
-
+	
+	#ifdef __amd64
+	int type = (long int)getEntryData( picked );
+	#else
 	int type = (int)getEntryData( picked );
+	#endif
+	 
 	if ( type == DIRENTRY_FILE )
 	{
 		Mocha::ValueList v;

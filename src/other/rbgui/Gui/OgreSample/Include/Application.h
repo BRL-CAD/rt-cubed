@@ -22,6 +22,9 @@ license as the Right Brain Games GUI.
 #include "RBGui/Widgets/ProgressWidget.h"
 #include "RBGui/Widgets/TextEntryWidget.h"
 
+class MouseListener;
+class KeyListener;
+
 class Application
 {
 

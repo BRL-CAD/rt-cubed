@@ -285,9 +285,9 @@ void Application::updateMouseWindowMetrics( )
 {
 	int x;
 	int y;
-	size_t w;
-	size_t h;
-	size_t depth;
+	unsigned int  w;
+	unsigned int  h;
+	unsigned int  depth;
 	mWindow->getMetrics( w, h, depth, x, y );
 
 	const OIS::MouseState& state = mMouse->getMouseState( );
@@ -439,7 +439,7 @@ void Application::initialize( )
 	platformManager = new RBGui::Win32PlatformManager( );
 	cursorManager = new RBGui::Win32CursorManager( );
 #elif defined( POSIX )
-	manager = new RBGui::PosixPlatformManager( );
+	platformManager = new RBGui::PosixPlatformManager( );
 #elif defined( MACOSX )
 	manager = new RBGui::MacOSPlatformManager( );
 #endif

@@ -67,6 +67,23 @@ void PosixPlatformManager::getClipboardText( Mocha::String& vText )
 	vText = "";
 }
 
+float PosixPlatformManager::getDoubleClickTime( )
+{
+	// ...
 }
+
+float PosixPlatformManager::getKeyRepeatDelay( )
+{
+	// ...
+}
+
+float PosixPlatformManager::getKeyRepeatSpeed( )
+{
+	// ...
+}
+
+}
+
+
 
 #endif

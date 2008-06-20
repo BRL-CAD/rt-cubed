@@ -342,7 +342,7 @@ void GuiManager::setFocused( Window* vWindow, bool vSuppressLost )
 {
 	if ( mFocused != vWindow )
 	{
-		Mocha::RefPointer<Window> oldFocused = mFocused;
+		Mocha::RefPointer<Window> oldFocused(mFocused);
 		mFocused = vWindow;
 
 		if ( oldFocused && (vSuppressLost == false) )

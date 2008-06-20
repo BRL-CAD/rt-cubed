@@ -47,6 +47,12 @@ public:
 	virtual void setClipboardText( const Mocha::String& vText );
 
 	virtual void getClipboardText( Mocha::String& vText );
+
+	virtual float getDoubleClickTime( );
+
+	virtual float getKeyRepeatDelay( );
+
+	virtual float getKeyRepeatSpeed( );
 };
 
 }
