@@ -1,0 +1,9 @@
+import glob;
+
+env = Environment(CPPPATH = ['./Include', './Lua'],
+	LIBS=['libpthread', 'libuuid'], CPPDEFINES = { "POSIX" : "1" } )
+
+files = glob.glob("Source/*.cpp") + glob.glob("Lua/*.c")
+
+env.SharedLibrary('mocha', files)
+env.StaticLibrary('mocha', files)
