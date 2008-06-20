@@ -27,6 +27,7 @@ provided that you have obtained such a license from Right Brain Games Inc.
 #ifndef MOCHA_COMPRESSOR_H
 #define MOCHA_COMPRESSOR_H
 
+#include <stdlib.h>
 #include "zlib.h"
 
 namespace Mocha

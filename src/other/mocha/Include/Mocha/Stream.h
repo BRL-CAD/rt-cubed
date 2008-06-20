@@ -42,6 +42,10 @@ enum SeekLocation
 };
 
 //--------------------------------
+template <typename T> void WriteStream( Stream& vStream, const T& vValue ); 
+template <typename T> void ReadStream( const Stream& vStream, T& vValue ); 
+
+//--------------------------------
 /// A generic stream interface for reading/writing data
 class MOCHA_EXPORT Stream : public Object
 {
