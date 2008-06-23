@@ -26,8 +26,6 @@ PluginFolder=${PC_OGREPLUGIN_DIR}
 Plugin=RenderSystem_GL
 Plugin=Plugin_OctreeSceneManager")
 set(OGRE_CFG_FILES resources.cfg ogreplugins.cfg)
-message(STATUS ${OGRE_CFG_FILES})
-message(STATUS ${RBGUI_DIR})
 add_definitions( -DDATA_DIR='"${CMAKE_INSTALL_PREFIX}/share/g3d/"' )
 
 #include(CMakePrintSystemInformation)
