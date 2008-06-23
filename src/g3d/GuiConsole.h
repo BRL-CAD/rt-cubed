@@ -57,8 +57,6 @@ public:
   /** Default destructor */
   ~GuiConsole();
 
-  /** @see GuiBaseWindow::getName */
-  virtual const std::string& getName() const;
   /** @see GuiBaseWindow::resize */
   virtual void resize(Ogre::RenderWindow* rw);
 

@@ -62,6 +62,7 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   _mainWin->setResizeable(false);
   // _mainWin->setBorderVisible(false);
   _mainWin->show();
+  GuiBaseWindow::setMainWindow(_mainWin);
 
   _consolePanel = static_cast<RBGui::TextWidget*>(_mainWin->createWidget("Text"));
   _consolePanel->setName("ConsolePanel");
@@ -86,11 +87,6 @@ GuiConsole::~GuiConsole()
   delete _consolePanel; _consolePanel = 0;
   delete _mainWin; _mainWin = 0;
   delete _history; _history = 0;
-}
-
-const std::string& GuiConsole::getName() const
-{
-  return _mainWin->getName();
 }
 
 void GuiConsole::resize(Ogre::RenderWindow* rw)

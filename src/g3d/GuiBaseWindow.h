@@ -64,7 +64,10 @@ public:
   virtual ~GuiBaseWindow();
 
   /** Get name */
-  virtual const std::string& getName() const = 0;
+  const std::string& getName() const;
+  /** Set Main Window */
+  void setMainWindow(RBGui::Window* w);
+
   /** Resize application window when the window created by the 3D
    * engine is resized */
   virtual void resize(Ogre::RenderWindow* rw) = 0;
@@ -72,6 +75,9 @@ public:
 protected:
   /** Link to the RBGui's GUI manager */
   RBGui::GuiManager& _guiMgr;
+  /** Main Window (in the sense of the GUI) implemented by the class
+   * which inherits this one */
+  RBGui::Window* _mainWin;
 
 private:
   /**

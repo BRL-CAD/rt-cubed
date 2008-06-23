@@ -49,7 +49,7 @@ public:
   /** Method for Window Resized events */
   virtual void windowResized(Ogre::RenderWindow* rw)
   {
-    Logger::logDEBUG("OGRE WindowResized event received, for window: %s",
+    Logger::logDEBUG("OGRE WindowResized event received, for window: '%s'",
 		     _target.getName().c_str());
     _target.resize(rw);
   }
@@ -64,7 +64,7 @@ private:
  * GuiBaseWindow
  ******************************************************************************/
 GuiBaseWindow::GuiBaseWindow(RBGui::GuiManager& guiMgr) :
-  _guiMgr(guiMgr), _windowResizedListener(0)
+  _guiMgr(guiMgr), _mainWin(0), _windowResizedListener(0)
 {
   // listener for [OGRE] window resized
   _windowResizedListener = new WindowResizedListener(*this);
@@ -79,6 +79,18 @@ GuiBaseWindow::~GuiBaseWindow()
 							_windowResizedListener);
   delete _windowResizedListener; _windowResizedListener = 0;
 }
+
+void GuiBaseWindow::setMainWindow(RBGui::Window* w)
+{
+  _mainWin = w;
+}
+
+
+const std::string& GuiBaseWindow::getName() const
+{
+  return _mainWin->getText();
+}
+
 
 
 // Local Variables: ***

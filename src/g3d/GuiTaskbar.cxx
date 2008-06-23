@@ -48,6 +48,7 @@ GuiTaskbar::GuiTaskbar(RBGui::GuiManager& guiMgr) :
   _mainWin->setResizeable(false);
   //_mainWin->setBorderVisible(false);
   _mainWin->show();
+  GuiBaseWindow::setMainWindow(_mainWin);
 
   _consolePanel = static_cast<RBGui::TextWidget*>(_mainWin->createWidget("Text"));
   _consolePanel->setName("ConsolePanel");
@@ -64,11 +65,6 @@ GuiTaskbar::~GuiTaskbar()
 {
   delete _consolePanel; _consolePanel = 0;
   delete _mainWin; _mainWin = 0;
-}
-
-const std::string& GuiTaskbar::getName() const
-{
-  return _mainWin->getName();
 }
 
 void GuiTaskbar::resize(Ogre::RenderWindow* rw)

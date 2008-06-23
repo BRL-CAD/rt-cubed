@@ -59,8 +59,6 @@ public:
   /** Default destructor */
   ~GuiTaskbar();
 
-  /** @see GuiBaseWindow::getName */
-  virtual const std::string& getName() const;
   /** @see GuiBaseWindow::resized */
   virtual void resize(Ogre::RenderWindow* rw);
 
