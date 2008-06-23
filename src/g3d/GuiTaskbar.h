@@ -47,7 +47,8 @@ namespace RBGui {
  * so we can bring opened windows to front, and similar kind of window
  * operations.
  */
-class GuiTaskbar : public GuiBaseWindow {
+class GuiTaskbar : public GuiBaseWindow
+{
 public:
   /**
    * Default constructor
@@ -62,16 +63,19 @@ public:
   /** @see GuiBaseWindow::resized */
   virtual void resize(Ogre::RenderWindow* rw);
 
+  /** Add a new window */
+  void addWindow(const std::string& name);
+
 private:
   /** Main Window (in the sense of the GUI) implemented by the class
    * which inherits this one */
   RBGui::Window* _mainWin;
 
-  /**
-   * Panel of the console, to show text (information, commands
-   * entered, etc)
-   */
-  RBGui::TextWidget* _consolePanel;
+  /** List of windows that are registered in the taskbar */
+  std::vector<GuiBaseWindow*> _windowList;
+
+  /** List of windows buttons that are displayed in the taskbar */
+  std::vector<RBGui::ButtonWidget*> _windowButtons;
 };
 
 #endif

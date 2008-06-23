@@ -38,7 +38,7 @@
  * GuiTaskbar
  ******************************************************************************/
 GuiTaskbar::GuiTaskbar(RBGui::GuiManager& guiMgr) :
-  GuiBaseWindow(guiMgr), _mainWin(0), _consolePanel(0)
+  GuiBaseWindow(guiMgr), _mainWin(0)
 {
   // creating windows and widgets
   _mainWin = _guiMgr.createWindow();
@@ -46,14 +46,15 @@ GuiTaskbar::GuiTaskbar(RBGui::GuiManager& guiMgr) :
   _mainWin->setCloseable(false);
   _mainWin->setMovable(false);
   _mainWin->setResizeable(false);
-  //_mainWin->setBorderVisible(false);
+  _mainWin->setBorderVisible(false);
   _mainWin->show();
   GuiBaseWindow::setMainWindow(_mainWin);
 
-  _consolePanel = static_cast<RBGui::TextWidget*>(_mainWin->createWidget("Text"));
-  _consolePanel->setName("ConsolePanel");
-  _consolePanel->setVerticalTextAlignment(RBGui::TEXTALIGN_BOTTOM);
-  _consolePanel->setText("Console started.");
+  addWindow("Window 1");
+  addWindow("Window 2");
+  addWindow("Window 3");
+  addWindow("Window 4");
+  addWindow("Window 5");
 
   // setting callbacks for window/widget events within RBGui.
 
@@ -63,7 +64,6 @@ GuiTaskbar::GuiTaskbar(RBGui::GuiManager& guiMgr) :
 
 GuiTaskbar::~GuiTaskbar()
 {
-  delete _consolePanel; _consolePanel = 0;
   delete _mainWin; _mainWin = 0;
 }
 
@@ -72,12 +72,26 @@ void GuiTaskbar::resize(Ogre::RenderWindow* rw)
   unsigned int rwWidth = rw->getWidth();
   unsigned int rwHeight = rw->getHeight();
 
-  const float height = 18.0f;
+  const float height = 24.0f;
 
   _mainWin->setPosition(Mocha::Vector2(0, rwHeight-height));
   _mainWin->setSize(Mocha::Vector2(static_cast<float>(rwWidth), height));
+
+  Mocha::Vector2 buttonSize(rwWidth/static_cast<float>(_windowButtons.size()), height);
+  for (size_t i = 0; i < _windowButtons.size(); ++i) {
+    RBGui::ButtonWidget* b = _windowButtons[i];
+    b->setPosition(Mocha::Vector2(i*buttonSize.x, 0.0f));
+    b->setSize(buttonSize);
+  }
 }
 
+void GuiTaskbar::addWindow(const std::string& name)
+{
+  Logger::logDEBUG("GuiTaskbar::addWindow(%s)", name.c_str());
+  RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_mainWin->createWidget("Button"));
+  b->setText(name);
+  _windowButtons.push_back(b);
+}
 
 // Local Variables: ***
 // mode: C++ ***
