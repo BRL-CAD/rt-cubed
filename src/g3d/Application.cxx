@@ -67,6 +67,7 @@
 #endif
 
 #include "Logger.h"
+#include "GuiBaseWindow.h"
 #include "GuiConsole.h"
 #include "GuiTaskbar.h"
 
@@ -285,8 +286,6 @@ Application::~Application()
   delete _mouseListener; _mouseListener = 0;
   delete _keyListener; _keyListener = 0;
   delete _lostDeviceListener; _lostDeviceListener = 0;
-  // Shutdown OGRE
-  delete _root; _root = 0;
 
   /// \todo mafm: segfaulting and thus commented out at the moment,
   /// look more closely later
@@ -294,6 +293,13 @@ Application::~Application()
   // Release GUI resources
   //delete _guiCore; _guiCore = 0;
   //delete _guiManager; _guiManager = 0;
+  while (_windowList.size() > 0) {
+    // delete _windowList.back();
+    _windowList.pop_back();
+  }
+
+  // Shutdown OGRE
+  delete _root; _root = 0;
 
   Logger::logINFO("Application stopped.");
 }
@@ -620,8 +626,8 @@ void Application::createTestingWindows()
   /// \todo mafm: not destroyed, unless RBGui does it in the end --
   /// it's not harmful anyway, the console it's supposed to be active
   /// always
-  new GuiConsole(*_guiManager);
-  new GuiTaskbar(*_guiManager);
+  _windowList.push_back(new GuiConsole(*_guiManager));
+  _windowList.push_back(new GuiTaskbar(*_guiManager));
 }
 
 void Application::browserResized(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)

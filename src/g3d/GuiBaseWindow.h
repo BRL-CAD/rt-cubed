@@ -1,4 +1,4 @@
-/*                    G U I T A S K B A R . H
+/*                    G U I B A S E W I N D O W . H
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by
@@ -18,62 +18,67 @@
  * information.
  */
 
-/** @file GuiTaskbar.h
+/** @file GuiBaseWindow.h
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
- * @brief
- *	Taskbar functionality for the application.
+ * @brief Base Window infrastructure.
+ *
+ * File containing necessary infrastructure for windows, with common
+ * functionalities that are convenient for us, so all windows within
+ * the 3D GUI should inherit from.
  */
 
-#ifndef __G3D_GUITASKBAR_H__
-#define __G3D_GUITASKBAR_H__
+#ifndef __G3D_GUIBASEWINDOW_H__
+#define __G3D_GUIBASEWINDOW_H__
 
 
-#include "GuiBaseWindow.h"
+#include <string>
 
+class WindowResizedListener;
+namespace Ogre {
+  class RenderWindow;
+}
 namespace RBGui {
-  class TextEntryWidget;
-  class TextWidget;
+  class GuiManager;
+  class Window;
 }
 
 
 /**
- * @brief Implements Taskbar service for the application
+ * @brief Base Window from which all other windows should inherit
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
- * The class implementing taskbar functionality for the application,
- * so we can bring opened windows to front, and similar kind of window
- * operations.
  */
-class GuiTaskbar : public GuiBaseWindow {
+class GuiBaseWindow {
 public:
   /**
    * Default constructor
    *
    * @param guiMgr Link to RBGui's GuiManager
    */
-  GuiTaskbar(RBGui::GuiManager& guiMgr);
+  GuiBaseWindow(RBGui::GuiManager& guiMgr);
 
   /** Default destructor */
-  ~GuiTaskbar();
+  virtual ~GuiBaseWindow();
 
-  /** @see GuiBaseWindow::getName */
-  virtual const std::string& getName() const;
-  /** @see GuiBaseWindow::resized */
-  virtual void resize(Ogre::RenderWindow* rw);
+  /** Get name */
+  virtual const std::string& getName() const = 0;
+  /** Resize application window when the window created by the 3D
+   * engine is resized */
+  virtual void resize(Ogre::RenderWindow* rw) = 0;
+
+protected:
+  /** Link to the RBGui's GUI manager */
+  RBGui::GuiManager& _guiMgr;
 
 private:
-  /** Main Window (in the sense of the GUI) implemented by the class
-   * which inherits this one */
-  RBGui::Window* _mainWin;
-
   /**
-   * Panel of the console, to show text (information, commands
-   * entered, etc)
+   * WindowResized listener, to get notified when the OGRE render
+   * window is resized and act accordingly
    */
-  RBGui::TextWidget* _consolePanel;
+  WindowResizedListener* _windowResizedListener;
 };
 
 #endif

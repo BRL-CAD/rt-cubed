@@ -29,18 +29,14 @@
 #define __G3D_GUICONSOLE_H__
 
 
+#include "GuiBaseWindow.h"
+
 class History;
-class WindowResizedListener;
-namespace Ogre {
-  class RenderWindow;
-}
 namespace RBGui {
-  class GuiElement;
-  class GuiManager;
   class TextEntryWidget;
   class TextWidget;
-  class Window;
 }
+
 
 /**
  * @brief GUI Console class of the 3D Geometry Editor.
@@ -49,8 +45,7 @@ namespace RBGui {
  * work as a regular terminal, letting the user to enter commands and
  * showing outputs.
  */
-class GuiConsole
-{
+class GuiConsole : public GuiBaseWindow {
 public:
   /**
    * Default constructor
@@ -62,14 +57,14 @@ public:
   /** Default destructor */
   ~GuiConsole();
 
-  /** Resize */
-  void resize(Ogre::RenderWindow* rw);
+  /** @see GuiBaseWindow::getName */
+  virtual const std::string& getName() const;
+  /** @see GuiBaseWindow::resize */
+  virtual void resize(Ogre::RenderWindow* rw);
 
 private:
-  /** Link to the RBGui's GUI manager */
-  RBGui::GuiManager& _guiMgr;
-
-  /** Main window */
+  /** Main Window (in the sense of the GUI) implemented by the class
+   * which inherits this one */
   RBGui::Window* _mainWin;
   /** Prompt of the console, to enter commands */
   RBGui::TextEntryWidget* _consolePrompt;
@@ -81,11 +76,6 @@ private:
 
   /** History service for the console */
   History* _history;
-  /**
-   * WindowResized listener, to get notified when the OGRE render
-   * window is resized and act accordingly
-   */
-  WindowResizedListener* _windowResizedListener;
 
 
   /** Callback for "KeyPressed" in console prompt */

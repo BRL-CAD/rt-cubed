@@ -36,9 +36,12 @@
 #include <RBGui/Widgets/ProgressWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
 
+#include <vector>
+
 class MouseListener;
 class KeyListener;
 class LostDeviceListener;
+class GuiBaseWindow;
 
 
 /** @brief Main class of the 3D Geometry Editor.
@@ -84,6 +87,9 @@ private:
 
   /** Flag to control when to stop run()ning */
   bool _quit;
+
+  /** List of windows that we've created -- to delete them */
+  std::vector<GuiBaseWindow*> _windowList;
 
 
   void initialize();

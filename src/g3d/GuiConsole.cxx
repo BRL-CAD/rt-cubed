@@ -44,38 +44,12 @@
 #include "History.h"
 
 
-/**
- * Internal class for [OGRE] Window Resized events, so the Console
- * accomodates to the new size of the render window automatically.
- */
-class WindowResizedListener : public Ogre::WindowEventListener
-{
-public:
-  /**
-   * Default constructor
-   *
-   * @param guiConsole The GUI Console that this listener relates to
-   */
-  WindowResizedListener(GuiConsole& guiConsole) : _guiConsole(guiConsole) { }
-
-  /** Method for Window Resized events */
-  virtual void windowResized(Ogre::RenderWindow* rw)
-  {
-    _guiConsole.resize(rw);
-  }
-
-private:
-  /** Link to the GuiConsole that this listener applies */
-  GuiConsole& _guiConsole;
-};
-
-
 /*******************************************************************************
  * GuiConsole
  ******************************************************************************/
 GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
-  _guiMgr(guiMgr), _mainWin(0), _consolePrompt(0), _consolePanel(0),
-  _history(0), _windowResizedListener(0)
+  GuiBaseWindow(guiMgr), _mainWin(0), _consolePrompt(0), _consolePanel(0),
+  _history(0)
 {
   // creating history
   _history = new History();
@@ -102,11 +76,6 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyReleased, this, "onKeyReleased");
 
-  // listener for [OGRE] window resized
-  _windowResizedListener = new WindowResizedListener(*this);
-  Ogre::WindowEventUtilities::addWindowEventListener(Ogre::Root::getSingleton().getAutoCreatedWindow(),
-						     _windowResizedListener);
-
   // set initial size
   resize(Ogre::Root::getSingleton().getAutoCreatedWindow());
 }
@@ -117,7 +86,11 @@ GuiConsole::~GuiConsole()
   delete _consolePanel; _consolePanel = 0;
   delete _mainWin; _mainWin = 0;
   delete _history; _history = 0;
-  delete _windowResizedListener; _windowResizedListener = 0;
+}
+
+const std::string& GuiConsole::getName() const
+{
+  return _mainWin->getName();
 }
 
 void GuiConsole::resize(Ogre::RenderWindow* rw)

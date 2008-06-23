@@ -34,38 +34,11 @@
 #include "GuiTaskbar.h"
 
 
-/**
- * Internal class for [OGRE] Window Resized events, so the target
- * accomodates to the new size of the render window automatically.
- */
-class WindowResizedListener : public Ogre::WindowEventListener
-{
-public:
-  /**
-   * Default constructor
-   *
-   * @param target The target that this listener relates to
-   */
-  WindowResizedListener(GuiTaskbar& target) : _target(target) { }
-
-  /** Method for Window Resized events */
-  virtual void windowResized(Ogre::RenderWindow* rw)
-  {
-    _target.resize(rw);
-  }
-
-private:
-  /** Link to the target that this listener applies */
-  GuiTaskbar& _target;
-};
-
-
 /*******************************************************************************
  * GuiTaskbar
  ******************************************************************************/
 GuiTaskbar::GuiTaskbar(RBGui::GuiManager& guiMgr) :
-  _guiMgr(guiMgr), _mainWin(0), _consolePanel(0),
-  _windowResizedListener(0)
+  GuiBaseWindow(guiMgr), _mainWin(0), _consolePanel(0)
 {
   // creating windows and widgets
   _mainWin = _guiMgr.createWindow();
@@ -83,11 +56,6 @@ GuiTaskbar::GuiTaskbar(RBGui::GuiManager& guiMgr) :
 
   // setting callbacks for window/widget events within RBGui.
 
-  // listener for [OGRE] window resized
-  _windowResizedListener = new WindowResizedListener(*this);
-  Ogre::WindowEventUtilities::addWindowEventListener(Ogre::Root::getSingleton().getAutoCreatedWindow(),
-						     _windowResizedListener);
-
   // set initial size
   resize(Ogre::Root::getSingleton().getAutoCreatedWindow());
 }
@@ -96,7 +64,11 @@ GuiTaskbar::~GuiTaskbar()
 {
   delete _consolePanel; _consolePanel = 0;
   delete _mainWin; _mainWin = 0;
-  delete _windowResizedListener; _windowResizedListener = 0;
+}
+
+const std::string& GuiTaskbar::getName() const
+{
+  return _mainWin->getName();
 }
 
 void GuiTaskbar::resize(Ogre::RenderWindow* rw)
