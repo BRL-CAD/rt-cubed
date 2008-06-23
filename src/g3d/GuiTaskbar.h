@@ -1,4 +1,4 @@
-/*                    G U I C O N S O L E . H
+/*                    G U I T A S K B A R . H
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by
@@ -17,19 +17,19 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GuiConsole.h
+
+/** @file Taskbar.h
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * @brief
- *	Header of the GuiConsole class of 3D Geometry Editor (g3d).
+ *	Taskbar functionality for GuiConsole.
  */
 
-#ifndef __G3D_GUICONSOLE_H__
-#define __G3D_GUICONSOLE_H__
+#ifndef __G3D_GUITASKBAR_H__
+#define __G3D_GUITASKBAR_H__
 
 
-class History;
 class WindowResizedListener;
 namespace Ogre {
   class RenderWindow;
@@ -42,25 +42,28 @@ namespace RBGui {
   class Window;
 }
 
+
 /**
- * @brief GUI Console class of the 3D Geometry Editor.
+ * @brief Implements Taskbar service for the Console
  *
- * This class implements the Console for the application.  It tries to
- * work as a regular terminal, letting the user to enter commands and
- * showing outputs.
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * The class store the commands the user has entered into the
+ * entrybox/prompt of the console window.  It keeps all of them in
+ * memory (it's not supposed to represent huge amounts), in sequential
+ * order.
  */
-class GuiConsole
-{
+class GuiTaskbar {
 public:
   /**
    * Default constructor
    *
    * @param guiMgr Link to RBGui's GuiManager
    */
-  GuiConsole(RBGui::GuiManager& guiMgr);
+  GuiTaskbar(RBGui::GuiManager& guiMgr);
 
   /** Default destructor */
-  ~GuiConsole();
+  ~GuiTaskbar();
 
   /** Resize */
   void resize(Ogre::RenderWindow* rw);
@@ -71,30 +74,21 @@ private:
 
   /** Main window */
   RBGui::Window* _mainWin;
-  /** Prompt of the console, to enter commands */
-  RBGui::TextEntryWidget* _consolePrompt;
   /**
    * Panel of the console, to show text (information, commands
    * entered, etc)
    */
   RBGui::TextWidget* _consolePanel;
 
-  /** History service for the console */
-  History* _history;
   /**
    * WindowResized listener, to get notified when the OGRE render
    * window is resized and act accordingly
    */
   WindowResizedListener* _windowResizedListener;
-
-
-  /** Callback for "KeyPressed" in console prompt */
-  void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
-  /** Callback for "KeyReleased" in console prompt */
-  void callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 
 #endif
+
 
 // Local Variables: ***
 // mode: C++ ***

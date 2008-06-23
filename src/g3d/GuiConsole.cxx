@@ -125,7 +125,7 @@ void GuiConsole::resize(Ogre::RenderWindow* rw)
   unsigned int w = rw->getWidth();
   unsigned int h = rw->getHeight();
 
-  _mainWin->setPosition(Mocha::Vector2(0, h*0.7f));
+  _mainWin->setPosition(Mocha::Vector2(0, (h-0.3f)/2.0f));
   _mainWin->setSize(Mocha::Vector2(static_cast<float>(w), h*0.3f));
 
   const float promptHeight = 18.0f;

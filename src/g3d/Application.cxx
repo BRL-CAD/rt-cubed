@@ -68,6 +68,7 @@
 
 #include "Logger.h"
 #include "GuiConsole.h"
+#include "GuiTaskbar.h"
 
 #include "Application.h"
 
@@ -620,6 +621,7 @@ void Application::createTestingWindows()
   /// it's not harmful anyway, the console it's supposed to be active
   /// always
   new GuiConsole(*_guiManager);
+  new GuiTaskbar(*_guiManager);
 }
 
 void Application::browserResized(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
