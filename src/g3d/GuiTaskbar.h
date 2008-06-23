@@ -18,12 +18,12 @@
  * information.
  */
 
-/** @file Taskbar.h
+/** @file GuiTaskbar.h
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * @brief
- *	Taskbar functionality for GuiConsole.
+ *	Taskbar functionality for the application.
  */
 
 #ifndef __G3D_GUITASKBAR_H__
@@ -44,14 +44,13 @@ namespace RBGui {
 
 
 /**
- * @brief Implements Taskbar service for the Console
+ * @brief Implements Taskbar service for the application
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
- * The class store the commands the user has entered into the
- * entrybox/prompt of the console window.  It keeps all of them in
- * memory (it's not supposed to represent huge amounts), in sequential
- * order.
+ * The class implementing taskbar functionality for the application,
+ * so we can bring opened windows to front, and similar kind of window
+ * operations.
  */
 class GuiTaskbar {
 public:
