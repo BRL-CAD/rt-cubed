@@ -45,7 +45,8 @@ namespace RBGui {
  * work as a regular terminal, letting the user to enter commands and
  * showing outputs.
  */
-class GuiConsole : public GuiBaseWindow {
+class GuiConsole : public GuiBaseWindow
+{
 public:
   /**
    * Default constructor
