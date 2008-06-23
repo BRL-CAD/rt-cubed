@@ -75,13 +75,13 @@ float PosixPlatformManager::getDoubleClickTime( )
 float PosixPlatformManager::getKeyRepeatDelay( )
 {
 	/// \todo mafm: HACK to get it running quickly
-	250.0f;
+	return 250.0f;
 }
 
 float PosixPlatformManager::getKeyRepeatSpeed( )
 {
 	/// \todo mafm: HACK to get it running quickly
-	0.5f;
+	return 0.5f;
 }
 
 }
