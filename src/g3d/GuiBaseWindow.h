@@ -35,7 +35,6 @@
 
 #include <string>
 
-class WindowResizedListener;
 namespace Ogre {
   class RenderWindow;
 }
@@ -68,9 +67,9 @@ public:
   /** Set Main Window */
   void setMainWindow(RBGui::Window* w);
 
-  /** Resize application window when the window created by the 3D
-   * engine is resized */
-  virtual void resize(Ogre::RenderWindow* rw) = 0;
+  /** Resize application (render) window when the window created by
+   * the 3D engine is resized */
+  virtual void resize(float rwWidth, float rwHeight) = 0;
 
 protected:
   /** Link to the RBGui's GUI manager */
@@ -78,13 +77,6 @@ protected:
   /** Main Window (in the sense of the GUI) implemented by the class
    * which inherits this one */
   RBGui::Window* _mainWin;
-
-private:
-  /**
-   * WindowResized listener, to get notified when the OGRE render
-   * window is resized and act accordingly
-   */
-  WindowResizedListener* _windowResizedListener;
 };
 
 #endif

@@ -38,9 +38,9 @@
 #include <RBGui/Widgets/TextEntryWidget.h>
 
 #include "Logger.h"
+#include "GuiWindowManager.h"
 
 #include "GuiCommandOverlay.h"
-#include "History.h"
 
 
 /*******************************************************************************
@@ -68,8 +68,7 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
   _commandPrompt->setCallback(&GuiCommandOverlay::callbackPromptKeyPressed, this, "onKeyPressed");
   _commandPrompt->setCallback(&GuiCommandOverlay::callbackPromptKeyReleased, this, "onKeyReleased");
 
-  // set initial size
-  resize(Ogre::Root::getSingleton().getAutoCreatedWindow());
+  GuiWindowManager::instance().registerWindow(this);
 }
 
 GuiCommandOverlay::~GuiCommandOverlay()
@@ -78,21 +77,17 @@ GuiCommandOverlay::~GuiCommandOverlay()
   delete _mainWin; _mainWin = 0;
 }
 
-void GuiCommandOverlay::resize(Ogre::RenderWindow* rw)
+void GuiCommandOverlay::resize(float rwWidth, float rwHeight)
 {
-  unsigned int w = rw->getWidth();
-  unsigned int h = rw->getHeight();
-
-  _mainWin->setPosition(Mocha::Vector2(w*0.05f, (h*0.7f)/2.0f));
-  _mainWin->setSize(Mocha::Vector2(w*0.9f, h*0.2f));
-
   const float promptHeight = 18.0f;
-  const Mocha::Rectangle& windowScreen = _mainWin->getClientRectangle();
-  Mocha::Vector2 consolePanelSize = windowScreen.getSize();
-  consolePanelSize.y -= promptHeight;
 
-  _commandPrompt->setPosition(Mocha::Vector2(0.0f, consolePanelSize.y));
-  _commandPrompt->setSize(Mocha::Vector2(consolePanelSize.x, promptHeight));
+  _mainWin->setPosition(Mocha::Vector2(rwWidth*0.05f, (rwHeight-promptHeight)/2.0f));
+  _mainWin->setSize(Mocha::Vector2(rwWidth*0.9f, promptHeight));
+
+  const Mocha::Rectangle& contentRect = _mainWin->getClientRectangle();
+
+  _commandPrompt->setPosition(Mocha::Vector2(0.0f, 0.0f));
+  _commandPrompt->setSize(contentRect.getSize());
 }
 
 void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)

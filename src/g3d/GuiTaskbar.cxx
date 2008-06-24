@@ -30,6 +30,7 @@
 #include <RBGui/Widgets/TextEntryWidget.h>
 
 #include "Logger.h"
+#include "GuiWindowManager.h"
 
 #include "GuiTaskbar.h"
 
@@ -57,8 +58,7 @@ GuiTaskbar::GuiTaskbar(RBGui::GuiManager& guiMgr) :
 
   // setting callbacks for window/widget events within RBGui.
 
-  // set initial size
-  resize(Ogre::Root::getSingleton().getAutoCreatedWindow());
+  GuiWindowManager::instance().registerWindow(this);
 }
 
 GuiTaskbar::~GuiTaskbar()
@@ -66,14 +66,11 @@ GuiTaskbar::~GuiTaskbar()
   delete _mainWin; _mainWin = 0;
 }
 
-void GuiTaskbar::resize(Ogre::RenderWindow* rw)
+void GuiTaskbar::resize(float rwWidth, float rwHeight)
 {
-  unsigned int rwWidth = rw->getWidth();
-  unsigned int rwHeight = rw->getHeight();
-
   const float height = 16.0f;
 
-  _mainWin->setPosition(Mocha::Vector2(0, 0));
+  _mainWin->setPosition(Mocha::Vector2(0, rwHeight-height));
   _mainWin->setSize(Mocha::Vector2(static_cast<float>(rwWidth), height));
 
   Mocha::Vector2 buttonSize(rwWidth/static_cast<float>(_windowButtons.size()), height);
@@ -98,6 +95,10 @@ void GuiTaskbar::addWindow(const GuiBaseWindow* w)
 void GuiTaskbar::callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
   Logger::logDEBUG("button clicked: '%s'", static_cast<RBGui::ButtonWidget&>(vElement).getText().c_str());
+  for (size_t i = 0; i < _windowButtons.size(); ++i) {
+    RBGui::ButtonWidget* button = _windowButtons[i];
+    //button->setEnabled(false);
+  }
 }
 
 

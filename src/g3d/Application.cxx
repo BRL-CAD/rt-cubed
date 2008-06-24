@@ -71,6 +71,7 @@
 #include "GuiCommandOverlay.h"
 #include "GuiConsole.h"
 #include "GuiTaskbar.h"
+#include "GuiWindowManager.h"
 
 #include "Application.h"
 
@@ -395,7 +396,8 @@ void Application::initialize()
   // Add a render queue listener to draw the GUI
   _scene->addRenderQueueListener(new RBGui::OgreRenderQueueListener(*_guiManager));
 
-
+  GuiWindowManager::instance().setGuiManager(_guiManager);
+  
   /// \todo mafm: not destroyed, unless RBGui does it in the end --
   /// it's not harmful anyway, the console it's supposed to be active
   /// always

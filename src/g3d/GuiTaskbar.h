@@ -61,7 +61,7 @@ public:
   ~GuiTaskbar();
 
   /** @see GuiBaseWindow::resized */
-  virtual void resize(Ogre::RenderWindow* rw);
+  virtual void resize(float rwWidth, float rwHeight);
 
   /** Add a new window */
   void addWindow(const GuiBaseWindow* w);

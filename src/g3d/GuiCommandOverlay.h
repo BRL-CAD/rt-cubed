@@ -41,8 +41,7 @@ namespace RBGui {
  * @brief GUI Command Overlay class of the 3D Geometry Editor.
  *
  * This class implements the Command Overlay for the application.  It
- * tries to work as a regular terminal, letting the user to enter
- * commands.
+ * lets the user to enter commands.
  */
 class GuiCommandOverlay : public GuiBaseWindow
 {
@@ -58,7 +57,7 @@ public:
   ~GuiCommandOverlay();
 
   /** @see GuiBaseWindow::resize */
-  virtual void resize(Ogre::RenderWindow* rw);
+  virtual void resize(float rwWidth, float rwHeight);
 
 private:
   /** Main Window (in the sense of the GUI) implemented by the class

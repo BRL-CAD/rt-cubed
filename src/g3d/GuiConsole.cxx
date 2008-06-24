@@ -17,6 +17,7 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
+
 /** @file GuiConsole.cxx
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -25,8 +26,6 @@
  *	Implementation of the GUI Console class of 3D Geometry Editor
  *	(g3d), along with some internal classes.
  */
-
-//#include "common.h"
 
 #include <OIS/OISKeyboard.h>
 #include <OGRE/OgreRenderWindow.h>
@@ -39,9 +38,10 @@
 #include <RBGui/Widgets/TextEntryWidget.h>
 
 #include "Logger.h"
+#include "History.h"
+#include "GuiWindowManager.h"
 
 #include "GuiConsole.h"
-#include "History.h"
 
 
 /*******************************************************************************
@@ -79,8 +79,7 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyReleased, this, "onKeyReleased");
 
-  // set initial size
-  resize(Ogre::Root::getSingleton().getAutoCreatedWindow());
+  GuiWindowManager::instance().registerWindow(this);
 }
 
 GuiConsole::~GuiConsole()
@@ -91,17 +90,14 @@ GuiConsole::~GuiConsole()
   delete _history; _history = 0;
 }
 
-void GuiConsole::resize(Ogre::RenderWindow* rw)
+void GuiConsole::resize(float rwWidth, float rwHeight)
 {
-  unsigned int w = rw->getWidth();
-  unsigned int h = rw->getHeight();
-
-  _mainWin->setPosition(Mocha::Vector2(0, h*0.7f));
-  _mainWin->setSize(Mocha::Vector2(static_cast<float>(w), h*0.3f));
+  _mainWin->setPosition(Mocha::Vector2(0, rwHeight*0.7f));
+  _mainWin->setSize(Mocha::Vector2(rwWidth, rwHeight*0.3f));
 
   const float promptHeight = 18.0f;
-  const Mocha::Rectangle& windowScreen = _mainWin->getClientRectangle();
-  Mocha::Vector2 consolePanelSize = windowScreen.getSize();
+  const Mocha::Rectangle& contentRect = _mainWin->getClientRectangle();
+  Mocha::Vector2 consolePanelSize = contentRect.getSize();
   consolePanelSize.y -= promptHeight;
 
   _consolePanel->setPosition(Mocha::Vector2(0.0f, 0.00f));
@@ -147,7 +143,6 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
 
 void GuiConsole::callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
-  //cout << "GuiConsole key released" << endl;
 }
 
 

@@ -59,7 +59,7 @@ public:
   ~GuiConsole();
 
   /** @see GuiBaseWindow::resize */
-  virtual void resize(Ogre::RenderWindow* rw);
+  virtual void resize(float rwWidth, float rwHeight);
 
 private:
   /** Main Window (in the sense of the GUI) implemented by the class
