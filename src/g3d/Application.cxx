@@ -68,6 +68,7 @@
 
 #include "Logger.h"
 #include "GuiBaseWindow.h"
+#include "GuiCommandOverlay.h"
 #include "GuiConsole.h"
 #include "GuiTaskbar.h"
 
@@ -394,7 +395,15 @@ void Application::initialize()
   // Add a render queue listener to draw the GUI
   _scene->addRenderQueueListener(new RBGui::OgreRenderQueueListener(*_guiManager));
 
-  createTestingWindows();
+
+  /// \todo mafm: not destroyed, unless RBGui does it in the end --
+  /// it's not harmful anyway, the console it's supposed to be active
+  /// always
+  _windowList.push_back(new GuiConsole(*_guiManager));
+  _windowList.push_back(new GuiCommandOverlay(*_guiManager));
+  _windowList.push_back(new GuiTaskbar(*_guiManager));
+
+  //createTestingWindows();
 }
 
 
@@ -622,12 +631,6 @@ void Application::createTestingWindows()
   Mocha::RefPointer<CustomStream> stream = new CustomStream("test.widget");
   s.write(*stream);
   */
-
-  /// \todo mafm: not destroyed, unless RBGui does it in the end --
-  /// it's not harmful anyway, the console it's supposed to be active
-  /// always
-  _windowList.push_back(new GuiConsole(*_guiManager));
-  _windowList.push_back(new GuiTaskbar(*_guiManager));
 }
 
 void Application::browserResized(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)

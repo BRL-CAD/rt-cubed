@@ -42,7 +42,8 @@ GuiTaskbar::GuiTaskbar(RBGui::GuiManager& guiMgr) :
 {
   // creating windows and widgets
   _mainWin = _guiMgr.createWindow();
-  _mainWin->setText("Taskbar Window");
+  _mainWin->setName("Taskbar");
+  _mainWin->setText("Taskbar");
   _mainWin->setCloseable(false);
   _mainWin->setMovable(false);
   _mainWin->setResizeable(false);
@@ -70,9 +71,9 @@ void GuiTaskbar::resize(Ogre::RenderWindow* rw)
   unsigned int rwWidth = rw->getWidth();
   unsigned int rwHeight = rw->getHeight();
 
-  const float height = 24.0f;
+  const float height = 16.0f;
 
-  _mainWin->setPosition(Mocha::Vector2(0, rwHeight-height));
+  _mainWin->setPosition(Mocha::Vector2(0, 0));
   _mainWin->setSize(Mocha::Vector2(static_cast<float>(rwWidth), height));
 
   Mocha::Vector2 buttonSize(rwWidth/static_cast<float>(_windowButtons.size()), height);
