@@ -57,7 +57,7 @@ public:
   ~GuiCommandOverlay();
 
   /** @see GuiBaseWindow::resize */
-  virtual void resize(float rwWidth, float rwHeight);
+  virtual void resize(float contentLeft, float contentTop, float contentWidth, float contentHeight);
 
 private:
   /** Main Window (in the sense of the GUI) implemented by the class

@@ -54,11 +54,8 @@ class GuiBaseWindow;
 class Application
 {
 public:
-  /** Default constructor */
-  Application();
-
-  /** Default destructor */
-  ~Application();
+  /** Singleton, access to the manager */
+  static Application& instance();
 
   /** Main application loop -- will quit only shortly thereafter
    * calling to that method */
@@ -68,11 +65,16 @@ public:
   bool isFullscreen() const;
   /** Tell application to set fullscreen or not */
   void setFullscreen(bool value);
+  /** Toggle fullscreen mode */
+  void toggleFullscreen();
 
   /** Tell application to stop main loop */
   void quit();
 
 private:
+  /** Singleton instance */
+  static Application* INSTANCE;
+
   Ogre::Root* _root;
   Ogre::SceneManager* _scene;
   Ogre::Camera* _camera;
@@ -96,6 +98,11 @@ private:
   /** List of windows that we've created -- to delete them */
   std::vector<GuiBaseWindow*> _windowList;
 
+
+  /** Default constructor */
+  Application();
+  /** Finalize */
+  void finalize();
 
   void initialize();
 

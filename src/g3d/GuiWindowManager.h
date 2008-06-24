@@ -74,6 +74,8 @@ private:
   RBGui::GuiManager* _guiManager;
   /** "Taskbar" panel window */
   RBGui::Window* _taskbar;
+  /** Top panel window */
+  RBGui::Window* _topbar;
 
   /** List of windows that are registered in the taskbar */
   std::vector<GuiBaseWindow*> _windowList;
@@ -87,7 +89,9 @@ private:
   /** Default destructor */
   ~GuiWindowManager();
 
-  /** Callback for "MouseReleased" in the buttons */
+  /** Callback for "MouseReleased" in the fullscreen button */
+  void callbackFullscreenMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  /** Callback for "MouseReleased" in the taskbar buttons */
   void callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 

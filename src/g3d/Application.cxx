@@ -216,7 +216,7 @@ public:
 	return true;
       } else if (event.key == OIS::KC_F12) {
 	// toggle fullscreen
-	_app.setFullscreen(!_app.isFullscreen());
+	_app.toggleFullscreen();
 	return true;
       }
 
@@ -266,47 +266,21 @@ public:
 /*******************************************************************************
  * Application
  ******************************************************************************/
+Application* Application::INSTANCE = 0;
+
+Application& Application::instance()
+{
+        if (!INSTANCE)
+                INSTANCE = new Application();
+        return *INSTANCE;
+}
+
 Application::Application() :
   _root(0), _scene(0), _camera(0), _viewport(0), _renderWindow(0),
   _guiCore(0), _guiManager(0), _mouse(0), _keyboard(0), _inputManager(0),
   _mouseListener(0), _keyListener(0), _quit(false)
 {
   initialize();
-}
-
-Application::~Application()
-{
-  Logger::logDEBUG("Application being destroyed");
-
-  // Destroy OIS
-  if (_inputManager) {
-    if (_mouse)
-      _inputManager->destroyInputObject(_mouse);
-    if (_keyboard)
-      _inputManager->destroyInputObject(_keyboard);
-    _inputManager->destroyInputSystem(_inputManager);
-  }
-
-  // Destroy input listeners
-  delete _mouseListener; _mouseListener = 0;
-  delete _keyListener; _keyListener = 0;
-  delete _lostDeviceListener; _lostDeviceListener = 0;
-
-  /// \todo mafm: segfaulting and thus commented out at the moment,
-  /// look more closely later
-
-  // Release GUI resources
-  //delete _guiCore; _guiCore = 0;
-  //delete _guiManager; _guiManager = 0;
-  while (_windowList.size() > 0) {
-    // delete _windowList.back();
-    _windowList.pop_back();
-  }
-
-  // Shutdown OGRE
-  delete _root; _root = 0;
-
-  Logger::logINFO("Application stopped.");
 }
 
 void Application::initialize()
@@ -410,6 +384,40 @@ void Application::initialize()
   //createTestingWindows();
 }
 
+void Application::finalize()
+{
+  Logger::logDEBUG("Application being destroyed");
+
+  // Destroy OIS
+  if (_inputManager) {
+    if (_mouse)
+      _inputManager->destroyInputObject(_mouse);
+    if (_keyboard)
+      _inputManager->destroyInputObject(_keyboard);
+    _inputManager->destroyInputSystem(_inputManager);
+  }
+
+  // Destroy input listeners
+  delete _mouseListener; _mouseListener = 0;
+  delete _keyListener; _keyListener = 0;
+  delete _lostDeviceListener; _lostDeviceListener = 0;
+
+  /// \todo mafm: segfaulting and thus commented out at the moment,
+  /// look more closely later
+
+  // Release GUI resources
+  //delete _guiCore; _guiCore = 0;
+  //delete _guiManager; _guiManager = 0;
+  while (_windowList.size() > 0) {
+    // delete _windowList.back();
+    _windowList.pop_back();
+  }
+
+  // Shutdown OGRE
+  delete _root; _root = 0;
+
+  Logger::logINFO("Application stopped.");
+}
 
 void Application::setupInput()
 {
@@ -502,6 +510,8 @@ void Application::run()
   while (!_quit) {
     tick(static_cast<float>(timer.getDeltaSeconds()));
   }
+
+  finalize();
 }
 
 bool Application::isFullscreen() const
@@ -517,6 +527,11 @@ void Application::setFullscreen(bool value)
   /// fullscreen modes?
   Ogre::RenderWindow* rw = Ogre::Root::getSingleton().getAutoCreatedWindow();
   rw->setFullscreen(value, rw->getWidth(), rw->getHeight());
+}
+
+void Application::toggleFullscreen()
+{
+  setFullscreen(!isFullscreen());
 }
 
 void Application::quit()

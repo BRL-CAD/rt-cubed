@@ -39,6 +39,7 @@
 #include <RBGui/Widgets/TextEntryWidget.h>
 
 #include "Logger.h"
+#include "Application.h"
 #include "GuiBaseWindow.h"
 
 #include "GuiWindowManager.h"
@@ -57,7 +58,7 @@ GuiWindowManager& GuiWindowManager::instance()
 }
 
 GuiWindowManager::GuiWindowManager() :
-  _guiManager(0), _taskbar(0)
+  _guiManager(0), _taskbar(0), _topbar(0)
 {
   Ogre::WindowEventUtilities::addWindowEventListener(Ogre::Root::getSingleton().getAutoCreatedWindow(),
 						     this);
@@ -74,17 +75,18 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
     return;
 
   const float taskbarHeight = 16.0f;
+  const float topbarHeight = 16.0f;
 
   // get size as float
   const float rwWidth = static_cast<float>(rw->getWidth());
   const float rwHeight = static_cast<float>(rw->getHeight());
   const float contentWidth = rwWidth;
-  const float contentHeight = rwHeight - taskbarHeight;
+  const float contentHeight = rwHeight - taskbarHeight - topbarHeight;
 
   // "taskbar" panel
   {
-    _taskbar->setPosition(Mocha::Vector2(0, contentHeight));
-    _taskbar->setSize(Mocha::Vector2(contentWidth, taskbarHeight));
+    _taskbar->setPosition(Mocha::Vector2(0.0f, rwHeight - taskbarHeight));
+    _taskbar->setSize(Mocha::Vector2(rwWidth, taskbarHeight));
 
     Mocha::Vector2 buttonSize(rwWidth/static_cast<float>(_windowButtons.size()), taskbarHeight);
     for (size_t i = 0; i < _windowButtons.size(); ++i) {
@@ -94,10 +96,16 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
     }
   }
 
+  // topbar panel
+  {
+    _topbar->setPosition(Mocha::Vector2(0.0f, 0.0f));
+    _topbar->setSize(Mocha::Vector2(rwWidth, topbarHeight));
+  }
+
   // propagate to all registered windows
   for (size_t i = 0; i < _windowList.size(); ++i) {
     GuiBaseWindow* w = _windowList[i];
-    w->resize(contentWidth, contentHeight);
+    w->resize(0.0f, topbarHeight, contentWidth, contentHeight);
   }
 }
 
@@ -106,14 +114,36 @@ void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
   _guiManager = guiManager;
 
   // creating taskbar
-  _taskbar = _guiManager->createWindow();
-  _taskbar->setName("Taskbar");
-  _taskbar->setText("Taskbar");
-  _taskbar->setCloseable(false);
-  _taskbar->setMovable(false);
-  _taskbar->setResizeable(false);
-  _taskbar->setBorderVisible(false);
-  _taskbar->show();
+  {
+    _taskbar = _guiManager->createWindow();
+    _taskbar->setName("Taskbar");
+    _taskbar->setText("Taskbar");
+    _taskbar->setCloseable(false);
+    _taskbar->setMovable(false);
+    _taskbar->setResizeable(false);
+    _taskbar->setBorderVisible(false);
+    _taskbar->show();
+  }
+
+  // creating topbar
+  {
+    _topbar = _guiManager->createWindow();
+    _topbar->setName("Topbar");
+    _topbar->setText("Topbar");
+    _topbar->setCloseable(false);
+    _topbar->setMovable(false);
+    _topbar->setResizeable(false);
+    _topbar->setBorderVisible(false);
+    _topbar->show();
+
+    // create new button in the "topbar"
+    RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
+    b->setText("Fullscreen");
+    b->setCallback(&GuiWindowManager::callbackFullscreenMouseReleased, this, "onMouseReleased");
+    b->setPosition(Mocha::Vector2(0.0f, 0.0f));
+    b->setSize(Mocha::Vector2(20.0f, 0.0f));
+    b->setVisible(true);
+  }
 }
 
 void GuiWindowManager::registerWindow(GuiBaseWindow* w)
@@ -138,12 +168,17 @@ const std::vector<GuiBaseWindow*>& GuiWindowManager::getWindowList() const
   return _windowList;
 }
 
+void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
+{
+  Application::instance().toggleFullscreen();
+}
+
 void GuiWindowManager::callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
   Logger::logDEBUG("button clicked: '%s'", static_cast<RBGui::ButtonWidget&>(vElement).getText().c_str());
   for (size_t i = 0; i < _windowButtons.size(); ++i) {
     RBGui::ButtonWidget* button = _windowButtons[i];
-    //button->setEnabled(false);
+    button->setEnabled(false);
   }
 }
 

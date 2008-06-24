@@ -77,12 +77,13 @@ GuiCommandOverlay::~GuiCommandOverlay()
   delete _mainWin; _mainWin = 0;
 }
 
-void GuiCommandOverlay::resize(float rwWidth, float rwHeight)
+void GuiCommandOverlay::resize(float contentLeft, float contentTop, float contentWidth, float contentHeight)
 {
   const float promptHeight = 18.0f;
 
-  _mainWin->setPosition(Mocha::Vector2(rwWidth*0.05f, (rwHeight-promptHeight)/2.0f));
-  _mainWin->setSize(Mocha::Vector2(rwWidth*0.9f, promptHeight));
+  _mainWin->setPosition(Mocha::Vector2(contentLeft + (contentWidth*0.05f),
+				       contentTop + ((contentHeight-promptHeight)/2.0f)));
+  _mainWin->setSize(Mocha::Vector2(contentWidth*0.9f, promptHeight));
 
   const Mocha::Rectangle& contentRect = _mainWin->getClientRectangle();
 

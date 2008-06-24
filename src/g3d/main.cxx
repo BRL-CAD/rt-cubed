@@ -29,8 +29,7 @@
 
 int main(int /* argc */, char** /*argv*/)
 {
-  Application app;
-  app.run();
+  Application::instance().run();
 
   return 0;
 }

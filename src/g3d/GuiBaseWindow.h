@@ -69,7 +69,7 @@ public:
 
   /** Resize application (render) window when the window created by
    * the 3D engine is resized */
-  virtual void resize(float rwWidth, float rwHeight) = 0;
+  virtual void resize(float contentLeft, float contentTop, float contentWidth, float contentHeight) = 0;
 
 protected:
   /** Link to the RBGui's GUI manager */
