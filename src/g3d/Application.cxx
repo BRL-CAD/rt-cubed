@@ -214,6 +214,10 @@ public:
       if (event.key == OIS::KC_ESCAPE) {
 	_app.quit();
 	return true;
+      } else if (event.key == OIS::KC_F12) {
+	// toggle fullscreen
+	_app.setFullscreen(!_app.isFullscreen());
+	return true;
       }
 
       // No need to translate key IDs because they are the same as OIS
@@ -500,6 +504,20 @@ void Application::run()
   }
 }
 
+bool Application::isFullscreen() const
+{
+  return Ogre::Root::getSingleton().getAutoCreatedWindow()->isFullScreen();
+}
+
+void Application::setFullscreen(bool value)
+{
+  /// \note mafm: it doesn't work smoothly when the resolution is low
+  /// (say, 640x480) and the screen is of moderately high resolution
+  /// (1280x960).  Maybe it happens the same with all non-native
+  /// fullscreen modes?
+  Ogre::RenderWindow* rw = Ogre::Root::getSingleton().getAutoCreatedWindow();
+  rw->setFullscreen(value, rw->getWidth(), rw->getHeight());
+}
 
 void Application::quit()
 {

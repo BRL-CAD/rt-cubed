@@ -64,6 +64,11 @@ public:
    * calling to that method */
   void run();
 
+  /** Check whether application is set to fullscreen or not */
+  bool isFullscreen() const;
+  /** Tell application to set fullscreen or not */
+  void setFullscreen(bool value);
+
   /** Tell application to stop main loop */
   void quit();
 
