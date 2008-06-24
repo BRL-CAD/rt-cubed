@@ -64,7 +64,7 @@ public:
   virtual void resize(Ogre::RenderWindow* rw);
 
   /** Add a new window */
-  void addWindow(const std::string& name);
+  void addWindow(const GuiBaseWindow* w);
 
 private:
   /** Main Window (in the sense of the GUI) implemented by the class
@@ -72,10 +72,14 @@ private:
   RBGui::Window* _mainWin;
 
   /** List of windows that are registered in the taskbar */
-  std::vector<GuiBaseWindow*> _windowList;
+  std::vector<const GuiBaseWindow*> _windowList;
 
   /** List of windows buttons that are displayed in the taskbar */
   std::vector<RBGui::ButtonWidget*> _windowButtons;
+
+
+  /** Callback for "MouseReleased" in the buttons */
+  void callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 
 #endif

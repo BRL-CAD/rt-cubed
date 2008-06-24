@@ -50,11 +50,9 @@ GuiTaskbar::GuiTaskbar(RBGui::GuiManager& guiMgr) :
   _mainWin->show();
   GuiBaseWindow::setMainWindow(_mainWin);
 
-  addWindow("Window 1");
-  addWindow("Window 2");
-  addWindow("Window 3");
-  addWindow("Window 4");
-  addWindow("Window 5");
+  addWindow(this);
+  addWindow(this);
+  addWindow(this);
 
   // setting callbacks for window/widget events within RBGui.
 
@@ -85,13 +83,23 @@ void GuiTaskbar::resize(Ogre::RenderWindow* rw)
   }
 }
 
-void GuiTaskbar::addWindow(const std::string& name)
+void GuiTaskbar::addWindow(const GuiBaseWindow* w)
 {
-  Logger::logDEBUG("GuiTaskbar::addWindow(%s)", name.c_str());
+  const char* name = w->getName().c_str();
+  Logger::logDEBUG("GuiTaskbar::addWindow(%s)", name);
+  _windowList.push_back(w);
   RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_mainWin->createWidget("Button"));
   b->setText(name);
+  b->setCallback(&GuiTaskbar::callbackButtonMouseReleased, this, "onMouseReleased");
   _windowButtons.push_back(b);
 }
+
+void GuiTaskbar::callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
+{
+  Logger::logDEBUG("button clicked: '%s'", static_cast<RBGui::ButtonWidget&>(vElement).getText().c_str());
+}
+
+
 
 // Local Variables: ***
 // mode: C++ ***
