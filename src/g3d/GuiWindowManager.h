@@ -37,6 +37,7 @@
 class GuiBaseWindow;
 namespace RBGui {
   class GuiManager;
+  class ButtonWidget;
 }
 
 
@@ -71,15 +72,23 @@ private:
   /** Main Window (in the sense of the GUI) implemented by the class
    * which inherits this one */
   RBGui::GuiManager* _guiManager;
+  /** "Taskbar" panel window */
+  RBGui::Window* _taskbar;
 
   /** List of windows that are registered in the taskbar */
   std::vector<GuiBaseWindow*> _windowList;
+
+  /** List of windows buttons that are displayed in the panel */
+  std::vector<RBGui::ButtonWidget*> _windowButtons;
 
 
   /** Default constructor */
   GuiWindowManager();
   /** Default destructor */
   ~GuiWindowManager();
+
+  /** Callback for "MouseReleased" in the buttons */
+  void callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 
 #endif

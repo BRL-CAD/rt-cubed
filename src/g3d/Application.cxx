@@ -70,7 +70,6 @@
 #include "GuiBaseWindow.h"
 #include "GuiCommandOverlay.h"
 #include "GuiConsole.h"
-#include "GuiTaskbar.h"
 #include "GuiWindowManager.h"
 
 #include "Application.h"
@@ -403,7 +402,6 @@ void Application::initialize()
   /// always
   _windowList.push_back(new GuiConsole(*_guiManager));
   _windowList.push_back(new GuiCommandOverlay(*_guiManager));
-  _windowList.push_back(new GuiTaskbar(*_guiManager));
 
   //createTestingWindows();
 }
