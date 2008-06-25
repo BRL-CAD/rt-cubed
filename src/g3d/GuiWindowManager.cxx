@@ -64,14 +64,10 @@ GuiWindowManager::GuiWindowManager() :
 						     this);
 }
 
-GuiWindowManager::~GuiWindowManager()
-{
-}
-
 void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
 {
   Logger::logDEBUG("GuiWindowManager::windowResized()");
-  if (_guiManager == 0)
+  if (!_guiManager)
     return;
 
   const float taskbarHeight = 16.0f;
@@ -83,23 +79,38 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
   const float contentWidth = rwWidth;
   const float contentHeight = rwHeight - taskbarHeight - topbarHeight;
 
+  // topbar panel
+  {
+    _topbar->setPosition(Mocha::Vector2(0.0f, 0.0f));
+    _topbar->setSize(Mocha::Vector2(rwWidth, topbarHeight));
+
+    RBGui::WidgetList children = _topbar->getRoot()->getChildren();
+
+    Mocha::Vector2 buttonSize(_topbar->getClientRectangle().getSize());
+    buttonSize.x /= static_cast<float>(children.size());
+
+    for (size_t i = 0; i < children.size(); ++i) {
+      Logger::logDEBUG("_topbar children: '%s':'%s'",
+		       children[i]->getName().c_str(),
+		       children[i]->getText().c_str());
+
+      children[i]->setPosition(Mocha::Vector2(0.0f, 0.0f));
+      children[i]->setSize(_topbar->getClientRectangle().getSize());
+    }
+  }
+
   // "taskbar" panel
   {
     _taskbar->setPosition(Mocha::Vector2(0.0f, rwHeight - taskbarHeight));
     _taskbar->setSize(Mocha::Vector2(rwWidth, taskbarHeight));
 
-    Mocha::Vector2 buttonSize(rwWidth/static_cast<float>(_windowButtons.size()), taskbarHeight);
+    Mocha::Vector2 buttonSize(_taskbar->getClientRectangle().getSize());
+    buttonSize.x /= static_cast<float>(_windowButtons.size());
     for (size_t i = 0; i < _windowButtons.size(); ++i) {
       RBGui::ButtonWidget* b = _windowButtons[i];
       b->setPosition(Mocha::Vector2(i*buttonSize.x, 0.0f));
       b->setSize(buttonSize);
     }
-  }
-
-  // topbar panel
-  {
-    _topbar->setPosition(Mocha::Vector2(0.0f, 0.0f));
-    _topbar->setSize(Mocha::Vector2(rwWidth, topbarHeight));
   }
 
   // propagate to all registered windows
@@ -112,18 +123,6 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
 void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
 {
   _guiManager = guiManager;
-
-  // creating taskbar
-  {
-    _taskbar = _guiManager->createWindow();
-    _taskbar->setName("Taskbar");
-    _taskbar->setText("Taskbar");
-    _taskbar->setCloseable(false);
-    _taskbar->setMovable(false);
-    _taskbar->setResizeable(false);
-    _taskbar->setBorderVisible(false);
-    _taskbar->show();
-  }
 
   // creating topbar
   {
@@ -138,11 +137,21 @@ void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
 
     // create new button in the "topbar"
     RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
+    b->setName("Fullscreen Button");
     b->setText("Fullscreen");
     b->setCallback(&GuiWindowManager::callbackFullscreenMouseReleased, this, "onMouseReleased");
-    b->setPosition(Mocha::Vector2(0.0f, 0.0f));
-    b->setSize(Mocha::Vector2(20.0f, 0.0f));
-    b->setVisible(true);
+  }
+
+  // creating taskbar
+  {
+    _taskbar = _guiManager->createWindow();
+    _taskbar->setName("Taskbar");
+    _taskbar->setText("Taskbar");
+    _taskbar->setCloseable(false);
+    _taskbar->setMovable(false);
+    _taskbar->setResizeable(false);
+    _taskbar->setBorderVisible(false);
+    _taskbar->show();
   }
 }
 
@@ -175,10 +184,15 @@ void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& vEleme
 
 void GuiWindowManager::callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
-  Logger::logDEBUG("button clicked: '%s'", static_cast<RBGui::ButtonWidget&>(vElement).getText().c_str());
+  RBGui::ButtonWidget* activeButton = static_cast<RBGui::ButtonWidget*>(&vElement);
+  Logger::logDEBUG("button clicked: '%s'", activeButton->getText().c_str());
   for (size_t i = 0; i < _windowButtons.size(); ++i) {
     RBGui::ButtonWidget* button = _windowButtons[i];
-    button->setEnabled(false);
+    if (button == activeButton) {
+      button->setEnabled(false);
+    } else {
+      button->setEnabled(true);
+    }
   }
 }
 

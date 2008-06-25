@@ -77,7 +77,6 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
-  _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyReleased, this, "onKeyReleased");
 
   GuiWindowManager::instance().registerWindow(this);
 }
@@ -140,10 +139,6 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
       // nothing
       ;
   }
-}
-
-void GuiConsole::callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
-{
 }
 
 

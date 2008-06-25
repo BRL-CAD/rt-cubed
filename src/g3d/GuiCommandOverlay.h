@@ -68,8 +68,6 @@ private:
 
   /** Callback for "KeyPressed" in console prompt */
   void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
-  /** Callback for "KeyReleased" in console prompt */
-  void callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 
 #endif

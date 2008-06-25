@@ -86,8 +86,6 @@ private:
 
   /** Default constructor */
   GuiWindowManager();
-  /** Default destructor */
-  ~GuiWindowManager();
 
   /** Callback for "MouseReleased" in the fullscreen button */
   void callbackFullscreenMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);

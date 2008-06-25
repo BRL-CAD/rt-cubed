@@ -33,11 +33,13 @@
 #include <OGRE/OgreWindowEventUtilities.h>
 #include <RBGui/GuiDefines.h>
 #include <RBGui/GuiManager.h>
+#include <RBGui/SimpleWindowFader.h>
 #include <RBGui/Window.h>
 #include <RBGui/Widgets/TextWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
 
 #include "Logger.h"
+#include "History.h"
 #include "GuiWindowManager.h"
 
 #include "GuiCommandOverlay.h"
@@ -57,6 +59,9 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
   _mainWin->setMovable(false);
   _mainWin->setResizeable(false);
   // _mainWin->setBorderVisible(false);
+  // _mainWin->setOpacity(0.8f);
+  // _mainWin->setFader(new RBGui::SimpleWindowFader());
+  // _mainWin->setModal(true);
   _mainWin->show();
   GuiBaseWindow::setMainWindow(_mainWin);
 
@@ -66,7 +71,6 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
   _commandPrompt->setCallback(&GuiCommandOverlay::callbackPromptKeyPressed, this, "onKeyPressed");
-  _commandPrompt->setCallback(&GuiCommandOverlay::callbackPromptKeyReleased, this, "onKeyReleased");
 
   GuiWindowManager::instance().registerWindow(this);
 }
@@ -93,6 +97,9 @@ void GuiCommandOverlay::resize(float contentLeft, float contentTop, float conten
 
 void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
+  /// \todo mafm: create history controller, and link both this and
+  /// the same function of GuiConsole to it
+
   /*
   //cout << "GuiCommandOverlay key pressed, value: " << vData[0].getAsNumber() << endl;
   int key = static_cast<int>(vData[0].getAsNumber());
@@ -125,10 +132,6 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, co
       ;
   }
   */
-}
-
-void GuiCommandOverlay::callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
-{
 }
 
 
