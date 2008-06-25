@@ -73,13 +73,8 @@ private:
    */
   RBGui::TextWidget* _consolePanel;
 
-  /** History service for the console */
-  History* _history;
-
-
   /** Callback for "KeyPressed" in console prompt */
   void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
-  void callbackPromptKeyReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 
 #endif

@@ -48,12 +48,8 @@
  * GuiConsole
  ******************************************************************************/
 GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
-  GuiBaseWindow(guiMgr), _mainWin(0), _consolePrompt(0), _consolePanel(0),
-  _history(0)
+  GuiBaseWindow(guiMgr), _mainWin(0), _consolePrompt(0), _consolePanel(0)
 {
-  // creating history
-  _history = new History();
-
   // creating windows and widgets
   _mainWin = _guiMgr.createWindow();
   _mainWin->setName("Console Window");
@@ -86,7 +82,6 @@ GuiConsole::~GuiConsole()
   delete _consolePrompt; _consolePrompt = 0;
   delete _consolePanel; _consolePanel = 0;
   delete _mainWin; _mainWin = 0;
-  delete _history; _history = 0;
 }
 
 void GuiConsole::resize(float contentLeft, float contentTop, float contentWidth, float contentHeight)
@@ -109,7 +104,9 @@ void GuiConsole::resize(float contentLeft, float contentTop, float contentWidth,
 
 void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
-  //cout << "GuiConsole key pressed, value: " << vData[0].getAsNumber() << endl;
+  /// \note mafm: should be synchronized with CommandOverlay, to avoid
+  /// inconsistencies
+
   int key = static_cast<int>(vData[0].getAsNumber());
   std::string cmd("");
   switch (key) {
@@ -117,21 +114,20 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
       // return key -- insert in history
       cmd = _consolePrompt->getText();
       if (cmd.length() > 0) {
-	//cout << "GuiConsole return pressed, inserting: '" << cmd << "'" << endl;
-	_history->insert(cmd.c_str());
+	History::instance().insert(cmd.c_str());
 	_consolePanel->setText(_consolePanel->getText() + "\n" + cmd);
 	_consolePrompt->setText("");
       } else {
-	//cout << "GuiConsole return pressed, but empty command" << endl;
+	// return pressed, but empty command
       }
       break;
     case OIS::KC_UP:
     case OIS::KC_DOWN:
       // up & down keys -- navigate history
       if (key == OIS::KC_UP) {
-	cmd = _history->getPrev();
+	cmd = History::instance().getPrev();
       } else if (key == OIS::KC_DOWN) {
-	cmd = _history->getNext();
+	cmd = History::instance().getNext();
       }
       _consolePrompt->setText(cmd);
       break;

@@ -31,6 +31,7 @@
 
 
 #include <string>
+#include <vector>
 
 
 /**
@@ -43,67 +44,37 @@
  * memory (it's not supposed to represent huge amounts), in sequential
  * order.
  */
-class History {
+class History
+{
 public:
-  /** Default constructor */
-  History() : _index(0)
-  { }
+  /** Singleton, access to the manager */
+  static History& instance();
 
   /** Insert a new string, the last one typed */
-  void insert(const char* str)
-  {
-    std::string s(str);
-    if (s.length() != 0) {
-      _lines.push_back(s);
-      _index = _lines.size();
-      //cout << "History: inserted: [" << _index << "] " << s << endl;
-    }
-  }
-
-  /** Get a string from the history */
-  std::string getByIndex(size_t i)
-  {
-    if (i < _lines.size()) {
-      // index is in proper range (and _lines not empty, since 0<=i<lines.size())
-      //cout << "History: getByIndex[" << _index << "]: " << _lines[i] << endl;
-      return _lines[i];
-    } else {
-      // index out of range -- return empty string
-      //cout << "History: getByIndex: _lines empty or index out of range, returning empty string" << endl;
-      return std::string("");
-    }
-  }
-
+  void insert(const char* str);
+  /** Insert a new string, the last one typed */
+  void insert(const std::string& str);
   /** Return the next command from history (empty for the "current" one) */
-  std::string getNext()
-  {
-    if (_index < (_lines.size() - 1)) {
-      _index++;
-      //cout << "History: getNext: [" << _index << "] " << getByIndex(_index) << endl;
-      return getByIndex(_index);
-    } else {
-      // when "returning" from history (we past the most recent
-      // typed), the prompt is cleared
-      return std::string("");
-    }
-  }
-
+  std::string getNext();
   /** Return the previous command from history, remains in the oldest
    * if the user continues to press the key */
-  std::string getPrev()
-  {
-    if (_index > 0)
-      _index--;
-
-    //cout << "History: getPrev: [" << _index << "] " << getByIndex(_index) << endl;
-    return getByIndex(_index);
-  }
+  std::string getPrev();
 
 private:
+  /** Singleton instance */
+  static History* INSTANCE;
+
   /** Array of strings to store our history */
   std::vector<std::string> _lines;
   /** Pointer to the current line */
   size_t _index;
+
+
+  /** Default constructor */
+  History();
+
+  /** Get a string from the history */
+  std::string getByIndex(size_t i);
 };
 
 #endif

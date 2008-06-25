@@ -97,11 +97,9 @@ void GuiCommandOverlay::resize(float contentLeft, float contentTop, float conten
 
 void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
 {
-  /// \todo mafm: create history controller, and link both this and
-  /// the same function of GuiConsole to it
+  /// \note mafm: should be synchronized with CommandOverlay, to avoid
+  /// inconsistencies
 
-  /*
-  //cout << "GuiCommandOverlay key pressed, value: " << vData[0].getAsNumber() << endl;
   int key = static_cast<int>(vData[0].getAsNumber());
   std::string cmd("");
   switch (key) {
@@ -109,21 +107,19 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, co
       // return key -- insert in history
       cmd = _commandPrompt->getText();
       if (cmd.length() > 0) {
-	//cout << "GuiCommandOverlay return pressed, inserting: '" << cmd << "'" << endl;
-	_history->insert(cmd.c_str());
-	_consolePanel->setText(_consolePanel->getText() + "\n" + cmd);
+	History::instance().insert(cmd.c_str());
 	_commandPrompt->setText("");
       } else {
-	//cout << "GuiCommandOverlay return pressed, but empty command" << endl;
+	// return pressed, but empty command
       }
       break;
     case OIS::KC_UP:
     case OIS::KC_DOWN:
       // up & down keys -- navigate history
       if (key == OIS::KC_UP) {
-	cmd = _history->getPrev();
+	cmd = History::instance().getPrev();
       } else if (key == OIS::KC_DOWN) {
-	cmd = _history->getNext();
+	cmd = History::instance().getNext();
       }
       _commandPrompt->setText(cmd);
       break;
@@ -131,7 +127,6 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, co
       // nothing
       ;
   }
-  */
 }
 
 
