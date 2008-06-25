@@ -30,18 +30,33 @@
 #define __G3D_APPLICATION_H__
 
 
-#include <OGRE/Ogre.h>
-#include <OIS/OIS.h>
-#include <RBGui/Core.h>
-#include <RBGui/Widgets/ProgressWidget.h>
-#include <RBGui/Widgets/TextEntryWidget.h>
-
 #include <vector>
+#include <Mocha/Value.h>
 
 class MouseListener;
 class KeyListener;
 class LostDeviceListener;
 class GuiBaseWindow;
+namespace Ogre {
+  class Camera;
+  class RenderWindow;
+  class Root;
+  class SceneManager;
+  class Viewport;
+}
+namespace OIS {
+  class InputManager;
+  class Keyboard;
+  class Mouse;
+}
+namespace Mocha {
+}
+namespace RBGui {
+  class Core;
+  class GuiElement;
+  class GuiManager;
+  class OgreRenderQueueListener;
+}
 
 
 /** @brief Main class of the 3D Geometry Editor.
@@ -60,6 +75,8 @@ public:
   /** Main application loop -- will quit only shortly thereafter
    * calling to that method */
   void run();
+  /** Tell application to stop main loop */
+  void quit();
 
   /** Check whether application is set to fullscreen or not */
   bool isFullscreen() const;
@@ -67,9 +84,10 @@ public:
   void setFullscreen(bool value);
   /** Toggle fullscreen mode */
   void toggleFullscreen();
-
-  /** Tell application to stop main loop */
-  void quit();
+  /** Get Ogre::Root */
+  Ogre::Root& getRoot() const;
+  /** Get Ogre::RenderWindow */
+  Ogre::RenderWindow& getRenderWindow() const;
 
 private:
   /** Singleton instance */
@@ -81,9 +99,6 @@ private:
   Ogre::Viewport* _viewport;
   Ogre::RenderWindow* _renderWindow;
 
-  RBGui::Core* _guiCore;
-  RBGui::GuiManager* _guiManager;
-
   OIS::Mouse* _mouse;
   OIS::Keyboard* _keyboard;
   OIS::InputManager* _inputManager;
@@ -91,6 +106,11 @@ private:
   MouseListener* _mouseListener;
   KeyListener* _keyListener;
   LostDeviceListener* _lostDeviceListener;
+
+  RBGui::Core* _guiCore;
+  RBGui::GuiManager* _guiManager;
+
+  RBGui::OgreRenderQueueListener* _rbguiRenderListener;
 
   /** Flag to control when to stop run()ning */
   bool _quit;
@@ -101,7 +121,8 @@ private:
 
   /** Default constructor */
   Application();
-  /** Finalize */
+  /** Finalize -- free resources and the like (destructor not usable
+   * with Singletons) */
   void finalize();
 
   void initialize();

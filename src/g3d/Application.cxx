@@ -31,29 +31,28 @@
 #include <Mocha/Stream.h>
 #include <Mocha/Timer.h>
 
-#include <RBGui/Exception.h>
-#include <RBGui/WobbleWindowAnimator.h>
+#include <RBGui/Core.h>
+#include <RBGui/BrushCursorManager.h>
 #include <RBGui/SimpleWindowFader.h>
-
-#include <RBGui/OgreSupport/OgreTextureManager.h>
+#include <RBGui/OgreSupport/OgreBrush.h>
 #include <RBGui/OgreSupport/OgreRenderQueueListener.h>
 #include <RBGui/OgreSupport/OgreResourceManager.h>
-#include <RBGui/OgreSupport/OgreBrush.h>
-
-#include <RBGui/Widgets/DropSplineWidget.h>
-#include <RBGui/Widgets/DropListWidget.h>
-#include <RBGui/Widgets/ColorSelectWidget.h>
+#include <RBGui/OgreSupport/OgreTextureManager.h>
 #include <RBGui/Widgets/AttributeEditWidget.h>
+#include <RBGui/Widgets/CheckWidget.h>
+#include <RBGui/Widgets/ColorSelectWidget.h>
+#include <RBGui/Widgets/DirectoryListWidget.h>
+#include <RBGui/Widgets/DropListWidget.h>
+#include <RBGui/Widgets/DropSplineWidget.h>
+#include <RBGui/Widgets/MenuWidget.h>
+#include <RBGui/Widgets/ImageWidget.h>
+#include <RBGui/Widgets/OptionWidget.h>
 #include <RBGui/Widgets/ProgressWidget.h>
 #include <RBGui/Widgets/ScrollWidget.h>
-#include <RBGui/Widgets/ImageWidget.h>
-#include <RBGui/Widgets/MenuWidget.h>
-#include <RBGui/Widgets/CheckWidget.h>
-#include <RBGui/Widgets/OptionWidget.h>
-#include <RBGui/Widgets/DirectoryListWidget.h>
 #include <RBGui/Widgets/TextWidget.h>
 
-#include <RBGui/BrushCursorManager.h>
+#include <OGRE/Ogre.h>
+#include <OIS/OIS.h>
 
 #if defined(WIN32)
 #include <RBGui/Win32PlatformManager.h>
@@ -257,6 +256,7 @@ public:
     {
       // Redraw the GUI if the device has been lost
       if (eventName == "DeviceLost") {
+	Logger::logWARNING("OGRE lost the device, redrawing");
 	RBGui::Core::Get().invalidate();
       }
     }
@@ -277,16 +277,23 @@ Application& Application::instance()
 
 Application::Application() :
   _root(0), _scene(0), _camera(0), _viewport(0), _renderWindow(0),
-  _guiCore(0), _guiManager(0), _mouse(0), _keyboard(0), _inputManager(0),
-  _mouseListener(0), _keyListener(0), _quit(false)
+  _mouse(0), _keyboard(0), _inputManager(0),
+  _mouseListener(0), _keyListener(0), _lostDeviceListener(0),
+  _guiCore(0), _guiManager(0), _rbguiRenderListener(0), _quit(false)
 {
-  initialize();
 }
 
 void Application::initialize()
 {
-  // Create ogre root
+  // Try to initialize OGRE core
   _root = new Ogre::Root(DATA_DIR "ogreplugins.cfg");
+  if (_root->restoreConfig() || _root->showConfigDialog()) {
+    _renderWindow = _root->initialise(true, "BRL-CAD 3D Geometry Editor (g3d)");
+  }
+  if (!_renderWindow) {
+    Logger::logFATAL("Unable to initialize OGRE");
+    exit(EXIT_FAILURE);
+  }
 
   // Setup resource locations
   {
@@ -306,21 +313,10 @@ void Application::initialize()
 	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
       }
     }
+
+    // Initialize resource groups
+    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
   }
-
-  // Try to initialize OGRE core
-  if (_root->restoreConfig() || _root->showConfigDialog()) {
-    _renderWindow = _root->initialise(true, "BRL-CAD 3D Geometry Editor (g3d)");
-  } else {
-    throw RBGui::Exception("Unable to initialize OGRE");
-  }
-
-  // Create lost device listener
-  _lostDeviceListener = new LostDeviceListener();
-  Ogre::Root::getSingleton().getRenderSystem()->addListener(_lostDeviceListener);
-
-  // Initialize resource groups
-  Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
   // Create scene, camera, viewport
   _scene = _root->createSceneManager("DefaultSceneManager", "g3d SceneManager");
@@ -371,13 +367,17 @@ void Application::initialize()
   _guiManager->setCursorManager(bcursorManager);
 
   // Add a render queue listener to draw the GUI
-  _scene->addRenderQueueListener(new RBGui::OgreRenderQueueListener(*_guiManager));
+  _rbguiRenderListener = new RBGui::OgreRenderQueueListener(*_guiManager);
+  _scene->addRenderQueueListener(_rbguiRenderListener);
 
-  GuiWindowManager::instance().setGuiManager(_guiManager);
-  
+  // Create lost device listener
+  _lostDeviceListener = new LostDeviceListener();
+  _root->getRenderSystem()->addListener(_lostDeviceListener);
+
   /// \todo mafm: not destroyed, unless RBGui does it in the end --
   /// it's not harmful anyway, the console it's supposed to be active
   /// always
+  GuiWindowManager::instance().setGuiManager(_guiManager);
   _windowList.push_back(new GuiConsole(*_guiManager));
   _windowList.push_back(new GuiCommandOverlay(*_guiManager));
 
@@ -386,9 +386,10 @@ void Application::initialize()
 
 void Application::finalize()
 {
-  Logger::logDEBUG("Application being destroyed");
+  Logger::logINFO("Application being destroyed");
 
   // Destroy OIS
+  Logger::logINFO("Freeing OIS resources");
   if (_inputManager) {
     if (_mouse)
       _inputManager->destroyInputObject(_mouse);
@@ -398,6 +399,7 @@ void Application::finalize()
   }
 
   // Destroy input listeners
+  Logger::logINFO("Freeing input listeners");
   delete _mouseListener; _mouseListener = 0;
   delete _keyListener; _keyListener = 0;
   delete _lostDeviceListener; _lostDeviceListener = 0;
@@ -406,6 +408,8 @@ void Application::finalize()
   /// look more closely later
 
   // Release GUI resources
+  Logger::logINFO("Freeing RBGui resources");
+  delete _rbguiRenderListener; _rbguiRenderListener = 0;
   //delete _guiCore; _guiCore = 0;
   //delete _guiManager; _guiManager = 0;
   while (_windowList.size() > 0) {
@@ -414,7 +418,26 @@ void Application::finalize()
   }
 
   // Shutdown OGRE
+  Logger::logINFO("Freeing OGRE resources");
+  Logger::logINFO(" - renderWindow");
+  _renderWindow->removeAllViewports();
+  _renderWindow->destroy();
+  Logger::logINFO(" - root");
   delete _root; _root = 0;
+  /*
+  Logger::logINFO(" - scene");
+  delete _scene; _scene = 0;
+  Logger::logINFO(" - camera");
+  delete _camera; _camera = 0;
+  Logger::logINFO(" - renderWindow");
+  _renderWindow->removeAllViewports();
+  _renderWindow->destroy();
+  delete _renderWindow; _renderWindow = 0;
+  Logger::logINFO(" - viewport");
+  delete _viewport; _viewport = 0;
+  Logger::logINFO(" - root");
+  delete _root; _root = 0;
+  */
 
   Logger::logINFO("Application stopped.");
 }
@@ -439,15 +462,11 @@ void Application::setupInput()
   paramList.insert(make_pair(string("XAutoRepeatOn"), string("true")));
 #endif
 
-  // Create input object using parameter list
+  // Create input object using parameter list, then keyboard and mouse
   _inputManager = OIS::InputManager::createInputSystem(paramList);
-
-  // Create the mouse
   _mouseListener = new MouseListener(*this, *_guiManager);
   _mouse = static_cast<OIS::Mouse*>(_inputManager->createInputObject(OIS::OISMouse, true));
   _mouse->setEventCallback(_mouseListener);
-
-  // Create the keyboard
   _keyListener = new KeyListener(*this, *_guiManager);
   _keyboard = static_cast<OIS::Keyboard*>(_inputManager->createInputObject(OIS::OISKeyboard, true));
   _keyboard->setEventCallback(_keyListener);
@@ -505,6 +524,8 @@ void Application::run()
   DWORD res = SetThreadAffinityMask(id, 1);
 #endif
 
+  initialize();
+
   // Run the main loop
   Mocha::Timer timer;
   while (!_quit) {
@@ -514,9 +535,14 @@ void Application::run()
   finalize();
 }
 
+void Application::quit()
+{
+  _quit = true;
+}
+
 bool Application::isFullscreen() const
 {
-  return Ogre::Root::getSingleton().getAutoCreatedWindow()->isFullScreen();
+  return _renderWindow->isFullScreen();
 }
 
 void Application::setFullscreen(bool value)
@@ -525,8 +551,7 @@ void Application::setFullscreen(bool value)
   /// (say, 640x480) and the screen is of moderately high resolution
   /// (1280x960).  Maybe it happens the same with all non-native
   /// fullscreen modes?
-  Ogre::RenderWindow* rw = Ogre::Root::getSingleton().getAutoCreatedWindow();
-  rw->setFullscreen(value, rw->getWidth(), rw->getHeight());
+  _renderWindow->setFullscreen(value, _renderWindow->getWidth(), _renderWindow->getHeight());
 }
 
 void Application::toggleFullscreen()
@@ -534,9 +559,14 @@ void Application::toggleFullscreen()
   setFullscreen(!isFullscreen());
 }
 
-void Application::quit()
+Ogre::Root& Application::getRoot() const
 {
-  _quit = true;
+  return *_root;
+}
+
+Ogre::RenderWindow& Application::getRenderWindow() const
+{
+  return *_renderWindow;
 }
 
 

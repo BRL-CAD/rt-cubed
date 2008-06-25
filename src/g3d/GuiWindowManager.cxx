@@ -27,7 +27,6 @@
  *	Editor (g3d), along with some internal classes.
  */
 
-#include <OIS/OISKeyboard.h>
 #include <OGRE/OgreRenderWindow.h>
 #include <OGRE/OgreRoot.h>
 #include <OGRE/OgreWindowEventUtilities.h>
@@ -60,7 +59,7 @@ GuiWindowManager& GuiWindowManager::instance()
 GuiWindowManager::GuiWindowManager() :
   _guiManager(0), _taskbar(0), _topbar(0)
 {
-  Ogre::WindowEventUtilities::addWindowEventListener(Ogre::Root::getSingleton().getAutoCreatedWindow(),
+  Ogre::WindowEventUtilities::addWindowEventListener(&Application::instance().getRenderWindow(),
 						     this);
 }
 
@@ -169,7 +168,7 @@ void GuiWindowManager::registerWindow(GuiBaseWindow* w)
 
   // set size initially -- have to recalculate everything due to
   // static panels and so on, better than duplicate code here
-  windowResized(Ogre::Root::getSingleton().getAutoCreatedWindow());
+  windowResized(&Application::instance().getRenderWindow());
 }
 
 const std::vector<GuiBaseWindow*>& GuiWindowManager::getWindowList() const
