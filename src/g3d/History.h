@@ -35,6 +35,25 @@
 
 
 /**
+ * @brief History listener.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * Interface of a History Listener, to get notifications when the
+ * History state is changed.
+ */
+class HistoryListener
+{
+public:
+  /** Called when a new entry is added */
+  virtual void addedEntry(const std::string& entry) { }
+  /** Called when the internal index changes, so it points to a
+   * different entry */
+  virtual void indexChanged(const std::string& entry) { }
+};
+
+
+/**
  * @brief Implements History service for the Console
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -60,6 +79,11 @@ public:
    * if the user continues to press the key */
   std::string getPrev();
 
+  /** Register a listener */
+  void registerListener(HistoryListener* listener);
+  /** Unregister a listener */
+  void unregisterListener(HistoryListener* listener);
+
 private:
   /** Singleton instance */
   static History* INSTANCE;
@@ -68,6 +92,8 @@ private:
   std::vector<std::string> _lines;
   /** Pointer to the current line */
   size_t _index;
+  /** Set of listeners for History events  */
+  std::vector<HistoryListener*> _listeners;
 
 
   /** Default constructor */

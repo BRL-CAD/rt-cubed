@@ -31,6 +31,7 @@
 
 
 #include "GuiBaseWindow.h"
+#include "History.h"
 
 namespace RBGui {
   class TextEntryWidget;
@@ -43,7 +44,7 @@ namespace RBGui {
  * This class implements the Command Overlay for the application.  It
  * lets the user to enter commands.
  */
-class GuiCommandOverlay : public GuiBaseWindow
+class GuiCommandOverlay : public GuiBaseWindow, public HistoryListener
 {
 public:
   /**
@@ -52,12 +53,14 @@ public:
    * @param guiMgr Link to RBGui's GuiManager
    */
   GuiCommandOverlay(RBGui::GuiManager& guiMgr);
-
   /** Default destructor */
   ~GuiCommandOverlay();
 
   /** @see GuiBaseWindow::resize */
   virtual void resize(float contentLeft, float contentTop, float contentWidth, float contentHeight);
+
+  /** @see HistoryListener::indexChanged */
+  virtual void indexChanged(const std::string& entry);
 
 private:
   /** Main Window (in the sense of the GUI) implemented by the class

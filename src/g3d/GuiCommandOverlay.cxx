@@ -73,10 +73,12 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
   _commandPrompt->setCallback(&GuiCommandOverlay::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
+  History::instance().registerListener(this);
 }
 
 GuiCommandOverlay::~GuiCommandOverlay()
 {
+  History::instance().unregisterListener(this);
   delete _commandPrompt; _commandPrompt = 0;
   delete _mainWin; _mainWin = 0;
 }
@@ -93,6 +95,11 @@ void GuiCommandOverlay::resize(float contentLeft, float contentTop, float conten
 
   _commandPrompt->setPosition(Mocha::Vector2(0.0f, 0.0f));
   _commandPrompt->setSize(contentRect.getSize());
+}
+
+void GuiCommandOverlay::indexChanged(const std::string& entry)
+{
+  _commandPrompt->setText(entry);
 }
 
 void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)

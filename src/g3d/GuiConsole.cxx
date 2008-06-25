@@ -75,10 +75,12 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
+  History::instance().registerListener(this);
 }
 
 GuiConsole::~GuiConsole()
 {
+  History::instance().unregisterListener(this);
   delete _consolePrompt; _consolePrompt = 0;
   delete _consolePanel; _consolePanel = 0;
   delete _mainWin; _mainWin = 0;
@@ -100,6 +102,17 @@ void GuiConsole::resize(float contentLeft, float contentTop, float contentWidth,
 
   _consolePrompt->setPosition(Mocha::Vector2(0.0f, consolePanelSize.y));
   _consolePrompt->setSize(Mocha::Vector2(consolePanelSize.x, promptHeight));
+}
+
+void GuiConsole::addedEntry(const std::string& entry)
+{
+  _consolePanel->setText(_consolePanel->getText() + "\n" + entry);
+  _consolePrompt->setText("");
+}
+
+void GuiConsole::indexChanged(const std::string& entry)
+{
+  _consolePrompt->setText(entry);
 }
 
 void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)

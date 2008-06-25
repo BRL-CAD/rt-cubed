@@ -28,6 +28,7 @@
 
 #include "History.h"
 
+
 /*******************************************************************************
  * History
  ******************************************************************************/
@@ -47,16 +48,20 @@ History::History() :
 
 void History::insert(const char* str)
 {
-  std::string s(str);
-  if (s.length() != 0) {
-    _lines.push_back(s);
-    _index = _lines.size();
-  }
+  insert(std::string(str));
 }
 
 void History::insert(const std::string& str)
 {
-  insert(str.c_str());
+  if (str.length() != 0) {
+    _lines.push_back(str);
+    _index = _lines.size();
+
+    // notify listeners
+    for (std::vector<HistoryListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
+      (*it)->addedEntry(str);
+    }
+  }
 }
 
 std::string History::getByIndex(size_t i)
@@ -72,14 +77,20 @@ std::string History::getByIndex(size_t i)
 
 std::string History::getNext()
 {
+  std::string entry("");
   if (_index < (_lines.size() - 1)) {
     _index++;
-    return getByIndex(_index);
+    entry = getByIndex(_index);
   } else {
     // when "returning" from history (we past the most recent typed),
     // the prompt is cleared
-    return std::string("");
   }
+
+  // notify listeners
+  for (std::vector<HistoryListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
+    (*it)->indexChanged(entry);
+  }
+  return entry;
 }
 
 std::string History::getPrev()
@@ -87,7 +98,28 @@ std::string History::getPrev()
   if (_index > 0)
     _index--;
 
-  return getByIndex(_index);
+  std::string entry = getByIndex(_index);
+
+  // notify listeners
+  for (std::vector<HistoryListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
+    (*it)->indexChanged(entry);
+  }
+
+  return entry;
+}
+
+void History::registerListener(HistoryListener* listener)
+{
+  _listeners.push_back(listener);
+}
+
+void History::unregisterListener(HistoryListener* listener)
+{
+  for (std::vector<HistoryListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
+    if (*it == listener) {
+      _listeners.erase(it);
+    }
+  }
 }
 
 

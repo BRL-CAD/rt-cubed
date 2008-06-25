@@ -30,8 +30,9 @@
 
 
 #include "GuiBaseWindow.h"
+#include "History.h"
 
-class History;
+
 namespace RBGui {
   class TextEntryWidget;
   class TextWidget;
@@ -45,7 +46,7 @@ namespace RBGui {
  * work as a regular terminal, letting the user to enter commands and
  * showing outputs.
  */
-class GuiConsole : public GuiBaseWindow
+class GuiConsole : public GuiBaseWindow, public HistoryListener
 {
 public:
   /**
@@ -60,6 +61,11 @@ public:
 
   /** @see GuiBaseWindow::resize */
   virtual void resize(float contentLeft, float contentTop, float contentWidth, float contentHeight);
+
+  /** @see HistoryListener::addedEntry */
+  virtual void addedEntry(const std::string& entry);
+  /** @see HistoryListener::indexChanged */
+  virtual void indexChanged(const std::string& entry);
 
 private:
   /** Main Window (in the sense of the GUI) implemented by the class
