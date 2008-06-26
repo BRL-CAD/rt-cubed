@@ -57,13 +57,15 @@ public:
    *
    * @param guiMgr Link to RBGui's GuiManager
    */
-  GuiBaseWindow(RBGui::GuiManager& guiMgr);
+  GuiBaseWindow(RBGui::GuiManager& guiMgr, bool inTaskbar);
 
   /** Default destructor */
   virtual ~GuiBaseWindow();
 
   /** Get name */
   const std::string& getName() const;
+  /** Get whether this window should be present in the taskbar */
+  bool getPresentInTaskbar() const;
   /** Set Main Window */
   void setMainWindow(RBGui::Window* w);
 
@@ -77,6 +79,9 @@ protected:
   /** Main Window (in the sense of the GUI) implemented by the class
    * which inherits this one */
   RBGui::Window* _mainWin;
+  /** Flag to mark whether it's a regular window and thus should be
+   * present in taskbar */
+  bool _presentInTaskbar;
 };
 
 #endif

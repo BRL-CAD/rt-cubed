@@ -48,11 +48,11 @@
  * GuiConsole
  ******************************************************************************/
 GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
-  GuiBaseWindow(guiMgr), _mainWin(0), _consolePrompt(0), _consolePanel(0)
+  GuiBaseWindow(guiMgr, false), _mainWin(0), _consolePrompt(0), _consolePanel(0)
 {
   // creating windows and widgets
   _mainWin = _guiMgr.createWindow();
-  _mainWin->setName("Console Window");
+  _mainWin->setName("Console");
   _mainWin->setText("Console");
   _mainWin->setCloseable(false);
   _mainWin->setMovable(false);

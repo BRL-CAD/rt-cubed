@@ -49,7 +49,7 @@
  * GuiCommandOverlay
  ******************************************************************************/
 GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
-  GuiBaseWindow(guiMgr), _mainWin(0), _commandPrompt(0)
+  GuiBaseWindow(guiMgr, false), _mainWin(0), _commandPrompt(0)
 {
   // creating windows and widgets
   _mainWin = _guiMgr.createWindow();

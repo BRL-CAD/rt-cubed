@@ -30,8 +30,8 @@
 /*******************************************************************************
  * GuiBaseWindow
  ******************************************************************************/
-GuiBaseWindow::GuiBaseWindow(RBGui::GuiManager& guiMgr) :
-  _guiMgr(guiMgr), _mainWin(0)
+GuiBaseWindow::GuiBaseWindow(RBGui::GuiManager& guiMgr, bool inTaskbar) :
+  _guiMgr(guiMgr), _mainWin(0), _presentInTaskbar(inTaskbar)
 {
 }
 
@@ -45,10 +45,14 @@ void GuiBaseWindow::setMainWindow(RBGui::Window* w)
   _mainWin = w;
 }
 
-
 const std::string& GuiBaseWindow::getName() const
 {
-  return _mainWin->getText();
+  return _mainWin->getName();
+}
+
+bool GuiBaseWindow::getPresentInTaskbar() const
+{
+  return _presentInTaskbar;
 }
 
 
