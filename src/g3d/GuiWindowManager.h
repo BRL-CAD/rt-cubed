@@ -87,6 +87,8 @@ private:
   /** Default constructor */
   GuiWindowManager();
 
+  /** Callback for "MouseReleased" in the quit button */
+  void callbackQuitMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "MouseReleased" in the fullscreen button */
   void callbackFullscreenMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "MouseReleased" in the taskbar buttons */

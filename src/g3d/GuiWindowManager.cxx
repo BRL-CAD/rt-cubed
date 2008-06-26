@@ -51,9 +51,9 @@ GuiWindowManager* GuiWindowManager::INSTANCE = 0;
 
 GuiWindowManager& GuiWindowManager::instance()
 {
-        if (!INSTANCE)
-                INSTANCE = new GuiWindowManager();
-        return *INSTANCE;
+  if (!INSTANCE)
+    INSTANCE = new GuiWindowManager();
+  return *INSTANCE;
 }
 
 GuiWindowManager::GuiWindowManager() :
@@ -83,7 +83,7 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
     _topbar->setPosition(Mocha::Vector2(0.0f, 0.0f));
     _topbar->setSize(Mocha::Vector2(rwWidth, topbarHeight));
 
-    RBGui::WidgetList children = _topbar->getRoot()->getChildren();
+    const RBGui::WidgetList& children = _topbar->getRoot()->getChildren();
 
     Mocha::Vector2 buttonSize(_topbar->getClientRectangle().getSize());
     buttonSize.x /= static_cast<float>(children.size());
@@ -93,8 +93,8 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
 		       children[i]->getName().c_str(),
 		       children[i]->getText().c_str());
 
-      children[i]->setPosition(Mocha::Vector2(0.0f, 0.0f));
-      children[i]->setSize(_topbar->getClientRectangle().getSize());
+      children[i]->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
+      children[i]->setSize(buttonSize);
     }
   }
 
@@ -134,8 +134,16 @@ void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
     _topbar->setBorderVisible(false);
     _topbar->show();
 
-    // create new button in the "topbar"
-    RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
+    RBGui::ButtonWidget* b = 0;
+
+    // "quit" button in the "topbar"
+    b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
+    b->setName("Quit Button");
+    b->setText("Quit");
+    b->setCallback(&GuiWindowManager::callbackQuitMouseReleased, this, "onMouseReleased");
+
+    // "fullscreen" button in the "topbar"
+    b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
     b->setName("Fullscreen Button");
     b->setText("Fullscreen");
     b->setCallback(&GuiWindowManager::callbackFullscreenMouseReleased, this, "onMouseReleased");
@@ -176,12 +184,17 @@ const std::vector<GuiBaseWindow*>& GuiWindowManager::getWindowList() const
   return _windowList;
 }
 
-void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
+void GuiWindowManager::callbackQuitMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+{
+  Application::instance().quit();
+}
+
+void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
   Application::instance().toggleFullscreen();
 }
 
-void GuiWindowManager::callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
+void GuiWindowManager::callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& /* vData */)
 {
   RBGui::ButtonWidget* activeButton = static_cast<RBGui::ButtonWidget*>(&vElement);
   Logger::logDEBUG("button clicked: '%s'", activeButton->getText().c_str());
