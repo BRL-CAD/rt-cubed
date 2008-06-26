@@ -17,6 +17,7 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
+
 /** @file GuiConsole.h
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -72,20 +73,19 @@ private:
    * which inherits this one */
   RBGui::Window* _mainWin;
   /** Prompt of the console, to enter commands */
-  RBGui::TextEntryWidget* _consolePrompt;
-  /**
-   * Panel of the console, to show text (information, commands
-   * entered, etc)
-   */
-  RBGui::TextWidget* _consolePanel;
+  RBGui::TextEntryWidget* _prompt;
+  /** Panel of the console, to show text (information, commands
+   * entered, etc) */
+  RBGui::TextWidget* _panel;
 
-  /** Callback for "KeyPressed" in console prompt */
+  /** Callback for "KeyPressed" in prompt */
   void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "FocusRecieved" [sic] in prompt */
   void callbackFocusReceived(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 
 #endif
+
 
 // Local Variables: ***
 // mode: C++ ***

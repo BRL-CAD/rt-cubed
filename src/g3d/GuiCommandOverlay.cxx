@@ -48,7 +48,7 @@
  * GuiCommandOverlay
  ******************************************************************************/
 GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
-  GuiBaseWindow(guiMgr, false), _mainWin(0), _commandPrompt(0)
+  GuiBaseWindow(guiMgr, false), _mainWin(0), _prompt(0)
 {
   // creating windows and widgets
   _mainWin = _guiMgr.createWindow();
@@ -64,13 +64,13 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
   // _mainWin->show();
   GuiBaseWindow::setMainWindow(_mainWin);
 
-  _commandPrompt = static_cast<RBGui::TextEntryWidget*>(_mainWin->createWidget("TextEntry"));
-  _commandPrompt->setName("CommandPrompt");
+  _prompt = static_cast<RBGui::TextEntryWidget*>(_mainWin->createWidget("TextEntry"));
+  _prompt->setName("CommandPrompt");
 
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
   _mainWin->setCallback(&GuiCommandOverlay::callbackFocusReceived, this, "FocusRecieved");
-  _commandPrompt->setCallback(&GuiCommandOverlay::callbackPromptKeyPressed, this, "onKeyPressed");
+  _prompt->setCallback(&GuiCommandOverlay::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
   History::instance().registerListener(this);
@@ -79,7 +79,7 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
 GuiCommandOverlay::~GuiCommandOverlay()
 {
   History::instance().unregisterListener(this);
-  delete _commandPrompt; _commandPrompt = 0;
+  delete _prompt; _prompt = 0;
   delete _mainWin; _mainWin = 0;
 }
 
@@ -93,13 +93,13 @@ void GuiCommandOverlay::resize(float contentLeft, float contentTop, float conten
 
   const Mocha::Rectangle& contentRect = _mainWin->getClientRectangle();
 
-  _commandPrompt->setPosition(Mocha::Vector2(0.0f, 0.0f));
-  _commandPrompt->setSize(contentRect.getSize());
+  _prompt->setPosition(Mocha::Vector2(0.0f, 0.0f));
+  _prompt->setSize(contentRect.getSize());
 }
 
 void GuiCommandOverlay::indexChanged(const std::string& entry)
 {
-  _commandPrompt->setText(entry);
+  _prompt->setText(entry);
 }
 
 void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
@@ -112,10 +112,10 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, co
   switch (key) {
     case OIS::KC_RETURN:
       // return key -- insert in history
-      cmd = _commandPrompt->getText();
+      cmd = _prompt->getText();
       if (cmd.length() > 0) {
 	History::instance().insert(cmd.c_str());
-	_commandPrompt->setText("");
+	_prompt->setText("");
       } else {
 	// return pressed, but empty command
       }
@@ -129,7 +129,7 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, co
       } else if (key == OIS::KC_DOWN) {
 	cmd = History::instance().getNext();
       }
-      _commandPrompt->setText(cmd);
+      _prompt->setText(cmd);
       break;
     default:
       // nothing
@@ -139,7 +139,7 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, co
 
 void GuiCommandOverlay::callbackFocusReceived(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
-  _mainWin->setFocused(_commandPrompt);
+  _mainWin->setFocused(_prompt);
 }
 
 

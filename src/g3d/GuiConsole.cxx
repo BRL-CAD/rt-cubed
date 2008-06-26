@@ -48,10 +48,11 @@
  * GuiConsole
  ******************************************************************************/
 GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
-  GuiBaseWindow(guiMgr, false), _mainWin(0), _consolePrompt(0), _consolePanel(0)
+  GuiBaseWindow(guiMgr, false), _mainWin(0), _prompt(0), _panel(0)
 {
   // creating windows and widgets
   _mainWin = _guiMgr.createWindow();
+  // _mainWin->setTheme("brlcad_translucent.theme");
   _mainWin->setName("Console");
   _mainWin->setText("Console");
   _mainWin->setCloseable(false);
@@ -61,19 +62,20 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   //_mainWin->show();
   GuiBaseWindow::setMainWindow(_mainWin);
 
-  _consolePanel = static_cast<RBGui::TextWidget*>(_mainWin->createWidget("Text"));
-  _consolePanel->setName("ConsolePanel");
-  _consolePanel->setVerticalTextAlignment(RBGui::TEXTALIGN_BOTTOM);
-  _consolePanel->setText("Console started.");
-  _consolePanel->setWrap(true);
+  _panel = static_cast<RBGui::TextWidget*>(_mainWin->createWidget("Text"));
+  _panel->setName("ConsolePanel");
+  _panel->setVerticalTextAlignment(RBGui::TEXTALIGN_BOTTOM);
+  _panel->setText("Console started.");
+  _panel->setWrap(true);
+  _panel->setScrollable(true);
 
-  _consolePrompt = static_cast<RBGui::TextEntryWidget*>(_mainWin->createWidget("TextEntry"));
-  _consolePrompt->setName("ConsolePrompt");
+  _prompt = static_cast<RBGui::TextEntryWidget*>(_mainWin->createWidget("TextEntry"));
+  _prompt->setName("ConsolePrompt");
 
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
   _mainWin->setCallback(&GuiConsole::callbackFocusReceived, this, "FocusRecieved");
-  _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
+  _prompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
   History::instance().registerListener(this);
@@ -82,8 +84,8 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
 GuiConsole::~GuiConsole()
 {
   History::instance().unregisterListener(this);
-  delete _consolePrompt; _consolePrompt = 0;
-  delete _consolePanel; _consolePanel = 0;
+  delete _prompt; _prompt = 0;
+  delete _panel; _panel = 0;
   delete _mainWin; _mainWin = 0;
 }
 
@@ -95,25 +97,25 @@ void GuiConsole::resize(float contentLeft, float contentTop, float contentWidth,
 
   const float promptHeight = 18.0f;
   const Mocha::Rectangle& contentRect = _mainWin->getClientRectangle();
-  Mocha::Vector2 consolePanelSize = contentRect.getSize();
-  consolePanelSize.y -= promptHeight;
+  Mocha::Vector2 panelSize = contentRect.getSize();
+  panelSize.y -= promptHeight;
 
-  _consolePanel->setPosition(Mocha::Vector2(0.0f, 0.00f));
-  _consolePanel->setSize(consolePanelSize);
+  _panel->setPosition(Mocha::Vector2(0.0f, 0.00f));
+  _panel->setSize(panelSize);
 
-  _consolePrompt->setPosition(Mocha::Vector2(0.0f, consolePanelSize.y));
-  _consolePrompt->setSize(Mocha::Vector2(consolePanelSize.x, promptHeight));
+  _prompt->setPosition(Mocha::Vector2(0.0f, panelSize.y));
+  _prompt->setSize(Mocha::Vector2(panelSize.x, promptHeight));
 }
 
 void GuiConsole::addedEntry(const std::string& entry)
 {
-  _consolePanel->setText(_consolePanel->getText() + "\n" + entry);
-  _consolePrompt->setText("");
+  _panel->setText(_panel->getText() + "\n" + entry);
+  _prompt->setText("");
 }
 
 void GuiConsole::indexChanged(const std::string& entry)
 {
-  _consolePrompt->setText(entry);
+  _prompt->setText(entry);
 }
 
 void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
@@ -126,10 +128,10 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
   switch (key) {
     case OIS::KC_RETURN:
       // return key -- insert in history
-      cmd = _consolePrompt->getText();
+      cmd = _prompt->getText();
       if (cmd.length() > 0) {
 	History::instance().insert(cmd.c_str());
-	_consolePrompt->setText("");
+	_prompt->setText("");
       } else {
 	// return pressed, but empty command
       }
@@ -142,7 +144,7 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
       } else if (key == OIS::KC_DOWN) {
 	cmd = History::instance().getNext();
       }
-      _consolePrompt->setText(cmd);
+      _prompt->setText(cmd);
       break;
     default:
       // nothing
@@ -152,7 +154,7 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
 
 void GuiConsole::callbackFocusReceived(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
-  _mainWin->setFocused(_consolePrompt);
+  _mainWin->setFocused(_prompt);
 }
 
 

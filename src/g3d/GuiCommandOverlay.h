@@ -67,9 +67,9 @@ private:
    * which inherits this one */
   RBGui::Window* _mainWin;
   /** Prompt to enter commands */
-  RBGui::TextEntryWidget* _commandPrompt;
+  RBGui::TextEntryWidget* _prompt;
 
-  /** Callback for "KeyPressed" in console prompt */
+  /** Callback for "KeyPressed" in prompt */
   void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "FocusRecieved" [sic] in prompt */
   void callbackFocusReceived(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
