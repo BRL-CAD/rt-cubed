@@ -84,6 +84,7 @@ std::string History::getNext()
   } else {
     // when "returning" from history (we past the most recent typed),
     // the prompt is cleared
+    _index = _lines.size();
   }
 
   // notify listeners
