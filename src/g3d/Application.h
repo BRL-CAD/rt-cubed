@@ -121,16 +121,18 @@ private:
 
   /** Default constructor */
   Application();
+  /** Initialize resources, create windows, etc */
+  void initialize();
   /** Finalize -- free resources and the like (destructor not usable
    * with Singletons) */
   void finalize();
-
-  void initialize();
-
-  void setupInput();
-
+  /** New discrete step */
   void tick(float delta);
 
+
+  /*****************************************************************************
+   * TESTING CODE AHEAD
+   ****************************************************************************/
   void createTestingWindows();
 
   void fileSelected(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
@@ -143,6 +145,7 @@ private:
 };
 
 #endif
+
 
 // Local Variables: ***
 // mode: C++ ***

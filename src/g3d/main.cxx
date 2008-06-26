@@ -17,6 +17,7 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
+
 /** @file main.cxx
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>

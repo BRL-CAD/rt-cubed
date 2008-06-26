@@ -303,12 +303,12 @@ void Application::initialize()
     // Go through all sections & settings in the file
     Ogre::ConfigFile::SectionIterator seci = config.getSectionIterator();
     while (seci.hasMoreElements()) {
-      Ogre::String secName = seci.peekNextKey();
+      const Ogre::String& secName = seci.peekNextKey();
       Ogre::ConfigFile::SettingsMultiMap* settings = seci.getNext();
       for (Ogre::ConfigFile::SettingsMultiMap::iterator i = settings->begin();
 	   i != settings->end(); ++i) {
-	Ogre::String typeName = i->first;
-	Ogre::String archName = i->second;
+	const Ogre::String& typeName = i->first;
+	const Ogre::String& archName = i->second;
 
 	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
       }
@@ -361,7 +361,33 @@ void Application::initialize()
   _guiManager->setDefaultWindowFader("Simple");
 
   // Setup all the input stuff
-  setupInput();
+  {
+    size_t data;
+    _renderWindow->getCustomAttribute("WINDOW", &data);
+
+    ostringstream windowString;
+    windowString << data;
+
+    OIS::ParamList paramList;
+    paramList.insert(make_pair(string("WINDOW"), windowString.str()));
+#if defined(WIN32)
+    paramList.insert(make_pair(string("w32_mouse"), string("DISCL_FOREGROUND")));
+    paramList.insert(make_pair(string("w32_mouse"), string("DISCL_NONEXCLUSIVE")));
+    paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_FOREGROUND")));
+    paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_NONEXCLUSIVE")));
+#else
+    paramList.insert(make_pair(string("XAutoRepeatOn"), string("true")));
+#endif
+
+    // Create input object using parameter list, then keyboard and mouse
+    _inputManager = OIS::InputManager::createInputSystem(paramList);
+    _mouseListener = new MouseListener(*this, *_guiManager);
+    _mouse = static_cast<OIS::Mouse*>(_inputManager->createInputObject(OIS::OISMouse, true));
+    _mouse->setEventCallback(_mouseListener);
+    _keyListener = new KeyListener(*this, *_guiManager);
+    _keyboard = static_cast<OIS::Keyboard*>(_inputManager->createInputObject(OIS::OISKeyboard, true));
+    _keyboard->setEventCallback(_keyListener);
+  }
 
   // Set the cursor manager to use -- after setting mouse and so on
   _guiManager->setCursorManager(bcursorManager);
@@ -386,7 +412,7 @@ void Application::initialize()
 
 void Application::finalize()
 {
-  Logger::logINFO("Application being destroyed");
+  Logger::logINFO("Application being destroyed...");
 
   // Destroy OIS
   Logger::logINFO("Freeing OIS resources");
@@ -442,36 +468,6 @@ void Application::finalize()
   Logger::logINFO("Application stopped.");
 }
 
-void Application::setupInput()
-{
-  // Setup param list
-  size_t data;
-  _renderWindow->getCustomAttribute("WINDOW", &data);
-
-  ostringstream windowString;
-  windowString << data;
-
-  OIS::ParamList paramList;
-  paramList.insert(make_pair(string("WINDOW"), windowString.str()));
-#if defined(WIN32)
-  paramList.insert(make_pair(string("w32_mouse"), string("DISCL_FOREGROUND")));
-  paramList.insert(make_pair(string("w32_mouse"), string("DISCL_NONEXCLUSIVE")));
-  paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_FOREGROUND")));
-  paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_NONEXCLUSIVE")));
-#elif defined(POSIX)
-  paramList.insert(make_pair(string("XAutoRepeatOn"), string("true")));
-#endif
-
-  // Create input object using parameter list, then keyboard and mouse
-  _inputManager = OIS::InputManager::createInputSystem(paramList);
-  _mouseListener = new MouseListener(*this, *_guiManager);
-  _mouse = static_cast<OIS::Mouse*>(_inputManager->createInputObject(OIS::OISMouse, true));
-  _mouse->setEventCallback(_mouseListener);
-  _keyListener = new KeyListener(*this, *_guiManager);
-  _keyboard = static_cast<OIS::Keyboard*>(_inputManager->createInputObject(OIS::OISKeyboard, true));
-  _keyboard->setEventCallback(_keyListener);
-}
-
 void Application::tick(float delta)
 {
   // If window was closed, we need to exit
@@ -507,7 +503,6 @@ void Application::tick(float delta)
     usleep(100*1000); // in microseconds
   }
 }
-
 
 void Application::run()
 {
