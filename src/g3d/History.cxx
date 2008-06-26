@@ -36,9 +36,9 @@ History* History::INSTANCE = 0;
 
 History& History::instance()
 {
-        if (!INSTANCE)
-                INSTANCE = new History();
-        return *INSTANCE;
+  if (!INSTANCE)
+    INSTANCE = new History();
+  return *INSTANCE;
 }
 
 History::History() :

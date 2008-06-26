@@ -270,9 +270,9 @@ Application* Application::INSTANCE = 0;
 
 Application& Application::instance()
 {
-        if (!INSTANCE)
-                INSTANCE = new Application();
-        return *INSTANCE;
+  if (!INSTANCE)
+    INSTANCE = new Application();
+  return *INSTANCE;
 }
 
 Application::Application() :
