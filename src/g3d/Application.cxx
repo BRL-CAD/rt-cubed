@@ -377,6 +377,8 @@ void Application::initialize()
     paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_NONEXCLUSIVE")));
 #else
     paramList.insert(make_pair(string("XAutoRepeatOn"), string("true")));
+    paramList.insert(make_pair(string("x11_keyboard_grab"), string("false")));
+    paramList.insert(make_pair(string("x11_mouse_grab"), string("false")));
 #endif
 
     // Create input object using parameter list, then keyboard and mouse
