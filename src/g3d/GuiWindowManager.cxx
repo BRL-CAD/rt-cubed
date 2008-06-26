@@ -86,7 +86,8 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
     const RBGui::WidgetList& children = _topbar->getRoot()->getChildren();
 
     Mocha::Vector2 buttonSize(_topbar->getClientRectangle().getSize());
-    buttonSize.x /= static_cast<float>(children.size());
+    if (children.size() > 0)
+      buttonSize.x /= children.size();
 
     for (size_t i = 0; i < children.size(); ++i) {
       Logger::logDEBUG("_topbar children: '%s':'%s'",
@@ -104,11 +105,13 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
     _taskbar->setSize(Mocha::Vector2(rwWidth, taskbarHeight));
 
     Mocha::Vector2 buttonSize(_taskbar->getClientRectangle().getSize());
-    buttonSize.x /= static_cast<float>(_windowButtons.size());
-    for (size_t i = 0; i < _windowButtons.size(); ++i) {
-      RBGui::ButtonWidget* b = _windowButtons[i];
-      b->setPosition(Mocha::Vector2(i*buttonSize.x, 0.0f));
-      b->setSize(buttonSize);
+    if (_windowButtons.size() > 0) {
+      buttonSize.x /= _windowButtons.size();
+      for (size_t i = 0; i < _windowButtons.size(); ++i) {
+	RBGui::ButtonWidget* b = _windowButtons[i];
+	b->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
+	b->setSize(buttonSize);
+      }
     }
   }
 
@@ -136,17 +139,29 @@ void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
 
     RBGui::ButtonWidget* b = 0;
 
-    // "quit" button in the "topbar"
+    // "quit" button
     b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
     b->setName("Quit Button");
     b->setText("Quit");
     b->setCallback(&GuiWindowManager::callbackQuitMouseReleased, this, "onMouseReleased");
 
-    // "fullscreen" button in the "topbar"
+    // "fullscreen" button (toggle)
     b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
     b->setName("Fullscreen Button");
     b->setText("Fullscreen");
     b->setCallback(&GuiWindowManager::callbackFullscreenMouseReleased, this, "onMouseReleased");
+
+    // "command overlay" button (toggle visibility)
+    b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
+    b->setName("Command Overlay Button");
+    b->setText("Command");
+    b->setCallback(&GuiWindowManager::callbackCommandMouseReleased, this, "onMouseReleased");
+
+    // "console" button (toggle visibility)
+    b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
+    b->setName("Console Button");
+    b->setText("Console");
+    b->setCallback(&GuiWindowManager::callbackConsoleMouseReleased, this, "onMouseReleased");
   }
 
   // creating taskbar
@@ -166,13 +181,16 @@ void GuiWindowManager::registerWindow(GuiBaseWindow* w)
 {
   const char* name = w->getName().c_str();
   Logger::logDEBUG("GuiWindowManager::registerWindow(%s)", name);
-  _windowList.push_back(w);
 
-  // create new button in the "taskbar"
-  RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_taskbar->createWidget("Button"));
-  b->setText(name);
-  b->setCallback(&GuiWindowManager::callbackButtonMouseReleased, this, "onMouseReleased");
-  _windowButtons.push_back(b);
+//  if (w->getPresentInTaskbar()) {
+    _windowList.push_back(w);
+
+    // create new button in the "taskbar"
+    RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_taskbar->createWidget("Button"));
+    b->setText(name);
+    b->setCallback(&GuiWindowManager::callbackButtonMouseReleased, this, "onMouseReleased");
+    _windowButtons.push_back(b);
+//  }
 
   // set size initially -- have to recalculate everything due to
   // static panels and so on, better than duplicate code here
@@ -184,6 +202,22 @@ const std::vector<GuiBaseWindow*>& GuiWindowManager::getWindowList() const
   return _windowList;
 }
 
+void GuiWindowManager::toggleWindowVisibilityAndFocus(const char* name)
+{
+  RBGui::Window* w = _guiManager->findWindow(name);
+  if (w) {
+    // toggle visibility
+    if (w->getState() == RBGui::WINDOWSTATE_HIDDEN) {
+      w->show();
+      _guiManager->setFocused(w);
+    } else {
+      w->hide();
+    }
+  } else {
+    Logger::logERROR("'%s' window not found", name);
+  }
+}
+
 void GuiWindowManager::callbackQuitMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
   Application::instance().quit();
@@ -192,6 +226,18 @@ void GuiWindowManager::callbackQuitMouseReleased(RBGui::GuiElement& /* vElement 
 void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
   Application::instance().toggleFullscreen();
+}
+
+void GuiWindowManager::callbackCommandMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+{
+  const char* name = "Command Overlay";
+  toggleWindowVisibilityAndFocus(name);
+}
+
+void GuiWindowManager::callbackConsoleMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+{
+  const char* name = "Console";
+  toggleWindowVisibilityAndFocus(name);
 }
 
 void GuiWindowManager::callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& /* vData */)

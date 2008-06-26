@@ -87,10 +87,17 @@ private:
   /** Default constructor */
   GuiWindowManager();
 
-  /** Callback for "MouseReleased" in the quit button */
+  /** Toggle Window visibility */
+  void toggleWindowVisibilityAndFocus(const char* name);
+
+  /** Callback for "MouseReleased" in the Quit button */
   void callbackQuitMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
-  /** Callback for "MouseReleased" in the fullscreen button */
+  /** Callback for "MouseReleased" in the Fullscreen button */
   void callbackFullscreenMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  /** Callback for "MouseReleased" in the CommandOverlay button */
+  void callbackCommandMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  /** Callback for "MouseReleased" in the Console button */
+  void callbackConsoleMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "MouseReleased" in the taskbar buttons */
   void callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
