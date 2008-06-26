@@ -61,8 +61,8 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
   // _mainWin->setBorderVisible(false);
   // _mainWin->setOpacity(0.8f);
   // _mainWin->setFader(new RBGui::SimpleWindowFader());
-  // _mainWin->setModal(true);
-  _mainWin->show();
+  _mainWin->setModal(true);
+  // _mainWin->show();
   GuiBaseWindow::setMainWindow(_mainWin);
 
   _commandPrompt = static_cast<RBGui::TextEntryWidget*>(_mainWin->createWidget("TextEntry"));
@@ -119,6 +119,7 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, co
       } else {
 	// return pressed, but empty command
       }
+      _mainWin->hide();
       break;
     case OIS::KC_UP:
     case OIS::KC_DOWN:
