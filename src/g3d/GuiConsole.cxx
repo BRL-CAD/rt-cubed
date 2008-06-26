@@ -57,8 +57,8 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   _mainWin->setCloseable(false);
   _mainWin->setMovable(false);
   _mainWin->setResizeable(false);
-  // _mainWin->setBorderVisible(false);
-  _mainWin->show();
+  _mainWin->setBorderVisible(false);
+  //_mainWin->show();
   GuiBaseWindow::setMainWindow(_mainWin);
 
   _consolePanel = static_cast<RBGui::TextWidget*>(_mainWin->createWidget("Text"));
@@ -72,6 +72,7 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
 
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
+  _mainWin->setCallback(&GuiConsole::callbackFocusReceived, this, "FocusRecieved");
   _consolePrompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
@@ -128,7 +129,6 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
       cmd = _consolePrompt->getText();
       if (cmd.length() > 0) {
 	History::instance().insert(cmd.c_str());
-	_consolePanel->setText(_consolePanel->getText() + "\n" + cmd);
 	_consolePrompt->setText("");
       } else {
 	// return pressed, but empty command
@@ -148,6 +148,11 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Moc
       // nothing
       ;
   }
+}
+
+void GuiConsole::callbackFocusReceived(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+{
+  _mainWin->setFocused(_consolePrompt);
 }
 
 

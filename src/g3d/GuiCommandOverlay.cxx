@@ -33,7 +33,6 @@
 #include <OGRE/OgreWindowEventUtilities.h>
 #include <RBGui/GuiDefines.h>
 #include <RBGui/GuiManager.h>
-#include <RBGui/SimpleWindowFader.h>
 #include <RBGui/Window.h>
 #include <RBGui/Widgets/TextWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
@@ -55,12 +54,12 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
   _mainWin = _guiMgr.createWindow();
   _mainWin->setName("Command Overlay");
   _mainWin->setText("Command:");
-  _mainWin->setCloseable(false);
+  _mainWin->setHideOnClose(true);
+  _mainWin->setCloseable(true);
   _mainWin->setMovable(false);
   _mainWin->setResizeable(false);
   // _mainWin->setBorderVisible(false);
   // _mainWin->setOpacity(0.8f);
-  // _mainWin->setFader(new RBGui::SimpleWindowFader());
   _mainWin->setModal(true);
   // _mainWin->show();
   GuiBaseWindow::setMainWindow(_mainWin);
@@ -70,6 +69,7 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
 
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
+  _mainWin->setCallback(&GuiCommandOverlay::callbackFocusReceived, this, "FocusRecieved");
   _commandPrompt->setCallback(&GuiCommandOverlay::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
@@ -135,6 +135,11 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, co
       // nothing
       ;
   }
+}
+
+void GuiCommandOverlay::callbackFocusReceived(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+{
+  _mainWin->setFocused(_commandPrompt);
 }
 
 

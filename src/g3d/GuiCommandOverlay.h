@@ -71,6 +71,8 @@ private:
 
   /** Callback for "KeyPressed" in console prompt */
   void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  /** Callback for "FocusRecieved" [sic] in prompt */
+  void callbackFocusReceived(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 };
 
 #endif
