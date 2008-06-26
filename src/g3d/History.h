@@ -46,10 +46,10 @@ class HistoryListener
 {
 public:
   /** Called when a new entry is added */
-  virtual void addedEntry(const std::string& entry) { }
+  virtual void addedEntry(const std::string& /* entry */) { }
   /** Called when the internal index changes, so it points to a
    * different entry */
-  virtual void indexChanged(const std::string& entry) { }
+  virtual void indexChanged(const std::string& /* entry */) { }
 };
 
 
