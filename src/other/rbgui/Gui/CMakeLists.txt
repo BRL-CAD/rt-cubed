@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 2.2)
 PROJECT(RBGUI)
 
 #Find the requirements
