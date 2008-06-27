@@ -96,8 +96,7 @@ void GuiConsole::resize(float contentLeft, float contentTop, float contentWidth,
   _mainWin->setSize(Mocha::Vector2(contentWidth, contentHeight*0.3f));
 
   const float promptHeight = 18.0f;
-  const Mocha::Rectangle& contentRect = _mainWin->getClientRectangle();
-  Mocha::Vector2 panelSize = contentRect.getSize();
+  Mocha::Vector2 panelSize = _mainWin->getClientRectangle().getSize();
   panelSize.y -= promptHeight;
 
   _panel->setPosition(Mocha::Vector2(0.0f, 0.00f));

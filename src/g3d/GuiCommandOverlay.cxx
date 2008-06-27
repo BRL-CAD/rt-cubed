@@ -91,10 +91,8 @@ void GuiCommandOverlay::resize(float contentLeft, float contentTop, float conten
 				       contentTop + ((contentHeight-promptHeight)/2.0f)));
   _mainWin->setSize(Mocha::Vector2(contentWidth*0.9f, promptHeight));
 
-  const Mocha::Rectangle& contentRect = _mainWin->getClientRectangle();
-
   _prompt->setPosition(Mocha::Vector2(0.0f, 0.0f));
-  _prompt->setSize(contentRect.getSize());
+  _prompt->setSize(_mainWin->getClientRectangle().getSize());
 }
 
 void GuiCommandOverlay::indexChanged(const std::string& entry)
