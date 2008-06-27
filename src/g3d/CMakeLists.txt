@@ -73,7 +73,7 @@ FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/RBGui/themes")
 PluginFolder=${PC_OGREPLUGIN_DIR}
 Plugin=RenderSystem_GL
 Plugin=Plugin_OctreeSceneManager")
-  file(GLOB OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/*.cfg)
+  set(OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/resources.cfg ${PROJECT_BINARY_DIR}/ogreplugins.cfg)
 
   install( TARGETS ${PROGNAME} DESTINATION bin )
   install( FILES ${RBGUI_FILES} ${OGRE_CFG_FILES} DESTINATION share/g3d )
