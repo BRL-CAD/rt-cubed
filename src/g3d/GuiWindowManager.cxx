@@ -105,10 +105,10 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
     _taskbar->setSize(Mocha::Vector2(rwWidth, taskbarHeight));
 
     Mocha::Vector2 buttonSize(_taskbar->getClientRectangle().getSize());
-    if (_windowButtons.size() > 0) {
-      buttonSize.x /= _windowButtons.size();
-      for (size_t i = 0; i < _windowButtons.size(); ++i) {
-	RBGui::ButtonWidget* b = _windowButtons[i];
+    if (_taskbarButtons.size() > 0) {
+      buttonSize.x /= _taskbarButtons.size();
+      for (size_t i = 0; i < _taskbarButtons.size(); ++i) {
+	RBGui::ButtonWidget* b = _taskbarButtons[i];
 	b->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
 	b->setSize(buttonSize);
       }
@@ -189,7 +189,7 @@ void GuiWindowManager::registerWindow(GuiBaseWindow* w)
     RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_taskbar->createWidget("Button"));
     b->setText(name);
     b->setCallback(&GuiWindowManager::callbackButtonMouseReleased, this, "onMouseReleased");
-    _windowButtons.push_back(b);
+    _taskbarButtons.push_back(b);
 //  }
 
   // set size initially -- have to recalculate everything due to
@@ -244,8 +244,8 @@ void GuiWindowManager::callbackButtonMouseReleased(RBGui::GuiElement& vElement, 
 {
   RBGui::ButtonWidget* activeButton = static_cast<RBGui::ButtonWidget*>(&vElement);
   Logger::logDEBUG("button clicked: '%s'", activeButton->getText().c_str());
-  for (size_t i = 0; i < _windowButtons.size(); ++i) {
-    RBGui::ButtonWidget* button = _windowButtons[i];
+  for (size_t i = 0; i < _taskbarButtons.size(); ++i) {
+    RBGui::ButtonWidget* button = _taskbarButtons[i];
     if (button == activeButton) {
       button->setEnabled(false);
     } else {

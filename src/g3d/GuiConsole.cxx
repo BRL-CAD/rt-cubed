@@ -24,13 +24,11 @@
  *
  * @brief
  *	Implementation of the GUI Console class of 3D Geometry Editor
- *	(g3d), along with some internal classes.
+ *	(g3d).
  */
 
 #include <OIS/OISKeyboard.h>
 #include <OGRE/OgreRenderWindow.h>
-#include <OGRE/OgreRoot.h>
-#include <OGRE/OgreWindowEventUtilities.h>
 #include <RBGui/GuiDefines.h>
 #include <RBGui/GuiManager.h>
 #include <RBGui/Window.h>
@@ -74,7 +72,7 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
 
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
-  _mainWin->setCallback(&GuiConsole::callbackFocusReceived, this, "FocusRecieved");
+  _mainWin->setCallback(&GuiConsole::callbackFocusReceived, this, "FocusRecieved"); // recieved [sic]
   _prompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
@@ -91,15 +89,17 @@ GuiConsole::~GuiConsole()
 
 void GuiConsole::resize(float contentLeft, float contentTop, float contentWidth, float contentHeight)
 {
+  // main window
   _mainWin->setPosition(Mocha::Vector2(contentLeft,
 				       contentTop + (contentHeight*0.7f)));
   _mainWin->setSize(Mocha::Vector2(contentWidth, contentHeight*0.3f));
 
+  // widgets
   const float promptHeight = 18.0f;
   Mocha::Vector2 panelSize = _mainWin->getClientRectangle().getSize();
   panelSize.y -= promptHeight;
 
-  _panel->setPosition(Mocha::Vector2(0.0f, 0.00f));
+  _panel->setPosition(Mocha::Vector2(0.0f, 0.0f));
   _panel->setSize(panelSize);
 
   _prompt->setPosition(Mocha::Vector2(0.0f, panelSize.y));
@@ -117,7 +117,7 @@ void GuiConsole::indexChanged(const std::string& entry)
   _prompt->setText(entry);
 }
 
-void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
+void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& vData)
 {
   /// \note mafm: should be synchronized with CommandOverlay, to avoid
   /// inconsistencies

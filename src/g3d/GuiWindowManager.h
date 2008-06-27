@@ -79,15 +79,14 @@ private:
 
   /** List of windows that are registered in the taskbar */
   std::vector<GuiBaseWindow*> _windowList;
-
   /** List of windows buttons that are displayed in the panel */
-  std::vector<RBGui::ButtonWidget*> _windowButtons;
+  std::vector<RBGui::ButtonWidget*> _taskbarButtons;
 
 
   /** Default constructor */
   GuiWindowManager();
 
-  /** Toggle Window visibility */
+  /** Toggle Window visibility and set to focused when visible */
   void toggleWindowVisibilityAndFocus(const char* name);
 
   /** Callback for "MouseReleased" in the Quit button */

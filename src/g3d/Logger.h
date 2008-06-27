@@ -1,4 +1,4 @@
-/*
+/*                        L O G G E R . H
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by the
@@ -24,6 +24,25 @@
  *
  * @brief
  *	Logging facilities for the application.
+ *
+ * This class sets the interface for the Logging facilities in the
+ * application.
+ *
+ * \note The idea is that, since it would be used anywhere, it should be
+ * handy and simple to use, and thus it uses the traditional printf()
+ * syntax.  Additionally, it's not longer to write
+ * 'Logger.logDEBUG(msg)' that 'printf("DEBUG: msg")' (and I was even
+ * tempted to reduce it to 'Log.DEBUG(msg)'); so people don't really
+ * have excuses to start using rogue std::cout and printf() around
+ * even for debugging purposes.
+ *
+ * \note That's also the reason why it uses static methods -- to avoid
+ * having to introduce the getInstance() in the middle and make it
+ * longer, as in the somewhat ridiculous
+ * 'Ogre::LogManager::getSingletonPtr()->logMessage(msg, level)', and
+ * having to format the message separately.  That way is painful to
+ * use, and induces to use simpler printf()s and std::cout's that
+ * remain there forever.
  */
 
 #ifndef __G3D_LOGGER_H__

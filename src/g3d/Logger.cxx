@@ -1,4 +1,4 @@
-/*
+/*                        L O G G E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by the
@@ -18,6 +18,14 @@
  * information.
  */
 
+/** @file Logger.cxx
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * @brief
+ *	Implementation of logging facilities.
+ */
+
 #include <cstdarg>
 #include <ctime>
 #include <cstdio>
@@ -27,9 +35,11 @@
 
 using namespace std;
 
-// Max length for log messages
+/// Max length for log messages
 const int LOGSTR_LENGTH = 255;
-// Macro to parse printf-like arguments of a method into fixed string
+/// Max length for timestamps (until Y10K, that is :) )
+const size_t TIMESTAMP_LENGTH = sizeof("YYYYmmdd HH:MM:SS");
+/// Macro to parse printf-like arguments of a method into fixed string
 #define VARARG_PARSE() \
   va_list arg;\
   va_start(arg, msg);\
@@ -38,6 +48,9 @@ const int LOGSTR_LENGTH = 255;
   va_end(arg);
 
 
+/*******************************************************************************
+ * Logger
+ ******************************************************************************/
 Logger::Level Logger::_levelFilter = Logger::DEBUG;
 
 void Logger::setLevelFilter(Level level)
@@ -79,7 +92,7 @@ void Logger::log(Level level, const char* msg)
 {
   // log it only if it's equal or above the configured level
   if (level >= _levelFilter) {
-    char ts[sizeof("YYYYmmdd HH:MM:SS")];
+    char ts[TIMESTAMP_LENGTH];
     time_t now = time(0);
     strftime(ts, sizeof(ts), "%Y%m%d %H:%M:%S", localtime(&now));
     char fullMsg[LOGSTR_LENGTH] = { 0 };

@@ -23,7 +23,7 @@
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * @brief
- *	History functionality for GuiConsole.
+ *	History functionality for Console-like windows.
  */
 
 #ifndef __G3D_HISTORY_H__
@@ -54,14 +54,14 @@ public:
 
 
 /**
- * @brief Implements History service for the Console
+ * @brief Implements History service for the Console-like windows
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * The class store the commands the user has entered into the
- * entrybox/prompt of the console window.  It keeps all of them in
- * memory (it's not supposed to represent huge amounts), in sequential
- * order.
+ * entrybox/prompt of the console or similar windows.  It keeps all of
+ * them in memory (it's not supposed to represent huge amounts), in
+ * sequential order, and it's not saved when the program finishes.
  */
 class History
 {
@@ -90,7 +90,7 @@ private:
 
   /** Array of strings to store our history */
   std::vector<std::string> _lines;
-  /** Pointer to the current line */
+  /** Pointer to the current entry */
   size_t _index;
   /** Set of listeners for History events  */
   std::vector<HistoryListener*> _listeners;

@@ -1,4 +1,4 @@
-/*
+/*                  A P P L I C A T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by the
@@ -93,23 +93,37 @@ private:
   /** Singleton instance */
   static Application* INSTANCE;
 
+  /** Pointer to OGRE "application" */
   Ogre::Root* _root;
+  /** Pointer to SceneManager */
   Ogre::SceneManager* _scene;
+  /** Pointer to the camera to view the scene */
   Ogre::Camera* _camera;
+  /** Pointer to the viewport */
   Ogre::Viewport* _viewport;
+  /** Pointer to the window where all our application is rendered, in
+   * the host OS */
   Ogre::RenderWindow* _renderWindow;
 
+  /** Pointer to the mouse of the input libraries */
   OIS::Mouse* _mouse;
+  /** Pointer to the keyboard of the input libraries */
   OIS::Keyboard* _keyboard;
+  /** Pointer to the manager of the input libraries */
   OIS::InputManager* _inputManager;
 
-  MouseListener* _mouseListener;
-  KeyListener* _keyListener;
-  LostDeviceListener* _lostDeviceListener;
-
+  /** Pointer to the "application" of the GUI */
   RBGui::Core* _guiCore;
+  /** Pointer to the manager of the GUI */
   RBGui::GuiManager* _guiManager;
 
+  /** Listener for input/rendering events */
+  MouseListener* _mouseListener;
+  /** Listener for input/rendering events */
+  KeyListener* _keyListener;
+  /** Listener for input/rendering events */
+  LostDeviceListener* _lostDeviceListener;
+  /** Listener for input/rendering events */
   RBGui::OgreRenderQueueListener* _rbguiRenderListener;
 
   /** Flag to control when to stop run()ning */

@@ -41,6 +41,8 @@ namespace RBGui {
 /**
  * @brief GUI Command Overlay class of the 3D Geometry Editor.
  *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
  * This class implements the Command Overlay for the application.  It
  * lets the user to enter commands.
  */

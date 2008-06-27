@@ -24,13 +24,11 @@
  *
  * @brief
  *	Implementation of the GuiCommandOverlay class of 3D Geometry
- *	Editor (g3d), along with some internal classes.
+ *	Editor (g3d).
  */
 
 #include <OIS/OISKeyboard.h>
 #include <OGRE/OgreRenderWindow.h>
-#include <OGRE/OgreRoot.h>
-#include <OGRE/OgreWindowEventUtilities.h>
 #include <RBGui/GuiDefines.h>
 #include <RBGui/GuiManager.h>
 #include <RBGui/Window.h>
@@ -69,7 +67,7 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
 
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
-  _mainWin->setCallback(&GuiCommandOverlay::callbackFocusReceived, this, "FocusRecieved");
+  _mainWin->setCallback(&GuiCommandOverlay::callbackFocusReceived, this, "FocusRecieved"); // recieved [sic]
   _prompt->setCallback(&GuiCommandOverlay::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
@@ -87,10 +85,12 @@ void GuiCommandOverlay::resize(float contentLeft, float contentTop, float conten
 {
   const float promptHeight = 18.0f;
 
+  // main window
   _mainWin->setPosition(Mocha::Vector2(contentLeft + (contentWidth*0.05f),
 				       contentTop + ((contentHeight-promptHeight)/2.0f)));
   _mainWin->setSize(Mocha::Vector2(contentWidth*0.9f, promptHeight));
 
+  // widgets
   _prompt->setPosition(Mocha::Vector2(0.0f, 0.0f));
   _prompt->setSize(_mainWin->getClientRectangle().getSize());
 }
@@ -100,7 +100,7 @@ void GuiCommandOverlay::indexChanged(const std::string& entry)
   _prompt->setText(entry);
 }
 
-void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
+void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& vData)
 {
   /// \note mafm: should be synchronized with CommandOverlay, to avoid
   /// inconsistencies

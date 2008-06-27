@@ -22,7 +22,7 @@
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
- * @brief Base Window infrastructure.
+ * @brief Basic window infrastructure.
  *
  * File containing necessary infrastructure for windows, with common
  * functionalities that are convenient for us, so all windows within
@@ -52,22 +52,10 @@ namespace RBGui {
  */
 class GuiBaseWindow {
 public:
-  /**
-   * Default constructor
-   *
-   * @param guiMgr Link to RBGui's GuiManager
-   */
-  GuiBaseWindow(RBGui::GuiManager& guiMgr, bool inTaskbar);
-
-  /** Default destructor */
-  virtual ~GuiBaseWindow();
-
   /** Get name */
   const std::string& getName() const;
   /** Get whether this window should be present in the taskbar */
   bool getPresentInTaskbar() const;
-  /** Set Main Window */
-  void setMainWindow(RBGui::Window* w);
 
   /** Resize application (render) window when the window created by
    * the 3D engine is resized */
@@ -82,6 +70,18 @@ protected:
   /** Flag to mark whether it's a regular window and thus should be
    * present in taskbar */
   bool _presentInTaskbar;
+
+
+  /** Default constructor
+   *
+   * @param guiMgr Link to RBGui's GuiManager
+   */
+  GuiBaseWindow(RBGui::GuiManager& guiMgr, bool inTaskbar);
+  /** Default destructor */
+  virtual ~GuiBaseWindow();
+
+  /** Set Main Window */
+  void setMainWindow(RBGui::Window* w);
 };
 
 #endif

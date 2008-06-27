@@ -18,7 +18,14 @@
  * information.
  */
 
-#include <RBGui/GuiDefines.h>
+/** @file GuiBaseWindow.cxx
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * @brief Implementation of basic window infrastructure.
+ *
+ */
+
 #include <RBGui/GuiManager.h>
 #include <RBGui/Window.h>
 

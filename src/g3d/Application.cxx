@@ -1,4 +1,4 @@
-/*
+/*                  A P P L I C A T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by the
@@ -278,8 +278,9 @@ Application& Application::instance()
 Application::Application() :
   _root(0), _scene(0), _camera(0), _viewport(0), _renderWindow(0),
   _mouse(0), _keyboard(0), _inputManager(0),
-  _mouseListener(0), _keyListener(0), _lostDeviceListener(0),
-  _guiCore(0), _guiManager(0), _rbguiRenderListener(0), _quit(false)
+  _guiCore(0), _guiManager(0),
+  _mouseListener(0), _keyListener(0), _lostDeviceListener(0), _rbguiRenderListener(0),
+  _quit(false)
 {
 }
 
@@ -337,7 +338,7 @@ void Application::initialize()
 #elif defined(POSIX)
   platformManager = new RBGui::PosixPlatformManager();
 #elif defined(APPLE)
-  manager = new RBGui::MacOSPlatformManager();
+  platformManager = new RBGui::MacOSPlatformManager();
 #endif
 
   // Create the GUI manager and set the default theme
