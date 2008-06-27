@@ -14,18 +14,28 @@ set(PROGNAME "g3d")
 file(GLOB G3D_SOURCES *.cxx)
 file(GLOB G3D_HEADERS *.h)
 set(RBGUI_DIR "../../data/g3d/RBGui")
-file(WRITE resources.cfg "# Resource locations to be added to the default path
+
+# OGRE config files
+find_program(MKTEMP_EXECUTABLE NAMES mktemp PATHS /usr/local/bin /usr/bin /bin)
+if(MKTEMP_EXECUTABLE)
+  exec_program(${MKTEMP_EXECUTABLE} ARGS -d RETURN_VALUE _exitCode OUTPUT_VARIABLE _tmpdir )
+  if(_exitCode)
+    message(FATAL_ERROR "Cannot write temp directories")
+  endif(_exitCode)
+  file(WRITE _tmpdir/resources.cfg "# Resource locations to be added to the default path
 [General]
 FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/RBGui/materials/programs
 FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/RBGui/materials/scripts
 FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/RBGui/fonts
 FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/RBGui/themes")
-PKGCONFIG_WRAPPER("--variable=plugindir OGRE" PC_OGREPLUGIN_DIR PC_EXIT_CODE)
-file(WRITE ogreplugins.cfg "# Defines plugins to load
+  PKGCONFIG_WRAPPER("--variable=plugindir OGRE" PC_OGREPLUGIN_DIR PC_EXIT_CODE)
+  file(WRITE _tmpdir/ogreplugins.cfg "# Defines plugins to load
 PluginFolder=${PC_OGREPLUGIN_DIR}
 Plugin=RenderSystem_GL
 Plugin=Plugin_OctreeSceneManager")
-set(OGRE_CFG_FILES resources.cfg ogreplugins.cfg)
+  file(GLOB OGRE_CFG_FILES _tmpdir/*.cfg)
+endif(MKTEMP_EXECUTABLE)
+
 add_definitions( -DDATA_DIR='"${CMAKE_INSTALL_PREFIX}/share/g3d/"' )
 
 #include(CMakePrintSystemInformation)
@@ -77,4 +87,7 @@ else(CANNOT_BUILD)
   install( TARGETS ${PROGNAME} DESTINATION bin )
   install( FILES ${OGRE_CFG_FILES} ${RBGUI_FILES} DESTINATION share/g3d )
   install( DIRECTORY ${RBGUI_DIR} DESTINATION share/g3d PATTERN ".svn" EXCLUDE)
+
+  # cleanup
+  file(REMOVE_RECURSE _tmpdir)
 endif(CANNOT_BUILD)
