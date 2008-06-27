@@ -24,6 +24,7 @@ provided that you have obtained such a license from Right Brain Games Inc.
 -----------------------------------------------------------------------------
 */
 
+#include <string.h>
 #include "Mocha/MemoryStream.h"
 
 namespace Mocha

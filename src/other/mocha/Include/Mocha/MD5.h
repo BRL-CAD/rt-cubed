@@ -43,7 +43,7 @@ documentation and/or software.
 #define MOCHA_MD5_H
 
 #include <stdlib.h>
-
+#include <string.h>
 #include "Mocha/Platform.h"
 
 namespace Mocha

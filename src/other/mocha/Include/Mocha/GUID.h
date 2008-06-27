@@ -27,6 +27,7 @@ provided that you have obtained such a license from Right Brain Games Inc.
 #ifndef MOCHA_GUID_H
 #define MOCHA_GUID_H
 
+#include <string.h>
 #include "Mocha/Platform.h"
 
 namespace Mocha
