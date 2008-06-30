@@ -83,6 +83,8 @@ public:
    * @param level New level to filter out messages.
    */
   static void setLevelFilter(Level level);
+  /** Translate the given encoded level to an string */
+  static const char* translateToString(Level level);
 
   /** Log a FATAL message */
   static void logFATAL(const char* msg, ...) __attribute__((format(printf, 1, 2)));
@@ -99,9 +101,6 @@ private:
   /** Attribute to save the logging level desired */
   static Level _levelFilter;
 
-
-  /** Translate the given encoded level to an string */
-  static const char* translateToString(Level level);
 
   /** Common function to use by the specific methods */
   static void log(Level level, const char* msg);
