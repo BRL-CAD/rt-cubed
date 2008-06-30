@@ -51,7 +51,7 @@ const std::string& CommandOutput::getOutput() const
 /*******************************************************************************
  * Command
  ******************************************************************************/
-Command::Command(const char* name, const char* descr) :
+Command::Command(const std::string& name, const std::string& descr) :
   _name(name), _description(descr)
 {
 }
@@ -104,41 +104,7 @@ void CommandInterpreter::addCommand(Command* command)
   }
 }
 
-Command* CommandInterpreter::findCommand(const std::string& commandName) const
-{
-  std::map<std::string, Command*>::const_iterator it = _commands.find(commandName);
-  if (it == _commands.end()) {
-    return 0;
-  } else {
-    return (*it).second;
-  }
-}
-
-void CommandInterpreter::parseCommandLine(const char* cL, std::vector<std::string>& args)
-{
-  std::string commandLine(cL);
-
-  // tokenize the string into arguments
-  while (commandLine.length() > 0) {
-    // remove whitespace around
-    //StrTrim(commandLine);
-    Logger::logDEBUG("commandLine: '%s'", commandLine.c_str());
-
-    std::string::size_type pos = commandLine.find_first_of(' ');
-    if (pos != std::string::npos) {
-      const std::string& newArg = commandLine.substr(0, pos);
-      args.push_back(newArg);
-      commandLine = commandLine.substr(pos, commandLine.length()-1);
-      Logger::logDEBUG(" -arg recognized: '%s'", newArg.c_str());
-    } else {
-      // no spaces left, last argument
-      args.push_back(commandLine);
-      break;
-    }
-  }
-}
-
-void CommandInterpreter::execute(const char* commandLine, CommandOutput& output)
+void CommandInterpreter::execute(const std::string& commandLine, CommandOutput& output)
 {
   // try to parse the command line into arguments
   std::vector<std::string> args;
@@ -184,7 +150,7 @@ void CommandInterpreter::showHelp(CommandOutput& output)
     showHelp((*it).first, output);
   }
   // footer
-  output.appendLine(std::string("Use /help <command> for more info."));
+  output.appendLine(std::string("Use /help <command> for specific info."));
 }
 
 void CommandInterpreter::showHelp(const std::string& commandName, CommandOutput& output)
@@ -192,8 +158,7 @@ void CommandInterpreter::showHelp(const std::string& commandName, CommandOutput&
   // get the command
   Command* command = findCommand(commandName);
   if (!command) {
-    std::string msg = "No help on '" + commandName + "'. Type '/help' for a list.";
-    output.appendLine(msg);
+    output.appendLine("No help on '" + commandName + "'. Type '/help' for a list.");
     return;
   }
 
@@ -212,6 +177,58 @@ void CommandInterpreter::showHelp(const std::string& commandName, CommandOutput&
   // add short description
   line += command->getDescription();
   output.appendLine(line);
+}
+
+Command* CommandInterpreter::findCommand(const std::string& commandName) const
+{
+  std::map<std::string, Command*>::const_iterator it = _commands.find(commandName);
+  if (it == _commands.end()) {
+    return 0;
+  } else {
+    return (*it).second;
+  }
+}
+
+void CommandInterpreter::parseCommandLine(const std::string& cL, std::vector<std::string>& args)
+{
+  std::string commandLine(cL);
+  // trim tail
+  {
+    std::string::size_type pos = commandLine.find_last_not_of(' ');
+    if (pos != std::string::npos) {
+      // Logger::logDEBUG("trimming tail of: '%s'", commandLine.c_str());
+      commandLine = commandLine.substr(0, pos+1);
+      // Logger::logDEBUG("  - result: '%s'", commandLine.c_str());
+    }
+  }
+
+  // tokenize the string into arguments
+  while (commandLine.length() > 0) {
+    // trim front
+    if (commandLine[0] == ' ') {
+      std::string::size_type pos = commandLine.find_first_not_of(' ');
+      if (pos != std::string::npos) {
+	// Logger::logDEBUG("trimming front of: '%s'", commandLine.c_str());
+	commandLine = commandLine.substr(pos);
+	// Logger::logDEBUG("  - result: '%s'", commandLine.c_str());
+      }
+    }
+    // Logger::logDEBUG("commandLine: '%s'", commandLine.c_str());
+
+    std::string::size_type pos = commandLine.find_first_of(' ');
+    if (pos != std::string::npos) {
+      const std::string& newArg = commandLine.substr(0, pos);
+      args.push_back(newArg);
+      commandLine = commandLine.substr(pos+1, commandLine.length()-pos);
+      // Logger::logDEBUG(" -arg recognized: '%s'", newArg.c_str());
+      // Logger::logDEBUG(" -rest : '%s'", commandLine.c_str());
+    } else {
+      // no spaces left, last argument
+      args.push_back(commandLine);
+      // Logger::logDEBUG(" -LAST arg recognized: '%s'", commandLine.c_str());
+      commandLine.clear();
+    }
+  }
 }
 
 

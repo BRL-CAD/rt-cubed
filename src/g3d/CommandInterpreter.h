@@ -69,7 +69,7 @@ class Command
 public:
   /** Constructor with some basics needed when creating any
    * command. */
-  Command(const char* name, const char* descr);
+  Command(const std::string& name, const std::string& descr);
   /** Default destructor */
   virtual ~Command() { }
 
@@ -110,20 +110,7 @@ public:
 
   /** Execute the given command line, and add the result to the given
    * output. */
-  void execute(const char* commandLine, CommandOutput& output);
-  /** Show global help */
-  void showHelp(CommandOutput& output);
-  /** Show help about the given command */
-  void showHelp(const std::string& commandName, CommandOutput& output);
-
-protected:
-  /** Default constructor */
-  CommandInterpreter();
-
-  /** Register available commands */
-  void registerCommands();
-  /** Add a command (accesed by the registerCommands method) */
-  void addCommand(Command* command);
+  void execute(const std::string& commandLine, CommandOutput& output);
 
 private:
   /** Singleton instance */
@@ -133,14 +120,24 @@ private:
   std::map<std::string, Command*> _commands;
 
 
+  /** Default constructor */
+  CommandInterpreter();
+
+  /** Add a command (accesed by the registerCommands method) */
+  void addCommand(Command* command);
+
+  /** Show global help */
+  void showHelp(CommandOutput& output);
+  /** Show help about the given command */
+  void showHelp(const std::string& commandName, CommandOutput& output);
+
   /** Find a command by name
    *
    * \returns 0 if not found */
   Command* findCommand(const std::string& commandName) const;
   /** Parse command line, putting each piece into the list of
    * arguments */
-  void parseCommandLine(const char* cmdline,
-			std::vector<std::string>& args);
+  void parseCommandLine(const std::string& cL, std::vector<std::string>& args);
 };
 
 #endif
