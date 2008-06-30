@@ -37,6 +37,7 @@
 
 #include "Logger.h"
 #include "History.h"
+#include "CommandInterpreter.h"
 #include "GuiWindowManager.h"
 
 #include "GuiCommandOverlay.h"
@@ -114,6 +115,8 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement 
       if (cmd.length() > 0) {
 	History::instance().insert(cmd.c_str());
 	_prompt->setText("");
+	CommandOutput output;
+	CommandInterpreter::instance().execute(cmd, output);
       } else {
 	// return pressed, but empty command
       }

@@ -37,6 +37,7 @@
 
 #include "Logger.h"
 #include "History.h"
+#include "CommandInterpreter.h"
 #include "GuiWindowManager.h"
 
 #include "GuiConsole.h"
@@ -131,6 +132,9 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, con
       if (cmd.length() > 0) {
 	History::instance().insert(cmd.c_str());
 	_prompt->setText("");
+	CommandOutput output;
+	CommandInterpreter::instance().execute(cmd, output);
+	_panel->setText(_panel->getText() + "\n" + output.getOutput());
       } else {
 	// return pressed, but empty command
       }
