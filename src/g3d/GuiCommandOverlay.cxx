@@ -47,28 +47,24 @@
  * GuiCommandOverlay
  ******************************************************************************/
 GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
-  GuiBaseWindow(guiMgr, false), _mainWin(0), _prompt(0)
+  GuiBaseWindow(guiMgr, "Command Overlay", "Command:", false), _prompt(0)
 {
   // creating windows and widgets
-  _mainWin = _guiMgr.createWindow();
-  _mainWin->setName("Command Overlay");
-  _mainWin->setText("Command:");
-  _mainWin->setHideOnClose(true);
-  _mainWin->setCloseable(true);
-  _mainWin->setMovable(false);
-  _mainWin->setResizeable(false);
-  // _mainWin->setBorderVisible(false);
-  // _mainWin->setOpacity(0.8f);
-  _mainWin->setModal(true);
-  // _mainWin->show();
-  GuiBaseWindow::setMainWindow(_mainWin);
+  _mainWindow->setHideOnClose(true);
+  _mainWindow->setCloseable(true);
+  _mainWindow->setMovable(false);
+  _mainWindow->setResizeable(false);
+  // _mainWindow->setBorderVisible(false);
+  // _mainWindow->setOpacity(0.8f);
+  _mainWindow->setModal(true);
+  //show();
 
-  _prompt = static_cast<RBGui::TextEntryWidget*>(_mainWin->createWidget("TextEntry"));
+  _prompt = static_cast<RBGui::TextEntryWidget*>(_mainWindow->createWidget("TextEntry"));
   _prompt->setName("CommandPrompt");
 
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
-  _mainWin->setCallback(&GuiCommandOverlay::callbackFocusReceived, this, "FocusRecieved"); // recieved [sic]
+  _mainWindow->setCallback(&GuiCommandOverlay::callbackFocusReceived, this, "FocusRecieved"); // recieved [sic]
   _prompt->setCallback(&GuiCommandOverlay::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
@@ -79,7 +75,7 @@ GuiCommandOverlay::~GuiCommandOverlay()
 {
   History::instance().detach(this);
   delete _prompt; _prompt = 0;
-  delete _mainWin; _mainWin = 0;
+  delete _mainWindow; _mainWindow = 0;
 }
 
 void GuiCommandOverlay::resize(float contentLeft, float contentTop, float contentWidth, float contentHeight)
@@ -87,13 +83,13 @@ void GuiCommandOverlay::resize(float contentLeft, float contentTop, float conten
   const float promptHeight = 18.0f;
 
   // main window
-  _mainWin->setPosition(Mocha::Vector2(contentLeft + (contentWidth*0.05f),
-				       contentTop + ((contentHeight-promptHeight)/2.0f)));
-  _mainWin->setSize(Mocha::Vector2(contentWidth*0.9f, promptHeight));
+  _mainWindow->setPosition(Mocha::Vector2(contentLeft + (contentWidth*0.05f),
+					  contentTop + ((contentHeight-promptHeight)/2.0f)));
+  _mainWindow->setSize(Mocha::Vector2(contentWidth*0.9f, promptHeight));
 
   // widgets
   _prompt->setPosition(Mocha::Vector2(0.0f, 0.0f));
-  _prompt->setSize(_mainWin->getClientRectangle().getSize());
+  _prompt->setSize(_mainWindow->getClientRectangle().getSize());
 }
 
 void GuiCommandOverlay::update(const ObserverEvent& event)
@@ -153,7 +149,7 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement 
       } else {
 	// return pressed, but empty command
       }
-      _mainWin->hide();
+      hide();
       break;
     case OIS::KC_UP:
     case OIS::KC_DOWN:
@@ -173,7 +169,7 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement 
 
 void GuiCommandOverlay::callbackFocusReceived(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
-  _mainWin->setFocused(_prompt);
+  _mainWindow->setFocused(_prompt);
 }
 
 

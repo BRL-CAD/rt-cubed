@@ -65,9 +65,6 @@ public:
   virtual void update(const ObserverEvent& event);
 
 private:
-  /** Main Window (in the sense of the GUI) implemented by the class
-   * which inherits this one */
-  RBGui::Window* _mainWin;
   /** Prompt to enter commands */
   RBGui::TextEntryWidget* _prompt;
 

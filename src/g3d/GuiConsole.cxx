@@ -47,33 +47,29 @@
  * GuiConsole
  ******************************************************************************/
 GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
-  GuiBaseWindow(guiMgr, false), _mainWin(0), _prompt(0), _panel(0)
+  GuiBaseWindow(guiMgr, "Console", "Console", false), _prompt(0), _panel(0)
 {
   // creating windows and widgets
-  _mainWin = _guiMgr.createWindow();
-  // _mainWin->setTheme("brlcad_translucent.theme");
-  _mainWin->setName("Console");
-  _mainWin->setText("Console");
-  _mainWin->setCloseable(false);
-  _mainWin->setMovable(false);
-  _mainWin->setResizeable(false);
-  _mainWin->setBorderVisible(false);
-  _mainWin->show();
-  GuiBaseWindow::setMainWindow(_mainWin);
+  // _mainWindow->setTheme("brlcad_translucent.theme");
+  _mainWindow->setCloseable(false);
+  _mainWindow->setMovable(false);
+  _mainWindow->setResizeable(false);
+  _mainWindow->setBorderVisible(false);
+  show();
 
-  _panel = static_cast<RBGui::TextWidget*>(_mainWin->createWidget("Text"));
+  _panel = static_cast<RBGui::TextWidget*>(_mainWindow->createWidget("Text"));
   _panel->setName("ConsolePanel");
   _panel->setVerticalTextAlignment(RBGui::TEXTALIGN_BOTTOM);
   _panel->setText("Console started.");
   _panel->setWrap(true);
   _panel->setScrollable(true);
 
-  _prompt = static_cast<RBGui::TextEntryWidget*>(_mainWin->createWidget("TextEntry"));
+  _prompt = static_cast<RBGui::TextEntryWidget*>(_mainWindow->createWidget("TextEntry"));
   _prompt->setName("ConsolePrompt");
 
   // setting callbacks for window/widget events within RBGui.
   // ReturnPressed managed in KeyPressed, since both are called anyway
-  _mainWin->setCallback(&GuiConsole::callbackFocusReceived, this, "FocusRecieved"); // recieved [sic]
+  _mainWindow->setCallback(&GuiConsole::callbackFocusReceived, this, "FocusRecieved"); // recieved [sic]
   _prompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
@@ -87,19 +83,19 @@ GuiConsole::~GuiConsole()
   Logger::instance().detach(this);
   delete _prompt; _prompt = 0;
   delete _panel; _panel = 0;
-  delete _mainWin; _mainWin = 0;
+  delete _mainWindow; _mainWindow = 0;
 }
 
 void GuiConsole::resize(float contentLeft, float contentTop, float contentWidth, float contentHeight)
 {
   // main window
-  _mainWin->setPosition(Mocha::Vector2(contentLeft,
-				       contentTop + (contentHeight*0.7f)));
-  _mainWin->setSize(Mocha::Vector2(contentWidth, contentHeight*0.3f));
+  _mainWindow->setPosition(Mocha::Vector2(contentLeft,
+					  contentTop + (contentHeight*0.7f)));
+  _mainWindow->setSize(Mocha::Vector2(contentWidth, contentHeight*0.3f));
 
   // widgets
   const float promptHeight = 18.0f;
-  Mocha::Vector2 panelSize = _mainWin->getClientRectangle().getSize();
+  Mocha::Vector2 panelSize = _mainWindow->getClientRectangle().getSize();
   panelSize.y -= promptHeight;
 
   _panel->setPosition(Mocha::Vector2(0.0f, 0.0f));
@@ -207,7 +203,7 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, con
 
 void GuiConsole::callbackFocusReceived(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
-  _mainWin->setFocused(_prompt);
+  _mainWindow->setFocused(_prompt);
 }
 
 

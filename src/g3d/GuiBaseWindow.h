@@ -57,6 +57,11 @@ public:
   /** Get whether this window should be present in the taskbar */
   bool getPresentInTaskbar() const;
 
+  /** Hide the window */
+  void hide();
+  /** Show the window */
+  void show();
+
   /** Resize application (render) window when the window created by
    * the 3D engine is resized */
   virtual void resize(float contentLeft, float contentTop, float contentWidth, float contentHeight) = 0;
@@ -66,7 +71,7 @@ protected:
   RBGui::GuiManager& _guiMgr;
   /** Main Window (in the sense of the GUI) implemented by the class
    * which inherits this one */
-  RBGui::Window* _mainWin;
+  RBGui::Window* _mainWindow;
   /** Flag to mark whether it's a regular window and thus should be
    * present in taskbar */
   bool _presentInTaskbar;
@@ -76,12 +81,12 @@ protected:
    *
    * @param guiMgr Link to RBGui's GuiManager
    */
-  GuiBaseWindow(RBGui::GuiManager& guiMgr, bool inTaskbar);
+  GuiBaseWindow(RBGui::GuiManager& guiMgr,
+		const std::string& name,
+		const std::string& text,
+		bool inTaskbar);
   /** Default destructor */
   virtual ~GuiBaseWindow();
-
-  /** Set Main Window */
-  void setMainWindow(RBGui::Window* w);
 };
 
 #endif
