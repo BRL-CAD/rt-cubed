@@ -34,6 +34,11 @@
 #include <vector>
 
 
+class ObserverEvent;
+class Observer;
+class ObserverSubject;
+
+
 /**
  * @brief Event for Observer pattern.
  *
@@ -72,8 +77,20 @@ protected:
 class Observer
 {
 public:
+  /** Virtual destructor */
+  virtual ~Observer();
+
   /** Called when an event occurs */
   virtual void update(const ObserverEvent& event) = 0;
+
+  /** Attached to a subject */
+  void attached(ObserverSubject* subject);
+  /** Detached from a subject */
+  void detached(ObserverSubject* subject);
+
+protected:
+  /** Set of subjects */
+  std::vector<ObserverSubject*> _subjects;
 };
 
 
@@ -89,6 +106,9 @@ public:
 class ObserverSubject
 {
 public:
+  /** Virtual destructor */
+  virtual ~ObserverSubject();
+
   /** Attach an observer */
   void attach(Observer* observer);
   /** Detach an observer */
@@ -97,7 +117,7 @@ public:
   virtual void notify(const ObserverEvent& event);
 
 protected:
-  /** Set of observers  */
+  /** Set of observers */
   std::vector<Observer*> _observers;
 };
 

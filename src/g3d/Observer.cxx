@@ -32,11 +32,47 @@
 
 
 /*******************************************************************************
+ * Observer
+ ******************************************************************************/
+Observer::~Observer()
+{
+  Logger::logDEBUG("Observer::~Observer()");
+  for (std::vector<ObserverSubject*>::iterator it = _subjects.begin(); it != _subjects.end(); ++it) {
+    (*it)->detach(this);
+  }
+}
+
+void Observer::attached(ObserverSubject* subject)
+{
+  _subjects.push_back(subject);
+}
+
+void Observer::detached(ObserverSubject* subject)
+{
+  for (std::vector<ObserverSubject*>::iterator it = _subjects.begin(); it != _subjects.end(); ++it) {
+    if (*it == subject) {
+      _subjects.erase(it);
+      return;
+    }
+  }
+}
+
+
+/*******************************************************************************
  * ObserverSubject
  ******************************************************************************/
+ObserverSubject::~ObserverSubject()
+{
+  Logger::logDEBUG("ObserverSubject::~ObserverSubject()");
+  for (std::vector<Observer*>::iterator it = _observers.begin(); it != _observers.end(); ++it) {
+    (*it)->detached(this);
+  }
+}
+
 void ObserverSubject::attach(Observer* observer)
 {
   _observers.push_back(observer);
+  observer->attached(this);
 }
 
 void ObserverSubject::detach(Observer* observer)
@@ -44,6 +80,8 @@ void ObserverSubject::detach(Observer* observer)
   for (std::vector<Observer*>::iterator it = _observers.begin(); it != _observers.end(); ++it) {
     if (*it == observer) {
       _observers.erase(it);
+      observer->detached(this);
+      return;
     }
   }
 }

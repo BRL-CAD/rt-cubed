@@ -79,8 +79,10 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
 
 GuiConsole::~GuiConsole()
 {
+  /// \todo mafm: could/should automatically detached by ~Observer()
   History::instance().detach(this);
   Logger::instance().detach(this);
+
   delete _prompt; _prompt = 0;
   delete _panel; _panel = 0;
   delete _mainWindow; _mainWindow = 0;
@@ -142,7 +144,7 @@ void GuiConsole::update(const ObserverEvent& event)
       }
     }
 
-    // not catched before
+    // event not processed before
     throw "Event type not expected by Observer";
   } catch (const char* error) {
     Logger::logWARNING("GuiConsole: '%s' event: %s", event._className.c_str(), error);

@@ -52,6 +52,9 @@ namespace RBGui {
  */
 class GuiBaseWindow {
 public:
+  /** Virtual destructor */
+  virtual ~GuiBaseWindow();
+
   /** Get name */
   const std::string& getName() const;
   /** Get whether this window should be present in the taskbar */
@@ -85,8 +88,6 @@ protected:
 		const std::string& name,
 		const std::string& text,
 		bool inTaskbar);
-  /** Default destructor */
-  virtual ~GuiBaseWindow();
 };
 
 #endif

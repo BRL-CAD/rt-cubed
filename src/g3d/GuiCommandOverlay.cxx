@@ -73,7 +73,9 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
 
 GuiCommandOverlay::~GuiCommandOverlay()
 {
+  /// \todo mafm: could/should automatically detached by ~Observer()
   History::instance().detach(this);
+
   delete _prompt; _prompt = 0;
   delete _mainWindow; _mainWindow = 0;
 }
@@ -113,7 +115,7 @@ void GuiCommandOverlay::update(const ObserverEvent& event)
       }
     }
 
-    // not catched before
+    // event not processed before
     throw "Event type not expected by Observer";
   } catch (const char* error) {
     Logger::logWARNING("GuiCommandOverlay: '%s' event: %s", event._className.c_str(), error);
