@@ -119,8 +119,12 @@ void Logger::log(Level level, const char* msg)
     strftime(ts, sizeof(ts), "%Y%m%d %H:%M:%S", localtime(&now));
     char fullMsg[LOGSTR_LENGTH] = { 0 };
     snprintf(fullMsg, sizeof(fullMsg),
-	     "%s :: %s :: %s\n", ts, translateToString(level), msg);
+	     "%s :: %s :: %s", ts, translateToString(level), msg);
     fprintf(stderr, fullMsg);
+    fprintf(stderr, "\n");
+
+    // notify observers
+    notify(LoggerObserverEvent(LoggerObserverEvent::ADDED_ENTRY, fullMsg));
   }
 }
 
@@ -141,21 +145,6 @@ const char* Logger::translateToString(Level level)
       return "INVALID LEVEL";
   }
 }
-
-void Logger::registerListener(LoggerListener* listener)
-{
-  _listeners.push_back(listener);
-}
-
-void Logger::unregisterListener(LoggerListener* listener)
-{
-  for (std::vector<LoggerListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
-    if (*it == listener) {
-      _listeners.erase(it);
-    }
-  }
-}
-
 
 
 // Local Variables: ***

@@ -30,26 +30,32 @@
 #define __G3D_HISTORY_H__
 
 
+#include "Observer.h"
+
 #include <string>
 #include <vector>
 
 
 /**
- * @brief History listener.
+ * @brief ObserverEvent for History
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- *
- * Interface of a History Listener, to get notifications when the
- * History state is changed.
  */
-class HistoryListener
+class HistoryObserverEvent: public ObserverEvent
 {
 public:
-  /** Called when a new entry is added */
-  virtual void addedEntry(const std::string& /* entry */) { }
-  /** Called when the internal index changes, so it points to a
-   * different entry */
-  virtual void indexChanged(const std::string& /* entry */) { }
+  /** Action Identifier enumerator */
+  enum ActionId { ADDED_ENTRY = 1, INDEX_CHANGED };
+
+  /** Action Identifier */
+  ActionId _actionId;
+  /** Content of the event */
+  std::string _content;
+
+
+  /** Default constructor */
+  HistoryObserverEvent(ActionId id, const std::string& content) :
+    ObserverEvent("HistoryObserverEvent"), _actionId(id), _content(content) { }
 };
 
 
@@ -63,7 +69,7 @@ public:
  * them in memory (it's not supposed to represent huge amounts), in
  * sequential order, and it's not saved when the program finishes.
  */
-class History
+class History: public ObserverSubject
 {
 public:
   /** Singleton, access to the manager */
@@ -79,11 +85,6 @@ public:
    * if the user continues to press the key */
   std::string getPrev();
 
-  /** Register a listener */
-  void registerListener(HistoryListener* listener);
-  /** Unregister a listener */
-  void unregisterListener(HistoryListener* listener);
-
 private:
   /** Singleton instance */
   static History* INSTANCE;
@@ -92,8 +93,6 @@ private:
   std::vector<std::string> _lines;
   /** Pointer to the current entry */
   size_t _index;
-  /** Set of listeners for History events  */
-  std::vector<HistoryListener*> _listeners;
 
 
   /** Default constructor */

@@ -55,25 +55,32 @@
 #endif
 
 
+#include "Observer.h"
+
+#include <string>
 #include <vector>
 
 
 /**
- * @brief Logger listener.
+ * @brief ObserverEvent for Logger
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- *
- * Interface of a Logger Listener, to get notifications when Logger
- * events occur.
  */
-class LoggerListener
+class LoggerObserverEvent: public ObserverEvent
 {
 public:
-  /** Called when a new entry is added */
-  virtual void addedEntry(const std::string& /* entry */) { }
-  /** Called when the internal index changes, so it points to a
-   * different entry */
-  virtual void indexChanged(const std::string& /* entry */) { }
+  /** Action Identifier enumerator */
+  enum ActionId { ADDED_ENTRY = 1 };
+
+  /** Action Identifier */
+  ActionId _actionId;
+  /** Content of the event */
+  std::string _content;
+
+
+  /** Default constructor */
+  LoggerObserverEvent(ActionId id, const std::string& content) :
+    ObserverEvent("LoggerObserverEvent"), _actionId(id), _content(content) { }
 };
 
 
@@ -82,7 +89,7 @@ public:
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  */
-class Logger
+class Logger : public ObserverSubject
 {
 public:
   /** Encodes priority levels and names */
@@ -122,19 +129,12 @@ public:
   /** Log a DEBUG message */
   static void logDEBUG(const char* msg, ...) __attribute__((format(printf, 1, 2)));
 
-  /** Register a listener */
-  void registerListener(LoggerListener* listener);
-  /** Unregister a listener */
-  void unregisterListener(LoggerListener* listener);
-
 private:
   /** Singleton instance */
   static Logger* INSTANCE;
 
   /** Attribute to save the logging level desired */
   static Level _levelFilter;
-  /** Set of listeners  */
-  std::vector<LoggerListener*> _listeners;
 
 
   /** Default constructor */

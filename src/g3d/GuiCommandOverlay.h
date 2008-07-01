@@ -46,7 +46,7 @@ namespace RBGui {
  * This class implements the Command Overlay for the application.  It
  * lets the user to enter commands.
  */
-class GuiCommandOverlay : public GuiBaseWindow, public HistoryListener
+class GuiCommandOverlay : public GuiBaseWindow, public Observer
 {
 public:
   /**
@@ -61,8 +61,8 @@ public:
   /** @see GuiBaseWindow::resize */
   virtual void resize(float contentLeft, float contentTop, float contentWidth, float contentHeight);
 
-  /** @see HistoryListener::indexChanged */
-  virtual void indexChanged(const std::string& entry);
+  /** @see Observer::update */
+  virtual void update(const ObserverEvent& event);
 
 private:
   /** Main Window (in the sense of the GUI) implemented by the class

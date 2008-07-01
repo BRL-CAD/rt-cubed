@@ -72,12 +72,12 @@ GuiCommandOverlay::GuiCommandOverlay(RBGui::GuiManager& guiMgr) :
   _prompt->setCallback(&GuiCommandOverlay::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
-  History::instance().registerListener(this);
+  History::instance().attach(this);
 }
 
 GuiCommandOverlay::~GuiCommandOverlay()
 {
-  History::instance().unregisterListener(this);
+  History::instance().detach(this);
   delete _prompt; _prompt = 0;
   delete _mainWin; _mainWin = 0;
 }
@@ -96,9 +96,32 @@ void GuiCommandOverlay::resize(float contentLeft, float contentTop, float conten
   _prompt->setSize(_mainWin->getClientRectangle().getSize());
 }
 
-void GuiCommandOverlay::indexChanged(const std::string& entry)
+void GuiCommandOverlay::update(const ObserverEvent& event)
 {
-  _prompt->setText(entry);
+  try {
+    // history events
+    {
+      const HistoryObserverEvent* e = dynamic_cast<const HistoryObserverEvent*>(&event);
+      if (e) {
+	switch (e->_actionId) {
+	case HistoryObserverEvent::ADDED_ENTRY:
+	  // empty
+	  break;
+	case HistoryObserverEvent::INDEX_CHANGED:
+	  _prompt->setText(e->_content);
+	  break;
+	default:
+	  throw "Action not understood by Observer";
+	}
+	return;
+      }
+    }
+
+    // not catched before
+    throw "Event type not expected by Observer";
+  } catch (const char* error) {
+    Logger::logWARNING("GuiCommandOverlay: '%s' event: %s", event._className.c_str(), error);
+  }
 }
 
 void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& vData)

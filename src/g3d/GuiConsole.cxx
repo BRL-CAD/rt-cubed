@@ -58,7 +58,7 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   _mainWin->setMovable(false);
   _mainWin->setResizeable(false);
   _mainWin->setBorderVisible(false);
-  //_mainWin->show();
+  _mainWin->show();
   GuiBaseWindow::setMainWindow(_mainWin);
 
   _panel = static_cast<RBGui::TextWidget*>(_mainWin->createWidget("Text"));
@@ -77,12 +77,14 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   _prompt->setCallback(&GuiConsole::callbackPromptKeyPressed, this, "onKeyPressed");
 
   GuiWindowManager::instance().registerWindow(this);
-  History::instance().registerListener(this);
+  Logger::instance().attach(this);
+  History::instance().attach(this);
 }
 
 GuiConsole::~GuiConsole()
 {
-  History::instance().unregisterListener(this);
+  History::instance().detach(this);
+  Logger::instance().detach(this);
   delete _prompt; _prompt = 0;
   delete _panel; _panel = 0;
   delete _mainWin; _mainWin = 0;
@@ -107,15 +109,48 @@ void GuiConsole::resize(float contentLeft, float contentTop, float contentWidth,
   _prompt->setSize(Mocha::Vector2(panelSize.x, promptHeight));
 }
 
-void GuiConsole::addedEntry(const std::string& entry)
+void GuiConsole::update(const ObserverEvent& event)
 {
-  _panel->setText(_panel->getText() + "\n" + entry);
-  _prompt->setText("");
-}
+  try {
+    // history events
+    {
+      const HistoryObserverEvent* e = dynamic_cast<const HistoryObserverEvent*>(&event);
+      if (e) {
+	switch (e->_actionId) {
+	case HistoryObserverEvent::ADDED_ENTRY:
+	  _panel->setText(_panel->getText() + "\n" + e->_content);
+	  _prompt->setText("");
+	  break;
+	case HistoryObserverEvent::INDEX_CHANGED:
+	  _prompt->setText(e->_content);
+	  break;
+	default:
+	  throw "Action not understood by Observer";
+	}
+	return;
+      }
+    }
 
-void GuiConsole::indexChanged(const std::string& entry)
-{
-  _prompt->setText(entry);
+    // logger events
+    {
+      const LoggerObserverEvent* e = dynamic_cast<const LoggerObserverEvent*>(&event);
+      if (e) {
+	switch (e->_actionId) {
+	case LoggerObserverEvent::ADDED_ENTRY:
+	  _panel->setText(_panel->getText() + "\n" + e->_content);
+	  break;
+	default:
+	  throw "Action not understood by Observer";
+	}
+	return;
+      }
+    }
+
+    // not catched before
+    throw "Event type not expected by Observer";
+  } catch (const char* error) {
+    Logger::logWARNING("GuiConsole: '%s' event: %s", event._className.c_str(), error);
+  }
 }
 
 void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& vData)

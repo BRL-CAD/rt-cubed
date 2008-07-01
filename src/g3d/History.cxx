@@ -57,10 +57,8 @@ void History::insert(const std::string& str)
     _lines.push_back(str);
     _index = _lines.size();
 
-    // notify listeners
-    for (std::vector<HistoryListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
-      (*it)->addedEntry(str);
-    }
+    // notify observers
+    notify(HistoryObserverEvent(HistoryObserverEvent::ADDED_ENTRY, str));
   }
 }
 
@@ -87,10 +85,9 @@ std::string History::getNext()
     _index = _lines.size();
   }
 
-  // notify listeners
-  for (std::vector<HistoryListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
-    (*it)->indexChanged(entry);
-  }
+  // notify observers
+  notify(HistoryObserverEvent(HistoryObserverEvent::INDEX_CHANGED, entry));
+
   return entry;
 }
 
@@ -101,26 +98,10 @@ std::string History::getPrev()
 
   std::string entry = getByIndex(_index);
 
-  // notify listeners
-  for (std::vector<HistoryListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
-    (*it)->indexChanged(entry);
-  }
+  // notify observers
+  notify(HistoryObserverEvent(HistoryObserverEvent::INDEX_CHANGED, entry));
 
   return entry;
-}
-
-void History::registerListener(HistoryListener* listener)
-{
-  _listeners.push_back(listener);
-}
-
-void History::unregisterListener(HistoryListener* listener)
-{
-  for (std::vector<HistoryListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
-    if (*it == listener) {
-      _listeners.erase(it);
-    }
-  }
 }
 
 
