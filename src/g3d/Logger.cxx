@@ -55,7 +55,17 @@ Logger::Level Logger::_levelFilter = Logger::DEBUG;
 
 void Logger::setLevelFilter(Level level)
 {
-  _levelFilter = level;
+  if (level == Logger::DEBUG
+      || level == Logger::INFO
+      || level == Logger::WARNING
+      || level == Logger::ERROR
+      || level == Logger::FATAL) {
+    logINFO("Log level set to: '%s'", translateToString(level));
+    _levelFilter = level;
+  } else {
+    logERROR("Log level not recognized: '%d', request to set log level ignored",
+	     static_cast<int>(level));
+  }
 }
 
 void Logger::logDEBUG(const char* msg, ...)
