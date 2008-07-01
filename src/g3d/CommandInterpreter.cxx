@@ -28,6 +28,7 @@
  */
 
 #include "Logger.h"
+#include "Commands.h"
 
 #include "CommandInterpreter.h"
 
@@ -51,8 +52,8 @@ const std::string& CommandOutput::getOutput() const
 /*******************************************************************************
  * Command
  ******************************************************************************/
-Command::Command(const std::string& name, const std::string& descr) :
-  _name(name), _description(descr)
+Command::Command(const std::string& name, const std::string& shortDescr, const std::string& extraDescr) :
+  _name(name), _shortDescription(shortDescr), _extraDescription(extraDescr)
 {
 }
 
@@ -61,19 +62,28 @@ const std::string& Command::getName() const
   return _name;
 }
 
-const std::string& Command::getDescription() const
+const std::string& Command::getShortDescription() const
 {
-  return _description;
+  return _shortDescription;
 }
 
-void Command::getArgNames(std::vector<std::string>& argNames) const
+const std::string& Command::getExtraDescription() const
 {
-  argNames = _argNames;
+  return _extraDescription;
 }
 
 const std::vector<std::string>& Command::getArgNames() const
 {
   return _argNames;
+}
+
+std::string Command::getSyntax() const
+{
+  std::string line = _name;
+  for (size_t i = 0; i < _argNames.size(); ++i) {
+    line += " <" + _argNames[i] + ">";
+  }
+  return line;
 }
 
 
@@ -91,7 +101,19 @@ CommandInterpreter& CommandInterpreter::instance()
 
 CommandInterpreter::CommandInterpreter()
 {
+  addCommand(new CommandQuit());
+  addCommand(new CommandSetLogLevel());
 }
+
+/*
+void CommandInterpreter::finalize()
+{
+  while (!_commands.empty()) {
+    delete (*(_commands.begin())).second;
+    _commands.erase(_commands.begin());
+  }
+}
+*/
 
 void CommandInterpreter::addCommand(Command* command)
 {
@@ -119,7 +141,7 @@ void CommandInterpreter::execute(const std::string& commandLine, CommandOutput& 
   args.erase(args.begin());
 
   if (commandName == "help") {
-    // /help meta command
+    // help meta command
     if (args.size() == 0) {
       // general help
       showHelp(output);
@@ -131,7 +153,7 @@ void CommandInterpreter::execute(const std::string& commandLine, CommandOutput& 
     // search for a "real" command
     Command* command = findCommand(commandName);
     if (!command) {
-      output.appendLine("No such command '" + commandName + "', type '/help' for a list.");
+      output.appendLine("No such command '" + commandName + "', type 'help' for a list.");
     } else {
       // execute the command
       command->execute(args, output);
@@ -143,14 +165,25 @@ void CommandInterpreter::showHelp(CommandOutput& output)
 {
   // header
   output.appendLine("Available commands:");
-  // short description of the existing commands (for the given
-  // level) in the middle
+
+  // list of commands with short description
   for (std::map<std::string, Command*>::iterator it = _commands.begin();
        it != _commands.end(); ++it) {
-    showHelp((*it).first, output);
+    // alias
+    Command* command = (*it).second;
+    // add syntax to output (name and arguments)
+    std::string line = "  " + command->getSyntax();
+    // "tab" to column 40 in a line
+    while (line.length() < 40) {
+      line += " ";
+    }
+    // add short description
+    line += command->getShortDescription();
+    output.appendLine(line);
   }
+
   // footer
-  output.appendLine(std::string("Use /help <command> for specific info."));
+  output.appendLine(std::string("Use 'help <command>' for specific info."));
 }
 
 void CommandInterpreter::showHelp(const std::string& commandName, CommandOutput& output)
@@ -158,24 +191,14 @@ void CommandInterpreter::showHelp(const std::string& commandName, CommandOutput&
   // get the command
   Command* command = findCommand(commandName);
   if (!command) {
-    output.appendLine("No help on '" + commandName + "'. Type '/help' for a list.");
+    output.appendLine("No such command '" + commandName + "', type 'help' for a list.");
     return;
   }
 
-  // add to output name and arguments
-  std::string line = "  " + command->getName();
-  const std::vector<std::string>& argNames = command->getArgNames();
-  for (size_t i = 0; i < argNames.size(); ++i) {
-    line += " <" + argNames[i] + ">";
-  }
-
-  // "tab" to column 40 in a line
-  while (line.size() < 40) {
-    line += " ";
-  }
-
-  // add short description
-  line += command->getDescription();
+  // add syntax to output (name and arguments)
+  std::string line = "  " + command->getShortDescription();
+  line += "\n  Syntax: " + command->getSyntax();
+  line += "\n  Extra description: " + command->getExtraDescription();
   output.appendLine(line);
 }
 

@@ -69,26 +69,33 @@ class Command
 public:
   /** Constructor with some basics needed when creating any
    * command. */
-  Command(const std::string& name, const std::string& descr);
+  Command(const std::string& name,
+	  const std::string& shortDescr,
+	  const std::string& extraDescr);
   /** Default destructor */
   virtual ~Command() { }
+
+  /** Execute the command (to be implemented by the real commands) */
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) = 0;
 
   /** The name of the command */
   const std::string& getName() const;
   /** Get a one-line description of the command */
-  const std::string& getDescription() const;
-  /** Get the name of the arguments */
-  void getArgNames(std::vector<std::string>& argNames) const;
+  const std::string& getShortDescription() const;
+  /** Get a extra description of the command */
+  const std::string& getExtraDescription() const;
   /** Get the name of the arguments */
   const std::vector<std::string>& getArgNames() const;
-  /** Execute the command */
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) = 0;
+  /** Get the syntax */
+  std::string getSyntax() const;
 
 protected:
   /** The name of the command */
   std::string _name;
   /** Description, one line only if possible */
-  std::string _description;
+  std::string _shortDescription;
+  /** Extra description */
+  std::string _extraDescription;
   /** The names of the arguments */
   std::vector<std::string> _argNames;
 };
@@ -101,12 +108,26 @@ protected:
  *
  * A command interpreter, meant to be link console-like windows inputs
  * with the outputs.
+ *
+ * The procedure is quite simple, for each command that we want to
+ * support we have to create an instance and add it to the manager,
+ * the base class takes care of the rest (including the deletion of
+ * the instances in the destructor).  The data for each command is
+ * especified in the constructor, and the argument names are a
+ * convenience way to show some understandable info in the help (such
+ * as "pm target ...", indicating that you have to especify the target
+ * player and then whatever you want to tell her/him).
  */
 class CommandInterpreter
 {
 public:
   /** Singleton, access to the manager */
   static CommandInterpreter& instance();
+
+  /** Finalize -- free resources and the like (destructor not usable
+   * with Singletons)
+  void finalize();
+  */
 
   /** Execute the given command line, and add the result to the given
    * output. */
