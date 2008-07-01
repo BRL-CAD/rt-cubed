@@ -108,7 +108,7 @@ void GuiCommandOverlay::update(const ObserverEvent& event)
 	  // empty
 	  break;
 	case HistoryObserverEvent::INDEX_CHANGED:
-	  _prompt->setText(e->_content);
+	  setPromptContent(e->_content);
 	  break;
 	default:
 	  throw "Action not understood by Observer";
@@ -124,6 +124,16 @@ void GuiCommandOverlay::update(const ObserverEvent& event)
   }
 }
 
+const std::string& GuiCommandOverlay::getPromptContent() const
+{
+  return _prompt->getText();
+}
+
+void GuiCommandOverlay::setPromptContent(const std::string& content)
+{
+  _prompt->setText(content);
+}
+
 void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& vData)
 {
   /// \note mafm: should be synchronized with CommandOverlay, to avoid
@@ -134,10 +144,10 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement 
   switch (key) {
     case OIS::KC_RETURN:
       // return key -- insert in history
-      cmd = _prompt->getText();
+      cmd = getPromptContent();
       if (cmd.length() > 0) {
 	History::instance().insert(cmd.c_str());
-	_prompt->setText("");
+	setPromptContent("");
 	CommandOutput output;
 	CommandInterpreter::instance().execute(cmd, output);
       } else {
@@ -153,7 +163,7 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement 
       } else if (key == OIS::KC_DOWN) {
 	cmd = History::instance().getNext();
       }
-      _prompt->setText(cmd);
+      setPromptContent(cmd);
       break;
     default:
       // nothing

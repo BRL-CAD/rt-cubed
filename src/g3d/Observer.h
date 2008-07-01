@@ -55,7 +55,8 @@ protected:
 
   /** Virtual destructor
    *
-   * \note Virtual methods causes RTTI/dynamic_cast to be enabled */
+   * \note Virtual methods cause RTTI/dynamic_cast to be enabled/work
+   * for this class */
   virtual ~ObserverEvent() { }
 };
 

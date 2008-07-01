@@ -71,6 +71,12 @@ private:
   /** Prompt to enter commands */
   RBGui::TextEntryWidget* _prompt;
 
+
+  /** Get content of the prompt */
+  const std::string& getPromptContent() const;
+  /** Set content of the prompt */
+  void setPromptContent(const std::string& content);
+
   /** Callback for "KeyPressed" in prompt */
   void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "FocusRecieved" [sic] in prompt */

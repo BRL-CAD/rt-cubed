@@ -118,11 +118,11 @@ void GuiConsole::update(const ObserverEvent& event)
       if (e) {
 	switch (e->_actionId) {
 	case HistoryObserverEvent::ADDED_ENTRY:
-	  _panel->setText(_panel->getText() + "\n" + e->_content);
-	  _prompt->setText("");
+	  addTextToPanel(e->_content);
+	  setPromptContent("");
 	  break;
 	case HistoryObserverEvent::INDEX_CHANGED:
-	  _prompt->setText(e->_content);
+	  setPromptContent(e->_content);
 	  break;
 	default:
 	  throw "Action not understood by Observer";
@@ -137,7 +137,7 @@ void GuiConsole::update(const ObserverEvent& event)
       if (e) {
 	switch (e->_actionId) {
 	case LoggerObserverEvent::ADDED_ENTRY:
-	  _panel->setText(_panel->getText() + "\n" + e->_content);
+	  addTextToPanel(e->_content);
 	  break;
 	default:
 	  throw "Action not understood by Observer";
@@ -153,6 +153,21 @@ void GuiConsole::update(const ObserverEvent& event)
   }
 }
 
+void GuiConsole::addTextToPanel(const std::string& content)
+{
+  _panel->setText(_panel->getText() + "\n" + content);
+}
+
+const std::string& GuiConsole::getPromptContent() const
+{
+  return _prompt->getText();
+}
+
+void GuiConsole::setPromptContent(const std::string& content)
+{
+  _prompt->setText(content);
+}
+
 void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& vData)
 {
   /// \note mafm: should be synchronized with CommandOverlay, to avoid
@@ -163,13 +178,13 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, con
   switch (key) {
     case OIS::KC_RETURN:
       // return key -- insert in history
-      cmd = _prompt->getText();
+      cmd = getPromptContent();
       if (cmd.length() > 0) {
+	setPromptContent("");
 	History::instance().insert(cmd.c_str());
-	_prompt->setText("");
 	CommandOutput output;
 	CommandInterpreter::instance().execute(cmd, output);
-	_panel->setText(_panel->getText() + "\n" + output.getOutput());
+	addTextToPanel(output.getOutput());
       } else {
 	// return pressed, but empty command
       }
@@ -182,7 +197,7 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, con
       } else if (key == OIS::KC_DOWN) {
 	cmd = History::instance().getNext();
       }
-      _prompt->setText(cmd);
+      setPromptContent(cmd);
       break;
     default:
       // nothing

@@ -48,9 +48,9 @@ public:
   enum ActionId { ADDED_ENTRY = 1, INDEX_CHANGED };
 
   /** Action Identifier */
-  ActionId _actionId;
+  const ActionId _actionId;
   /** Content of the event */
-  std::string _content;
+  const std::string _content;
 
 
   /** Default constructor */
