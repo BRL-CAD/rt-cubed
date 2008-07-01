@@ -84,7 +84,7 @@ public:
       l = Logger::FATAL;
     }
 
-    Logger::setLevelFilter(l);
+    Logger::instance().setLevelFilter(l);
   }
 };
 

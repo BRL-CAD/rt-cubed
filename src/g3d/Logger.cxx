@@ -51,7 +51,19 @@ const size_t TIMESTAMP_LENGTH = sizeof("YYYYmmdd HH:MM:SS");
 /*******************************************************************************
  * Logger
  ******************************************************************************/
+Logger* Logger::INSTANCE = 0;
 Logger::Level Logger::_levelFilter = Logger::DEBUG;
+
+Logger& Logger::instance()
+{
+  if (!INSTANCE)
+    INSTANCE = new Logger();
+  return *INSTANCE;
+}
+
+Logger::Logger()
+{
+}
 
 void Logger::setLevelFilter(Level level)
 {
@@ -71,31 +83,31 @@ void Logger::setLevelFilter(Level level)
 void Logger::logDEBUG(const char* msg, ...)
 {
   VARARG_PARSE();
-  log(Logger::DEBUG, formatBuffer);
+  instance().log(Logger::DEBUG, formatBuffer);
 }
 
 void Logger::logINFO(const char* msg, ...)
 {
   VARARG_PARSE();
-  log(Logger::INFO, formatBuffer);
+  instance().log(Logger::INFO, formatBuffer);
 }
 
 void Logger::logWARNING(const char* msg, ...)
 {
   VARARG_PARSE();
-  log(Logger::WARNING, formatBuffer);
+  instance().log(Logger::WARNING, formatBuffer);
 }
 
 void Logger::logERROR(const char* msg, ...)
 {
   VARARG_PARSE();
-  log(Logger::ERROR, formatBuffer);
+  instance().log(Logger::ERROR, formatBuffer);
 }
 
 void Logger::logFATAL(const char* msg, ...)
 {
   VARARG_PARSE();
-  log(Logger::FATAL, formatBuffer);
+  instance().log(Logger::FATAL, formatBuffer);
 }
 
 void Logger::log(Level level, const char* msg)
@@ -129,6 +141,21 @@ const char* Logger::translateToString(Level level)
       return "INVALID LEVEL";
   }
 }
+
+void Logger::registerListener(LoggerListener* listener)
+{
+  _listeners.push_back(listener);
+}
+
+void Logger::unregisterListener(LoggerListener* listener)
+{
+  for (std::vector<LoggerListener*>::iterator it = _listeners.begin(); it != _listeners.end(); ++it) {
+    if (*it == listener) {
+      _listeners.erase(it);
+    }
+  }
+}
+
 
 
 // Local Variables: ***
