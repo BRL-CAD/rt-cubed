@@ -33,6 +33,7 @@ if(APPLE)
 endif(APPLE)
 add_definitions( -D${SYSTEM} )
 message(STATUS "Detected system name '${CMAKE_SYSTEM_NAME}', building for system '${SYSTEM}'")
+message(STATUS "Will use C++ compiler '${CMAKE_CXX_COMPILER}'")
 
 # Needed libraries
 set(ESSENTIAL_LIBS OGRE OIS Mocha RBGui)
