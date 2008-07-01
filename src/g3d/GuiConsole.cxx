@@ -151,7 +151,9 @@ void GuiConsole::update(const ObserverEvent& event)
 
 void GuiConsole::addTextToPanel(const std::string& content)
 {
-  _panel->setText(_panel->getText() + "\n" + content);
+  if (content.length() > 0) {
+    _panel->setText(_panel->getText() + "\n" + content);
+  }
 }
 
 const std::string& GuiConsole::getPromptContent() const
