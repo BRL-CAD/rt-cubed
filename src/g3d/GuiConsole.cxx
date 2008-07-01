@@ -185,6 +185,7 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, con
 	addTextToPanel(output.getOutput());
       } else {
 	// return pressed, but empty command
+	addTextToPanel(" ");
       }
       break;
     case OIS::KC_UP:
