@@ -18,7 +18,7 @@ SET_TARGET_PROPERTIES(RBGuiOgreSample PROPERTIES COMPILE_FLAGS "-DPOSIX") #SHOUL
 
 #Install executable, media, set paths and then install config files
 INSTALL(TARGETS RBGuiOgreSample RUNTIME DESTINATION share/RBGuiOgreSample/bin)
-INSTALL(DIRECTORY bin/Media DESTINATION share/RBGuiOgreSample)
+INSTALL(DIRECTORY bin/Media DESTINATION share/RBGuiOgreSample PATTERN ".svn" EXCLUDE)
 CONFIGURE_FILE(bin/release/ogreplugins.cfg.linux ${CMAKE_CURRENT_BINARY_DIR}/ogreplugins.cfg)
 INSTALL(FILES
 	${CMAKE_CURRENT_BINARY_DIR}/ogreplugins.cfg

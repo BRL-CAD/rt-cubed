@@ -83,9 +83,25 @@ TARGET_LINK_LIBRARIES(RBGui ${Mocha_LIBRARIES} ${FREETYPE_LIBRARIES} ${OGRE_LIBR
 SET_TARGET_PROPERTIES(RBGui PROPERTIES VERSION 0.1.3)
 SET_TARGET_PROPERTIES(RBGui PROPERTIES COMPILE_FLAGS "-DPOSIX") #SHOULDN'T BE NEEDED!
 
+# pkg-config file
+file(WRITE ${PROJECT_BINARY_DIR}/RBGui.pc "prefix=${CMAKE_INSTALL_PREFIX}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: RBGui
+Description: Right Brain Games GUI
+Version: 0.1.3
+Libs: -L\${libdir} -lRBGui -lRBGuiOgreSupport
+Cflags: -I\${includedir} -I\${includedir}/RBGui
+")
+set(PKGCONFIG_FILES ${PROJECT_BINARY_DIR}/RBGui.pc)
+
+
 #Install the library and headers
 INSTALL(TARGETS RBGui
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib
 )
-INSTALL(DIRECTORY Include/RBGui DESTINATION include)
+INSTALL(DIRECTORY Include/RBGui DESTINATION include PATTERN ".svn" EXCLUDE)
+install(FILES ${PKGCONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/)
