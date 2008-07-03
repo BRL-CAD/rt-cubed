@@ -1,5 +1,5 @@
 all: ois ogre mocha rbgui
-	@echo 'Compiling everything...'
+	@echo 'Done compiling everything.'
 ois:
 	@echo 'Compiling OIS...'
 	cd ois && ./bootstrap && ./configure && make -s; cd ..
