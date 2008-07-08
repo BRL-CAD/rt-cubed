@@ -103,6 +103,8 @@ CommandInterpreter::CommandInterpreter()
 {
   addCommand(new CommandQuit());
   addCommand(new CommandSetLogLevel());
+  addCommand(new CommandSetPolygonMode());
+  addCommand(new CommandCreateSampleGeometry());
 }
 
 /*

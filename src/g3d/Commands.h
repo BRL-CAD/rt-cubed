@@ -28,6 +28,7 @@
 
 
 #include "Application.h"
+//#include "OgreGeometry.h"
 
 #include "CommandInterpreter.h"
 
@@ -85,6 +86,69 @@ public:
     }
 
     Logger::instance().setLevelFilter(l);
+  }
+};
+
+
+/** @brief Set Polygon mode.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ */
+class CommandSetPolygonMode : public Command
+{
+public:
+  CommandSetPolygonMode() :
+    Command("polygonmode", "Set the polygon mode", "Argument is [solid|wireframe|points]")
+    {
+      _argNames.push_back("mode");
+    }
+
+  virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
+    if (args.size() != 1) {
+      out.appendLine("This command needs exactly one argument");
+      return;
+    }
+
+    if (args[0] == "solid") {
+      Application::instance().setPolygonMode(Ogre::PM_SOLID);
+    } else if (args[0] == "wireframe") {
+      Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
+    } else if (args[0] == "points") {
+      Application::instance().setPolygonMode(Ogre::PM_POINTS);
+    } else {
+      out.appendLine("Mode not recognized");
+    }
+  }
+};
+
+
+/** @brief Create sample geometries.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ */
+class CommandCreateSampleGeometry : public Command
+{
+public:
+  CommandCreateSampleGeometry() :
+    Command("creategeom", "Create a sample geometry", "Argument is [tetraedron|cube]")
+    {
+      _argNames.push_back("shape");
+    }
+
+  virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
+    if (args.size() != 1) {
+      out.appendLine("This command needs exactly one argument");
+      return;
+    }
+
+    out.appendLine("WIP");
+    return;
+
+    if (args[0] == "tetraedron") {
+    } else if (args[0] == "cube") {
+    } else {
+      out.appendLine("Shape not recognized");
+    }
   }
 };
 

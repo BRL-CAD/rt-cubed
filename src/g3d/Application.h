@@ -32,6 +32,7 @@
 
 #include <vector>
 #include <Mocha/Value.h>
+#include <OGRE/OgreCommon.h>
 
 class MouseListener;
 class KeyListener;
@@ -84,6 +85,8 @@ public:
   void setFullscreen(bool value);
   /** Toggle fullscreen mode */
   void toggleFullscreen();
+  /** Tell the polygon mode to use */
+  void setPolygonMode(Ogre::PolygonMode polygonMode);
   /** Get Ogre::Root */
   Ogre::Root& getRoot() const;
   /** Get Ogre::RenderWindow */

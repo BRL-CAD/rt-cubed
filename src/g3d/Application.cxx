@@ -441,6 +441,10 @@ void Application::finalize()
   delete _rbguiRenderListener; _rbguiRenderListener = 0;
   //delete _guiCore; _guiCore = 0;
   //delete _guiManager; _guiManager = 0;
+  Logger::logINFO(" - clearing windows");
+  // _guiManager->clear();
+  Logger::logINFO(" - removing the rest of the GUI");
+  // _guiCore->destroyGui("g3d GUI");
   while (_windowList.size() > 0) {
     // delete _windowList.back();
     _windowList.pop_back();
@@ -555,6 +559,16 @@ void Application::setFullscreen(bool value)
 void Application::toggleFullscreen()
 {
   setFullscreen(!isFullscreen());
+}
+
+void Application::setPolygonMode(Ogre::PolygonMode polygonMode)
+{
+  if (_camera) {
+    Logger::logINFO("Changed camera polygon mode: %d", static_cast<int>(polygonMode));
+    _camera->setPolygonMode(polygonMode);
+  } else {
+    Logger::logWARNING("Tried to changed polygon mode but camera is null");
+  }
 }
 
 Ogre::Root& Application::getRoot() const
