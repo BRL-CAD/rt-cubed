@@ -28,7 +28,7 @@
 
 
 #include "Application.h"
-//#include "OgreGeometry.h"
+#include "GeometryConversion.h"
 
 #include "CommandInterpreter.h"
 
@@ -130,7 +130,7 @@ class CommandCreateSampleGeometry : public Command
 {
 public:
   CommandCreateSampleGeometry() :
-    Command("creategeom", "Create a sample geometry", "Argument is [tetraedron|cube]")
+    Command("create", "Create a sample geometry", "Argument is [tetraedron|cube] (initial chars are enough)")
     {
       _argNames.push_back("shape");
     }
@@ -141,11 +141,11 @@ public:
       return;
     }
 
-    out.appendLine("WIP");
-    return;
-
-    if (args[0] == "tetraedron") {
-    } else if (args[0] == "cube") {
+    if (args[0][0] == 't') {
+      Ogre::MovableObject* object = (new SampleTetraedron(50))->getMovableObject();
+      Application::instance().addGeometry(object);
+    } else if (args[0][0] == 'c') {
+      out.appendLine("Shape not implemented yet");
     } else {
       out.appendLine("Shape not recognized");
     }
