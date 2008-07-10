@@ -88,17 +88,20 @@ public:
   /** Tell the polygon mode to use */
   void setPolygonMode(Ogre::PolygonMode polygonMode);
 
-  /** Add a geometry (object in the scene) */
-  void addGeometry(Ogre::MovableObject* object);
+  /** Add an entity being instance of the given mesh (object in the
+   * scene) */
+  void addGeometry(const std::string& name, const std::string& mesh);
 
   /** Zoom camera in */
   void zoomIn();
   /** Zoom camera out */
   void zoomOut();
+  /** Turn around camera, left or right depending on sign of radians */
+  void turnAround(float radians);
   /** Turn around camera, left */
-  void turnAroundLeft();
+  void turnAroundLeft(float radians);
   /** Turn around camera, right */
-  void turnAroundRight();
+  void turnAroundRight(float radians);
 
   /** Get Ogre::Root */
   Ogre::Root& getRoot() const;

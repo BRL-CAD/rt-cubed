@@ -228,11 +228,11 @@ public:
 	return true;
       } else if (event.key == OIS::KC_F7) {
 	// turn around, left
-	_app.turnAroundLeft();
+	_app.turnAround(0.1);
 	return true;
       } else if (event.key == OIS::KC_F8) {
 	// turn around, right
-	_app.turnAroundRight();
+	_app.turnAround(-0.1);
 	return true;
       }
 
@@ -604,12 +604,12 @@ void Application::setPolygonMode(Ogre::PolygonMode polygonMode)
   }
 }
 
-void Application::addGeometry(Ogre::MovableObject* object)
+void Application::addGeometry(const std::string& name, const std::string& mesh)
 {
   if (_scene) {
-    Logger::logINFO("Adding geometry to the scene: '%s'", object->getName().c_str());
-    //_scene->getRootSceneNode()->createChildSceneNode()->attachObject(object);
-    Ogre::Entity* e = _scene->createEntity("tetraedron", "TetraedronMesh");
+    Logger::logINFO("Adding geometry to the scene: '%s' of mesh '%s'",
+		    name.c_str(), mesh.c_str());
+    Ogre::Entity* e = _scene->createEntity(name, mesh);
     _scene->getRootSceneNode()->createChildSceneNode()->attachObject(e);
   } else {
     Logger::logWARNING("Tried to add geometry polygon mode but scene manager is null");
@@ -638,13 +638,29 @@ void Application::zoomOut()
   }
 }
 
-void Application::turnAroundLeft()
+void Application::turnAround(float radians)
+{
+  if (_camera) {
+    Ogre::Vector3 pos = _camera->getPosition();
+    pos.x = pos.x*cos(radians) - pos.z*sin(radians);
+    pos.z = pos.z*cos(radians) + pos.x*sin(radians);
+    Logger::logINFO("Turning %s camera (%0.1f, %0.1f, %0.1f)", 
+		    radians >= 0.0f ? "left" : "right",
+		    pos.x, pos.y, pos.z);
+    _camera->setPosition(pos);
+    _camera->lookAt(0, 0, 0);
+  } else {
+    Logger::logWARNING("Tried to turn but camera is null");
+  }
+}
+
+void Application::turnAroundLeft(float radians)
 {
   if (_camera) {
     Ogre::Vector3 pos = _camera->getPosition();
     float radius = sqrt(pos.x*pos.x + pos.z*pos.z);
-    pos.x = pos.x*cos(0.1) + pos.z*sin(0.1);
-    pos.z = pos.z*cos(0.1) - pos.x*sin(0.1);
+    pos.x = pos.x*cos(radians) - pos.z*sin(radians);
+    pos.z = pos.z*cos(radians) + pos.x*sin(radians);
     Logger::logINFO("Turning left camera (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
     _camera->setPosition(pos);
     _camera->lookAt(0, 0, 0);
@@ -653,13 +669,13 @@ void Application::turnAroundLeft()
   }
 }
 
-void Application::turnAroundRight()
+void Application::turnAroundRight(float radians)
 {
   if (_camera) {
     Ogre::Vector3 pos = _camera->getPosition();
     float radius = sqrt(pos.x*pos.x + pos.z*pos.z);
-    pos.x = pos.x*cos(-0.1) + pos.z*sin(-0.1);
-    pos.z = pos.z*cos(-0.1) - pos.x*sin(-0.1);
+    pos.x = pos.x*cos(radians) - pos.z*sin(radians);
+    pos.z = pos.z*cos(radians) + pos.x*sin(radians);
     Logger::logINFO("Turning right camera (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
     _camera->setPosition(pos);
     _camera->lookAt(0, 0, 0);

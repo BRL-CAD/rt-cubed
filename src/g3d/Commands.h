@@ -130,6 +130,7 @@ class CommandCreateSampleGeometry : public Command
 {
 public:
   CommandCreateSampleGeometry() :
+    _sampleTetraedron(50),
     Command("create", "Create a sample geometry", "Argument is [tetraedron|cube] (initial chars are enough)")
     {
       _argNames.push_back("shape");
@@ -142,14 +143,17 @@ public:
     }
 
     if (args[0][0] == 't') {
-      Ogre::MovableObject* object = (new SampleTetraedron(50))->getMovableObject();
-      Application::instance().addGeometry(object);
+      Application::instance().addGeometry("tetraedron", "TetraedronMesh");
     } else if (args[0][0] == 'c') {
       out.appendLine("Shape not implemented yet");
     } else {
       out.appendLine("Shape not recognized");
     }
   }
+
+private:
+  /** Sample geometry */
+  SampleTetraedron _sampleTetraedron;
 };
 
 
