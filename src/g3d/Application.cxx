@@ -52,6 +52,7 @@
 #include <RBGui/Widgets/TextWidget.h>
 
 #include <OGRE/Ogre.h>
+#include <OGRE/OgreSceneNode.h>
 #include <OIS/OIS.h>
 
 #if defined(WIN32)
@@ -217,6 +218,22 @@ public:
 	// toggle fullscreen
 	_app.toggleFullscreen();
 	return true;
+      } else if (event.key == OIS::KC_F5) {
+	// zoom in
+	_app.zoomIn();
+	return true;
+      } else if (event.key == OIS::KC_F6) {
+	// zoom out
+	_app.zoomOut();
+	return true;
+      } else if (event.key == OIS::KC_F7) {
+	// turn around, left
+	_app.turnAroundLeft();
+	return true;
+      } else if (event.key == OIS::KC_F8) {
+	// turn around, right
+	_app.turnAroundRight();
+	return true;
       }
 
       // No need to translate key IDs because they are the same as OIS
@@ -311,7 +328,9 @@ void Application::initialize()
 	const Ogre::String& typeName = i->first;
 	const Ogre::String& archName = i->second;
 
-	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName,
+								       typeName,
+								       secName);
       }
     }
 
@@ -322,8 +341,14 @@ void Application::initialize()
   // Create scene, camera, viewport
   _scene = _root->createSceneManager("DefaultSceneManager", "g3d SceneManager");
   _camera = _scene->createCamera("g3d Camera");
+  _camera->setPosition(0, 0, 10);
+  _camera->lookAt(0, 0, 0);
   _viewport = _renderWindow->addViewport(_camera);
-  _viewport->setBackgroundColour(Ogre::ColourValue(0.4f, 0.4f, 0.4f, 1.0f));
+  _viewport->setBackgroundColour(Ogre::ColourValue(0.6f, 0.6f, 0.6f, 1.0f));
+  _scene->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+  Ogre::Light* l = _scene->createLight("MainLight");
+  l->setPosition(0, 10, 0);
+  l->setDiffuseColour(Ogre::ColourValue(1.0, 0.5, 0.0));
 
   // Initialize the GUI. This adds all of the default widget factories
   RBGui::Initialize();
@@ -342,7 +367,9 @@ void Application::initialize()
 #endif
 
   // Create the GUI manager and set the default theme
-  _guiCore = new RBGui::Core(new RBGui::OgreTextureManager(), platformManager, new RBGui::OgreResourceManager());
+  _guiCore = new RBGui::Core(new RBGui::OgreTextureManager(),
+			     platformManager,
+			     new RBGui::OgreResourceManager());
   _guiCore->getThemeManager().setDefaultTheme("brlcad.theme");
   _guiManager = _guiCore->createGui("g3d GUI", new RBGui::OgreBrush(_scene, _viewport));
 
@@ -491,21 +518,25 @@ void Application::tick(float delta)
   _mouse->getMouseState().height = static_cast<int>(_renderWindow->getHeight());
 
   // Capture mouse and keyboard state
-  if (_mouse)
+  if (_mouse) {
     _mouse->capture();
-  if (_keyboard)
+  }
+  if (_keyboard) {
     _keyboard->capture();
+  }
 
   // Sleep for a bit if windows is not visible...
   if (_renderWindow->isVisible()) {
     // Tick the gui manager
-    if (_guiManager)
+    if (_guiManager) {
       _guiManager->tick(delta);
+    }
 
     // Tell OGRE to render a frame. The GUI will get drawn as part of
     // the OGRE render queue
-    if (_root)
+    if (_root) {
       _root->renderOneFrame();
+    }
   } else {
     usleep(100*1000); // in microseconds
   }
@@ -553,7 +584,9 @@ void Application::setFullscreen(bool value)
   /// (say, 640x480) and the screen is of moderately high resolution
   /// (1280x960).  Maybe it happens the same with all non-native
   /// fullscreen modes?
-  _renderWindow->setFullscreen(value, _renderWindow->getWidth(), _renderWindow->getHeight());
+  _renderWindow->setFullscreen(value,
+			       _renderWindow->getWidth(),
+			       _renderWindow->getHeight());
 }
 
 void Application::toggleFullscreen()
@@ -568,6 +601,70 @@ void Application::setPolygonMode(Ogre::PolygonMode polygonMode)
     _camera->setPolygonMode(polygonMode);
   } else {
     Logger::logWARNING("Tried to changed polygon mode but camera is null");
+  }
+}
+
+void Application::addGeometry(Ogre::MovableObject* object)
+{
+  if (_scene) {
+    Logger::logINFO("Adding geometry to the scene: '%s'", object->getName().c_str());
+    //_scene->getRootSceneNode()->createChildSceneNode()->attachObject(object);
+    Ogre::Entity* e = _scene->createEntity("tetraedron", "TetraedronMesh");
+    _scene->getRootSceneNode()->createChildSceneNode()->attachObject(e);
+  } else {
+    Logger::logWARNING("Tried to add geometry polygon mode but scene manager is null");
+  }
+}
+
+void Application::zoomIn()
+{
+  if (_camera) {
+    Ogre::Vector3 pos = _camera->getPosition() / 1.25f;
+    Logger::logINFO("Zooming in camera (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
+    _camera->setPosition(pos);
+  } else {
+    Logger::logWARNING("Tried to zoom but camera is null");
+  }
+}
+
+void Application::zoomOut()
+{
+  if (_camera) {
+    Ogre::Vector3 pos = _camera->getPosition() * 1.25f;
+    Logger::logINFO("Zooming out camera: (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
+    _camera->setPosition(pos);
+  } else {
+    Logger::logWARNING("Tried to zoom but camera is null");
+  }
+}
+
+void Application::turnAroundLeft()
+{
+  if (_camera) {
+    Ogre::Vector3 pos = _camera->getPosition();
+    float radius = sqrt(pos.x*pos.x + pos.z*pos.z);
+    pos.x = pos.x*cos(0.1) + pos.z*sin(0.1);
+    pos.z = pos.z*cos(0.1) - pos.x*sin(0.1);
+    Logger::logINFO("Turning left camera (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
+    _camera->setPosition(pos);
+    _camera->lookAt(0, 0, 0);
+  } else {
+    Logger::logWARNING("Tried to turn but camera is null");
+  }
+}
+
+void Application::turnAroundRight()
+{
+  if (_camera) {
+    Ogre::Vector3 pos = _camera->getPosition();
+    float radius = sqrt(pos.x*pos.x + pos.z*pos.z);
+    pos.x = pos.x*cos(-0.1) + pos.z*sin(-0.1);
+    pos.z = pos.z*cos(-0.1) - pos.x*sin(-0.1);
+    Logger::logINFO("Turning right camera (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
+    _camera->setPosition(pos);
+    _camera->lookAt(0, 0, 0);
+  } else {
+    Logger::logWARNING("Tried to turn but camera is null");
   }
 }
 

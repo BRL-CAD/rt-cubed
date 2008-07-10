@@ -87,6 +87,19 @@ public:
   void toggleFullscreen();
   /** Tell the polygon mode to use */
   void setPolygonMode(Ogre::PolygonMode polygonMode);
+
+  /** Add a geometry (object in the scene) */
+  void addGeometry(Ogre::MovableObject* object);
+
+  /** Zoom camera in */
+  void zoomIn();
+  /** Zoom camera out */
+  void zoomOut();
+  /** Turn around camera, left */
+  void turnAroundLeft();
+  /** Turn around camera, right */
+  void turnAroundRight();
+
   /** Get Ogre::Root */
   Ogre::Root& getRoot() const;
   /** Get Ogre::RenderWindow */
