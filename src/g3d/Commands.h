@@ -130,8 +130,8 @@ class CommandCreateSampleGeometry : public Command
 {
 public:
   CommandCreateSampleGeometry() :
-    _sampleTetraedron(50),
-    Command("create", "Create a sample geometry", "Argument is [tetraedron|cube] (initial chars are enough)")
+    Command("create", "Create a sample geometry", "Argument is [tetraedron|cube] (initial chars are enough)"),
+    _sampleTetraedron(50)
     {
       _argNames.push_back("shape");
     }
