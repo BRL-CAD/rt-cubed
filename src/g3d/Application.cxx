@@ -71,6 +71,8 @@
 #include "GuiCommandOverlay.h"
 #include "GuiConsole.h"
 #include "GuiWindowManager.h"
+#include "CameraManager.h"
+#include "CameraModes.h"
 
 #include "Application.h"
 
@@ -210,30 +212,37 @@ public:
   /** Method for Key Pressed events */
   virtual bool keyPressed(const OIS::KeyEvent& event)
     {
-      // ESC key to quit -- hack for convenience while developing
+      /*************************************************************************
+       * ESC key to quit -- hack for convenience while developing
+       ************************************************************************/
       if (event.key == OIS::KC_ESCAPE) {
 	_app.quit();
 	return true;
-      } else if (event.key == OIS::KC_F12) {
-	// toggle fullscreen
+      }
+      /*************************************************************************
+       * Fullscreen
+       ************************************************************************/
+      else if (event.key == OIS::KC_F12) {
 	_app.toggleFullscreen();
 	return true;
-      } else if (event.key == OIS::KC_F5) {
-	// zoom in
-	_app.zoomIn();
-	return true;
-      } else if (event.key == OIS::KC_F6) {
-	// zoom out
-	_app.zoomOut();
-	return true;
-      } else if (event.key == OIS::KC_F7) {
-	// turn around, left
-	_app.turnAround(0.1);
-	return true;
-      } else if (event.key == OIS::KC_F8) {
-	// turn around, right
-	_app.turnAround(-0.1);
-	return true;
+      }
+      /*************************************************************************
+       * Camera -- don't capture regular keys
+       ************************************************************************/
+      else if (event.key == OIS::KC_E) {
+	CameraManager::instance().getActiveCameraMode().setRequestToCenter(true);
+      } else if (event.key == OIS::KC_Z) {
+	CameraManager::instance().getActiveCameraMode().setZoomingIn(true);
+      } else if (event.key == OIS::KC_Q) {
+	CameraManager::instance().getActiveCameraMode().setZoomingOut(true);
+      } else if (event.key == OIS::KC_W) {
+	CameraManager::instance().getActiveCameraMode().setUp(true);
+      } else if (event.key == OIS::KC_S) {
+	CameraManager::instance().getActiveCameraMode().setDown(true);
+      } else if (event.key == OIS::KC_A) {
+	CameraManager::instance().getActiveCameraMode().setLeft(true);
+      } else if (event.key == OIS::KC_D) {
+	CameraManager::instance().getActiveCameraMode().setRight(true);
       }
 
       // No need to translate key IDs because they are the same as OIS
@@ -244,6 +253,23 @@ public:
   /** Method for Key released events */
   virtual bool keyReleased(const OIS::KeyEvent& event)
     {
+      /*************************************************************************
+       * Camera -- don't capture regular keys
+       ************************************************************************/
+      if (event.key == OIS::KC_Z) {
+	CameraManager::instance().getActiveCameraMode().setZoomingIn(false);
+      } else if (event.key == OIS::KC_Q) {
+	CameraManager::instance().getActiveCameraMode().setZoomingOut(false);
+      } else if (event.key == OIS::KC_W) {
+	CameraManager::instance().getActiveCameraMode().setUp(false);
+      } else if (event.key == OIS::KC_S) {
+	CameraManager::instance().getActiveCameraMode().setDown(false);
+      } else if (event.key == OIS::KC_A) {
+	CameraManager::instance().getActiveCameraMode().setLeft(false);
+      } else if (event.key == OIS::KC_D) {
+	CameraManager::instance().getActiveCameraMode().setRight(false);
+      }
+
       // No need to translate key IDs because they are the same as OIS
       _guiMgr.injectKeyReleased(static_cast<RBGui::KeyID>(event.key));
       return true;
@@ -257,7 +283,7 @@ private:
 };
 
 
-/** @brief
+/** @brief Listener for DeviceLost event
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
@@ -341,8 +367,6 @@ void Application::initialize()
   // Create scene, camera, viewport
   _scene = _root->createSceneManager("DefaultSceneManager", "g3d SceneManager");
   _camera = _scene->createCamera("g3d Camera");
-  _camera->setPosition(0, 0, 10);
-  _camera->lookAt(0, 0, 0);
   _viewport = _renderWindow->addViewport(_camera);
   _viewport->setBackgroundColour(Ogre::ColourValue(0.6f, 0.6f, 0.6f, 1.0f));
   _scene->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
@@ -531,6 +555,9 @@ void Application::tick(float delta)
     if (_guiManager) {
       _guiManager->tick(delta);
     }
+
+    // Update camera
+    CameraManager::instance().updateCamera(_camera, delta);
 
     // Tell OGRE to render a frame. The GUI will get drawn as part of
     // the OGRE render queue
