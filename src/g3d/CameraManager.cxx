@@ -59,15 +59,6 @@ CameraMode& CameraManager::getActiveCameraMode()
   return *(_cameraModeList.front());
 }
 
-void CameraManager::setTargetNode(const Ogre::SceneNode* targetNode)
-{
-  for (std::deque<CameraMode*>::iterator it = _cameraModeList.begin();
-       it != _cameraModeList.end();
-       ++it) {
-    //(*it)->setTargetNode(targetNode);
-  }
-}
-
 void CameraManager::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
 {
   getActiveCameraMode().updateCamera(camera, elapsedSeconds);

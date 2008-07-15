@@ -67,10 +67,6 @@ public:
   /** Singleton, access to the manager */
   static CameraManager& instance();
 
-  /** Set the node that the cameras should follow
-   *
-   * \note will use (0, 0, 0) otherwise */
-  void setTargetNode(const Ogre::SceneNode* targetNode);
   /** Update the camera (acting upon active camera mode) */
   void updateCamera(Ogre::Camera* camera, double elapsedSeconds);
 

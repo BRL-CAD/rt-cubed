@@ -213,66 +213,88 @@ public:
   virtual bool keyPressed(const OIS::KeyEvent& event)
     {
       /*************************************************************************
-       * ESC key to quit -- hack for convenience while developing
+       * These first ones have precedence over anything
        ************************************************************************/
       if (event.key == OIS::KC_ESCAPE) {
+	// ESC key to quit -- hack for convenience while developing 
 	_app.quit();
 	return true;
-      }
-      /*************************************************************************
-       * Fullscreen
-       ************************************************************************/
-      else if (event.key == OIS::KC_F12) {
+      } else if (event.key == OIS::KC_F12) {
+	// Fullscreen
 	_app.toggleFullscreen();
 	return true;
       }
+
+      // No need to translate key IDs because they are the same as OIS
+      bool used = _guiMgr.injectKeyPressed(static_cast<RBGui::KeyID>(event.key));
+      if (used) {
+	return true;
+      }
+
       /*************************************************************************
        * Camera -- don't capture regular keys
        ************************************************************************/
-      else if (event.key == OIS::KC_E) {
+      if (event.key == OIS::KC_E) {
 	CameraManager::instance().getActiveCameraMode().setRequestToCenter(true);
+	return true;
       } else if (event.key == OIS::KC_Z) {
 	CameraManager::instance().getActiveCameraMode().setZoomingIn(true);
+	return true;
       } else if (event.key == OIS::KC_Q) {
 	CameraManager::instance().getActiveCameraMode().setZoomingOut(true);
+	return true;
       } else if (event.key == OIS::KC_W) {
 	CameraManager::instance().getActiveCameraMode().setUp(true);
+	return true;
       } else if (event.key == OIS::KC_S) {
 	CameraManager::instance().getActiveCameraMode().setDown(true);
+	return true;
       } else if (event.key == OIS::KC_A) {
 	CameraManager::instance().getActiveCameraMode().setLeft(true);
+	return true;
       } else if (event.key == OIS::KC_D) {
 	CameraManager::instance().getActiveCameraMode().setRight(true);
+	return true;
       }
 
-      // No need to translate key IDs because they are the same as OIS
-      _guiMgr.injectKeyPressed(static_cast<RBGui::KeyID>(event.key));
-      return true;
+      // not handled before...
+      return false;
     }
 	
   /** Method for Key released events */
   virtual bool keyReleased(const OIS::KeyEvent& event)
     {
+      // No need to translate key IDs because they are the same as OIS
+      bool used = _guiMgr.injectKeyReleased(static_cast<RBGui::KeyID>(event.key));
+      if (used) {
+	return true;
+      }
+
       /*************************************************************************
        * Camera -- don't capture regular keys
        ************************************************************************/
       if (event.key == OIS::KC_Z) {
 	CameraManager::instance().getActiveCameraMode().setZoomingIn(false);
+	return true;
       } else if (event.key == OIS::KC_Q) {
 	CameraManager::instance().getActiveCameraMode().setZoomingOut(false);
+	return true;
       } else if (event.key == OIS::KC_W) {
 	CameraManager::instance().getActiveCameraMode().setUp(false);
+	return true;
       } else if (event.key == OIS::KC_S) {
 	CameraManager::instance().getActiveCameraMode().setDown(false);
+	return true;
       } else if (event.key == OIS::KC_A) {
 	CameraManager::instance().getActiveCameraMode().setLeft(false);
+	return true;
       } else if (event.key == OIS::KC_D) {
 	CameraManager::instance().getActiveCameraMode().setRight(false);
+	return true;
       }
 
-      // No need to translate key IDs because they are the same as OIS
-      _guiMgr.injectKeyReleased(static_cast<RBGui::KeyID>(event.key));
-      return true;
+      // not handled before
+      return false;
     }
 
 private:
@@ -640,74 +662,6 @@ void Application::addGeometry(const std::string& name, const std::string& mesh)
     _scene->getRootSceneNode()->createChildSceneNode()->attachObject(e);
   } else {
     Logger::logWARNING("Tried to add geometry polygon mode but scene manager is null");
-  }
-}
-
-void Application::zoomIn()
-{
-  if (_camera) {
-    Ogre::Vector3 pos = _camera->getPosition() / 1.25f;
-    Logger::logINFO("Zooming in camera (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
-    _camera->setPosition(pos);
-  } else {
-    Logger::logWARNING("Tried to zoom but camera is null");
-  }
-}
-
-void Application::zoomOut()
-{
-  if (_camera) {
-    Ogre::Vector3 pos = _camera->getPosition() * 1.25f;
-    Logger::logINFO("Zooming out camera: (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
-    _camera->setPosition(pos);
-  } else {
-    Logger::logWARNING("Tried to zoom but camera is null");
-  }
-}
-
-void Application::turnAround(float radians)
-{
-  if (_camera) {
-    Ogre::Vector3 pos = _camera->getPosition();
-    pos.x = pos.x*cos(radians) - pos.z*sin(radians);
-    pos.z = pos.z*cos(radians) + pos.x*sin(radians);
-    Logger::logINFO("Turning %s camera (%0.1f, %0.1f, %0.1f)", 
-		    radians >= 0.0f ? "left" : "right",
-		    pos.x, pos.y, pos.z);
-    _camera->setPosition(pos);
-    _camera->lookAt(0, 0, 0);
-  } else {
-    Logger::logWARNING("Tried to turn but camera is null");
-  }
-}
-
-void Application::turnAroundLeft(float radians)
-{
-  if (_camera) {
-    Ogre::Vector3 pos = _camera->getPosition();
-    float radius = sqrt(pos.x*pos.x + pos.z*pos.z);
-    pos.x = pos.x*cos(radians) - pos.z*sin(radians);
-    pos.z = pos.z*cos(radians) + pos.x*sin(radians);
-    Logger::logINFO("Turning left camera (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
-    _camera->setPosition(pos);
-    _camera->lookAt(0, 0, 0);
-  } else {
-    Logger::logWARNING("Tried to turn but camera is null");
-  }
-}
-
-void Application::turnAroundRight(float radians)
-{
-  if (_camera) {
-    Ogre::Vector3 pos = _camera->getPosition();
-    float radius = sqrt(pos.x*pos.x + pos.z*pos.z);
-    pos.x = pos.x*cos(radians) - pos.z*sin(radians);
-    pos.z = pos.z*cos(radians) + pos.x*sin(radians);
-    Logger::logINFO("Turning right camera (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
-    _camera->setPosition(pos);
-    _camera->lookAt(0, 0, 0);
-  } else {
-    Logger::logWARNING("Tried to turn but camera is null");
   }
 }
 

@@ -157,19 +157,15 @@ public:
       // vertical rotation
       if (_actionUp) {
 	_verticalRot += ROTATION_SPEED * elapsedSeconds;
-	Logger::logDEBUG("Camera up");
       } else if (_actionDown) {
 	_verticalRot -= ROTATION_SPEED * elapsedSeconds;
-	Logger::logDEBUG("Camera down");
       }
 
       // horizontal rotation
       if (_actionLeft) {
 	_horizontalRot += ROTATION_SPEED * elapsedSeconds;
-	Logger::logDEBUG("Camera left");
       } else if (_actionRight) {
 	_horizontalRot -= ROTATION_SPEED * elapsedSeconds;
-	Logger::logDEBUG("Camera right");
       }
     }
 
