@@ -36,18 +36,18 @@
 #include "OGRE/OgreString.h"
 
 
-/** @brief Tetraedron
+/** @brief Tetrahedron geometry
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  */
-class SampleTetraedron
+class SampleTetrahedron
 {
 public:
   /* Default constructor
   *
   * @param scale Scale to relative units (basic object is created with
   * 1 unit) */
-  SampleTetraedron(float scale = 1.0f);
+  SampleTetrahedron(float scale = 1.0f);
 
   /** Get pointer to movable object */
   Ogre::MovableObject* getMovableObject();

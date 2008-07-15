@@ -33,8 +33,8 @@
 #include "OGRE/OgreMesh.h"
 
 
-SampleTetraedron::SampleTetraedron(float scale) :
-  _manualObject(Ogre::String("tetraedron"))
+SampleTetrahedron::SampleTetrahedron(float scale) :
+  _manualObject(Ogre::String("tetrahedron"))
 {
   Ogre::Vector3 positionZero(0, 0, 0);
   Ogre::ColourValue colorBlack(0, 0, 0, 1);
@@ -71,11 +71,11 @@ SampleTetraedron::SampleTetraedron(float scale) :
   box.setInfinite();
   _manualObject.setBoundingBox(box);
 
-  _manualObject.convertToMesh("TetraedronMesh");
+  _manualObject.convertToMesh("TetrahedronMesh");
 }
 
 
-Ogre::MovableObject* SampleTetraedron::getMovableObject()
+Ogre::MovableObject* SampleTetrahedron::getMovableObject()
 {
   return &_manualObject;
 }

@@ -130,8 +130,8 @@ class CommandCreateSampleGeometry : public Command
 {
 public:
   CommandCreateSampleGeometry() :
-    Command("create", "Create a sample geometry", "Argument is [tetraedron|cube] (initial chars are enough)"),
-    _sampleTetraedron(50)
+    Command("create", "Create a sample geometry", "Argument is [tetrahedron|cube] (initial chars are enough)"),
+    _sampleTetrahedron(50)
     {
       _argNames.push_back("shape");
     }
@@ -143,7 +143,7 @@ public:
     }
 
     if (args[0][0] == 't') {
-      Application::instance().addGeometry("tetraedron", "TetraedronMesh");
+      Application::instance().addGeometry("tetrahedron", "TetrahedronMesh");
     } else if (args[0][0] == 'c') {
       out.appendLine("Shape not implemented yet");
     } else {
@@ -153,7 +153,7 @@ public:
 
 private:
   /** Sample geometry */
-  SampleTetraedron _sampleTetraedron;
+  SampleTetrahedron _sampleTetrahedron;
 };
 
 
