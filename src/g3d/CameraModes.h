@@ -23,22 +23,11 @@
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * @brief
- *	Declaration and implementation of the Camera modes of 3D
- *	Geometry Editor (g3d).
+ *	Declaration of the Camera modes of 3D Geometry Editor (g3d).
  */
 
 #ifndef __G3D_CAMERAMODES_H__
 #define __G3D_CAMERAMODES_H__
-
-
-#include <OGRE/OgreCamera.h>
-#include <OGRE/OgreSceneNode.h>
-
-#include "Logger.h"
-
-
-/** Pi constant */
-#define PI_NUMBER 3.14159265358979323846
 
 
 /** @brief Base class for camera mode
@@ -55,49 +44,27 @@ class CameraMode
 {
 public:
   /** Default constructor */
-  CameraMode(const char* name) :
-    _name(name),
-    _actionZoomingIn(false), _actionZoomingOut(false),
-    _actionUp(false), _actionDown(false),
-    _actionLeft(false), _actionRight(false),
-    _actionRequestToCenter(false)
-    { }
+  CameraMode(const char* name);
   /** Destructor */
   virtual ~CameraMode() { }
 
   /** Get the name */
-  const char* getName() const {
-    return _name;
-  }
+  const char* getName() const;
 
   /** Set flag for this camera action */
-  void setZoomingIn(bool b) {
-    _actionZoomingIn = b;
-  }
+  void setZoomingIn(bool b);
   /** Set flag for this camera action */
-  void setZoomingOut(bool b) {
-    _actionZoomingOut = b;
-  }
+  void setZoomingOut(bool b);
   /** Set flag for this camera action */
-  void setUp(bool b) {
-    _actionUp = b;
-  }
+  void setUp(bool b);
   /** Set flag for this camera action */
-  void setDown(bool b) {
-    _actionDown = b;
-  }
+  void setDown(bool b);
+    /** Set flag for this camera action */
+  void setLeft(bool b);
   /** Set flag for this camera action */
-  void setLeft(bool b) {
-    _actionLeft = b;
-  }
+  void setRight(bool b);
   /** Set flag for this camera action */
-  void setRight(bool b) {
-    _actionRight = b;
-  }
-  /** Set flag for this camera action */
-  void setRequestToCenter(bool b) {
-    _actionRequestToCenter = b;
-  }
+  void setRequestToCenter(bool b);
 
   /** Called every frame via camera manager, with the time elapsed
    * since last update, so we move the camera of the engine (depending
@@ -140,75 +107,20 @@ class CameraModeOrbital : public CameraMode
 {
 public:
   /** Default constructor */
-  CameraModeOrbital() :
-    CameraMode("Orbital"), 
-    _horizontalRot(0.0), _verticalRot(-PI_NUMBER/24.0f), _radius(100.0f)
-    { }
+  CameraModeOrbital();
 
   /** @see CameraMode::updateCamera */
-  virtual void updateCamera(Ogre::Camera* camera, double elapsedSeconds) {
-    // apply rotations
-    if (_actionRequestToCenter) {
-      // center (reset rotation) when requested
-      _horizontalRot = 0.0;
-      _verticalRot = -PI_NUMBER/24.0f;
-      _actionRequestToCenter = false;
-    } else {
-      // vertical rotation
-      if (_actionUp) {
-	_verticalRot += ROTATION_SPEED * elapsedSeconds;
-      } else if (_actionDown) {
-	_verticalRot -= ROTATION_SPEED * elapsedSeconds;
-      }
-
-      // horizontal rotation
-      if (_actionLeft) {
-	_horizontalRot += ROTATION_SPEED * elapsedSeconds;
-      } else if (_actionRight) {
-	_horizontalRot -= ROTATION_SPEED * elapsedSeconds;
-      }
-    }
-
-    // radius
-    if (_actionZoomingIn) {
-      _radius /= 1.0f + (ZOOM_RATIO*elapsedSeconds);
-      if (_radius < RADIUS_MIN_DISTANCE)
-	_radius = RADIUS_MIN_DISTANCE;
-    } else if (_actionZoomingOut) {
-      _radius *= 1.0f + (ZOOM_RATIO*elapsedSeconds);
-      if (_radius > RADIUS_MAX_DISTANCE)
-	_radius = RADIUS_MAX_DISTANCE;
-    }
-
-    Ogre::SceneNode tmpNode(0);
-
-    // rotations
-    tmpNode.yaw(Ogre::Radian(_horizontalRot));
-    tmpNode.pitch(Ogre::Radian(_verticalRot));
-
-    // position -- push back given radius
-    Ogre::Vector3 radiusDistance(0, 0, _radius);
-    tmpNode.translate(radiusDistance, Ogre::SceneNode::TS_LOCAL);
-
-    // set the resulting position to the camera
-    Ogre::Vector3 pos(camera->getPosition());
-    if (pos != tmpNode.getPosition()) {
-      Logger::logINFO("Camera position (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
-
-      camera->setPosition(tmpNode.getPosition());
-      camera->lookAt(0, 0, 0);
-    }
-  }
+  virtual void updateCamera(Ogre::Camera* camera, double elapsedSeconds);
 
 private:
   /** Speed of the zoom in/out per second */
-  static const float ZOOM_RATIO = 4.0f; // this times every second
+  static const float ZOOM_RATIO; // this times every second
   /** Maximum radius distance */
-  static const float RADIUS_MAX_DISTANCE = 10000.0f; // m
+  static const float RADIUS_MAX_DISTANCE; // m
   /** Minimum radius distance */
-  static const float RADIUS_MIN_DISTANCE = 0.1f; // m
+  static const float RADIUS_MIN_DISTANCE; // m
   /** Speed of the rotation */
-  static const float ROTATION_SPEED = PI_NUMBER/2.0f; // 4s for full revolution
+  static const float ROTATION_SPEED; // 4s for full revolution
 
   /** Current horizontal rotation */
   float _horizontalRot;
