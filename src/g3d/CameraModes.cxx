@@ -117,8 +117,12 @@ void CameraModeOrbital::updateCamera(Ogre::Camera* camera, double elapsedSeconds
     // vertical rotation
     if (_actionUp) {
       _verticalRot += ROTATION_SPEED * elapsedSeconds;
+      if (_verticalRot >= PI_NUMBER/2.0f)
+	_verticalRot = (PI_NUMBER/2.0f)-0.01f;
     } else if (_actionDown) {
       _verticalRot -= ROTATION_SPEED * elapsedSeconds;
+      if (_verticalRot <= -PI_NUMBER/2.0f)
+	_verticalRot = -(PI_NUMBER/2.0f)+0.01f;
     }
 
     // horizontal rotation
@@ -153,7 +157,7 @@ void CameraModeOrbital::updateCamera(Ogre::Camera* camera, double elapsedSeconds
   // set the resulting position to the camera
   Ogre::Vector3 pos(camera->getPosition());
   if (pos != tmpNode.getPosition()) {
-    Logger::logINFO("Camera position (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
+    //Logger::logDEBUG("Camera position (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
 
     camera->setPosition(tmpNode.getPosition());
     camera->lookAt(0, 0, 0);
