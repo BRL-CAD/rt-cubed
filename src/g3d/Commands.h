@@ -26,6 +26,9 @@
  *	Implementation of commands.
  */
 
+#ifndef __G3D_COMMANDS_H__
+#define __G3D_COMMANDS_H__
+
 
 #include "Application.h"
 #include "GeometryConversion.h"
@@ -60,8 +63,9 @@ class CommandSetLogLevel : public Command
 {
 public:
   CommandSetLogLevel() :
-    Command("loglevel", "Set the log message level", "Argument is first letter of Debug, Info, Warning, Error, Fatal")
-    {
+    Command("loglevel",
+	    "Set the log message level",
+	    "Argument is first letter of Debug, Info, Warning, Error, Fatal") {
       _argNames.push_back("level");
     }
 
@@ -98,8 +102,9 @@ class CommandSetPolygonMode : public Command
 {
 public:
   CommandSetPolygonMode() :
-    Command("polygonmode", "Set the polygon mode", "Argument is [solid|wireframe|points]")
-    {
+    Command("polygonmode",
+	    "Set the polygon mode",
+	    "Argument is [solid|wireframe|points]") {
       _argNames.push_back("mode");
     }
 
@@ -130,9 +135,10 @@ class CommandCreateSampleGeometry : public Command
 {
 public:
   CommandCreateSampleGeometry() :
-    Command("create", "Create a sample geometry", "Argument is [tetrahedron|cube] (initial chars are enough)"),
-    _sampleTetrahedron(50)
-    {
+    Command("create",
+	    "Create a sample geometry",
+	    "Argument is [tetrahedron|cube] (initial chars are enough)"),
+    _sampleTetrahedron(50) {
       _argNames.push_back("shape");
     }
 
@@ -155,6 +161,8 @@ private:
   /** Sample geometry */
   SampleTetrahedron _sampleTetrahedron;
 };
+
+#endif
 
 
 // Local Variables: ***

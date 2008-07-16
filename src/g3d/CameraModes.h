@@ -59,7 +59,7 @@ public:
   void setUp(bool b);
   /** Set flag for this camera action */
   void setDown(bool b);
-    /** Set flag for this camera action */
+  /** Set flag for this camera action */
   void setLeft(bool b);
   /** Set flag for this camera action */
   void setRight(bool b);
@@ -94,14 +94,13 @@ protected:
 };
 
 
-/** @brief Base class for camera mode
+/** @brief Orbital camera mode
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
- * Orbital camera mode.  The behavior of this camera mode is that it
- * orbits the center, with zoom to control the radius and the keys to
- * go up/down/left/right controlling movement from "pole to pole" and
- * "equator".
+ * The behavior of this camera mode is that it orbits the center, with
+ * zoom to control the radius and the keys to go up/down/left/right
+ * controlling movement from "pole to pole" and "equator".
  */
 class CameraModeOrbital : public CameraMode
 {

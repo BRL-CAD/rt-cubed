@@ -49,8 +49,8 @@ CameraManager& CameraManager::instance()
 
 CameraManager::CameraManager()
 {
-  // create camera modes that we'll use (default is the first
-  // one, it will get in the front of the list)
+  // create camera modes that we'll use (default is the first one, it
+  // will get in the front of the list)
   _cameraModeList.push_back(new CameraModeOrbital());
 }
 

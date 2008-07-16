@@ -119,7 +119,7 @@ private:
 };
 
 
-/** @brief
+/** @brief Listener for Mouse events
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
@@ -190,7 +190,7 @@ private:
 };
 
 
-/** @brief
+/** @brief Listener for Keyboard events
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
