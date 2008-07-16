@@ -69,28 +69,9 @@ void CameraManager::cycleCameraMode()
   _cameraModeList.push_back(_cameraModeList.front());
   _cameraModeList.pop_front();
 
-  notifyListenersCameraModeChanged(_cameraModeList.front());
-}
-
-void CameraManager::addListener(CameraListener* listener)
-{
-  // adding element, not checking for duplicates
-  _listenerList.push_back(listener);
-}
-
-void CameraManager::removeListener(CameraListener* listener)
-{
-  // removing element, including duplicates
-  _listenerList.remove(listener);
-}
-
-void CameraManager::notifyListenersCameraModeChanged(const CameraMode* mode)
-{
-  for (std::list<CameraListener*>::iterator it = _listenerList.begin();
-       it != _listenerList.end();
-       ++it) {
-    (*it)->cameraModeChanged(mode);
-  }
+  // notify observers
+  notify(CameraObserverEvent(CameraObserverEvent::MODE_CHANGED,
+			     _cameraModeList.front()->getName()));
 }
 
 

@@ -31,6 +31,8 @@
 #define __G3D_CAMERAMANAGER_H__
 
 
+#include "Observer.h"
+
 #include <deque>
 #include <list>
 
@@ -38,20 +40,29 @@
 class CameraMode;
 namespace Ogre {
   class Camera;
-  class SceneNode;
 }
 
-/** Listener for the event of changing the active camera.
+
+/**
+ * @brief ObserverEvent for CameraManager
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  */
-class CameraListener
+class CameraObserverEvent : public ObserverEvent
 {
 public:
-  /** Notification that the camera mode changed */
-  virtual void cameraModeChanged(const CameraMode* newMode) = 0;
-  /** Destructor */
-  virtual ~CameraListener() { }
+  /** Action Identifier enumerator */
+  enum ActionId { MODE_CHANGED = 1 };
+
+  /** Action Identifier */
+  const ActionId _actionId;
+  /** Content of the event */
+  const std::string _content;
+
+
+  /** Default constructor */
+  CameraObserverEvent(ActionId id, const std::string& content) :
+    ObserverEvent("CameraObserverEvent"), _actionId(id), _content(content) { }
 };
 
 
@@ -61,7 +72,7 @@ public:
  * 
  * Governs the camera: modes being used, etc.
  */
-class CameraManager
+class CameraManager : public ObserverSubject
 {
 public:
   /** Singleton, access to the manager */
@@ -75,11 +86,6 @@ public:
   /** Cycle the camera mode to the next one */
   void cycleCameraMode();
 
-  /** Add a listener for events */
-  void addListener(CameraListener* listener);
-  /** Remove a listener */
-  void removeListener(CameraListener* listener);
-
 private:
   /** Singleton instance */
   static CameraManager* INSTANCE;
@@ -87,9 +93,6 @@ private:
   /** List of camera modes that we can use (front is the active
    * one) */
   std::deque<CameraMode*> _cameraModeList;
-
-  /** List of listeners subscribed to our events */
-  std::list<CameraListener*> _listenerList;
 
 
   /** Default constructor */
