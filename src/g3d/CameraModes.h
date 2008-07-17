@@ -64,6 +64,11 @@ public:
   /** Destructor */
   virtual ~CameraMode() { }
 
+  /** Called every frame via camera manager, with the time elapsed
+   * since last update, so we move the camera of the engine, and thus
+   * control how do we view the scene. */
+  void updateCamera(Ogre::Camera* camera, double elapsedSeconds);
+
   /** Get the name */
   const char* getName() const;
 
@@ -91,12 +96,21 @@ public:
   /** Stop all movements and rotations */
   void stop();
 
-  /** Called every frame via camera manager, with the time elapsed
-   * since last update, so we move the camera of the engine (depending
-   * on camera mode and commands issued by player), and thus control
-   * how do we view the scene.  This is where each camera mode behaves
-   * different. */
-  virtual void updateCamera(Ogre::Camera* camera, double elapsedSeconds) = 0;
+  /** Convert from degrees to radians */
+  static float degreesToRadians(float degrees);
+  /** Increase the variable by given value, but result not more than
+   * given limit */
+  static void increaseVarWithLimit(float& rotation, float incrValue, float limit);
+  /** Decrease the variable by given value, but result not less than
+   * given limit */
+  static void decreaseVarWithLimit(float& rotation, float incrValue, float limit);
+  /** Multiply the variable by given value, but result not more than
+   * given limit */
+  static void multiplyVarWithLimit(float& rotation, float incrValue, float limit);
+  /** Divide the variable by given value, but result not less than
+   * given limit */
+  static void divideVarWithLimit(float& rotation, float incrValue, float limit);
+
   /** Inject input */
   virtual bool injectKeyPressed(OIS::KeyCode keyCode) = 0;
   /** Inject input */
@@ -111,13 +125,15 @@ public:
 
 protected:
   /** Speed of the rotation */
-  static const float DEFAULT_ROTATION_SPEED; // cycles/second
+  static const float ROTATION_DEFAULT_SPEED; // cycles/second
   /** Speed ratio of the zoom */
-  static const float DEFAULT_ZOOM_SPEED_RATIO; // times per second
+  static const float ZOOM_DEFAULT_SPEED_RATIO; // times per second
   /** Maximum radius distance */
   static const float RADIUS_MAX_DISTANCE; // m
   /** Minimum radius distance */
   static const float RADIUS_MIN_DISTANCE; // m
+  /** Default radius distance */
+  static const float RADIUS_DEFAULT_DISTANCE; // m
 
   /** Name of the mode */
   const char* _name;
@@ -144,6 +160,12 @@ protected:
   float _horizontalRot;
   /** Current vertical rotation */
   float _verticalRot;
+  /** Coordinates to take as center */
+  class Vector3 {
+  public:
+    float x, y, z;
+    Vector3(float xx, float yy, float zz) : x(xx), y(yy), z(zz) { }
+  } _center;
 };
 
 
@@ -161,8 +183,6 @@ public:
   /** Default constructor */
   CameraModeOrbital();
 
-  /** @see CameraMode::updateCamera */
-  virtual void updateCamera(Ogre::Camera* camera, double elapsedSeconds);
   /** @see CameraMode::injectKeyPressed */
   virtual bool injectKeyPressed(OIS::KeyCode keyCode);
   /** @see CameraMode::injectKeyReleased */
@@ -174,17 +194,6 @@ public:
   /** @see CameraMode::injectMouseReleased */
   virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y);
 };
-
-
-/** @brief MGED camera mode
- *
- * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- *
- * The behavior of this camera tries to mimic the behaviour of
- * traditional BRL-CAD program MGED.  The shift-grips bindings are
- * described in:
- * http://brlcad.org/w/images/8/8c/Shift_Grips_Quick_Reference_Guide.pdf
- */
 
 
 /** @brief Blender camera mode
@@ -200,8 +209,6 @@ public:
   /** Default constructor */
   CameraModeBlender();
 
-  /** @see CameraMode::updateCamera */
-  virtual void updateCamera(Ogre::Camera* camera, double elapsedSeconds);
   /** @see CameraMode::injectKeyPressed */
   virtual bool injectKeyPressed(OIS::KeyCode keyCode);
   /** @see CameraMode::injectKeyReleased */
@@ -220,7 +227,21 @@ private:
   int _dragModeLastX;
   /** Mode helper */
   int _dragModeLastY;
+
+  /** Mode */
+  bool _panModeEnabled;
 };
+
+
+/** @brief MGED camera mode
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * The behavior of this camera tries to mimic the behaviour of
+ * traditional BRL-CAD program MGED.  The shift-grips bindings are
+ * described in:
+ * http://brlcad.org/w/images/8/8c/Shift_Grips_Quick_Reference_Guide.pdf
+ */
 
 
 #endif
