@@ -45,6 +45,7 @@ const float VERTICAL_ROTATION_MAX_LIMIT = (PI_NUMBER/2.0f)-0.01f;
 /** Limit for vertical rotations */
 const float VERTICAL_ROTATION_MIN_LIMIT = -(PI_NUMBER/2.0f)+0.01f;
 
+
 /*******************************************************************************
  * CameraMode
  ******************************************************************************/
@@ -58,7 +59,7 @@ CameraMode::CameraMode(const char* name) :
   _name(name),
   _actionRotateX(NEUTRAL), _actionRotateY(NEUTRAL), _actionRotateZ(NEUTRAL),
   _actionZoom(NEUTRAL),
-  _actionRequestToCenter(false),
+  _actionResetToCenter(false),
   _rotationSpeed(ROTATION_DEFAULT_SPEED),
   _zoomSpeedRatio(ZOOM_DEFAULT_SPEED_RATIO),
   _radius(RADIUS_DEFAULT_DISTANCE), _horizontalRot(0.0f), _verticalRot(0.0f),
@@ -69,12 +70,13 @@ CameraMode::CameraMode(const char* name) :
 void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
 {
   // apply rotations
-  if (_actionRequestToCenter) {
+  if (_actionResetToCenter) {
     // center (reset rotation) when requested
     _horizontalRot = 0.0f;
     _verticalRot = 0.0f;
     _center = Vector3(0.0f, 0.0f, 0.0f);
-    _actionRequestToCenter = false;
+    _radius = RADIUS_DEFAULT_DISTANCE;
+    _actionResetToCenter = false;
   } else {
     // vertical rotation
     if (_actionRotateX == POSITIVE) {
@@ -134,9 +136,9 @@ const char* CameraMode::getName() const
   return _name;
 }
 
-void CameraMode::setRequestToCenter(bool b)
+void CameraMode::setResetToCenter(bool b)
 {
-  _actionRequestToCenter = b;
+  _actionResetToCenter = b;
 }
 
 void CameraMode::setZoom(Direction direction)
@@ -236,25 +238,32 @@ CameraModeOrbital::CameraModeOrbital() :
 bool CameraModeOrbital::injectKeyPressed(OIS::KeyCode keyCode)
 {
   switch (keyCode) {
-  case OIS::KC_E:
-    setRequestToCenter(true);
+  case OIS::KC_NUMPAD5:
+    // reset to center
+    setResetToCenter(true);
     return true;
-  case OIS::KC_Z:
+  case OIS::KC_ADD:
+    // zoom in
     setZoom(CameraMode::POSITIVE);
     return true;
-  case OIS::KC_Q:
+  case OIS::KC_SUBTRACT:
+    // zoom out
     setZoom(CameraMode::NEGATIVE);
     return true;
-  case OIS::KC_W:
-      setRotateX(CameraMode::POSITIVE);
-      return true;
-  case OIS::KC_S:
+  case OIS::KC_NUMPAD8:
+    // orbit up
+    setRotateX(CameraMode::POSITIVE);
+    return true;
+  case OIS::KC_NUMPAD2:
+    // orbit down
     setRotateX(CameraMode::NEGATIVE);
     return true;
-  case OIS::KC_A:
+  case OIS::KC_NUMPAD4:
+    // orbit left
     setRotateY(CameraMode::POSITIVE);
     return true;
-  case OIS::KC_D:
+  case OIS::KC_NUMPAD6:
+    // orbit right
     setRotateY(CameraMode::NEGATIVE);
     return true;
   default:
@@ -263,120 +272,6 @@ bool CameraModeOrbital::injectKeyPressed(OIS::KeyCode keyCode)
 }
 
 bool CameraModeOrbital::injectKeyReleased(OIS::KeyCode keyCode)
-{
-  switch (keyCode) {
-  case OIS::KC_Z:
-  case OIS::KC_Q:
-    setZoom(CameraMode::NEUTRAL);
-    return true;
-  case OIS::KC_W:
-  case OIS::KC_S:
-    setRotateX(CameraMode::NEUTRAL);
-    return true;
-  case OIS::KC_A:
-  case OIS::KC_D:
-    setRotateY(CameraMode::NEUTRAL);
-    return true;
-  default:
-    return false;
-  }
-}
-
-bool CameraModeOrbital::injectMouseMotion(int x, int y)
-{
-  // nothing to do
-}
-
-bool CameraModeOrbital::injectMousePressed(OIS::MouseButtonID buttonId, int x, int y)
-{
-  // nothing to do
-}
-
-bool CameraModeOrbital::injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y)
-{
-  // nothing to do
-}
-
-
-/*******************************************************************************
- * CameraModeBlender
- ******************************************************************************/
-CameraModeBlender::CameraModeBlender() :
-  CameraMode("Blender"),
-  _dragModeEnabled(false), _dragModeLastX(0), _dragModeLastY(0),
-  _panModeEnabled(false)
-{
-}
-
-bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
-{
-  switch (keyCode) {
-  case OIS::KC_E:
-    setRequestToCenter(true);
-    return true;
-  case OIS::KC_ADD:
-    // zoom in
-    divideVarWithLimit(_radius, 1.25f, RADIUS_MIN_DISTANCE);
-    return true;
-  case OIS::KC_SUBTRACT:
-    // zoom out
-    multiplyVarWithLimit(_radius, 1.25f, RADIUS_MAX_DISTANCE);
-    return true;
-  case OIS::KC_NUMPADENTER:
-    // reset zoom
-    _radius = RADIUS_DEFAULT_DISTANCE;
-    return true;
-  case OIS::KC_NUMPAD8:
-    if (_panModeEnabled) {
-      // pan up
-      _center.y += 100.0f;
-    } else {
-      // orbit up
-      decreaseVarWithLimit(_verticalRot,
-			   degreesToRadians(15.0f),
-			   VERTICAL_ROTATION_MIN_LIMIT);
-    }
-    return true;
-  case OIS::KC_NUMPAD2:
-    if (_panModeEnabled) {
-      // pan down
-      _center.y -= 100.0f;
-    } else {
-      // orbit down
-      increaseVarWithLimit(_verticalRot,
-			   degreesToRadians(15.0f),
-			   VERTICAL_ROTATION_MAX_LIMIT);
-    }
-    return true;
-  case OIS::KC_NUMPAD4:
-    if (_panModeEnabled) {
-      // pan left
-      _center.x -= 100.0f;
-    } else {
-      // orbit left
-      _horizontalRot -= degreesToRadians(15.0f);
-    }
-    return true;
-  case OIS::KC_NUMPAD6:
-    if (_panModeEnabled) {
-      // pan right
-      _center.x += 100.0f;
-    } else {
-      // orbit right
-      _horizontalRot += degreesToRadians(15.0f);
-    }
-    return true;
-  case OIS::KC_LCONTROL:
-  case OIS::KC_RCONTROL:
-    // enable pan mode
-    _panModeEnabled = true;
-    return true;
-  default:
-    return false;
-  }
-}
-
-bool CameraModeBlender::injectKeyReleased(OIS::KeyCode keyCode)
 {
   switch (keyCode) {
   case OIS::KC_ADD:
@@ -394,6 +289,98 @@ bool CameraModeBlender::injectKeyReleased(OIS::KeyCode keyCode)
     // orbit left/right
     setRotateY(CameraMode::NEUTRAL);
     return true;
+  default:
+    return false;
+  }
+}
+
+
+/*******************************************************************************
+ * CameraModeBlender
+ ******************************************************************************/
+const float CameraModeBlender::ROTATION_STEP = PI_NUMBER/12.0f; // 15 degrees, in radians
+const float CameraModeBlender::PAN_STEP = 50.0f; // m
+const float CameraModeBlender::ZOOM_STEP = 1.25f; // ratio
+
+CameraModeBlender::CameraModeBlender() :
+  CameraMode("Blender"),
+  _dragModeEnabled(false), _dragModeLastX(0), _dragModeLastY(0),
+  _panModeEnabled(false)
+{
+}
+
+bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
+{
+  switch (keyCode) {
+  case OIS::KC_NUMPAD5:
+    // reset to center
+    setResetToCenter(true);
+    return true;
+  case OIS::KC_ADD:
+    // zoom in
+    divideVarWithLimit(_radius, ZOOM_STEP, RADIUS_MIN_DISTANCE);
+    return true;
+  case OIS::KC_SUBTRACT:
+    // zoom out
+    multiplyVarWithLimit(_radius, ZOOM_STEP, RADIUS_MAX_DISTANCE);
+    return true;
+  case OIS::KC_NUMPADENTER:
+    // reset zoom
+    _radius = RADIUS_DEFAULT_DISTANCE;
+    return true;
+  case OIS::KC_NUMPAD8:
+    if (_panModeEnabled) {
+      // pan up
+      _center.y += PAN_STEP;
+    } else {
+      // orbit up
+      decreaseVarWithLimit(_verticalRot,
+			   ROTATION_STEP,
+			   VERTICAL_ROTATION_MIN_LIMIT);
+    }
+    return true;
+  case OIS::KC_NUMPAD2:
+    if (_panModeEnabled) {
+      // pan down
+      _center.y -= PAN_STEP;
+    } else {
+      // orbit down
+      increaseVarWithLimit(_verticalRot,
+			   ROTATION_STEP,
+			   VERTICAL_ROTATION_MAX_LIMIT);
+    }
+    return true;
+  case OIS::KC_NUMPAD4:
+    if (_panModeEnabled) {
+      // pan left
+      _center.x -= PAN_STEP;
+    } else {
+      // orbit left
+      _horizontalRot -= ROTATION_STEP;
+    }
+    return true;
+  case OIS::KC_NUMPAD6:
+    if (_panModeEnabled) {
+      // pan right
+      _center.x += PAN_STEP;
+    } else {
+      // orbit right
+      _horizontalRot += ROTATION_STEP;
+    }
+    return true;
+  case OIS::KC_LCONTROL:
+  case OIS::KC_RCONTROL:
+    // enable pan mode
+    _panModeEnabled = true;
+    return true;
+  default:
+    return false;
+  }
+}
+
+bool CameraModeBlender::injectKeyReleased(OIS::KeyCode keyCode)
+{
+  switch (keyCode) {
   case OIS::KC_LCONTROL:
   case OIS::KC_RCONTROL:
     // disable pan mode

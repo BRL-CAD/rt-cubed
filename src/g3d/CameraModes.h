@@ -91,7 +91,7 @@ public:
   float getZoomSpeedRatio() const;
 
   /** Set flag for this camera action */
-  void setRequestToCenter(bool b);
+  void setResetToCenter(bool b);
 
   /** Stop all movements and rotations */
   void stop();
@@ -112,15 +112,15 @@ public:
   static void divideVarWithLimit(float& rotation, float incrValue, float limit);
 
   /** Inject input */
-  virtual bool injectKeyPressed(OIS::KeyCode keyCode) = 0;
+  virtual bool injectKeyPressed(OIS::KeyCode keyCode) { }
   /** Inject input */
-  virtual bool injectKeyReleased(OIS::KeyCode keyCode) = 0;
+  virtual bool injectKeyReleased(OIS::KeyCode keyCode) { }
   /** Inject input */
-  virtual bool injectMouseMotion(int x, int y) = 0;
+  virtual bool injectMouseMotion(int x, int y) { }
   /** Inject input */
-  virtual bool injectMousePressed(OIS::MouseButtonID buttonId, int x, int y) = 0;
+  virtual bool injectMousePressed(OIS::MouseButtonID buttonId, int x, int y) { }
   /** Inject input */
-  virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y) = 0;
+  virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y) { }
 
 
 protected:
@@ -148,7 +148,7 @@ protected:
   Direction _actionZoom;
 
   /** Flag for camera action */
-  bool _actionRequestToCenter;
+  bool _actionResetToCenter;
 
   /** Basic value for calculation */
   float _rotationSpeed; /// cycles/second
@@ -187,12 +187,6 @@ public:
   virtual bool injectKeyPressed(OIS::KeyCode keyCode);
   /** @see CameraMode::injectKeyReleased */
   virtual bool injectKeyReleased(OIS::KeyCode keyCode);
-  /** @see CameraMode::injectMouseMotion */
-  virtual bool injectMouseMotion(int x, int y);
-  /** @see CameraMode::injectMousePressed */
-  virtual bool injectMousePressed(OIS::MouseButtonID buttonId, int x, int y);
-  /** @see CameraMode::injectMouseReleased */
-  virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y);
 };
 
 
@@ -221,6 +215,13 @@ public:
   virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y);
 
 private:
+  /** Default rotation step */
+  static const float ROTATION_STEP; // radians
+  /** Default pan distance */
+  static const float PAN_STEP; // m
+  /** Default zoom step ratio */
+  static const float ZOOM_STEP; // ratio
+
   /** Mode */
   bool _dragModeEnabled;
   /** Mode helper */
