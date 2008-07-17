@@ -27,11 +27,13 @@
  *	(g3d).
  */
 
-#include <OGRE/OgreCamera.h>
-#include <OGRE/OgreSceneNode.h>
+#include "CameraModes.h"
 
 #include "Logger.h"
-#include "CameraModes.h"
+
+#include <OGRE/OgreCamera.h>
+#include <OGRE/OgreSceneNode.h>
+#include <OIS/OISKeyboard.h>
 
 
 /** Pi constant */
@@ -41,12 +43,19 @@
 /*******************************************************************************
  * CameraMode
  ******************************************************************************/
+const float CameraMode::DEFAULT_ROTATION_SPEED = (2.0f*PI_NUMBER)/4.0f; // 4s for full revolution
+const float CameraMode::DEFAULT_ZOOM_SPEED_RATIO = 4.0f; // 4 times per second
+const float CameraMode::RADIUS_MAX_DISTANCE = 10000.0f; // m
+const float CameraMode::RADIUS_MIN_DISTANCE = 0.1f; // m
+
 CameraMode::CameraMode(const char* name) :
   _name(name),
-  _actionZoomingIn(false), _actionZoomingOut(false),
-  _actionUp(false), _actionDown(false),
-  _actionLeft(false), _actionRight(false),
-  _actionRequestToCenter(false)
+  _actionRotateX(NEUTRAL), _actionRotateY(NEUTRAL), _actionRotateZ(NEUTRAL),
+  _actionZoom(NEUTRAL),
+  _actionRequestToCenter(false),
+  _rotationSpeed(DEFAULT_ROTATION_SPEED),
+  _zoomSpeedRatio(DEFAULT_ZOOM_SPEED_RATIO),
+  _radius(500.0f), _horizontalRot(0.0f), _verticalRot(0.0f)
 {
 }
 
@@ -55,53 +64,65 @@ const char* CameraMode::getName() const
   return _name;
 }
 
-void CameraMode::setZoomingIn(bool b)
-{
-  _actionZoomingIn = b;
-}
-
-void CameraMode::setZoomingOut(bool b)
-{
-  _actionZoomingOut = b;
-}
-
-void CameraMode::setUp(bool b)
-{
-  _actionUp = b;
-}
-
-void CameraMode::setDown(bool b)
-{
-  _actionDown = b;
-}
-
-void CameraMode::setLeft(bool b)
-{
-  _actionLeft = b;
-}
-
-void CameraMode::setRight(bool b)
-{
-  _actionRight = b;
-}
-
 void CameraMode::setRequestToCenter(bool b)
 {
   _actionRequestToCenter = b;
+}
+
+void CameraMode::setZoom(Direction direction)
+{
+  _actionZoom = direction;
+}
+
+void CameraMode::setRotateX(Direction direction)
+{
+  _actionRotateX = direction;
+}
+
+void CameraMode::setRotateY(Direction direction)
+{
+  _actionRotateY = direction;
+}
+
+void CameraMode::setRotateZ(Direction direction)
+{
+  _actionRotateZ = direction;
+}
+
+void CameraMode::setRotationSpeed(float speed)
+{
+  _rotationSpeed = speed;
+}
+
+float CameraMode::getRotationSpeed() const
+{
+  return _rotationSpeed;
+}
+
+void CameraMode::setZoomSpeedRatio(float ratio)
+{
+  _zoomSpeedRatio = ratio;
+}
+
+float CameraMode::getZoomSpeedRatio() const
+{
+  return _zoomSpeedRatio;
+}
+
+void CameraMode::stop()
+{
+  _actionRotateX = NEUTRAL;
+  _actionRotateY = NEUTRAL;
+  _actionRotateZ = NEUTRAL;
+  _actionZoom = NEUTRAL;
 }
 
 
 /*******************************************************************************
  * CameraModeOrbital
  ******************************************************************************/
-const float CameraModeOrbital::ZOOM_RATIO = 4.0f; // this times every second
-const float CameraModeOrbital::RADIUS_MAX_DISTANCE = 10000.0f; // m
-const float CameraModeOrbital::RADIUS_MIN_DISTANCE = 0.1f; // m
-const float CameraModeOrbital::ROTATION_SPEED = PI_NUMBER/2.0f; // 4s for full revolution
-
 CameraModeOrbital::CameraModeOrbital() :
-  CameraMode("Orbital"), 
-  _horizontalRot(0.0), _verticalRot(-PI_NUMBER/24.0f), _radius(100.0f)
+  CameraMode("Orbital")
 {
 }
 
@@ -115,31 +136,31 @@ void CameraModeOrbital::updateCamera(Ogre::Camera* camera, double elapsedSeconds
     _actionRequestToCenter = false;
   } else {
     // vertical rotation
-    if (_actionUp) {
-      _verticalRot += ROTATION_SPEED * elapsedSeconds;
+    if (_actionRotateX == POSITIVE) {
+      _verticalRot += _rotationSpeed * elapsedSeconds;
       if (_verticalRot >= PI_NUMBER/2.0f)
 	_verticalRot = (PI_NUMBER/2.0f)-0.01f;
-    } else if (_actionDown) {
-      _verticalRot -= ROTATION_SPEED * elapsedSeconds;
+    } else if (_actionRotateX == NEGATIVE) {
+      _verticalRot -= _rotationSpeed * elapsedSeconds;
       if (_verticalRot <= -PI_NUMBER/2.0f)
 	_verticalRot = -(PI_NUMBER/2.0f)+0.01f;
     }
 
     // horizontal rotation
-    if (_actionLeft) {
-      _horizontalRot += ROTATION_SPEED * elapsedSeconds;
-    } else if (_actionRight) {
-      _horizontalRot -= ROTATION_SPEED * elapsedSeconds;
+    if (_actionRotateY == POSITIVE) {
+      _horizontalRot += _rotationSpeed * elapsedSeconds;
+    } else if (_actionRotateY == NEGATIVE) {
+      _horizontalRot -= _rotationSpeed * elapsedSeconds;
     }
   }
 
   // radius
-  if (_actionZoomingIn) {
-    _radius /= 1.0f + (ZOOM_RATIO*elapsedSeconds);
+  if (_actionZoom == POSITIVE) {
+    _radius /= 1.0f + (DEFAULT_ZOOM_SPEED_RATIO*elapsedSeconds);
     if (_radius < RADIUS_MIN_DISTANCE)
       _radius = RADIUS_MIN_DISTANCE;
-  } else if (_actionZoomingOut) {
-    _radius *= 1.0f + (ZOOM_RATIO*elapsedSeconds);
+  } else if (_actionZoom == NEGATIVE) {
+    _radius *= 1.0f + (DEFAULT_ZOOM_SPEED_RATIO*elapsedSeconds);
     if (_radius > RADIUS_MAX_DISTANCE)
       _radius = RADIUS_MAX_DISTANCE;
   }
@@ -161,6 +182,226 @@ void CameraModeOrbital::updateCamera(Ogre::Camera* camera, double elapsedSeconds
 
     camera->setPosition(tmpNode.getPosition());
     camera->lookAt(0, 0, 0);
+  }
+}
+
+bool CameraModeOrbital::injectKeyPressed(OIS::KeyCode keyCode)
+{
+  switch (keyCode) {
+  case OIS::KC_E:
+    setRequestToCenter(true);
+    return true;
+  case OIS::KC_Z:
+    setZoom(CameraMode::POSITIVE);
+    return true;
+  case OIS::KC_Q:
+    setZoom(CameraMode::NEGATIVE);
+    return true;
+  case OIS::KC_W:
+      setRotateX(CameraMode::POSITIVE);
+      return true;
+  case OIS::KC_S:
+    setRotateX(CameraMode::NEGATIVE);
+    return true;
+  case OIS::KC_A:
+    setRotateY(CameraMode::POSITIVE);
+    return true;
+  case OIS::KC_D:
+    setRotateY(CameraMode::NEGATIVE);
+    return true;
+  default:
+    return false;
+  }
+}
+
+bool CameraModeOrbital::injectKeyReleased(OIS::KeyCode keyCode)
+{
+  switch (keyCode) {
+  case OIS::KC_Z:
+  case OIS::KC_Q:
+    setZoom(CameraMode::NEUTRAL);
+    return true;
+  case OIS::KC_W:
+  case OIS::KC_S:
+    setRotateX(CameraMode::NEUTRAL);
+    return true;
+  case OIS::KC_A:
+  case OIS::KC_D:
+    setRotateY(CameraMode::NEUTRAL);
+    return true;
+  default:
+    return false;
+  }
+}
+
+bool CameraModeOrbital::injectMouseMotion(int x, int y)
+{
+  // nothing to do
+}
+
+bool CameraModeOrbital::injectMousePressed(OIS::MouseButtonID buttonId, int x, int y)
+{
+  // nothing to do
+}
+
+bool CameraModeOrbital::injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y)
+{
+  // nothing to do
+}
+
+
+/*******************************************************************************
+ * CameraModeBlender
+ ******************************************************************************/
+CameraModeBlender::CameraModeBlender() :
+  CameraMode("Blender"),
+  _dragModeEnabled(false), _dragModeLastX(0), _dragModeLastY(0)
+{
+}
+
+void CameraModeBlender::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
+{
+  // apply rotations
+  if (_actionRequestToCenter) {
+    // center (reset rotation) when requested
+    _horizontalRot = 0.0;
+    _verticalRot = -PI_NUMBER/24.0f;
+    _actionRequestToCenter = false;
+  } else {
+    // vertical rotation
+    if (_actionRotateX == POSITIVE) {
+      _verticalRot += _rotationSpeed * elapsedSeconds;
+      if (_verticalRot >= PI_NUMBER/2.0f)
+	_verticalRot = (PI_NUMBER/2.0f)-0.01f;
+    } else if (_actionRotateX == NEGATIVE) {
+      _verticalRot -= _rotationSpeed * elapsedSeconds;
+      if (_verticalRot <= -PI_NUMBER/2.0f)
+	_verticalRot = -(PI_NUMBER/2.0f)+0.01f;
+    }
+
+    // horizontal rotation
+    if (_actionRotateY == POSITIVE) {
+      _horizontalRot += _rotationSpeed * elapsedSeconds;
+    } else if (_actionRotateY == NEGATIVE) {
+      _horizontalRot -= _rotationSpeed * elapsedSeconds;
+    }
+  }
+
+  // radius
+  if (_actionZoom == POSITIVE) {
+    _radius /= 1.0f + (DEFAULT_ZOOM_SPEED_RATIO*elapsedSeconds);
+    if (_radius < RADIUS_MIN_DISTANCE)
+      _radius = RADIUS_MIN_DISTANCE;
+  } else if (_actionZoom == NEGATIVE) {
+    _radius *= 1.0f + (DEFAULT_ZOOM_SPEED_RATIO*elapsedSeconds);
+    if (_radius > RADIUS_MAX_DISTANCE)
+      _radius = RADIUS_MAX_DISTANCE;
+  }
+
+  Ogre::SceneNode tmpNode(0);
+
+  // rotations
+  tmpNode.yaw(Ogre::Radian(_horizontalRot));
+  tmpNode.pitch(Ogre::Radian(_verticalRot));
+
+  // position -- push back given radius
+  Ogre::Vector3 radiusDistance(0, 0, _radius);
+  tmpNode.translate(radiusDistance, Ogre::SceneNode::TS_LOCAL);
+
+  // set the resulting position to the camera
+  Ogre::Vector3 pos(camera->getPosition());
+  if (pos != tmpNode.getPosition()) {
+    //Logger::logDEBUG("Camera position (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
+
+    camera->setPosition(tmpNode.getPosition());
+    camera->lookAt(0, 0, 0);
+  }
+}
+
+bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
+{
+  switch (keyCode) {
+  case OIS::KC_E:
+    setRequestToCenter(true);
+    return true;
+  case OIS::KC_Z:
+    setZoom(CameraMode::POSITIVE);
+    return true;
+  case OIS::KC_Q:
+    setZoom(CameraMode::NEGATIVE);
+    return true;
+  case OIS::KC_W:
+      setRotateX(CameraMode::POSITIVE);
+      return true;
+  case OIS::KC_S:
+    setRotateX(CameraMode::NEGATIVE);
+    return true;
+  case OIS::KC_A:
+    setRotateY(CameraMode::POSITIVE);
+    return true;
+  case OIS::KC_D:
+    setRotateY(CameraMode::NEGATIVE);
+    return true;
+  default:
+    return false;
+  }
+}
+
+bool CameraModeBlender::injectKeyReleased(OIS::KeyCode keyCode)
+{
+  switch (keyCode) {
+  case OIS::KC_Z:
+  case OIS::KC_Q:
+    setZoom(CameraMode::NEUTRAL);
+    return true;
+  case OIS::KC_W:
+  case OIS::KC_S:
+    setRotateX(CameraMode::NEUTRAL);
+    return true;
+  case OIS::KC_A:
+  case OIS::KC_D:
+    setRotateY(CameraMode::NEUTRAL);
+    return true;
+  default:
+    return false;
+  }
+}
+
+bool CameraModeBlender::injectMouseMotion(int x, int y)
+{
+  if (_dragModeEnabled) {
+    float horizontalDiff = x - _dragModeLastX;
+    float verticalDiff = y - _dragModeLastY;
+
+    _horizontalRot -= horizontalDiff/100.0f;
+    _verticalRot -= verticalDiff/100.0f;
+    if (_verticalRot >= PI_NUMBER/2.0f)
+      _verticalRot = (PI_NUMBER/2.0f)-0.01f;
+    if (_verticalRot <= -PI_NUMBER/2.0f)
+      _verticalRot = -(PI_NUMBER/2.0f)+0.01f;
+
+    _dragModeLastX = x;
+    _dragModeLastY = y;
+
+    Logger::logDEBUG("mouse moved in drag mode, relative positions: %g %g, rot: %g %g",
+		     horizontalDiff, verticalDiff,
+		     _horizontalRot, _verticalRot);
+  }
+}
+
+bool CameraModeBlender::injectMousePressed(OIS::MouseButtonID buttonId, int x, int y)
+{
+  if (buttonId == OIS::MB_Middle) {
+    _dragModeEnabled = true;
+    _dragModeLastX = x;
+    _dragModeLastY = y;
+  }
+}
+
+bool CameraModeBlender::injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y)
+{
+  if (buttonId == OIS::MB_Middle) {
+    _dragModeEnabled = false;
   }
 }
 

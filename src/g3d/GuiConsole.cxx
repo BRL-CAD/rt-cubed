@@ -75,6 +75,12 @@ GuiConsole::GuiConsole(RBGui::GuiManager& guiMgr) :
   GuiWindowManager::instance().registerWindow(this);
   Logger::instance().attach(this);
   History::instance().attach(this);
+
+  /// \todo mafm: remove this call at some point...
+
+  // creating an initial shape, for convenience while in initial
+  // phases of development... (need to instantiate commands...)
+  CommandInterpreter::instance();
 }
 
 GuiConsole::~GuiConsole()

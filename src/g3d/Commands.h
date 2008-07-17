@@ -140,6 +140,10 @@ public:
 	    "Argument is [tetrahedron|cube] (initial chars are enough)"),
     _sampleTetrahedron(50) {
       _argNames.push_back("shape");
+
+      // creating an initial shape, for convenience while in initial
+      // phases of development...
+      Application::instance().addGeometry("tetrahedron", "TetrahedronMesh");
     }
 
   virtual void execute(std::vector<std::string>& args , CommandOutput& out) {

@@ -33,6 +33,9 @@
 
 #include "Observer.h"
 
+#include <OIS/OISKeyboard.h>
+#include <OIS/OISMouse.h>
+
 #include <deque>
 #include <list>
 
@@ -85,6 +88,17 @@ public:
   CameraMode& getActiveCameraMode();
   /** Cycle the camera mode to the next one */
   void cycleCameraMode();
+
+  /** Inject input */
+  bool injectKeyPressed(OIS::KeyCode keyCode);
+  /** Inject input */
+  bool injectKeyReleased(OIS::KeyCode keyCode);
+  /** Inject input */
+  bool injectMouseMotion(int x, int y);
+  /** Inject input */
+  bool injectMousePressed(OIS::MouseButtonID buttonId, int x, int y);
+  /** Inject input */
+  bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y);
 
 private:
   /** Singleton instance */

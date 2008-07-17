@@ -27,12 +27,12 @@
  *	Editor (g3d).
  */
 
-#include <OGRE/OgreSceneNode.h>
+#include "CameraManager.h"
 
 #include "Logger.h"
 #include "CameraModes.h"
 
-#include "CameraManager.h"
+#include <OGRE/OgreSceneNode.h>
 
 
 /*******************************************************************************
@@ -51,7 +51,11 @@ CameraManager::CameraManager()
 {
   // create camera modes that we'll use (default is the first one, it
   // will get in the front of the list)
+  _cameraModeList.push_back(new CameraModeBlender());
   _cameraModeList.push_back(new CameraModeOrbital());
+
+  const char* cameraModeName = _cameraModeList.front()->getName();
+  Logger::logINFO("Default camera mode: '%s'", cameraModeName);
 }
 
 CameraMode& CameraManager::getActiveCameraMode()
@@ -69,9 +73,43 @@ void CameraManager::cycleCameraMode()
   _cameraModeList.push_back(_cameraModeList.front());
   _cameraModeList.pop_front();
 
+  const char* cameraModeName = _cameraModeList.front()->getName();
+  Logger::logINFO("Camera mode switched to: '%s'", cameraModeName);
+
   // notify observers
   notify(CameraObserverEvent(CameraObserverEvent::MODE_CHANGED,
-			     _cameraModeList.front()->getName()));
+			     cameraModeName));
+}
+
+bool CameraManager::injectKeyPressed(OIS::KeyCode keyCode)
+{
+  switch (keyCode) {
+  case OIS::KC_C:
+    cycleCameraMode();
+    return true;
+  default:
+    return getActiveCameraMode().injectKeyPressed(keyCode);
+  }
+}
+
+bool CameraManager::injectKeyReleased(OIS::KeyCode keyCode)
+{
+  return getActiveCameraMode().injectKeyReleased(keyCode);
+}
+
+bool CameraManager::injectMouseMotion(int x, int y)
+{
+  return getActiveCameraMode().injectMouseMotion(x, y);
+}
+
+bool CameraManager::injectMousePressed(OIS::MouseButtonID buttonId, int x, int y)
+{
+  return getActiveCameraMode().injectMousePressed(buttonId, x, y);
+}
+
+bool CameraManager::injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y)
+{
+  return getActiveCameraMode().injectMouseReleased(buttonId, x, y);
 }
 
 

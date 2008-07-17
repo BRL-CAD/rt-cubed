@@ -140,44 +140,78 @@ public:
     { }
 
   /** Method for Mouse Moved events */
-  virtual bool mouseMoved(const OIS::MouseEvent& event)
-    {
-      // Get absolute position
-      Mocha::Vector2 absPos = Mocha::Vector2(static_cast<float>(event.state.X.abs), 
-					     static_cast<float>(event.state.Y.abs));
+  virtual bool mouseMoved(const OIS::MouseEvent& event) {
+    // Get absolute position
+    Mocha::Vector2 absPos = Mocha::Vector2(static_cast<float>(event.state.X.abs), 
+					   static_cast<float>(event.state.Y.abs));
 
-      // Inject mouse scroll event
-      if (event.state.Z.rel != 0) {
-	_guiMgr.injectMouseScrolled(static_cast<float>(event.state.Z.rel / 120.0f),
-				    absPos);
-      }
+    // Inject mouse scroll event
+    if (event.state.Z.rel != 0) {
+      _guiMgr.injectMouseScrolled(static_cast<float>(event.state.Z.rel / 120.0f),
+				  absPos);
+    }
 
-      // Calculate relative position in pixels
-      Mocha::Vector2 relPos = absPos - _prevPos;
-      _prevPos = absPos;
+    // Calculate relative position in pixels
+    Mocha::Vector2 relPos = absPos - _prevPos;
+    _prevPos = absPos;
 
-      // Send event to GUI
-      _guiMgr.injectMouseMotion(relPos, absPos);
+    // Send event to GUI
+    bool used = _guiMgr.injectMouseMotion(relPos, absPos);
+    if (used) {
       return true;
     }
+
+    // Camera
+    used = CameraManager::instance().injectMouseMotion(event.state.X.abs,
+						       event.state.Y.abs);
+    if (used) {
+      return true;
+    }
+
+    return false;
+  }
 	
   /** Method for Mouse Pressed events */
-  virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id)
-    {
-      _guiMgr.injectMousePressed(static_cast<RBGui::MouseButtonID>(id),
-				 Mocha::Vector2(static_cast<float>(event.state.X.abs),
-						static_cast<float>(event.state.Y.abs)));
+  virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID id) {
+    // GUI
+    bool used = _guiMgr.injectMousePressed(static_cast<RBGui::MouseButtonID>(id),
+					   Mocha::Vector2(static_cast<float>(event.state.X.abs),
+							  static_cast<float>(event.state.Y.abs)));
+    if (used) {
       return true;
     }
 
-  /** Method for Mouse Released events */
-  virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id)
-    {
-      _guiMgr.injectMouseReleased(static_cast<RBGui::MouseButtonID>(id),
-				  Mocha::Vector2(static_cast<float>(event.state.X.abs),
-						 static_cast<float>(event.state.Y.abs)));
+    // Camera
+    used = CameraManager::instance().injectMousePressed(id,
+							event.state.X.abs,
+							event.state.Y.abs);
+    if (used) {
       return true;
     }
+
+    return false;
+  }
+
+  /** Method for Mouse Released events */
+  virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID id) {
+    // GUI
+    bool used = _guiMgr.injectMouseReleased(static_cast<RBGui::MouseButtonID>(id),
+					    Mocha::Vector2(static_cast<float>(event.state.X.abs),
+							   static_cast<float>(event.state.Y.abs)));
+    if (used) {
+      return true;
+    }
+
+    // Camera
+    used = CameraManager::instance().injectMouseReleased(id,
+							 event.state.X.abs,
+							 event.state.Y.abs);
+    if (used) {
+      return true;
+    }
+
+    return false;
+  }
 
 private:
   /** Link to the Application that this listener applies */
@@ -210,92 +244,53 @@ public:
     { }
 
   /** Method for Key Pressed events */
-  virtual bool keyPressed(const OIS::KeyEvent& event)
-    {
-      /*************************************************************************
-       * These first ones have precedence over anything
-       ************************************************************************/
-      if (event.key == OIS::KC_ESCAPE) {
-	// ESC key to quit -- hack for convenience while developing 
-	_app.quit();
-	return true;
-      } else if (event.key == OIS::KC_F12) {
-	// Fullscreen
-	_app.toggleFullscreen();
-	return true;
-      }
-
-      // No need to translate key IDs because they are the same as OIS
-      bool used = _guiMgr.injectKeyPressed(static_cast<RBGui::KeyID>(event.key));
-      if (used) {
-	return true;
-      }
-
-      /*************************************************************************
-       * Camera -- don't capture regular keys
-       ************************************************************************/
-      if (event.key == OIS::KC_E) {
-	CameraManager::instance().getActiveCameraMode().setRequestToCenter(true);
-	return true;
-      } else if (event.key == OIS::KC_Z) {
-	CameraManager::instance().getActiveCameraMode().setZoomingIn(true);
-	return true;
-      } else if (event.key == OIS::KC_Q) {
-	CameraManager::instance().getActiveCameraMode().setZoomingOut(true);
-	return true;
-      } else if (event.key == OIS::KC_W) {
-	CameraManager::instance().getActiveCameraMode().setUp(true);
-	return true;
-      } else if (event.key == OIS::KC_S) {
-	CameraManager::instance().getActiveCameraMode().setDown(true);
-	return true;
-      } else if (event.key == OIS::KC_A) {
-	CameraManager::instance().getActiveCameraMode().setLeft(true);
-	return true;
-      } else if (event.key == OIS::KC_D) {
-	CameraManager::instance().getActiveCameraMode().setRight(true);
-	return true;
-      }
-
-      // not handled before...
-      return false;
+  virtual bool keyPressed(const OIS::KeyEvent& event) {
+    /*************************************************************************
+     * These first ones have precedence over anything
+     ************************************************************************/
+    if (event.key == OIS::KC_ESCAPE) {
+      // ESC key to quit -- hack for convenience while developing 
+      _app.quit();
+      return true;
+    } else if (event.key == OIS::KC_F12) {
+      // Fullscreen
+      _app.toggleFullscreen();
+      return true;
     }
+
+    // No need to translate key IDs because they are the same as OIS
+    bool used = _guiMgr.injectKeyPressed(static_cast<RBGui::KeyID>(event.key));
+    if (used) {
+      return true;
+    }
+
+    // Camera
+    used = CameraManager::instance().injectKeyPressed(event.key);
+    if (used) {
+      return true;
+    }
+
+    // not handled before...
+    return false;
+  }
 	
   /** Method for Key released events */
-  virtual bool keyReleased(const OIS::KeyEvent& event)
-    {
-      // No need to translate key IDs because they are the same as OIS
-      bool used = _guiMgr.injectKeyReleased(static_cast<RBGui::KeyID>(event.key));
-      if (used) {
-	return true;
-      }
-
-      /*************************************************************************
-       * Camera -- don't capture regular keys
-       ************************************************************************/
-      if (event.key == OIS::KC_Z) {
-	CameraManager::instance().getActiveCameraMode().setZoomingIn(false);
-	return true;
-      } else if (event.key == OIS::KC_Q) {
-	CameraManager::instance().getActiveCameraMode().setZoomingOut(false);
-	return true;
-      } else if (event.key == OIS::KC_W) {
-	CameraManager::instance().getActiveCameraMode().setUp(false);
-	return true;
-      } else if (event.key == OIS::KC_S) {
-	CameraManager::instance().getActiveCameraMode().setDown(false);
-	return true;
-      } else if (event.key == OIS::KC_A) {
-	CameraManager::instance().getActiveCameraMode().setLeft(false);
-	return true;
-      } else if (event.key == OIS::KC_D) {
-	CameraManager::instance().getActiveCameraMode().setRight(false);
-	return true;
-      }
-
-      // not handled before
-      return false;
+  virtual bool keyReleased(const OIS::KeyEvent& event) {
+    // No need to translate key IDs because they are the same as OIS
+    bool used = _guiMgr.injectKeyReleased(static_cast<RBGui::KeyID>(event.key));
+    if (used) {
+      return true;
     }
+
+    // Camera
+    used = CameraManager::instance().injectKeyReleased(event.key);
+    if (used) {
+      return true;
+    }
+
+    // not handled before
+    return false;
+  }
 
 private:
   /** Link to the Application that this listener applies */
@@ -317,14 +312,13 @@ class LostDeviceListener : public Ogre::RenderSystem::Listener
 public:
   /** Method for any event */
   virtual void eventOccurred(const Ogre::String& eventName,
-			     const Ogre::NameValuePairList* /* parameters */)
-    {
-      // Redraw the GUI if the device has been lost
-      if (eventName == "DeviceLost") {
-	Logger::logWARNING("OGRE lost the device, redrawing");
-	RBGui::Core::Get().invalidate();
-      }
+			     const Ogre::NameValuePairList* /* parameters */) {
+    // Redraw the GUI if the device has been lost
+    if (eventName == "DeviceLost") {
+      Logger::logWARNING("OGRE lost the device, redrawing");
+      RBGui::Core::Get().invalidate();
     }
+  }
 };
 
 
@@ -482,6 +476,7 @@ void Application::initialize()
   GuiWindowManager::instance().setGuiManager(_guiManager);
   _windowList.push_back(new GuiConsole(*_guiManager));
   _windowList.push_back(new GuiCommandOverlay(*_guiManager));
+
 
   //createTestingWindows();
 }
