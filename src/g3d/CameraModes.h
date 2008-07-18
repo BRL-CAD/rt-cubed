@@ -138,6 +138,11 @@ protected:
   /** Name of the mode */
   const char* _name;
 
+  /** Windows parameters */
+  int _windowWidth;
+  /** Windows parameters */
+  int _windowHeight;
+
   /** Flag for camera action */
   Direction _actionRotateX;
   /** Flag for camera action */
@@ -160,7 +165,11 @@ protected:
   float _horizontalRot;
   /** Current vertical rotation */
   float _verticalRot;
-  /** Coordinates to take as center */
+  /** Coordinates to take as center
+   *
+   * \todo mafm: probably should use somethinf similar from other
+   * BRL-CAD sources
+   */
   class Vector3 {
   public:
     float x, y, z;
@@ -225,9 +234,9 @@ private:
   /** Mode */
   bool _dragModeEnabled;
   /** Mode helper */
-  int _dragModeLastX;
+  int _dragModeOriginX;
   /** Mode helper */
-  int _dragModeLastY;
+  int _dragModeOriginY;
 
   /** Mode */
   bool _panModeEnabled;

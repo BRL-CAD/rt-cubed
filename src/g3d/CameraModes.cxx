@@ -33,7 +33,7 @@
 
 #include <OGRE/OgreCamera.h>
 #include <OGRE/OgreSceneNode.h>
-#include <OIS/OISKeyboard.h>
+#include <OGRE/OgreViewport.h>
 
 
 /** Pi constant */
@@ -56,7 +56,7 @@ const float CameraMode::RADIUS_MIN_DISTANCE = 0.1f; // m
 const float CameraMode::RADIUS_DEFAULT_DISTANCE = 500.0f; // m
 
 CameraMode::CameraMode(const char* name) :
-  _name(name),
+  _name(name), _windowWidth(0), _windowHeight(0),
   _actionRotateX(NEUTRAL), _actionRotateY(NEUTRAL), _actionRotateZ(NEUTRAL),
   _actionZoom(NEUTRAL),
   _actionResetToCenter(false),
@@ -69,6 +69,9 @@ CameraMode::CameraMode(const char* name) :
 
 void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
 {
+  _windowWidth = camera->getViewport()->getActualWidth();
+  _windowHeight = camera->getViewport()->getActualHeight();
+
   // apply rotations
   if (_actionResetToCenter) {
     // center (reset rotation) when requested
@@ -110,6 +113,10 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
 
   Ogre::SceneNode tmpNode(0);
 
+  // set initial center
+  Ogre::Vector3 centerTranslation(_center.x, _center.y, _center.z);
+  tmpNode.translate(centerTranslation, Ogre::SceneNode::TS_LOCAL);
+
   // rotations
   tmpNode.yaw(Ogre::Radian(_horizontalRot));
   tmpNode.pitch(Ogre::Radian(_verticalRot));
@@ -120,9 +127,6 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
 
   // set the resulting position to the camera
   Ogre::Vector3 pos(camera->getPosition());
-  pos.x += _center.x;
-  pos.y += _center.y;
-  pos.z += _center.z;
   if (pos != tmpNode.getPosition()) {
     //Logger::logDEBUG("Camera position (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
 
@@ -304,7 +308,7 @@ const float CameraModeBlender::ZOOM_STEP = 1.25f; // ratio
 
 CameraModeBlender::CameraModeBlender() :
   CameraMode("Blender"),
-  _dragModeEnabled(false), _dragModeLastX(0), _dragModeLastY(0),
+  _dragModeEnabled(false), _dragModeOriginX(0), _dragModeOriginY(0),
   _panModeEnabled(false)
 {
 }
@@ -393,23 +397,20 @@ bool CameraModeBlender::injectKeyReleased(OIS::KeyCode keyCode)
 
 bool CameraModeBlender::injectMouseMotion(int x, int y)
 {
+  /// \todo mafm: there are some glitches, depending on the position
+  /// when it starts and so on, it's worth investigating when more
+  /// complex scenes are in place and it can be diagnosed more easily
+
   if (_dragModeEnabled) {
-    float horizontalDiff = x - _dragModeLastX;
-    float verticalDiff = y - _dragModeLastY;
+    // calculate the difference since last update, normalized between
+    // -1.0 and 1.0 w.r.t. screen coordinates
+    float horizDiffNorm = -(x - _dragModeOriginX)/(_windowWidth/2.0f);
+    float vertDiffNorm = -(y - _dragModeOriginY)/(_windowHeight/2.0f);
+    // Logger::logDEBUG("%.03f %.03f", horizDiffNorm, vertDiffNorm);
 
-    _horizontalRot -= horizontalDiff/100.0f;
-    _verticalRot -= verticalDiff/100.0f;
-    if (_verticalRot >= PI_NUMBER/2.0f)
-      _verticalRot = (PI_NUMBER/2.0f)-0.01f;
-    if (_verticalRot <= -PI_NUMBER/2.0f)
-      _verticalRot = -(PI_NUMBER/2.0f)+0.01f;
-
-    _dragModeLastX = x;
-    _dragModeLastY = y;
-
-    Logger::logDEBUG("mouse moved in drag mode, relative positions: %g %g, rot: %g %g",
-		     horizontalDiff, verticalDiff,
-		     _horizontalRot, _verticalRot);
+    // orbit freely, setting absolute position
+    _horizontalRot = horizDiffNorm*PI_NUMBER;
+    _verticalRot = vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
   }
 }
 
@@ -417,8 +418,8 @@ bool CameraModeBlender::injectMousePressed(OIS::MouseButtonID buttonId, int x, i
 {
   if (buttonId == OIS::MB_Middle) {
     _dragModeEnabled = true;
-    _dragModeLastX = x;
-    _dragModeLastY = y;
+    _dragModeOriginX = x;
+    _dragModeOriginY = y;
   }
 }
 
