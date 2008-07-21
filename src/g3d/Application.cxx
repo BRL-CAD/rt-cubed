@@ -72,7 +72,6 @@
 #include "GuiConsole.h"
 #include "GuiWindowManager.h"
 #include "CameraManager.h"
-#include "CameraModes.h"
 
 #include "Application.h"
 

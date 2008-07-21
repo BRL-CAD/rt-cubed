@@ -1,4 +1,4 @@
-/*                C A M E R A M O D E S . C X X
+/*                C A M E R A M O D E . C X X
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by the
@@ -18,16 +18,16 @@
  * information.
  */
 
-/** @file CameraModes.cxx
+/** @file CameraMode.cxx
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * @brief
- *	Implementation of the Camera modes of 3D Geometry Editor
- *	(g3d).
+ *	Implementation of the base class for Camera modes of 3D
+ *	Geometry Editor (g3d).
  */
 
-#include "CameraModes.h"
+#include "CameraMode.h"
 
 #include "Logger.h"
 
@@ -217,206 +217,6 @@ void CameraMode::divideVarWithLimit(float& rotation, float incrValue, float limi
   rotation /= incrValue;
   if (rotation < limit) {
     rotation = limit;
-  }
-}
-
-
-/*******************************************************************************
- * CameraModeOrbital
- ******************************************************************************/
-CameraModeOrbital::CameraModeOrbital() :
-  CameraMode("Orbital")
-{
-}
-
-bool CameraModeOrbital::injectKeyPressed(OIS::KeyCode keyCode)
-{
-  switch (keyCode) {
-  case OIS::KC_NUMPAD5:
-    // reset to center
-    setResetToCenter(true);
-    return true;
-  case OIS::KC_ADD:
-    // zoom in
-    setZoom(CameraMode::POSITIVE);
-    return true;
-  case OIS::KC_SUBTRACT:
-    // zoom out
-    setZoom(CameraMode::NEGATIVE);
-    return true;
-  case OIS::KC_NUMPAD8:
-    // orbit up
-    setRotateX(CameraMode::POSITIVE);
-    return true;
-  case OIS::KC_NUMPAD2:
-    // orbit down
-    setRotateX(CameraMode::NEGATIVE);
-    return true;
-  case OIS::KC_NUMPAD4:
-    // orbit left
-    setRotateY(CameraMode::POSITIVE);
-    return true;
-  case OIS::KC_NUMPAD6:
-    // orbit right
-    setRotateY(CameraMode::NEGATIVE);
-    return true;
-  default:
-    return false;
-  }
-}
-
-bool CameraModeOrbital::injectKeyReleased(OIS::KeyCode keyCode)
-{
-  switch (keyCode) {
-  case OIS::KC_ADD:
-  case OIS::KC_SUBTRACT:
-    // zoom
-    setZoom(CameraMode::NEUTRAL);
-    return true;
-  case OIS::KC_NUMPAD8:
-  case OIS::KC_NUMPAD2:
-    // orbit up/down
-    setRotateX(CameraMode::NEUTRAL);
-    return true;
-  case OIS::KC_NUMPAD4:
-  case OIS::KC_NUMPAD6:
-    // orbit left/right
-    setRotateY(CameraMode::NEUTRAL);
-    return true;
-  default:
-    return false;
-  }
-}
-
-
-/*******************************************************************************
- * CameraModeBlender
- ******************************************************************************/
-const float CameraModeBlender::ROTATION_STEP = PI_NUMBER/12.0f; // 15 degrees, in radians
-const float CameraModeBlender::PAN_STEP = 50.0f; // m
-const float CameraModeBlender::ZOOM_STEP = 1.25f; // ratio
-
-CameraModeBlender::CameraModeBlender() :
-  CameraMode("Blender"),
-  _dragModeEnabled(false), _dragModeOriginX(0), _dragModeOriginY(0),
-  _panModeEnabled(false)
-{
-}
-
-bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
-{
-  switch (keyCode) {
-  case OIS::KC_NUMPAD5:
-    // reset to center
-    setResetToCenter(true);
-    return true;
-  case OIS::KC_ADD:
-    // zoom in
-    divideVarWithLimit(_radius, ZOOM_STEP, RADIUS_MIN_DISTANCE);
-    return true;
-  case OIS::KC_SUBTRACT:
-    // zoom out
-    multiplyVarWithLimit(_radius, ZOOM_STEP, RADIUS_MAX_DISTANCE);
-    return true;
-  case OIS::KC_NUMPADENTER:
-    // reset zoom
-    _radius = RADIUS_DEFAULT_DISTANCE;
-    return true;
-  case OIS::KC_NUMPAD8:
-    if (_panModeEnabled) {
-      // pan up
-      _center.y += PAN_STEP;
-    } else {
-      // orbit up
-      decreaseVarWithLimit(_verticalRot,
-			   ROTATION_STEP,
-			   VERTICAL_ROTATION_MIN_LIMIT);
-    }
-    return true;
-  case OIS::KC_NUMPAD2:
-    if (_panModeEnabled) {
-      // pan down
-      _center.y -= PAN_STEP;
-    } else {
-      // orbit down
-      increaseVarWithLimit(_verticalRot,
-			   ROTATION_STEP,
-			   VERTICAL_ROTATION_MAX_LIMIT);
-    }
-    return true;
-  case OIS::KC_NUMPAD4:
-    if (_panModeEnabled) {
-      // pan left
-      _center.x -= PAN_STEP;
-    } else {
-      // orbit left
-      _horizontalRot -= ROTATION_STEP;
-    }
-    return true;
-  case OIS::KC_NUMPAD6:
-    if (_panModeEnabled) {
-      // pan right
-      _center.x += PAN_STEP;
-    } else {
-      // orbit right
-      _horizontalRot += ROTATION_STEP;
-    }
-    return true;
-  case OIS::KC_LCONTROL:
-  case OIS::KC_RCONTROL:
-    // enable pan mode
-    _panModeEnabled = true;
-    return true;
-  default:
-    return false;
-  }
-}
-
-bool CameraModeBlender::injectKeyReleased(OIS::KeyCode keyCode)
-{
-  switch (keyCode) {
-  case OIS::KC_LCONTROL:
-  case OIS::KC_RCONTROL:
-    // disable pan mode
-    _panModeEnabled = false;
-    return true;
-  default:
-    return false;
-  }
-}
-
-bool CameraModeBlender::injectMouseMotion(int x, int y)
-{
-  /// \todo mafm: there are some glitches, depending on the position
-  /// when it starts and so on, it's worth investigating when more
-  /// complex scenes are in place and it can be diagnosed more easily
-
-  if (_dragModeEnabled) {
-    // calculate the difference since last update, normalized between
-    // -1.0 and 1.0 w.r.t. screen coordinates
-    float horizDiffNorm = -(x - _dragModeOriginX)/(_windowWidth/2.0f);
-    float vertDiffNorm = -(y - _dragModeOriginY)/(_windowHeight/2.0f);
-    // Logger::logDEBUG("%.03f %.03f", horizDiffNorm, vertDiffNorm);
-
-    // orbit freely, setting absolute position
-    _horizontalRot = horizDiffNorm*PI_NUMBER;
-    _verticalRot = vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
-  }
-}
-
-bool CameraModeBlender::injectMousePressed(OIS::MouseButtonID buttonId, int x, int y)
-{
-  if (buttonId == OIS::MB_Middle) {
-    _dragModeEnabled = true;
-    _dragModeOriginX = x;
-    _dragModeOriginY = y;
-  }
-}
-
-bool CameraModeBlender::injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y)
-{
-  if (buttonId == OIS::MB_Middle) {
-    _dragModeEnabled = false;
   }
 }
 

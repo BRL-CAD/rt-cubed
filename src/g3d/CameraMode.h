@@ -1,4 +1,4 @@
-/*                C A M E R A M O D E S . H
+/*                C A M E R A M O D E . H
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by the
@@ -18,16 +18,17 @@
  * information.
  */
 
-/** @file CameraModes.h
+/** @file CameraMode.h
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  * @brief
- *	Declaration of the Camera modes of 3D Geometry Editor (g3d).
+ *	Declaration of the base class for Camera modes of 3D Geometry
+ *	Editor (g3d).
  */
 
-#ifndef __G3D_CAMERAMODES_H__
-#define __G3D_CAMERAMODES_H__
+#ifndef __G3D_CAMERAMODE_H__
+#define __G3D_CAMERAMODE_H__
 
 
 #include <OIS/OISKeyboard.h>
@@ -191,71 +192,6 @@ protected:
     float x, y, z;
     Vector3(float xx, float yy, float zz) : x(xx), y(yy), z(zz) { }
   } _center;
-};
-
-
-/** @brief Orbital camera mode
- *
- * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- *
- * The behavior of this camera mode is that it orbits the center, with
- * zoom to control the radius and the keys to go up/down/left/right
- * controlling movement from "pole to pole" and "equator".
- */
-class CameraModeOrbital : public CameraMode
-{
-public:
-  /** Default constructor */
-  CameraModeOrbital();
-
-  /** @see CameraMode::injectKeyPressed */
-  virtual bool injectKeyPressed(OIS::KeyCode keyCode);
-  /** @see CameraMode::injectKeyReleased */
-  virtual bool injectKeyReleased(OIS::KeyCode keyCode);
-};
-
-
-/** @brief Blender camera mode
- *
- * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- *
- * The behavior of this camera tries to mimic the behaviour of
- * Blender modeling program.
- */
-class CameraModeBlender : public CameraMode
-{
-public:
-  /** Default constructor */
-  CameraModeBlender();
-
-  /** @see CameraMode::injectKeyPressed */
-  virtual bool injectKeyPressed(OIS::KeyCode keyCode);
-  /** @see CameraMode::injectKeyReleased */
-  virtual bool injectKeyReleased(OIS::KeyCode keyCode);
-  /** @see CameraMode::injectMouseMotion */
-  virtual bool injectMouseMotion(int x, int y);
-  /** @see CameraMode::injectMousePressed */
-  virtual bool injectMousePressed(OIS::MouseButtonID buttonId, int x, int y);
-  /** @see CameraMode::injectMouseReleased */
-  virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y);
-
-private:
-  /** Default rotation step */
-  static const float ROTATION_STEP; // radians
-  /** Default pan distance */
-  static const float PAN_STEP; // m
-  /** Default zoom step ratio */
-  static const float ZOOM_STEP; // ratio
-
-  /** Mode */
-  bool _dragModeEnabled;
-  /** Mode helper */
-  int _dragModeOriginX;
-  /** Mode helper */
-  int _dragModeOriginY;
-
-  /** Mode */
-  bool _panModeEnabled;
 };
 
 

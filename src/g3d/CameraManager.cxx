@@ -30,7 +30,10 @@
 #include "CameraManager.h"
 
 #include "Logger.h"
-#include "CameraModes.h"
+#include "CameraMode.h"
+#include "CameraModeBlender.h"
+//#include "CameraModeMGED.h"
+#include "CameraModeOrbital.h"
 
 #include <OGRE/OgreSceneNode.h>
 
@@ -52,6 +55,7 @@ CameraManager::CameraManager()
   // create camera modes that we'll use (default is the first one, it
   // will get in the front of the list)
   _cameraModeList.push_back(new CameraModeBlender());
+  //_cameraModeList.push_back(new CameraModeMGED());
   _cameraModeList.push_back(new CameraModeOrbital());
 
   const char* cameraModeName = _cameraModeList.front()->getName();
