@@ -32,6 +32,7 @@
 
 
 #include "Observer.h"
+#include "CameraMode.h"
 
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
@@ -40,7 +41,6 @@
 #include <list>
 
 
-class CameraMode;
 namespace Ogre {
   class Camera;
 }
@@ -99,6 +99,8 @@ public:
   bool injectMousePressed(OIS::MouseButtonID buttonId, int x, int y);
   /** Inject input */
   bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y);
+  /** Inject input */
+  bool injectMouseScrolled(CameraMode::Direction direction);
 
 private:
   /** Singleton instance */

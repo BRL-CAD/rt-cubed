@@ -55,11 +55,11 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
     return true;
   case OIS::KC_ADD:
     // zoom in
-    divideVarWithLimit(_radius, ZOOM_STEP, RADIUS_MIN_DISTANCE);
+    doZoomIn();
     return true;
   case OIS::KC_SUBTRACT:
     // zoom out
-    multiplyVarWithLimit(_radius, ZOOM_STEP, RADIUS_MAX_DISTANCE);
+    doZoomOut();
     return true;
   case OIS::KC_NUMPADENTER:
     // reset zoom
@@ -161,6 +161,33 @@ bool CameraModeBlender::injectMouseReleased(OIS::MouseButtonID buttonId, int x, 
   if (buttonId == OIS::MB_Middle) {
     _dragModeEnabled = false;
   }
+}
+
+
+bool CameraModeBlender::injectMouseScrolled(Direction direction)
+{
+  switch (direction) {
+  case POSITIVE:
+    // zoom in
+    divideVarWithLimit(_radius, ZOOM_STEP, RADIUS_MIN_DISTANCE);
+    return true;
+  case NEGATIVE:
+    // zoom out
+    multiplyVarWithLimit(_radius, ZOOM_STEP, RADIUS_MAX_DISTANCE);
+    return true;
+  default:
+    return false;
+  }
+}
+
+bool CameraModeBlender::doZoomIn()
+{
+  divideVarWithLimit(_radius, ZOOM_STEP, RADIUS_MIN_DISTANCE);
+}
+
+bool CameraModeBlender::doZoomOut()
+{
+  multiplyVarWithLimit(_radius, ZOOM_STEP, RADIUS_MAX_DISTANCE);
 }
 
 

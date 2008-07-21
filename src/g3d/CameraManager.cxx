@@ -116,6 +116,11 @@ bool CameraManager::injectMouseReleased(OIS::MouseButtonID buttonId, int x, int 
   return getActiveCameraMode().injectMouseReleased(buttonId, x, y);
 }
 
+bool CameraManager::injectMouseScrolled(CameraMode::Direction direction)
+{
+  return getActiveCameraMode().injectMouseScrolled(direction);
+}
+
 
 // Local Variables: ***
 // mode: C++ ***

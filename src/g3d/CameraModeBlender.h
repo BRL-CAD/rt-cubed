@@ -57,6 +57,8 @@ public:
   virtual bool injectMousePressed(OIS::MouseButtonID buttonId, int x, int y);
   /** @see CameraMode::injectMouseReleased */
   virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y);
+  /** @see CameraMode::injectMouseScrolled */
+  virtual bool injectMouseScrolled(Direction direction);
 
 private:
   /** Default rotation step */
@@ -75,6 +77,12 @@ private:
 
   /** Mode */
   bool _panModeEnabled;
+
+
+  /** Common functionality for all places needing it */
+  bool doZoomIn();
+  /** Common functionality for all places needing it */
+  bool doZoomOut();
 };
 
 

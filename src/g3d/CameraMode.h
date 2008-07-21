@@ -138,6 +138,9 @@ public:
   virtual bool injectMouseReleased(OIS::MouseButtonID /* buttonId */,
 				   int /* x */, int /* y */)
     { return false; }
+  /** Inject input */
+  virtual bool injectMouseScrolled(Direction /* direction */)
+    { return false; }
 
 
 protected:

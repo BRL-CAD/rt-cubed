@@ -72,6 +72,7 @@
 #include "GuiConsole.h"
 #include "GuiWindowManager.h"
 #include "CameraManager.h"
+#include "CameraMode.h"
 
 #include "Application.h"
 
@@ -143,26 +144,30 @@ public:
     // Get absolute position
     Mocha::Vector2 absPos = Mocha::Vector2(static_cast<float>(event.state.X.abs), 
 					   static_cast<float>(event.state.Y.abs));
-
-    // Inject mouse scroll event
-    if (event.state.Z.rel != 0) {
-      _guiMgr.injectMouseScrolled(static_cast<float>(event.state.Z.rel / 120.0f),
-				  absPos);
-    }
-
     // Calculate relative position in pixels
     Mocha::Vector2 relPos = absPos - _prevPos;
     _prevPos = absPos;
 
     // Send event to GUI
     bool used = _guiMgr.injectMouseMotion(relPos, absPos);
+    if (!used && event.state.Z.rel != 0) {
+      used = _guiMgr.injectMouseScrolled(static_cast<float>(event.state.Z.rel / 120.0f),
+					 absPos);
+    }
     if (used) {
       return true;
     }
 
-    // Camera
+    // Event to Camera
     used = CameraManager::instance().injectMouseMotion(event.state.X.abs,
 						       event.state.Y.abs);
+    if (!used && event.state.Z.rel != 0) {
+      if (event.state.Z.rel > 0) {
+	used = CameraManager::instance().injectMouseScrolled(CameraMode::POSITIVE);
+      } else {
+	used = CameraManager::instance().injectMouseScrolled(CameraMode::NEGATIVE);
+      }
+    }
     if (used) {
       return true;
     }
