@@ -163,6 +163,12 @@ void GuiCommandOverlay::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement 
       }
       setPromptContent(cmd);
       break;
+    case OIS::KC_TAB:
+      // tab -- command autocompletion
+      cmd = getPromptContent();
+      cmd = CommandInterpreter::instance().getAutocompleteString(cmd);
+      setPromptContent(cmd);
+      break;
     default:
       // nothing
       ;

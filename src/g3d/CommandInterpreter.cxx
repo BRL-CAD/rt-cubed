@@ -27,10 +27,12 @@
  *	Console-like windows.
  */
 
+#include "CommandInterpreter.h"
+
 #include "Logger.h"
 #include "Commands.h"
 
-#include "CommandInterpreter.h"
+#include <vector>
 
 
 /*******************************************************************************
@@ -117,15 +119,68 @@ void CommandInterpreter::finalize()
 }
 */
 
-void CommandInterpreter::addCommand(Command* command)
+std::string CommandInterpreter::getAutocompleteString(const std::string& input)
 {
-  const std::string& commandName = command->getName();
-  if (findCommand(commandName)) {
-    Logger::logWARNING("CommandInterpreter: '%s' command already exists",
-		       commandName.c_str());
-  } else {
-    _commands[commandName] = command;
+  // collect candidates
+  std::vector<std::string> candidates;
+  for (std::map<std::string, Command*>::iterator it = _commands.begin();
+       it != _commands.end();
+       ++it) {
+    const std::string& commandName = it->first;
+    // push back all commands which match the input
+    int comparison = commandName.compare(0, input.length(), input);
+    if (comparison == 0) {
+      // Logger::logDEBUG(" - matches '%s'", input.c_str());
+      candidates.push_back(commandName);
+    } else {
+      // Logger::logDEBUG(" - doesn't match, comparison result '%d'", comparison);
+    }
   }
+
+  std::string r;
+  if (candidates.size() == 0) {
+    //Logger::logDEBUG("Autocompletion: no candidates");
+    r = input;
+  } else if (candidates.size() == 1) {
+    //Logger::logDEBUG("Autocompletion: only one candidate: '%s'", r.c_str());
+    r = candidates[0];
+  } else {
+    //Logger::logDEBUG("Autocompletion: several candidates for '%s'", input.c_str());
+    r = input;
+
+    // add letters while they match in all candidates in same position
+    while (true) {
+      // check that matches in all candidates
+      size_t pos = r.length();
+      char charMatch = candidates[0][pos];
+      bool allOfThemMatch = true;
+      for (std::vector<std::string>::iterator it = candidates.begin();
+	   it != candidates.end();
+	   ++it) {
+	const std::string& commandName = (*it);
+	//Logger::logDEBUG(" - '%s' at %u", commandName.c_str(), pos);
+	if (commandName[pos] != charMatch) {
+	  /* Logger::logDEBUG("    - char '%c' of '%s'[%u] doesn't match with previous candidates",
+	     commandName[pos], commandName.c_str(), pos); */
+	  allOfThemMatch = false;
+	  break;
+	}
+      }
+
+      // add character if matches, finish if not
+      if (allOfThemMatch) {
+	//Logger::logDEBUG(" - adding '%c'", charMatch);
+	r.append(1, charMatch);
+	++pos;
+      } else {
+	//Logger::logDEBUG(" - not all of them match, stopping");
+	break;
+      }
+    }
+  }
+
+  //Logger::logDEBUG(" - returning completion '%s'", r.c_str());
+  return r;
 }
 
 void CommandInterpreter::execute(const std::string& commandLine, CommandOutput& output)
@@ -160,6 +215,17 @@ void CommandInterpreter::execute(const std::string& commandLine, CommandOutput& 
       // execute the command
       command->execute(args, output);
     }
+  }
+}
+
+void CommandInterpreter::addCommand(Command* command)
+{
+  const std::string& commandName = command->getName();
+  if (findCommand(commandName)) {
+    Logger::logWARNING("CommandInterpreter: '%s' command already exists",
+		       commandName.c_str());
+  } else {
+    _commands[commandName] = command;
   }
 }
 

@@ -129,6 +129,16 @@ public:
   void finalize();
   */
 
+  /** Get Autocomplete string
+   *
+   * @param input The input to use as base for completion (the content
+   * of the typed command so far)
+   *
+   * \returns String with text to be used instead, advancing so much
+   * in the autocompletion as possible
+   */
+  std::string getAutocompleteString(const std::string& input);
+
   /** Execute the given command line, and add the result to the given
    * output. */
   void execute(const std::string& commandLine, CommandOutput& output);

@@ -172,6 +172,7 @@ const std::string& GuiConsole::getPromptContent() const
 void GuiConsole::setPromptContent(const std::string& content)
 {
   _prompt->setText(content);
+  _prompt->setCursorPos(content.length());
 }
 
 void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& vData)
@@ -204,6 +205,12 @@ void GuiConsole::callbackPromptKeyPressed(RBGui::GuiElement& /* vElement */, con
       } else if (key == OIS::KC_DOWN) {
 	cmd = History::instance().getNext();
       }
+      setPromptContent(cmd);
+      break;
+    case OIS::KC_TAB:
+      // tab -- command autocompletion
+      cmd = getPromptContent();
+      cmd = CommandInterpreter::instance().getAutocompleteString(cmd);
       setPromptContent(cmd);
       break;
     default:
