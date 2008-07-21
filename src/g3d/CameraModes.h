@@ -39,6 +39,15 @@ namespace Ogre {
 }
 
 
+/** Pi constant */
+#define PI_NUMBER 3.14159265358979323846
+
+/** Limit for vertical rotations */
+const float VERTICAL_ROTATION_MAX_LIMIT = (PI_NUMBER/2.0f)-0.01f;
+/** Limit for vertical rotations */
+const float VERTICAL_ROTATION_MIN_LIMIT = -(PI_NUMBER/2.0f)+0.01f;
+
+
 /** @brief Base class for camera mode
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -112,15 +121,22 @@ public:
   static void divideVarWithLimit(float& rotation, float incrValue, float limit);
 
   /** Inject input */
-  virtual bool injectKeyPressed(OIS::KeyCode keyCode) { }
+  virtual bool injectKeyPressed(OIS::KeyCode /* keyCode */)
+    { return false; }
   /** Inject input */
-  virtual bool injectKeyReleased(OIS::KeyCode keyCode) { }
+  virtual bool injectKeyReleased(OIS::KeyCode /* keyCode */)
+    { return false; }
   /** Inject input */
-  virtual bool injectMouseMotion(int x, int y) { }
+  virtual bool injectMouseMotion(int /* x */, int /* y */)
+    { return false; }
   /** Inject input */
-  virtual bool injectMousePressed(OIS::MouseButtonID buttonId, int x, int y) { }
+  virtual bool injectMousePressed(OIS::MouseButtonID /* buttonId */,
+				  int /* x */, int /* y */)
+    { return false; }
   /** Inject input */
-  virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y) { }
+  virtual bool injectMouseReleased(OIS::MouseButtonID /* buttonId */,
+				   int /* x */, int /* y */)
+    { return false; }
 
 
 protected:
@@ -241,17 +257,6 @@ private:
   /** Mode */
   bool _panModeEnabled;
 };
-
-
-/** @brief MGED camera mode
- *
- * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- *
- * The behavior of this camera tries to mimic the behaviour of
- * traditional BRL-CAD program MGED.  The shift-grips bindings are
- * described in:
- * http://brlcad.org/w/images/8/8c/Shift_Grips_Quick_Reference_Guide.pdf
- */
 
 
 #endif

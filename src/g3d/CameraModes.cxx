@@ -36,16 +36,6 @@
 #include <OGRE/OgreViewport.h>
 
 
-/** Pi constant */
-#define PI_NUMBER 3.14159265358979323846
-
-
-/** Limit for vertical rotations */
-const float VERTICAL_ROTATION_MAX_LIMIT = (PI_NUMBER/2.0f)-0.01f;
-/** Limit for vertical rotations */
-const float VERTICAL_ROTATION_MIN_LIMIT = -(PI_NUMBER/2.0f)+0.01f;
-
-
 /*******************************************************************************
  * CameraMode
  ******************************************************************************/
