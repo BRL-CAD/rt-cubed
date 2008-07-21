@@ -104,7 +104,7 @@ public:
   CommandSetPolygonMode() :
     Command("polygonmode",
 	    "Set the polygon mode",
-	    "Argument is [solid|wireframe|points]") {
+	    "Argument is [solid|wireframe|points] (initial chars are enough)") {
       _argNames.push_back("mode");
     }
 
@@ -114,11 +114,11 @@ public:
       return;
     }
 
-    if (args[0] == "solid") {
+    if (args[0][0] == 's') {
       Application::instance().setPolygonMode(Ogre::PM_SOLID);
-    } else if (args[0] == "wireframe") {
+    } else if (args[0][0] == 'w') {
       Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
-    } else if (args[0] == "points") {
+    } else if (args[0][0] == 'p') {
       Application::instance().setPolygonMode(Ogre::PM_POINTS);
     } else {
       out.appendLine("Mode not recognized");
