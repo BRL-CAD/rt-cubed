@@ -30,10 +30,11 @@
 #define __G3D_COMMANDS_H__
 
 
-#include "Application.h"
-#include "GeometryConversion.h"
-
 #include "CommandInterpreter.h"
+
+#include "Application.h"
+#include "CameraManager.h"
+#include "GeometryConversion.h"
 
 
 /** @brief Quit the application
@@ -43,7 +44,9 @@
 class CommandQuit : public Command
 {
 public:
-  CommandQuit() : Command("quit", "Quit the application", "") { }
+  CommandQuit() :
+    Command("quit", "Quit the application", "")
+    { }
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     if (args.size() > 0) {
@@ -65,7 +68,8 @@ public:
   CommandSetLogLevel() :
     Command("loglevel",
 	    "Set the log message level",
-	    "Argument is first letter of Debug, Info, Warning, Error, Fatal") {
+	    "Argument is first letter of Debug, Info, Warning, Error, Fatal")
+    {
       _argNames.push_back("level");
     }
 
@@ -104,7 +108,8 @@ public:
   CommandSetPolygonMode() :
     Command("polygonmode",
 	    "Set the polygon mode",
-	    "Argument is [solid|wireframe|points] (initial chars are enough)") {
+	    "Argument is [solid|wireframe|points] (initial chars are enough)")
+    {
       _argNames.push_back("mode");
     }
 
@@ -127,6 +132,29 @@ public:
 };
 
 
+/** @brief Cycle Camera mode.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ */
+class CommandCycleCameraMode : public Command
+{
+public:
+  CommandCycleCameraMode() :
+    Command("cyclecam", "Cycle the camera mode", "")
+    {
+      _argNames.push_back("mode");
+    }
+
+  virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
+    if (args.size() > 0) {
+      out.appendLine("Command doesn't accept arguments, ignoring");
+    }
+
+    CameraManager::instance().cycleCameraMode();
+  }
+};
+
+
 /** @brief Create sample geometries.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -138,7 +166,8 @@ public:
     Command("create",
 	    "Create a sample geometry",
 	    "Argument is [tetrahedron|cube] (initial chars are enough)"),
-    _sampleTetrahedron(50) {
+    _sampleTetrahedron(50)
+    {
       _argNames.push_back("shape");
 
       // creating an initial shape, for convenience while in initial

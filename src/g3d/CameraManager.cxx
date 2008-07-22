@@ -60,6 +60,10 @@ CameraManager::CameraManager()
 
   const char* cameraModeName = _cameraModeList.front()->getName();
   Logger::logINFO("Default camera mode: '%s'", cameraModeName);
+
+  // notify observers
+  notify(CameraObserverEvent(CameraObserverEvent::MODE_CHANGED,
+			     cameraModeName));
 }
 
 CameraMode& CameraManager::getActiveCameraMode()

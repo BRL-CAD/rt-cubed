@@ -30,14 +30,19 @@
 #define __G3D_GUIWINDOWMANAGER_H__
 
 
-#include <vector>
+#include "Observer.h"
 
+#include <Mocha/Value.h>
 #include <OGRE/OgreWindowEventUtilities.h>
+
+#include <vector>
 
 class GuiBaseWindow;
 namespace RBGui {
-  class GuiManager;
   class ButtonWidget;
+  class GuiElement;
+  class GuiManager;
+  class Window;
 }
 
 
@@ -48,14 +53,11 @@ namespace RBGui {
  * manages high-level positioning of windows and panels (tiled, etc),
  * registering available windows, etc.
  */
-class GuiWindowManager : public Ogre::WindowEventListener
+class GuiWindowManager : public Ogre::WindowEventListener, public Observer
 {
 public:
   /** Singleton, access to the manager */
   static GuiWindowManager& instance();
-
-  /** @see Ogre::WindowEventListener::windowResized */
-  virtual void windowResized(Ogre::RenderWindow* rw);
 
   /** Register window */
   void registerWindow(GuiBaseWindow* w);
@@ -64,6 +66,12 @@ public:
 
   /** Set GUI manager */
   void setGuiManager(RBGui::GuiManager* guiManager);
+
+  /** @see Ogre::WindowEventListener::windowResized */
+  virtual void windowResized(Ogre::RenderWindow* rw);
+
+  /** @see Observer::update */
+  virtual void update(const ObserverEvent& event);
 
 private:
   /** Singleton instance */
@@ -93,6 +101,8 @@ private:
   void callbackQuitMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "MouseReleased" in the Fullscreen button */
   void callbackFullscreenMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  /** Callback for "MouseReleased" in the CycleCamera button */
+  void callbackCycleCameraMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "MouseReleased" in the CommandOverlay button */
   void callbackCommandMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "MouseReleased" in the Console button */

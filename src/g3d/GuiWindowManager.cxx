@@ -27,6 +27,13 @@
  *	Editor (g3d), along with some internal classes.
  */
 
+#include "GuiWindowManager.h"
+
+#include "Logger.h"
+#include "Application.h"
+#include "CameraManager.h"
+#include "GuiBaseWindow.h"
+
 #include <OGRE/OgreRenderWindow.h>
 #include <OGRE/OgreRoot.h>
 #include <OGRE/OgreWindowEventUtilities.h>
@@ -36,12 +43,6 @@
 #include <RBGui/Widgets/ButtonWidget.h>
 #include <RBGui/Widgets/TextWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
-
-#include "Logger.h"
-#include "Application.h"
-#include "GuiBaseWindow.h"
-
-#include "GuiWindowManager.h"
 
 
 /*******************************************************************************
@@ -61,65 +62,7 @@ GuiWindowManager::GuiWindowManager() :
 {
   Ogre::WindowEventUtilities::addWindowEventListener(&Application::instance().getRenderWindow(),
 						     this);
-}
-
-void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
-{
-  Logger::logDEBUG("GuiWindowManager::windowResized()");
-  if (!_guiManager)
-    return;
-
-  const float taskbarHeight = 16.0f;
-  const float topbarHeight = 16.0f;
-
-  // get size as float
-  const float rwWidth = static_cast<float>(rw->getWidth());
-  const float rwHeight = static_cast<float>(rw->getHeight());
-  const float contentWidth = rwWidth;
-  const float contentHeight = rwHeight - taskbarHeight - topbarHeight;
-
-  // topbar panel
-  {
-    _topbar->setPosition(Mocha::Vector2(0.0f, 0.0f));
-    _topbar->setSize(Mocha::Vector2(rwWidth, topbarHeight));
-
-    const RBGui::WidgetList& children = _topbar->getRoot()->getChildren();
-
-    Mocha::Vector2 buttonSize(_topbar->getClientRectangle().getSize());
-    if (children.size() > 0)
-      buttonSize.x /= children.size();
-
-    for (size_t i = 0; i < children.size(); ++i) {
-      Logger::logDEBUG("_topbar children: '%s':'%s'",
-		       children[i]->getName().c_str(),
-		       children[i]->getText().c_str());
-
-      children[i]->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
-      children[i]->setSize(buttonSize);
-    }
-  }
-
-  // "taskbar" panel
-  {
-    _taskbar->setPosition(Mocha::Vector2(0.0f, rwHeight - taskbarHeight));
-    _taskbar->setSize(Mocha::Vector2(rwWidth, taskbarHeight));
-
-    Mocha::Vector2 buttonSize(_taskbar->getClientRectangle().getSize());
-    if (_taskbarButtons.size() > 0) {
-      buttonSize.x /= _taskbarButtons.size();
-      for (size_t i = 0; i < _taskbarButtons.size(); ++i) {
-	RBGui::ButtonWidget* b = _taskbarButtons[i];
-	b->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
-	b->setSize(buttonSize);
-      }
-    }
-  }
-
-  // propagate to all registered windows
-  for (size_t i = 0; i < _windowList.size(); ++i) {
-    GuiBaseWindow* w = _windowList[i];
-    w->resize(0.0f, topbarHeight, contentWidth, contentHeight);
-  }
+  CameraManager::instance().attach(this);
 }
 
 void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
@@ -150,6 +93,13 @@ void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
     b->setName("Fullscreen Button");
     b->setText("Fullscreen");
     b->setCallback(&GuiWindowManager::callbackFullscreenMouseReleased, this, "onMouseReleased");
+
+    // "camera" button (cycle between modes)
+    std::string camMode = CameraManager::instance().getActiveCameraMode().getName();
+    b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
+    b->setName("CycleCamera Button");
+    b->setText("CamMode: " + camMode);
+    b->setCallback(&GuiWindowManager::callbackCycleCameraMouseReleased, this, "onMouseReleased");
 
     // "command overlay" button (toggle visibility)
     b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
@@ -218,6 +168,96 @@ void GuiWindowManager::toggleWindowVisibilityAndFocus(const char* name)
   }
 }
 
+void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
+{
+  Logger::logDEBUG("GuiWindowManager::windowResized()");
+  if (!_guiManager)
+    return;
+
+  const float taskbarHeight = 16.0f;
+  const float topbarHeight = 16.0f;
+
+  // get size as float
+  const float rwWidth = static_cast<float>(rw->getWidth());
+  const float rwHeight = static_cast<float>(rw->getHeight());
+  const float contentWidth = rwWidth;
+  const float contentHeight = rwHeight - taskbarHeight - topbarHeight;
+
+  // topbar panel
+  {
+    _topbar->setPosition(Mocha::Vector2(0.0f, 0.0f));
+    _topbar->setSize(Mocha::Vector2(rwWidth, topbarHeight));
+
+    const RBGui::WidgetList& children = _topbar->getRoot()->getChildren();
+
+    Mocha::Vector2 buttonSize(_topbar->getClientRectangle().getSize());
+    if (children.size() > 0)
+      buttonSize.x /= children.size();
+
+    for (size_t i = 0; i < children.size(); ++i) {
+      Logger::logDEBUG("_topbar children: '%s':'%s'",
+		       children[i]->getName().c_str(),
+		       children[i]->getText().c_str());
+
+      children[i]->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
+      children[i]->setSize(buttonSize);
+    }
+  }
+
+  // "taskbar" panel
+  {
+    _taskbar->setPosition(Mocha::Vector2(0.0f, rwHeight - taskbarHeight));
+    _taskbar->setSize(Mocha::Vector2(rwWidth, taskbarHeight));
+
+    Mocha::Vector2 buttonSize(_taskbar->getClientRectangle().getSize());
+    if (_taskbarButtons.size() > 0) {
+      buttonSize.x /= _taskbarButtons.size();
+      for (size_t i = 0; i < _taskbarButtons.size(); ++i) {
+	RBGui::ButtonWidget* b = _taskbarButtons[i];
+	b->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
+	b->setSize(buttonSize);
+      }
+    }
+  }
+
+  // propagate to all registered windows
+  for (size_t i = 0; i < _windowList.size(); ++i) {
+    GuiBaseWindow* w = _windowList[i];
+    w->resize(0.0f, topbarHeight, contentWidth, contentHeight);
+  }
+}
+
+void GuiWindowManager::update(const ObserverEvent& event)
+{
+  try {
+    // camera events
+    {
+      const CameraObserverEvent* e = dynamic_cast<const CameraObserverEvent*>(&event);
+      RBGui::Widget* widget = 0;
+      if (e) {
+	switch (e->_actionId) {
+	case CameraObserverEvent::MODE_CHANGED:
+	  widget = _topbar->findWidget("CycleCamera Button");
+	  if (widget) {
+	    widget->setText("CamMode: " + e->_content);
+	  } else {
+	    throw "CycleCamera button not found";
+	  }
+	  break;
+	default:
+	  throw "Action not understood by Observer";
+	}
+	return;
+      }
+    }
+
+    // event not processed before
+    throw "Event type not expected by Observer";
+  } catch (const char* error) {
+    Logger::logWARNING("GuiWindowManager: '%s' event: %s", event._className.c_str(), error);
+  }
+}
+
 void GuiWindowManager::callbackQuitMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
   Application::instance().quit();
@@ -226,6 +266,11 @@ void GuiWindowManager::callbackQuitMouseReleased(RBGui::GuiElement& /* vElement 
 void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
   Application::instance().toggleFullscreen();
+}
+
+void GuiWindowManager::callbackCycleCameraMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+{
+  CameraManager::instance().cycleCameraMode();
 }
 
 void GuiWindowManager::callbackCommandMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
