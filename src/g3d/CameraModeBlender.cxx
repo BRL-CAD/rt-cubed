@@ -144,6 +144,10 @@ bool CameraModeBlender::injectMouseMotion(int x, int y)
     // orbit freely, setting absolute position
     _horizontalRot = horizDiffNorm*PI_NUMBER;
     _verticalRot = vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
+
+    return true;
+  } else {
+    return false;
   }
 }
 
@@ -153,13 +157,20 @@ bool CameraModeBlender::injectMousePressed(OIS::MouseButtonID buttonId, int x, i
     _dragModeEnabled = true;
     _dragModeOriginX = x;
     _dragModeOriginY = y;
+
+    return true;
+  } else {
+    return false;
   }
 }
 
-bool CameraModeBlender::injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y)
+bool CameraModeBlender::injectMouseReleased(OIS::MouseButtonID buttonId, int /* x */, int /* y */)
 {
   if (buttonId == OIS::MB_Middle) {
     _dragModeEnabled = false;
+    return true;
+  } else {
+    return false;
   }
 }
 
@@ -180,12 +191,12 @@ bool CameraModeBlender::injectMouseScrolled(Direction direction)
   }
 }
 
-bool CameraModeBlender::doZoomIn()
+void CameraModeBlender::doZoomIn()
 {
   divideVarWithLimit(_radius, ZOOM_STEP, RADIUS_MIN_DISTANCE);
 }
 
-bool CameraModeBlender::doZoomOut()
+void CameraModeBlender::doZoomOut()
 {
   multiplyVarWithLimit(_radius, ZOOM_STEP, RADIUS_MAX_DISTANCE);
 }

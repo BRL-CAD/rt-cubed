@@ -80,9 +80,9 @@ private:
 
 
   /** Common functionality for all places needing it */
-  bool doZoomIn();
+  void doZoomIn();
   /** Common functionality for all places needing it */
-  bool doZoomOut();
+  void doZoomOut();
 };
 
 
