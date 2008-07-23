@@ -100,7 +100,7 @@ private:
   /** Common functionality for all places needing it */
   void setMode();
   /** Common functionality for all places needing it */
-  void doZoomScale(float modifier);
+  void doZoomScale(float scale);
   /** Common functionality for all places needing it */
   void doZoomIn();
   /** Common functionality for all places needing it */

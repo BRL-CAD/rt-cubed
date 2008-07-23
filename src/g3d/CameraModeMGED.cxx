@@ -31,6 +31,8 @@
 
 #include "Logger.h"
 
+#include <cmath>
+
 
 /*******************************************************************************
  * CameraModeMGED
@@ -110,14 +112,15 @@ bool CameraModeMGED::injectMouseMotion(int x, int y)
   /// complex scenes are in place and it can be diagnosed more easily
 
   if (_scaleModeEnabled && _mouseButtonsPressed > 0) {
-    // calculate the x position normalized between 0.0 and 1.0
-    // w.r.t. screen coordinates
-    float horizDiffNorm = 1.0f/ZOOM_SCALE +
-      (x - _dragOriginX/(_windowWidth/2.0f) * (ZOOM_SCALE - 1.0f/ZOOM_SCALE));
-    Logger::logDEBUG("x diff: %0.1f", horizDiffNorm);
+    // calculate the x position normalized between -1.0 and 1.0
+    // w.r.t. screen coordinates (inside windows, if mouse goes
+    // outside it depends on the windowing system)
+    float horizDiffNorm = (x - _dragOriginX)/static_cast<float>(_windowWidth/2.0f);
+    float scale = pow(ZOOM_SCALE, horizDiffNorm);
+    //Logger::logDEBUG("x diff: %g; scale: %g", horizDiffNorm, scale);
 
     // zoom freely, left zooms out and right zooms in
-    doZoomScale(horizDiffNorm);
+    doZoomScale(scale);
 
     return true;
   } else {
@@ -253,22 +256,15 @@ void CameraModeMGED::setMode()
   }
 }
 
-void CameraModeMGED::doZoomScale(float modifier)
+void CameraModeMGED::doZoomScale(float scale)
 {
-  float newRadius = _dragOriginalRadius;
-  Logger::logDEBUG("_dragOriginalRadius: %0.1f", _dragOriginalRadius);
-  divideVarWithLimit(newRadius, modifier*ZOOM_STEP, RADIUS_MIN_DISTANCE);
-  _radius = newRadius;
-  Logger::logDEBUG("scaled to radius: %0.1f (modifier: %g)", _radius, modifier);
-/*
-  return;
-  
-  if (modifier > 1.0f) {
-    divideVarWithLimit(_radius, modifier*ZOOM_STEP, RADIUS_MIN_DISTANCE);
-  } else {
-    multiplyVarWithLimit(_radius, -modifier*ZOOM_STEP, RADIUS_MAX_DISTANCE);
-  }
-*/
+  _radius = _dragOriginalRadius / scale; // divide, because it means zoom in
+  if (_radius > RADIUS_MAX_DISTANCE) {
+    _radius = RADIUS_MAX_DISTANCE;
+  } else if (_radius < RADIUS_MIN_DISTANCE) {
+    _radius = RADIUS_MIN_DISTANCE;
+  } 
+  //Logger::logDEBUG("CameraModeMGED scale: radius=%g, scale=%g", _radius, scale);
 }
 
 void CameraModeMGED::doZoomIn()
