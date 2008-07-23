@@ -47,8 +47,8 @@ CameraModeMGED::CameraModeMGED() :
   _keyControlPressed(false),
   _keyAltPressed(false),
   _keyShiftPressed(false),
-  _translationModeEnabled(false),
-  _rotationModeEnabled(false),
+  _translateModeEnabled(false),
+  _rotateModeEnabled(false),
   _scaleModeEnabled(false),
   _constrainedSubmodeEnabled(false),
   _constrainedToAxis(NOTSET),
@@ -62,6 +62,10 @@ CameraModeMGED::CameraModeMGED() :
 bool CameraModeMGED::injectKeyPressed(OIS::KeyCode keyCode)
 {
   switch (keyCode) {
+  case OIS::KC_NUMPAD5:
+    // reset to center
+    setResetToCenter(true);
+    return true;
   case OIS::KC_LCONTROL:
   case OIS::KC_RCONTROL:
     _keyControlPressed = true;
@@ -123,6 +127,8 @@ bool CameraModeMGED::injectMouseMotion(int x, int y)
     doZoomScale(scale);
 
     return true;
+  } else if (_translateModeEnabled && _mouseButtonsPressed > 0) {
+    return true;
   } else {
     return false;
   }
@@ -133,7 +139,7 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
   // increase the count of mouse buttons pressed, for all purposes
   ++(_mouseButtonsPressed);
 
-  if (_translationModeEnabled || _rotationModeEnabled || _scaleModeEnabled) {
+  if (_translateModeEnabled || _rotateModeEnabled || _scaleModeEnabled) {
     switch (buttonId) {
     case OIS::MB_Left:
       _constrainedToAxis = X;
@@ -183,7 +189,7 @@ bool CameraModeMGED::injectMouseReleased(OIS::MouseButtonID buttonId, int x, int
   // decrease the count of mouse buttons pressed, for all purposes
   --(_mouseButtonsPressed);
 
-  if (_translationModeEnabled || _rotationModeEnabled) {
+  if (_translateModeEnabled || _rotateModeEnabled) {
     _constrainedSubmodeEnabled = false;
     switch (buttonId) {
     case OIS::MB_Left:
@@ -212,8 +218,8 @@ void CameraModeMGED::setMode()
     // all keys active at once: scale mode
     _scaleModeEnabled = true;
     // ...and disable the rest
-    _translationModeEnabled = false;
-    _rotationModeEnabled = false;
+    _translateModeEnabled = false;
+    _rotateModeEnabled = false;
     _constrainedSubmodeEnabled = false;
     //Logger::logDEBUG("set scale mode");
   } else {
@@ -226,31 +232,31 @@ void CameraModeMGED::setMode()
 
     // control key: rotation mode
     if (_keyControlPressed) {
-      _rotationModeEnabled = true;
+      _rotateModeEnabled = true;
       // ...and disable the rest
       _scaleModeEnabled = false;
-      _translationModeEnabled = false;
+      _translateModeEnabled = false;
 
       //Logger::logDEBUG("set rotate mode, constrained=%d", _constrainedSubmodeEnabled);
     } else {
-      if (_rotationModeEnabled) {
+      if (_rotateModeEnabled) {
 	//Logger::logDEBUG("unset rotate mode");
-	_rotationModeEnabled = false;
+	_rotateModeEnabled = false;
       }
     }
 
     // shift key: translation mode
-    if (_keyShiftPressed ) {
-      _translationModeEnabled = true;
+    if (_keyShiftPressed) {
+      _translateModeEnabled = true;
       // ...and disable the rest
       _scaleModeEnabled = false;
-      _rotationModeEnabled = false;
+      _rotateModeEnabled = false;
 
       //Logger::logDEBUG("set translate mode, constrained=%d", _constrainedSubmodeEnabled);
     } else {
-      if (_translationModeEnabled) {
+      if (_translateModeEnabled) {
 	//Logger::logDEBUG("unset translate mode");
-	_translationModeEnabled = false;
+	_translateModeEnabled = false;
       }
     }
   }

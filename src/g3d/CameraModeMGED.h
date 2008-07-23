@@ -78,9 +78,9 @@ private:
   bool _keyShiftPressed;
 
   /** Mode */
-  bool _translationModeEnabled;
+  bool _translateModeEnabled;
   /** Mode */
-  bool _rotationModeEnabled;
+  bool _rotateModeEnabled;
   /** Mode */
   bool _scaleModeEnabled;
   /** Submode */
