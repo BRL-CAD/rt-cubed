@@ -69,6 +69,14 @@ public:
     POSITIVE = 1
   };
 
+  /** Axis: X/Y/Z */
+  enum Axis {
+    NOTSET = 0,
+    X = 1,
+    Y = 2,
+    Z = 3
+  };
+
   /** Default constructor */
   CameraMode(const char* name);
   /** Destructor */
@@ -110,16 +118,16 @@ public:
   static float degreesToRadians(float degrees);
   /** Increase the variable by given value, but result not more than
    * given limit */
-  static void increaseVarWithLimit(float& rotation, float incrValue, float limit);
+  static void increaseVarWithLimit(float& rotation, float value, float limit);
   /** Decrease the variable by given value, but result not less than
    * given limit */
-  static void decreaseVarWithLimit(float& rotation, float incrValue, float limit);
+  static void decreaseVarWithLimit(float& rotation, float value, float limit);
   /** Multiply the variable by given value, but result not more than
    * given limit */
-  static void multiplyVarWithLimit(float& rotation, float incrValue, float limit);
+  static void multiplyVarWithLimit(float& rotation, float value, float limit);
   /** Divide the variable by given value, but result not less than
    * given limit */
-  static void divideVarWithLimit(float& rotation, float incrValue, float limit);
+  static void divideVarWithLimit(float& rotation, float value, float limit);
 
   /** Inject input */
   virtual bool injectKeyPressed(OIS::KeyCode /* keyCode */)
