@@ -95,7 +95,9 @@ private:
   int _dragOriginY;
   /** Mode helper */
   float _dragOriginalRadius;
-
+  /** Mode helper */
+  SimpleVector3 _dragOriginalCenter;
+  
 
   /** Common functionality for all places needing it */
   void setMode();
@@ -105,6 +107,8 @@ private:
   void doZoomIn();
   /** Common functionality for all places needing it */
   void doZoomOut();
+  /** Common functionality for all places needing it */
+  void panScreenRelativeCoords(int x, int y);
 };
 
 

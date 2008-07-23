@@ -31,6 +31,8 @@
 
 #include "Logger.h"
 
+#include <OGRE/OgreCamera.h>
+
 #include <cmath>
 
 
@@ -55,7 +57,8 @@ CameraModeMGED::CameraModeMGED() :
   _mouseButtonsPressed(0),
   _dragOriginX(0),
   _dragOriginY(0),
-  _dragOriginalRadius(0.0f)
+  _dragOriginalRadius(0.0f),
+  _dragOriginalCenter(0.0f, 0.0f, 0.0f)
 {
 }
 
@@ -128,6 +131,9 @@ bool CameraModeMGED::injectMouseMotion(int x, int y)
 
     return true;
   } else if (_translateModeEnabled && _mouseButtonsPressed > 0) {
+    // pan given amount of screen units
+    panScreenRelativeCoords(x - _dragOriginX,
+			    y - _dragOriginY);
     return true;
   } else {
     return false;
@@ -146,18 +152,21 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
       _dragOriginX = x;
       _dragOriginY = y;
       _dragOriginalRadius = _radius;
+      _dragOriginalCenter = _center;
       break;
     case OIS::MB_Middle:
       _constrainedToAxis = Y;
       _dragOriginX = x;
       _dragOriginY = y;
       _dragOriginalRadius = _radius;
+      _dragOriginalCenter = _center;
       break;
     case OIS::MB_Right:
       _constrainedToAxis = Z;
       _dragOriginX = x;
       _dragOriginY = y;
       _dragOriginalRadius = _radius;
+      _dragOriginalCenter = _center;
       break;
     default:
       // nothing
@@ -281,6 +290,17 @@ void CameraModeMGED::doZoomIn()
 void CameraModeMGED::doZoomOut()
 {
   multiplyVarWithLimit(_radius, ZOOM_STEP, RADIUS_MAX_DISTANCE);
+}
+
+void CameraModeMGED::panScreenRelativeCoords(int x, int y)
+{
+  _center.x = _dragOriginalCenter.x - x;
+  _center.y = _dragOriginalCenter.y + y;
+
+  Ogre::Vector3 pos(_dragOriginalCenter.x - x,
+		    _dragOriginalCenter.y + y,
+		    _dragOriginalCenter.z);
+  _camera->setPosition(pos);
 }
 
 

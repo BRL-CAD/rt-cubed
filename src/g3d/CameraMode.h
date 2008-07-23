@@ -77,6 +77,18 @@ public:
     Z = 3
   };
 
+  /** Simple vector class, only to hold three coordinates together
+   *
+   * \todo mafm: probably should use somethinf similar from other
+   * BRL-CAD sources
+   */
+  class SimpleVector3
+  {
+  public:
+    float x, y, z;
+    SimpleVector3(float xx, float yy, float zz) : x(xx), y(yy), z(zz) { }
+  };
+
   /** Default constructor */
   CameraMode(const char* name);
   /** Destructor */
@@ -166,9 +178,16 @@ protected:
   /** Name of the mode */
   const char* _name;
 
-  /** Windows parameters */
+  /** Pointer to the camera
+   *
+   * \note mafm: it would be nice if we could leave only by using the
+   * camera in the updateCamera() method, but for flexibility with
+   * some camera modes it seems better to have this pointer, at the moment.
+   */
+  Ogre::Camera* _camera;
+  /** Window parameters */
   int _windowWidth;
-  /** Windows parameters */
+  /** Window parameters */
   int _windowHeight;
 
   /** Flag for camera action */
@@ -193,16 +212,8 @@ protected:
   float _horizontalRot;
   /** Current vertical rotation */
   float _verticalRot;
-  /** Coordinates to take as center
-   *
-   * \todo mafm: probably should use somethinf similar from other
-   * BRL-CAD sources
-   */
-  class Vector3 {
-  public:
-    float x, y, z;
-    Vector3(float xx, float yy, float zz) : x(xx), y(yy), z(zz) { }
-  } _center;
+  /** Coordinates to take as center */
+  SimpleVector3 _center;
 };
 
 

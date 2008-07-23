@@ -59,6 +59,7 @@ CameraMode::CameraMode(const char* name) :
 
 void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
 {
+  _camera = camera;
   _windowWidth = camera->getViewport()->getActualWidth();
   _windowHeight = camera->getViewport()->getActualHeight();
 
@@ -67,7 +68,7 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
     // center (reset rotation) when requested
     _horizontalRot = 0.0f;
     _verticalRot = 0.0f;
-    _center = Vector3(0.0f, 0.0f, 0.0f);
+    _center = SimpleVector3(0.0f, 0.0f, 0.0f);
     _radius = RADIUS_DEFAULT_DISTANCE;
     _actionResetToCenter = false;
   } else {
