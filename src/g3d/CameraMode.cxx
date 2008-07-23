@@ -188,35 +188,35 @@ float CameraMode::degreesToRadians(float degrees)
   return (degrees*2.0f*PI_NUMBER)/360.0f;
 }
 
-void CameraMode::increaseVarWithLimit(float& rotation, float value, float limit)
+void CameraMode::increaseVarWithLimit(float& var, float value, float limit)
 {
-  rotation += value;
-  if (rotation > limit) {
-    rotation = limit;
+  var += value;
+  if (var > limit) {
+    var = limit;
   }
 }
 
-void CameraMode::decreaseVarWithLimit(float& rotation, float value, float limit)
+void CameraMode::decreaseVarWithLimit(float& var, float value, float limit)
 {
-  rotation -= value;
-  if (rotation < limit) {
-    rotation = limit;
+  var -= value;
+  if (var < limit) {
+    var = limit;
   }
 }
 
-void CameraMode::multiplyVarWithLimit(float& rotation, float value, float limit)
+void CameraMode::multiplyVarWithLimit(float& var, float value, float limit)
 {
-  rotation *= value;
-  if (rotation > limit) {
-    rotation = limit;
+  var *= value;
+  if (var > limit) {
+    var = limit;
   }
 }
 
-void CameraMode::divideVarWithLimit(float& rotation, float value, float limit)
+void CameraMode::divideVarWithLimit(float& var, float value, float limit)
 {
-  rotation /= value;
-  if (rotation < limit) {
-    rotation = limit;
+  var /= value;
+  if (var < limit) {
+    var = limit;
   }
 }
 
