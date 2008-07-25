@@ -87,6 +87,9 @@ public:
   public:
     float x, y, z;
     SimpleVector3(float xx, float yy, float zz) : x(xx), y(yy), z(zz) { }
+    bool operator!=(const SimpleVector3& other) {
+      return !(x == other.x && y == other.y && z == other.z);
+    }
   };
 
   /** Default constructor */
@@ -125,6 +128,9 @@ public:
 
   /** Stop all movements and rotations */
   void stop();
+
+  /** Translate camera and center by given amount */
+  void pan(float screenX, float screenY, SimpleVector3 originalCenter);
 
   /** Convert from degrees to radians */
   static float degreesToRadians(float degrees);
@@ -198,6 +204,8 @@ protected:
   Direction _actionRotateZ;
   /** Flag for camera action */
   Direction _actionZoom;
+  /** Flag for camera action */
+  SimpleVector3 _actionPan;
 
   /** Flag for camera action */
   bool _actionResetToCenter;

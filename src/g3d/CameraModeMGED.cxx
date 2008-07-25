@@ -32,6 +32,7 @@
 #include "Logger.h"
 
 #include <OGRE/OgreCamera.h>
+#include <OGRE/OgreRay.h>
 
 #include <cmath>
 
@@ -40,7 +41,6 @@
  * CameraModeMGED
  ******************************************************************************/
 const float CameraModeMGED::ROTATION_STEP = PI_NUMBER/12.0f; // 15 degrees, in radians
-const float CameraModeMGED::PAN_STEP = 50.0f; // m
 const float CameraModeMGED::ZOOM_STEP = 1.25f; // ratio
 const float CameraModeMGED::ZOOM_SCALE = 4.0f; // ratio
 
@@ -132,8 +132,21 @@ bool CameraModeMGED::injectMouseMotion(int x, int y)
     return true;
   } else if (_translateModeEnabled && _mouseButtonsPressed > 0) {
     // pan given amount of screen units
-    panScreenRelativeCoords(x - _dragOriginX,
-			    y - _dragOriginY);
+    panScreenRelativeCoords(x - _dragOriginX, y - _dragOriginY);
+    return true;
+  } else if (_rotateModeEnabled && _mouseButtonsPressed > 0) {
+    // mafm: originally copied from blender mode
+
+    // calculate the difference since last update, normalized between
+    // -1.0 and 1.0 w.r.t. screen coordinates
+    float horizDiffNorm = -(x - _dragOriginX)/(_windowWidth/2.0f);
+    float vertDiffNorm = -(y - _dragOriginY)/(_windowHeight/2.0f);
+    // Logger::logDEBUG("%.03f %.03f", horizDiffNorm, vertDiffNorm);
+
+    // orbit freely, setting absolute position
+    _horizontalRot = horizDiffNorm*PI_NUMBER;
+    _verticalRot = vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
+
     return true;
   } else {
     return false;
@@ -193,7 +206,7 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
   return true;
 }
 
-bool CameraModeMGED::injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y)
+bool CameraModeMGED::injectMouseReleased(OIS::MouseButtonID buttonId, int /* x */, int /* y */)
 {
   // decrease the count of mouse buttons pressed, for all purposes
   --(_mouseButtonsPressed);
@@ -294,13 +307,7 @@ void CameraModeMGED::doZoomOut()
 
 void CameraModeMGED::panScreenRelativeCoords(int x, int y)
 {
-  _center.x = _dragOriginalCenter.x - x;
-  _center.y = _dragOriginalCenter.y + y;
-
-  Ogre::Vector3 pos(_dragOriginalCenter.x - x,
-		    _dragOriginalCenter.y + y,
-		    _dragOriginalCenter.z);
-  _camera->setPosition(pos);
+  pan(x, y, _dragOriginalCenter);
 }
 
 

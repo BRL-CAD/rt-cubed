@@ -46,9 +46,10 @@ const float CameraMode::RADIUS_MIN_DISTANCE = 0.1f; // m
 const float CameraMode::RADIUS_DEFAULT_DISTANCE = 500.0f; // m
 
 CameraMode::CameraMode(const char* name) :
-  _name(name), _windowWidth(0), _windowHeight(0),
+  _name(name), _camera(0), _windowWidth(0), _windowHeight(0),
   _actionRotateX(NEUTRAL), _actionRotateY(NEUTRAL), _actionRotateZ(NEUTRAL),
   _actionZoom(NEUTRAL),
+  _actionPan(0, 0, 0),
   _actionResetToCenter(false),
   _rotationSpeed(ROTATION_DEFAULT_SPEED),
   _zoomSpeedRatio(ZOOM_DEFAULT_SPEED_RATIO),
@@ -100,6 +101,15 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
     multiplyVarWithLimit(_radius,
 			 1.0f + (ZOOM_DEFAULT_SPEED_RATIO*elapsedSeconds),
 			 RADIUS_MAX_DISTANCE);
+  }
+
+  // panning
+  if (_actionPan != SimpleVector3(0, 0, 0)) {
+    Logger::logDEBUG("panning: %g %g %g", _actionPan.x, _actionPan.y, _actionPan.z);
+    _center.x -= _actionPan.x;
+    _center.y += _actionPan.y;
+    _center.z -= _actionPan.z;
+    _actionPan = SimpleVector3(0, 0, 0);
   }
 
   Ogre::SceneNode tmpNode(0);
@@ -182,6 +192,12 @@ void CameraMode::stop()
   _actionRotateY = NEUTRAL;
   _actionRotateZ = NEUTRAL;
   _actionZoom = NEUTRAL;
+}
+
+void CameraMode::pan(float x, float y, SimpleVector3 originalCenter)
+{
+  _actionPan = SimpleVector3(x, y, x);
+  _center = originalCenter;
 }
 
 float CameraMode::degreesToRadians(float degrees)
