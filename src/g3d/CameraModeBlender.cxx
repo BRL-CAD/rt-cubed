@@ -36,7 +36,7 @@
  * CameraModeBlender
  ******************************************************************************/
 const float CameraModeBlender::ROTATION_STEP = PI_NUMBER/12.0f; // 15 degrees, in radians
-const float CameraModeBlender::PAN_STEP = 50.0f; // m
+const float CameraModeBlender::PAN_STEP = 10.0f; // m
 const float CameraModeBlender::ZOOM_STEP = 1.25f; // ratio
 
 CameraModeBlender::CameraModeBlender() :
@@ -68,7 +68,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
   case OIS::KC_NUMPAD8:
     if (_panModeEnabled) {
       // pan up
-      _center.y += PAN_STEP;
+      pan(0, PAN_STEP);
     } else {
       // orbit up
       decreaseVarWithLimit(_verticalRot,
@@ -79,7 +79,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
   case OIS::KC_NUMPAD2:
     if (_panModeEnabled) {
       // pan down
-      _center.y -= PAN_STEP;
+      pan(0, -PAN_STEP);
     } else {
       // orbit down
       increaseVarWithLimit(_verticalRot,
@@ -90,7 +90,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
   case OIS::KC_NUMPAD4:
     if (_panModeEnabled) {
       // pan left
-      _center.x -= PAN_STEP;
+      pan(PAN_STEP, 0);
     } else {
       // orbit left
       _horizontalRot -= ROTATION_STEP;
@@ -99,7 +99,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
   case OIS::KC_NUMPAD6:
     if (_panModeEnabled) {
       // pan right
-      _center.x += PAN_STEP;
+      pan(-PAN_STEP, 0);
     } else {
       // orbit right
       _horizontalRot += ROTATION_STEP;
