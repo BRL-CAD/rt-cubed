@@ -111,6 +111,9 @@ public:
 	    "Argument is [solid|wireframe|points] (initial chars are enough)")
     {
       _argNames.push_back("mode");
+
+      // setting wireframe by default
+      Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
     }
 
   virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
