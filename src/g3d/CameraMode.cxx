@@ -103,36 +103,48 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
 			 RADIUS_MAX_DISTANCE);
   }
 
-  // panning
+  // set the resulting position to the camera
   if (_actionPan != SimpleVector3(0, 0, 0)) {
     Logger::logDEBUG("panning: %g %g %g", _actionPan.x, _actionPan.y, _actionPan.z);
-    _center.x -= _actionPan.x;
-    _center.y += _actionPan.y;
-    _center.z -= _actionPan.z;
-    _actionPan = SimpleVector3(0, 0, 0);
-  }
 
-  Ogre::SceneNode tmpNode(0);
-
-  // set initial center
-  Ogre::Vector3 centerTranslation(_center.x, _center.y, _center.z);
-  tmpNode.translate(centerTranslation, Ogre::SceneNode::TS_LOCAL);
-
-  // rotations
-  tmpNode.yaw(Ogre::Radian(_horizontalRot));
-  tmpNode.pitch(Ogre::Radian(_verticalRot));
-
-  // position -- push back given radius
-  Ogre::Vector3 radiusDistance(0, 0, _radius);
-  tmpNode.translate(radiusDistance, Ogre::SceneNode::TS_LOCAL);
-
-  // set the resulting position to the camera
-  Ogre::Vector3 pos(camera->getPosition());
-  if (pos != tmpNode.getPosition()) {
-    //Logger::logDEBUG("Camera position (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
-
-    camera->setPosition(tmpNode.getPosition());
+    // get center relative to camera
+    Ogre::Vector3 cameraPos = camera->getPosition();
+    Ogre::Vector3 difference(_center.x, _center.y, _center.z);
+    difference -= cameraPos;
+    // pan camera (relative to its position)
+    camera->moveRelative(Ogre::Vector3(_actionPan.x, -_actionPan.y, 0));
+    cameraPos = camera->getPosition();
+    Logger::logDEBUG(" - pos: %g %g %g", cameraPos.x, cameraPos.y, cameraPos.z);
+    // restore center
+    _center.x = cameraPos.x + difference.x;
+    _center.y = cameraPos.y + difference.y;
+    _center.z = cameraPos.z + difference.z;
+    Logger::logDEBUG(" - center: %g %g %g", _center.x, _center.y, _center.z);
     camera->lookAt(_center.x, _center.y, _center.z);
+
+    // stop panning
+    _actionPan = SimpleVector3(0, 0, 0);
+  } else {
+    Ogre::SceneNode tmpNode(0);
+
+    // set initial center
+    Ogre::Vector3 centerTranslation(_center.x, _center.y, _center.z);
+    tmpNode.translate(centerTranslation, Ogre::SceneNode::TS_LOCAL);
+
+    // rotations
+    tmpNode.yaw(Ogre::Radian(_horizontalRot));
+    tmpNode.pitch(Ogre::Radian(_verticalRot));
+
+    // position -- push back given radius
+    Ogre::Vector3 radiusDistance(0, 0, _radius);
+    tmpNode.translate(radiusDistance, Ogre::SceneNode::TS_LOCAL);
+
+    if (camera->getPosition() != tmpNode.getPosition()) {
+      //Logger::logDEBUG("Camera position (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
+
+      camera->setPosition(tmpNode.getPosition());
+      camera->lookAt(_center.x, _center.y, _center.z);
+    }
   }
 }
 
@@ -196,8 +208,13 @@ void CameraMode::stop()
 
 void CameraMode::pan(float x, float y, SimpleVector3 originalCenter)
 {
-  _actionPan = SimpleVector3(x, y, x);
+  _actionPan = SimpleVector3(x, y, 0);
   _center = originalCenter;
+}
+
+void CameraMode::pan(float x, float y)
+{
+  _actionPan = SimpleVector3(x, y, 0);
 }
 
 float CameraMode::degreesToRadians(float degrees)

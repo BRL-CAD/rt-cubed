@@ -129,8 +129,12 @@ public:
   /** Stop all movements and rotations */
   void stop();
 
-  /** Translate camera and center by given amount */
+  /** Translate camera position and center position by given amount
+   * (screen coordinates) relative to original center */
   void pan(float screenX, float screenY, SimpleVector3 originalCenter);
+  /** Translate camera position and center position by given amount
+   * (screen coordinates) relative to current center */
+  void pan(float screenX, float screenY);
 
   /** Convert from degrees to radians */
   static float degreesToRadians(float degrees);
