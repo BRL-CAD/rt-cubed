@@ -103,6 +103,8 @@ private:
   void callbackFullscreenMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "MouseReleased" in the CycleCamera button */
   void callbackCycleCameraMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  /** Callback for "MouseReleased" in the CameraProjection button */
+  void callbackCameraProjectionMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "MouseReleased" in the CommandOverlay button */
   void callbackCommandMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
   /** Callback for "MouseReleased" in the Console button */

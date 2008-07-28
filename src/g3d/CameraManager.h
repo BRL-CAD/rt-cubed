@@ -90,7 +90,9 @@ public:
   const CameraMode& getActiveCameraMode() const;
   /** Cycle the camera mode to the next one */
   void cycleCameraMode();
-  /** Get projection type (orthogonal or perspective) */
+  /** Get projection type name (orthogonal or perspective) as text */
+  const char* getProjectionTypeName() const;
+  /** Is projection type Orthogonal or Perspective? */
   bool isProjectionOrthogonal() const;
   /** Set projection type (orthogonal or perspective) */
   void setProjectionOrthogonal(bool value);
@@ -112,10 +114,13 @@ private:
   /** Singleton instance */
   static CameraManager* INSTANCE;
 
+  /** Pointer to the camera */
+  Ogre::Camera* _camera;
   /** List of camera modes that we can use (front is the active
    * one) */
   std::deque<CameraMode*> _cameraModeList;
-
+  /** State of Projection Type desired */
+  bool _projectionTypeOrthogonal;
 
   /** Default constructor */
   CameraManager();

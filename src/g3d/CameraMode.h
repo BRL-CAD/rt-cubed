@@ -104,10 +104,6 @@ public:
 
   /** Get the name */
   const char* getName() const;
-  /** Get projection type (orthogonal or perspective) */
-  bool isProjectionOrthogonal() const;
-  /** Set projection type (orthogonal or perspective) */
-  void setProjectionOrthogonal(bool value);
 
   /** Set flag for this camera action */
   void setZoom(Direction direction);

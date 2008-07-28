@@ -35,6 +35,7 @@
 #include "CameraModeMGED.h"
 #include "CameraModeOrbital.h"
 
+#include <OGRE/OgreCamera.h>
 #include <OGRE/OgreSceneNode.h>
 
 
@@ -50,7 +51,8 @@ CameraManager& CameraManager::instance()
   return *INSTANCE;
 }
 
-CameraManager::CameraManager()
+CameraManager::CameraManager() :
+  _camera(0), _projectionTypeOrthogonal(true)
 {
   // create camera modes that we'll use (default is the first one, it
   // will get in the front of the list)
@@ -64,10 +66,6 @@ CameraManager::CameraManager()
   // notify observers
   notify(CameraObserverEvent(CameraObserverEvent::MODE_CHANGED,
 			     cameraModeName));
-  // notify observers
-  const char* projectionType = isProjectionOrthogonal() ? "Orthogonal" : "Perspective";
-  notify(CameraObserverEvent(CameraObserverEvent::PROJECTION_CHANGED,
-			     projectionType));
 }
 
 CameraMode& CameraManager::getActiveCameraMode()
@@ -82,6 +80,13 @@ const CameraMode& CameraManager::getActiveCameraMode() const
 
 void CameraManager::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
 {
+  _camera = camera;
+  if ((_projectionTypeOrthogonal && (_camera->getProjectionType() != Ogre::PT_ORTHOGRAPHIC))
+      || (!_projectionTypeOrthogonal && (_camera->getProjectionType() != Ogre::PT_PERSPECTIVE))) {
+    Logger::logWARNING("Projection type state differs with camera state, changing");
+    setProjectionOrthogonal(_projectionTypeOrthogonal);
+  }
+
   getActiveCameraMode().updateCamera(camera, elapsedSeconds);
 }
 
@@ -96,25 +101,38 @@ void CameraManager::cycleCameraMode()
   // notify observers
   notify(CameraObserverEvent(CameraObserverEvent::MODE_CHANGED,
 			     cameraModeName));
-  // notify observers
-  const char* projectionType = isProjectionOrthogonal() ? "Orthogonal" : "Perspective";
-  notify(CameraObserverEvent(CameraObserverEvent::PROJECTION_CHANGED,
-			     projectionType));
+}
+
+const char* CameraManager::getProjectionTypeName() const
+{
+  return (isProjectionOrthogonal() ? "Orthogonal" : "Perspective");
 }
 
 bool CameraManager::isProjectionOrthogonal() const
 {
-  return getActiveCameraMode().isProjectionOrthogonal();
+  return _projectionTypeOrthogonal;
 }
 
 void CameraManager::setProjectionOrthogonal(bool value)
 {
-  getActiveCameraMode().setProjectionOrthogonal(value);
+  _projectionTypeOrthogonal = value;
+
+  // acting on the camera doing real rendering
+  if (_camera) {
+    if (_projectionTypeOrthogonal) {
+      _camera->setProjectionType(Ogre::PT_ORTHOGRAPHIC);
+    } else {
+      _camera->setProjectionType(Ogre::PT_PERSPECTIVE);
+    }
+
+    Logger::logINFO("Projection type set to: '%s'", getProjectionTypeName());
+  } else {
+    Logger::logWARNING("Trying to set projection type, but camera null");
+  }
 
   // notify observers
-  const char* projectionType = isProjectionOrthogonal() ? "Orthogonal" : "Perspective";
   notify(CameraObserverEvent(CameraObserverEvent::PROJECTION_CHANGED,
-			     projectionType));
+			     getProjectionTypeName()));
 }
 
 bool CameraManager::injectKeyPressed(OIS::KeyCode keyCode)

@@ -98,8 +98,15 @@ void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
     std::string camMode = CameraManager::instance().getActiveCameraMode().getName();
     b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
     b->setName("CycleCamera Button");
-    b->setText("CamMode: " + camMode);
+    b->setText(camMode + " Mode");
     b->setCallback(&GuiWindowManager::callbackCycleCameraMouseReleased, this, "onMouseReleased");
+
+    // "projection" button (set projection types)
+    std::string projType = CameraManager::instance().getProjectionTypeName();
+    b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
+    b->setName("CameraProjection Button");
+    b->setText(projType.substr(0, 5) + ". Proj.");
+    b->setCallback(&GuiWindowManager::callbackCameraProjectionMouseReleased, this, "onMouseReleased");
 
     // "command overlay" button (toggle visibility)
     b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
@@ -239,9 +246,17 @@ void GuiWindowManager::update(const ObserverEvent& event)
 	case CameraObserverEvent::MODE_CHANGED:
 	  widget = _topbar->findWidget("CycleCamera Button");
 	  if (widget) {
-	    widget->setText("CamMode: " + e->_content);
+	    widget->setText(e->_content + ". Mode");
 	  } else {
 	    throw "CycleCamera button not found";
+	  }
+	  break;
+	case CameraObserverEvent::PROJECTION_CHANGED:
+	  widget = _topbar->findWidget("CameraProjection Button");
+	  if (widget) {
+	    widget->setText(e->_content.substr(0, 5) + ". Proj.");
+	  } else {
+	    throw "CameraProjection button not found";
 	  }
 	  break;
 	default:
@@ -271,6 +286,12 @@ void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& /* vEl
 void GuiWindowManager::callbackCycleCameraMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
 {
   CameraManager::instance().cycleCameraMode();
+}
+
+void GuiWindowManager::callbackCameraProjectionMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+{
+  bool toggle = !CameraManager::instance().isProjectionOrthogonal();
+  CameraManager::instance().setProjectionOrthogonal(toggle);
 }
 
 void GuiWindowManager::callbackCommandMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
