@@ -105,7 +105,7 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
 
   // set the resulting position to the camera
   if (_actionPan != SimpleVector3(0, 0, 0)) {
-    Logger::logDEBUG("panning: %g %g %g", _actionPan.x, _actionPan.y, _actionPan.z);
+    //Logger::logDEBUG("panning: %g %g %g", _actionPan.x, _actionPan.y, _actionPan.z);
 
     // get center relative to camera
     Ogre::Vector3 cameraPos = camera->getPosition();
@@ -114,12 +114,12 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
     // pan camera (relative to its position)
     camera->moveRelative(Ogre::Vector3(_actionPan.x, -_actionPan.y, 0));
     cameraPos = camera->getPosition();
-    Logger::logDEBUG(" - pos: %g %g %g", cameraPos.x, cameraPos.y, cameraPos.z);
+    //Logger::logDEBUG(" - pos: %g %g %g", cameraPos.x, cameraPos.y, cameraPos.z);
     // restore center
     _center.x = cameraPos.x + difference.x;
     _center.y = cameraPos.y + difference.y;
     _center.z = cameraPos.z + difference.z;
-    Logger::logDEBUG(" - center: %g %g %g", _center.x, _center.y, _center.z);
+    //Logger::logDEBUG(" - center: %g %g %g", _center.x, _center.y, _center.z);
     camera->lookAt(_center.x, _center.y, _center.z);
 
     // stop panning
