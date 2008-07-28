@@ -54,8 +54,8 @@ CameraManager::CameraManager()
 {
   // create camera modes that we'll use (default is the first one, it
   // will get in the front of the list)
-  _cameraModeList.push_back(new CameraModeMGED());
   _cameraModeList.push_back(new CameraModeBlender());
+  _cameraModeList.push_back(new CameraModeMGED());
   _cameraModeList.push_back(new CameraModeOrbital());
 
   const char* cameraModeName = _cameraModeList.front()->getName();
@@ -64,9 +64,18 @@ CameraManager::CameraManager()
   // notify observers
   notify(CameraObserverEvent(CameraObserverEvent::MODE_CHANGED,
 			     cameraModeName));
+  // notify observers
+  const char* projectionType = isProjectionOrthogonal() ? "Orthogonal" : "Perspective";
+  notify(CameraObserverEvent(CameraObserverEvent::PROJECTION_CHANGED,
+			     projectionType));
 }
 
 CameraMode& CameraManager::getActiveCameraMode()
+{
+  return *(_cameraModeList.front());
+}
+
+const CameraMode& CameraManager::getActiveCameraMode() const
 {
   return *(_cameraModeList.front());
 }
@@ -87,6 +96,25 @@ void CameraManager::cycleCameraMode()
   // notify observers
   notify(CameraObserverEvent(CameraObserverEvent::MODE_CHANGED,
 			     cameraModeName));
+  // notify observers
+  const char* projectionType = isProjectionOrthogonal() ? "Orthogonal" : "Perspective";
+  notify(CameraObserverEvent(CameraObserverEvent::PROJECTION_CHANGED,
+			     projectionType));
+}
+
+bool CameraManager::isProjectionOrthogonal() const
+{
+  return getActiveCameraMode().isProjectionOrthogonal();
+}
+
+void CameraManager::setProjectionOrthogonal(bool value)
+{
+  getActiveCameraMode().setProjectionOrthogonal(value);
+
+  // notify observers
+  const char* projectionType = isProjectionOrthogonal() ? "Orthogonal" : "Perspective";
+  notify(CameraObserverEvent(CameraObserverEvent::PROJECTION_CHANGED,
+			     projectionType));
 }
 
 bool CameraManager::injectKeyPressed(OIS::KeyCode keyCode)

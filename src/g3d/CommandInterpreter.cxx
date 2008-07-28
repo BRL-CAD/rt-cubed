@@ -106,6 +106,7 @@ CommandInterpreter::CommandInterpreter()
   addCommand(new CommandQuit());
   addCommand(new CommandSetLogLevel());
   addCommand(new CommandSetPolygonMode());
+  addCommand(new CommandSetCameraProjectionType());
   addCommand(new CommandCycleCameraMode());
   addCommand(new CommandCreateSampleGeometry());
 }

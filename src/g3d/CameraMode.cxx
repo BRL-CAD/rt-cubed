@@ -153,6 +153,28 @@ const char* CameraMode::getName() const
   return _name;
 }
 
+bool CameraMode::isProjectionOrthogonal() const
+{
+  if (_camera) {
+    return (_camera->getProjectionType() == Ogre::PT_ORTHOGRAPHIC);
+  } else {
+    return false;
+  }
+}
+
+void CameraMode::setProjectionOrthogonal(bool value)
+{
+  if (_camera) {
+    if (true) {
+      _camera->setProjectionType(Ogre::PT_ORTHOGRAPHIC);
+    } else {
+      _camera->setProjectionType(Ogre::PT_PERSPECTIVE);
+    }
+  } else {
+    Logger::logWARNING("Trying to set projection type, but camera null");
+  }
+}
+
 void CameraMode::setResetToCenter(bool b)
 {
   _actionResetToCenter = b;

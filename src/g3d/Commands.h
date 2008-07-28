@@ -135,6 +135,37 @@ public:
 };
 
 
+/** @brief Set Camera projection type.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ */
+class CommandSetCameraProjectionType : public Command
+{
+public:
+  CommandSetCameraProjectionType() :
+    Command("projection",
+	    "Set camera projection type",
+	    "Argument is [orthogonal|perspective] (initial chars are enough)")
+    {
+      _argNames.push_back("type");
+    }
+
+  virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
+    if (args.size() != 1) {
+      out.appendLine("This command needs exactly one argument");
+      return;
+    }
+
+    char firstChar = args[0][0];
+    if (firstChar == 'o') {
+      CameraManager::instance().setProjectionOrthogonal(true);
+    } else {
+      CameraManager::instance().setProjectionOrthogonal(false);
+    }
+  }
+};
+
+
 /** @brief Cycle Camera mode.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -144,9 +175,7 @@ class CommandCycleCameraMode : public Command
 public:
   CommandCycleCameraMode() :
     Command("cyclecam", "Cycle the camera mode", "")
-    {
-      _argNames.push_back("mode");
-    }
+    { }
 
   virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
     if (args.size() > 0) {

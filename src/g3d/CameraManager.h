@@ -55,7 +55,7 @@ class CameraObserverEvent : public ObserverEvent
 {
 public:
   /** Action Identifier enumerator */
-  enum ActionId { MODE_CHANGED = 1 };
+  enum ActionId { MODE_CHANGED = 1, PROJECTION_CHANGED = 2 };
 
   /** Action Identifier */
   const ActionId _actionId;
@@ -86,8 +86,14 @@ public:
 
   /** Get the active camera mode */
   CameraMode& getActiveCameraMode();
+  /** Get the active camera mode */
+  const CameraMode& getActiveCameraMode() const;
   /** Cycle the camera mode to the next one */
   void cycleCameraMode();
+  /** Get projection type (orthogonal or perspective) */
+  bool isProjectionOrthogonal() const;
+  /** Set projection type (orthogonal or perspective) */
+  void setProjectionOrthogonal(bool value);
 
   /** Inject input */
   bool injectKeyPressed(OIS::KeyCode keyCode);
