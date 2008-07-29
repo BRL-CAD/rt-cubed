@@ -27,6 +27,10 @@ provided that you have obtained such a license from Right Brain Games Inc.
 #include "Mocha/Thread.h"
 #include "Mocha/Exception.h"
 
+#ifdef __FreeBSD__
+#include <sys/time.h>
+#endif
+
 #define STACK_SIZE 4096
 
 namespace Mocha

@@ -87,7 +87,12 @@ void GUID::generate( )
 	memcpy( mData, &id, sizeof( id ) );
 #elif defined( POSIX )
 	uuid_t id;
+#ifdef __FreeBSD__	
+	unsigned int status;		// dummy
+	uuid_create(&id, &status);
+#else
 	uuid_generate(id);
+#endif
 	memcpy( mData, &id, sizeof( id ) );
 #else
 #error "No GUID implementation"
@@ -174,8 +179,12 @@ String createGUID()
 		CoCreateGuid( &GUIDStruct );
 #else
 	uuid_t GUIDStruct;
-	 uuid_generate(GUIDStruct);
-	
+#ifdef __FreeBSD__	
+	unsigned int status;		// dummy
+	uuid_create(&GUIDStruct, &status);
+#else
+	uuid_generate(GUIDStruct);
+#endif
 #endif
 
 	String Value;

@@ -26,6 +26,10 @@ provided that you have obtained such a license from Right Brain Games Inc.
 
 #include "Mocha/Timer.h"
 
+#ifdef __FreeBSD__
+#include <sys/time.h>
+#endif
+
 namespace Mocha
 {
 

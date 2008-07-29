@@ -21,7 +21,11 @@ file(GLOB MOCHA_SOURCES Source/*.cpp Lua/*.c)
 include_directories(Include/ Lua/)
 add_library(mocha SHARED ${MOCHA_SOURCES})
 set_target_properties(mocha PROPERTIES LINKER_LANGUAGE CXX)
-target_link_libraries(mocha pthread uuid)
+if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+  target_link_libraries(mocha pthread)
+else(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+  target_link_libraries(mocha pthread uuid)
+endif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
 
 # pkg-config file
 file(WRITE ${PROJECT_BINARY_DIR}/Mocha.pc "prefix=${CMAKE_INSTALL_PREFIX}

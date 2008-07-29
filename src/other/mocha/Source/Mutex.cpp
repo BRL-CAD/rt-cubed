@@ -28,6 +28,9 @@ provided that you have obtained such a license from Right Brain Games Inc.
 
 #ifdef POSIX
 #include <pthread.h>
+#ifdef __FreeBSD__
+#include <pthread_np.h>
+#endif
 #endif
 
 namespace Mocha
@@ -71,7 +74,11 @@ bool Mutex::request( )
 Mutex::Mutex( )
 {
 	pthread_mutexattr_t mutexattr;
+	#ifdef __FreeBSD__
+	pthread_mutexattr_setkind_np(&mutexattr, PTHREAD_MUTEX_RECURSIVE);
+	#else
 	pthread_mutexattr_settype(&mutexattr, PTHREAD_MUTEX_RECURSIVE_NP);
+	#endif
 	pthread_mutex_init(&mCritSection, &mutexattr);
 	pthread_mutexattr_destroy(&mutexattr);
 }

@@ -32,7 +32,11 @@ provided that you have obtained such a license from Right Brain Games Inc.
 #include <string>
 
 #ifdef POSIX
+#ifdef __FreeBSD__
+#include <uuid.h>
+#else
 #include <uuid/uuid.h>
+#endif
 #endif
 
 namespace Mocha
