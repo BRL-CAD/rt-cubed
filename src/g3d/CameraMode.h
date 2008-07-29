@@ -199,6 +199,10 @@ protected:
   int _windowWidth;
   /** Window parameters */
   int _windowHeight;
+  /** Default orthographic window width */
+  float _orthoWindowDefaultWidth;
+  /** Default orthographic window height */
+  float _orthoWindowDefaultHeight;
 
   /** Flag for camera action */
   Direction _actionRotateX;
@@ -222,8 +226,6 @@ protected:
   float _radius;
   /** Previous radius */
   float _previousRadius;
-  /** Default orthographic window width */
-  float _orthoWindowDefaultWidth;
   /** Current horizontal rotation */
   float _horizontalRot;
   /** Current vertical rotation */

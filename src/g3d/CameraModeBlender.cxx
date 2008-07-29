@@ -31,12 +31,14 @@
 
 #include "Logger.h"
 
+#include <OGRE/OgreCamera.h>
+
 
 /*******************************************************************************
  * CameraModeBlender
  ******************************************************************************/
 const float CameraModeBlender::ROTATION_STEP = PI_NUMBER/12.0f; // 15 degrees, in radians
-const float CameraModeBlender::PAN_STEP = 10.0f; // m
+const float CameraModeBlender::PAN_FRACTION = 20.0f; // m
 const float CameraModeBlender::ZOOM_STEP = 1.25f; // ratio
 
 CameraModeBlender::CameraModeBlender() :
@@ -68,7 +70,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
   case OIS::KC_NUMPAD8:
     if (_panModeEnabled) {
       // pan up
-      pan(0, PAN_STEP);
+      pan(0, (_camera->getOrthoWindowHeight()/PAN_FRACTION));
     } else {
       // orbit up
       decreaseVarWithLimit(_verticalRot,
@@ -79,7 +81,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
   case OIS::KC_NUMPAD2:
     if (_panModeEnabled) {
       // pan down
-      pan(0, -PAN_STEP);
+      pan(0, -(_camera->getOrthoWindowHeight()/PAN_FRACTION));
     } else {
       // orbit down
       increaseVarWithLimit(_verticalRot,
@@ -90,7 +92,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
   case OIS::KC_NUMPAD4:
     if (_panModeEnabled) {
       // pan left
-      pan(PAN_STEP, 0);
+      pan((_camera->getOrthoWindowWidth()/PAN_FRACTION), 0);
     } else {
       // orbit left
       _horizontalRot -= ROTATION_STEP;
@@ -99,7 +101,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
   case OIS::KC_NUMPAD6:
     if (_panModeEnabled) {
       // pan right
-      pan(-PAN_STEP, 0);
+      pan(-(_camera->getOrthoWindowWidth()/PAN_FRACTION), 0);
     } else {
       // orbit right
       _horizontalRot += ROTATION_STEP;

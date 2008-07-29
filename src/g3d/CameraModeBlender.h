@@ -64,7 +64,7 @@ private:
   /** Default rotation step */
   static const float ROTATION_STEP; // radians
   /** Default pan distance */
-  static const float PAN_STEP; // m
+  static const float PAN_FRACTION; // ratio
   /** Default zoom step ratio */
   static const float ZOOM_STEP; // ratio
 

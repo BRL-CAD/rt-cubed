@@ -46,7 +46,10 @@ const float CameraMode::RADIUS_MIN_DISTANCE = 0.1f; // m
 const float CameraMode::RADIUS_DEFAULT_DISTANCE = 500.0f; // m
 
 CameraMode::CameraMode(const char* name) :
-  _name(name), _camera(0), _windowWidth(0), _windowHeight(0),
+  _name(name),
+  _camera(0),
+  _windowWidth(0), _windowHeight(0),
+  _orthoWindowDefaultWidth(0.0f), _orthoWindowDefaultHeight(0.0f),
   _actionRotateX(NEUTRAL), _actionRotateY(NEUTRAL), _actionRotateZ(NEUTRAL),
   _actionZoom(NEUTRAL),
   _actionPan(0, 0, 0),
@@ -54,7 +57,6 @@ CameraMode::CameraMode(const char* name) :
   _rotationSpeed(ROTATION_DEFAULT_SPEED),
   _zoomSpeedRatio(ZOOM_DEFAULT_SPEED_RATIO),
   _radius(RADIUS_DEFAULT_DISTANCE), _previousRadius(_radius),
-  _orthoWindowDefaultWidth(0.0f),
   _horizontalRot(0.0f), _verticalRot(0.0f),
   _center(0, 0, 0)
 {
@@ -67,6 +69,7 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
   _windowHeight = camera->getViewport()->getActualHeight();
   if (_orthoWindowDefaultWidth == 0.0f) {
     _orthoWindowDefaultWidth = _camera->getOrthoWindowWidth();
+    _orthoWindowDefaultHeight = _camera->getOrthoWindowHeight(); 
   }
 
   // apply rotations
@@ -119,7 +122,7 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
     Ogre::Vector3 difference(_center.x, _center.y, _center.z);
     difference -= cameraPos;
     // pan camera (relative to its position)
-    camera->moveRelative(Ogre::Vector3(_actionPan.x, -_actionPan.y, 0));
+    camera->moveRelative(Ogre::Vector3(-_actionPan.x, _actionPan.y, 0));
     cameraPos = camera->getPosition();
     //Logger::logDEBUG(" - pos: %g %g %g", cameraPos.x, cameraPos.y, cameraPos.z);
     // restore center
@@ -236,6 +239,7 @@ void CameraMode::pan(float x, float y, SimpleVector3 originalCenter)
 void CameraMode::pan(float x, float y)
 {
   _actionPan = SimpleVector3(x, y, 0);
+  //Logger::logDEBUG("panning: %g %g", _actionPan.x, _actionPan.y);
 }
 
 float CameraMode::degreesToRadians(float degrees)
