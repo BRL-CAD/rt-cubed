@@ -307,7 +307,9 @@ void CameraModeMGED::doZoomOut()
 
 void CameraModeMGED::panScreenRelativeCoords(int x, int y)
 {
-  pan(x, y, _dragOriginalCenter);
+  float panWidth = _camera->getOrthoWindowWidth() * (x/static_cast<float>(_windowWidth));
+  float panHeight = _camera->getOrthoWindowHeight() * (y/static_cast<float>(_windowHeight));
+  pan(panWidth, panHeight, _dragOriginalCenter);
 }
 
 
