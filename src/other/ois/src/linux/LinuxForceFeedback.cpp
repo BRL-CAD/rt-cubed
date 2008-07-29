@@ -20,6 +20,7 @@ restrictions:
 
     3. This notice may not be removed or altered from any source distribution.
 */
+#ifndef __FreeBSD__
 #include "linux/LinuxForceFeedback.h"
 #include "OISException.h"
 
@@ -59,3 +60,4 @@ void LinuxForceFeedback::remove( const Effect* /*effect*/ )
 {
 }
 
+#endif

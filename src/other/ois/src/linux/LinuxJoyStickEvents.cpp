@@ -20,6 +20,7 @@ restrictions:
 
     3. This notice may not be removed or altered from any source distribution.
 */
+#ifndef __FreeBSD__
 #include "OISConfig.h"
 
 #include "linux/LinuxJoyStickEvents.h"
@@ -297,3 +298,5 @@ Interface* LinuxJoyStick::queryInterface(Interface::IType type)
 
 	return 0;
 }
+
+#endif

@@ -22,7 +22,9 @@ restrictions:
 */
 #include "linux/LinuxInputManager.h"
 #include "linux/LinuxKeyboard.h"
+#ifndef __FreeBSD__
 #include "linux/LinuxJoyStickEvents.h"
+#endif
 #include "linux/LinuxMouse.h"
 #include "OISException.h"
 #include <cstdlib>
@@ -50,7 +52,9 @@ LinuxInputManager::LinuxInputManager() : InputManager("X11InputManager")
 LinuxInputManager::~LinuxInputManager()
 {
 	//Close all joysticks
+	#ifndef __FreeBSD__
 	LinuxJoyStick::_clearJoys(unusedJoyStickList);
+	#endif
 }
 
 //--------------------------------------------------------------------------------//
@@ -99,8 +103,10 @@ void LinuxInputManager::_parseConfigSettings( ParamList &paramList )
 void LinuxInputManager::_enumerateDevices()
 {
 	//Enumerate all attached devices
+	#ifndef __FreeBSD__
 	unusedJoyStickList = LinuxJoyStick::_scanJoys();
 	joySticks = unusedJoyStickList.size();
+	#endif
 }
 
 //----------------------------------------------------------------------------//
@@ -114,8 +120,10 @@ DeviceList LinuxInputManager::freeDeviceList()
 	if( mouseUsed == false )
 		ret.insert(std::make_pair(OISMouse, mInputSystemName));
 
+	#ifndef __FreeBSD__
 	for(JoyStickInfoList::iterator i = unusedJoyStickList.begin(); i != unusedJoyStickList.end(); ++i)
 		ret.insert(std::make_pair(OISJoyStick, i->vendor));
+	#endif
 
 	return ret;
 }
@@ -127,7 +135,11 @@ int LinuxInputManager::totalDevices(Type iType)
 	{
 	case OISKeyboard: return 1;
 	case OISMouse: return 1;
+	#ifdef __FreeBSD__
+	case OISJoyStick: return 0;
+	#else
 	case OISJoyStick: return joySticks;
+	#endif
 	default: return 0;
 	}
 }
@@ -139,7 +151,11 @@ int LinuxInputManager::freeDevices(Type iType)
 	{
 	case OISKeyboard: return keyboardUsed ? 0 : 1;
 	case OISMouse: return mouseUsed ? 0 : 1;
+	#ifdef __FreeBSD__
+	case OISJoyStick: return 0;
+	#else	
 	case OISJoyStick: return (int)unusedJoyStickList.size();
+	#endif	
 	default: return 0;
 	}
 }
@@ -180,6 +196,7 @@ Object* LinuxInputManager::createObject(InputManager *creator, Type iType, bool 
 			obj = new LinuxMouse(this, bufferMode, grabMouse, hideMouse);
 		break;
 	}
+	#ifndef __FreeBSD__
 	case OISJoyStick:
 	{
 		for(JoyStickInfoList::iterator i = unusedJoyStickList.begin(); i != unusedJoyStickList.end(); ++i)
@@ -193,6 +210,7 @@ Object* LinuxInputManager::createObject(InputManager *creator, Type iType, bool 
 		}
 		break;
 	}
+	#endif
 	default:
 		break;
 	}
@@ -208,10 +226,12 @@ void LinuxInputManager::destroyObject( Object* obj )
 {
 	if( obj )
 	{
+		#ifndef __FreeBSD__
 		if( obj->type() == OISJoyStick )
 		{
 			unusedJoyStickList.push_back( ((LinuxJoyStick*)obj)->_getJoyInfo() );
 		}
+		#endif
 
 		delete obj;
 	}

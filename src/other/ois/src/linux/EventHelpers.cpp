@@ -20,6 +20,7 @@ restrictions:
 
     3. This notice may not be removed or altered from any source distribution.
 */
+#ifndef __FreeBSD__
 #include "linux/EventHelpers.h"
 #include "linux/LinuxPrereqs.h"
 #include "linux/LinuxForceFeedback.h"
@@ -240,3 +241,5 @@ void EventUtils::removeForceFeedback( LinuxForceFeedback** ff )
 	delete *ff;
 	*ff = 0;
 }
+
+#endif
