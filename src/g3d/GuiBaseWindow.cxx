@@ -26,12 +26,12 @@
  *
  */
 
-#include <RBGui/GuiManager.h>
-#include <RBGui/Window.h>
+#include "GuiBaseWindow.h"
 
 #include "Logger.h"
 
-#include "GuiBaseWindow.h"
+#include <RBGui/GuiManager.h>
+#include <RBGui/Window.h>
 
 
 /*******************************************************************************
