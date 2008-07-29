@@ -220,6 +220,10 @@ protected:
   float _zoomSpeedRatio; /// times per second
   /** Current radius */
   float _radius;
+  /** Previous radius */
+  float _previousRadius;
+  /** Default orthographic window width */
+  float _orthoWindowDefaultWidth;
   /** Current horizontal rotation */
   float _horizontalRot;
   /** Current vertical rotation */

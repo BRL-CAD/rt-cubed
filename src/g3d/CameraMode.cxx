@@ -53,7 +53,9 @@ CameraMode::CameraMode(const char* name) :
   _actionResetToCenter(false),
   _rotationSpeed(ROTATION_DEFAULT_SPEED),
   _zoomSpeedRatio(ZOOM_DEFAULT_SPEED_RATIO),
-  _radius(RADIUS_DEFAULT_DISTANCE), _horizontalRot(0.0f), _verticalRot(0.0f),
+  _radius(RADIUS_DEFAULT_DISTANCE), _previousRadius(_radius),
+  _orthoWindowDefaultWidth(0.0f),
+  _horizontalRot(0.0f), _verticalRot(0.0f),
   _center(0, 0, 0)
 {
 }
@@ -63,6 +65,9 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
   _camera = camera;
   _windowWidth = camera->getViewport()->getActualWidth();
   _windowHeight = camera->getViewport()->getActualHeight();
+  if (_orthoWindowDefaultWidth == 0.0f) {
+    _orthoWindowDefaultWidth = _camera->getOrthoWindowWidth();
+  }
 
   // apply rotations
   if (_actionResetToCenter) {
@@ -71,6 +76,8 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
     _verticalRot = 0.0f;
     _center = SimpleVector3(0.0f, 0.0f, 0.0f);
     _radius = RADIUS_DEFAULT_DISTANCE;
+    _previousRadius = _radius;
+    _camera->setOrthoWindowWidth(_orthoWindowDefaultWidth);
     _actionResetToCenter = false;
   } else {
     // vertical rotation
@@ -145,6 +152,20 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
       camera->setPosition(tmpNode.getPosition());
       camera->lookAt(_center.x, _center.y, _center.z);
     }
+
+    // zoom for orthogonal mode
+    if (_camera->getProjectionType() == Ogre::PT_ORTHOGRAPHIC
+	&& _previousRadius != _radius) {
+      float orthoRatio = _radius/_previousRadius;
+      _camera->setOrthoWindowWidth(orthoRatio * _camera->getOrthoWindowWidth());
+      //Logger::logDEBUG("Orthogonal ratio: %g", orthoRatio);
+      //Logger::logDEBUG("window width: %g", _camera->getOrthoWindowWidth());
+    } else if (_camera->getProjectionType() == Ogre::PT_PERSPECTIVE) {
+      _camera->setOrthoWindowWidth(_orthoWindowDefaultWidth);
+    }
+
+    // update _previousRadius variable, for next time
+    _previousRadius = _radius;
   }
 }
 
