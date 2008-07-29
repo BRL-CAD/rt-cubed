@@ -98,19 +98,19 @@ private:
   void toggleWindowVisibilityAndFocus(const char* name);
 
   /** Callback for "MouseReleased" in the Quit button */
-  void callbackQuitMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  void callbackQuitMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "MouseReleased" in the Fullscreen button */
-  void callbackFullscreenMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  void callbackFullscreenMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "MouseReleased" in the CycleCamera button */
-  void callbackCycleCameraMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  void callbackCycleCameraMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "MouseReleased" in the CameraProjection button */
-  void callbackCameraProjectionMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  void callbackCameraProjectionMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "MouseReleased" in the CommandOverlay button */
-  void callbackCommandMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  void callbackCommandMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "MouseReleased" in the Console button */
-  void callbackConsoleMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  void callbackConsoleMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "MouseReleased" in the taskbar buttons */
-  void callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  void callbackButtonMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
 };
 
 #endif
