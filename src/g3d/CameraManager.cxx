@@ -88,6 +88,10 @@ void CameraManager::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
   }
 
   getActiveCameraMode().updateCamera(camera, elapsedSeconds);
+
+  // notify observers
+  notify(CameraObserverEvent(CameraObserverEvent::UPDATED,
+			     "no-data"));
 }
 
 void CameraManager::cycleCameraMode()

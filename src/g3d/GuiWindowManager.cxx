@@ -259,6 +259,8 @@ void GuiWindowManager::update(const ObserverEvent& event)
 	    throw "CameraProjection button not found";
 	  }
 	  break;
+	case CameraObserverEvent::UPDATED:
+	  break;
 	default:
 	  throw "Action not understood by Observer";
 	}

@@ -55,7 +55,7 @@ class CameraObserverEvent : public ObserverEvent
 {
 public:
   /** Action Identifier enumerator */
-  enum ActionId { MODE_CHANGED = 1, PROJECTION_CHANGED = 2 };
+  enum ActionId { MODE_CHANGED = 1, PROJECTION_CHANGED, UPDATED };
 
   /** Action Identifier */
   const ActionId _actionId;
