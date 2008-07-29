@@ -27,6 +27,13 @@
  *	Editor (g3d).
  */
 
+#include "GuiCommandOverlay.h"
+
+#include "Logger.h"
+#include "History.h"
+#include "CommandInterpreter.h"
+#include "GuiWindowManager.h"
+
 #include <OIS/OISKeyboard.h>
 #include <OGRE/OgreRenderWindow.h>
 #include <RBGui/GuiDefines.h>
@@ -34,13 +41,6 @@
 #include <RBGui/Window.h>
 #include <RBGui/Widgets/TextWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
-
-#include "Logger.h"
-#include "History.h"
-#include "CommandInterpreter.h"
-#include "GuiWindowManager.h"
-
-#include "GuiCommandOverlay.h"
 
 
 /*******************************************************************************

@@ -33,7 +33,11 @@
 #include "GuiBaseWindow.h"
 #include "History.h"
 
+#include <Mocha/Value.h>
+
+
 namespace RBGui {
+  class GuiElement;
   class TextEntryWidget;
 }
 
@@ -55,7 +59,7 @@ public:
    * @param guiMgr Link to RBGui's GuiManager
    */
   GuiCommandOverlay(RBGui::GuiManager& guiMgr);
-  /** Default destructor */
+  /** Destructor */
   ~GuiCommandOverlay();
 
   /** @see GuiBaseWindow::resize */
@@ -75,9 +79,9 @@ private:
   void setPromptContent(const std::string& content);
 
   /** Callback for "KeyPressed" in prompt */
-  void callbackPromptKeyPressed(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  void callbackPromptKeyPressed(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "FocusRecieved" [sic] in prompt */
-  void callbackFocusReceived(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+  void callbackFocusReceived(RBGui::GuiElement& element, const Mocha::ValueList& data);
 };
 
 #endif
