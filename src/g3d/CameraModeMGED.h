@@ -94,6 +94,10 @@ private:
   /** Mode helper */
   float _dragOriginalRadius;
   /** Mode helper */
+  float _dragOriginalHorizontalRotation;
+  /** Mode helper */
+  float _dragOriginalVerticalRotation;
+  /** Mode helper */
   SimpleVector3 _dragOriginalCenter;
   
 

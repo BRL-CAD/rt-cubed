@@ -74,6 +74,10 @@ private:
   int _dragModeOriginX;
   /** Mode helper */
   int _dragModeOriginY;
+  /** Mode helper */
+  float _dragOriginalHorizontalRotation;
+  /** Mode helper */
+  float _dragOriginalVerticalRotation;
 
   /** Mode */
   bool _panModeEnabled;

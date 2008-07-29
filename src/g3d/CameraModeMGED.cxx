@@ -55,9 +55,9 @@ CameraModeMGED::CameraModeMGED() :
   _constrainedSubmodeEnabled(false),
   _constrainedToAxis(NOTSET),
   _mouseButtonsPressed(0),
-  _dragOriginX(0),
-  _dragOriginY(0),
+  _dragOriginX(0), _dragOriginY(0),
   _dragOriginalRadius(0.0f),
+  _dragOriginalHorizontalRotation(0.0f), _dragOriginalVerticalRotation(0.0f),
   _dragOriginalCenter(0.0f, 0.0f, 0.0f)
 {
 }
@@ -144,8 +144,8 @@ bool CameraModeMGED::injectMouseMotion(int x, int y)
     // Logger::logDEBUG("%.03f %.03f", horizDiffNorm, vertDiffNorm);
 
     // orbit freely, setting absolute position
-    _horizontalRot = horizDiffNorm*PI_NUMBER;
-    _verticalRot = vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
+    _horizontalRot = _dragOriginalHorizontalRotation + horizDiffNorm*PI_NUMBER;
+    _verticalRot = _dragOriginalVerticalRotation + vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
 
     return true;
   } else {
@@ -165,6 +165,8 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
       _dragOriginX = x;
       _dragOriginY = y;
       _dragOriginalRadius = _radius;
+      _dragOriginalHorizontalRotation = _horizontalRot;
+      _dragOriginalVerticalRotation = _verticalRot;
       _dragOriginalCenter = _center;
       break;
     case OIS::MB_Middle:
@@ -172,6 +174,8 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
       _dragOriginX = x;
       _dragOriginY = y;
       _dragOriginalRadius = _radius;
+      _dragOriginalHorizontalRotation = _horizontalRot;
+      _dragOriginalVerticalRotation = _verticalRot;
       _dragOriginalCenter = _center;
       break;
     case OIS::MB_Right:
@@ -179,6 +183,8 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
       _dragOriginX = x;
       _dragOriginY = y;
       _dragOriginalRadius = _radius;
+      _dragOriginalHorizontalRotation = _horizontalRot;
+      _dragOriginalVerticalRotation = _verticalRot;
       _dragOriginalCenter = _center;
       break;
     default:

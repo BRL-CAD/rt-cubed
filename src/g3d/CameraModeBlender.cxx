@@ -43,7 +43,9 @@ const float CameraModeBlender::ZOOM_STEP = 1.25f; // ratio
 
 CameraModeBlender::CameraModeBlender() :
   CameraMode("Blender"),
-  _dragModeEnabled(false), _dragModeOriginX(0), _dragModeOriginY(0),
+  _dragModeEnabled(false),
+  _dragModeOriginX(0), _dragModeOriginY(0),
+  _dragOriginalHorizontalRotation(0.0f), _dragOriginalVerticalRotation(0.0f),
   _panModeEnabled(false)
 {
 }
@@ -144,8 +146,8 @@ bool CameraModeBlender::injectMouseMotion(int x, int y)
     // Logger::logDEBUG("%.03f %.03f", horizDiffNorm, vertDiffNorm);
 
     // orbit freely, setting absolute position
-    _horizontalRot = horizDiffNorm*PI_NUMBER;
-    _verticalRot = vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
+    _horizontalRot = _dragOriginalHorizontalRotation + horizDiffNorm*PI_NUMBER;
+    _verticalRot = _dragOriginalVerticalRotation + vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
 
     return true;
   } else {
@@ -159,6 +161,8 @@ bool CameraModeBlender::injectMousePressed(OIS::MouseButtonID buttonId, int x, i
     _dragModeEnabled = true;
     _dragModeOriginX = x;
     _dragModeOriginY = y;
+    _dragOriginalHorizontalRotation = _horizontalRot;
+    _dragOriginalVerticalRotation = _verticalRot;
 
     return true;
   } else {
