@@ -137,10 +137,13 @@ void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
 void GuiWindowManager::registerWindow(GuiBaseWindow* w)
 {
   const char* name = w->getName().c_str();
-  Logger::logDEBUG("GuiWindowManager::registerWindow(%s)", name);
+  Logger::logDEBUG("GuiWindowManager::registerWindow(%s), in taskbar? %s",
+		   name, w->getPresentInTaskbar() ? "yes" : "no");
 
 //  if (w->getPresentInTaskbar()) {
     _windowList.push_back(w);
+
+    Logger::logDEBUG("smee");
 
     // create new button in the "taskbar"
     RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_taskbar->createWidget("Button"));
@@ -202,9 +205,11 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
       buttonSize.x /= children.size();
 
     for (size_t i = 0; i < children.size(); ++i) {
+      /*
       Logger::logDEBUG("_topbar children: '%s':'%s'",
 		       children[i]->getName().c_str(),
 		       children[i]->getText().c_str());
+      */
 
       children[i]->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
       children[i]->setSize(buttonSize);
@@ -224,6 +229,8 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
 	b->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
 	b->setSize(buttonSize);
       }
+    } else {
+      Logger::logDEBUG("Taskbar with no items...");
     }
   }
 

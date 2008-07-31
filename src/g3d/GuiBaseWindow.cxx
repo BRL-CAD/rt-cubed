@@ -75,7 +75,6 @@ void GuiBaseWindow::show()
 }
 
 
-
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***
