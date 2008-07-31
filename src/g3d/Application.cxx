@@ -27,10 +27,21 @@
  *	(g3d), along with some internal classes.
  */
 
+#include "Application.h"
+
+#include "Logger.h"
+#include "CameraManager.h"
+#include "CameraMode.h"
+#include "GuiBaseWindow.h"
+#include "GuiCamera.h"
+#include "GuiCommandOverlay.h"
+#include "GuiConsole.h"
+#include "GuiWindowManager.h"
+#include "GuiWidgetRotation.h"
+
 #include <Mocha/DataSection.h>
 #include <Mocha/Stream.h>
 #include <Mocha/Timer.h>
-
 #include <RBGui/Core.h>
 #include <RBGui/BrushCursorManager.h>
 #include <RBGui/SimpleWindowFader.h>
@@ -50,11 +61,9 @@
 #include <RBGui/Widgets/ProgressWidget.h>
 #include <RBGui/Widgets/ScrollWidget.h>
 #include <RBGui/Widgets/TextWidget.h>
-
 #include <OGRE/Ogre.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OIS/OIS.h>
-
 #if defined(WIN32)
 #include <RBGui/Win32PlatformManager.h>
 #include <RBGui/Win32CursorManager.h>
@@ -65,16 +74,6 @@
 #else
 #error "No platform manager available"
 #endif
-
-#include "Logger.h"
-#include "GuiBaseWindow.h"
-#include "GuiCommandOverlay.h"
-#include "GuiConsole.h"
-#include "GuiWindowManager.h"
-#include "CameraManager.h"
-#include "CameraMode.h"
-
-#include "Application.h"
 
 using namespace std;
 
@@ -432,6 +431,10 @@ void Application::initialize()
   _guiManager->setDefaultWindowAnimator("Wobble");
   _guiManager->setDefaultWindowFader("Simple");
 
+  // Register custom widgets
+  RBGui::AddWidgetFactory("GuiWidgetRotation", &GuiWidgetRotation::factory);
+
+
   // Setup all the input stuff
   {
     size_t data;
@@ -480,6 +483,7 @@ void Application::initialize()
   GuiWindowManager::instance().setGuiManager(_guiManager);
   _windowList.push_back(new GuiConsole(*_guiManager));
   _windowList.push_back(new GuiCommandOverlay(*_guiManager));
+  _windowList.push_back(new GuiCamera(*_guiManager));
 
 
   //createTestingWindows();
@@ -678,6 +682,7 @@ Ogre::RenderWindow& Application::getRenderWindow() const
 /*-----------------------------------------------------------------------------
  * Testing code ahead...
  *----------------------------------------------------------------------------*/
+/*
 void Application::createTestingWindows()
 {
   // Setup a test window
@@ -793,12 +798,10 @@ void Application::createTestingWindows()
   w->updateAttribute("SPLINE", v);
 
   // Test persistance
-  /*
   Mocha::DataSection s;
   win->getRoot()->save(s);
   Mocha::RefPointer<CustomStream> stream = new CustomStream("test.widget");
   s.write(*stream);
-  */
 }
 
 void Application::browserResized(RBGui::GuiElement& vElement, const Mocha::ValueList& vData)
@@ -848,7 +851,7 @@ void Application::menuPicked(RBGui::GuiElement& vElement, const Mocha::ValueList
   else if (id == "HELP_ABOUT")
     _guiManager->createMessageBox("About", "Right Brain Games GUI\nOgre Sample Application\nVersion 1.0")->show();
 }
-
+*/
 
 
 // Local Variables: ***

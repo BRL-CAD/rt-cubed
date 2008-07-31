@@ -155,6 +155,7 @@ private:
   /*****************************************************************************
    * TESTING CODE AHEAD
    ****************************************************************************/
+/*
   void createTestingWindows();
 
   void fileSelected(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
@@ -164,6 +165,7 @@ private:
   void attributeChanged(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
 
   void menuPicked(RBGui::GuiElement& vElement, const Mocha::ValueList& vData);
+*/
 };
 
 #endif
