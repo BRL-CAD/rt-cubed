@@ -42,6 +42,7 @@ namespace RBGui {
   class ButtonWidget;
   class GuiElement;
   class GuiManager;
+  class Theme;
   class Window;
 }
 
@@ -58,6 +59,10 @@ class GuiWindowManager : public Ogre::WindowEventListener, public Observer
 public:
   /** Singleton, access to the manager */
   static GuiWindowManager& instance();
+
+  /** Get default theme (for convenience, to call it from other
+   * windows) */
+  RBGui::Theme* getDefaultTheme() const;
 
   /** Register window */
   void registerWindow(GuiBaseWindow* w);

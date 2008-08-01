@@ -37,6 +37,7 @@
 #include <OGRE/OgreRenderWindow.h>
 #include <OGRE/OgreRoot.h>
 #include <OGRE/OgreWindowEventUtilities.h>
+#include <RBGui/Core.h>
 #include <RBGui/GuiDefines.h>
 #include <RBGui/GuiManager.h>
 #include <RBGui/Window.h>
@@ -155,6 +156,11 @@ void GuiWindowManager::registerWindow(GuiBaseWindow* w)
   // set size initially -- have to recalculate everything due to
   // static panels and so on, better than duplicate code here
   windowResized(&Application::instance().getRenderWindow());
+}
+
+RBGui::Theme* GuiWindowManager::getDefaultTheme() const
+{
+  return RBGui::Core::Get().getThemeManager().getDefaultTheme();
 }
 
 const std::vector<GuiBaseWindow*>& GuiWindowManager::getWindowList() const
