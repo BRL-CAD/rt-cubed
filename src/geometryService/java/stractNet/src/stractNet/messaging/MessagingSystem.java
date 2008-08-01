@@ -61,7 +61,7 @@ public class MessagingSystem extends SNRoot {
 	 * Message addition, removal and peeking.
 	 */
 
-	public boolean isQueueEmpty() {
+	public boolean isQEmpty() {
 		synchronized (this.Q) {
 			return this.Q.isEmpty();
 		}

@@ -20,9 +20,6 @@ public class MessageDispatcher extends SNRoot implements STRunnable {
 	private boolean runCmd = false;
 	public long MsgsProcessed = 0L;
 
-	// FIXME I think i need to seperate the MessageDispatcher from the
-	// MessagingSystem for performance reasons.
-
 	public MessageDispatcher(String Name, MessagingSystem ms) {
 		super(Name);
 		this.setLocalMS(ms);
@@ -39,13 +36,13 @@ public class MessageDispatcher extends SNRoot implements STRunnable {
 
 		// TODO add in functionality to allow User to select FORCEQUIT or
 		// QUIT_WHEN_QUEUE_EMPTY
-		while (this.runCmd || !this.getLocalMS().isQueueEmpty()) {
+		while (this.runCmd || !this.getLocalMS().isQEmpty()) {
 
 			synchronized (this.getLocalMS().getQ()) {
 
 				this.getLocalMS().getQ().notify();
 
-				if (this.getLocalMS().isQueueEmpty()) {
+				if (this.getLocalMS().isQEmpty()) {
 					try {
 						this.getLocalMS().getQ().wait(50);
 					} catch (InterruptedException e) {
@@ -54,7 +51,7 @@ public class MessageDispatcher extends SNRoot implements STRunnable {
 				}
 			}
 
-			 if (!this.getLocalMS().isQueueEmpty()) {
+			 if (!this.getLocalMS().isQEmpty()) {
 			this.runStatus = true;
 
 			StdMsg msg;
