@@ -71,8 +71,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
     return true;
   case OIS::KC_NUMPAD8:
     if (_panModeEnabled) {
-      // pan up
-      pan(0, (_camera->getOrthoWindowHeight()/PAN_FRACTION));
+      panUp();
     } else {
       // orbit up
       decreaseVarWithLimit(_verticalRot,
@@ -82,8 +81,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
     return true;
   case OIS::KC_NUMPAD2:
     if (_panModeEnabled) {
-      // pan down
-      pan(0, -(_camera->getOrthoWindowHeight()/PAN_FRACTION));
+      panDown();
     } else {
       // orbit down
       increaseVarWithLimit(_verticalRot,
@@ -93,8 +91,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
     return true;
   case OIS::KC_NUMPAD4:
     if (_panModeEnabled) {
-      // pan left
-      pan((_camera->getOrthoWindowWidth()/PAN_FRACTION), 0);
+      panLeft();
     } else {
       // orbit left
       _horizontalRot -= ROTATION_STEP;
@@ -102,8 +99,7 @@ bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
     return true;
   case OIS::KC_NUMPAD6:
     if (_panModeEnabled) {
-      // pan right
-      pan(-(_camera->getOrthoWindowWidth()/PAN_FRACTION), 0);
+      panRight();
     } else {
       // orbit right
       _horizontalRot += ROTATION_STEP;
@@ -195,6 +191,96 @@ bool CameraModeBlender::injectMouseScrolled(Direction direction)
   default:
     return false;
   }
+}
+
+void CameraModeBlender::cameraControlUpPressed()
+{
+  // nothing
+}
+
+void CameraModeBlender::cameraControlDownPressed()
+{
+  // nothing
+}
+
+void CameraModeBlender::cameraControlLeftPressed()
+{
+  // nothing
+}
+
+void CameraModeBlender::cameraControlRightPressed()
+{
+  // nothing
+}
+
+void CameraModeBlender::cameraControlZoomInPressed()
+{
+  // nothing
+}
+
+void CameraModeBlender::cameraControlZoomOutPressed()
+{
+  // nothing
+}
+
+void CameraModeBlender::cameraControlCenterPressed()
+{
+  // nothing
+}
+
+void CameraModeBlender::cameraControlUpReleased()
+{
+  panUp();
+}
+
+void CameraModeBlender::cameraControlDownReleased()
+{
+  panDown();
+}
+
+void CameraModeBlender::cameraControlLeftReleased()
+{
+  panLeft();
+}
+
+void CameraModeBlender::cameraControlRightReleased()
+{
+  panRight();
+}
+
+void CameraModeBlender::cameraControlZoomInReleased()
+{
+  doZoomIn();
+}
+
+void CameraModeBlender::cameraControlZoomOutReleased()
+{
+  doZoomOut();
+}
+
+void CameraModeBlender::cameraControlCenterReleased()
+{
+  setResetToCenter(true);
+}
+
+void CameraModeBlender::panUp()
+{
+  pan(0, (_camera->getOrthoWindowHeight()/PAN_FRACTION));
+}
+
+void CameraModeBlender::panDown()
+{
+  pan(0, -(_camera->getOrthoWindowHeight()/PAN_FRACTION));
+}
+
+void CameraModeBlender::panLeft()
+{
+  pan((_camera->getOrthoWindowWidth()/PAN_FRACTION), 0);
+}
+
+void CameraModeBlender::panRight()
+{
+  pan(-(_camera->getOrthoWindowWidth()/PAN_FRACTION), 0);
 }
 
 void CameraModeBlender::doZoomIn()

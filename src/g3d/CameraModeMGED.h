@@ -60,9 +60,40 @@ public:
   /** @see CameraMode::injectMouseReleased */
   virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y);
 
+  /** @see CameraMode::cameraControlUpPressed */
+  virtual void cameraControlUpPressed();
+  /** @see CameraMode::cameraControlDownPressed */
+  virtual void cameraControlDownPressed();
+  /** @see CameraMode::cameraControlLeftPressed */
+  virtual void cameraControlLeftPressed();
+  /** @see CameraMode::cameraControlRightPressed */
+  virtual void cameraControlRightPressed();
+  /** @see CameraMode::cameraControlZoomInPressed */
+  virtual void cameraControlZoomInPressed();
+  /** @see CameraMode::cameraControlZoomOutPressed */
+  virtual void cameraControlZoomOutPressed();
+  /** @see CameraMode::cameraControlCenterPressed */
+  virtual void cameraControlCenterPressed();
+  /** @see CameraMode::cameraControlUpReleased */
+  virtual void cameraControlUpReleased();
+  /** @see CameraMode::cameraControlDownReleased */
+  virtual void cameraControlDownReleased();
+  /** @see CameraMode::cameraControlLeftReleased */
+  virtual void cameraControlLeftReleased();
+  /** @see CameraMode::cameraControlRightReleased */
+  virtual void cameraControlRightReleased();
+  /** @see CameraMode::cameraControlZoomInReleased */
+  virtual void cameraControlZoomInReleased();
+  /** @see CameraMode::cameraControlZoomOutReleased */
+  virtual void cameraControlZoomOutReleased();
+  /** @see CameraMode::cameraControlCenterReleased */
+  virtual void cameraControlCenterReleased();
+
 private:
   /** Default rotation step */
   static const float ROTATION_STEP; // radians
+  /** Default pan fraction */
+  static const float PAN_FRACTION; // ratio
   /** Default zoom step ratio */
   static const float ZOOM_STEP; // ratio
   /** Default zoom scale ratio */
@@ -111,6 +142,14 @@ private:
   void doZoomOut();
   /** Common functionality for all places needing it */
   void panScreenRelativeCoords(int x, int y);
+  /** Common functionality for all places needing it */
+  void panUp();
+  /** Common functionality for all places needing it */
+  void panDown();
+  /** Common functionality for all places needing it */
+  void panLeft();
+  /** Common functionality for all places needing it */
+  void panRight();
 };
 
 

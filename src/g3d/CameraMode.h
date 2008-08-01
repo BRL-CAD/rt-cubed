@@ -172,6 +172,34 @@ public:
   virtual bool injectMouseScrolled(Direction /* direction */)
     { return false; }
 
+  /** Bindings for buttons in control window */
+  virtual void cameraControlUpPressed() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlDownPressed() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlLeftPressed() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlRightPressed() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlZoomInPressed() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlZoomOutPressed() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlCenterPressed() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlUpReleased() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlDownReleased() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlLeftReleased() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlRightReleased() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlZoomInReleased() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlZoomOutReleased() = 0;
+  /** Bindings for buttons in control window */
+  virtual void cameraControlCenterReleased() = 0;
 
 protected:
   /** Speed of the rotation */

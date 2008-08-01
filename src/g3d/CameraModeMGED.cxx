@@ -41,6 +41,7 @@
  * CameraModeMGED
  ******************************************************************************/
 const float CameraModeMGED::ROTATION_STEP = PI_NUMBER/12.0f; // 15 degrees, in radians
+const float CameraModeMGED::PAN_FRACTION = 20.0f; // m
 const float CameraModeMGED::ZOOM_STEP = 1.25f; // ratio
 const float CameraModeMGED::ZOOM_SCALE = 4.0f; // ratio
 
@@ -301,6 +302,76 @@ void CameraModeMGED::doZoomScale(float scale)
   //Logger::logDEBUG("CameraModeMGED scale: radius=%g, scale=%g", _radius, scale);
 }
 
+void CameraModeMGED::cameraControlUpPressed()
+{
+  // nothing
+}
+
+void CameraModeMGED::cameraControlDownPressed()
+{
+  // nothing
+}
+
+void CameraModeMGED::cameraControlLeftPressed()
+{
+  // nothing
+}
+
+void CameraModeMGED::cameraControlRightPressed()
+{
+  // nothing
+}
+
+void CameraModeMGED::cameraControlZoomInPressed()
+{
+  // nothing
+}
+
+void CameraModeMGED::cameraControlZoomOutPressed()
+{
+  // nothing
+}
+
+void CameraModeMGED::cameraControlCenterPressed()
+{
+  // nothing
+}
+
+void CameraModeMGED::cameraControlUpReleased()
+{
+  panUp();
+}
+
+void CameraModeMGED::cameraControlDownReleased()
+{
+  panDown();
+}
+
+void CameraModeMGED::cameraControlLeftReleased()
+{
+  panLeft();
+}
+
+void CameraModeMGED::cameraControlRightReleased()
+{
+  panRight();
+}
+
+void CameraModeMGED::cameraControlZoomInReleased()
+{
+  doZoomIn();
+}
+
+void CameraModeMGED::cameraControlZoomOutReleased()
+{
+  doZoomOut();
+}
+
+void CameraModeMGED::cameraControlCenterReleased()
+{
+  setResetToCenter(true);
+}
+
 void CameraModeMGED::doZoomIn()
 {
   divideVarWithLimit(_radius, ZOOM_STEP, RADIUS_MIN_DISTANCE);
@@ -316,6 +387,26 @@ void CameraModeMGED::panScreenRelativeCoords(int x, int y)
   float panWidth = _camera->getOrthoWindowWidth() * (x/static_cast<float>(_windowWidth));
   float panHeight = _camera->getOrthoWindowHeight() * (y/static_cast<float>(_windowHeight));
   pan(panWidth, panHeight, _dragOriginalCenter);
+}
+
+void CameraModeMGED::panUp()
+{
+  pan(0, (_camera->getOrthoWindowHeight()/PAN_FRACTION));
+}
+
+void CameraModeMGED::panDown()
+{
+  pan(0, -(_camera->getOrthoWindowHeight()/PAN_FRACTION));
+}
+
+void CameraModeMGED::panLeft()
+{
+  pan((_camera->getOrthoWindowWidth()/PAN_FRACTION), 0);
+}
+
+void CameraModeMGED::panRight()
+{
+  pan(-(_camera->getOrthoWindowWidth()/PAN_FRACTION), 0);
 }
 
 

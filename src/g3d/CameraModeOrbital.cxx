@@ -99,6 +99,76 @@ bool CameraModeOrbital::injectKeyReleased(OIS::KeyCode keyCode)
   }
 }
 
+void CameraModeOrbital::cameraControlUpPressed()
+{
+  setRotateX(CameraMode::POSITIVE);
+}
+
+void CameraModeOrbital::cameraControlDownPressed()
+{
+  setRotateX(CameraMode::NEGATIVE);
+}
+
+void CameraModeOrbital::cameraControlLeftPressed()
+{
+  setRotateY(CameraMode::POSITIVE);
+}
+
+void CameraModeOrbital::cameraControlRightPressed()
+{
+  setRotateY(CameraMode::NEGATIVE);
+}
+
+void CameraModeOrbital::cameraControlZoomInPressed()
+{
+  setZoom(CameraMode::POSITIVE);
+}
+
+void CameraModeOrbital::cameraControlZoomOutPressed()
+{
+  setZoom(CameraMode::NEGATIVE);
+}
+
+void CameraModeOrbital::cameraControlCenterPressed()
+{
+  setResetToCenter(true);
+}
+
+void CameraModeOrbital::cameraControlUpReleased()
+{
+  setRotateX(CameraMode::NEUTRAL);
+}
+
+void CameraModeOrbital::cameraControlDownReleased()
+{
+  setRotateX(CameraMode::NEUTRAL);
+}
+
+void CameraModeOrbital::cameraControlLeftReleased()
+{
+  setRotateY(CameraMode::NEUTRAL);
+}
+
+void CameraModeOrbital::cameraControlRightReleased()
+{
+  setRotateY(CameraMode::NEUTRAL);
+}
+
+void CameraModeOrbital::cameraControlZoomInReleased()
+{
+  setZoom(CameraMode::NEUTRAL);
+}
+
+void CameraModeOrbital::cameraControlZoomOutReleased()
+{
+  setZoom(CameraMode::NEUTRAL);
+}
+
+void CameraModeOrbital::cameraControlCenterReleased()
+{
+  setResetToCenter(true);
+}
+
 
 // Local Variables: ***
 // mode: C++ ***
