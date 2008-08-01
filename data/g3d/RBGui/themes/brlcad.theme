@@ -12,7 +12,7 @@ begin border Window
 	part right "54 23 7 5"
 	part bottom "24 30 4 15"
 
-	minsize "140 74"
+	minsize "140 54"
 
 	adjust "7 22 -7 -15"
 
@@ -322,12 +322,19 @@ image ColorRangeArrow "colorrange_arrow.png"
 image FileIcon "file.png"
 image FolderIcon "folder.png"
 image ParentIcon "parent.png"
+image BrlcadCameraUp "brlcad_camera_up.png"
+image BrlcadCameraDown "brlcad_camera_down.png"
+image BrlcadCameraLeft "brlcad_camera_left.png"
+image BrlcadCameraRight "brlcad_camera_right.png"
+image BrlcadCameraZoomIn "brlcad_camera_zoomin.png"
+image BrlcadCameraZoomOut "brlcad_camera_zoomout.png"
+image BrlcadCameraCenter "brlcad_camera_center.png"
+image BrlcadCameraRotation "brlcad_camera_rotation.png"
 
-default_font "ttf-bitstream-vera/VeraBd.ttf" 7
-
-font Button "ttf-bitstream-vera/VeraBd.ttf" 7
-font Window "ttf-bitstream-vera/VeraBd.ttf" 7
-font MenuEntry "ttf-bitstream-vera/VeraBd.ttf" 7
+default_font "ttf-bitstream-vera/VeraBd.ttf" 8
+font Button "ttf-bitstream-vera/VeraBd.ttf" 8
+font Window "ttf-bitstream-vera/VeraBd.ttf" 8
+font MenuEntry "ttf-bitstream-vera/VeraBd.ttf" 8
 
 color ListWidgetSelected "0.2 0.2 0.2 1.00"
 color ListWidgetTextColor "0.2 0.2 0.2 1.0"
