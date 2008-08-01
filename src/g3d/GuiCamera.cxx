@@ -38,6 +38,7 @@
 #include <OGRE/OgreRenderWindow.h>
 #include <RBGui/GuiDefines.h>
 #include <RBGui/GuiManager.h>
+#include <RBGui/Texture.h>
 #include <RBGui/Window.h>
 #include <RBGui/Widgets/ButtonWidget.h>
 #include <RBGui/Widgets/ImageWidget.h>
@@ -61,6 +62,8 @@ GuiCamera::GuiCamera(RBGui::GuiManager& guiMgr) :
   _mainWindow->setBorderVisible(true);
   show();
 
+  RBGui::Texture* img = 0;
+
   _xRotation = static_cast<GuiWidgetRotation*>(_mainWindow->createWidget("GuiWidgetRotation"));
   _xRotation->setName("X Rotation");
   _xRotation->setProgress(0.33f);
@@ -73,25 +76,32 @@ GuiCamera::GuiCamera(RBGui::GuiManager& guiMgr) :
 
   _up = static_cast<RBGui::ButtonWidget*>(_mainWindow->createWidget("Button"));
   _up->setName("CameraUp button");
-  _up->setImage("BrlcadCameraUp");
+  img = GuiWindowManager::instance().getDefaultTheme()->getTexture("BrlcadCameraUp");
+  _up->setImage(img);
   _down = static_cast<RBGui::ButtonWidget*>(_mainWindow->createWidget("Button"));
   _down->setName("CameraDown button");
-  _down->setImage("BrlcadCameraDown");
+  img = GuiWindowManager::instance().getDefaultTheme()->getTexture("BrlcadCameraDown");
+  _down->setImage(img);
   _left = static_cast<RBGui::ButtonWidget*>(_mainWindow->createWidget("Button"));
   _left->setName("CameraLeft button");
-  _left->setImage("BrlcadCameraLeft");
+  img = GuiWindowManager::instance().getDefaultTheme()->getTexture("BrlcadCameraLeft");
+  _left->setImage(img);
   _right = static_cast<RBGui::ButtonWidget*>(_mainWindow->createWidget("Button"));
   _right->setName("CameraRight button");
-  _right->setImage("BrlcadCameraRight");
+  img = GuiWindowManager::instance().getDefaultTheme()->getTexture("BrlcadCameraRight");
+  _right->setImage(img);
   _zoomIn = static_cast<RBGui::ButtonWidget*>(_mainWindow->createWidget("Button"));
   _zoomIn->setName("CameraZoomIn button");
-  _zoomIn->setImage("BrlcadCameraZoomIn");
+  img = GuiWindowManager::instance().getDefaultTheme()->getTexture("BrlcadCameraZoomIn");
+  _zoomIn->setImage(img);
   _zoomOut = static_cast<RBGui::ButtonWidget*>(_mainWindow->createWidget("Button"));
   _zoomOut->setName("CameraZoomOut button");
-  _zoomOut->setImage("BrlcadCameraZoomOut");
+  img = GuiWindowManager::instance().getDefaultTheme()->getTexture("BrlcadCameraZoomOut");
+  _zoomOut->setImage(img);
   _center = static_cast<RBGui::ButtonWidget*>(_mainWindow->createWidget("Button"));
   _center->setName("CameraCenter button");
-  _center->setImage("BrlcadCameraCenter");
+  img = GuiWindowManager::instance().getDefaultTheme()->getTexture("BrlcadCameraCenter");
+  _center->setImage(img);
 
   GuiWindowManager::instance().registerWindow(this);
   CameraManager::instance().attach(this);
@@ -123,7 +133,7 @@ void GuiCamera::resize(float contentLeft, float contentTop, float contentWidth, 
   // widgets
   Mocha::Vector2 rotControlSize = _mainWindow->getClientRectangle().getSize();
   rotControlSize.x /= 3.0f;
-  rotControlSize.y /= 10.0f;
+  rotControlSize.y /= 5.0f;
 
   _xRotation->setPosition(Mocha::Vector2(rotControlSize.x*0.0f, 0.0f));
   _xRotation->setSize(rotControlSize);
