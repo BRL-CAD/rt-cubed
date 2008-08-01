@@ -8,6 +8,7 @@ public abstract class SNRoot {
 		this.MS_Local = SNRoot.MS_Global;
 	}
 	
+	
 	/*
 	 * 0 = Normal Waypoints
 	 * 1 = Object Status reports (NON-Debuging)
