@@ -39,6 +39,7 @@
 class GuiWidgetRotation;
 namespace RBGui {
   class ButtonWidget;
+  class GuiElement;
   class ImageWidget;
 }
 
@@ -90,6 +91,36 @@ private:
   RBGui::ButtonWidget* _zoomOut;
   /** Widgets for rotation */
   RBGui::ButtonWidget* _center;
+
+
+  /** Callback for "MousePressed" in the control buttons */
+  void callbackButtonUpMousePressed(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MousePressed" in the control buttons */
+  void callbackButtonDownMousePressed(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MousePressed" in the control buttons */
+  void callbackButtonLeftMousePressed(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MousePressed" in the control buttons */
+  void callbackButtonRightMousePressed(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MousePressed" in the control buttons */
+  void callbackButtonZoomInMousePressed(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MousePressed" in the control buttons */
+  void callbackButtonZoomOutMousePressed(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MousePressed" in the control buttons */
+  void callbackButtonCenterMousePressed(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MouseReleased" in the control buttons */
+  void callbackButtonUpMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MouseReleased" in the control buttons */
+  void callbackButtonDownMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MouseReleased" in the control buttons */
+  void callbackButtonLeftMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MouseReleased" in the control buttons */
+  void callbackButtonRightMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MouseReleased" in the control buttons */
+  void callbackButtonZoomInMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MouseReleased" in the control buttons */
+  void callbackButtonZoomOutMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MouseReleased" in the control buttons */
+  void callbackButtonCenterMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
 };
 
 #endif

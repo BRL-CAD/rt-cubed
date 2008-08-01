@@ -103,6 +103,14 @@ GuiCamera::GuiCamera(RBGui::GuiManager& guiMgr) :
   img = GuiWindowManager::instance().getDefaultTheme()->getTexture("BrlcadCameraCenter");
   _center->setImage(img);
 
+  _up->setCallback(&GuiCamera::callbackButtonUpMouseReleased, this, "onMouseReleased");
+  _down->setCallback(&GuiCamera::callbackButtonDownMouseReleased, this, "onMouseReleased");
+  _left->setCallback(&GuiCamera::callbackButtonLeftMouseReleased, this, "onMouseReleased");
+  _right->setCallback(&GuiCamera::callbackButtonRightMouseReleased, this, "onMouseReleased");
+  _zoomIn->setCallback(&GuiCamera::callbackButtonZoomInMouseReleased, this, "onMouseReleased");
+  _zoomOut->setCallback(&GuiCamera::callbackButtonZoomOutMouseReleased, this, "onMouseReleased");
+  _center->setCallback(&GuiCamera::callbackButtonCenterMouseReleased, this, "onMouseReleased");
+
   GuiWindowManager::instance().registerWindow(this);
   CameraManager::instance().attach(this);
 }
@@ -187,6 +195,76 @@ void GuiCamera::update(const ObserverEvent& event)
   } catch (const char* error) {
     Logger::logWARNING("GuiCamera: '%s' event: %s", event._className.c_str(), error);
   }
+}
+
+void GuiCamera::callbackButtonUpMousePressed(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlUpPressed();
+}
+
+void GuiCamera::callbackButtonDownMousePressed(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlDownPressed();
+}
+
+void GuiCamera::callbackButtonLeftMousePressed(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlLeftPressed();
+}
+
+void GuiCamera::callbackButtonRightMousePressed(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlRightPressed();
+}
+
+void GuiCamera::callbackButtonZoomInMousePressed(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlZoomInPressed();
+}
+
+void GuiCamera::callbackButtonZoomOutMousePressed(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlZoomOutPressed();
+}
+
+void GuiCamera::callbackButtonCenterMousePressed(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlCenterPressed();
+}
+
+void GuiCamera::callbackButtonUpMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlUpReleased();
+}
+
+void GuiCamera::callbackButtonDownMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlDownReleased();
+}
+
+void GuiCamera::callbackButtonLeftMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlLeftReleased();
+}
+
+void GuiCamera::callbackButtonRightMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlRightReleased();
+}
+
+void GuiCamera::callbackButtonZoomInMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlZoomInReleased();
+}
+
+void GuiCamera::callbackButtonZoomOutMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlZoomOutReleased();
+}
+
+void GuiCamera::callbackButtonCenterMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  CameraManager::instance().getActiveCameraMode().cameraControlCenterReleased();
 }
 
 
