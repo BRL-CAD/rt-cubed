@@ -55,10 +55,10 @@
 #endif
 
 
-#include "Observer.h"
-
 #include <string>
 #include <vector>
+
+#include "Observer.h"
 
 
 /**

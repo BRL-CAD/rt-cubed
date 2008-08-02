@@ -27,11 +27,11 @@
  *	Editor (g3d).
  */
 
+#include <OGRE/OgreCamera.h>
+
 #include "CameraModeBlender.h"
 
 #include "Logger.h"
-
-#include <OGRE/OgreCamera.h>
 
 
 /*******************************************************************************

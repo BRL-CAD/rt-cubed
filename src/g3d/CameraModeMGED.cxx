@@ -27,14 +27,14 @@
  *	(g3d).
  */
 
-#include "CameraModeMGED.h"
-
-#include "Logger.h"
+#include <cmath>
 
 #include <OGRE/OgreCamera.h>
 #include <OGRE/OgreRay.h>
 
-#include <cmath>
+#include "CameraModeMGED.h"
+
+#include "Logger.h"
 
 
 /*******************************************************************************

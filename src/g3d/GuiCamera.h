@@ -30,10 +30,10 @@
 #define __G3D_GUICAMERA_H__
 
 
+#include <Mocha/Value.h>
+
 #include "GuiBaseWindow.h"
 #include "Observer.h"
-
-#include <Mocha/Value.h>
 
 
 class GuiWidgetRotation;

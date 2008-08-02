@@ -30,10 +30,10 @@
 #define __G3D_GUICONSOLE_H__
 
 
+#include <Mocha/Value.h>
+
 #include "GuiBaseWindow.h"
 #include "History.h"
-
-#include <Mocha/Value.h>
 
 
 namespace RBGui {

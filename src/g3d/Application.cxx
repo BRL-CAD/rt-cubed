@@ -27,18 +27,6 @@
  *	(g3d), along with some internal classes.
  */
 
-#include "Application.h"
-
-#include "Logger.h"
-#include "CameraManager.h"
-#include "CameraMode.h"
-#include "GuiBaseWindow.h"
-#include "GuiCamera.h"
-#include "GuiCommandOverlay.h"
-#include "GuiConsole.h"
-#include "GuiWindowManager.h"
-#include "GuiWidgetRotation.h"
-
 #include <Mocha/DataSection.h>
 #include <Mocha/Stream.h>
 #include <Mocha/Timer.h>
@@ -74,6 +62,18 @@
 #else
 #error "No platform manager available"
 #endif
+
+#include "Application.h"
+
+#include "Logger.h"
+#include "CameraManager.h"
+#include "CameraMode.h"
+#include "GuiBaseWindow.h"
+#include "GuiCamera.h"
+#include "GuiCommandOverlay.h"
+#include "GuiConsole.h"
+#include "GuiWindowManager.h"
+#include "GuiWidgetRotation.h"
 
 using namespace std;
 

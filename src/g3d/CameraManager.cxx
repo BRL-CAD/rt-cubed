@@ -27,6 +27,9 @@
  *	Editor (g3d).
  */
 
+#include <OGRE/OgreCamera.h>
+#include <OGRE/OgreSceneNode.h>
+
 #include "CameraManager.h"
 
 #include "Logger.h"
@@ -34,9 +37,6 @@
 #include "CameraModeBlender.h"
 #include "CameraModeMGED.h"
 #include "CameraModeOrbital.h"
-
-#include <OGRE/OgreCamera.h>
-#include <OGRE/OgreSceneNode.h>
 
 
 /*******************************************************************************

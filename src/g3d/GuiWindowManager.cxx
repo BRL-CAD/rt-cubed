@@ -27,13 +27,6 @@
  *	Editor (g3d), along with some internal classes.
  */
 
-#include "GuiWindowManager.h"
-
-#include "Logger.h"
-#include "Application.h"
-#include "CameraManager.h"
-#include "GuiBaseWindow.h"
-
 #include <OGRE/OgreRenderWindow.h>
 #include <OGRE/OgreRoot.h>
 #include <OGRE/OgreWindowEventUtilities.h>
@@ -44,6 +37,13 @@
 #include <RBGui/Widgets/ButtonWidget.h>
 #include <RBGui/Widgets/TextWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
+
+#include "GuiWindowManager.h"
+
+#include "Logger.h"
+#include "Application.h"
+#include "CameraManager.h"
+#include "GuiBaseWindow.h"
 
 
 /*******************************************************************************

@@ -27,10 +27,10 @@
  *	the rest of the program.
  */
 
-#include "GeometryConversion.h"
+#include <OGRE/OgreColourValue.h>
+#include <OGRE/OgreMesh.h>
 
-#include "OGRE/OgreColourValue.h"
-#include "OGRE/OgreMesh.h"
+#include "GeometryConversion.h"
 
 
 SampleTetrahedron::SampleTetrahedron(float scale) :

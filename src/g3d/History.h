@@ -30,10 +30,10 @@
 #define __G3D_HISTORY_H__
 
 
-#include "Observer.h"
-
 #include <string>
 #include <vector>
+
+#include "Observer.h"
 
 
 /**

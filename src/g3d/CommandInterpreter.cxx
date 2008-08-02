@@ -27,12 +27,12 @@
  *	Console-like windows.
  */
 
+#include <vector>
+
 #include "CommandInterpreter.h"
 
 #include "Logger.h"
 #include "Commands.h"
-
-#include <vector>
 
 
 /*******************************************************************************

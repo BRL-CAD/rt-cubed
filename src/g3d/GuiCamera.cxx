@@ -27,13 +27,6 @@
  *	(g3d).
  */
 
-#include "GuiCamera.h"
-
-#include "Logger.h"
-#include "CameraManager.h"
-#include "GuiWindowManager.h"
-#include "GuiWidgetRotation.h"
-
 #include <OIS/OISKeyboard.h>
 #include <OGRE/OgreRenderWindow.h>
 #include <RBGui/GuiDefines.h>
@@ -44,6 +37,13 @@
 #include <RBGui/Widgets/ImageWidget.h>
 #include <RBGui/Widgets/TextWidget.h>
 #include <RBGui/Widgets/TextEntryWidget.h>
+
+#include "GuiCamera.h"
+
+#include "Logger.h"
+#include "CameraManager.h"
+#include "GuiWindowManager.h"
+#include "GuiWidgetRotation.h"
 
 
 /*******************************************************************************

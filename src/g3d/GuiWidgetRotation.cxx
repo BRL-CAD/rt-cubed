@@ -27,10 +27,10 @@
  *	Editor (g3d).
  */
 
-#include "GuiWidgetRotation.h"
-
 #include <RBGui/Widget.h>
 #include <RBGui/GuiManager.h>
+
+#include "GuiWidgetRotation.h"
 
 
 /*******************************************************************************

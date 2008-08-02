@@ -31,9 +31,9 @@
 #define __G3D_GEOMETRYCONVERSION_H__
 
 
-#include "OGRE/OgreSceneNode.h"
-#include "OGRE/OgreManualObject.h"
-#include "OGRE/OgreString.h"
+#include <OGRE/OgreSceneNode.h>
+#include <OGRE/OgreManualObject.h>
+#include <OGRE/OgreString.h>
 
 
 /** @brief Tetrahedron geometry

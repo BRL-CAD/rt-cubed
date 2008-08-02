@@ -31,14 +31,14 @@
 #define __G3D_CAMERAMANAGER_H__
 
 
-#include "Observer.h"
-#include "CameraMode.h"
+#include <deque>
+#include <list>
 
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
 
-#include <deque>
-#include <list>
+#include "Observer.h"
+#include "CameraMode.h"
 
 
 namespace Ogre {
