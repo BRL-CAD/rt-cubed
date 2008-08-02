@@ -9,6 +9,10 @@ if(NOT PKGCONFIG_EXECUTABLE)
   message(FATAL_ERROR "Could not find 'pkg-config', necessary for configuration")
 endif(NOT PKGCONFIG_EXECUTABLE)
 
+if(NOT BRLCAD_ROOT)
+  message(FATAL_ERROR "Could not find BRL-CAD's root, necessary for configuration (call cmake again with -DBRLCAD_ROOT=/path/to/brlcad/root)")
+endif(NOT BRLCAD_ROOT)
+
 #source_group("Source Files" FILES ${SOURCES})
 #source_group("Header Files" FILES ${HEADERS})
 set(PROGNAME "g3d")
@@ -34,6 +38,7 @@ endif(APPLE)
 add_definitions( -D${SYSTEM} )
 message(STATUS "Detected system name '${CMAKE_SYSTEM_NAME}', building for system '${SYSTEM}'")
 message(STATUS "Will use C++ compiler '${CMAKE_CXX_COMPILER}'")
+message(STATUS "BRL-CAD root at '${BRLCAD_ROOT}'")
 
 # Needed libraries
 set(ESSENTIAL_LIBS OGRE OIS Mocha RBGui)
@@ -56,8 +61,16 @@ else(CANNOT_BUILD)
   PKGCONFIG_WRAPPER("--variable=includedir ${ESSENTIAL_LIBS}" PC_INCLUDE_DIR PC_EXIT_CODE)
   PKGCONFIG_WRAPPER("--variable=libdir ${ESSENTIAL_LIBS}" PC_LIB_DIR PC_EXIT_CODE)
 
-  include_directories(${PC_INCLUDE_DIR})
-  link_directories(${PC_LIB_DIR})
+  include_directories(${PC_INCLUDE_DIR} ${BRLCAD_ROOT}/include ${BRLCAD_ROOT}/include/brlcad)
+  link_directories(${PC_LIB_DIR} "${BRLCAD_ROOT}/lib")
+
+  if(TCL_INCLUDE)
+    include_directories(${TCL_INCLUDE})
+  endif(TCL_ROOT)
+  if(TCL_LIB)
+    link_directories(${TCL_LIB})
+  endif(TCL_LIB)
+
   #link_libraries( g3d ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Mocha_LIBRARIES} ${RBGui_LIBRARIES} )
   add_definitions(${PC_CFLAGS})
   add_executable( g3d ${G3D_SOURCES} ${G3D_HEADERS} )
