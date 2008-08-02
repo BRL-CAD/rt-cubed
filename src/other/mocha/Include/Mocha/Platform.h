@@ -74,6 +74,8 @@ typedef double real64;
 	#endif
 #endif
 
+// Only useful on MSVC compilers, if at all
+#ifdef _MSC_VER
 // disable: "<type> needs to have dll-interface to be used by clients'
 // Happens on STL member variables which are not public therefore is ok
 #pragma warning (disable : 4251)
@@ -81,6 +83,7 @@ typedef double real64;
 // disable: forcing value to bool 'true' or 'false'
 // We don't freaking care.
 #pragma warning (disable : 4800)
+#endif
 
 //--------------------------------
 MOCHA_EXPORT extern Mocha::uint16 HostToNetwork16( Mocha::uint16 vValue );
