@@ -66,7 +66,7 @@ else(CANNOT_BUILD)
 
   if(TCL_INCLUDE)
     include_directories(${TCL_INCLUDE})
-  endif(TCL_ROOT)
+  endif(TCL_INCLUDE)
   if(TCL_LIB)
     link_directories(${TCL_LIB})
   endif(TCL_LIB)
