@@ -75,8 +75,6 @@
 #include "GuiWindowManager.h"
 #include "GuiWidgetRotation.h"
 
-using namespace std;
-
 
 /** @brief Internal class for writing files.
  *
@@ -89,7 +87,7 @@ public:
    *
    * @param name Name of the file
    */
-  CustomStream(const string& name) { _file = fopen(name.c_str(), "wb+"); }
+  CustomStream(const std::string& name) { _file = fopen(name.c_str(), "wb+"); }
 
   /** Default destructor */
   virtual ~CustomStream() { fclose(_file); }
@@ -440,20 +438,20 @@ void Application::initialize()
     size_t data;
     _renderWindow->getCustomAttribute("WINDOW", &data);
 
-    ostringstream windowString;
+    std::ostringstream windowString;
     windowString << data;
 
     OIS::ParamList paramList;
-    paramList.insert(make_pair(string("WINDOW"), windowString.str()));
+    paramList.insert(make_pair(std::string("WINDOW"), windowString.str()));
 #if defined(WIN32)
-    paramList.insert(make_pair(string("w32_mouse"), string("DISCL_FOREGROUND")));
-    paramList.insert(make_pair(string("w32_mouse"), string("DISCL_NONEXCLUSIVE")));
-    paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_FOREGROUND")));
-    paramList.insert(make_pair(string("w32_keyboard"), string("DISCL_NONEXCLUSIVE")));
+    paramList.insert(make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND")));
+    paramList.insert(make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
+    paramList.insert(make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
+    paramList.insert(make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
 #else
-    paramList.insert(make_pair(string("XAutoRepeatOn"), string("true")));
-    paramList.insert(make_pair(string("x11_keyboard_grab"), string("false")));
-    paramList.insert(make_pair(string("x11_mouse_grab"), string("false")));
+    paramList.insert(make_pair(std::string("XAutoRepeatOn"), std::string("true")));
+    paramList.insert(make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+    paramList.insert(make_pair(std::string("x11_mouse_grab"), std::string("false")));
 #endif
 
     // Create input object using parameter list, then keyboard and mouse

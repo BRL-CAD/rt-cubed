@@ -29,11 +29,9 @@
 #include <cstdarg>
 #include <ctime>
 #include <cstdio>
-#include <string>
 
 #include "Logger.h"
 
-using namespace std;
 
 /// Max length for log messages
 const int LOGSTR_LENGTH = 255;
