@@ -205,7 +205,7 @@ END_MARK:
 bool ConstDatabase::IsRegion
 (
     const char* objectName
-) {
+) const throw() {
     bool ret = false;
 
     if (m_rtip != 0) {

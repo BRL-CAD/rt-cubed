@@ -73,11 +73,11 @@ namespace BRLCAD {
 
         /// @name Accessing objects
         //@{
-        BRLCAD_COREINTERFACE_EXPORT bool        IsRegion(const char* objectName);
+        BRLCAD_COREINTERFACE_EXPORT bool        IsRegion(const char* objectName) const throw();
         /// returns the list of the objects contained in the combination \a objectName via call-backs
         /** To get a list of top level objects see ListTopObjects(). */
         BRLCAD_COREINTERFACE_EXPORT void        ListObjects(const char*    objectName,
-                                                             StringCalback& callback) const;
+                                                            StringCalback& callback) const;
         //@}
 
     private:
