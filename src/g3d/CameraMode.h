@@ -104,6 +104,12 @@ public:
 
   /** Get the name */
   const char* getName() const;
+  /** Get axis rotation (in radians) */
+  float getXRotation() const;
+  /** Get axis rotation (in radians) */
+  float getYRotation() const;
+  /** Get axis rotation (in radians) */
+  float getZRotation() const;
 
   /** Set flag for this camera action */
   void setZoom(Direction direction);

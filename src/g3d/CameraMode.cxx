@@ -177,6 +177,27 @@ const char* CameraMode::getName() const
   return _name;
 }
 
+float CameraMode::getXRotation() const
+{
+  /// \note mafm: valueRadians(), the proper thing to call, doesn't
+  /// seem to work properly (??!!!?)
+  return _camera->getRealOrientation().getRoll().valueDegrees() * (2*PI_NUMBER/360.0f);
+}
+
+float CameraMode::getYRotation() const
+{
+  /// \note mafm: valueRadians(), the proper thing to call, doesn't
+  /// seem to work properly (??!!!?)
+  return _camera->getRealOrientation().getYaw().valueDegrees() * (2*PI_NUMBER/360.0f);
+}
+
+float CameraMode::getZRotation() const
+{
+  /// \note mafm: valueRadians(), the proper thing to call, doesn't
+  /// seem to work properly (??!!!?)
+  return _camera->getRealOrientation().getPitch().valueDegrees() * (2*PI_NUMBER/360.0f);
+}
+
 void CameraMode::setResetToCenter(bool b)
 {
   _actionResetToCenter = b;
