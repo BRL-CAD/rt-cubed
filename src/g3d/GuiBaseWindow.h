@@ -59,6 +59,8 @@ public:
   const std::string& getName() const;
   /** Get whether this window should be present in the taskbar */
   bool getPresentInTaskbar() const;
+  /** Get GUI window */
+  RBGui::Window* getGUIWindow();
 
   /** Hide the window */
   void hide();

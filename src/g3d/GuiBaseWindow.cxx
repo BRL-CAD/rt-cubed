@@ -64,6 +64,11 @@ bool GuiBaseWindow::getPresentInTaskbar() const
   return _presentInTaskbar;
 }
 
+RBGui::Window* GuiBaseWindow::getGUIWindow()
+{
+  return _mainWindow;
+}
+
 void GuiBaseWindow::hide()
 {
   _mainWindow->hide();
