@@ -38,6 +38,9 @@
 #include <vector>
 
 class GuiBaseWindow;
+namespace Ogre {
+  class RenderWindow;
+}
 namespace RBGui {
   class ButtonWidget;
   class GuiElement;
@@ -80,6 +83,13 @@ private:
   /** Singleton instance */
   static GuiWindowManager* INSTANCE;
 
+  /** Configurable parameters */
+  static const float TASKBAR_HEIGHT;
+  /** Configurable parameters */
+  static const float TOPBAR_HEIGHT;
+
+  /** Link to OGRE render window */
+  Ogre::RenderWindow* _renderWindow;
   /** Main Window (in the sense of the GUI) implemented by the class
    * which inherits this one */
   RBGui::GuiManager* _guiManager;
@@ -100,10 +110,15 @@ private:
   /** Toggle Window visibility and set to focused when visible */
   void toggleWindowVisibilityAndFocus(const char* name);
 
+  /** Recalculate size of taskbar, adding new windows or whatever */
+  void updateTaskbar();
+
   /** Callback for "MouseReleased" in the Quit button */
   void callbackQuitMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "MouseReleased" in the Fullscreen button */
   void callbackFullscreenMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
+  /** Callback for "MouseReleased" in the ControlCamera button */
+  void callbackControlCameraMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "MouseReleased" in the CycleCamera button */
   void callbackCycleCameraMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& data);
   /** Callback for "MouseReleased" in the CameraProjection button */

@@ -51,6 +51,9 @@
  ******************************************************************************/
 GuiWindowManager* GuiWindowManager::INSTANCE = 0;
 
+const float GuiWindowManager::TASKBAR_HEIGHT = 16.0f;
+const float GuiWindowManager::TOPBAR_HEIGHT = 16.0f;
+
 GuiWindowManager& GuiWindowManager::instance()
 {
   if (!INSTANCE)
@@ -59,7 +62,7 @@ GuiWindowManager& GuiWindowManager::instance()
 }
 
 GuiWindowManager::GuiWindowManager() :
-  _guiManager(0), _taskbar(0), _topbar(0)
+  _renderWindow(0), _guiManager(0), _taskbar(0), _topbar(0)
 {
   Ogre::WindowEventUtilities::addWindowEventListener(&Application::instance().getRenderWindow(),
 						     this);
@@ -94,6 +97,12 @@ void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
     b->setName("Fullscreen Button");
     b->setText("Fullscreen");
     b->setCallback(&GuiWindowManager::callbackFullscreenMouseReleased, this, "onMouseReleased");
+
+    // "camera control" button (manipulate rotations, etc)
+    b = static_cast<RBGui::ButtonWidget*>(_topbar->createWidget("Button"));
+    b->setName("ControlCamera Button");
+    b->setText("Cam. Control");
+    b->setCallback(&GuiWindowManager::callbackControlCameraMouseReleased, this, "onMouseReleased");
 
     // "camera" button (cycle between modes)
     std::string camMode = CameraManager::instance().getActiveCameraMode().getName();
@@ -132,27 +141,44 @@ void GuiWindowManager::setGuiManager(RBGui::GuiManager* guiManager)
     _taskbar->setResizeable(false);
     _taskbar->setBorderVisible(false);
     _taskbar->show();
+
+    // "empty" text entry
+    RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_taskbar->createWidget("Button"));
+    b->setName("<Empty>");
+    b->setText("<Empty>");
+    b->setVisible(false);
+    b->setSink(false);
+    b->setEnabled(false);
   }
 }
 
 void GuiWindowManager::registerWindow(GuiBaseWindow* w)
 {
+  _windowList.push_back(w);
   const char* name = w->getName().c_str();
-  Logger::logDEBUG("GuiWindowManager::registerWindow(%s), in taskbar? %s",
-		   name, w->getPresentInTaskbar() ? "yes" : "no");
-
-//  if (w->getPresentInTaskbar()) {
-    _windowList.push_back(w);
-
-    // create new button in the "taskbar"
+  /* Logger::logDEBUG("GuiWindowManager::registerWindow(%s), in taskbar? %s",
+     name, w->getPresentInTaskbar() ? "yes" : "no");
+  */
+  
+  // create new button in the "taskbar"
+  if (w->getPresentInTaskbar()) {
     RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_taskbar->createWidget("Button"));
+    b->setObject(w->getGUIWindow());
     b->setText(name);
     b->setCallback(&GuiWindowManager::callbackButtonMouseReleased, this, "onMouseReleased");
     _taskbarButtons.push_back(b);
-//  }
+    Mocha::Vector2 buttonSize(_taskbar->getClientRectangle().getSize());
+    if (_taskbarButtons.size() > 0) {
+      buttonSize.x /= _taskbarButtons.size();
+    }
+    Mocha::Vector2 buttonPosition(_taskbarButtons.size()*buttonSize.x, 0);
+    b->setPosition(buttonPosition);
+    b->setSize(buttonSize);
+  }
 
-  // set size initially -- have to recalculate everything due to
-  // static panels and so on, better than duplicate code here
+  /// \note mafm: for some reason the program hangs if done in most
+  /// places except here
+  // provoke fake event to paint window initially
   windowResized(&Application::instance().getRenderWindow());
 }
 
@@ -177,6 +203,9 @@ void GuiWindowManager::toggleWindowVisibilityAndFocus(const char* name)
     } else {
       w->hide();
     }
+
+    // update taskbar according with active windows
+    updateTaskbar();
   } else {
     Logger::logERROR("'%s' window not found", name);
   }
@@ -184,23 +213,21 @@ void GuiWindowManager::toggleWindowVisibilityAndFocus(const char* name)
 
 void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
 {
-  Logger::logDEBUG("GuiWindowManager::windowResized()");
+  //Logger::logDEBUG("GuiWindowManager::windowResized()");
   if (!_guiManager)
     return;
-
-  const float taskbarHeight = 16.0f;
-  const float topbarHeight = 16.0f;
+  _renderWindow = rw;
 
   // get size as float
-  const float rwWidth = static_cast<float>(rw->getWidth());
-  const float rwHeight = static_cast<float>(rw->getHeight());
+  const float rwWidth = static_cast<float>(_renderWindow->getWidth());
+  const float rwHeight = static_cast<float>(_renderWindow->getHeight());
   const float contentWidth = rwWidth;
-  const float contentHeight = rwHeight - taskbarHeight - topbarHeight;
+  const float contentHeight = rwHeight - TASKBAR_HEIGHT - TOPBAR_HEIGHT;
 
   // topbar panel
   {
     _topbar->setPosition(Mocha::Vector2(0.0f, 0.0f));
-    _topbar->setSize(Mocha::Vector2(rwWidth, topbarHeight));
+    _topbar->setSize(Mocha::Vector2(rwWidth, TOPBAR_HEIGHT));
 
     const RBGui::WidgetList& children = _topbar->getRoot()->getChildren();
 
@@ -209,39 +236,66 @@ void GuiWindowManager::windowResized(Ogre::RenderWindow* rw)
       buttonSize.x /= children.size();
 
     for (size_t i = 0; i < children.size(); ++i) {
-      /*
-      Logger::logDEBUG("_topbar children: '%s':'%s'",
-		       children[i]->getName().c_str(),
-		       children[i]->getText().c_str());
-      */
-
-      children[i]->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
-      children[i]->setSize(buttonSize);
+      RBGui::Widget& child = *(children[i].get());
+      //Logger::logDEBUG("_topbar child: '%s':'%s'", child.getName().c_str(), child.getText().c_str());
+      child.setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
+      child.setSize(buttonSize);
     }
   }
 
   // "taskbar" panel
-  {
-    _taskbar->setPosition(Mocha::Vector2(0.0f, rwHeight - taskbarHeight));
-    _taskbar->setSize(Mocha::Vector2(rwWidth, taskbarHeight));
-
-    Mocha::Vector2 buttonSize(_taskbar->getClientRectangle().getSize());
-    if (_taskbarButtons.size() > 0) {
-      buttonSize.x /= _taskbarButtons.size();
-      for (size_t i = 0; i < _taskbarButtons.size(); ++i) {
-	RBGui::ButtonWidget* b = _taskbarButtons[i];
-	b->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
-	b->setSize(buttonSize);
-      }
-    } else {
-      Logger::logDEBUG("Taskbar with no items...");
-    }
-  }
+  updateTaskbar();
 
   // propagate to all registered windows
   for (size_t i = 0; i < _windowList.size(); ++i) {
     GuiBaseWindow* w = _windowList[i];
-    w->resize(0.0f, topbarHeight, contentWidth, contentHeight);
+    w->resize(0.0f, TOPBAR_HEIGHT, contentWidth, contentHeight);
+  }
+}
+
+void GuiWindowManager::updateTaskbar()
+{
+  if (!_guiManager || !_renderWindow)
+    return;
+
+  // sizes
+  const float rwWidth = static_cast<float>(_renderWindow->getWidth());
+  const float rwHeight = static_cast<float>(_renderWindow->getHeight());
+  _taskbar->setPosition(Mocha::Vector2(0.0f, rwHeight - TASKBAR_HEIGHT));
+  _taskbar->setSize(Mocha::Vector2(rwWidth, TASKBAR_HEIGHT));
+
+  // get visible buttons, according to their windows, and show/hide
+  // them
+  Mocha::Vector2 buttonSize(_taskbar->getClientRectangle().getSize());
+  int visibleButtons = 0;
+  for (size_t i = 0; i < _taskbarButtons.size(); ++i) {
+    RBGui::ButtonWidget* b = _taskbarButtons[i];
+    RBGui::Window* w = dynamic_cast<RBGui::Window*>(b->getObject());
+    if (w->getState() == RBGui::WINDOWSTATE_NORMAL) {
+      b->setVisible(true);
+      ++visibleButtons;
+    } else {
+      b->setVisible(false);
+    }
+  }
+
+  // set button sizes and positions
+  if (visibleButtons > 0) {
+    // hide "empty" button
+    _taskbar->findWidget("<Empty>")->setVisible(false);
+
+    // set dimensions and positions of active buttons
+    buttonSize.x /= visibleButtons;
+    for (size_t i = 0; i < _taskbarButtons.size(); ++i) {
+      RBGui::ButtonWidget* b = _taskbarButtons[i];
+      b->setPosition(Mocha::Vector2(buttonSize.x*i, 0.0f));
+      b->setSize(buttonSize);
+    }
+  } else {
+    //Logger::logDEBUG("Taskbar with no items...");
+    RBGui::Widget* b = _taskbar->findWidget("<Empty>");
+    b->setVisible(true);
+    b->setSize(_taskbar->getSize());
   }
 }
 
@@ -257,7 +311,7 @@ void GuiWindowManager::update(const ObserverEvent& event)
 	case CameraObserverEvent::MODE_CHANGED:
 	  widget = _topbar->findWidget("CycleCamera Button");
 	  if (widget) {
-	    widget->setText(e->_content + ". Mode");
+	    widget->setText(e->_content + " Mode");
 	  } else {
 	    throw "CycleCamera button not found";
 	  }
@@ -296,6 +350,12 @@ void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& /* ele
   Application::instance().toggleFullscreen();
 }
 
+void GuiWindowManager::callbackControlCameraMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
+{
+  const char* name = "Camera";
+  toggleWindowVisibilityAndFocus(name);
+}
+
 void GuiWindowManager::callbackCycleCameraMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
 {
   CameraManager::instance().cycleCameraMode();
@@ -322,12 +382,12 @@ void GuiWindowManager::callbackConsoleMouseReleased(RBGui::GuiElement& /* elemen
 void GuiWindowManager::callbackButtonMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& /* data */)
 {
   RBGui::ButtonWidget* activeButton = static_cast<RBGui::ButtonWidget*>(&element);
-  Logger::logDEBUG("button clicked: '%s'", activeButton->getText().c_str());
+  //Logger::logDEBUG("button clicked: '%s'", activeButton->getText().c_str());
   for (size_t i = 0; i < _taskbarButtons.size(); ++i) {
     RBGui::ButtonWidget* button = _taskbarButtons[i];
     if (button == activeButton) {
-      //activeButton->setEnabled(false);
       toggleWindowVisibilityAndFocus(activeButton->getText().c_str());
+      updateTaskbar();
     } else {
       //activeButton->setEnabled(true);
     }
