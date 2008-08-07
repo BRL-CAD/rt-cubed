@@ -32,6 +32,8 @@
 
 #include "GuiWidgetRotation.h"
 
+#include "Logger.h"
+
 
 /*******************************************************************************
  * GuiWidgetRotation
@@ -56,13 +58,27 @@ Mocha::String GuiWidgetRotation::getClassName() const
 
 void GuiWidgetRotation::onDraw(RBGui::Brush& brush) const
 {
-  brush.setColor(getRenderColor());
+  Logger::logDEBUG("GuiWidgetRotation: onDraw() invoked");
 
+  //Mocha::Color baseColor = getRenderColor();
+  Mocha::Color baseColor = Mocha::Color(0, 0, 1, 1);
+  brush.setColor(baseColor);
+  brush.setTexture(_texture);
   brush.setFilterMode(RBGui::BRUSHFILTER_LINEAR);
   brush.setBlendMode(RBGui::BRUSHBLEND_ALPHA);
-  brush.setTexture(_texture);
 
-  brush.drawRectangle(getClientRectangle());
+  Mocha::Rectangle rect = getClientRectangle();
+  rect.setYPosition(rect.getPosition().y + rect.getSize().y * 0.45f);
+  rect.setHeight(10.0f);
+  rect.setWidth(rect.getWidth() * _progress);
+  brush.drawRectangle(rect);
+/* dead code
+  Logger::logDEBUG("rect: pos=(%g, %g) size=(%g, %g)",
+		   getClientRectangle().getPosition().x,
+		   getClientRectangle().getPosition().y,
+		   getClientRectangle().getSize().x,
+		   getClientRectangle().getSize().y);
+*/
 }
 
 void GuiWidgetRotation::getValueList(Mocha::ObjectValueEntryList& out) const
@@ -75,14 +91,26 @@ Mocha::CommandResult GuiWidgetRotation::invoke(const Mocha::String& name,
 					       const Mocha::ValueList& in,
 					       Mocha::ValueList& out)
 {
-  // not configurable
-
   return Widget::invoke(name, in, out);
 }
 
 void GuiWidgetRotation::setProgress(float progress)
 {
-  _progress = progress;
+  if (progress < 0.0f || progress > 1.0f) {
+    Logger::logWARNING("GuiWidgetRotation: Progress out of range 0-1 (%g) corrected",
+		       progress);
+    if (progress > 1.0f) {
+      progress = 1.0f;
+    } else {
+      progress = 0.0f;
+    }
+  }
+
+  if (_progress != progress) {
+    _progress = progress;
+    Logger::logDEBUG("GuiWidgetRotation: Progress set to: %g", _progress);
+    flagDirty();
+  }
 }
 
 float GuiWidgetRotation::getProgress() const
