@@ -144,8 +144,6 @@ void GuiWindowManager::registerWindow(GuiBaseWindow* w)
 //  if (w->getPresentInTaskbar()) {
     _windowList.push_back(w);
 
-    Logger::logDEBUG("smee");
-
     // create new button in the "taskbar"
     RBGui::ButtonWidget* b = static_cast<RBGui::ButtonWidget*>(_taskbar->createWidget("Button"));
     b->setText(name);
@@ -288,49 +286,50 @@ void GuiWindowManager::update(const ObserverEvent& event)
   }
 }
 
-void GuiWindowManager::callbackQuitMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+void GuiWindowManager::callbackQuitMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
 {
   Application::instance().quit();
 }
 
-void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+void GuiWindowManager::callbackFullscreenMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
 {
   Application::instance().toggleFullscreen();
 }
 
-void GuiWindowManager::callbackCycleCameraMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+void GuiWindowManager::callbackCycleCameraMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
 {
   CameraManager::instance().cycleCameraMode();
 }
 
-void GuiWindowManager::callbackCameraProjectionMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+void GuiWindowManager::callbackCameraProjectionMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
 {
   bool toggle = !CameraManager::instance().isProjectionOrthogonal();
   CameraManager::instance().setProjectionOrthogonal(toggle);
 }
 
-void GuiWindowManager::callbackCommandMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+void GuiWindowManager::callbackCommandMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
 {
   const char* name = "Command Overlay";
   toggleWindowVisibilityAndFocus(name);
 }
 
-void GuiWindowManager::callbackConsoleMouseReleased(RBGui::GuiElement& /* vElement */, const Mocha::ValueList& /* vData */)
+void GuiWindowManager::callbackConsoleMouseReleased(RBGui::GuiElement& /* element */, const Mocha::ValueList& /* data */)
 {
   const char* name = "Console";
   toggleWindowVisibilityAndFocus(name);
 }
 
-void GuiWindowManager::callbackButtonMouseReleased(RBGui::GuiElement& vElement, const Mocha::ValueList& /* vData */)
+void GuiWindowManager::callbackButtonMouseReleased(RBGui::GuiElement& element, const Mocha::ValueList& /* data */)
 {
-  RBGui::ButtonWidget* activeButton = static_cast<RBGui::ButtonWidget*>(&vElement);
+  RBGui::ButtonWidget* activeButton = static_cast<RBGui::ButtonWidget*>(&element);
   Logger::logDEBUG("button clicked: '%s'", activeButton->getText().c_str());
   for (size_t i = 0; i < _taskbarButtons.size(); ++i) {
     RBGui::ButtonWidget* button = _taskbarButtons[i];
     if (button == activeButton) {
-      button->setEnabled(false);
+      //activeButton->setEnabled(false);
+      toggleWindowVisibilityAndFocus(activeButton->getText().c_str());
     } else {
-      button->setEnabled(true);
+      //activeButton->setEnabled(true);
     }
   }
 }

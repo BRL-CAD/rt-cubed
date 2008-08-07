@@ -60,17 +60,15 @@ public:
   /** Singleton, access to the manager */
   static GuiWindowManager& instance();
 
+  /** Set GUI manager */
+  void setGuiManager(RBGui::GuiManager* guiManager);
   /** Get default theme (for convenience, to call it from other
    * windows) */
   RBGui::Theme* getDefaultTheme() const;
-
   /** Register window */
   void registerWindow(GuiBaseWindow* w);
   /** Get list of registered windows */
   const std::vector<GuiBaseWindow*>& getWindowList() const;
-
-  /** Set GUI manager */
-  void setGuiManager(RBGui::GuiManager* guiManager);
 
   /** @see Ogre::WindowEventListener::windowResized */
   virtual void windowResized(Ogre::RenderWindow* rw);
