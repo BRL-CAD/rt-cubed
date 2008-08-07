@@ -27,6 +27,8 @@
  *	Editor (g3d).
  */
 
+#include <sstream>
+
 #include <RBGui/Widget.h>
 #include <RBGui/GuiManager.h>
 
@@ -58,8 +60,6 @@ Mocha::String GuiWidgetRotation::getClassName() const
 
 void GuiWidgetRotation::onDraw(RBGui::Brush& brush) const
 {
-  Logger::logDEBUG("GuiWidgetRotation: onDraw() invoked");
-
   //Mocha::Color baseColor = getRenderColor();
   Mocha::Color baseColor = Mocha::Color(0, 0, 1, 1);
   brush.setColor(baseColor);
@@ -72,6 +72,9 @@ void GuiWidgetRotation::onDraw(RBGui::Brush& brush) const
   rect.setHeight(10.0f);
   rect.setWidth(rect.getWidth() * _progress);
   brush.drawRectangle(rect);
+  brush.drawText(getRenderTheme()->getFont("ttf-bitstream-vera/VeraBd.ttf"),
+                 getLabel(),
+		 getClientRectangle());
 /* dead code
   Logger::logDEBUG("rect: pos=(%g, %g) size=(%g, %g)",
 		   getClientRectangle().getPosition().x,
@@ -108,7 +111,7 @@ void GuiWidgetRotation::setProgress(float progress)
 
   if (_progress != progress) {
     _progress = progress;
-    Logger::logDEBUG("GuiWidgetRotation: Progress set to: %g", _progress);
+    //Logger::logDEBUG("GuiWidgetRotation: Progress set to: %g", _progress);
     flagDirty();
   }
 }
@@ -116,6 +119,19 @@ void GuiWidgetRotation::setProgress(float progress)
 float GuiWidgetRotation::getProgress() const
 {
   return _progress;
+}
+
+void GuiWidgetRotation::setLabel(const std::string& label)
+{
+  RBGui::Widget::setText(label);
+}
+
+const std::string GuiWidgetRotation::getLabel() const
+{
+  std::stringstream conversion("0.000");
+  conversion << _progress;
+  std::string label = RBGui::Widget::getText() + ": " + conversion.str();
+  return label;
 }
 
 

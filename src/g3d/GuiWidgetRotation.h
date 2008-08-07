@@ -31,6 +31,8 @@
 #define __G3D_GUIWIDGETROTATION_H__
 
 
+#include <string>
+
 #include <RBGui/Texture.h>
 #include <RBGui/Widget.h>
 
@@ -70,6 +72,10 @@ public:
   void setProgress(float progress);
   /** Get progress, in the range 0-1 */
   float getProgress() const;
+  /** Set label to show */
+  void setLabel(const std::string& label);
+  /** Get label shown */
+  const std::string getLabel() const;
 
 protected:
   /** @see RBGui::Widget::onDraw */
