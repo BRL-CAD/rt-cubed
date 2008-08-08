@@ -60,19 +60,20 @@ GuiCamera::GuiCamera(RBGui::GuiManager& guiMgr) :
   _mainWindow->setMovable(true);
   _mainWindow->setResizeable(false);
   _mainWindow->setBorderVisible(true);
+  _mainWindow->setHideOnClose(true);
   show();
 
   RBGui::Texture* img = 0;
 
   _xRotation = static_cast<GuiWidgetRotation*>(_mainWindow->createWidget("GuiWidgetRotation"));
   _xRotation->setName("X Rotation");
-  _xRotation->setProgress(0.33f);
+  _xRotation->setLabel("X rot");
   _yRotation = static_cast<GuiWidgetRotation*>(_mainWindow->createWidget("GuiWidgetRotation"));
   _yRotation->setName("Y Rotation");
-  _yRotation->setProgress(0.66f);
+  _yRotation->setLabel("Y rot");
   _zRotation = static_cast<GuiWidgetRotation*>(_mainWindow->createWidget("GuiWidgetRotation"));
   _zRotation->setName("Z Rotation");
-  _zRotation->setProgress(0.50f);
+  _zRotation->setLabel("Z rot");
 
   _up = static_cast<RBGui::ButtonWidget*>(_mainWindow->createWidget("Button"));
   _up->setName("CameraUp button");
@@ -141,7 +142,7 @@ void GuiCamera::resize(float contentLeft, float contentTop, float contentWidth, 
   // widgets
   Mocha::Vector2 rotControlSize = _mainWindow->getClientRectangle().getSize();
   rotControlSize.x /= 3.0f;
-  rotControlSize.y /= 5.0f;
+  rotControlSize.y = 32.0f;
 
   _xRotation->setPosition(Mocha::Vector2(rotControlSize.x*0.0f, 0.0f));
   _xRotation->setSize(rotControlSize);
@@ -174,6 +175,7 @@ void GuiCamera::update(const ObserverEvent& event)
   try {
     // camera events
     {
+      float xRot = 0.0f, yRot = 0.0f, zRot = 0.0f;
       const CameraObserverEvent* e = dynamic_cast<const CameraObserverEvent*>(&event);
       if (e) {
 	switch (e->_actionId) {
@@ -181,7 +183,13 @@ void GuiCamera::update(const ObserverEvent& event)
 	case CameraObserverEvent::PROJECTION_CHANGED:
 	  break;
 	case CameraObserverEvent::UPDATED:
-	  Logger::logWARNING("GuiCamera: '%s' event: %s", event._className.c_str(), "updated");
+	  xRot = CameraManager::instance().getActiveCameraMode().getXRotation();
+	  yRot = CameraManager::instance().getActiveCameraMode().getYRotation();
+	  zRot = CameraManager::instance().getActiveCameraMode().getZRotation();
+	  Logger::logDEBUG("xRot=%.03f, yRot=%.03f, zRot=%.03f", xRot, yRot, zRot);
+	  _xRotation->setProgress(xRot / (2*PI_NUMBER));
+	  _yRotation->setProgress(yRot / (2*PI_NUMBER));
+	  _zRotation->setProgress(zRot / (2*PI_NUMBER));
 	  break;
 	default:
 	  throw "Action not understood by Observer";
