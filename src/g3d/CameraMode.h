@@ -156,6 +156,8 @@ public:
   /** Divide the variable by given value, but result not less than
    * given limit */
   static void divideVarWithLimit(float& var, float value, float limit);
+  /** Correct var with limits */
+  static float getVarWithinLimits(float var, float min, float max);
 
   /** Inject input */
   virtual bool injectKeyPressed(OIS::KeyCode /* keyCode */)

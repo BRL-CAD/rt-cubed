@@ -179,23 +179,27 @@ const char* CameraMode::getName() const
 
 float CameraMode::getXRotation() const
 {
-  /// \note mafm: valueRadians(), the proper thing to call, doesn't
-  /// seem to work properly (??!!!?)
-  return _camera->getRealOrientation().getRoll().valueDegrees() * (2*PI_NUMBER/360.0f);
+  float radians = getVarWithinLimits(_camera->getRealOrientation().getRoll().valueRadians() + PI_NUMBER,
+				     0.0f,
+				     2*PI_NUMBER);
+  return radians;
 }
 
 float CameraMode::getYRotation() const
 {
-  /// \note mafm: valueRadians(), the proper thing to call, doesn't
-  /// seem to work properly (??!!!?)
-  return _camera->getRealOrientation().getYaw().valueDegrees() * (2*PI_NUMBER/360.0f);
+  float radians = getVarWithinLimits(_camera->getRealOrientation().getYaw().valueRadians() + PI_NUMBER,
+				     0.0f,
+				     2*PI_NUMBER);
+  return radians;
 }
 
 float CameraMode::getZRotation() const
 {
-  /// \note mafm: valueRadians(), the proper thing to call, doesn't
-  /// seem to work properly (??!!!?)
-  return _camera->getRealOrientation().getPitch().valueDegrees() * (2*PI_NUMBER/360.0f);
+  // z rotation is only half
+  float radians = getVarWithinLimits(2.0f*(_camera->getRealOrientation().getPitch().valueRadians() + PI_NUMBER/2.0f),
+				     0.0f,
+				     2*PI_NUMBER);
+  return radians;
 }
 
 void CameraMode::setResetToCenter(bool b)
@@ -265,7 +269,7 @@ void CameraMode::pan(float x, float y)
 
 float CameraMode::degreesToRadians(float degrees)
 {
-  return (degrees*2.0f*PI_NUMBER)/360.0f;
+  return (degrees*PI_NUMBER)/180.0f;
 }
 
 void CameraMode::increaseVarWithLimit(float& var, float value, float limit)
@@ -297,6 +301,17 @@ void CameraMode::divideVarWithLimit(float& var, float value, float limit)
   var /= value;
   if (var < limit) {
     var = limit;
+  }
+}
+
+float CameraMode::getVarWithinLimits(float var, float min, float max)
+{
+  if (var < min) {
+    return min;
+  } else if (var > max) {
+    return max;
+  } else {
+    return var;
   }
 }
 
