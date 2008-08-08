@@ -27,6 +27,7 @@
  *	Editor (g3d).
  */
 
+#include <iostream>
 #include <sstream>
 
 #include <RBGui/Widget.h>
@@ -128,8 +129,8 @@ void GuiWidgetRotation::setLabel(const std::string& label)
 
 const std::string GuiWidgetRotation::getLabel() const
 {
-  std::stringstream conversion("0.000");
-  conversion << _progress;
+  std::stringstream conversion;
+  conversion << std::fixed << std::setprecision(3) << _progress;
   std::string label = RBGui::Widget::getText() + ": " + conversion.str();
   return label;
 }
