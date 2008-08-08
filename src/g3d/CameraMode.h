@@ -79,7 +79,7 @@ public:
 
   /** Simple vector class, only to hold three coordinates together
    *
-   * \todo mafm: probably should use somethinf similar from other
+   * \todo mafm: probably should use something similar from other
    * BRL-CAD sources
    */
   class SimpleVector3
