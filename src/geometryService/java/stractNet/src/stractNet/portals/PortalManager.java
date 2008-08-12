@@ -383,7 +383,7 @@ public class PortalManager extends stractNet.SNRoot implements STRunnable {
 
 		StdMsg smout = this.getLocalMS().generateNewMsg(StdMsgTypes.mtGoodBye,
 				"Portal2PortalComms");
-		p.Send(smout);
+		p.SendToRemHost(smout);
 		p.getSockChan().close();
 
 		return false;

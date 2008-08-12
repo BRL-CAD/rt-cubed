@@ -51,51 +51,50 @@ public class MessageDispatcher extends SNRoot implements STRunnable {
 				}
 			}
 
-			 if (!this.getLocalMS().isQEmpty()) {
-			this.runStatus = true;
+			if (!this.getLocalMS().isQEmpty()) {
+				this.runStatus = true;
 
-			StdMsg msg;
+				StdMsg msg;
 
-			synchronized (this.getLocalMS()) {
-				msg = this.getLocalMS().pollQ();
-			}
+				synchronized (this.getLocalMS()) {
+					msg = this.getLocalMS().pollQ();
+				}
 
-			if (msg == null) {
-				continue;
-			}
+				if (msg == null) {
+					continue;
+				}
 
-			// check for echo msgs
-			if (CheckDuplicateMsg(msg)) {
-				this.err(msg.getMsgID().toString()
-						+ " is a duplicate.",0);
-				continue;
-			}
+				// check for echo msgs
+				if (CheckDuplicateMsg(msg)) {
+					this.err(msg.getMsgID().toString() + " is a duplicate.", 0);
+					continue;
+				}
 
-			this.MsgsProcessed++;
+				this.MsgsProcessed++;
 
-			if (this.MsgsProcessed % 10000 == 0) {
-				this.getLocalMS().purgeDispatchedMsgList();
-			}
+				if (this.MsgsProcessed % 10000 == 0) {
+					this.getLocalMS().purgeDispatchedMsgList();
+				}
 
-			this.getLocalMS().getDispatchedMsgs().put(new Date().getTime(),
-					msg.getMsgID().toString());
+				this.getLocalMS().getDispatchedMsgs().put(new Date().getTime(),
+						msg.getMsgID().toString());
 
-			// Determine Local or Remote
-			String destHost = msg.getToHost();
-			if (destHost.equals(this.getLocalMS().getHostName())) {
-				// LOCAL DELIVERY
-				this.deliverLocal(msg);
+				// Determine Local or Remote
+				String destHost = msg.getToHost();
+				if (destHost.equals(this.getLocalMS().getHostName())) {
+					// LOCAL DELIVERY
+					this.deliverLocal(msg);
 
-			} else if (destHost.equals(StdMsgTypes.AllHosts)) {
-				// LOCAL AND REMOTE Deliveries.
-				this.deliverLocal(msg);
-				this.deliverRemote(msg);
+				} else if (destHost.equals(StdMsgTypes.AllHosts)) {
+					// LOCAL AND REMOTE Deliveries.
+					this.deliverLocal(msg);
+					this.deliverRemote(msg);
 
+				} else {
+					// REMOTE DELIVERY
+					this.deliverRemote(msg);
+				}
 			} else {
-				// REMOTE DELIVERY
-				this.deliverRemote(msg);
-			}
-			 } else {
 				STUtilities.pause(25);
 
 			}
@@ -134,12 +133,12 @@ public class MessageDispatcher extends SNRoot implements STRunnable {
 		for (String s : hosts) {
 			sout += "[" + s + "]";
 		}
-		
+
 		if (hosts.size() == 0) {
-			this.out("No Remote Hosts qualify for delievery of StdMsg: "	+ msg.toString(), 2);
+			this.out("No Remote Hosts qualify for delievery of StdMsg: "
+					+ msg.toString(), 2);
 			return;
 		}
-
 
 		this.out("Dispatching(Remote) StdMsg with MsgID/Type: "
 				+ msg.getMsgID() + " / " + msg.getMsgType() + " to hosts: "
@@ -185,20 +184,20 @@ public class MessageDispatcher extends SNRoot implements STRunnable {
 			hs = this.getLocalMS().getMsgStops(msgType);
 		}
 
-		// Null if there are no stops for this opcode!
+		// Null if there are no stops for this Msg Type!
 		if (hs == null) {
 			this.out("Unknown MsgType Encountered:".concat(Integer.toString(msg
-					.getMsgType()) + ""), 0);
+					.getMsgType())
+					+ ""), 0);
 			return;
 		}
 
 		if (hs.size() == 0) {
-			this.out("No Local Stops qualify for delievery of StdMsg: "	+ msg.toString(), 2);
+			this.out("No Local Stops qualify for delievery of StdMsg: "
+					+ msg.toString(), 2);
 			return;
 		}
 
-		
-		
 		// Iterate through all the stops
 		Iterator<MsgStop> it = hs.iterator();
 		while (it.hasNext()) {
@@ -209,8 +208,9 @@ public class MessageDispatcher extends SNRoot implements STRunnable {
 				continue;
 			}
 
-			this.out("Dispatching(Local) StdMsg with MsgID/Type: " + msg.getMsgID()
-					+ " / " + msg.getMsgType() + " to MsgStop: " + msgstop.gON(), 2);
+			this.out("Dispatching(Local) StdMsg with MsgID/Type: "
+					+ msg.getMsgID() + " / " + msg.getMsgType()
+					+ " to MsgStop: " + msgstop.gON(), 2);
 			// Pass It a reference to the Message.
 			msgstop.sendToMsgStop(msg);
 		}

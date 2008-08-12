@@ -32,6 +32,8 @@ public class Portal extends SNRoot {
 
 	public void SendToRemHost(StdMsg sm) {
 		this.PM.send(this.sockChan, sm.Serialize());
+		this.out("Sending: " + sm.toString(), 2);
+		this.out("\n" + sm.ElementsToString(), 3);
 	}
 
 	public void SendToMS(StdMsg sm) {
@@ -78,7 +80,7 @@ public class Portal extends SNRoot {
 		try {
 			this.out("Finishing Disconnect.",2);
 			StdMsg smout = this.getLocalMS().generateNewMsg(StdMsgTypes.mtGoodBye,"Portal2PortalComms");
-			this.Send(smout);
+			this.SendToRemHost(smout);
 			
 			this.PM.disconnectFrom(this.RemoteHostName);
 
@@ -100,14 +102,14 @@ public class Portal extends SNRoot {
 			// one!!!
 
 			StdMsg smout = this.getLocalMS().generateNewMsg(StdMsgTypes.mtPortalHostNameNotUnique,"Portal2PortalComms");
-			this.Send(smout);
+			this.SendToRemHost(smout);
 			return;
 		}
 
 		// Check for Multiple connections to the same host
 		if (this.getLocalMS().hasRemoteHostOnFile(this.RemoteHostName)) {
 			StdMsg smout = this.getLocalMS().generateNewMsg(StdMsgTypes.mtPortalHostNameAlreadyInUse,"Portal2PortalComms");
-			this.Send(smout);
+			this.SendToRemHost(smout);
 			return;
 		}
 
@@ -118,17 +120,11 @@ public class Portal extends SNRoot {
 		return;
 	}
 
-	public void Send(StdMsg sm) {
-		this.PM.send(this.sockChan, sm.Serialize());
-		this.out("Sending: " + sm.toString(), 2);
-		this.out("\n" + sm.ElementsToString(), 3);
-	}
-
 	private void SendHostInfo() {
 		// Attempt to set the remote Host name field of the other end's Portal.
 		StdMsg sm = this.getLocalMS().generateNewMsg(StdMsgTypes.mtPortalSetRemoteHostName,"Portal2PortalComms");
 //		sm.AddElement(new StringFrag(this.getLocalMS().getHostName()));
-		this.Send(sm);
+		this.SendToRemHost(sm);
 
 	}
 
