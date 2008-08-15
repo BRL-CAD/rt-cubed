@@ -30,7 +30,11 @@
 #define __G3D_COMMANDS_H__
 
 
-#include "CommandInterpreter.h"
+#include "Command.h"
+
+#include <sstream>
+
+#include <brlcad/ged.h>
 
 #include "Application.h"
 #include "CameraManager.h"
@@ -73,7 +77,7 @@ public:
       _argNames.push_back("level");
     }
 
-  virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     if (args.size() != 1) {
       out.appendLine("This command needs exactly one argument");
       return;
@@ -116,7 +120,7 @@ public:
       Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
     }
 
-  virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     if (args.size() != 1) {
       out.appendLine("This command needs exactly one argument");
       return;
@@ -150,7 +154,7 @@ public:
       _argNames.push_back("type");
     }
 
-  virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     if (args.size() != 1) {
       out.appendLine("This command needs exactly one argument");
       return;
@@ -177,7 +181,7 @@ public:
     Command("cyclecam", "Cycle the camera mode", "")
     { }
 
-  virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     if (args.size() > 0) {
       out.appendLine("Command doesn't accept arguments, ignoring");
     }
@@ -207,7 +211,7 @@ public:
       Application::instance().addGeometry("tetrahedron", "TetrahedronMesh");
     }
 
-  virtual void execute(std::vector<std::string>& args , CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     if (args.size() != 1) {
       out.appendLine("This command needs exactly one argument");
       return;
@@ -225,6 +229,34 @@ public:
 private:
   /** Sample geometry */
   SampleTetrahedron _sampleTetrahedron;
+};
+
+
+/** @brief Get libged version.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ */
+class CommandGedVersion : public Command
+{
+public:
+  CommandGedVersion() :
+    Command("ged_version",
+	    "Get libged version",
+	    "")
+    {
+    }
+
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+    if (args.size() > 0) {
+      out.appendLine("Command doesn't accept arguments, ignoring");
+    }
+
+    std::stringstream version;
+    version << ged_version();
+    out.appendLine(version.str());
+  }
+
+private:
 };
 
 #endif

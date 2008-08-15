@@ -32,61 +32,8 @@
 #include "CommandInterpreter.h"
 
 #include "Logger.h"
+#include "Command.h"
 #include "Commands.h"
-
-
-/*******************************************************************************
- * CommandOutput
- ******************************************************************************/
-void CommandOutput::appendLine(const std::string& line)
-{
-  if (!_output.empty())
-    _output.append("\n");
-  _output.append(line);
-}
-
-const std::string& CommandOutput::getOutput() const
-{
-  return _output;
-}
-
-
-/*******************************************************************************
- * Command
- ******************************************************************************/
-Command::Command(const std::string& name, const std::string& shortDescr, const std::string& extraDescr) :
-  _name(name), _shortDescription(shortDescr), _extraDescription(extraDescr)
-{
-}
-
-const std::string& Command::getName() const
-{
-  return _name;
-}
-
-const std::string& Command::getShortDescription() const
-{
-  return _shortDescription;
-}
-
-const std::string& Command::getExtraDescription() const
-{
-  return _extraDescription;
-}
-
-const std::vector<std::string>& Command::getArgNames() const
-{
-  return _argNames;
-}
-
-std::string Command::getSyntax() const
-{
-  std::string line = _name;
-  for (size_t i = 0; i < _argNames.size(); ++i) {
-    line += " <" + _argNames[i] + ">";
-  }
-  return line;
-}
 
 
 /*******************************************************************************
