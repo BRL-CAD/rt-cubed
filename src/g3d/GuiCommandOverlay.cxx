@@ -39,6 +39,7 @@
 
 #include "Logger.h"
 #include "History.h"
+#include "Command.h"
 #include "CommandInterpreter.h"
 #include "GuiWindowManager.h"
 
