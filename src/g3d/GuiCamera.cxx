@@ -186,7 +186,7 @@ void GuiCamera::update(const ObserverEvent& event)
 	  xRot = CameraManager::instance().getActiveCameraMode().getXRotation();
 	  yRot = CameraManager::instance().getActiveCameraMode().getYRotation();
 	  zRot = CameraManager::instance().getActiveCameraMode().getZRotation();
-	  Logger::logDEBUG("xRot=%.03f, yRot=%.03f, zRot=%.03f", xRot, yRot, zRot);
+	  //Logger::logDEBUG("xRot=%.03f, yRot=%.03f, zRot=%.03f", xRot, yRot, zRot);
 	  _xRotation->setProgress(xRot / (2*PI_NUMBER));
 	  _yRotation->setProgress(yRot / (2*PI_NUMBER));
 	  _zRotation->setProgress(zRot / (2*PI_NUMBER));
