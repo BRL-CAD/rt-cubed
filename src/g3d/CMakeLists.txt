@@ -3,15 +3,22 @@ project(g3d)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
 include(${CMAKE_MODULE_PATH}/UsePkgConfig.cmake)
+include(${CMAKE_MODULE_PATH}/UseBrlcadConfig.cmake)
+
+if(NOT BRLCAD_ROOT)
+  message(FATAL_ERROR "BRL-CAD root not set, necessary for configuration (call cmake again with -DBRLCAD_ROOT=/path/to/brlcad/root)")
+endif(NOT BRLCAD_ROOT)
 
 find_program(PKGCONFIG_EXECUTABLE NAMES pkg-config PATHS /usr/local/bin /usr/bin)
 if(NOT PKGCONFIG_EXECUTABLE)
   message(FATAL_ERROR "Could not find 'pkg-config', necessary for configuration")
 endif(NOT PKGCONFIG_EXECUTABLE)
 
-if(NOT BRLCAD_ROOT)
-  message(FATAL_ERROR "Could not find BRL-CAD's root, necessary for configuration (call cmake again with -DBRLCAD_ROOT=/path/to/brlcad/root)")
-endif(NOT BRLCAD_ROOT)
+find_program(BRLCADCONFIG_EXECUTABLE NAMES brlcad-config PATHS ${BRLCAD_ROOT}/bin)
+if(NOT BRLCADCONFIG_EXECUTABLE)
+  message(FATAL_ERROR "Could not find 'brlcad-config', necessary for configuration")
+endif(NOT BRLCADCONFIG_EXECUTABLE)
+
 
 #source_group("Source Files" FILES ${SOURCES})
 #source_group("Header Files" FILES ${HEADERS})
@@ -53,6 +60,13 @@ foreach(l ${ESSENTIAL_LIBS})
   endif(NOT ${l}_FOUND)
 endforeach(l)
 
+set(BRLCAD_ATLEAST "7.13.0")
+BRLCADCONFIG_ATLEAST(${BRLCAD_ATLEAST} BRLCAD_FOUND)
+if(NOT BRLCAD_FOUND)
+  message(SEND_ERROR "BRL-CAD library not found (or older than required ${BRLCAD_ATLEAST})")
+  set(CANNOT_BUILD true)
+endif(NOT BRLCAD_FOUND)
+
 if(CANNOT_BUILD)
   message(FATAL_ERROR "Missing essential libraries, aborting")
 else(CANNOT_BUILD)
@@ -61,8 +75,13 @@ else(CANNOT_BUILD)
   PKGCONFIG_WRAPPER("--variable=includedir ${ESSENTIAL_LIBS}" PC_INCLUDE_DIR PC_EXIT_CODE)
   PKGCONFIG_WRAPPER("--variable=libdir ${ESSENTIAL_LIBS}" PC_LIB_DIR PC_EXIT_CODE)
 
-  include_directories(${PC_INCLUDE_DIR} ${BRLCAD_ROOT}/include ${BRLCAD_ROOT}/include/brlcad)
-  link_directories(${PC_LIB_DIR} "${BRLCAD_ROOT}/lib")
+  BRLCADCONFIG_WRAPPER("--cflags" BRLCAD_CFLAGS BRLCAD_EXIT_CODE)
+  BRLCADCONFIG_WRAPPER("--libs" BRLCAD_LDFLAGS BRLCAD_EXIT_CODE)
+  BRLCADCONFIG_WRAPPER("--variable=includedir" BRLCAD_INCLUDE_DIR BRLCAD_EXIT_CODE)
+  BRLCADCONFIG_WRAPPER("--variable=libdir" BRLCAD_LIB_DIR BRLCAD_EXIT_CODE)
+
+  include_directories(${PC_INCLUDE_DIR} ${BRLCAD_INCLUDE_DIR})
+  link_directories(${PC_LIB_DIR} ${BRLCAD_LIB_DIR})
 
   # Not necessary at the moment, maybe never
   #if(TCL_INCLUDE)
@@ -73,9 +92,9 @@ else(CANNOT_BUILD)
   #endif(TCL_LIB)
 
   #link_libraries( g3d ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Mocha_LIBRARIES} ${RBGui_LIBRARIES} )
-  add_definitions(${PC_CFLAGS})
+  add_definitions(${PC_CFLAGS} ${BRLCAD_CFLAGS})
   add_executable( g3d ${G3D_SOURCES} ${G3D_HEADERS} )
-  target_link_libraries( g3d ${PC_LDFLAGS} )
+  target_link_libraries( g3d ${PC_LDFLAGS} ${BRLCAD_LDFLAGS} )
 
   # OGRE config files
   file(WRITE ${PROJECT_BINARY_DIR}/resources.cfg "# Resource locations to be added to the default path
