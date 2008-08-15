@@ -115,10 +115,6 @@ bool CameraModeMGED::injectKeyReleased(OIS::KeyCode keyCode)
 
 bool CameraModeMGED::injectMouseMotion(int x, int y)
 {
-  /// \todo mafm: there are some glitches, depending on the position
-  /// when it starts and so on, it's worth investigating when more
-  /// complex scenes are in place and it can be diagnosed more easily
-
   if (_scaleModeEnabled && _mouseButtonsPressed > 0) {
     // calculate the x position normalized between -1.0 and 1.0
     // w.r.t. screen coordinates (inside windows, if mouse goes
