@@ -21,7 +21,7 @@ find_program(PKGCONFIG_EXECUTABLE NAMES pkg-config PATHS /usr/local/bin /usr/bin
 # version
 macro(PKGCONFIG_ATLEAST _package _atleast_version _found)
   # reset the variables at the beginning
-  remove(${_return_var})
+  remove(${_found})
 
   # if pkg-config has been found
   if(PKGCONFIG_EXECUTABLE)
@@ -29,6 +29,8 @@ macro(PKGCONFIG_ATLEAST _package _atleast_version _found)
       RETURN_VALUE _exitCode OUTPUT_VARIABLE _pkgconfigDevNull )
     if(NOT _exitCode)
       set(${_found} 1)
+    else(NOT _exitCode)
+      set(${_found} 0)
     endif(NOT _exitCode)
   endif(PKGCONFIG_EXECUTABLE)
 endmacro(PKGCONFIG_ATLEAST _package _atleast_version _return)
