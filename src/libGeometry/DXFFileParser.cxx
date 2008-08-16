@@ -2,6 +2,8 @@
 
 using namespace Geometry;
 
+#include <string.h>
+#include <stdlib.h>
 #include "Geometry/Triangle.h"
 
 
