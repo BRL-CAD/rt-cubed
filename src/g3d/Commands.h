@@ -34,11 +34,11 @@
 
 #include <sstream>
 
-#include <brlcad/ged.h>
-
 #include "Application.h"
 #include "CameraManager.h"
 #include "GeometryConversion.h"
+
+#include <brlcad/ged.h>
 
 
 /** @brief Quit the application
@@ -235,16 +235,14 @@ private:
 /** @brief Get libged version.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * \todo mafm: WIP
  */
 class CommandGedVersion : public Command
 {
 public:
   CommandGedVersion() :
-    Command("ged_version",
-	    "Get libged version",
-	    "")
-    {
-    }
+    Command("ged_version", "Get libged version", "") { }
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     if (args.size() > 0) {
@@ -252,11 +250,88 @@ public:
     }
 
     std::stringstream version;
-    version << ged_version();
+    ged g;
+    ged_version(&g, 0, 0);
+    version << g.ged_output_script;
     out.appendLine(version.str());
   }
+};
 
-private:
+
+/** @brief Get libged summary.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * \todo mafm: WIP
+ */
+class CommandGedSummary : public Command
+{
+public:
+  CommandGedSummary() :
+    Command("ged_summary",
+	    "Get libged summary",
+	    "Argument is [primitives|regions|groups] (initial chars are enough)")
+    {
+      _argNames.push_back("type");
+    }
+
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+    if (args.size() > 1) {
+      out.appendLine("This command needs exactly zero or one argument");
+      return;
+    } else if (args.size() == 1) {
+      std::string type;
+      if (args[0][0] == 'p') {
+	type = "p";
+      } else if (args[0][0] == 'r') {
+	type = "r";
+      } else if (args[0][0] == 'g') {
+	type = "g";
+      } else {
+	out.appendLine("Summary type not recognized");
+	return;
+      }
+
+      ged g;
+      const char* arg[] = { type.c_str() };
+      ged_summary(&g, 1, arg);
+      //out.appendLine();
+    } else {
+      ged g;
+      ged_summary(&g, 0, 0);
+      //out.appendLine();
+    }
+  }
+};
+
+
+/** @brief Get/Set libged DB title.
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * \todo mafm: WIP
+ */
+class CommandGedTitle : public Command
+{
+public:
+  CommandGedTitle() :
+    Command("ged_title",
+	    "Get/Set libged database title",
+	    "Argument is title (empty to get)")
+    {
+      _argNames.push_back("title");
+    }
+
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+    if (args.size() > 1) {
+      out.appendLine("This command needs exactly zero or one argument");
+      return;
+    }
+
+    ged g;
+    ged_title(&g, 0, 0);
+    //out.appendLine();
+  }
 };
 
 #endif

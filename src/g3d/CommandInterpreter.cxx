@@ -56,6 +56,9 @@ CommandInterpreter::CommandInterpreter()
   addCommand(new CommandSetCameraProjectionType());
   addCommand(new CommandCycleCameraMode());
   addCommand(new CommandCreateSampleGeometry());
+  addCommand(new CommandGedVersion());
+  addCommand(new CommandGedSummary());
+  addCommand(new CommandGedTitle());
 }
 
 /*
