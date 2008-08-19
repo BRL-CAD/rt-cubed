@@ -33,6 +33,9 @@
 #include "GeometryConversion.h"
 
 
+/*******************************************************************************
+ * SampleTetrahedron
+ ******************************************************************************/
 SampleTetrahedron::SampleTetrahedron(float scale) :
   _manualObject(Ogre::String("tetrahedron"))
 {

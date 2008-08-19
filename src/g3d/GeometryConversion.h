@@ -43,10 +43,10 @@
 class SampleTetrahedron
 {
 public:
-  /* Default constructor
-  *
-  * @param scale Scale to relative units (basic object is created with
-  * 1 unit) */
+  /** Default constructor
+   *
+   * @param scale Scale to relative units (basic object is created
+   * with 1 unit) */
   SampleTetrahedron(float scale = 1.0f);
 
   /** Get pointer to movable object */
