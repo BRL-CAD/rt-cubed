@@ -32,10 +32,11 @@
 
 #include "Command.h"
 
-#include <sstream>
+#include <string>
 
 #include "Application.h"
 #include "CameraManager.h"
+#include "GedData.h"
 #include "GeometryConversion.h"
 
 #include <brlcad/ged.h>
@@ -249,11 +250,10 @@ public:
       out.appendLine("Command doesn't accept arguments, ignoring");
     }
 
-    std::stringstream version;
-    ged g;
-    ged_version(&g, 0, 0);
-    version << g.ged_output_script;
-    out.appendLine(version.str());
+    ged* g = GedData::instance().getGED();
+    ged_version(g, 0, 0);
+    std::string s(g->ged_output_script);
+    out.appendLine(s);
   }
 };
 
@@ -276,6 +276,8 @@ public:
     }
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+    ged* g = GedData::instance().getGED();
+
     if (args.size() > 1) {
       out.appendLine("This command needs exactly zero or one argument");
       return;
@@ -292,14 +294,14 @@ public:
 	return;
       }
 
-      ged g;
       const char* arg[] = { type.c_str() };
-      ged_summary(&g, 1, arg);
-      //out.appendLine();
+      ged_summary(g, 1, arg);
+      std::string s(g->ged_output_script);
+      out.appendLine(s);
     } else {
-      ged g;
-      ged_summary(&g, 0, 0);
-      //out.appendLine();
+      ged_summary(g, 0, 0);
+      std::string s(g->ged_output_script);
+      out.appendLine(s);
     }
   }
 };
@@ -328,9 +330,10 @@ public:
       return;
     }
 
-    ged g;
-    ged_title(&g, 0, 0);
-    //out.appendLine();
+    ged* g = GedData::instance().getGED();
+    ged_title(g, 0, 0);
+    std::string s(g->ged_output_script);
+    out.appendLine(s);
   }
 };
 
