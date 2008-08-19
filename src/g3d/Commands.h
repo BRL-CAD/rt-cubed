@@ -243,17 +243,25 @@ class CommandGedVersion : public Command
 {
 public:
   CommandGedVersion() :
-    Command("ged_version", "Get libged version", "") { }
+    Command("ged_version",
+	    "Get libged database file version",
+	    "Argument is database name")
+    { }
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
-    if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments, ignoring");
+    if (args.size() != 1) {
+      out.appendLine("This command needs exactly one argument");
+      return;
     }
 
+    const char* arg[] = { args[1].c_str() };
     ged* g = GedData::instance().getGED();
-    ged_version(g, 0, 0);
-    std::string s(g->ged_output_script);
-    out.appendLine(s);
+    int result = ged_version(g, 1, arg);
+    if (result == BRLCAD_OK) {
+      out.appendLine(bu_vls_addr(&g->ged_result_str));
+    } else {
+      Logger::logERROR(bu_vls_addr(&g->ged_result_str));
+    }
   }
 };
 
@@ -277,31 +285,36 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     ged* g = GedData::instance().getGED();
+    int result = 0;
 
     if (args.size() > 1) {
       out.appendLine("This command needs exactly zero or one argument");
       return;
-    } else if (args.size() == 1) {
-      std::string type;
-      if (args[0][0] == 'p') {
-	type = "p";
-      } else if (args[0][0] == 'r') {
-	type = "r";
-      } else if (args[0][0] == 'g') {
-	type = "g";
+    } else {
+      if (args.size() == 1) {
+	std::string type;
+	if (args[0][0] == 'p') {
+	  type = "p";
+	} else if (args[0][0] == 'r') {
+	  type = "r";
+	} else if (args[0][0] == 'g') {
+	  type = "g";
+	} else {
+	  out.appendLine("Summary type not recognized");
+	  return;
+	}
+
+	const char* arg[] = { type.c_str() };
+	result = ged_summary(g, 1, arg);
       } else {
-	out.appendLine("Summary type not recognized");
-	return;
+	result = ged_summary(g, 0, 0);
       }
 
-      const char* arg[] = { type.c_str() };
-      ged_summary(g, 1, arg);
-      std::string s(g->ged_output_script);
-      out.appendLine(s);
-    } else {
-      ged_summary(g, 0, 0);
-      std::string s(g->ged_output_script);
-      out.appendLine(s);
+      if (result == BRLCAD_OK) {
+	out.appendLine(bu_vls_addr(&g->ged_result_str));
+      } else {
+	Logger::logERROR(bu_vls_addr(&g->ged_result_str));
+      }
     }
   }
 };
@@ -325,15 +338,26 @@ public:
     }
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+    ged* g = GedData::instance().getGED();
+    int result = 0;
+
     if (args.size() > 1) {
       out.appendLine("This command needs exactly zero or one argument");
       return;
-    }
+    } else {
+      if (args.size() == 1) {
+	const char* arg[] = { args[1].c_str() };
+	result = ged_title(g, 1, arg);
+      } else {
+	result = ged_title(g, 0, 0);
+      }
 
-    ged* g = GedData::instance().getGED();
-    ged_title(g, 0, 0);
-    std::string s(g->ged_output_script);
-    out.appendLine(s);
+      if (result == BRLCAD_OK) {
+	out.appendLine(bu_vls_addr(&g->ged_result_str));
+      } else {
+	Logger::logERROR(bu_vls_addr(&g->ged_result_str));
+      }
+    }
   }
 };
 
