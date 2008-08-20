@@ -233,11 +233,9 @@ private:
 };
 
 
-/** @brief Get libged version.
+/** @brief Get libged database file version.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- *
- * \todo mafm: WIP
  */
 class CommandGedVersion : public Command
 {
@@ -245,18 +243,19 @@ public:
   CommandGedVersion() :
     Command("ged_version",
 	    "Get libged database file version",
-	    "Argument is database name")
+	    "")
     { }
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
-    if (args.size() != 1) {
-      out.appendLine("This command needs exactly one argument");
+    if (args.size() != 0) {
+      out.appendLine("Command doesn't accept arguments");
       return;
     }
 
-    const char* arg[] = { args[1].c_str() };
     ged* g = GedData::instance().getGED();
-    int result = ged_version(g, 1, arg);
+    const char* argv[] = { _name.c_str() };
+    int argc = sizeof(argv)/sizeof(const char*);
+    int result = ged_version(g, argc, argv);
     if (result == BRLCAD_OK) {
       out.appendLine(bu_vls_addr(&g->ged_result_str));
     } else {
@@ -266,19 +265,17 @@ public:
 };
 
 
-/** @brief Get libged summary.
+/** @brief Get libged database file summary.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- *
- * \todo mafm: WIP
  */
 class CommandGedSummary : public Command
 {
 public:
   CommandGedSummary() :
     Command("ged_summary",
-	    "Get libged summary",
-	    "Argument is [primitives|regions|groups] (initial chars are enough)")
+	    "Get libged database file summary",
+	    "Argument is either empty, or one of [primitives|regions|groups] (initial chars are enough)")
     {
       _argNames.push_back("type");
     }
@@ -304,10 +301,13 @@ public:
 	  return;
 	}
 
-	const char* arg[] = { type.c_str() };
-	result = ged_summary(g, 1, arg);
+	const char* argv[] = { _name.c_str(), type.c_str() };
+	int argc = sizeof(argv)/sizeof(const char*);
+	result = ged_summary(g, argc, argv);
       } else {
-	result = ged_summary(g, 0, 0);
+	const char* argv[] = { _name.c_str() };
+	int argc = sizeof(argv)/sizeof(const char*);
+	result = ged_summary(g, argc, argv);
       }
 
       if (result == BRLCAD_OK) {
@@ -323,8 +323,6 @@ public:
 /** @brief Get/Set libged DB title.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- *
- * \todo mafm: WIP
  */
 class CommandGedTitle : public Command
 {
@@ -346,10 +344,13 @@ public:
       return;
     } else {
       if (args.size() == 1) {
-	const char* arg[] = { args[1].c_str() };
-	result = ged_title(g, 1, arg);
+	const char* argv[] = { _name.c_str(), args[1].c_str() };
+	int argc = sizeof(argv)/sizeof(const char*);
+	result = ged_title(g, argc, argv);
       } else {
-	result = ged_title(g, 0, 0);
+	const char* argv[] = { _name.c_str() };
+	int argc = sizeof(argv)/sizeof(const char*);
+	result = ged_title(g, argc, argv);
       }
 
       if (result == BRLCAD_OK) {
