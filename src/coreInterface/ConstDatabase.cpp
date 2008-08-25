@@ -111,10 +111,21 @@ void ConstDatabase::ListTopObjects
         {
             db_update_nref(m_rtip->rti_dbip, m_resp);
 
-	        for (size_t i = 0; i < RT_DBNHASH; i++)
-		        for (directory* pDir = m_rtip->rti_dbip->dbi_Head[i]; pDir != DIR_NULL; pDir = pDir->d_forw)
-			        if (pDir->d_nref == 0)
-                        callback(pDir->d_namep);
+            for (size_t i = 0; i < RT_DBNHASH; i++)
+                for (directory* pDir = m_rtip->rti_dbip->dbi_Head[i]; pDir != DIR_NULL; pDir = pDir->d_forw)
+                    if (pDir->d_nref == 0) {
+                        try {
+                            if (!callback(pDir->d_namep)) {
+                                i = RT_DBNHASH - 1;
+                                break;
+                            }
+                        }
+                        catch(...) {
+                            BU_UNSETJUMP;
+
+                            throw;
+                        }
+                    }
         }
 
 END_MARK:
@@ -264,7 +275,18 @@ void ConstDatabase::ListObjects
 
                                     if (actualCount <= nodeCount) {
                                         for (int i = 0; i < actualCount; i++) {
-                                            callback(pRtTreeArray[i].tl_tree->tr_l.tl_name);
+                                            try {
+                                                if (!callback(pRtTreeArray[i].tl_tree->tr_l.tl_name))
+                                                    break;
+                                            }
+                                            catch(...) {
+                                                db_free_tree(pRtTreeArray[i].tl_tree, m_resp);
+                                                bu_free(pRtTreeArray, "tree list");
+                                                rt_db_free_internal(&intern, m_resp);
+                                                BU_UNSETJUMP;
+
+                                                throw;
+                                            }
                                             db_free_tree(pRtTreeArray[i].tl_tree, m_resp);
                                         }
                                     }
