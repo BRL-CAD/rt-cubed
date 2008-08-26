@@ -81,9 +81,8 @@ namespace BRLCAD {
         //@}
 
     private:
-        const char* m_title;
-        rt_i*       m_rtip;
-        resource*   m_resp;
+        rt_i*     m_rtip;
+        resource* m_resp;
 
         ConstDatabase(const ConstDatabase&) throw();                  // not implemented
         const ConstDatabase& operator=(const ConstDatabase&) throw(); // not implemented

@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-ConstDatabase::ConstDatabase(void) throw() : m_title(0), m_rtip(0), m_resp(0) {
+ConstDatabase::ConstDatabase(void) throw() : m_rtip(0), m_resp(0) {
     m_resp = static_cast<resource*>(calloc(1, sizeof(resource)));
 }
 
@@ -49,7 +49,6 @@ ConstDatabase::~ConstDatabase(void) throw() {
         if (BU_SETJUMP)
             goto END_MARK;
 
-        m_title = 0;
         rt_free_rti(m_rtip);
 
 END_MARK:
@@ -70,7 +69,6 @@ bool ConstDatabase::Load
             if (BU_SETJUMP)
                 goto TRY_IT_MARK;
 
-            m_title = 0;
             rt_free_rti(m_rtip);
         }
 
@@ -82,10 +80,8 @@ TRY_IT_MARK:
 
         m_rtip = rt_dirbuild(fileName, 0, 0);
 
-        if (m_rtip != 0) {
+        if (m_rtip != 0)
             rt_init_resource(m_resp, 0, m_rtip);
-            m_title = m_rtip->rti_dbip->dbi_title;
-        }
 
 END_MARK:
         BU_UNSETJUMP;
@@ -96,7 +92,7 @@ END_MARK:
 
 
 const char* ConstDatabase::Title(void) const throw() {
-    return m_title;
+    return m_rtip->rti_dbip->dbi_title;
 }
 
 
