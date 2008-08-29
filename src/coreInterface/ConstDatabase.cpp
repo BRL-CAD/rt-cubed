@@ -33,7 +33,6 @@
 
 #include <brlcad/ConstDatabase.h>
 
-#include "common.h"
 #include "raytrace.h"
 
 
@@ -171,7 +170,7 @@ bool ConstDatabase::SelectionIsEmpty(void) const throw() {
 
 
 Vector3D ConstDatabase::BoundingBoxMinima(void) const throw() {
-    Vector3D ret = {0., 0., 0.};
+    Vector3D ret;
 
     if (!SelectionIsEmpty()) {
         if (BU_SETJUMP)
@@ -191,7 +190,7 @@ END_MARK:
 
 
 Vector3D ConstDatabase::BoundingBoxMaxima(void) const throw() {
-    Vector3D ret = {0., 0., 0.};
+    Vector3D ret;
 
     if (!SelectionIsEmpty()) {
         if (BU_SETJUMP)
@@ -307,45 +306,122 @@ END_MARK:
 
 class ConstDatabaseHit : public Hit {
 public:
-    ConstDatabaseHit(partition* pPartition) throw() : Hit(), m_pPartition(pPartition) {
-        assert(m_pPartition != 0);
+    ConstDatabaseHit(application* ap,
+                     partition*   part) throw() : Hit(),
+                                                  m_application(ap),
+                                                  m_partition(part),
+                                                  m_inVectorsComputed(false),
+                                                  m_outVectorsComputed(false) {
+        assert(m_application != 0);
+        assert(m_partition != 0);
+   }
+
+    virtual const char* Name(void) const throw() {
+        return m_partition->pt_regionp->reg_name;
     }
 
-    virtual double DistanceIn(void) const throw() {
-        return m_pPartition->pt_inhit->hit_dist;
+    virtual double      DistanceIn(void) const throw() {
+        return m_partition->pt_inhit->hit_dist;
     }
 
-    virtual double DistanceOut(void) const throw() {
-        return m_pPartition->pt_outhit->hit_dist;
+    virtual double      DistanceOut(void) const throw() {
+        return m_partition->pt_outhit->hit_dist;
+    }
+
+    virtual Vector3D    PointIn(void) const throw() {
+        ComputeInVectors();
+        return m_partition->pt_inhit->hit_point;
+    }
+
+    virtual Vector3D    PointOut(void) const throw() {
+        ComputeOutVectors();
+        return m_partition->pt_outhit->hit_point;
+    }
+
+    virtual Vector3D    SurfaceNormaleIn(void) const throw() {
+        ComputeInVectors();
+        return m_partition->pt_inhit->hit_normal;
+    }
+
+    virtual Vector3D    SurfaceNormaleOut(void) const throw() {
+        ComputeOutVectors();
+        return m_partition->pt_outhit->hit_normal;
+    }
+
+    virtual Curvature3D SurfaceCurvatureIn(void) const throw() {
+        ComputeInVectors();
+
+        curvature curv;
+        RT_CURVATURE(&curv, m_partition->pt_inhit, m_partition->pt_inflip, m_partition->pt_inseg->seg_stp);
+
+        return Curvature3D(curv.crv_pdir, curv.crv_c1, curv.crv_c2);
+    }
+
+    virtual Curvature3D SurfaceCurvatureOut(void) const throw() {
+        ComputeOutVectors();
+
+        curvature curv;
+        RT_CURVATURE(&curv, m_partition->pt_outhit, m_partition->pt_outflip, m_partition->pt_outseg->seg_stp);
+
+        return Curvature3D(curv.crv_pdir, curv.crv_c1, curv.crv_c2);
+    }
+
+    virtual Mapping2D   Surface2DMappingIn(void) const throw() {
+        uvcoord uv;
+        RT_HIT_UVCOORD(m_application, m_partition->pt_inseg->seg_stp, m_partition->pt_inhit, &uv);
+
+        return Mapping2D(Vector2D(uv.uv_u, uv.uv_v), Vector2D(uv.uv_du, uv.uv_dv));
+    }
+
+    virtual Mapping2D   Surface2DMappingOut(void) const throw() {
+        uvcoord uv;
+        RT_HIT_UVCOORD(m_application, m_partition->pt_outseg->seg_stp, m_partition->pt_outhit, &uv);
+
+        return Mapping2D(Vector2D(uv.uv_u, uv.uv_v), Vector2D(uv.uv_du, uv.uv_dv));
     }
 
 private:
-    partition* m_pPartition;
+    application* m_application;
+    partition*   m_partition;
+    mutable bool m_inVectorsComputed;
+    mutable bool m_outVectorsComputed;
+
+    void ComputeInVectors(void) const throw() {
+        if (!m_inVectorsComputed) {
+            hit* pHit = m_partition->pt_inhit;
+
+            RT_HIT_NORMAL(pHit->hit_normal, pHit, m_partition->pt_inseg->seg_stp, 0, m_partition->pt_inflip);
+            m_inVectorsComputed = true;
+        }
+    }
+
+    void ComputeOutVectors(void) const throw() {
+        if (!m_outVectorsComputed) {
+            hit* pHit = m_partition->pt_outhit;
+
+            RT_HIT_NORMAL(pHit->hit_normal, pHit, m_partition->pt_outseg->seg_stp, 0, m_partition->pt_outflip);
+            m_outVectorsComputed = true;
+        }
+    }
 };
 
 
 static int HitDo
 (
-    struct application* ap,
-    struct partition*   PartHeadp,
-    struct seg*         segment
+    application* ap,
+    partition*   partitionHead,
+    seg*         segment
 ) {
-    int ret = 1;
+    HitCallback* callback = static_cast<HitCallback*>(ap->a_uptr);
 
-    partition* pPartition = PartHeadp->pt_forw;
-
-    if (pPartition == PartHeadp)
-        ret = 0; // Nothing hit??
-    else {
-        HitCallback*     callback = static_cast<HitCallback*>(ap->a_uptr);
-
-        for (; pPartition != PartHeadp; pPartition = pPartition->pt_forw) {
-            if (!((*callback)(ConstDatabaseHit(pPartition))))
-                break;
-        }
+    for (partition* part = partitionHead->pt_forw;
+         part != partitionHead;
+         part = part->pt_forw) {
+        if (!((*callback)(ConstDatabaseHit(ap, part))))
+            break;
     }
 
-    return ret;
+    return 0; // return won't be evaluated
 }
 
 

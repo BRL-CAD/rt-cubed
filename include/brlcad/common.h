@@ -40,13 +40,75 @@
 
 
 namespace BRLCAD {
+    struct Vector2D {
+        double coordinates[2];
+
+        Vector2D(void) {
+            coordinates[0] = 0.;
+            coordinates[1] = 0.;
+        }
+
+        Vector2D(const double vector[2]) {
+            coordinates[0] = vector[0];
+            coordinates[1] = vector[1];
+        }
+
+        Vector2D(double x,
+                 double y) {
+            coordinates[0] = x;
+            coordinates[1] = y;
+        }
+    };
+
+
+    struct Mapping2D {
+        Vector2D point;
+        Vector2D delta;
+
+        Mapping2D(const Vector2D& pt,
+                  const Vector2D& dl) : point(pt), delta(dl) {}
+    };
+
+
     struct Vector3D {
         double coordinates[3];
+
+        Vector3D(void) {
+            coordinates[0] = 0.;
+            coordinates[1] = 0.;
+            coordinates[2] = 0.;
+        }
+
+        Vector3D(const double vector[3]) {
+            coordinates[0] = vector[0];
+            coordinates[1] = vector[1];
+            coordinates[2] = vector[2];
+        }
     };
+
 
     struct Ray3D {
         Vector3D origin;
         Vector3D direction;
+    };
+
+
+    struct Curvature3D {
+        Vector3D minPrincipalDirection;
+        double   minPrincipalCurvature;
+        double   maxPrincipalCurvature;
+
+        Curvature3D(const Vector3D& minDirection,
+                    double          minCurvature,
+                    double          maxCurvature) {
+            minPrincipalDirection = minDirection;
+            minPrincipalCurvature = minCurvature;
+            maxPrincipalCurvature = maxCurvature;
+        }
+
+        Curvature3D(void) : minPrincipalDirection(),
+                            minPrincipalCurvature(0.),
+                            maxPrincipalCurvature(0.) {}
     };
 
 

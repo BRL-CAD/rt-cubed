@@ -30,14 +30,25 @@
 #ifndef BRLCAD_RAYTRACE_INCLUDED
 #define BRLCAD_RAYTRACE_INCLUDED
 
+#include "common.h"
+
 
 namespace BRLCAD {
     class Hit {
     public:
         virtual ~Hit(void) throw() {}
 
-        virtual double DistanceIn(void) const throw()  = 0;
-        virtual double DistanceOut(void) const throw() = 0;
+        virtual const char* Name(void) const throw()                = 0;
+        virtual double      DistanceIn(void) const throw()          = 0;
+        virtual double      DistanceOut(void) const throw()         = 0;
+        virtual Vector3D    PointIn(void) const throw()             = 0;
+        virtual Vector3D    PointOut(void) const throw()            = 0;
+        virtual Vector3D    SurfaceNormaleIn(void) const throw()    = 0;
+        virtual Vector3D    SurfaceNormaleOut(void) const throw()   = 0;
+        virtual Curvature3D SurfaceCurvatureIn(void) const throw()  = 0;
+        virtual Curvature3D SurfaceCurvatureOut(void) const throw() = 0;
+        virtual Mapping2D   Surface2DMappingIn(void) const throw()  = 0;
+        virtual Mapping2D   Surface2DMappingOut(void) const throw() = 0;
 
     protected:
         Hit(void) throw() {}
