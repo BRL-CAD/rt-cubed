@@ -30,7 +30,8 @@
 #ifndef BRLCAD_CONSTDATABASE_INCLUDED
 #define BRLCAD_CONSTDATABASE_INCLUDED
 
-#include <brlcad/Common.h>
+#include <brlcad/common.h>
+#include <brlcad/raytrace.h>
 
 
 struct rt_i;
@@ -57,6 +58,15 @@ namespace BRLCAD {
         BRLCAD_COREINTERFACE_EXPORT void        ListTopObjects(StringCalback& callback) const;
         //@}
 
+        /// @name Accessing objects
+        //@{
+        BRLCAD_COREINTERFACE_EXPORT bool        IsRegion(const char* objectName) const throw();
+        /// returns the list of the objects contained in the combination \a objectName via call-backs
+        /** To get a list of top level objects see ListTopObjects(). */
+        BRLCAD_COREINTERFACE_EXPORT void        ListObjects(const char*    objectName,
+                                                            StringCalback& callback) const;
+        //@}
+
         /// @name Active set functions
         //@{
         /// add the database object \a objectName to the active set
@@ -71,13 +81,10 @@ namespace BRLCAD {
         BRLCAD_COREINTERFACE_EXPORT Vector3D    BoundingBoxMaxima(void) const throw();
         //@}
 
-        /// @name Accessing objects
+        /// @name Ray trace
         //@{
-        BRLCAD_COREINTERFACE_EXPORT bool        IsRegion(const char* objectName) const throw();
-        /// returns the list of the objects contained in the combination \a objectName via call-backs
-        /** To get a list of top level objects see ListTopObjects(). */
-        BRLCAD_COREINTERFACE_EXPORT void        ListObjects(const char*    objectName,
-                                                            StringCalback& callback) const;
+        BRLCAD_COREINTERFACE_EXPORT void        ShootRay(const Ray3D& ray,
+                                                         HitCallback& callback) const throw();
         //@}
 
     private:

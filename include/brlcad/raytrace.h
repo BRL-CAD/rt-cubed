@@ -1,4 +1,4 @@
-/*                      C O M M O N . H
+/*                      R A Y T R A C E . H
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by
@@ -17,54 +17,53 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file Common.h
+/** @file raytrace.h
  *
  *  BRL-CAD core C++ interface:
- *      declares common understanding
+ *      declares some objects needed in the ray trace procedure
  *
  *  Origin -
  *      TNO (Netherlands)
  *      IABG mbH (Germany)
  */
 
-#ifndef BRLCAD_COMMON_INCLUDED
-#define BRLCAD_COMMON_INCLUDED
-
-/// a define for the interface's binding
-/** Meaningful values are for example __declspec(dllexport), __declspec(dllimport) or virtual.
-    It has to be defined by the build environment (Makefile, *.vcproj etc.).
-    The default is no special declaration. */
-#ifndef BRLCAD_COREINTERFACE_EXPORT
-#   define BRLCAD_COREINTERFACE_EXPORT
-#endif
+#ifndef BRLCAD_RAYTRACE_INCLUDED
+#define BRLCAD_RAYTRACE_INCLUDED
 
 
 namespace BRLCAD {
-    struct Vector3D {
-        double coordinates[3];
-    };
-
-    struct Ray3D {
-        Vector3D origin;
-        Vector3D direction;
-    };
-
-
-    class StringCalback {
+    class Hit {
     public:
-        virtual ~StringCalback(void) {}
+        virtual ~Hit(void) throw() {}
+
+        virtual double DistanceIn(void) const throw()  = 0;
+        virtual double DistanceOut(void) const throw() = 0;
+
+    protected:
+        Hit(void) throw() {}
+        Hit(const Hit&) throw() {}
+        const Hit& operator=(const Hit&) throw() {return *this;}
+    };
+
+
+    class HitCallback {
+    public:
+        virtual ~HitCallback(void) {}
 
         /** return true: go on; false: stop
             The return value gives the calling function the possibility to optimize.
             However be aware the return value may be ignored. */
-        virtual bool operator()(const char* string) = 0;
+        /** Do not throw en exception here.
+            This method will be called from deep inside the brlcad libraries.
+            The status of the program after an exception will be undetermined. */
+        virtual bool operator()(const Hit& hit) throw() = 0;
 
     protected:
-        StringCalback(void) {}
-        StringCalback(const StringCalback&) {}
-        const StringCalback& operator=(const StringCalback&) {return *this;}
+        HitCallback(void) {}
+        HitCallback(const HitCallback&) {}
+        const HitCallback& operator=(const HitCallback&) {return *this;}
     };
 }
 
 
-#endif // BRLCAD_COMMON_INCLUDED
+#endif // BRLCAD_RAYTRACE_INCLUDED

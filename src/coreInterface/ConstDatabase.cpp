@@ -29,6 +29,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <cassert>
 
 #include <brlcad/ConstDatabase.h>
 
@@ -297,6 +298,82 @@ void ConstDatabase::ListObjects
                 }
             }
         }
+
+END_MARK:
+        BU_UNSETJUMP;
+    }
+}
+
+
+class ConstDatabaseHit : public Hit {
+public:
+    ConstDatabaseHit(partition* pPartition) throw() : Hit(), m_pPartition(pPartition) {
+        assert(m_pPartition != 0);
+    }
+
+    virtual double DistanceIn(void) const throw() {
+        return m_pPartition->pt_inhit->hit_dist;
+    }
+
+    virtual double DistanceOut(void) const throw() {
+        return m_pPartition->pt_outhit->hit_dist;
+    }
+
+private:
+    partition* m_pPartition;
+};
+
+
+static int HitDo
+(
+    struct application* ap,
+    struct partition*   PartHeadp,
+    struct seg*         segment
+) {
+    int ret = 1;
+
+    partition* pPartition = PartHeadp->pt_forw;
+
+    if (pPartition == PartHeadp)
+        ret = 0; // Nothing hit??
+    else {
+        HitCallback*     callback = static_cast<HitCallback*>(ap->a_uptr);
+
+        for (; pPartition != PartHeadp; pPartition = pPartition->pt_forw) {
+            if (!((*callback)(ConstDatabaseHit(pPartition))))
+                break;
+        }
+    }
+
+    return ret;
+}
+
+
+void ConstDatabase::ShootRay
+(
+    const Ray3D& ray,
+    HitCallback& callback
+) const throw() {
+    if (!SelectionIsEmpty()) {
+        application ap = {0};
+
+        ap.a_hit      = HitDo;
+        ap.a_miss     = 0;
+        ap.a_overlap  = 0;
+        ap.a_rt_i     = m_rtip;
+        ap.a_level    = 0;
+        ap.a_onehit   = 0; // all hits
+        ap.a_resource = m_resp;
+        ap.a_uptr     = &callback;
+
+        VMOVE(ap.a_ray.r_pt, ray.origin.coordinates);
+        VMOVE(ap.a_ray.r_dir, ray.direction.coordinates);
+
+        if (BU_SETJUMP)
+            goto END_MARK;
+
+        VUNITIZE(ap.a_ray.r_dir);
+        rt_shootray(&ap);
 
 END_MARK:
         BU_UNSETJUMP;
