@@ -13,9 +13,9 @@ import java.util.*;
 
 public class MSTest02 extends SNRoot {
 
-	public static final int MsgsToSend = 5000;
+	public static final int MsgsToSend = 100000;
 	public static final long Delay = 0L;
-	public static final int ITERATIONS = 25;
+	public static final int ITERATIONS = 20;
 
 	public static MSTest02 test;
 
