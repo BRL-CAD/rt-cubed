@@ -25,10 +25,6 @@ public class MessageDispatcher extends SNRoot implements STRunnable {
 		this.setLocalMS(ms);
 	}
 
-	public MessageDispatcher(String Name) {
-		super(Name);
-		this.setLocalMS(SNRoot.getGlobalMS());
-	}
 
 	public void run() {
 		this.runStatus = true;
