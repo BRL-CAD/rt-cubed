@@ -7,86 +7,80 @@
 
 #include "SNRoot.h"
 
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * xSTRUCTORS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
 
-SNRoot::SNRoot(){
+SNRoot::SNRoot(String Name) {
+	this->ObjName = Name;
+	this->MS_local = SNRoot::MS_Global;
+}
+
+SNRoot::~SNRoot() {
 
 }
 
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * METHODS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
 
-
-SNRoot::~SNRoot(){
-
+MessagingSystem& SNRoot::getLocalMS() {
+	return this->MS_Local;
 }
 
-
-
-
-
-SNRoot::SNRoot(String Name){
-
+void SNRoot::setLocalMS(MessagingSystem& ms) {
+	this->MS_Local = ms;
 }
-
-
-void SNRoot::err(String message, int vLevel){
-
-}
-
-
-MessagingSystem SNRoot::getGlobalMS(){
-
-	return  NULL;
-}
-
-
-MessagingSystem SNRoot::getLocalMS(){
-
-	return  NULL;
-}
-
 
 /**
  * Quick & Dirty getter'n'setters -> simplifies inclusion into Strings
  */
-String SNRoot::gON(){
-
-	return  NULL;
+String SNRoot::gON() {
+	return this->ObjName;
+}
+void SNRoot::sON(String name) {
+	this->ObjName = name;
 }
 
-
-String SNRoot::gOT(){
-
-	return  NULL;
+//TODO clean up the internal STDOUT and STDERR
+void SNRoot::err(String message) {
+	SNRoot::serr(this->gON() + ":\t" + message + "\n");
 }
 
-
-void SNRoot::out(String message, int vLevel){
-
+void SNRoot::out(String message) {
+	SNRoot::sout(this->gON() + ":\t" + message + "\n");
 }
 
-
-void SNRoot::serr(String message, int vLevel){
-
-}
-
-
-void SNRoot::setGlobalMS(MessagingSystem ms){
-
-}
-
-
-void SNRoot::setLocalMS(MessagingSystem ms){
-
-}
-
-
-void SNRoot::sON(String name){
-
-}
-
-
-/**
- * TODO Clean up out,err,sout,err routing.
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * STATICS
+ *
  */
-void SNRoot::sout(String message, int vLevel){
+///////////////////////////////////////////////////////////////////////
 
+
+//TODO Eliminate the local and global MS passing via statics. Possible setup Singleton config
+void SNRoot::setGlobalMS(MessagingSystem& ms) {
+	SNRoot::MS_Global = ms;
+}
+
+void SNRoot::serr(String message) {
+	cerr << message;
+}
+
+void SNRoot::sout(String message) {
+	cout << message;
+}
+
+MessagingSystem& SNRoot::getGlobalMS() {
+	return SNRoot::MS_Global;
 }

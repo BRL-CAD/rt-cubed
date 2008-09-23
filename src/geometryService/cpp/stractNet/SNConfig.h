@@ -5,19 +5,18 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_25D11AC4_3BDA_40d3_9F79_B67AB5ED0501__INCLUDED_)
-#define EA_25D11AC4_3BDA_40d3_9F79_B67AB5ED0501__INCLUDED_
+#if !defined(SNCONFIG_H_INCLUDED_)
+#define SNCONFIG_H_INCLUDED_
 
-#include "SNRoot.java"
+#include "SNRoot.h"
+#include "SNConfig.h"
 
 class SNConfig : public SNRoot
 {
 
 public:
-	SNConfig();
 	virtual ~SNConfig();
-
 	SNConfig(String Name);
 
 };
-#endif // !defined(EA_25D11AC4_3BDA_40d3_9F79_B67AB5ED0501__INCLUDED_)
+#endif // !defined(SNCONFIG_H_INCLUDED_)

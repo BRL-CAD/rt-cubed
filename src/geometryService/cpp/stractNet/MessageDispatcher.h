@@ -5,38 +5,39 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_61DD6466_ADFC_4871_BDD0_33F0918F56E7__INCLUDED_)
-#define EA_61DD6466_ADFC_4871_BDD0_33F0918F56E7__INCLUDED_
+#if !defined(MESSAGE_DISPATCHER_H_INCLUDED_)
+#define MESSAGE_DISPATCHER_H_INCLUDED_
 
-#include "StdMsg.java"
-#include "MessagingSystem.java"
-#include "SNRoot.java"
+#include "StdMsg.h"
+#include "MessagingSystem.h"
+#include "SNRoot.h"
 
-class MessageDispatcher : public SNRoot
+//TODO Probably should work on making STRunnableI NOT a purely virtual Class
+class MessageDispatcher : public SNRoot, public STRunnableI
 {
 
 public:
-	MessageDispatcher();
+
+	MessageDispatcher(String Name, MessagingSystem& ms);
 	virtual ~MessageDispatcher();
+
 	long MsgsProcessed;
 
-	MessageDispatcher(String Name, MessagingSystem ms);
-	MessageDispatcher(String Name);
 	boolean getRunCmd();
 	boolean getRunStatus();
-	Thread getThread();
+	Thread& getThread();
 	void run();
 	void start();
 	void stop();
 
 private:
-	Thread myThread;
+	Thread& myThread;
 	boolean runCmd;
 	boolean runStatus;
 
-	boolean CheckDuplicateMsg(StdMsg msg);
-	void deliverLocal(StdMsg msg);
-	void deliverRemote(StdMsg msg);
+	boolean CheckDuplicateMsg(StdMsg& msg);
+	void deliverLocal(StdMsg& msg);
+	void deliverRemote(StdMsg& msg);
 
 };
-#endif // !defined(EA_61DD6466_ADFC_4871_BDD0_33F0918F56E7__INCLUDED_)
+#endif // !defined(MESSAGE_DISPATCHER_H_INCLUDED_)

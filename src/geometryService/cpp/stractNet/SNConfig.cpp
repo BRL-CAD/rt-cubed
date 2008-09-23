@@ -7,21 +7,7 @@
 
 #include "SNConfig.h"
 
+//TODO This is where the configs and the associated XMLfile loader will go
 
-SNConfig::SNConfig(){
-
-}
-
-
-
-SNConfig::~SNConfig(){
-
-}
-
-
-
-
-
-SNConfig::SNConfig(String Name){
-
-}
+SNConfig::~SNConfig(){}
+SNConfig::SNConfig(String Name) : SNRoot(Name){}
