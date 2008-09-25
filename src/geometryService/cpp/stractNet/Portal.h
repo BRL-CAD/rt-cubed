@@ -10,7 +10,7 @@
 
 #include "PortalManager.h"
 #include "MessagingSystem.h"
-#include "StdMsg.java"
+#include "StdMsg.h"
 #include "SNRoot.h"
 
 class Portal : public SNRoot

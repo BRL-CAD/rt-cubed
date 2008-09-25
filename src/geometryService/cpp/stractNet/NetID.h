@@ -8,8 +8,8 @@
 #if !defined(EA_8BE75042_9F10_49ed_973D_2EDE117DAA72__INCLUDED_)
 #define EA_8BE75042_9F10_49ed_973D_2EDE117DAA72__INCLUDED_
 
-#include "StringFrag.java"
-#include "LongFrag.java"
+#include "StringFrag.h"
+#include "LongFrag.h"
 #include "SNRoot.h"
 
 class NetID : public SNRoot

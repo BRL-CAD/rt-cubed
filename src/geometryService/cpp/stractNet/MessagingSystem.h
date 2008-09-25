@@ -8,12 +8,12 @@
 #if !defined(EA_597FB80E_BE25_471e_A681_E1E6E605229C__INCLUDED_)
 #define EA_597FB80E_BE25_471e_A681_E1E6E605229C__INCLUDED_
 
-#include "NetID.java"
-#include "StdMsg.java"
+#include "NetID.h"
+#include "StdMsg.h"
 #include "MessageDispatcher.h"
-#include "Portal.java"
-#include "MsgStop.java"
-#include "SNRoot.java"
+#include "Portal.h"
+#include "MsgStop.h"
+#include "SNRoot.h"
 
 class MessagingSystem : public SNRoot
 {

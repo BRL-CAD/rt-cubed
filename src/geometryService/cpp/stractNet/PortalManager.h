@@ -8,9 +8,9 @@
 #if !defined(EA_FBFDF021_F395_4845_8DA4_440EE305E483__INCLUDED_)
 #define EA_FBFDF021_F395_4845_8DA4_440EE305E483__INCLUDED_
 
-#include "Portal.java"
-#include "MessagingSystem.java"
-#include "SNRoot.java"
+#include "Portal.h"
+#include "MessagingSystem.h"
+#include "SNRoot.h"
 
 class PortalManager : public SNRoot
 {

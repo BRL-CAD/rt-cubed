@@ -8,10 +8,10 @@
 #if !defined(EA_C4982F33_F72C_402c_A107_0FDEB933FC89__INCLUDED_)
 #define EA_C4982F33_F72C_402c_A107_0FDEB933FC89__INCLUDED_
 
-#include "StringFrag.java"
-#include "MsgStop.java"
+#include "StringFrag.h"
+#include "MsgStop.h"
 #include "NetID.h"
-#include "IntegerFrag.java"
+#include "IntegerFrag.h"
 #include "WayPoint.h"
 #include "SNRoot.h"
 

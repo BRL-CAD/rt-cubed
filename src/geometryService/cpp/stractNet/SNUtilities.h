@@ -8,7 +8,7 @@
 #if !defined(EA_E72E52F4_A5C3_432f_BDA4_25757E105ABC__INCLUDED_)
 #define EA_E72E52F4_A5C3_432f_BDA4_25757E105ABC__INCLUDED_
 
-#include "SNRoot.java"
+#include "SNRoot.h"
 
 class SNUtilities : public SNRoot
 {

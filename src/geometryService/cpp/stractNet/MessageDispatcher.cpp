@@ -15,13 +15,21 @@
  */
 ///////////////////////////////////////////////////////////////////////
 
-MessageDispatcher::~MessageDispatcher() {
-}
-
 MessageDispatcher::MessageDispatcher(std::string Name, MessagingSystem& ms) :
 	SNRoot(Name) {
 	SNRoot::setLocalMS(ms);
 }
+
+MessageDispatcher::~MessageDispatcher() {
+}
+
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * METHODS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
 
 boolean MessageDispatcher::CheckDuplicateMsg(StdMsg& msg) {
 	return this->getLocalMS().getDispatchedMsgs().containsValue(
