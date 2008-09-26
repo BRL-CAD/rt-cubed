@@ -47,7 +47,7 @@ namespace BRLCAD {
         /// associates the handle with a BRL-CAD database file (*.g)
         /** If the handle was already associated with a database file this association will be discarded.
             The file will be opened for reading only. */
-        BRLCAD_COREINTERFACE_EXPORT bool        Load(const char* fileName) throw();
+        virtual bool                            Load(const char* fileName) throw();
 
         /// @name Parsing the database
         //@{
@@ -87,10 +87,11 @@ namespace BRLCAD {
                                                          HitCallback& callback) const throw();
         //@}
 
-    private:
+    protected:
         rt_i*     m_rtip;
         resource* m_resp;
 
+    private:
         ConstDatabase(const ConstDatabase&) throw();                  // not implemented
         const ConstDatabase& operator=(const ConstDatabase&) throw(); // not implemented
     };

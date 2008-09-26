@@ -33,8 +33,29 @@
 #include <brlcad/ConstDatabase.h>
 
 
+struct rt_wdb;
+
+
 namespace BRLCAD {
     class Database : public ConstDatabase {
+    public:
+        /// creates a new in-memory database with default _GLOBAL object
+        Database(void) throw();
+        virtual ~Database(void) throw();
+
+        /// loads a BRL-CAD database file (*.g) into the memory
+        /** The old content of the in-memory database will be discarded.
+            The file will be opened for reading only and closed after finishing the operation. */
+        virtual bool                            Load(const char* fileName) throw();
+        bool                                    Save(const char* fileName) throw();
+
+        BRLCAD_COREINTERFACE_EXPORT void        SetTitle(const char* title) throw();
+
+    private:
+        rt_wdb* m_wdbp;
+
+        Database(const Database&) throw();                  // not implemented
+        const Database& operator=(const Database&) throw(); // not implemented
     };
 }
 

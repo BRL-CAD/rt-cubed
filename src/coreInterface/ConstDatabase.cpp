@@ -70,6 +70,7 @@ bool ConstDatabase::Load
                 goto TRY_IT_MARK;
 
             rt_free_rti(m_rtip);
+            m_rtip = 0;
         }
 
 TRY_IT_MARK:
@@ -92,7 +93,12 @@ END_MARK:
 
 
 const char* ConstDatabase::Title(void) const throw() {
-    return m_rtip->rti_dbip->dbi_title;
+    const char* ret = 0;
+
+    if (m_rtip != 0)
+        ret = m_rtip->rti_dbip->dbi_title;
+
+    return ret;
 }
 
 
@@ -250,8 +256,8 @@ void ConstDatabase::ListObjects
 
             if (pDir != DIR_NULL) {
                 if (pDir->d_flags & DIR_COMB) {
-                    struct rt_db_internal intern;
-                    int                   id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
+                    rt_db_internal intern;
+                    int            id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
 
                     if (id >= 0) {
                         rt_comb_internal* comb = static_cast<rt_comb_internal*>(intern.idb_ptr);
@@ -264,7 +270,7 @@ void ConstDatabase::ListObjects
                                 int nodeCount = db_tree_nleaves(comb->tree);
 
                                 if (nodeCount > 0) {
-                                    rt_tree_array* pRtTreeArray = static_cast<rt_tree_array*>(bu_calloc(nodeCount, sizeof( struct rt_tree_array ), "tree list" ));
+                                    rt_tree_array* pRtTreeArray = static_cast<rt_tree_array*>(bu_calloc(nodeCount, sizeof(rt_tree_array), "tree list" ));
                                     int            actualCount  = db_flatten_tree(pRtTreeArray, comb->tree, OP_UNION, 1, m_resp) - pRtTreeArray;
 
                                     comb->tree = TREE_NULL;
