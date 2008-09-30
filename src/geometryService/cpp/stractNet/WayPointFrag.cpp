@@ -6,46 +6,53 @@
 ///////////////////////////////////////////////////////////
 
 #include "WayPointFrag.h"
-
-
-WayPointFrag::WayPointFrag(){
-
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * xSTRUCTORS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
+WayPointFrag::~WayPointFrag(){}
+WayPointFrag::WayPointFrag(WayPoint& way){
+	MsgFrag("WayPointFrag", way, MsgFrag::mftWaypoint);
 }
-
-
-
-WayPointFrag::~WayPointFrag(){
-
+WayPointFrag::WayPointFrag(DataInputStream& in){
+	MsgFrag("WayPointFrag", in, MsgFrag::mftWaypoint);
 }
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * METHODS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
+void WayPointFrag::Deserialize(DataInputStream& in){
+	try {
+		//Read WayPoint
+		Waypoint wp(in); //TODO Check to make sure this is the right way to declare a class!!!!
+		this->field = wp;
 
-
-
-
-
-WayPointFrag::WayPointFrag(WayPoint wp){
-
+	} catch (IOException ioe) {
+		SNRoot::err("IOException in Deserialize()", 0);
+	}
+	return;
 }
-
-
-WayPointFrag::WayPointFrag(DataInputStream in){
-
+void WayPointFrag::Serialize_Specific(DataOutputStream& out){
+	try {
+		// write in new data
+		out.write(this->field.Serialize());
+	} catch (IOException ioe) {
+		SNRoot::err("IOException in Serialize()", 0);
+	}
+	return;
 }
-
-
-void WayPointFrag::Deserialize(DataInputStream in){
-
-}
-
 
 /**
  * Custom Getter
  */
-WayPoint WayPointFrag::getWayPoint(){
-
-	return  NULL;
+WayPoint& WayPointFrag::getWayPoint(){
+	return (WayPoint)this->getField();
 }
 
 
-void WayPointFrag::Serialize_Specific(DataOutputStream out){
-
-}

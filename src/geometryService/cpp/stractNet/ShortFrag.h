@@ -14,15 +14,13 @@ class ShortFrag : public MsgFrag<Short>
 {
 
 public:
-	ShortFrag();
 	virtual ~ShortFrag();
-
 	ShortFrag(Short sh);
-	ShortFrag(DataInputStream in);
-	void Deserialize(DataInputStream in);
+	ShortFrag(DataInputStream& in);
+	void Deserialize(DataInputStream& in);
 
 protected:
-	void Serialize_Specific(DataOutputStream out);
+	void Serialize_Specific(DataOutputStream& out);
 
 };
 #endif // !defined(EA_8E5AA740_585E_4a78_8B55_CABB461754F7__INCLUDED_)

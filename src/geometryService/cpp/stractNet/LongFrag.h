@@ -5,8 +5,8 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_E60DFF19_2099_4b1d_9A9E_BEBA965FCFF7__INCLUDED_)
-#define EA_E60DFF19_2099_4b1d_9A9E_BEBA965FCFF7__INCLUDED_
+#if !defined(LONGFRAG_H_INCLUDED_)
+#define LONGFRAG_H_INCLUDED_
 
 #include "MsgFrag.h"
 
@@ -14,15 +14,13 @@ class LongFrag : public MsgFrag<Long>
 {
 
 public:
-	LongFrag();
 	virtual ~LongFrag();
-
 	LongFrag(Long lo);
-	LongFrag(DataInputStream in);
-	void Deserialize(DataInputStream in);
+	LongFrag(DataInputStream& in);
+	void Deserialize(DataInputStream& in);
 
 protected:
-	void Serialize_Specific(DataOutputStream out);
+	void Serialize_Specific(DataOutputStream& out);
 
 };
-#endif // !defined(EA_E60DFF19_2099_4b1d_9A9E_BEBA965FCFF7__INCLUDED_)
+#endif // !defined(LONGFRAG_H_INCLUDED_)

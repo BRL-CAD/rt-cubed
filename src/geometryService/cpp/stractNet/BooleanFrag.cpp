@@ -4,9 +4,7 @@
 //  Created on:      06-Aug-2008 7:52:28 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
-
 #include "BooleanFrag.h"
-
 ///////////////////////////////////////////////////////////////////////
 /*
  *
@@ -28,28 +26,21 @@ BooleanFrag::BooleanFrag(DataInputStream& in){
  *
  */
 ///////////////////////////////////////////////////////////////////////
-
 void BooleanFrag::Deserialize(DataInputStream& in){
 	try {
 		//Read Boolean
 		this->field = in.readBoolean();
-
 	} catch (IOException ioe) {
-		this->err("IOException in Deserialize()", 0);
+		SNRoot::err("IOException in Deserialize()", 0);
 	}
 	return ;
-
 }
-
-
 void BooleanFrag::Serialize_Specific(DataOutputStream& out){
 	try {
 		// write in new data
 		out.writeBoolean(this->field);
 	} catch (IOException ioe) {
-		this->err("IOException in Serialize()", 0);
+		SNRoot::err("IOException in Serialize()", 0);
 	}
-
 	return;
-
 }

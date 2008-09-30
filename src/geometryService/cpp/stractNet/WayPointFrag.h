@@ -5,8 +5,8 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_65F38808_15B7_4386_904F_0E57C69F41B2__INCLUDED_)
-#define EA_65F38808_15B7_4386_904F_0E57C69F41B2__INCLUDED_
+#if !defined(WAYPOINT_H_INCLUDED_)
+#define WAYPOINT_H_INCLUDED_
 
 #include "WayPoint.h"
 #include "MsgFrag.h"
@@ -15,16 +15,14 @@ class WayPointFrag : public MsgFrag<WayPoint>
 {
 
 public:
-	WayPointFrag();
 	virtual ~WayPointFrag();
-
-	WayPointFrag(WayPoint wp);
-	WayPointFrag(DataInputStream in);
+	WayPointFrag(WayPoint& wp);
+	WayPointFrag(DataInputStream& in);
 	WayPoint getWayPoint();
 
 protected:
-	void Deserialize(DataInputStream in);
-	void Serialize_Specific(DataOutputStream out);
+	void Deserialize(DataInputStream& in);
+	void Serialize_Specific(DataOutputStream& out);
 
 };
-#endif // !defined(EA_65F38808_15B7_4386_904F_0E57C69F41B2__INCLUDED_)
+#endif // !defined(WAYPOINT_H_INCLUDED_)

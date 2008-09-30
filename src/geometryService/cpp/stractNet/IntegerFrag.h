@@ -5,8 +5,8 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_772433B9_5456_46d4_8DE2_9FF255CD4F98__INCLUDED_)
-#define EA_772433B9_5456_46d4_8DE2_9FF255CD4F98__INCLUDED_
+#if !defined(INTEGER_H_INCLUDED_)
+#define INTEGER_H_INCLUDED_
 
 #include "MsgFrag.h"
 
@@ -14,15 +14,13 @@ class IntegerFrag : public MsgFrag<Integer>
 {
 
 public:
-	IntegerFrag();
 	virtual ~IntegerFrag();
-
 	IntegerFrag(int in);
-	IntegerFrag(DataInputStream in);
-	void Deserialize(DataInputStream in);
+	IntegerFrag(DataInputStream& in);
+	void Deserialize(DataInputStream& in);
 
 protected:
-	void Serialize_Specific(DataOutputStream out);
+	void Serialize_Specific(DataOutputStream& out);
 
 };
-#endif // !defined(EA_772433B9_5456_46d4_8DE2_9FF255CD4F98__INCLUDED_)
+#endif // !defined(INTEGER_H_INCLUDED_)

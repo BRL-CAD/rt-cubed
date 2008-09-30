@@ -5,8 +5,8 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_DC000EB2_F3F3_421f_8EE1_1D04B06930C4__INCLUDED_)
-#define EA_DC000EB2_F3F3_421f_8EE1_1D04B06930C4__INCLUDED_
+#if !defined(STRINGFRAG_H_INCLUDED_)
+#define STRINGFRAG_H_INCLUDED_
 
 #include "MsgFrag.h"
 
@@ -14,15 +14,13 @@ class StringFrag : public MsgFrag<String>
 {
 
 public:
-	StringFrag();
 	virtual ~StringFrag();
-
 	StringFrag(String str);
-	StringFrag(DataInputStream in);
-	void Deserialize(DataInputStream in);
+	StringFrag(DataInputStream& in);
+	void Deserialize(DataInputStream& in);
 
 protected:
-	void Serialize_Specific(DataOutputStream out);
+	void Serialize_Specific(DataOutputStream& out);
 
 };
-#endif // !defined(EA_DC000EB2_F3F3_421f_8EE1_1D04B06930C4__INCLUDED_)
+#endif // !defined(STRINGFRAG_H_INCLUDED_)
