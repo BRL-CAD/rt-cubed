@@ -4,30 +4,31 @@
 //  Created on:      06-Aug-2008 7:51:11 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
-
 #include "MsgStop.h"
 
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * xSTRUCTORS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
+MsgStop::~MsgStop(){}
+MsgStop::MsgStop(std::string Name, std::Set<Integer> msgTypes, std::List<StdMsg> inQ){
+	SNRoot(Name);
+	this->MsgTypes = msgTypes;
+	this->msgQ = inQ;
 
-MsgStop::MsgStop(){
-
+	this->addMsgType(StdMsgTypes::mtBroadcast);
+	this->addMsgType(StdMsgTypes::mtHello);
 }
+MsgStop::MsgStop(std::string Name, std::List<StdMsg> inQ){
+	SNRoot(Name);
+	this->MsgTypes = msgTypes;
+	this->msgQ = inQ;
 
-
-
-MsgStop::~MsgStop(){
-
-}
-
-
-
-
-
-MsgStop::MsgStop(String Name, HashSet<Integer> msgTypes, LinkedList<StdMsg> inQ){
-
-}
-
-
-MsgStop::MsgStop(String Name, LinkedList<StdMsg> inQ){
+	this->addMsgType(StdMsgTypes::mtBroadcast);
+	this->addMsgType(StdMsgTypes::mtHello);
 
 }
 
@@ -36,18 +37,17 @@ void MsgStop::addMsgType(int msgType){
 
 }
 
+ void addMsgTypes(std::Set<Integer> msgTypes) {
 
-/**
- * public void addMsgTypes(HashSet<Integer> msgTypes) { MsgTypes.addAll(MsgTypes);
- * }
- */
-void MsgStop::addMsgTypes(int[] msgTypes){
+ }
+
+
+void MsgStop::addMsgTypes(int msgTypes[]){
 
 }
 
 
-HashSet<Integer> MsgStop::getMsgTypesHashSet(){
-
+std::Set<Integer> MsgStop::getMsgTypesSet(){
 	return  NULL;
 }
 

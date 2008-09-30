@@ -5,8 +5,8 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_7F69ABBB_419C_4b74_A909_67A3AFCCEA27__INCLUDED_)
-#define EA_7F69ABBB_419C_4b74_A909_67A3AFCCEA27__INCLUDED_
+#if !defined(MSGFRAG_H_INCLUDED_)
+#define MSGFRAG_H_INCLUDED_
 
 #include "SNRoot.h"
 
@@ -15,8 +15,6 @@ class MsgFrag : public SNRoot
 {
 
 public:
-	MsgFrag();
-	virtual ~MsgFrag();
 	static const int mftBoolean = 0;
 	static const int mftByteArray = 8;
 	static const int mftDouble = 1;
@@ -27,45 +25,25 @@ public:
 	static const int mftString = 6;
 	static const int mftWaypoint = 7;
 
-	E getField(){
+	virtual ~MsgFrag();
 
-		return  NULL;
-	}
-	int getMFType(){
+	E getField(); //TODO returning by value will not work for objects...
+	void setField(E val);
+	int getMFType();
 
-		return MFType;
-	}
-	byte Serialize(){
 
-		return  NULL;
-	}
-	void Serialize(DataOutputStream out) throw IOException{
+	byte* Serialize(); //returns pointer to byte array //TODO Is this the best way to do this?  Why not hand the socket stream right to the serializer instead of going through a byte array?
+	void Serialize(DataOutputStream& out);
 
-	}
-	void setField(E val){
-
-	}
-	String toString(){
-
-		return  NULL;
-	}
+	std::string toString();
 
 protected:
 	E field;
 	int MFType;
 
-	MsgFrag(String name, E in, int mfType){
-
-	}
-	MsgFrag(String name, DataInputStream in, int mfType){
-
-	}
-	virtual void Deserialize(DataInputStream in){
-
-	}
-	virtual void Serialize_Specific(DataOutputStream out){
-
-	}
-
+	MsgFrag(String name, E& in, int mfType);
+	MsgFrag(String name, DataInputStream& in, int mfType);
+	virtual void Deserialize(DataInputStream& in);
+	virtual void Serialize_Specific(DataOutputStream& out);
 };
-#endif // !defined(EA_7F69ABBB_419C_4b74_A909_67A3AFCCEA27__INCLUDED_)
+#endif // !defined(MSGFRAG_H_INCLUDED_)

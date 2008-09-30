@@ -5,26 +5,29 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_F1D00E32_F7E9_4409_8C53_5C60B1234B36__INCLUDED_)
-#define EA_F1D00E32_F7E9_4409_8C53_5C60B1234B36__INCLUDED_
+#if !defined(MSGSTOP_H_INCLUDED_)
+#define MSGSTOP_H_INCLUDED_
 
 #include "StdMsg.h"
 #include "SNRoot.h"
+#include "StdMsgTypes.h"
 
 class MsgStop : public SNRoot
 {
 
 public:
-	MsgStop();
 	virtual ~MsgStop();
 
-	MsgStop(String Name, HashSet<Integer> msgTypes, LinkedList<StdMsg> inQ);
-	MsgStop(String Name, LinkedList<StdMsg> inQ);
+	MsgStop(std::string Name, std::Set<Integer> msgTypes, std::List<StdMsg> inQ);
+	MsgStop(std::string Name, std::List<StdMsg> inQ);
+
 	void addMsgType(int msgType);
-	void addMsgTypes(int[] msgTypes);
-	HashSet<Integer> getMsgTypesHashSet();
-	int getMsgTypesIntArray();
+	void addMsgTypes(int msgTypes[]);
 	void remMsgType(int msgType);
+
+	std::Set<Integer> getMsgTypesSet();
+	int getMsgTypesIntArray();
+
 	void sendToMS(StdMsg msg);
 	void sendToMsgStop(StdMsg msg);
 
@@ -33,8 +36,8 @@ private:
 	 * This is a reference to the Queue for messages coming FROM the MS to the
 	 * destined MsgStop
 	 */
-	LinkedList<StdMsg> msgQ;
-	HashSet<Integer> MsgTypes;
+	std::List<StdMsg> msgQ;
+	std::Set<Integer> MsgTypes;
 
 };
-#endif // !defined(EA_F1D00E32_F7E9_4409_8C53_5C60B1234B36__INCLUDED_)
+#endif // !defined(MSGSTOP_H_INCLUDED_)
