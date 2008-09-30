@@ -5,8 +5,8 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_1F57D000_5859_498b_8D6D_9B169E7E2DB2__INCLUDED_)
-#define EA_1F57D000_5859_498b_8D6D_9B169E7E2DB2__INCLUDED_
+#if !defined(BOOLEANFRAG_H_INCLUDED_)
+#define BOOLEANFRAG_H_INCLUDED_
 
 #include "MsgFrag.h"
 
@@ -14,15 +14,13 @@ class BooleanFrag : public MsgFrag<Boolean>
 {
 
 public:
-	BooleanFrag();
 	virtual ~BooleanFrag();
-
 	BooleanFrag(boolean boo);
-	BooleanFrag(DataInputStream in);
-	void Deserialize(DataInputStream in);
+	BooleanFrag(DataInputStream& in);
+	void Deserialize(DataInputStream& in);
 
 protected:
-	void Serialize_Specific(DataOutputStream out);
+	void Serialize_Specific(DataOutputStream& out);
 
 };
-#endif // !defined(EA_1F57D000_5859_498b_8D6D_9B169E7E2DB2__INCLUDED_)
+#endif // !defined(BOOLEANFRAG_H_INCLUDED_)

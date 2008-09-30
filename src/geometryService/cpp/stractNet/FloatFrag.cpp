@@ -6,37 +6,48 @@
 ///////////////////////////////////////////////////////////
 
 #include "FloatFrag.h"
-
-
-FloatFrag::FloatFrag(){
-
-}
-
-
-
-FloatFrag::~FloatFrag(){
-
-}
-
-
-
-
-
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * xSTRUCTORS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
+FloatFrag::~FloatFrag(){}
 FloatFrag::FloatFrag(float fl){
+	MsgFrag("FloatFrag", fl, MsgFrag.mftFloat);
+}
+FloatFrag::FloatFrag(DataInputStream& in){
+	MsgFrag("FloatFrag", in, MsgFrag.mftFloat);
+}
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * METHODS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
 
+
+void FloatFrag::Deserialize(DataInputStream& in){
+	try {
+		// Read Float
+		this->field = in.readFloat();
+	} catch (IOException ioe) {
+		SBRoot::err("IOException in Deserialize()", 0);
+	}
+	return;
 }
 
 
-FloatFrag::FloatFrag(DataInputStream in){
+void FloatFrag::Serialize_Specific(DataOutputStream& out){
+	try {
+		// write in new data
+		out.writeFloat(this->field);
+	} catch (IOException ioe) {
+		SBRoot::err("IOException in Serialize()", 0);
+	}
 
-}
-
-
-void FloatFrag::Deserialize(DataInputStream in){
-
-}
-
-
-void FloatFrag::Serialize_Specific(DataOutputStream out){
+	return;
 
 }

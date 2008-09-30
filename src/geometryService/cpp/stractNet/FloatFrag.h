@@ -5,8 +5,8 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_34BAE8DF_320B_400e_8914_A1DF2627E7EA__INCLUDED_)
-#define EA_34BAE8DF_320B_400e_8914_A1DF2627E7EA__INCLUDED_
+#if !defined(FLOATFRAG_H_INCLUDED_)
+#define FLOATFRAG_H_INCLUDED_
 
 #include "MsgFrag.h"
 
@@ -14,15 +14,13 @@ class FloatFrag : public MsgFrag<Float>
 {
 
 public:
-	FloatFrag();
 	virtual ~FloatFrag();
-
 	FloatFrag(float fl);
-	FloatFrag(DataInputStream in);
-	void Deserialize(DataInputStream in);
+	FloatFrag(DataInputStream& in);
+	void Deserialize(DataInputStream& in);
 
 protected:
-	void Serialize_Specific(DataOutputStream out);
+	void Serialize_Specific(DataOutputStream& out);
 
 };
-#endif // !defined(EA_34BAE8DF_320B_400e_8914_A1DF2627E7EA__INCLUDED_)
+#endif // !defined(FLOATFRAG_H_INCLUDED_)
