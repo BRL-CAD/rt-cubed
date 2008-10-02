@@ -4,16 +4,14 @@
 //  Created on:      06-Aug-2008 7:50:46 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
-
 #include "NetID.h"
-
-
-NetID::NetID(){
-
-}
-
-
-
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * xSTRUCTORS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
 NetID::~NetID(){
 
 }
@@ -25,7 +23,7 @@ NetID::~NetID(){
 /**
  * Manual Constructor
  */
-NetID::NetID(long ID, String host){
+NetID::NetID(long ID, std::string host){
 
 }
 
@@ -37,22 +35,25 @@ NetID::NetID(NetID addr){
 
 }
 
-
-/**
- * public NetID(byte[] data) throws IOException { super("SNAddr");  Setup Streams
- * ByteArrayInputStream bais = new ByteArrayInputStream(data); DataInputStream in
- * = new DataInputStream(bais);  Deserialize Components this.ID = new LongFrag(in);
- * this.Host = new StringFrag(in); }
+/*
+ * Deserializing Constructor
  */
-NetID::NetID(DataInputStream in) throw IOException{
+NetID::NetID(DataInputStream in){
 
 }
 
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * METHODS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
 
 /**
  * @return the host
  */
-String NetID::getHost(){
+std::string NetID::getHost(){
 
 	return Host;
 }
@@ -73,12 +74,13 @@ byte NetID::Serialize(){
 }
 
 
-void NetID::Serialize(DataOutputStream out){
+std::vector<byte> NetID::Serialize(DataOutputStream out){
 
 }
 
 
-String NetID::toString(){
-
-	return  NULL;
+std::string NetID::toString(){
+	std::string out;
+	out << this->ID.getField() << "@" << this->Host.getField();
+	return  out;
 }

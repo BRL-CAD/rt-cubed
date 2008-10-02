@@ -18,15 +18,15 @@ class MsgStop : public SNRoot
 public:
 	virtual ~MsgStop();
 
-	MsgStop(std::string Name, std::Set<Integer> msgTypes, std::List<StdMsg> inQ);
+	MsgStop(std::string Name, std::set<int> msgTypes, std::List<StdMsg> inQ);
 	MsgStop(std::string Name, std::List<StdMsg> inQ);
 
 	void addMsgType(int msgType);
 	void addMsgTypes(int msgTypes[]);
 	void remMsgType(int msgType);
 
-	std::Set<Integer> getMsgTypesSet();
-	int getMsgTypesIntArray();
+	std::set<int> getMsgTypes();
+//	int getMsgTypesAsArray();  //Kill this for now.
 
 	void sendToMS(StdMsg msg);
 	void sendToMsgStop(StdMsg msg);
@@ -37,7 +37,7 @@ private:
 	 * destined MsgStop
 	 */
 	std::List<StdMsg> msgQ;
-	std::Set<Integer> MsgTypes;
+	std::set<int> MsgTypes;
 
 };
 #endif // !defined(MSGSTOP_H_INCLUDED_)

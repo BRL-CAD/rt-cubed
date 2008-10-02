@@ -5,32 +5,33 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_8BE75042_9F10_49ed_973D_2EDE117DAA72__INCLUDED_)
-#define EA_8BE75042_9F10_49ed_973D_2EDE117DAA72__INCLUDED_
+#if !defined(NETID_H_INCLUDED_)
+#define NETID_H_INCLUDED_
 
 #include "StringFrag.h"
 #include "LongFrag.h"
 #include "SNRoot.h"
+#include <vector>
+#include <string>
 
-class NetID : public SNRoot
-{
+
+class NetID: public SNRoot {
 
 public:
-	NetID();
 	virtual ~NetID();
+	NetID(long ID, std::string host);
+	NetID(NetID& addr);
+	NetID(DataInputStream& in);
 
-	NetID(long ID, String host);
-	NetID(NetID addr);
-	NetID(DataInputStream in) throw IOException;
-	String getHost();
+	std::string getHost();
 	long getID();
-	byte Serialize();
-	void Serialize(DataOutputStream out);
-	String toString();
+	std::vector<byte> Serialize();
+	void Serialize(DataOutputStream& out);
+	std::string toString();
 
 private:
 	StringFrag Host;
 	LongFrag ID;
 
 };
-#endif // !defined(EA_8BE75042_9F10_49ed_973D_2EDE117DAA72__INCLUDED_)
+#endif // !defined(NETID_H_INCLUDED_)
