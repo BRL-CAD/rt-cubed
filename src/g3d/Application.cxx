@@ -339,7 +339,7 @@ Application::Application() :
 
 Application::~Application()
 {
-  finalize();
+  // finalize() already called before exiting run()
 }
 
 void Application::initialize()
