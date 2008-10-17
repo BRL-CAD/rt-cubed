@@ -37,6 +37,8 @@
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
 
+#include "../../include/Utility/Singleton.h"
+
 #include "Observer.h"
 #include "CameraMode.h"
 
@@ -75,12 +77,9 @@ public:
  * 
  * Governs the camera: modes being used, etc.
  */
-class CameraManager : public ObserverSubject
+class CameraManager : public ObserverSubject, public Singleton<CameraManager>
 {
 public:
-  /** Singleton, access to the manager */
-  static CameraManager& instance();
-
   /** Update the camera (acting upon active camera mode) */
   void updateCamera(Ogre::Camera* camera, double elapsedSeconds);
 
@@ -111,8 +110,8 @@ public:
   bool injectMouseScrolled(CameraMode::Direction direction);
 
 private:
-  /** Singleton instance */
-  static CameraManager* INSTANCE;
+  /** Friend access for the Singleton */
+  friend class Singleton<CameraManager>;
 
   /** Pointer to the camera */
   Ogre::Camera* _camera;

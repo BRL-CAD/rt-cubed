@@ -32,14 +32,7 @@
 /*******************************************************************************
  * History
  ******************************************************************************/
-History* History::INSTANCE = 0;
-
-History& History::instance()
-{
-  if (!INSTANCE)
-    INSTANCE = new History();
-  return *INSTANCE;
-}
+template <> History* Singleton<History>::_instance = 0;
 
 History::History() :
   _index(0)

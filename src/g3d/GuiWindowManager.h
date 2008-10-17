@@ -30,12 +30,15 @@
 #define __G3D_GUIWINDOWMANAGER_H__
 
 
-#include "Observer.h"
+#include <vector>
 
 #include <Mocha/Value.h>
 #include <OGRE/OgreWindowEventUtilities.h>
 
-#include <vector>
+#include "../../include/Utility/Singleton.h"
+
+#include "Observer.h"
+
 
 class GuiBaseWindow;
 namespace Ogre {
@@ -57,12 +60,11 @@ namespace RBGui {
  * manages high-level positioning of windows and panels (tiled, etc),
  * registering available windows, etc.
  */
-class GuiWindowManager : public Ogre::WindowEventListener, public Observer
+class GuiWindowManager : public Ogre::WindowEventListener,
+			 public Observer,
+			 public Singleton<GuiWindowManager>
 {
 public:
-  /** Singleton, access to the manager */
-  static GuiWindowManager& instance();
-
   /** Set GUI manager */
   void setGuiManager(RBGui::GuiManager* guiManager);
   /** Get default theme (for convenience, to call it from other
@@ -80,8 +82,8 @@ public:
   virtual void update(const ObserverEvent& event);
 
 private:
-  /** Singleton instance */
-  static GuiWindowManager* INSTANCE;
+  /** Friend access for the Singleton */
+  friend class Singleton<GuiWindowManager>;
 
   /** Configurable parameters */
   static const float TASKBAR_HEIGHT;

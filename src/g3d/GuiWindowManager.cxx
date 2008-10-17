@@ -49,17 +49,10 @@
 /*******************************************************************************
  * GuiWindowManager
  ******************************************************************************/
-GuiWindowManager* GuiWindowManager::INSTANCE = 0;
+template <> GuiWindowManager* Singleton<GuiWindowManager>::_instance = 0;
 
 const float GuiWindowManager::TASKBAR_HEIGHT = 16.0f;
 const float GuiWindowManager::TOPBAR_HEIGHT = 16.0f;
-
-GuiWindowManager& GuiWindowManager::instance()
-{
-  if (!INSTANCE)
-    INSTANCE = new GuiWindowManager();
-  return *INSTANCE;
-}
 
 GuiWindowManager::GuiWindowManager() :
   _renderWindow(0), _guiManager(0), _taskbar(0), _topbar(0)

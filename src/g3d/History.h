@@ -33,6 +33,8 @@
 #include <string>
 #include <vector>
 
+#include "../../include/Utility/Singleton.h"
+
 #include "Observer.h"
 
 
@@ -69,12 +71,9 @@ public:
  * them in memory (it's not supposed to represent huge amounts), in
  * sequential order, and it's not saved when the program finishes.
  */
-class History: public ObserverSubject
+class History: public ObserverSubject, public Singleton<History>
 {
 public:
-  /** Singleton, access to the manager */
-  static History& instance();
-
   /** Insert a new string, the last one typed */
   void insert(const char* str);
   /** Insert a new string, the last one typed */
@@ -86,8 +85,8 @@ public:
   std::string getPrev();
 
 private:
-  /** Singleton instance */
-  static History* INSTANCE;
+  /** Friend access for the Singleton */
+  friend class Singleton<History>;
 
   /** Array of strings to store our history */
   std::vector<std::string> _lines;

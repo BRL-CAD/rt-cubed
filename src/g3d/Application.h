@@ -34,6 +34,9 @@
 #include <Mocha/Value.h>
 #include <OGRE/OgreCommon.h>
 
+#include "../../include/Utility/Singleton.h"
+
+
 class MouseListener;
 class KeyListener;
 class LostDeviceListener;
@@ -67,12 +70,9 @@ namespace RBGui {
  * This class implements the main application using OGRE render loop
  * and the GUI.
  */
-class Application
+class Application : public Singleton<Application>
 {
 public:
-  /** Singleton, access to the manager */
-  static Application& instance();
-
   /** Main application loop -- will quit only shortly thereafter
    * calling to that method */
   void run();
@@ -98,8 +98,8 @@ public:
   Ogre::RenderWindow& getRenderWindow() const;
 
 private:
-  /** Singleton instance */
-  static Application* INSTANCE;
+  /** Friend access for the Singleton */
+  friend class Singleton<Application>;
 
   /** Pointer to OGRE "application" */
   Ogre::Root* _root;
@@ -143,10 +143,11 @@ private:
 
   /** Default constructor */
   Application();
+  /** Destructor */
+  ~Application();
   /** Initialize resources, create windows, etc */
   void initialize();
-  /** Finalize -- free resources and the like (destructor not usable
-   * with Singletons) */
+  /** Finalize -- free resources and the like */
   void finalize();
   /** New discrete step */
   void tick(float delta);

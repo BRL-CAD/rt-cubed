@@ -42,14 +42,7 @@
 /*******************************************************************************
  * CameraManager
  ******************************************************************************/
-CameraManager* CameraManager::INSTANCE = 0;
-
-CameraManager& CameraManager::instance()
-{
-  if (!INSTANCE)
-    INSTANCE = new CameraManager();
-  return *INSTANCE;
-}
+template <> CameraManager* Singleton<CameraManager>::_instance = 0;
 
 CameraManager::CameraManager() :
   _camera(0), _projectionTypeOrthogonal(true)

@@ -29,23 +29,13 @@
 
 #include "GedData.h"
 
-#include <brlcad/ged.h>
-
 #include "Logger.h"
 
 
 /*******************************************************************************
  * GedData
  ******************************************************************************/
-GedData* GedData::INSTANCE = 0;
-
-GedData& GedData::instance()
-{
-  if (!INSTANCE)
-    INSTANCE = new GedData();
-  return *INSTANCE;
-}
-
+template <> GedData* Singleton<GedData>::_instance = 0;
 GedData::GedData() :
   _dbi(0), _wdb(0), _ged(0)
 {

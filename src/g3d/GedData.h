@@ -31,6 +31,15 @@
 #define __G3D_GEDDATA_H__
 
 
+#include <brlcad/ged.h>
+/** \note mafm: Undefining too-common names to not clash with names
+ * elsewhere (in example, Ogre uses some of them) */
+#undef X
+#undef Y
+
+#include "../../include/Utility/Singleton.h"
+
+
 struct db_i;
 struct rt_wdb;
 struct ged;
@@ -40,12 +49,9 @@ struct ged;
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  */
-class GedData
+class GedData : public Singleton<GedData>
 {
 public:
-  /** Singleton, access to the manager */
-  static GedData& instance();
-
   /** Get pointer to the database (where the geometry is stored) */
   struct db_i* getDB();
   /** Get pointer to the working database */
@@ -54,8 +60,8 @@ public:
   struct ged* getGED();
 
 private:
-  /** Singleton instance */
-  static GedData* INSTANCE;
+  /** Friend access for the Singleton */
+  friend class Singleton<GedData>;
 
   /** In-memory geometry database */
   struct db_i* _dbi;

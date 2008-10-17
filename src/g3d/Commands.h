@@ -39,8 +39,6 @@
 #include "GedData.h"
 #include "GeometryConversion.h"
 
-#include <brlcad/ged.h>
-
 
 /** @brief Quit the application
  *

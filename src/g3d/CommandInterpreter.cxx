@@ -39,14 +39,7 @@
 /*******************************************************************************
  * CommandInterpreter
  ******************************************************************************/
-CommandInterpreter* CommandInterpreter::INSTANCE = 0;
-
-CommandInterpreter& CommandInterpreter::instance()
-{
-  if (!INSTANCE)
-    INSTANCE = new CommandInterpreter();
-  return *INSTANCE;
-}
+template <> CommandInterpreter* Singleton<CommandInterpreter>::_instance = 0;
 
 CommandInterpreter::CommandInterpreter()
 {
@@ -61,15 +54,13 @@ CommandInterpreter::CommandInterpreter()
   addCommand(new CommandGedTitle());
 }
 
-/*
-void CommandInterpreter::finalize()
+CommandInterpreter::~CommandInterpreter()
 {
   while (!_commands.empty()) {
     delete (*(_commands.begin())).second;
     _commands.erase(_commands.begin());
   }
 }
-*/
 
 std::string CommandInterpreter::getAutocompleteString(const std::string& input)
 {

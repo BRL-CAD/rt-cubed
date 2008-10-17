@@ -33,6 +33,8 @@
 #include <string>
 #include <map>
 
+#include "../../include/Utility/Singleton.h"
+
 
 class Command;
 class CommandOutput;
@@ -55,17 +57,9 @@ class CommandOutput;
  * as "pm target ...", indicating that you have to especify the target
  * player and then whatever you want to tell her/him).
  */
-class CommandInterpreter
+class CommandInterpreter : public Singleton<CommandInterpreter>
 {
 public:
-  /** Singleton, access to the manager */
-  static CommandInterpreter& instance();
-
-  /** Finalize -- free resources and the like (destructor not usable
-   * with Singletons)
-  void finalize();
-  */
-
   /** Get Autocomplete string
    *
    * @param input The input to use as base for completion (the content
@@ -81,8 +75,8 @@ public:
   void execute(const std::string& commandLine, CommandOutput& output);
 
 private:
-  /** Singleton instance */
-  static CommandInterpreter* INSTANCE;
+  /** Friend access for the Singleton */
+  friend class Singleton<CommandInterpreter>;
 
   /** The set of commands registered */
   std::map<std::string, Command*> _commands;
@@ -90,6 +84,8 @@ private:
 
   /** Default constructor */
   CommandInterpreter();
+  /** Destructor */
+  ~CommandInterpreter();
 
   /** Add a command (accesed by the registerCommands method) */
   void addCommand(Command* command);

@@ -49,15 +49,9 @@ const size_t TIMESTAMP_LENGTH = sizeof("YYYYmmdd HH:MM:SS");
 /*******************************************************************************
  * Logger
  ******************************************************************************/
-Logger* Logger::INSTANCE = 0;
-Logger::Level Logger::_levelFilter = Logger::DEBUG;
+template <> Logger* Singleton<Logger>::_instance = 0;
 
-Logger& Logger::instance()
-{
-  if (!INSTANCE)
-    INSTANCE = new Logger();
-  return *INSTANCE;
-}
+Logger::Level Logger::_levelFilter = Logger::DEBUG;
 
 Logger::Logger()
 {

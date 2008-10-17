@@ -326,14 +326,7 @@ public:
 /*******************************************************************************
  * Application
  ******************************************************************************/
-Application* Application::INSTANCE = 0;
-
-Application& Application::instance()
-{
-  if (!INSTANCE)
-    INSTANCE = new Application();
-  return *INSTANCE;
-}
+template <> Application* Singleton<Application>::_instance = 0;
 
 Application::Application() :
   _root(0), _scene(0), _camera(0), _viewport(0), _renderWindow(0),
@@ -342,6 +335,11 @@ Application::Application() :
   _mouseListener(0), _keyListener(0), _lostDeviceListener(0), _rbguiRenderListener(0),
   _quit(false)
 {
+}
+
+Application::~Application()
+{
+  finalize();
 }
 
 void Application::initialize()

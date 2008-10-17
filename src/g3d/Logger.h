@@ -58,6 +58,8 @@
 #include <string>
 #include <vector>
 
+#include "../../include/Utility/Singleton.h"
+
 #include "Observer.h"
 
 
@@ -89,7 +91,7 @@ public:
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  */
-class Logger : public ObserverSubject
+class Logger : public ObserverSubject, public Singleton<Logger>
 {
 public:
   /** Encodes priority levels and names */
@@ -105,9 +107,6 @@ public:
     // Error that will force the program to stop imminently
     FATAL
   };
-
-  /** Singleton, access to the manager */
-  static Logger& instance();
 
   /** Set a new level filter (to really log the messages with the
    * given or superior level).
@@ -130,8 +129,8 @@ public:
   static void logDEBUG(const char* msg, ...) __attribute__((format(printf, 1, 2)));
 
 private:
-  /** Singleton instance */
-  static Logger* INSTANCE;
+  /** Friend access for the Singleton */
+  friend class Singleton<Logger>;
 
   /** Attribute to save the logging level desired */
   static Level _levelFilter;
