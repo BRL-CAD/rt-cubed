@@ -51,7 +51,7 @@ Database::Database(void) throw() : ConstDatabase(), m_wdbp(0) {
             m_rtip = rt_new_rti(dbip);                       // clones dbip
             rt_init_resource(m_resp, 0, m_rtip);
 
-            m_wdbp = wdb_dbopen(dbip, RT_WDB_TYPE_DB_INMEM); // takes ownership of dbip
+            m_wdbp = dbip->dbi_wdbp; // takes ownership of dbip
         }
 
     END_MARK:
