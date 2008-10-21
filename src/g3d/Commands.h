@@ -396,6 +396,40 @@ public:
   }
 };
 
+/** @brief Solids on ray
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ */
+class CommandGedSolidsOnRay : public Command
+{
+public:
+  CommandGedSolidsOnRay() :
+    Command("ged_solids_on_ray",
+	    "Solids on ray",
+	    "")
+    {
+    }
+
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+    ged* g = GedData::instance().getGED();
+    int result = 0;
+
+    if (args.size() > 0) {
+      out.appendLine("Command doesn't accept arguments, ignoring");
+    }
+
+    const char* argv[] = { _name.c_str() };
+    int argc = sizeof(argv)/sizeof(const char*);
+    result = ged_solids_on_ray(g, argc, argv);
+
+    if (result == BRLCAD_OK) {
+      out.appendLine(bu_vls_addr(&g->ged_result_str));
+    } else {
+      Logger::logERROR(bu_vls_addr(&g->ged_result_str));
+    }
+  }
+};
+
 #endif
 
 

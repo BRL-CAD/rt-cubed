@@ -53,6 +53,7 @@ CommandInterpreter::CommandInterpreter()
   addCommand(new CommandGedSummary());
   addCommand(new CommandGedTitle());
   addCommand(new CommandGedDump());
+  addCommand(new CommandGedSolidsOnRay());
 }
 
 CommandInterpreter::~CommandInterpreter()
