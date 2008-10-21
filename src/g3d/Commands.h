@@ -231,29 +231,69 @@ private:
 };
 
 
-/** @brief Get libged database file version.
+/** @brief Dump a full copy of the database
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  */
-class CommandGedVersion : public Command
+class CommandGedDump : public Command
 {
 public:
-  CommandGedVersion() :
-    Command("ged_version",
-	    "Get libged database file version",
-	    "")
-    { }
-
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
-    if (args.size() != 0) {
-      out.appendLine("Command doesn't accept arguments");
-      return;
+  CommandGedDump() :
+    Command("ged_dump",
+	    "Dump a full copy of the database",
+	    "Argument is filename ('.g' not added automatically)")
+    {
+      _argNames.push_back("filename");
     }
 
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     ged* g = GedData::instance().getGED();
+    int result = 0;
+
+    if (args.size() != 1) {
+      out.appendLine("This command needs exactly one argument");
+      return;
+    } else {
+      const char* argv[] = { _name.c_str(), args[1].c_str() };
+      int argc = sizeof(argv)/sizeof(const char*);
+      result = ged_dump(g, argc, argv);
+
+      if (result == BRLCAD_OK) {
+	out.appendLine(bu_vls_addr(&g->ged_result_str));
+      } else {
+	Logger::logERROR(bu_vls_addr(&g->ged_result_str));
+      }
+    }
+  }
+};
+
+
+/** @brief Solids on ray
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ */
+class CommandGedSolidsOnRay : public Command
+{
+public:
+  CommandGedSolidsOnRay() :
+    Command("ged_solids_on_ray",
+	    "Solids on ray",
+	    "")
+    {
+    }
+
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+    ged* g = GedData::instance().getGED();
+    int result = 0;
+
+    if (args.size() > 0) {
+      out.appendLine("Command doesn't accept arguments, ignoring");
+    }
+
     const char* argv[] = { _name.c_str() };
     int argc = sizeof(argv)/sizeof(const char*);
-    int result = ged_version(g, argc, argv);
+    result = ged_solids_on_ray(g, argc, argv);
+
     if (result == BRLCAD_OK) {
       out.appendLine(bu_vls_addr(&g->ged_result_str));
     } else {
@@ -360,68 +400,30 @@ public:
   }
 };
 
-/** @brief Dump a full copy of the database
+
+/** @brief Get libged database file version.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  */
-class CommandGedDump : public Command
+class CommandGedVersion : public Command
 {
 public:
-  CommandGedDump() :
-    Command("ged_dump",
-	    "Dump a full copy of the database",
-	    "Argument is filename ('.g' not added automatically)")
-    {
-      _argNames.push_back("filename");
-    }
-
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
-    ged* g = GedData::instance().getGED();
-    int result = 0;
-
-    if (args.size() != 1) {
-      out.appendLine("This command needs exactly one argument");
-      return;
-    } else {
-      const char* argv[] = { _name.c_str(), args[1].c_str() };
-      int argc = sizeof(argv)/sizeof(const char*);
-      result = ged_dump(g, argc, argv);
-
-      if (result == BRLCAD_OK) {
-	out.appendLine(bu_vls_addr(&g->ged_result_str));
-      } else {
-	Logger::logERROR(bu_vls_addr(&g->ged_result_str));
-      }
-    }
-  }
-};
-
-/** @brief Solids on ray
- *
- * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- */
-class CommandGedSolidsOnRay : public Command
-{
-public:
-  CommandGedSolidsOnRay() :
-    Command("ged_solids_on_ray",
-	    "Solids on ray",
+  CommandGedVersion() :
+    Command("ged_version",
+	    "Get libged database file version",
 	    "")
-    {
-    }
+    { }
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
-    ged* g = GedData::instance().getGED();
-    int result = 0;
-
-    if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments, ignoring");
+    if (args.size() != 0) {
+      out.appendLine("Command doesn't accept arguments");
+      return;
     }
 
+    ged* g = GedData::instance().getGED();
     const char* argv[] = { _name.c_str() };
     int argc = sizeof(argv)/sizeof(const char*);
-    result = ged_solids_on_ray(g, argc, argv);
-
+    int result = ged_version(g, argc, argv);
     if (result == BRLCAD_OK) {
       out.appendLine(bu_vls_addr(&g->ged_result_str));
     } else {
@@ -429,6 +431,7 @@ public:
     }
   }
 };
+
 
 /** @brief Erase all currently displayed geometry
  *
