@@ -49,11 +49,12 @@ CommandInterpreter::CommandInterpreter()
   addCommand(new CommandSetCameraProjectionType());
   addCommand(new CommandCycleCameraMode());
   addCommand(new CommandCreateSampleGeometry());
-  addCommand(new CommandGedVersion());
-  addCommand(new CommandGedSummary());
-  addCommand(new CommandGedTitle());
   addCommand(new CommandGedDump());
   addCommand(new CommandGedSolidsOnRay());
+  addCommand(new CommandGedSummary());
+  addCommand(new CommandGedTitle());
+  addCommand(new CommandGedVersion());
+  addCommand(new CommandGedZap());
 }
 
 CommandInterpreter::~CommandInterpreter()
