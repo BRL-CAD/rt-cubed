@@ -40,7 +40,7 @@ using namespace BRLCAD;
 
 
 ConstDatabase::ConstDatabase(void) throw() : m_rtip(0), m_resp(0) {
-    m_resp = static_cast<resource*>(calloc(1, sizeof(resource)));
+    m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::ConstDatabase::~ConstDatabase::m_resp"));
 }
 
 
@@ -55,8 +55,10 @@ END_MARK:
         BU_UNSETJUMP;
     }
 
-    if (m_resp != 0)
-        free(m_resp);
+    if (m_resp != 0) {
+        rt_clean_resource_complete(0, m_resp);
+        bu_free(m_resp, "BRLCAD::ConstDatabase::~ConstDatabase::m_resp");
+    }
 }
 
 
