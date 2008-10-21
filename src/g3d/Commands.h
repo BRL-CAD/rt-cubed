@@ -360,6 +360,42 @@ public:
   }
 };
 
+/** @brief Dump a full copy of the database
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ */
+class CommandGedDump : public Command
+{
+public:
+  CommandGedDump() :
+    Command("ged_dump",
+	    "Dump a full copy of the database",
+	    "Argument is filename ('.g' not added automatically)")
+    {
+      _argNames.push_back("filename");
+    }
+
+  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+    ged* g = GedData::instance().getGED();
+    int result = 0;
+
+    if (args.size() != 1) {
+      out.appendLine("This command needs exactly one argument");
+      return;
+    } else {
+      const char* argv[] = { _name.c_str(), args[1].c_str() };
+      int argc = sizeof(argv)/sizeof(const char*);
+      result = ged_dump(g, argc, argv);
+
+      if (result == BRLCAD_OK) {
+	out.appendLine(bu_vls_addr(&g->ged_result_str));
+      } else {
+	Logger::logERROR(bu_vls_addr(&g->ged_result_str));
+      }
+    }
+  }
+};
+
 #endif
 
 

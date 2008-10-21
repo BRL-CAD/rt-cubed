@@ -52,6 +52,7 @@ CommandInterpreter::CommandInterpreter()
   addCommand(new CommandGedVersion());
   addCommand(new CommandGedSummary());
   addCommand(new CommandGedTitle());
+  addCommand(new CommandGedDump());
 }
 
 CommandInterpreter::~CommandInterpreter()
