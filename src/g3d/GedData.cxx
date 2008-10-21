@@ -36,6 +36,7 @@
  * GedData
  ******************************************************************************/
 template <> GedData* Singleton<GedData>::_instance = 0;
+
 GedData::GedData() :
   _dbi(0), _wdb(0), _ged(0)
 {
