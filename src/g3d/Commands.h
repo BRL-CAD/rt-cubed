@@ -50,9 +50,9 @@ public:
     Command("quit", "Quit the application", "")
     { }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments");
+      output.appendLine("Command doesn't accept arguments");
       return;
     } else {
       Application::instance().quit();
@@ -76,9 +76,9 @@ public:
       _argNames.push_back("level");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 1) {
-      out.appendLine("This command needs exactly one argument");
+      output.appendLine("This command needs exactly one argument");
       return;
     } else {
 
@@ -120,9 +120,9 @@ public:
       Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 1) {
-      out.appendLine("This command needs exactly one argument");
+      output.appendLine("This command needs exactly one argument");
       return;
     } else {
       if (args[0][0] == 's') {
@@ -132,7 +132,7 @@ public:
       } else if (args[0][0] == 'p') {
 	Application::instance().setPolygonMode(Ogre::PM_POINTS);
       } else {
-	out.appendLine("Mode not recognized");
+	output.appendLine("Mode not recognized");
       }
     }
   }
@@ -154,9 +154,9 @@ public:
       _argNames.push_back("type");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 1) {
-      out.appendLine("This command needs exactly one argument");
+      output.appendLine("This command needs exactly one argument");
       return;
     } else {
       char firstChar = args[0][0];
@@ -181,9 +181,9 @@ public:
     Command("cyclecam", "Cycle the camera mode", "")
     { }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments");
+      output.appendLine("Command doesn't accept arguments");
     } else {
       CameraManager::instance().cycleCameraMode();
     }
@@ -211,17 +211,17 @@ public:
       Application::instance().addGeometry("tetrahedron", "TetrahedronMesh");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 1) {
-      out.appendLine("This command needs exactly one argument");
+      output.appendLine("This command needs exactly one argument");
       return;
     } else {
       if (args[0][0] == 't') {
 	Application::instance().addGeometry("tetrahedron", "TetrahedronMesh");
       } else if (args[0][0] == 'c') {
-	out.appendLine("Shape not implemented yet");
+	output.appendLine("Shape not implemented yet");
       } else {
-	out.appendLine("Shape not recognized");
+	output.appendLine("Shape not recognized");
       }
     }
   }

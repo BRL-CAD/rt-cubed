@@ -52,19 +52,19 @@ public:
       _argNames.push_back("filename");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() != 1) {
-      out.appendLine("This command needs exactly one argument");
+      output.appendLine("This command needs exactly one argument");
       return;
     } else {
       const char* argv[] = { _name.c_str(), args[1].c_str() };
       int argc = sizeof(argv)/sizeof(const char*);
       result = ged_dump(g, argc, argv);
 
-      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
+      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -84,19 +84,19 @@ public:
     {
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments");
+      output.appendLine("Command doesn't accept arguments");
       return;
     } else {
       const char* argv[] = { _name.c_str() };
       int argc = sizeof(argv)/sizeof(const char*);
       result = ged_solids_on_ray(g, argc, argv);
 
-      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
+      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -117,12 +117,12 @@ public:
       _argNames.push_back("type");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() > 1) {
-      out.appendLine("This command needs exactly zero or one argument");
+      output.appendLine("This command needs exactly zero or one argument");
       return;
     } else {
       if (args.size() == 1) {
@@ -134,7 +134,7 @@ public:
 	} else if (args[0][0] == 'g') {
 	  type = "g";
 	} else {
-	  out.appendLine("Summary type not recognized");
+	  output.appendLine("Summary type not recognized");
 	  return;
 	}
 
@@ -147,7 +147,7 @@ public:
 	result = ged_summary(g, argc, argv);
       }
 
-      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
+      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -168,12 +168,12 @@ public:
       _argNames.push_back("title");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() > 1) {
-      out.appendLine("This command needs exactly zero or one argument");
+      output.appendLine("This command needs exactly zero or one argument");
       return;
     } else {
       if (args.size() == 1) {
@@ -186,7 +186,7 @@ public:
 	result = ged_title(g, argc, argv);
       }
 
-      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
+      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -206,9 +206,9 @@ public:
     {
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 0) {
-      out.appendLine("Command doesn't accept arguments");
+      output.appendLine("Command doesn't accept arguments");
       return;
     } else {
       ged* g = GedData::instance().getGED();
@@ -216,7 +216,7 @@ public:
       int argc = sizeof(argv)/sizeof(const char*);
       int result = ged_version(g, argc, argv);
 
-      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
+      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -236,15 +236,15 @@ public:
     {
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
+  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments");
+      output.appendLine("Command doesn't accept arguments");
       return;
     } else {
-      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
+      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
     }
   }
 };

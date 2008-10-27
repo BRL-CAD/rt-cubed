@@ -84,7 +84,7 @@ public:
   /** Get a extra description of the command */
   const std::string& getExtraDescription() const;
   /** Get the name of the arguments */
-  const std::vector<std::string>& getArgNames() const;
+  const std::vector<std::string>& getArgumentNames() const;
   /** Get the syntax */
   std::string getSyntax() const;
 

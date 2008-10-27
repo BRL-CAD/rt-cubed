@@ -72,7 +72,7 @@ const std::string& Command::getExtraDescription() const
   return _extraDescription;
 }
 
-const std::vector<std::string>& Command::getArgNames() const
+const std::vector<std::string>& Command::getArgumentNames() const
 {
   return _argNames;
 }
