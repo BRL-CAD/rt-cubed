@@ -53,7 +53,7 @@ public:
   /** Default destructor */
   virtual ~GedCommand() { }
 
-private:
+protected:
   /** Helper method to treat result from GED library (and eventually
    * append output or log messages) */
   void treatGEDResult(int resultCode,
