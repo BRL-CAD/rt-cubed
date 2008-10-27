@@ -34,6 +34,8 @@
 #include "Logger.h"
 #include "Command.h"
 #include "Commands.h"
+#include "GedCommand.h"
+#include "GedCommands.h"
 
 
 /*******************************************************************************
