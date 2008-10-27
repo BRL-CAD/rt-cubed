@@ -76,6 +76,11 @@ public:
 
   /** Execute the command (to be implemented by the real commands) */
   virtual void execute(std::vector<std::string>& args, CommandOutput& output) = 0;
+  /** Treat result from GED library (and eventually append output or
+   * log messages) */
+  void treatGEDResult(int resultCode,
+		      CommandOutput& output,
+		      const std::string& text) const;
 
   /** The name of the command */
   const std::string& getName() const;

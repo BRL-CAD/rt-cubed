@@ -53,10 +53,11 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments, ignoring");
+      out.appendLine("Command doesn't accept arguments");
+      return;
+    } else {
+      Application::instance().quit();
     }
-    
-    Application::instance().quit();
   }
 };
 
@@ -80,23 +81,24 @@ public:
     if (args.size() != 1) {
       out.appendLine("This command needs exactly one argument");
       return;
-    }
+    } else {
 
-    Logger::Level l = static_cast<Logger::Level>(0); // invalid level
-    char firstChar = args[0][0];
-    if (firstChar == 'D') {
-      l = Logger::DEBUG;
-    } else if (firstChar == 'I') {
-      l = Logger::INFO;
-    } else if (firstChar == 'W') {
-      l = Logger::WARNING;
-    } else if (firstChar == 'E') {
-      l = Logger::ERROR;
-    } else if (firstChar == 'F') {
-      l = Logger::FATAL;
-    }
+      Logger::Level l = static_cast<Logger::Level>(0); // invalid level
+      char firstChar = args[0][0];
+      if (firstChar == 'D') {
+	l = Logger::DEBUG;
+      } else if (firstChar == 'I') {
+	l = Logger::INFO;
+      } else if (firstChar == 'W') {
+	l = Logger::WARNING;
+      } else if (firstChar == 'E') {
+	l = Logger::ERROR;
+      } else if (firstChar == 'F') {
+	l = Logger::FATAL;
+      }
 
-    Logger::instance().setLevelFilter(l);
+      Logger::instance().setLevelFilter(l);
+    }
   }
 };
 
@@ -123,16 +125,16 @@ public:
     if (args.size() != 1) {
       out.appendLine("This command needs exactly one argument");
       return;
-    }
-
-    if (args[0][0] == 's') {
-      Application::instance().setPolygonMode(Ogre::PM_SOLID);
-    } else if (args[0][0] == 'w') {
-      Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
-    } else if (args[0][0] == 'p') {
-      Application::instance().setPolygonMode(Ogre::PM_POINTS);
     } else {
-      out.appendLine("Mode not recognized");
+      if (args[0][0] == 's') {
+	Application::instance().setPolygonMode(Ogre::PM_SOLID);
+      } else if (args[0][0] == 'w') {
+	Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
+      } else if (args[0][0] == 'p') {
+	Application::instance().setPolygonMode(Ogre::PM_POINTS);
+      } else {
+	out.appendLine("Mode not recognized");
+      }
     }
   }
 };
@@ -157,13 +159,13 @@ public:
     if (args.size() != 1) {
       out.appendLine("This command needs exactly one argument");
       return;
-    }
-
-    char firstChar = args[0][0];
-    if (firstChar == 'o') {
-      CameraManager::instance().setProjectionOrthogonal(true);
     } else {
-      CameraManager::instance().setProjectionOrthogonal(false);
+      char firstChar = args[0][0];
+      if (firstChar == 'o') {
+	CameraManager::instance().setProjectionOrthogonal(true);
+      } else {
+	CameraManager::instance().setProjectionOrthogonal(false);
+      }
     }
   }
 };
@@ -182,10 +184,10 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& out) {
     if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments, ignoring");
+      out.appendLine("Command doesn't accept arguments");
+    } else {
+      CameraManager::instance().cycleCameraMode();
     }
-
-    CameraManager::instance().cycleCameraMode();
   }
 };
 
@@ -214,14 +216,14 @@ public:
     if (args.size() != 1) {
       out.appendLine("This command needs exactly one argument");
       return;
-    }
-
-    if (args[0][0] == 't') {
-      Application::instance().addGeometry("tetrahedron", "TetrahedronMesh");
-    } else if (args[0][0] == 'c') {
-      out.appendLine("Shape not implemented yet");
     } else {
-      out.appendLine("Shape not recognized");
+      if (args[0][0] == 't') {
+	Application::instance().addGeometry("tetrahedron", "TetrahedronMesh");
+      } else if (args[0][0] == 'c') {
+	out.appendLine("Shape not implemented yet");
+      } else {
+	out.appendLine("Shape not recognized");
+      }
     }
   }
 
@@ -258,11 +260,7 @@ public:
       int argc = sizeof(argv)/sizeof(const char*);
       result = ged_dump(g, argc, argv);
 
-      if (result == BRLCAD_OK) {
-	out.appendLine(bu_vls_addr(&g->ged_result_str));
-      } else {
-	Logger::logERROR(bu_vls_addr(&g->ged_result_str));
-      }
+      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -287,17 +285,14 @@ public:
     int result = 0;
 
     if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments, ignoring");
-    }
-
-    const char* argv[] = { _name.c_str() };
-    int argc = sizeof(argv)/sizeof(const char*);
-    result = ged_solids_on_ray(g, argc, argv);
-
-    if (result == BRLCAD_OK) {
-      out.appendLine(bu_vls_addr(&g->ged_result_str));
+      out.appendLine("Command doesn't accept arguments");
+      return;
     } else {
-      Logger::logERROR(bu_vls_addr(&g->ged_result_str));
+      const char* argv[] = { _name.c_str() };
+      int argc = sizeof(argv)/sizeof(const char*);
+      result = ged_solids_on_ray(g, argc, argv);
+
+      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -348,11 +343,7 @@ public:
 	result = ged_summary(g, argc, argv);
       }
 
-      if (result == BRLCAD_OK) {
-	out.appendLine(bu_vls_addr(&g->ged_result_str));
-      } else {
-	Logger::logERROR(bu_vls_addr(&g->ged_result_str));
-      }
+      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -391,11 +382,7 @@ public:
 	result = ged_title(g, argc, argv);
       }
 
-      if (result == BRLCAD_OK) {
-	out.appendLine(bu_vls_addr(&g->ged_result_str));
-      } else {
-	Logger::logERROR(bu_vls_addr(&g->ged_result_str));
-      }
+      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -418,16 +405,13 @@ public:
     if (args.size() != 0) {
       out.appendLine("Command doesn't accept arguments");
       return;
-    }
-
-    ged* g = GedData::instance().getGED();
-    const char* argv[] = { _name.c_str() };
-    int argc = sizeof(argv)/sizeof(const char*);
-    int result = ged_version(g, argc, argv);
-    if (result == BRLCAD_OK) {
-      out.appendLine(bu_vls_addr(&g->ged_result_str));
     } else {
-      Logger::logERROR(bu_vls_addr(&g->ged_result_str));
+      ged* g = GedData::instance().getGED();
+      const char* argv[] = { _name.c_str() };
+      int argc = sizeof(argv)/sizeof(const char*);
+      int result = ged_version(g, argc, argv);
+
+      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -452,17 +436,10 @@ public:
     int result = 0;
 
     if (args.size() > 0) {
-      out.appendLine("Command doesn't accept arguments, ignoring");
-    }
-
-    const char* argv[] = { _name.c_str() };
-    int argc = sizeof(argv)/sizeof(const char*);
-    result = ged_solids_on_ray(g, argc, argv);
-
-    if (result == BRLCAD_OK) {
-      out.appendLine(bu_vls_addr(&g->ged_result_str));
+      out.appendLine("Command doesn't accept arguments");
+      return;
     } else {
-      Logger::logERROR(bu_vls_addr(&g->ged_result_str));
+      treatGEDResult(result, out, bu_vls_addr(&g->ged_result_str));
     }
   }
 };

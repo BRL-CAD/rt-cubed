@@ -28,6 +28,12 @@
 
 #include <vector>
 
+#include <brlcad/ged.h>
+/** \note mafm: Undefining too-common names to not clash with names
+ * elsewhere (in example, Ogre uses some of them) */
+#undef X
+#undef Y
+
 #include "Command.h"
 
 #include "Logger.h"
@@ -55,6 +61,17 @@ const std::string& CommandOutput::getOutput() const
 Command::Command(const std::string& name, const std::string& shortDescr, const std::string& extraDescr) :
   _name(name), _shortDescription(shortDescr), _extraDescription(extraDescr)
 {
+}
+
+void Command::treatGEDResult(int resultCode,
+			     CommandOutput& output,
+			     const std::string& text) const
+{
+  if (resultCode == BRLCAD_OK) {
+    output.appendLine(text);
+  } else {
+    Logger::logERROR(text.c_str());
+  }
 }
 
 const std::string& Command::getName() const
