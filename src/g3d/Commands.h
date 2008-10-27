@@ -52,7 +52,7 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() > 0) {
-      output.appendLine("Command doesn't accept arguments");
+      output.appendLine(CommandMessages::NO_ARGUMENTS);
       return;
     } else {
       Application::instance().quit();
@@ -78,7 +78,7 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 1) {
-      output.appendLine("This command needs exactly one argument");
+      output.appendLine(CommandMessages::ONE_ARGUMENT);
       return;
     } else {
 
@@ -122,7 +122,7 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 1) {
-      output.appendLine("This command needs exactly one argument");
+      output.appendLine(CommandMessages::ONE_ARGUMENT);
       return;
     } else {
       if (args[0][0] == 's') {
@@ -156,7 +156,7 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 1) {
-      output.appendLine("This command needs exactly one argument");
+      output.appendLine(CommandMessages::ONE_ARGUMENT);
       return;
     } else {
       char firstChar = args[0][0];
@@ -183,7 +183,7 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() > 0) {
-      output.appendLine("Command doesn't accept arguments");
+      output.appendLine(CommandMessages::NO_ARGUMENTS);
     } else {
       CameraManager::instance().cycleCameraMode();
     }
@@ -213,7 +213,7 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 1) {
-      output.appendLine("This command needs exactly one argument");
+      output.appendLine(CommandMessages::ONE_ARGUMENT);
       return;
     } else {
       if (args[0][0] == 't') {

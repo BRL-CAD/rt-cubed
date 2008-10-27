@@ -57,7 +57,7 @@ public:
     int result = 0;
 
     if (args.size() != 1) {
-      output.appendLine("This command needs exactly one argument");
+      output.appendLine(CommandMessages::ONE_ARGUMENT);
       return;
     } else {
       const char* argv[] = { _name.c_str(), args[1].c_str() };
@@ -88,8 +88,8 @@ public:
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.size() > 0) {
-      output.appendLine("Command doesn't accept arguments");
+    if (args.size() != 0) {
+      output.appendLine(CommandMessages::NO_ARGUMENTS);
       return;
     } else {
       const char* argv[] = { _name.c_str() };
@@ -122,7 +122,7 @@ public:
     int result = 0;
 
     if (args.size() > 1) {
-      output.appendLine("This command needs exactly zero or one argument");
+      output.appendLine(CommandMessages::ZERO_OR_ONE_ARGUMENTS);
       return;
     } else {
       if (args.size() == 1) {
@@ -173,7 +173,7 @@ public:
     int result = 0;
 
     if (args.size() > 1) {
-      output.appendLine("This command needs exactly zero or one argument");
+      output.appendLine(CommandMessages::ZERO_OR_ONE_ARGUMENTS);
       return;
     } else {
       if (args.size() == 1) {
@@ -208,7 +208,7 @@ public:
 
   virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
     if (args.size() != 0) {
-      output.appendLine("Command doesn't accept arguments");
+      output.appendLine(CommandMessages::NO_ARGUMENTS);
       return;
     } else {
       ged* g = GedData::instance().getGED();
@@ -240,8 +240,8 @@ public:
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.size() > 0) {
-      output.appendLine("Command doesn't accept arguments");
+    if (args.size() != 0) {
+      output.appendLine(CommandMessages::NO_ARGUMENTS);
       return;
     } else {
       treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));

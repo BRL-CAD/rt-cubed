@@ -32,6 +32,14 @@
 
 
 /*******************************************************************************
+ * CommandMessages
+ ******************************************************************************/
+const char* CommandMessages::NO_ARGUMENTS = "Command doesn't accept arguments";
+const char* CommandMessages::ZERO_OR_ONE_ARGUMENTS = "This command needs exactly zero or one argument";
+const char* CommandMessages::ONE_ARGUMENT = "This command needs exactly one argument";
+
+
+/*******************************************************************************
  * CommandOutput
  ******************************************************************************/
 void CommandOutput::appendLine(const std::string& line)

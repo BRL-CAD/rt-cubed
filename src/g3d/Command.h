@@ -35,6 +35,31 @@
 
 
 /**
+ * @brief Messages related with command processing
+ *
+ * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
+ *
+ * Class (could be another "block" like namespace or so, too) acting
+ * only as a container for strings repeated throughout the code when
+ * processing commands, like in example error messages related with
+ * number of arguments needed.  It's more efficient this way than
+ * repeating the string over and over, and more maintainable if the
+ * strings start to have slightly different variations (typos fixed in
+ * some but not in others, etc).
+ */
+class CommandMessages
+{
+public:
+  /** Message (name+content should be self-explanatory) */
+  static const char* NO_ARGUMENTS;
+  /** Message (name+content should be self-explanatory) */
+  static const char* ZERO_OR_ONE_ARGUMENTS;
+  /** Message (name+content should be self-explanatory) */
+  static const char* ONE_ARGUMENT;
+};
+
+
+/**
  * @brief Output for a command
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
