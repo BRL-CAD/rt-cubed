@@ -13,32 +13,35 @@
  */
 ///////////////////////////////////////////////////////////////////////
 NetID::~NetID(){
-
 }
-
-
-
-
 
 /**
  * Manual Constructor
  */
-NetID::NetID(long ID, std::string host){
-
+NetID::NetID(long id, std::string host){
+	SNRoot("");
+	this->ID = LongFrag(id);
+	this->Host = StringFrag(host);
 }
-
 
 /**
  * Copy constructor
  */
-NetID::NetID(NetID addr){
-
+NetID::NetID(NetID& addr){
+	SNRoot("");
+	this->ID = addr.getID();
+	this->Host = addr.getHost();
 }
 
 /*
  * Deserializing Constructor
  */
-NetID::NetID(DataInputStream in){
+NetID::NetID(DataInputStream& in){
+	super("NetID");
+	in.readInt();
+	this->ID = LongFrag(in);
+	in.readInt();
+	this->Host = StringFrag(in);
 
 }
 
@@ -50,12 +53,28 @@ NetID::NetID(DataInputStream in){
  */
 ///////////////////////////////////////////////////////////////////////
 
+
+std::vector<byte> NetID::Serialize(){
+	ByteArrayOutputStream baos = ByteArrayOutputStream();
+	DataOutputStream out = DataOutputStream(baos);
+
+	this->Serialize(out);
+
+	return baos.toByteArray();
+}
+
+void NetID::Serialize(DataOutputStream& out){
+	this->ID.Serialize(out);
+	this->Host.Serialize(out);
+	return;
+}
+
+
 /**
  * @return the host
  */
 std::string NetID::getHost(){
-
-	return Host;
+	return this->Host;
 }
 
 
@@ -63,24 +82,12 @@ std::string NetID::getHost(){
  * @return the msgStopID
  */
 long NetID::getID(){
-
-	return ID;
-}
-
-
-byte NetID::Serialize(){
-
-	return  NULL;
-}
-
-
-std::vector<byte> NetID::Serialize(DataOutputStream out){
-
+	return this->ID;
 }
 
 
 std::string NetID::toString(){
 	std::string out;
 	out << this->ID.getField() << "@" << this->Host.getField();
-	return  out;
+	return out;
 }

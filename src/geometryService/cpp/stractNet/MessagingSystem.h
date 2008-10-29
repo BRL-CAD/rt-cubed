@@ -5,8 +5,8 @@
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_597FB80E_BE25_471e_A681_E1E6E605229C__INCLUDED_)
-#define EA_597FB80E_BE25_471e_A681_E1E6E605229C__INCLUDED_
+#if !defined(MESSAGINGSYSTEM_H_INCLUDED_)
+#define MESSAGINGSYSTEM_H_INCLUDED_
 
 #include "NetID.h"
 #include "StdMsg.h"
@@ -19,63 +19,55 @@ class MessagingSystem : public SNRoot
 {
 
 public:
-	MessagingSystem();
 	virtual ~MessagingSystem();
-
 	MessagingSystem(String HostName);
-	NetID AddMsgToQueue(StdMsg msg);
-	MessageDispatcher generateNewMD();
-	StdMsg generateNewMsg(int msgType);
-	StdMsg generateNewMsg(int msgType, String to);
-	StdMsg generateNewMsg(StdMsg msg) throw IOException;
-	StdMsg generateNewMsg(DataInputStream in) throw IOException;
-	StdMsg generateNewMsg(byte[] data) throw IOException;
-	HashSet<MsgStop> getAllMsgStops();
-	ArrayList<Portal> getAllPortals();
-	HashMap<Long, String> getDispatchedMsgs();
+
+	NetID& AddMsgToQueue(StdMsg& msg);
+	MessageDispatcher& generateNewMD();
+	StdMsg& generateNewMsg(int msgType);
+	StdMsg& generateNewMsg(int msgType, String to);
+	StdMsg& generateNewMsg(StdMsg& msg);
+	StdMsg& generateNewMsg(DataInputStream& in);
+	StdMsg& generateNewMsg(std::vector<byte> data);
+	std::set<MsgStop> getAllMsgStops();
+	std::vector<Portal> getAllPortals();
+	std::map<Long, String> getDispatchedMsgs();
 	String getHostName();
 	int getMsgsRouted();
-	HashSet<MsgStop> getMsgStops(int msgType);
-	Portal getPortal(String Hostname);
-	ConcurrentLinkedQueue<StdMsg> getQ();
-	ArrayList<String> getRemoteHostNamesArray();
+	std::set<MsgStop> getMsgStops(int msgType);
+	Portal& getPortal(String Hostname);
+	std::vector<StdMsg> getQ();
+	std::vector<String> getRemoteHostNamesArray();
 	String getRemoteHostNamesString();
 	boolean hasRemoteHostOnFile(String Hostname);
 	boolean isQEmpty();
-	StdMsg peekQ();
-	StdMsg pollQ();
+	StdMsg& peekQ();
+	StdMsg& pollQ();
 	void purgeDispatchedMsgList();
-	void RegisterMsgStop(MsgStop ms);
-	boolean RegisterPortal(Portal p);
-	void UnRegisterMsgStop(MsgStop ms);
-	boolean UnRegisterPortal(Portal p);
+	void RegisterMsgStop(MsgStop& ms);
+	boolean& RegisterPortal(Portal& p);
+	void UnRegisterMsgStop(MsgStop& ms);
+	boolean& UnRegisterPortal(Portal& p);
 
 private:
-	/**
-	 * TimeStamp, MS assigned Network ID<BR/><BR/>
-	 */
-	HashMap<Long, String> DispatchedMsgs;
-	/**
-	 * private MessageDispatcher MD = null;
-	 */
+	//TimeStamp, MS assigned Network ID
+	std::map<Long, String> DispatchedMsgs;
+
 	int MDCounter;
 	int MsgIDCnt;
 	int MsgsRouted;
-	/**
-	 * MsgType, List of MsgStops<BR/><BR/>
-	 */
-	HashSet<MsgStop> msgStops;
-	/**
-	 * MsgType, List of MsgStops<BR/><BR/>
-	 */
-	HashMap<Integer, HashSet<MsgStop>> msgTypeRoutingTable;
-	/**
-	 * private Hashtable<String, Portal> portals = new Hashtable<String, Portal>();
-	 */
-	ArrayList<Portal> portals;
-	ConcurrentLinkedQueue<StdMsg> Q;
 
-	StdMsg generateNewMsgCommon(StdMsg sm);
+	//MsgType, List of MsgStops
+	std::set<MsgStop> msgStops;
+
+	//MsgType, List of MsgStops
+	std::map<int, std::set<MsgStop> > msgTypeRoutingTable;
+
+	//private Hashtable<String, Portal> portals = new Hashtable<String, Portal>();
+	std::vector<Portal> portals;
+	std::vector<StdMsg> Q;
+
+	StdMsg& generateNewMsgCommon(StdMsg sm);
 
 };
-#endif // !defined(EA_597FB80E_BE25_471e_A681_E1E6E605229C__INCLUDED_)
+#endif // !defined(MESSAGINGSYSTEM_H_INCLUDED_)

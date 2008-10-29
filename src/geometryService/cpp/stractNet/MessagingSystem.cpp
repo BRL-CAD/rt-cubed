@@ -6,37 +6,40 @@
 ///////////////////////////////////////////////////////////
 
 #include "MessagingSystem.h"
-
-
-MessagingSystem::MessagingSystem(){
-
-}
-
-
-
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * xSTRUCTORS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
 MessagingSystem::~MessagingSystem(){
 
 }
-
-
-
-
-
 MessagingSystem::MessagingSystem(String HostName){
-
+	SNRoot(HostName);
+	this->Q = std::vector<StdMsg>();
+	this->msgTypeRoutingTable = std::map<int, std::set<MsgStop>>();
+	this->msgStops = std::set<MsgStop>();
 }
-
-
-NetID MessagingSystem::AddMsgToQueue(StdMsg msg){
-
-	return  NULL;
+///////////////////////////////////////////////////////////////////////
+/*
+ *
+ * METHODS
+ *
+ */
+///////////////////////////////////////////////////////////////////////
+NetID& MessagingSystem::AddMsgToQueue(StdMsg& msg){
+	msg.StampWayPoint(this->gON());
+	this->Q.push_back(msg);
+	return NetID(msg.getMsgID();
 }
 
 
 /**
  * Message Dispatcher Routines
  */
-MessageDispatcher MessagingSystem::generateNewMD(){
+MessageDispatcher& MessagingSystem::generateNewMD(){
 
 	return  NULL;
 }
@@ -45,55 +48,55 @@ MessageDispatcher MessagingSystem::generateNewMD(){
 /**
  * StdMsg Factories
  */
-StdMsg MessagingSystem::generateNewMsg(int msgType){
+StdMsg& MessagingSystem::generateNewMsg(int msgType){
 
 	return  NULL;
 }
 
 
-StdMsg MessagingSystem::generateNewMsg(int msgType, String to){
+StdMsg& MessagingSystem::generateNewMsg(int msgType, String to){
 
 	return  NULL;
 }
 
 
-StdMsg MessagingSystem::generateNewMsg(StdMsg msg) throw IOException{
+StdMsg& MessagingSystem::generateNewMsg(StdMsg& msg){
 
 	return  NULL;
 }
 
 
-StdMsg MessagingSystem::generateNewMsg(DataInputStream in) throw IOException{
+StdMsg& MessagingSystem::generateNewMsg(DataInputStream& in) {
 
 	return  NULL;
 }
 
 
-StdMsg MessagingSystem::generateNewMsg(byte[] data) throw IOException{
+StdMsg& MessagingSystem::generateNewMsg(std::vector<byte> data){
 
 	return  NULL;
 }
 
 
-StdMsg MessagingSystem::generateNewMsgCommon(StdMsg sm){
+StdMsg& MessagingSystem::generateNewMsgCommon(StdMsg& sm){
 
 	return  NULL;
 }
 
 
-HashSet<MsgStop> MessagingSystem::getAllMsgStops(){
+std::set<MsgStop> MessagingSystem::getAllMsgStops(){
 
 	return  NULL;
 }
 
 
-ArrayList<Portal> MessagingSystem::getAllPortals(){
+std::vector<Portal> MessagingSystem::getAllPortals(){
 
 	return  NULL;
 }
 
 
-HashMap<Long, String> MessagingSystem::getDispatchedMsgs(){
+std::map<Long, String> MessagingSystem::getDispatchedMsgs(){
 
 	return DispatchedMsgs;
 }
@@ -114,7 +117,7 @@ int MessagingSystem::getMsgsRouted(){
 /**
  * MsgStop Utilities.
  */
-HashSet<MsgStop> MessagingSystem::getMsgStops(int msgType){
+std::set<MsgStop> MessagingSystem::getMsgStops(int msgType){
 
 	return  NULL;
 }
@@ -123,19 +126,19 @@ HashSet<MsgStop> MessagingSystem::getMsgStops(int msgType){
 /**
  * Portal Utilities.
  */
-Portal MessagingSystem::getPortal(String Hostname){
+Portal& MessagingSystem::getPortal(String Hostname){
 
 	return  NULL;
 }
 
 
-ConcurrentLinkedQueue<StdMsg> MessagingSystem::getQ(){
+std::vector<StdMsg> MessagingSystem::getQ(){
 
 	return Q;
 }
 
 
-ArrayList<String> MessagingSystem::getRemoteHostNamesArray(){
+std::vector<String> MessagingSystem::getRemoteHostNamesArray(){
 
 	return  NULL;
 }
@@ -162,13 +165,13 @@ boolean MessagingSystem::isQEmpty(){
 }
 
 
-StdMsg MessagingSystem::peekQ(){
+StdMsg& MessagingSystem::peekQ(){
 
 	return  NULL;
 }
 
 
-StdMsg MessagingSystem::pollQ(){
+StdMsg& MessagingSystem::pollQ(){
 
 	return  NULL;
 }
@@ -179,23 +182,23 @@ void MessagingSystem::purgeDispatchedMsgList(){
 }
 
 
-void MessagingSystem::RegisterMsgStop(MsgStop ms){
+void MessagingSystem::RegisterMsgStop(MsgStop& ms){
 
 }
 
 
-boolean MessagingSystem::RegisterPortal(Portal p){
+boolean MessagingSystem::RegisterPortal(Portal& p){
 
 	return  NULL;
 }
 
 
-void MessagingSystem::UnRegisterMsgStop(MsgStop ms){
+void MessagingSystem::UnRegisterMsgStop(MsgStop& ms){
 
 }
 
 
-boolean MessagingSystem::UnRegisterPortal(Portal p){
+boolean MessagingSystem::UnRegisterPortal(Portal& p){
 
 	return  NULL;
 }
