@@ -33,13 +33,15 @@
 #include <brlcad/common.h>
 #include <brlcad/raytrace.h>
 
+#include <brlcad/Object.h>
+
 
 struct rt_i;
 struct resource;
 
 
 namespace BRLCAD {
-    class ConstDatabase {
+    class BRLCAD_COREINTERFACE_EXPORT ConstDatabase {
     public:
         ConstDatabase(void) throw();
         virtual ~ConstDatabase(void) throw();
@@ -47,24 +49,41 @@ namespace BRLCAD {
         /// associates the handle with a BRL-CAD database file (*.g)
         /** If the handle was already associated with a database file this association will be discarded.
             The file will be opened for reading only. */
-        virtual bool                            Load(const char* fileName) throw();
+        virtual bool Load(const char* fileName) throw();
 
         /// @name Parsing the database
         //@{
         /// title string read from the database
-        BRLCAD_COREINTERFACE_EXPORT const char* Title(void) const throw();
+        const char*  Title(void) const throw();
         /// returns the list of the top level objects via call-backs
         /** To get a list of objects contained in a combination see ListObjects(). */
-        BRLCAD_COREINTERFACE_EXPORT void        ListTopObjects(StringCalback& callback) const;
+        void         ListTopObjects(StringCalback& callback) const;
         //@}
 
         /// @name Accessing objects
         //@{
-        BRLCAD_COREINTERFACE_EXPORT bool        IsRegion(const char* objectName) const throw();
+        bool         IsRegion(const char* objectName) const throw();
         /// returns the list of the objects contained in the combination \a objectName via call-backs
         /** To get a list of top level objects see ListTopObjects(). */
-        BRLCAD_COREINTERFACE_EXPORT void        ListObjects(const char*    objectName,
-                                                            StringCalback& callback) const;
+        void         ListObjects(const char*    objectName,
+                                 StringCalback& callback) const;
+
+        class ObjectCallback {
+        public:
+            virtual ~ObjectCallback(void) {}
+
+            /// the user has to implement this object method to evaluate the object
+            virtual void operator()(const Object& object) = 0;
+
+        protected:
+            ObjectCallback(void) {}
+            ObjectCallback(const ObjectCallback&) {}
+            const ObjectCallback& operator=(const ObjectCallback&) {return *this;}
+        };
+
+        /// selects a single object and hand it over to an ObjectCallback (read only)
+        void         Get(const char*     objectName,
+                         ObjectCallback& callback);
         //@}
 
         /// @name Active set functions
@@ -72,19 +91,17 @@ namespace BRLCAD {
         /// add the database object \a objectName to the active set
         /** The function accepts a space separated list of object names too,
             but it is not sure that this behaviour will be kept in future versions. */
-        BRLCAD_COREINTERFACE_EXPORT void        Select(const char* objectName) throw();
+        void         Select(const char* objectName) throw();
         /// clear the active set
-        BRLCAD_COREINTERFACE_EXPORT void        UnSelectAll(void) throw();
+        void         UnSelectAll(void) throw();
 
-        BRLCAD_COREINTERFACE_EXPORT bool        SelectionIsEmpty(void) const throw();
-        BRLCAD_COREINTERFACE_EXPORT Vector3D    BoundingBoxMinima(void) const throw();
-        BRLCAD_COREINTERFACE_EXPORT Vector3D    BoundingBoxMaxima(void) const throw();
-        //@}
+        bool         SelectionIsEmpty(void) const throw();
+        Vector3D     BoundingBoxMinima(void) const throw();
+        Vector3D     BoundingBoxMaxima(void) const throw();
 
-        /// @name Ray trace
-        //@{
-        BRLCAD_COREINTERFACE_EXPORT void        ShootRay(const Ray3D& ray,
-                                                         HitCallback& callback) const throw();
+        /// ray trace
+        void         ShootRay(const Ray3D& ray,
+                              HitCallback& callback) const throw();
         //@}
 
     protected:

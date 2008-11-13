@@ -37,7 +37,7 @@ struct rt_wdb;
 
 
 namespace BRLCAD {
-    class Database : public ConstDatabase {
+    class BRLCAD_COREINTERFACE_EXPORT Database : public ConstDatabase {
     public:
         /// creates a new in-memory database with default _GLOBAL object
         Database(void) throw();
@@ -46,10 +46,30 @@ namespace BRLCAD {
         /// loads a BRL-CAD database file (*.g) into the memory
         /** The old content of the in-memory database will be discarded.
             The file will be opened for reading only and closed after finishing the operation. */
-        virtual bool                            Load(const char* fileName) throw();
-        bool                                    Save(const char* fileName) throw();
+        virtual bool Load(const char* fileName) throw();
+        bool         Save(const char* fileName) throw();
 
-        BRLCAD_COREINTERFACE_EXPORT void        SetTitle(const char* title) throw();
+        void         SetTitle(const char* title) throw();
+
+        /// @name Accessing objects
+        //@{
+        class ObjectCallback {
+        public:
+            virtual ~ObjectCallback(void) {}
+
+            /// the user has to implement this object method to evaluate and modify the object
+            virtual void operator()(Object& object) = 0;
+
+        protected:
+            ObjectCallback(void) {}
+            ObjectCallback(const ObjectCallback&) {}
+            const ObjectCallback& operator=(const ObjectCallback&) {return *this;}
+        };
+
+        /// selects a single object and hand it over to an ObjectCallback (for read and write)
+        void         Get(const char*     objectName,
+                         ObjectCallback& callback);
+        //@}
 
     private:
         rt_wdb* m_wdbp;

@@ -136,3 +136,34 @@ END_MARK:
         BU_UNSETJUMP;
     }
 }
+
+
+void Database::Get
+(
+    const char*     objectName,
+    ObjectCallback& callback
+) {
+    if (m_rtip != 0) {
+        class ObjectCallbackIntern : public ConstDatabase::ObjectCallback {
+        public:
+            ObjectCallbackIntern(Database::ObjectCallback& callback,
+                                 db_i*                     dbip) : ConstDatabase::ObjectCallback(),
+                                                                   m_callback(callback), 
+                                                                   m_dbip(dbip) {}
+
+            virtual ~ObjectCallbackIntern(void) {}
+
+            virtual void operator()(const Object& object) {
+                Object& objectIntern = const_cast<Object&>(object);
+                objectIntern.m_dbip = m_dbip;
+                m_callback(objectIntern);
+            }
+
+        private:
+            Database::ObjectCallback& m_callback;
+            db_i*                     m_dbip;
+        } callbackIntern(callback, m_rtip->rti_dbip);
+
+        ConstDatabase::Get(objectName, callbackIntern);
+    }
+}

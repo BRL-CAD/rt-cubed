@@ -31,6 +31,7 @@
 #include <cstring>
 #include <cassert>
 
+#include <brlcad/Unknown.h>
 #include <brlcad/ConstDatabase.h>
 
 #include "raytrace.h"
@@ -130,6 +131,28 @@ void ConstDatabase::ListTopObjects
                             throw;
                         }
                     }
+        }
+
+END_MARK:
+        BU_UNSETJUMP;
+    }
+}
+
+
+void ConstDatabase::Get
+(
+    const char*     objectName,
+    ObjectCallback& callback
+) {
+    if (m_rtip != 0) {
+        if (BU_SETJUMP)
+            goto END_MARK;
+
+        if ((objectName != 0) && (strlen(objectName) > 0)) {
+            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISY);
+
+            if (pDir != DIR_NULL)
+                callback(Unknown(pDir));
         }
 
 END_MARK:
