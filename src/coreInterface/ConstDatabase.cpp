@@ -117,7 +117,7 @@ void ConstDatabase::ListTopObjects
             db_update_nref(m_rtip->rti_dbip, m_resp);
 
             for (size_t i = 0; i < RT_DBNHASH; i++)
-                for (directory* pDir = m_rtip->rti_dbip->dbi_Head[i]; pDir != DIR_NULL; pDir = pDir->d_forw)
+                for (directory* pDir = m_rtip->rti_dbip->dbi_Head[i]; pDir != RT_DIR_NULL; pDir = pDir->d_forw)
                     if (pDir->d_nref == 0) {
                         try {
                             if (!callback(pDir->d_namep)) {
@@ -151,7 +151,7 @@ void ConstDatabase::Get
         if ((objectName != 0) && (strlen(objectName) > 0)) {
             directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISY);
 
-            if (pDir != DIR_NULL)
+            if (pDir != RT_DIR_NULL)
                 callback(Unknown(pDir));
         }
 
@@ -253,8 +253,8 @@ bool ConstDatabase::IsRegion
         if ((objectName != 0) && (strlen(objectName) > 0)) {
             directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISY);
 
-            if (pDir != DIR_NULL) {
-                if (pDir->d_flags & DIR_REGION)
+            if (pDir != RT_DIR_NULL) {
+                if (pDir->d_flags & RT_DIR_REGION)
                     ret = true;
             }
         }
@@ -279,8 +279,8 @@ void ConstDatabase::ListObjects
         if ((objectName != 0) && (strlen(objectName) > 0)) {
             directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISY);
 
-            if (pDir != DIR_NULL) {
-                if (pDir->d_flags & DIR_COMB) {
+            if (pDir != RT_DIR_NULL) {
+                if (pDir->d_flags & RT_DIR_COMB) {
                     rt_db_internal intern;
                     int            id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
 

@@ -48,9 +48,9 @@ Object::~Object(void) throw() {
 const char* Object::Name(void) const throw() {
     const char* ret = 0;
 
-    assert(!((m_pDir != DIR_NULL) && (m_name != 0)));
+    assert(!((m_pDir != RT_DIR_NULL) && (m_name != 0)));
 
-    if (m_pDir != DIR_NULL)
+    if (m_pDir != RT_DIR_NULL)
         ret = m_pDir->d_namep;
     else
         ret = m_name;
@@ -63,7 +63,7 @@ void Object::SetName
 (
     const char* name
 ) throw() {
-    assert(!((m_pDir != DIR_NULL) && (m_name != 0)));
+    assert(!((m_pDir != RT_DIR_NULL) && (m_name != 0)));
 
     // not connected with a non-writable database
     assert((m_dbip != 0) || (m_pDir == 0));
