@@ -66,6 +66,8 @@ const char* Unknown::Type(void) const throw() {
 
 Unknown::Unknown
 (
-    directory* m_pDir,
-    db_i*      m_dbip
-) throw() : Object(m_pDir, m_dbip) {}
+    resource*       resp,
+    directory*      pDir,
+    rt_db_internal* ip,
+    db_i*           dbip
+) throw() : Object(resp, pDir, ip, dbip) {}

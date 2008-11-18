@@ -52,8 +52,10 @@ namespace BRLCAD {
         virtual const char* Type(void) const throw();
 
     protected:
-        Unknown(directory* m_pDir,
-                db_i*      m_dbip = 0) throw();
+        Unknown(resource*      resp,
+               directory*      pDir,
+               rt_db_internal* ip,
+               db_i*           dbip = 0) throw();
 
         friend class ConstDatabase;
 

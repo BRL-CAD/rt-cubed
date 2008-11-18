@@ -66,11 +66,11 @@ void Object::SetName
     assert(!((m_pDir != RT_DIR_NULL) && (m_name != 0)));
 
     // not connected with a non-writable database
-    assert((m_dbip != 0) || (m_pDir == 0));
+    assert(((m_dbip != 0) && !m_dbip->dbi_read_only) || (m_pDir == 0));
 
-    if (m_dbip != 0)        // connected with a writable BRLCAD::Database
+    if ((m_dbip != 0) && !m_dbip->dbi_read_only) // connected with a writable BRLCAD::Database
         db_rename(m_dbip, m_pDir, name);
-    else if (m_pDir == 0) { // connected with no database at all
+    else if (m_pDir == 0) {                      // connected with no database at all
         if (name != 0) {
             if (m_name != 0) {
                 if (strcmp(m_name, name) != 0) {
@@ -90,17 +90,24 @@ void Object::SetName
 }
 
 
+Object::Object(void) throw() : m_resp(0), m_pDir(0), m_ip(0), m_dbip(0), m_name(0) {}
+
+
 Object::Object
 (
-    directory* m_pDir,
-    db_i*      m_dbip
-) throw() : m_pDir(m_pDir), m_dbip(m_dbip), m_name(0) {}
+    resource*       resp,
+    directory*      pDir,
+    rt_db_internal* ip,
+    db_i*           dbip
+) throw() : m_resp(resp), m_pDir(pDir), m_ip(ip), m_dbip(dbip), m_name(0) {
+    assert((m_dbip == 0) || !m_dbip->dbi_read_only);
+}
 
 
 Object::Object
 (
     const Object& original
-) throw() : m_pDir(original.m_pDir), m_dbip(original.m_dbip), m_name(0) {
+) throw() : m_resp(original.m_resp), m_pDir(original.m_pDir), m_ip(original.m_ip), m_dbip(original.m_dbip), m_name(0) {
     if (original.m_name != 0)
         m_name = bu_strdupm(original.m_name, "BRLCAD::Object::Object");
 }
@@ -111,11 +118,13 @@ const Object& Object::operator=
     const Object& original
 ) throw() {
     if (&original != this) {
-        m_pDir = original.m_pDir;
-        m_dbip = original.m_dbip;
-
         if (m_name != 0)
             bu_free(m_name, "BRLCAD::Object::operator=");
+
+        m_resp = original.m_resp;
+        m_pDir = original.m_pDir;
+        m_ip   = original.m_ip;
+        m_dbip = original.m_dbip;
 
         if (original.m_name != 0)
             m_name = bu_strdupm(original.m_name, "BRLCAD::Object::operator=");

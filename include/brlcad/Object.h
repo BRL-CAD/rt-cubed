@@ -33,7 +33,9 @@
 #include <brlcad/common.h>
 
 
+struct resource;
 struct directory;
+struct rt_db_internal;
 struct db_i;
 
 
@@ -56,11 +58,16 @@ namespace BRLCAD {
         void                SetName(const char* name) throw();
 
     protected:
-        directory* m_pDir;
-        db_i*      m_dbip;
+        resource*       m_resp;
+        directory*      m_pDir;
+        rt_db_internal* m_ip;
+        db_i*           m_dbip;
 
-        Object(directory* m_pDir = 0,
-               db_i*      m_dbip = 0) throw();
+        Object(void) throw();
+        Object(resource*       resp,
+               directory*      pDir,
+               rt_db_internal* ip,
+               db_i*           dbip = 0) throw();
         Object(const Object& original) throw();
         const Object& operator=(const Object& original) throw();
 

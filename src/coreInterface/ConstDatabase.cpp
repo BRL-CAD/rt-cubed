@@ -151,8 +151,17 @@ void ConstDatabase::Get
         if ((objectName != 0) && (strlen(objectName) > 0)) {
             directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISY);
 
-            if (pDir != RT_DIR_NULL)
-                callback(Unknown(pDir));
+            if (pDir != RT_DIR_NULL) {
+                rt_db_internal intern;
+                int            id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
+
+                switch(id) {
+                default:
+                    callback(Unknown(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                }
+
+                rt_db_free_internal(&intern, m_resp);
+            }
         }
 
 END_MARK:
