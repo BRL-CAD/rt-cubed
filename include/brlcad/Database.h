@@ -20,7 +20,7 @@
 /** @file Database.h
  *
  *  BRL-CAD core C++ interface:
- *      declares a handle on a writable database
+ *      declares the common part of the handles on a writable database
  *
  *  Origin -
  *      TNO (Netherlands)
@@ -43,11 +43,9 @@ namespace BRLCAD {
         Database(void) throw();
         virtual ~Database(void) throw();
 
-        /// loads a BRL-CAD database file (*.g) into the memory
-        /** The old content of the in-memory database will be discarded.
-            The file will be opened for reading only and closed after finishing the operation. */
-        virtual bool Load(const char* fileName) throw();
-        bool         Save(const char* fileName) throw();
+        /// loads a BRL-CAD database file (*.g)
+        /** The implementation will be determed by the subclasses. */
+        virtual bool Load(const char* fileName) throw() = 0;
 
         void         SetTitle(const char* title) throw();
 
@@ -71,9 +69,10 @@ namespace BRLCAD {
                          ObjectCallback& callback);
         //@}
 
-    private:
+    protected:
         rt_wdb* m_wdbp;
 
+    private:
         Database(const Database&) throw();                  // not implemented
         const Database& operator=(const Database&) throw(); // not implemented
     };

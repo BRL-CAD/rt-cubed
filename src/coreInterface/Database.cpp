@@ -20,7 +20,7 @@
 /** @file Database.cpp
  *
  *  BRL-CAD core C++ interface:
- *      implements a handle on a writable database
+ *      implements the common part of the handles on a writable database
  *
  *  Origin -
  *      TNO (Netherlands)
@@ -35,29 +35,7 @@
 using namespace BRLCAD;
 
 
-Database::Database(void) throw() : ConstDatabase(), m_wdbp(0) {
-    if (m_resp != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
-
-        if (rt_uniresource.re_magic != RESOURCE_MAGIC)
-            rt_init_resource(&rt_uniresource, 0, NULL);
-
-        db_i* dbip = db_create_inmem();
-
-        if (dbip != DBI_NULL) {
-            RT_CK_DBI(dbip);
-
-            m_rtip = rt_new_rti(dbip);                       // clones dbip
-            rt_init_resource(m_resp, 0, m_rtip);
-
-            m_wdbp = dbip->dbi_wdbp; // takes ownership of dbip
-        }
-
-    END_MARK:
-            BU_UNSETJUMP;
-    }
-}
+Database::Database(void) throw() : ConstDatabase(), m_wdbp(0) {}
 
 
 Database::~Database(void) throw() {
@@ -69,56 +47,6 @@ Database::~Database(void) throw() {
 END_MARK:
         BU_UNSETJUMP;
     }
-}
-
-
-bool Database::Load
-(
-    const char* fileName
-) throw() {
-    bool ret = false;
-
-    if (m_wdbp != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
-
-        rt_i* source = rt_dirbuild(fileName, 0, 0);
-
-        if (source != 0) {
-            ret = (db_dump(m_wdbp, source->rti_dbip) == 0);
-            rt_free_rti(source);;
-        }
-
-END_MARK:
-        BU_UNSETJUMP;
-    }
-
-    return ret;
-}
-
-
-bool Database::Save
-(
-    const char* fileName
-) throw() {
-    bool ret = false;
-
-    if (m_wdbp != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
-
-        rt_wdb* target = wdb_fopen(fileName);
-
-        if (target != 0) {
-            ret = (db_dump(target, m_wdbp->dbip) == 0);
-            wdb_close(target);
-        }
-
-END_MARK:
-        BU_UNSETJUMP;
-    }
-
-    return ret;
 }
 
 
@@ -148,15 +76,18 @@ void Database::Get
         public:
             ObjectCallbackIntern(Database::ObjectCallback& callback,
                                  db_i*                     dbip) : ConstDatabase::ObjectCallback(),
-                                                                   m_callback(callback), 
+                                                                   m_callback(callback),
                                                                    m_dbip(dbip) {}
 
             virtual ~ObjectCallbackIntern(void) {}
 
             virtual void operator()(const Object& object) {
                 Object& objectIntern = const_cast<Object&>(object);
-                objectIntern.m_dbip = m_dbip;
+                objectIntern.m_dbip  = m_dbip;
+
                 m_callback(objectIntern);
+
+                rt_db_put_internal(objectIntern.m_pDir, objectIntern.m_dbip, objectIntern.m_ip, objectIntern.m_resp);
             }
 
         private:

@@ -36,12 +36,22 @@
 
 #include "raytrace.h"
 
+#if defined (_DEBUG)
+#   define LOOKUP_NOISE LOOKUP_NOISY
+#else
+#   define LOOKUP_NOISE LOOKUP_QUIET
+#endif
+
 
 using namespace BRLCAD;
 
 
 ConstDatabase::ConstDatabase(void) throw() : m_rtip(0), m_resp(0) {
+    if (rt_uniresource.re_magic != RESOURCE_MAGIC)
+        rt_init_resource(&rt_uniresource, 0, NULL);
+
     m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::ConstDatabase::~ConstDatabase::m_resp"));
+    rt_init_resource(m_resp, 0, NULL);
 }
 
 
@@ -149,7 +159,7 @@ void ConstDatabase::Get
             goto END_MARK;
 
         if ((objectName != 0) && (strlen(objectName) > 0)) {
-            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISY);
+            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
 
             if (pDir != RT_DIR_NULL) {
                 rt_db_internal intern;
@@ -260,7 +270,7 @@ bool ConstDatabase::IsRegion
             goto END_MARK;
 
         if ((objectName != 0) && (strlen(objectName) > 0)) {
-            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISY);
+            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
 
             if (pDir != RT_DIR_NULL) {
                 if (pDir->d_flags & RT_DIR_REGION)
@@ -286,7 +296,7 @@ void ConstDatabase::ListObjects
             goto END_MARK;
 
         if ((objectName != 0) && (strlen(objectName) > 0)) {
-            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISY);
+            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
 
             if (pDir != RT_DIR_NULL) {
                 if (pDir->d_flags & RT_DIR_COMB) {
