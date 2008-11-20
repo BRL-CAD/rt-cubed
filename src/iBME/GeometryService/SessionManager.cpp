@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  SessionManager.cpp
 //  Implementation of the Class SessionManager
-//  Created on:      20-Nov-2008 8:00:20 AM
+//  Created on:      20-Nov-2008 12:36:22 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

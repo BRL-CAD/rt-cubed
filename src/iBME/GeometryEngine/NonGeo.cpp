@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  NonGeo.cpp
 //  Implementation of the Class NonGeo
-//  Created on:      20-Nov-2008 8:00:17 AM
+//  Created on:      20-Nov-2008 12:36:20 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

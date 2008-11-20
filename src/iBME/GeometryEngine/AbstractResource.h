@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  AbstractResource.h
 //  Implementation of the Class AbstractResource
-//  Created on:      20-Nov-2008 8:00:08 AM
+//  Created on:      20-Nov-2008 12:36:08 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_20FF477B_33BE_4e59_8DE4_2B2B50165BF9__INCLUDED_)
-#define EA_20FF477B_33BE_4e59_8DE4_2B2B50165BF9__INCLUDED_
+#if !defined(EA_9A7A2B01_318D_4090_9512_0AF27D7704A9__INCLUDED_)
+#define EA_9A7A2B01_318D_4090_9512_0AF27D7704A9__INCLUDED_
 
 class AbstractResource
 {
@@ -32,4 +32,4 @@ private:
 	BrlcadDbResrc db_file;
 
 };
-#endif // !defined(EA_20FF477B_33BE_4e59_8DE4_2B2B50165BF9__INCLUDED_)
+#endif // !defined(EA_9A7A2B01_318D_4090_9512_0AF27D7704A9__INCLUDED_)

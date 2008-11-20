@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  ResourceManifest.h
 //  Implementation of the Class ResourceManifest
-//  Created on:      20-Nov-2008 8:00:19 AM
+//  Created on:      20-Nov-2008 12:36:21 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_161D05C9_42EF_4714_9221_6E5B9D8960F9__INCLUDED_)
-#define EA_161D05C9_42EF_4714_9221_6E5B9D8960F9__INCLUDED_
+#if !defined(EA_D1CF56DA_ADE4_47bb_A75E_09930745EF0D__INCLUDED_)
+#define EA_D1CF56DA_ADE4_47bb_A75E_09930745EF0D__INCLUDED_
 
 class ResourceManifest
 {
@@ -17,7 +17,7 @@ public:
 
 private:
 	std::list<UUID> ResourceList;
-	std::map<UUID, AbstractResource> ResourceMap;
+	std::map<UUID, AbstractResource& > ResourceMap;
 
 };
-#endif // !defined(EA_161D05C9_42EF_4714_9221_6E5B9D8960F9__INCLUDED_)
+#endif // !defined(EA_D1CF56DA_ADE4_47bb_A75E_09930745EF0D__INCLUDED_)

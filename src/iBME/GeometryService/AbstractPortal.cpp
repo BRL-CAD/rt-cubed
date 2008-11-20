@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  AbstractPortal.cpp
 //  Implementation of the Class AbstractPortal
-//  Created on:      20-Nov-2008 8:00:07 AM
+//  Created on:      20-Nov-2008 12:36:08 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

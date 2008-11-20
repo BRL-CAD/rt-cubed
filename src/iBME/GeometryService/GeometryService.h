@@ -1,19 +1,17 @@
 ///////////////////////////////////////////////////////////
 //  GeometryService.h
 //  Implementation of the Class GeometryService
-//  Created on:      20-Nov-2008 8:00:12 AM
+//  Created on:      20-Nov-2008 12:36:14 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_ABCBB439_21A8_4f2e_BF63_7A8CA9C1DC7F__INCLUDED_)
-#define EA_ABCBB439_21A8_4f2e_BF63_7A8CA9C1DC7F__INCLUDED_
+#if !defined(EA_1497BD4C_DB75_46d3_9E8C_9EABD9F38CB9__INCLUDED_)
+#define EA_1497BD4C_DB75_46d3_9E8C_9EABD9F38CB9__INCLUDED_
 
-#include "JobManager.h"
-#include "SessionManager.h"
-#include "CommunicationsManager.h"
-#include "NetMsgActionDefManager.h"
-#include "AccessManager.h"
 #include "GeometryEngine.h"
+#include "CommunicationsManager.h"
+#include "SessionManager.h"
+#include "AccessManager.h"
 
 /**
  * Singleton Class.
@@ -35,11 +33,11 @@ private:
 	/**
 	 * Configure jobMan to be a singleton??
 	 */
-	JobManager jobMan;
-	SessionManager sessionMan;
-	CommunicationsManager comMan;
-	NetMsgActionDefManager nmadMan;
-	AccessManager accessMan;
+	JobManager& jobMan;
+	SessionManager& sessionMan;
+	CommunicationsManager& comMan;
+	NetMsgActionDefManager& nmadMan;
+	AccessManager& accessMan;
 
 };
-#endif // !defined(EA_ABCBB439_21A8_4f2e_BF63_7A8CA9C1DC7F__INCLUDED_)
+#endif // !defined(EA_1497BD4C_DB75_46d3_9E8C_9EABD9F38CB9__INCLUDED_)

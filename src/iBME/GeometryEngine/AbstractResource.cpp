@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  AbstractResource.cpp
 //  Implementation of the Class AbstractResource
-//  Created on:      20-Nov-2008 8:00:08 AM
+//  Created on:      20-Nov-2008 12:36:09 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

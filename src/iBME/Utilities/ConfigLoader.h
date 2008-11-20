@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  ConfigLoader.h
 //  Implementation of the Class ConfigLoader
-//  Created on:      20-Nov-2008 8:00:10 AM
+//  Created on:      20-Nov-2008 12:36:11 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_4BE19421_5AF6_4a36_B86D_52C7321BC3E4__INCLUDED_)
-#define EA_4BE19421_5AF6_4a36_B86D_52C7321BC3E4__INCLUDED_
+#if !defined(EA_A5060096_11B1_4597_9DC1_D4443CA55703__INCLUDED_)
+#define EA_A5060096_11B1_4597_9DC1_D4443CA55703__INCLUDED_
 
 class ConfigLoader
 {
@@ -16,4 +16,4 @@ public:
 	virtual ~ConfigLoader();
 
 };
-#endif // !defined(EA_4BE19421_5AF6_4a36_B86D_52C7321BC3E4__INCLUDED_)
+#endif // !defined(EA_A5060096_11B1_4597_9DC1_D4443CA55703__INCLUDED_)

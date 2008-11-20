@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  ResourceManager.h
 //  Implementation of the Class ResourceManager
-//  Created on:      20-Nov-2008 8:00:18 AM
+//  Created on:      20-Nov-2008 12:36:20 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_0A18A8C8_8F96_4f41_B602_63E24FD71031__INCLUDED_)
-#define EA_0A18A8C8_8F96_4f41_B602_63E24FD71031__INCLUDED_
+#if !defined(EA_658D4563_2739_41a1_A144_82D5852AD35A__INCLUDED_)
+#define EA_658D4563_2739_41a1_A144_82D5852AD35A__INCLUDED_
 
 #include "AbstractResourceSource.h"
 
@@ -18,8 +18,11 @@ public:
 	virtual ~ResourceManager();
 	AbstractResourceSource *m_AbstractResourceSource;
 
+	AbstractResource& getResourceByURL(URL url);
+	AbstractResource& getResourceByUUID(UUID uuid);
+
 private:
-	std::list <AbstractResourceSource> resSources;
+	std::list <AbstractResourceSource&> resSources;
 
 };
-#endif // !defined(EA_0A18A8C8_8F96_4f41_B602_63E24FD71031__INCLUDED_)
+#endif // !defined(EA_658D4563_2739_41a1_A144_82D5852AD35A__INCLUDED_)

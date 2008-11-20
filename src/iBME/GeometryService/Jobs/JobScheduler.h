@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  JobScheduler.h
 //  Implementation of the Class JobScheduler
-//  Created on:      20-Nov-2008 8:00:14 AM
+//  Created on:      20-Nov-2008 12:36:17 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_EBD82BBA_7E68_41d2_8C4A_3B23DF0CA508__INCLUDED_)
-#define EA_EBD82BBA_7E68_41d2_8C4A_3B23DF0CA508__INCLUDED_
+#if !defined(EA_DA5CA626_9D3F_4b46_A50A_7C550CBD8F4C__INCLUDED_)
+#define EA_DA5CA626_9D3F_4b46_A50A_7C550CBD8F4C__INCLUDED_
 
 class JobScheduler
 {
@@ -16,4 +16,4 @@ public:
 	virtual ~JobScheduler();
 
 };
-#endif // !defined(EA_EBD82BBA_7E68_41d2_8C4A_3B23DF0CA508__INCLUDED_)
+#endif // !defined(EA_DA5CA626_9D3F_4b46_A50A_7C550CBD8F4C__INCLUDED_)

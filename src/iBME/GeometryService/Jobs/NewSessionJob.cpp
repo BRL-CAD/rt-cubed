@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  NewSessionJob.cpp
 //  Implementation of the Class NewSessionJob
-//  Created on:      20-Nov-2008 8:00:17 AM
+//  Created on:      20-Nov-2008 12:36:19 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
@@ -25,7 +25,7 @@ NewSessionJob::~NewSessionJob(){
 /**
  * Constructor
  */
-void NewSessionJob::NewSessionJob(AbstractPortal portal){
+void NewSessionJob::NewSessionJob(AbstractPortal& portal){
 
 }
 

@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  JobManager.h
 //  Implementation of the Class JobManager
-//  Created on:      20-Nov-2008 8:00:14 AM
+//  Created on:      20-Nov-2008 12:36:16 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_254D317D_906D_4600_B293_3BED2BBDE078__INCLUDED_)
-#define EA_254D317D_906D_4600_B293_3BED2BBDE078__INCLUDED_
+#if !defined(EA_5257E0FF_7478_470c_9222_6682395C661F__INCLUDED_)
+#define EA_5257E0FF_7478_470c_9222_6682395C661F__INCLUDED_
 
 #include "AbstractJob.h"
 #include "JobWorker.h"
@@ -21,7 +21,7 @@ public:
 	JobWorker *m_JobWorker;
 
 private:
-	std::list <AbstractJob> jobQueue;
+	std::list <AbstractJob&> jobQueue;
 
 };
-#endif // !defined(EA_254D317D_906D_4600_B293_3BED2BBDE078__INCLUDED_)
+#endif // !defined(EA_5257E0FF_7478_470c_9222_6682395C661F__INCLUDED_)

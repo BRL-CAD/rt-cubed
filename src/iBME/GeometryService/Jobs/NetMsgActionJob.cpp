@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  NetMsgActionJob.cpp
 //  Implementation of the Class NetMsgActionJob
-//  Created on:      20-Nov-2008 8:00:16 AM
+//  Created on:      20-Nov-2008 12:36:18 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
@@ -25,7 +25,7 @@ NetMsgActionJob::~NetMsgActionJob(){
 /**
  * Constructor
  */
-void NetMsgActionJob::NetMsgActionJob(NetMsg msg){
+void NetMsgActionJob::NetMsgActionJob(NetMsg& msg){
 
 }
 

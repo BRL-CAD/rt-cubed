@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  AbstractJob.cpp
 //  Implementation of the Class AbstractJob
-//  Created on:      20-Nov-2008 8:00:07 AM
+//  Created on:      20-Nov-2008 12:36:07 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
@@ -25,7 +25,7 @@ AbstractJob::~AbstractJob(){
 /**
  * Constructor
  */
-void AbstractJob::AbstractJob(JobManager jm){
+void AbstractJob::AbstractJob(JobManager& jm){
 
 }
 

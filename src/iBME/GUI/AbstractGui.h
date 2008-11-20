@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  AbstractGui.h
 //  Implementation of the Class AbstractGui
-//  Created on:      20-Nov-2008 8:00:06 AM
+//  Created on:      20-Nov-2008 12:36:07 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_38B8C170_C43C_4be5_9BFE_B45711B3FFB0__INCLUDED_)
-#define EA_38B8C170_C43C_4be5_9BFE_B45711B3FFB0__INCLUDED_
+#if !defined(EA_683867B8_D9F5_493e_9D88_1FAAF9E6BA7B__INCLUDED_)
+#define EA_683867B8_D9F5_493e_9D88_1FAAF9E6BA7B__INCLUDED_
 
 /**
  * Singleton Class.
@@ -20,4 +20,4 @@ public:
 	virtual ~AbstractGui();
 
 };
-#endif // !defined(EA_38B8C170_C43C_4be5_9BFE_B45711B3FFB0__INCLUDED_)
+#endif // !defined(EA_683867B8_D9F5_493e_9D88_1FAAF9E6BA7B__INCLUDED_)

@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  NetMsgActionDefManager.cpp
 //  Implementation of the Class NetMsgActionDefManager
-//  Created on:      20-Nov-2008 8:00:16 AM
+//  Created on:      20-Nov-2008 12:36:18 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
@@ -22,24 +22,24 @@ NetMsgActionDefManager::~NetMsgActionDefManager(){
 
 
 
-void NetMsgActionDefManager::registerNetMsgActionDef(AbstractNetMsgActionDef def){
+void NetMsgActionDefManager::registerNetMsgActionDef(AbstractNetMsgActionDef& def){
 
 }
 
 
-int NetMsgActionDefManager::unregisterNetMsgActionDef(AbstractNetMsgActionDef def){
+int NetMsgActionDefManager::unregisterNetMsgActionDef(AbstractNetMsgActionDef& def){
 
 	return 0;
 }
 
 
-AbstractNetMsgActionDef NetMsgActionDefManager::unregisterNetMsgActionDef(int msgType){
+AbstractNetMsgActionDef& NetMsgActionDefManager::unregisterNetMsgActionDef(int msgType){
 
 	return  NULL;
 }
 
 
-AbstractNetMsgActionDef NetMsgActionDefManager::getNetMsgActionDef(int msgType){
+AbstractNetMsgActionDef& NetMsgActionDefManager::getNetMsgActionDef(int msgType){
 
 	return  NULL;
 }

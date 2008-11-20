@@ -1,14 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  Session.h
 //  Implementation of the Class Session
-//  Created on:      20-Nov-2008 8:00:20 AM
+//  Created on:      20-Nov-2008 12:36:22 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_B705221C_D98B_4c8d_A0BD_482E4B17E3CB__INCLUDED_)
-#define EA_B705221C_D98B_4c8d_A0BD_482E4B17E3CB__INCLUDED_
-
-#include "AbstractPortal.h"
+#if !defined(EA_B7E66DB6_9B7D_4665_9AB6_0ADFED6FF865__INCLUDED_)
+#define EA_B7E66DB6_9B7D_4665_9AB6_0ADFED6FF865__INCLUDED_
 
 class Session
 {
@@ -18,9 +16,9 @@ public:
 	virtual ~Session();
 
 private:
-	AbstractPortal portal;
+	AbstractPortal& portal;
 	std:string username;
 	int accessLevel;
 
 };
-#endif // !defined(EA_B705221C_D98B_4c8d_A0BD_482E4B17E3CB__INCLUDED_)
+#endif // !defined(EA_B7E66DB6_9B7D_4665_9AB6_0ADFED6FF865__INCLUDED_)

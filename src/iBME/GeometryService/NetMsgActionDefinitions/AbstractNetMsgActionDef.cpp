@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  AbstractNetMsgActionDef.cpp
 //  Implementation of the Class AbstractNetMsgActionDef
-//  Created on:      20-Nov-2008 8:00:07 AM
+//  Created on:      20-Nov-2008 12:36:08 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
@@ -22,7 +22,7 @@ AbstractNetMsgActionDef::~AbstractNetMsgActionDef(){
 
 
 
-AbstractJob AbstractNetMsgActionDef::convert(NetMsg msg){
+AbstractJob& AbstractNetMsgActionDef::convert(NetMsg& msg){
 
 	return  NULL;
 }

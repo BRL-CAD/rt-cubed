@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  NonGeo.h
 //  Implementation of the Class NonGeo
-//  Created on:      20-Nov-2008 8:00:17 AM
+//  Created on:      20-Nov-2008 12:36:19 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_115602F6_51AB_4dca_AA03_D6807D379D11__INCLUDED_)
-#define EA_115602F6_51AB_4dca_AA03_D6807D379D11__INCLUDED_
+#if !defined(EA_964AFE57_E32B_46fe_AD06_007964C3D8F5__INCLUDED_)
+#define EA_964AFE57_E32B_46fe_AD06_007964C3D8F5__INCLUDED_
 
 #include "AbstractResource.h"
 
@@ -18,4 +18,4 @@ public:
 	virtual ~NonGeo();
 
 };
-#endif // !defined(EA_115602F6_51AB_4dca_AA03_D6807D379D11__INCLUDED_)
+#endif // !defined(EA_964AFE57_E32B_46fe_AD06_007964C3D8F5__INCLUDED_)

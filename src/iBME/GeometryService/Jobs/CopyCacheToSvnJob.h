@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  CopyCacheToSvnJob.h
 //  Implementation of the Class CopyCacheToSvnJob
-//  Created on:      20-Nov-2008 8:00:11 AM
+//  Created on:      20-Nov-2008 12:36:13 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_C031906E_9965_4a09_8A10_3F9E14163718__INCLUDED_)
-#define EA_C031906E_9965_4a09_8A10_3F9E14163718__INCLUDED_
+#if !defined(EA_47003FA6_4B8D_4b59_BD59_1015B982613E__INCLUDED_)
+#define EA_47003FA6_4B8D_4b59_BD59_1015B982613E__INCLUDED_
 
 #include "AbstractJob.h"
 
@@ -20,7 +20,7 @@ public:
 	virtual bool doJob();
 
 private:
-	AbstractResource resToCopy;
+	AbstractResource& resToCopy;
 
 };
-#endif // !defined(EA_C031906E_9965_4a09_8A10_3F9E14163718__INCLUDED_)
+#endif // !defined(EA_47003FA6_4B8D_4b59_BD59_1015B982613E__INCLUDED_)

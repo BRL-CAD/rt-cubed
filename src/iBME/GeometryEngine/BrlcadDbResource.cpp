@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  BrlcadDbResource.cpp
 //  Implementation of the Class BrlcadDbResource
-//  Created on:      20-Nov-2008 8:00:09 AM
+//  Created on:      20-Nov-2008 12:36:10 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
@@ -22,13 +22,13 @@ BrlcadDbResource::~BrlcadDbResource(){
 
 
 
-AbstractResource BrlcadDbResource::getGeometryByObjectName(std::string name){
+AbstractResource& BrlcadDbResource::getGeometryByObjectName(std::string name){
 
 	return  NULL;
 }
 
 
-AbstractResource BrlcadDbResource::getGeometryByUUName(UUName uuname){
+AbstractResource& BrlcadDbResource::getGeometryByUUID(UUID uuid){
 
 	return  NULL;
 }

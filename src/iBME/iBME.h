@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  iBME.h
 //  Implementation of the Class iBME
-//  Created on:      20-Nov-2008 8:00:13 AM
+//  Created on:      20-Nov-2008 12:36:15 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_8B8196C6_B31E_4c8c_B9C8_05BED0EBB48B__INCLUDED_)
-#define EA_8B8196C6_B31E_4c8c_B9C8_05BED0EBB48B__INCLUDED_
+#if !defined(EA_B140D342_018A_417a_9ACC_6864426581EF__INCLUDED_)
+#define EA_B140D342_018A_417a_9ACC_6864426581EF__INCLUDED_
 
 #include "GeometryService.h"
 #include "AbstractGui.h"
@@ -23,4 +23,4 @@ public:
 	AbstractGui *m_AbstractGui;
 
 };
-#endif // !defined(EA_8B8196C6_B31E_4c8c_B9C8_05BED0EBB48B__INCLUDED_)
+#endif // !defined(EA_B140D342_018A_417a_9ACC_6864426581EF__INCLUDED_)

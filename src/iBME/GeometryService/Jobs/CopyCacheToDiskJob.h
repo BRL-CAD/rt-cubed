@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  CopyCacheToDiskJob.h
 //  Implementation of the Class CopyCacheToDiskJob
-//  Created on:      20-Nov-2008 8:00:10 AM
+//  Created on:      20-Nov-2008 12:36:12 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_DA5100E0_51FB_4125_8C5E_313F70DAD449__INCLUDED_)
-#define EA_DA5100E0_51FB_4125_8C5E_313F70DAD449__INCLUDED_
+#if !defined(EA_2165E136_E8BE_4a67_8D31_71C2998BB642__INCLUDED_)
+#define EA_2165E136_E8BE_4a67_8D31_71C2998BB642__INCLUDED_
 
 #include "AbstractJob.h"
 
@@ -20,7 +20,7 @@ public:
 	virtual bool doJob();
 
 private:
-	AbstractResource resToCopy;
+	AbstractResource& resToCopy;
 
 };
-#endif // !defined(EA_DA5100E0_51FB_4125_8C5E_313F70DAD449__INCLUDED_)
+#endif // !defined(EA_2165E136_E8BE_4a67_8D31_71C2998BB642__INCLUDED_)

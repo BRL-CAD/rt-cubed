@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  NetMsg.cpp
 //  Implementation of the Class NetMsg
-//  Created on:      20-Nov-2008 8:00:15 AM
+//  Created on:      20-Nov-2008 12:36:17 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

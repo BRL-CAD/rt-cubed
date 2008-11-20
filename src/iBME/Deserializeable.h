@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  Deserializeable.h
 //  Implementation of the Interface Deserializeable
-//  Created on:      20-Nov-2008 8:00:11 AM
+//  Created on:      20-Nov-2008 12:36:13 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_0F798DF0_E85F_48ef_9970_25CB5E8FA82B__INCLUDED_)
-#define EA_0F798DF0_E85F_48ef_9970_25CB5E8FA82B__INCLUDED_
+#if !defined(EA_C1C3674E_6A22_45c2_B945_673502BE4D7D__INCLUDED_)
+#define EA_C1C3674E_6A22_45c2_B945_673502BE4D7D__INCLUDED_
 
 class Deserializeable
 {
@@ -24,4 +24,4 @@ public:
 	virtual void Deserializeable(std::istream istr) =0;
 
 };
-#endif // !defined(EA_0F798DF0_E85F_48ef_9970_25CB5E8FA82B__INCLUDED_)
+#endif // !defined(EA_C1C3674E_6A22_45c2_B945_673502BE4D7D__INCLUDED_)

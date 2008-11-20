@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  CommandResult.cpp
 //  Implementation of the Class CommandResult
-//  Created on:      20-Nov-2008 8:00:09 AM
+//  Created on:      20-Nov-2008 12:36:10 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  IntraAppPortal.h
 //  Implementation of the Class IntraAppPortal
-//  Created on:      20-Nov-2008 8:00:14 AM
+//  Created on:      20-Nov-2008 12:36:16 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_49D79447_21D6_41f0_9ED9_E2F9BBE3BFB1__INCLUDED_)
-#define EA_49D79447_21D6_41f0_9ED9_E2F9BBE3BFB1__INCLUDED_
+#if !defined(EA_29193F7C_FF22_422e_AA4F_50EC5FDAD8FD__INCLUDED_)
+#define EA_29193F7C_FF22_422e_AA4F_50EC5FDAD8FD__INCLUDED_
 
 #include "AbstractPortal.h"
 
@@ -18,4 +18,4 @@ public:
 	virtual ~IntraAppPortal();
 
 };
-#endif // !defined(EA_49D79447_21D6_41f0_9ED9_E2F9BBE3BFB1__INCLUDED_)
+#endif // !defined(EA_29193F7C_FF22_422e_AA4F_50EC5FDAD8FD__INCLUDED_)

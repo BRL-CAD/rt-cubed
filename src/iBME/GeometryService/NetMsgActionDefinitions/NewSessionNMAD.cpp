@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  NewSessionNMAD.cpp
 //  Implementation of the Class NewSessionNMAD
-//  Created on:      20-Nov-2008 8:00:17 AM
+//  Created on:      20-Nov-2008 12:36:19 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
@@ -22,7 +22,7 @@ NewSessionNMAD::~NewSessionNMAD(){
 
 
 
-AbstractJob NewSessionNMAD::convert(NetMsg msg){
+AbstractJob& NewSessionNMAD::convert(NetMsg& msg){
 
 	return  NULL;
 }

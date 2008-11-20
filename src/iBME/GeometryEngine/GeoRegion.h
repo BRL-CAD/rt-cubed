@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  GeoRegion.h
 //  Implementation of the Class GeoRegion
-//  Created on:      20-Nov-2008 8:00:13 AM
+//  Created on:      20-Nov-2008 12:36:15 PM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_C4BC0D1A_2809_4aa5_8451_8575BD9A7015__INCLUDED_)
-#define EA_C4BC0D1A_2809_4aa5_8451_8575BD9A7015__INCLUDED_
+#if !defined(EA_B390EF0D_AC10_4933_BAA9_8B2C193857C4__INCLUDED_)
+#define EA_B390EF0D_AC10_4933_BAA9_8B2C193857C4__INCLUDED_
 
 #include "GeoCollection.h"
 
@@ -18,4 +18,4 @@ public:
 	virtual ~GeoRegion();
 
 };
-#endif // !defined(EA_C4BC0D1A_2809_4aa5_8451_8575BD9A7015__INCLUDED_)
+#endif // !defined(EA_B390EF0D_AC10_4933_BAA9_8B2C193857C4__INCLUDED_)
