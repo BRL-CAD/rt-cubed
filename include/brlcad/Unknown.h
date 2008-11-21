@@ -43,9 +43,6 @@ namespace BRLCAD {
 
         const Unknown&      operator=(const Unknown& original) throw();
 
-        virtual Unknown*    Clone(void) const throw(std::bad_alloc);
-        virtual void        Delete(void) throw();
-
         static const char*  ClassName(void) throw() {
             return "Unknown";
         }

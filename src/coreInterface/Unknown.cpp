@@ -49,16 +49,6 @@ const Unknown& Unknown::operator=(const Unknown& original) throw() {
 }
 
 
-Unknown* Unknown::Clone(void) const throw(std::bad_alloc) {
-    return new Unknown(*this);
-}
-
-
-void Unknown::Delete(void) throw() {
-    delete this;
-}
-
-
 const char* Unknown::Type(void) const throw() {
     return ClassName();
 }

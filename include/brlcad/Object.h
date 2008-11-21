@@ -44,9 +44,6 @@ namespace BRLCAD {
     public:
         virtual ~Object(void) throw();
 
-        virtual Object*     Clone(void) const = 0;
-        virtual void        Delete(void)      = 0;
-
         // these two functions can be used to determine the type of the object
         static const char*  ClassName(void) throw() {
             return "Object";

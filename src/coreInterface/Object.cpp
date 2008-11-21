@@ -107,9 +107,11 @@ Object::Object
 Object::Object
 (
     const Object& original
-) throw() : m_resp(original.m_resp), m_pDir(original.m_pDir), m_ip(original.m_ip), m_dbip(original.m_dbip), m_name(0) {
-    if (original.m_name != 0)
-        m_name = bu_strdupm(original.m_name, "BRLCAD::Object::Object");
+) throw() : m_resp(0), m_pDir(0), m_ip(0), m_dbip(0), m_name(0) {
+    const char* name = original.Name();
+
+    if (name != 0)
+        m_name = bu_strdupm(name, "BRLCAD::Object::Object");
 }
 
 
@@ -121,13 +123,15 @@ const Object& Object::operator=
         if (m_name != 0)
             bu_free(m_name, "BRLCAD::Object::operator=");
 
-        m_resp = original.m_resp;
-        m_pDir = original.m_pDir;
-        m_ip   = original.m_ip;
-        m_dbip = original.m_dbip;
+        m_resp = 0;
+        m_pDir = 0;
+        m_ip   = 0;
+        m_dbip = 0;
 
-        if (original.m_name != 0)
-            m_name = bu_strdupm(original.m_name, "BRLCAD::Object::operator=");
+        const char* name = original.Name();
+
+        if (name != 0)
+            m_name = bu_strdupm(name, "BRLCAD::Object::operator=");
         else
             m_name = 0;
     }
