@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  Config.h
 //  Implementation of the Class Config
-//  Created on:      20-Nov-2008 12:36:11 PM
+//  Created on:      04-Dec-2008 8:26:37 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_44D25D48_A8B0_481b_A47D_2E4E36F494E1__INCLUDED_)
-#define EA_44D25D48_A8B0_481b_A47D_2E4E36F494E1__INCLUDED_
+#if !defined(EA_817A7F4C_76A6_46bc_8C8C_F94175BBB2BB__INCLUDED_)
+#define EA_817A7F4C_76A6_46bc_8C8C_F94175BBB2BB__INCLUDED_
 
 /**
  * Singleton Class.
@@ -20,4 +20,4 @@ public:
 	virtual ~Config();
 
 };
-#endif // !defined(EA_44D25D48_A8B0_481b_A47D_2E4E36F494E1__INCLUDED_)
+#endif // !defined(EA_817A7F4C_76A6_46bc_8C8C_F94175BBB2BB__INCLUDED_)

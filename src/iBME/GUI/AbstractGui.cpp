@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  AbstractGui.cpp
 //  Implementation of the Class AbstractGui
-//  Created on:      20-Nov-2008 12:36:07 PM
+//  Created on:      04-Dec-2008 8:26:35 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

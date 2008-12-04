@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  Config.cpp
 //  Implementation of the Class Config
-//  Created on:      20-Nov-2008 12:36:11 PM
+//  Created on:      04-Dec-2008 8:26:37 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
