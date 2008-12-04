@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  AccessManager.cpp
 //  Implementation of the Class AccessManager
-//  Created on:      20-Nov-2008 12:36:09 PM
+//  Created on:      04-Dec-2008 8:26:36 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

@@ -1,14 +1,16 @@
 ///////////////////////////////////////////////////////////
 //  GeometryService.h
 //  Implementation of the Class GeometryService
-//  Created on:      20-Nov-2008 12:36:14 PM
+//  Created on:      04-Dec-2008 8:26:41 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_1497BD4C_DB75_46d3_9E8C_9EABD9F38CB9__INCLUDED_)
-#define EA_1497BD4C_DB75_46d3_9E8C_9EABD9F38CB9__INCLUDED_
+#if !defined(EA_3D6AB01F_95E0_476a_9A5C_7D27DC5CD966__INCLUDED_)
+#define EA_3D6AB01F_95E0_476a_9A5C_7D27DC5CD966__INCLUDED_
 
 #include "GeometryEngine.h"
+#include "NetMsgActionDefManager.h"
+#include "JobManager.h"
 #include "CommunicationsManager.h"
 #include "SessionManager.h"
 #include "AccessManager.h"
@@ -25,6 +27,8 @@ class GeometryService : public GeometryEngine
 public:
 	GeometryService();
 	virtual ~GeometryService();
+	NetMsgActionDefManager *m_NetMsgActionDefManager;
+	JobManager *m_JobManager;
 	CommunicationsManager *m_CommunicationsManager;
 	SessionManager *m_SessionManager;
 	AccessManager *m_AccessManager;
@@ -40,4 +44,4 @@ private:
 	AccessManager& accessMan;
 
 };
-#endif // !defined(EA_1497BD4C_DB75_46d3_9E8C_9EABD9F38CB9__INCLUDED_)
+#endif // !defined(EA_3D6AB01F_95E0_476a_9A5C_7D27DC5CD966__INCLUDED_)

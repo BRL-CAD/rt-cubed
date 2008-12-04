@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  AccessManager.h
 //  Implementation of the Class AccessManager
-//  Created on:      20-Nov-2008 12:36:09 PM
+//  Created on:      04-Dec-2008 8:26:36 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_B02AA972_7846_4378_9AAF_E755529A4CD0__INCLUDED_)
-#define EA_B02AA972_7846_4378_9AAF_E755529A4CD0__INCLUDED_
+#if !defined(EA_B6CBA722_EDF4_4509_95BE_0DFF3FE77ED4__INCLUDED_)
+#define EA_B6CBA722_EDF4_4509_95BE_0DFF3FE77ED4__INCLUDED_
 
 class AccessManager
 {
@@ -16,4 +16,4 @@ public:
 	virtual ~AccessManager();
 
 };
-#endif // !defined(EA_B02AA972_7846_4378_9AAF_E755529A4CD0__INCLUDED_)
+#endif // !defined(EA_B6CBA722_EDF4_4509_95BE_0DFF3FE77ED4__INCLUDED_)

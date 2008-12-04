@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  CommunicationsManager.cpp
 //  Implementation of the Class CommunicationsManager
-//  Created on:      20-Nov-2008 12:36:10 PM
+//  Created on:      04-Dec-2008 8:26:37 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

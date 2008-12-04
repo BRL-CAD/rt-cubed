@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  AbstractNetMsgActionDef.h
 //  Implementation of the Class AbstractNetMsgActionDef
-//  Created on:      20-Nov-2008 12:36:08 PM
+//  Created on:      04-Dec-2008 8:26:35 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_CC1B5F3F_D715_40c1_A8E1_03B3B6305FB4__INCLUDED_)
-#define EA_CC1B5F3F_D715_40c1_A8E1_03B3B6305FB4__INCLUDED_
+#if !defined(EA_D66052C8_4856_48ad_A092_F95B68B6C5B2__INCLUDED_)
+#define EA_D66052C8_4856_48ad_A092_F95B68B6C5B2__INCLUDED_
 
 /**
  * Base class to be extended from to implement all NetMsg to Job Conversions
@@ -24,4 +24,4 @@ private:
 	int msgType;
 
 };
-#endif // !defined(EA_CC1B5F3F_D715_40c1_A8E1_03B3B6305FB4__INCLUDED_)
+#endif // !defined(EA_D66052C8_4856_48ad_A092_F95B68B6C5B2__INCLUDED_)

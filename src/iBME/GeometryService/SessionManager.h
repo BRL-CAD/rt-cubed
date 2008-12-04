@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  SessionManager.h
 //  Implementation of the Class SessionManager
-//  Created on:      20-Nov-2008 12:36:22 PM
+//  Created on:      04-Dec-2008 8:26:47 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_227EDD18_0599_4a15_9C7A_15E5A16344F4__INCLUDED_)
-#define EA_227EDD18_0599_4a15_9C7A_15E5A16344F4__INCLUDED_
+#if !defined(EA_3CB984D5_0FC2_44e9_97EF_35B7556C56BF__INCLUDED_)
+#define EA_3CB984D5_0FC2_44e9_97EF_35B7556C56BF__INCLUDED_
 
 #include "Session.h"
 
@@ -19,4 +19,4 @@ public:
 	Session *m_Session;
 
 };
-#endif // !defined(EA_227EDD18_0599_4a15_9C7A_15E5A16344F4__INCLUDED_)
+#endif // !defined(EA_3CB984D5_0FC2_44e9_97EF_35B7556C56BF__INCLUDED_)

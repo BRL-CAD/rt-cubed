@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  CommunicationsManager.h
 //  Implementation of the Class CommunicationsManager
-//  Created on:      20-Nov-2008 12:36:10 PM
+//  Created on:      04-Dec-2008 8:26:37 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_C3CB83B5_968B_4289_B37A_44626C6BD460__INCLUDED_)
-#define EA_C3CB83B5_968B_4289_B37A_44626C6BD460__INCLUDED_
+#if !defined(EA_7267D4D2_D947_4a8b_BB9E_0CDC321575EA__INCLUDED_)
+#define EA_7267D4D2_D947_4a8b_BB9E_0CDC321575EA__INCLUDED_
 
 #include "AbstractPortal.h"
 
@@ -33,4 +33,4 @@ private:
 	std::map <std::string, AbstractPortal&> portals;
 
 };
-#endif // !defined(EA_C3CB83B5_968B_4289_B37A_44626C6BD460__INCLUDED_)
+#endif // !defined(EA_7267D4D2_D947_4a8b_BB9E_0CDC321575EA__INCLUDED_)

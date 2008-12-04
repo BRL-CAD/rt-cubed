@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  AbstractPortal.h
 //  Implementation of the Class AbstractPortal
-//  Created on:      20-Nov-2008 12:36:08 PM
+//  Created on:      04-Dec-2008 8:26:36 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_E01DD748_B11D_4223_9B40_4533C2135B1E__INCLUDED_)
-#define EA_E01DD748_B11D_4223_9B40_4533C2135B1E__INCLUDED_
+#if !defined(EA_E11D0280_A321_42fb_81AD_E940D83D21E7__INCLUDED_)
+#define EA_E11D0280_A321_42fb_81AD_E940D83D21E7__INCLUDED_
 
 class AbstractPortal
 {
@@ -21,4 +21,4 @@ private:
 	std::list <std::string> proxy_hosts;
 
 };
-#endif // !defined(EA_E01DD748_B11D_4223_9B40_4533C2135B1E__INCLUDED_)
+#endif // !defined(EA_E11D0280_A321_42fb_81AD_E940D83D21E7__INCLUDED_)

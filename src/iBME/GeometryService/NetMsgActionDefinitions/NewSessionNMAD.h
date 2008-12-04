@@ -1,23 +1,23 @@
 ///////////////////////////////////////////////////////////
 //  NewSessionNMAD.h
-//  Implementation of the Class NewSessionNMAD
-//  Created on:      20-Nov-2008 12:36:19 PM
+//  Implementation of the Class NewSessionNetMsgActionDef
+//  Created on:      04-Dec-2008 8:26:46 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_43C0003D_DFCD_4eac_98DC_788A0C73A0BF__INCLUDED_)
-#define EA_43C0003D_DFCD_4eac_98DC_788A0C73A0BF__INCLUDED_
+#if !defined(EA_6DD86C3C_9C35_4344_B578_17A0DDAF52DF__INCLUDED_)
+#define EA_6DD86C3C_9C35_4344_B578_17A0DDAF52DF__INCLUDED_
 
 #include "AbstractNetMsgActionDef.h"
 
-class NewSessionNMAD : public AbstractNetMsgActionDef
+class NewSessionNetMsgActionDef : public AbstractNetMsgActionDef
 {
 
 public:
-	NewSessionNMAD();
-	virtual ~NewSessionNMAD();
+	NewSessionNetMsgActionDef();
+	virtual ~NewSessionNetMsgActionDef();
 
 	AbstractJob& convert(NetMsg& msg);
 
 };
-#endif // !defined(EA_43C0003D_DFCD_4eac_98DC_788A0C73A0BF__INCLUDED_)
+#endif // !defined(EA_6DD86C3C_9C35_4344_B578_17A0DDAF52DF__INCLUDED_)

@@ -1,20 +1,20 @@
 ///////////////////////////////////////////////////////////
 //  NewSessionNMAD.cpp
-//  Implementation of the Class NewSessionNMAD
-//  Created on:      20-Nov-2008 12:36:19 PM
+//  Implementation of the Class NewSessionNetMsgActionDef
+//  Created on:      04-Dec-2008 8:26:46 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
 #include "NewSessionNMAD.h"
 
 
-NewSessionNMAD::NewSessionNMAD(){
+NewSessionNetMsgActionDef::NewSessionNetMsgActionDef(){
 
 }
 
 
 
-NewSessionNMAD::~NewSessionNMAD(){
+NewSessionNetMsgActionDef::~NewSessionNetMsgActionDef(){
 
 }
 
@@ -22,7 +22,7 @@ NewSessionNMAD::~NewSessionNMAD(){
 
 
 
-AbstractJob& NewSessionNMAD::convert(NetMsg& msg){
+AbstractJob& NewSessionNetMsgActionDef::convert(NetMsg& msg){
 
 	return  NULL;
 }

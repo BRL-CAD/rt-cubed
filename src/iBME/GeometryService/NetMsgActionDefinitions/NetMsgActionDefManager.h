@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  NetMsgActionDefManager.h
 //  Implementation of the Class NetMsgActionDefManager
-//  Created on:      20-Nov-2008 12:36:18 PM
+//  Created on:      04-Dec-2008 8:26:45 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_1A1BBFF4_3CE6_4836_96AE_21987FEDCD02__INCLUDED_)
-#define EA_1A1BBFF4_3CE6_4836_96AE_21987FEDCD02__INCLUDED_
+#if !defined(EA_47EEEEB4_86FF_42a0_BA79_83CF4EF92054__INCLUDED_)
+#define EA_47EEEEB4_86FF_42a0_BA79_83CF4EF92054__INCLUDED_
 
 #include "AbstractNetMsgActionDef.h"
 
@@ -27,4 +27,4 @@ private:
 	std::map <int, AbstractNetMsgActionDef&> conversionDefs;
 
 };
-#endif // !defined(EA_1A1BBFF4_3CE6_4836_96AE_21987FEDCD02__INCLUDED_)
+#endif // !defined(EA_47EEEEB4_86FF_42a0_BA79_83CF4EF92054__INCLUDED_)
