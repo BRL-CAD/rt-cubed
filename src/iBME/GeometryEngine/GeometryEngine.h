@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  GeometryEngine.h
 //  Implementation of the Class GeometryEngine
-//  Created on:      20-Nov-2008 12:36:14 PM
+//  Created on:      04-Dec-2008 8:26:41 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_0435AF58_6F02_4c83_B821_C9A85CB6FF89__INCLUDED_)
-#define EA_0435AF58_6F02_4c83_B821_C9A85CB6FF89__INCLUDED_
+#if !defined(EA_78A0F8DA_4FE4_41ba_8F84_D12EF37ADF51__INCLUDED_)
+#define EA_78A0F8DA_4FE4_41ba_8F84_D12EF37ADF51__INCLUDED_
 
 #include "GED.h"
 #include "ResourceManager.h"
@@ -23,7 +23,7 @@ public:
 	GeometryEngine();
 	virtual ~GeometryEngine();
 	GED *m_GED;
-	ResourceManager *m_ResourceManager;
+	DbObjectManager *m_DbObjectManager;
 
 };
-#endif // !defined(EA_0435AF58_6F02_4c83_B821_C9A85CB6FF89__INCLUDED_)
+#endif // !defined(EA_78A0F8DA_4FE4_41ba_8F84_D12EF37ADF51__INCLUDED_)

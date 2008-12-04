@@ -1,22 +1,22 @@
 ///////////////////////////////////////////////////////////
 //  AbstractResourceSource.h
-//  Implementation of the Class AbstractResourceSource
-//  Created on:      20-Nov-2008 12:36:09 PM
+//  Implementation of the Class AbstractDbObjectSource
+//  Created on:      04-Dec-2008 8:26:34 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_D181387C_3F7D_4a1f_A0F7_5208BFC161FC__INCLUDED_)
-#define EA_D181387C_3F7D_4a1f_A0F7_5208BFC161FC__INCLUDED_
+#if !defined(EA_09B0FD69_22E3_406c_97F4_190D33AC12B8__INCLUDED_)
+#define EA_09B0FD69_22E3_406c_97F4_190D33AC12B8__INCLUDED_
 
-class AbstractResourceSource
+class AbstractDbObjectSource
 {
 
 public:
-	AbstractResourceSource();
-	virtual ~AbstractResourceSource();
+	AbstractDbObjectSource();
+	virtual ~AbstractDbObjectSource();
 
-	virtual AbstractResource& getResourceByURL(URL url);
-	bool putResource(AbstractResource& res);
+	virtual DbObject& getDbObjectByURL(URL url);
+	bool putDbObject(DbObject& dbobj);
 
 };
-#endif // !defined(EA_D181387C_3F7D_4a1f_A0F7_5208BFC161FC__INCLUDED_)
+#endif // !defined(EA_09B0FD69_22E3_406c_97F4_190D33AC12B8__INCLUDED_)

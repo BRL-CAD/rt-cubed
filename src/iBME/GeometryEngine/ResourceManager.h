@@ -1,28 +1,28 @@
 ///////////////////////////////////////////////////////////
 //  ResourceManager.h
-//  Implementation of the Class ResourceManager
-//  Created on:      20-Nov-2008 12:36:20 PM
+//  Implementation of the Class DbObjectManager
+//  Created on:      04-Dec-2008 8:26:40 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_658D4563_2739_41a1_A144_82D5852AD35A__INCLUDED_)
-#define EA_658D4563_2739_41a1_A144_82D5852AD35A__INCLUDED_
+#if !defined(EA_DB729CE6_B0CD_4141_A603_18DD152317A3__INCLUDED_)
+#define EA_DB729CE6_B0CD_4141_A603_18DD152317A3__INCLUDED_
 
 #include "AbstractResourceSource.h"
 
-class ResourceManager
+class DbObjectManager
 {
 
 public:
-	ResourceManager();
-	virtual ~ResourceManager();
-	AbstractResourceSource *m_AbstractResourceSource;
+	DbObjectManager();
+	virtual ~DbObjectManager();
+	AbstractDbObjectSource *m_AbstractDbObjectSource;
 
-	AbstractResource& getResourceByURL(URL url);
-	AbstractResource& getResourceByUUID(UUID uuid);
+	DbObject& getDbObjectByURL(URL url);
+	DbObject& getDbObjectByUUID(UUID uuid);
 
 private:
-	std::list <AbstractResourceSource&> resSources;
+	std::list <AbstractDbObjectSource&> DbObjectSources;
 
 };
-#endif // !defined(EA_658D4563_2739_41a1_A144_82D5852AD35A__INCLUDED_)
+#endif // !defined(EA_DB729CE6_B0CD_4141_A603_18DD152317A3__INCLUDED_)

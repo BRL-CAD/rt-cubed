@@ -1,20 +1,20 @@
 ///////////////////////////////////////////////////////////
 //  ResourceManager.cpp
-//  Implementation of the Class ResourceManager
-//  Created on:      20-Nov-2008 12:36:21 PM
+//  Implementation of the Class DbObjectManager
+//  Created on:      04-Dec-2008 8:26:40 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
 #include "ResourceManager.h"
 
 
-ResourceManager::ResourceManager(){
+DbObjectManager::DbObjectManager(){
 
 }
 
 
 
-ResourceManager::~ResourceManager(){
+DbObjectManager::~DbObjectManager(){
 
 }
 
@@ -22,13 +22,13 @@ ResourceManager::~ResourceManager(){
 
 
 
-AbstractResource& ResourceManager::getResourceByURL(URL url){
+DbObject& DbObjectManager::getDbObjectByURL(URL url){
 
 	return  NULL;
 }
 
 
-AbstractResource& ResourceManager::getResourceByUUID(UUID uuid){
+DbObject& DbObjectManager::getDbObjectByUUID(UUID uuid){
 
 	return  NULL;
 }

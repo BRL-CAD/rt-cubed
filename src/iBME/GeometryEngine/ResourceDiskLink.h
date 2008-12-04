@@ -1,24 +1,24 @@
 ///////////////////////////////////////////////////////////
 //  ResourceDiskLink.h
-//  Implementation of the Class ResourceDiskLink
-//  Created on:      20-Nov-2008 12:36:20 PM
+//  Implementation of the Class SourceDiskLink
+//  Created on:      04-Dec-2008 8:26:48 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_445C945E_EB00_4bfc_8252_D317E7E84456__INCLUDED_)
-#define EA_445C945E_EB00_4bfc_8252_D317E7E84456__INCLUDED_
+#if !defined(EA_BB2055DE_7F5F_4852_A3D8_009A152991BE__INCLUDED_)
+#define EA_BB2055DE_7F5F_4852_A3D8_009A152991BE__INCLUDED_
 
 #include "AbstractResourceSource.h"
 
-class ResourceDiskLink : public AbstractResourceSource
+class SourceDiskLink : public AbstractDbObjectSource
 {
 
 public:
-	ResourceDiskLink();
-	virtual ~ResourceDiskLink();
+	SourceDiskLink();
+	virtual ~SourceDiskLink();
 
-	virtual AbstractResource& getResourceByURL(URL url);
-	bool putResource(AbstractResource& res);
+	virtual DbObject& getDbObjectByURL(URL url);
+	bool putDbObject(DbObject& dbobj);
 
 };
-#endif // !defined(EA_445C945E_EB00_4bfc_8252_D317E7E84456__INCLUDED_)
+#endif // !defined(EA_BB2055DE_7F5F_4852_A3D8_009A152991BE__INCLUDED_)

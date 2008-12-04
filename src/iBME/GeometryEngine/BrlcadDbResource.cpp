@@ -1,20 +1,20 @@
 ///////////////////////////////////////////////////////////
 //  BrlcadDbResource.cpp
-//  Implementation of the Class BrlcadDbResource
-//  Created on:      20-Nov-2008 12:36:10 PM
+//  Implementation of the Class BrlcadDb
+//  Created on:      04-Dec-2008 8:26:36 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
 #include "BrlcadDbResource.h"
 
 
-BrlcadDbResource::BrlcadDbResource(){
+BrlcadDb::BrlcadDb(){
 
 }
 
 
 
-BrlcadDbResource::~BrlcadDbResource(){
+BrlcadDb::~BrlcadDb(){
 
 }
 
@@ -22,13 +22,13 @@ BrlcadDbResource::~BrlcadDbResource(){
 
 
 
-AbstractResource& BrlcadDbResource::getGeometryByObjectName(std::string name){
+DbObject& BrlcadDb::getDbObjectByObjectName(std::string name){
 
 	return  NULL;
 }
 
 
-AbstractResource& BrlcadDbResource::getGeometryByUUID(UUID uuid){
+DbObject& BrlcadDb::getDbObjectByUUID(UUID uuid){
 
 	return  NULL;
 }

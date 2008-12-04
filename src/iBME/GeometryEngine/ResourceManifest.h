@@ -1,23 +1,23 @@
 ///////////////////////////////////////////////////////////
 //  ResourceManifest.h
-//  Implementation of the Class ResourceManifest
-//  Created on:      20-Nov-2008 12:36:21 PM
+//  Implementation of the Class DbObjectManifest
+//  Created on:      04-Dec-2008 8:26:40 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_D1CF56DA_ADE4_47bb_A75E_09930745EF0D__INCLUDED_)
-#define EA_D1CF56DA_ADE4_47bb_A75E_09930745EF0D__INCLUDED_
+#if !defined(EA_CFEA95F7_A065_494c_8B60_C33B4BB1B89C__INCLUDED_)
+#define EA_CFEA95F7_A065_494c_8B60_C33B4BB1B89C__INCLUDED_
 
-class ResourceManifest
+class DbObjectManifest
 {
 
 public:
-	ResourceManifest();
-	virtual ~ResourceManifest();
+	DbObjectManifest();
+	virtual ~DbObjectManifest();
 
 private:
-	std::list<UUID> ResourceList;
-	std::map<UUID, AbstractResource& > ResourceMap;
+	std::list<UUID> DbObjectList;
+	std::map<UUID, DbObject& > DbObjectMap;
 
 };
-#endif // !defined(EA_D1CF56DA_ADE4_47bb_A75E_09930745EF0D__INCLUDED_)
+#endif // !defined(EA_CFEA95F7_A065_494c_8B60_C33B4BB1B89C__INCLUDED_)

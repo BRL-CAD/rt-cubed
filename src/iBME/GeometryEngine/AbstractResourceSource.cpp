@@ -1,20 +1,20 @@
 ///////////////////////////////////////////////////////////
 //  AbstractResourceSource.cpp
-//  Implementation of the Class AbstractResourceSource
-//  Created on:      20-Nov-2008 12:36:09 PM
+//  Implementation of the Class AbstractDbObjectSource
+//  Created on:      04-Dec-2008 8:26:34 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
 #include "AbstractResourceSource.h"
 
 
-AbstractResourceSource::AbstractResourceSource(){
+AbstractDbObjectSource::AbstractDbObjectSource(){
 
 }
 
 
 
-AbstractResourceSource::~AbstractResourceSource(){
+AbstractDbObjectSource::~AbstractDbObjectSource(){
 
 }
 
@@ -22,13 +22,13 @@ AbstractResourceSource::~AbstractResourceSource(){
 
 
 
-AbstractResource& AbstractResourceSource::getResourceByURL(URL url){
+DbObject& AbstractDbObjectSource::getDbObjectByURL(URL url){
 
 	return  NULL;
 }
 
 
-bool AbstractResourceSource::putResource(AbstractResource& res){
+bool AbstractDbObjectSource::putDbObject(DbObject& dbobj){
 
 	return false;
 }

@@ -1,19 +1,19 @@
 ///////////////////////////////////////////////////////////
 //  ResourceManifest.cpp
-//  Implementation of the Class ResourceManifest
-//  Created on:      20-Nov-2008 12:36:21 PM
+//  Implementation of the Class DbObjectManifest
+//  Created on:      04-Dec-2008 8:26:40 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
 #include "ResourceManifest.h"
 
 
-ResourceManifest::ResourceManifest(){
+DbObjectManifest::DbObjectManifest(){
 
 }
 
 
 
-ResourceManifest::~ResourceManifest(){
+DbObjectManifest::~DbObjectManifest(){
 
 }

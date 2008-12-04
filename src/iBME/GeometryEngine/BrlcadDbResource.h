@@ -1,24 +1,24 @@
 ///////////////////////////////////////////////////////////
 //  BrlcadDbResource.h
-//  Implementation of the Class BrlcadDbResource
-//  Created on:      20-Nov-2008 12:36:10 PM
+//  Implementation of the Class BrlcadDb
+//  Created on:      04-Dec-2008 8:26:36 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_79F7C967_621A_490a_9CAE_07D646A138B8__INCLUDED_)
-#define EA_79F7C967_621A_490a_9CAE_07D646A138B8__INCLUDED_
+#if !defined(EA_F576828D_6495_4f32_8BD9_9264BDA263A9__INCLUDED_)
+#define EA_F576828D_6495_4f32_8BD9_9264BDA263A9__INCLUDED_
 
 #include "AbstractResource.h"
 
-class BrlcadDbResource : public AbstractResource
+class BrlcadDb : public DbObject
 {
 
 public:
-	BrlcadDbResource();
-	virtual ~BrlcadDbResource();
+	BrlcadDb();
+	virtual ~BrlcadDb();
 
-	virtual AbstractResource& getGeometryByObjectName(std::string name);
-	virtual AbstractResource& getGeometryByUUID(UUID uuid);
+	virtual DbObject& getDbObjectByObjectName(std::string name);
+	virtual DbObject& getDbObjectByUUID(UUID uuid);
 
 private:
 	/**
@@ -32,7 +32,7 @@ private:
 	/**
 	 * Directory of BRL-CAD object names and their offset into the BRL-CAD db
 	 */
-	Map < std::string, AbstractGeometry& > nameMap;
+	Map < std::string, DbObject& > nameMap;
 
 };
-#endif // !defined(EA_79F7C967_621A_490a_9CAE_07D646A138B8__INCLUDED_)
+#endif // !defined(EA_F576828D_6495_4f32_8BD9_9264BDA263A9__INCLUDED_)

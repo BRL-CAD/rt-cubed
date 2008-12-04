@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  GED.cpp
 //  Implementation of the Class GED
-//  Created on:      20-Nov-2008 12:36:13 PM
+//  Created on:      04-Dec-2008 8:26:40 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

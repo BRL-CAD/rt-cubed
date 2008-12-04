@@ -1,20 +1,20 @@
 ///////////////////////////////////////////////////////////
 //  AbstractResource.cpp
-//  Implementation of the Class AbstractResource
-//  Created on:      20-Nov-2008 12:36:09 PM
+//  Implementation of the Class DbObject
+//  Created on:      04-Dec-2008 8:26:39 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
 #include "AbstractResource.h"
 
 
-AbstractResource::AbstractResource(){
+DbObject::DbObject(){
 
 }
 
 
 
-AbstractResource::~AbstractResource(){
+DbObject::~DbObject(){
 
 }
 
@@ -22,38 +22,38 @@ AbstractResource::~AbstractResource(){
 
 
 
-void AbstractResource::AbstractResource(long id, string name, unsigned int geoType, bool locked){
+void DbObject::DbObject(long id, string name, unsigned int geoType, bool locked){
 
 }
 
 
-string AbstractResource::getName(){
+string DbObject::getName(){
 
 	return  NULL;
 }
 
 
-void AbstractResource::setName(string name){
+void DbObject::setName(string name){
 
 }
 
 
-unsigned int AbstractResource::getGeoType(){
+unsigned int DbObject::getGeoType(){
 
 	return 0;
 }
 
 
-void AbstractResource::setGeoType(unsigned int geoType){
+void DbObject::setGeoType(unsigned int geoType){
 
 }
 
 
-void AbstractResource::lock(){
+void DbObject::lock(){
 
 }
 
 
-void AbstractResource::unlock(){
+void DbObject::unlock(){
 
 }

@@ -1,20 +1,20 @@
 ///////////////////////////////////////////////////////////
 //  ResourceSvnLink.cpp
-//  Implementation of the Class ResourceSvnLink
-//  Created on:      20-Nov-2008 12:36:21 PM
+//  Implementation of the Class SourceSvnLink
+//  Created on:      04-Dec-2008 8:26:48 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
 #include "ResourceSvnLink.h"
 
 
-ResourceSvnLink::ResourceSvnLink(){
+SourceSvnLink::SourceSvnLink(){
 
 }
 
 
 
-ResourceSvnLink::~ResourceSvnLink(){
+SourceSvnLink::~SourceSvnLink(){
 
 }
 
@@ -22,13 +22,13 @@ ResourceSvnLink::~ResourceSvnLink(){
 
 
 
-AbstractResource& ResourceSvnLink::getResourceByURL(URL url){
+DbObject& SourceSvnLink::getDbObjectByURL(URL url){
 
 	return  NULL;
 }
 
 
-bool ResourceSvnLink::putResource(AbstractResource& res){
+bool SourceSvnLink::putDbObject(DbObject& dbobj){
 
 	return false;
 }

@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  GED.h
 //  Implementation of the Class GED
-//  Created on:      20-Nov-2008 12:36:13 PM
+//  Created on:      04-Dec-2008 8:26:40 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_4729F038_7A9A_4157_AD2F_055AA67CD8DA__INCLUDED_)
-#define EA_4729F038_7A9A_4157_AD2F_055AA67CD8DA__INCLUDED_
+#if !defined(EA_0E74017B_E149_4a39_B30C_F8E385CB0B9A__INCLUDED_)
+#define EA_0E74017B_E149_4a39_B30C_F8E385CB0B9A__INCLUDED_
 
 /**
  * Static Class, or Singleton Class.  Explore the possibility of having multiple
@@ -20,4 +20,4 @@ public:
 	virtual ~GED();
 
 };
-#endif // !defined(EA_4729F038_7A9A_4157_AD2F_055AA67CD8DA__INCLUDED_)
+#endif // !defined(EA_0E74017B_E149_4a39_B30C_F8E385CB0B9A__INCLUDED_)

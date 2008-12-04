@@ -1,20 +1,20 @@
 ///////////////////////////////////////////////////////////
 //  ResourceCache.cpp
-//  Implementation of the Class ResourceCache
-//  Created on:      20-Nov-2008 12:36:20 PM
+//  Implementation of the Class DbObjectCache
+//  Created on:      04-Dec-2008 8:26:39 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
 #include "ResourceCache.h"
 
 
-ResourceCache::ResourceCache(){
+DbObjectCache::DbObjectCache(){
 
 }
 
 
 
-ResourceCache::~ResourceCache(){
+DbObjectCache::~DbObjectCache(){
 
 }
 
@@ -22,19 +22,19 @@ ResourceCache::~ResourceCache(){
 
 
 
-AbstractResource& ResourceCache::getResourceByURL(URL url){
+DbObject& DbObjectCache::getDbObjectByURL(URL url){
 
 	return  NULL;
 }
 
 
-bool ResourceCache::addResource(AbstractResource& ar){
+bool DbObjectCache::addDbObject(DbObject& ar){
 
 	return false;
 }
 
 
-bool ResourceCache::putResource(AbstractResource& res){
+bool DbObjectCache::putDbObject(DbObject& res){
 
 	return false;
 }

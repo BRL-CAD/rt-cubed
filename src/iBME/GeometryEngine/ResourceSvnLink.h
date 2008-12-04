@@ -1,24 +1,24 @@
 ///////////////////////////////////////////////////////////
 //  ResourceSvnLink.h
-//  Implementation of the Class ResourceSvnLink
-//  Created on:      20-Nov-2008 12:36:21 PM
+//  Implementation of the Class SourceSvnLink
+//  Created on:      04-Dec-2008 8:26:48 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_874F027B_30FB_4d9a_997A_F868A7683BEC__INCLUDED_)
-#define EA_874F027B_30FB_4d9a_997A_F868A7683BEC__INCLUDED_
+#if !defined(EA_32751E74_D827_4332_B8C4_D2092B82E483__INCLUDED_)
+#define EA_32751E74_D827_4332_B8C4_D2092B82E483__INCLUDED_
 
 #include "AbstractResourceSource.h"
 
-class ResourceSvnLink : public AbstractResourceSource
+class SourceSvnLink : public AbstractDbObjectSource
 {
 
 public:
-	ResourceSvnLink();
-	virtual ~ResourceSvnLink();
+	SourceSvnLink();
+	virtual ~SourceSvnLink();
 
-	virtual AbstractResource& getResourceByURL(URL url);
-	bool putResource(AbstractResource& res);
+	virtual DbObject& getDbObjectByURL(URL url);
+	bool putDbObject(DbObject& dbobj);
 
 };
-#endif // !defined(EA_874F027B_30FB_4d9a_997A_F868A7683BEC__INCLUDED_)
+#endif // !defined(EA_32751E74_D827_4332_B8C4_D2092B82E483__INCLUDED_)

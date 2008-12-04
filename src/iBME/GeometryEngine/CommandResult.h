@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  CommandResult.h
 //  Implementation of the Class CommandResult
-//  Created on:      20-Nov-2008 12:36:10 PM
+//  Created on:      04-Dec-2008 8:26:37 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_46F3C252_C918_452b_9425_07C587C5B4A3__INCLUDED_)
-#define EA_46F3C252_C918_452b_9425_07C587C5B4A3__INCLUDED_
+#if !defined(EA_11EF8B7D_0248_4a1d_BA28_8F91C178F2E5__INCLUDED_)
+#define EA_11EF8B7D_0248_4a1d_BA28_8F91C178F2E5__INCLUDED_
 
 class CommandResult
 {
@@ -22,4 +22,4 @@ private:
 	int ResultValue;
 
 };
-#endif // !defined(EA_46F3C252_C918_452b_9425_07C587C5B4A3__INCLUDED_)
+#endif // !defined(EA_11EF8B7D_0248_4a1d_BA28_8F91C178F2E5__INCLUDED_)

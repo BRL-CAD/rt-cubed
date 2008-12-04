@@ -1,21 +1,21 @@
 ///////////////////////////////////////////////////////////
 //  AbstractResource.h
-//  Implementation of the Class AbstractResource
-//  Created on:      20-Nov-2008 12:36:08 PM
+//  Implementation of the Class DbObject
+//  Created on:      04-Dec-2008 8:26:39 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_9A7A2B01_318D_4090_9512_0AF27D7704A9__INCLUDED_)
-#define EA_9A7A2B01_318D_4090_9512_0AF27D7704A9__INCLUDED_
+#if !defined(EA_50D6C7A3_6145_4055_8ABE_196D74D8D9FC__INCLUDED_)
+#define EA_50D6C7A3_6145_4055_8ABE_196D74D8D9FC__INCLUDED_
 
-class AbstractResource
+class DbObject
 {
 
 public:
-	AbstractResource();
-	virtual ~AbstractResource();
+	DbObject();
+	virtual ~DbObject();
 
-	void AbstractResource(long id, string name, unsigned int geoType, bool locked = false);
+	void DbObject(long id, string name, unsigned int geoType, bool locked = false);
 	string getName();
 	void setName(string name);
 	unsigned int getGeoType();
@@ -26,10 +26,10 @@ public:
 private:
 	std::string name;
 	UUID uuid;
-	std::list<AbstractResource> parents;
-	std::list<AbstractResource> children;
+	std::list<DbObject&> parents;
+	std::list<DbObject&> children;
 	int geoType;
-	BrlcadDbResrc db_file;
+	BrlcadDb& db_file;
 
 };
-#endif // !defined(EA_9A7A2B01_318D_4090_9512_0AF27D7704A9__INCLUDED_)
+#endif // !defined(EA_50D6C7A3_6145_4055_8ABE_196D74D8D9FC__INCLUDED_)

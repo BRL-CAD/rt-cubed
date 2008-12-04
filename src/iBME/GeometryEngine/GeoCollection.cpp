@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////
 //  GeoCollection.cpp
 //  Implementation of the Class GeoCollection
-//  Created on:      20-Nov-2008 12:36:14 PM
+//  Created on:      04-Dec-2008 8:26:41 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 

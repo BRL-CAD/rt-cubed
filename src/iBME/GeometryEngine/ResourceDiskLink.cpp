@@ -1,20 +1,20 @@
 ///////////////////////////////////////////////////////////
 //  ResourceDiskLink.cpp
-//  Implementation of the Class ResourceDiskLink
-//  Created on:      20-Nov-2008 12:36:20 PM
+//  Implementation of the Class SourceDiskLink
+//  Created on:      04-Dec-2008 8:26:48 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
 #include "ResourceDiskLink.h"
 
 
-ResourceDiskLink::ResourceDiskLink(){
+SourceDiskLink::SourceDiskLink(){
 
 }
 
 
 
-ResourceDiskLink::~ResourceDiskLink(){
+SourceDiskLink::~SourceDiskLink(){
 
 }
 
@@ -22,13 +22,13 @@ ResourceDiskLink::~ResourceDiskLink(){
 
 
 
-AbstractResource& ResourceDiskLink::getResourceByURL(URL url){
+DbObject& SourceDiskLink::getDbObjectByURL(URL url){
 
 	return  NULL;
 }
 
 
-bool ResourceDiskLink::putResource(AbstractResource& res){
+bool SourceDiskLink::putDbObject(DbObject& dbobj){
 
 	return false;
 }
