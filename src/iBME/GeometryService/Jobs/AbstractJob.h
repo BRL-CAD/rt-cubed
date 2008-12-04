@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////
 //  AbstractJob.h
 //  Implementation of the Class AbstractJob
-//  Created on:      20-Nov-2008 12:36:07 PM
+//  Created on:      04-Dec-2008 8:26:35 AM
 //  Original author: david.h.loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(EA_3014E829_A810_4c4a_A62A_D0F7ED422E81__INCLUDED_)
-#define EA_3014E829_A810_4c4a_A62A_D0F7ED422E81__INCLUDED_
+#if !defined(EA_C0023A04_2798_4dac_BBA9_E20DDE098FF3__INCLUDED_)
+#define EA_C0023A04_2798_4dac_BBA9_E20DDE098FF3__INCLUDED_
 
 #include "JobManager.h"
 
@@ -26,4 +26,4 @@ private:
 	JobManager& jobMan;
 
 };
-#endif // !defined(EA_3014E829_A810_4c4a_A62A_D0F7ED422E81__INCLUDED_)
+#endif // !defined(EA_C0023A04_2798_4dac_BBA9_E20DDE098FF3__INCLUDED_)
