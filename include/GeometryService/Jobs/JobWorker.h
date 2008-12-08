@@ -15,14 +15,12 @@ class JobWorker
 {
 
 public:
-	JobWorker();
-	virtual ~JobWorker();
-	JobManager *m_JobManager;
-	AbstractJob *m_AbstractJob;
+  JobWorker();
+  virtual ~JobWorker();
 
 private:
-	AbstractJob& job;
-	int status;
+  AbstractJob& job();
+  int status;
 
 };
 #endif // !defined(__JOBWORKER_H__)

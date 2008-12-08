@@ -9,16 +9,19 @@
 #define __NEWSESSIONJOB_H__
 
 #include "AbstractJob.h"
+#include "AbstractPortal.h"
 
 class NewSessionJob : public AbstractJob
 {
 
 public:
-	NewSessionJob();
-	virtual ~NewSessionJob();
 
-	void NewSessionJob(AbstractPortal& portal);
-	virtual bool doJob();
+  virtual ~NewSessionJob();
+  NewSessionJob(AbstractPortal& portal);
+  virtual bool doJob();
+
+private:
+  NewSessionJob();
 
 };
 #endif // !defined(__NEWSESSIONJOB_H__)

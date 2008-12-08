@@ -8,6 +8,10 @@
 #if !defined(__ABSTRACTNETMSGACTIONDEF_H__)
 #define __ABSTRACTNETMSGACTIONDEF_H__
 
+#include "NetMsg.h"
+#include "AbstractJob.h"
+
+
 /**
  * Base class to be extended from to implement all NetMsg to Job Conversions
  */

@@ -9,13 +9,9 @@
 
 
 JobManager::JobManager(){
-
 }
 
-
-
 JobManager::~JobManager(){
-
 }
 
 

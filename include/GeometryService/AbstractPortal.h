@@ -8,6 +8,11 @@
 #if !defined(__ABSTRACTPORTAL_H__)
 #define __ABSTRACTPORTAL_H__
 
+#include <iostream>
+#include <list>
+
+using namespace std;
+
 class AbstractPortal
 {
 
@@ -17,8 +22,8 @@ public:
 
 private:
 	int connectionType;
-	std::string host;
-	std::list <std::string> proxy_hosts;
+	string host;
+	list <string> proxy_hosts;
 
 };
 #endif // !defined(__ABSTRACTPORTAL_H__)

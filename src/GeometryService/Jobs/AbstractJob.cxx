@@ -8,23 +8,13 @@
 #include "AbstractJob.h"
 
 AbstractJob::AbstractJob() {
-
 }
 
 AbstractJob::~AbstractJob() {
-
-}
-
-/**
- * Constructor
- */
-void AbstractJob::AbstractJob(JobManager& jm) {
-
 }
 
 bool AbstractJob::doJob() {
-
-	return false;
+  return false;
 }
 
 

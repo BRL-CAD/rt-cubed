@@ -25,23 +25,15 @@ class GeometryService : public GeometryEngine
 {
 
 public:
-	GeometryService();
-	virtual ~GeometryService();
-	NetMsgActionDefManager *m_NetMsgActionDefManager;
-	JobManager *m_JobManager;
-	CommunicationsManager *m_CommunicationsManager;
-	SessionManager *m_SessionManager;
-	AccessManager *m_AccessManager;
+  GeometryService();
+  virtual ~GeometryService();
 
 private:
-	/**
-	 * Configure jobMan to be a singleton??
-	 */
-	JobManager& jobMan;
-	SessionManager& sessionMan;
-	CommunicationsManager& comMan;
-	NetMsgActionDefManager& nmadMan;
-	AccessManager& accessMan;
+  JobManager& jobMan();
+  SessionManager& sessionMan();
+  CommunicationsManager& comMan();
+  NetMsgActionDefManager& nmadMan();
+  AccessManager& accessMan();
 
 };
 #endif // !defined(__GEOMETRYSERVICE_H__)

@@ -18,13 +18,12 @@ NewSessionJob::~NewSessionJob() {
 /**
  * Constructor
  */
-void NewSessionJob::NewSessionJob(AbstractPortal& portal) {
+NewSessionJob::NewSessionJob(AbstractPortal& portal) {
 
 }
 
 bool NewSessionJob::doJob() {
-
-	return false;
+ return false;
 }
 
 

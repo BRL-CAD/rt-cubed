@@ -7,16 +7,13 @@
 
 #include "CopyCacheToDiskJob.h"
 
-CopyCacheToDiskJob::CopyCacheToDiskJob() {
-
+CopyCacheToDiskJob::CopyCacheToDiskJob(DbObject& resToCopy) {
 }
 
 CopyCacheToDiskJob::~CopyCacheToDiskJob() {
-
 }
 
 bool CopyCacheToDiskJob::doJob() {
-
 	return false;
 }
 

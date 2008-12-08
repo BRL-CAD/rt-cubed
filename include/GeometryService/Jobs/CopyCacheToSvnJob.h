@@ -9,18 +9,19 @@
 #define __COPYCACHETOSVNJOB_H__
 
 #include "AbstractJob.h"
+#include "DbObject.h"
 
 class CopyCacheToSvnJob : public AbstractJob
 {
 
 public:
-	CopyCacheToSvnJob();
-	virtual ~CopyCacheToSvnJob();
+  CopyCacheToSvnJob( DbObject& resToCopy);
+  virtual ~CopyCacheToSvnJob();
 
-	virtual bool doJob();
+  virtual bool doJob();
 
 private:
-	AbstractResource& resToCopy;
+  DbObject& resToCopy();
 
 };
 #endif // !defined(__COPYCACHETOSVNJOB_H__)

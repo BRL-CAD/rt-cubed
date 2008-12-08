@@ -8,15 +8,11 @@
 #include "NetMsg.h"
 
 
-NetMsg::~NetMsg(){
+NetMsg::NetMsg(){
 
 }
 
-
-
-
-
-void NetMsg::NetMsg(){
+NetMsg::~NetMsg(){
 
 }
 

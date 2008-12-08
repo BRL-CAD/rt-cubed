@@ -7,18 +7,16 @@
 
 #include "CopyCacheToSvnJob.h"
 
-CopyCacheToSvnJob::CopyCacheToSvnJob() {
-
+CopyCacheToSvnJob::CopyCacheToSvnJob(DbObject& resToCopy) {
 }
 
 CopyCacheToSvnJob::~CopyCacheToSvnJob() {
-
 }
 
 bool CopyCacheToSvnJob::doJob() {
-
 	return false;
 }
+
 
 // Local Variables: ***
 // mode: C++ ***

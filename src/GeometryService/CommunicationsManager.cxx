@@ -9,13 +9,11 @@
 
 
 CommunicationsManager::CommunicationsManager(){
-
 }
 
 
 
 CommunicationsManager::~CommunicationsManager(){
-
 }
 
 

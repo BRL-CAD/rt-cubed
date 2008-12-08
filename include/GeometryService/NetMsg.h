@@ -8,29 +8,34 @@
 #if !defined(__NETMSG_H__)
 #define __NETMSG_H__
 
-/**
- * Point to Point Messaging ONLY.
- */
+#include <list>
+#include "iBMECommon.h"
+
+
+
+
 class NetMsg
 {
 
 public:
 	virtual ~NetMsg();
-
-	void NetMsg();
+	NetMsg();
 
 private:
 	int msgLen;
+
 	/**
 	 * OPCODE for the message
 	 */
 	int msgType;
+
 	/**
-	 * consists of origin_hostname::int where int = auto incr
+	 * 
 	 */
+
 	UUID msgID;
 	UUID regardingMsgID;
-	std::list<byte> data;
+	list<char> data;
 
 };
 #endif // !defined(__NETMSG_H__)

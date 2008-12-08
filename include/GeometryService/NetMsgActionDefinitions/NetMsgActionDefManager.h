@@ -9,6 +9,10 @@
 #define __NETMSGACTIONDEFMANAGER_H__
 
 #include "AbstractNetMsgActionDef.h"
+#include <map>
+
+using namespace std ;
+
 
 class NetMsgActionDefManager
 {
@@ -16,7 +20,6 @@ class NetMsgActionDefManager
 public:
 	NetMsgActionDefManager();
 	virtual ~NetMsgActionDefManager();
-	AbstractNetMsgActionDef *m_AbstractNetMsgActionDef;
 
 	void registerNetMsgActionDef(AbstractNetMsgActionDef& def);
 	int unregisterNetMsgActionDef(AbstractNetMsgActionDef& def);
@@ -24,7 +27,7 @@ public:
 	AbstractNetMsgActionDef& getNetMsgActionDef(int msgType);
 
 private:
-	std::map <int, AbstractNetMsgActionDef&> conversionDefs;
+	map <int, AbstractNetMsgActionDef> conversionDefs;
 
 };
 #endif // !defined(__NETMSGACTIONDEFMANAGER_H__)

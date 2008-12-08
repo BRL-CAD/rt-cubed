@@ -8,17 +8,22 @@
 #if !defined(__SESSION_H__)
 #define __SESSION_H__
 
+#include <iostream>
+#include "AbstractPortal.h"
+
+using namespace std;
+
 class Session
 {
 
 public:
-	Session();
-	virtual ~Session();
+  Session();
+  virtual ~Session();
 
 private:
-	AbstractPortal& portal;
-	int accessLevel;
-	std::string uName;
+  AbstractPortal& portal();
+  int accessLevel;
+  string uName;
 
 };
 #endif // !defined(__SESSION_H__)

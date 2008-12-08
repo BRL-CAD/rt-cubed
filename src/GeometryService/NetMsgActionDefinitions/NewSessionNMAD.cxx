@@ -9,22 +9,12 @@
 
 
 NewSessionNetMsgActionDef::NewSessionNetMsgActionDef(){
-
 }
-
-
 
 NewSessionNetMsgActionDef::~NewSessionNetMsgActionDef(){
-
 }
 
-
-
-
-
 AbstractJob& NewSessionNetMsgActionDef::convert(NetMsg& msg){
-
-	return  NULL;
 }
 
 

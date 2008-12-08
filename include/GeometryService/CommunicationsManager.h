@@ -8,7 +8,14 @@
 #if !defined(__COMMUNICATIONSMANAGER_H__)
 #define __COMMUNICATIONSMANAGER_H__
 
+#include <iostream>
+#include <list>
+#include <map>
+
 #include "AbstractPortal.h"
+#include "NetMsg.h"
+
+using namespace std;
 
 /**
  * CommMan performs the netMsg <-> Job conversion
@@ -19,18 +26,17 @@ class CommunicationsManager
 public:
 	CommunicationsManager();
 	virtual ~CommunicationsManager();
-	AbstractPortal *m_AbstractPortal;
 
 private:
-	std::list <NetMsg&> inbox;
-	std::list <NetMsg&> outbox;
+	list <NetMsg> inbox;
+	list <NetMsg> outbox;
 	/**
 	 * Maps hostnames to AbstractPortals
 	 *
 	 * This MAY not be necessary if all outgoing Traffic is handled by the individual
 	 * Session Objects
 	 */
-	std::map <std::string, AbstractPortal&> portals;
+	map <string, AbstractPortal> portals;
 
 };
 #endif // !defined(__COMMUNICATIONSMANAGER_H__)

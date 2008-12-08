@@ -9,13 +9,9 @@
 
 
 JobWorker::JobWorker(){
-
 }
 
-
-
 JobWorker::~JobWorker(){
-
 }
 
 

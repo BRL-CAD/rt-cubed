@@ -8,8 +8,10 @@
 #if !defined(__JOBMANAGER_H__)
 #define __JOBMANAGER_H__
 
+#include <list>
 #include "AbstractJob.h"
-#include "JobWorker.h"
+
+using namespace std;
 
 class JobManager
 {
@@ -17,11 +19,9 @@ class JobManager
 public:
 	JobManager();
 	virtual ~JobManager();
-	AbstractJob *m_AbstractJob;
-	JobWorker *m_JobWorker;
 
 private:
-	std::list <AbstractJob&> jobQueue;
+	list <AbstractJob> jobQueue;
 
 };
 #endif // !defined(__JOBMANAGER_H__)

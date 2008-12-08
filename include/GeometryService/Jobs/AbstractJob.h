@@ -8,21 +8,16 @@
 #if !defined(__ABSTRACTJOB_H__)
 #define __ABSTRACTJOB_H__
 
-#include "JobManager.h"
-
 class AbstractJob {
 
 public:
-	AbstractJob();
-	virtual ~AbstractJob();
-	JobManager *m_JobManager;
+  virtual ~AbstractJob();
 
-	void AbstractJob(JobManager& jm);
-	virtual bool doJob();
+  AbstractJob();
+  virtual bool doJob();
 
 private:
-	int jobID;
-	JobManager& jobMan;
+  int jobID;
 
 };
 #endif // !defined(__ABSTRACTJOB_H__)

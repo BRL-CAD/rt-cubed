@@ -7,24 +7,13 @@
 
 #include "AbstractNetMsgActionDef.h"
 
-
 AbstractNetMsgActionDef::AbstractNetMsgActionDef(){
-
 }
-
-
 
 AbstractNetMsgActionDef::~AbstractNetMsgActionDef(){
-
 }
 
-
-
-
-
 AbstractJob& AbstractNetMsgActionDef::convert(NetMsg& msg){
-
-	return  NULL;
 }
 
 

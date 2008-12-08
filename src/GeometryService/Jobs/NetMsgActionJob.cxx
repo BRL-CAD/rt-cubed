@@ -8,18 +8,15 @@
 #include "NetMsgActionJob.h"
 
 NetMsgActionJob::NetMsgActionJob() {
-
 }
 
 NetMsgActionJob::~NetMsgActionJob() {
-
 }
 
 /**
  * Constructor
  */
-void NetMsgActionJob::NetMsgActionJob(NetMsg& msg) {
-
+NetMsgActionJob::NetMsgActionJob(NetMsg& msg) {
 }
 
 /**
@@ -29,7 +26,6 @@ void NetMsgActionJob::NetMsgActionJob(NetMsg& msg) {
  * CommunicationsManager.portals map.
  */
 bool NetMsgActionJob::doJob() {
-
 	return false;
 }
 

@@ -9,19 +9,21 @@
 #define __NETMSGACTIONJOB_H__
 
 #include "AbstractJob.h"
+#include "NetMsg.h"
 
 class NetMsgActionJob : public AbstractJob
 {
 
 public:
-	NetMsgActionJob();
-	virtual ~NetMsgActionJob();
 
-	void NetMsgActionJob(NetMsg& msg);
-	virtual bool doJob();
+  virtual ~NetMsgActionJob();
+
+  NetMsgActionJob(NetMsg& msg);
+  virtual bool doJob();
 
 private:
-	NetMsg& msg;
+  NetMsgActionJob();
+  NetMsg& msg();
 
 };
 #endif // !defined(__NETMSGACTIONJOB_H__)

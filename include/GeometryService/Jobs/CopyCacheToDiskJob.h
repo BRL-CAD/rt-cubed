@@ -9,18 +9,20 @@
 #define __COPYCACHETODISKJOB_H__
 
 #include "AbstractJob.h"
+#include "DbObject.h"
+
 
 class CopyCacheToDiskJob : public AbstractJob
 {
 
 public:
-	CopyCacheToDiskJob();
-	virtual ~CopyCacheToDiskJob();
+  CopyCacheToDiskJob(DbObject& resToCopy);
+  virtual ~CopyCacheToDiskJob();
 
-	virtual bool doJob();
+  virtual bool doJob();
 
 private:
-	AbstractResource& resToCopy;
+  DbObject& resToCopy();
 
 };
 #endif // !defined(__COPYCACHETODISKJOB_H__)
