@@ -1,0 +1,19 @@
+///////////////////////////////////////////////////////////
+//  GED.cpp
+//  Implementation of the Class GED
+//  Created on:      04-Dec-2008 8:26:40 AM
+//  Original author: david.h.loman
+///////////////////////////////////////////////////////////
+
+#include "GED.h"
+
+
+GED::GED(){
+
+}
+
+
+
+GED::~GED(){
+
+}
