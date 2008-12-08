@@ -1,23 +1,26 @@
 ///////////////////////////////////////////////////////////
-//  NonGeo.h
-//  Implementation of the Class NonGeo
-//  Created on:      04-Dec-2008 8:26:46 AM
+//  iBME common header.
+//  Created on:      04-Dec-2008 8:26:39 AM
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(__NONGEO_H__)
-#define __NONGEO_H__
+#if !defined(__IBMECOMMON_H__)
+#define __IBMECOMMON_H__
 
-#include "DbObject.h"
+#include <iostream>
+using namespace std;
 
-class NonGeo: public DbObject {
 
-public:
-	NonGeo();
-	virtual ~NonGeo();
 
-};
-#endif // !defined(__NONGEO_H__)
+// These are only temporary
+typedef string UUID;
+typedef string URL;
+
+
+
+
+#endif // !defined(__IBMECOMMON_H__)
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

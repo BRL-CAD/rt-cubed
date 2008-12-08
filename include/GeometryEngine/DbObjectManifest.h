@@ -1,12 +1,18 @@
 ///////////////////////////////////////////////////////////
-//  ResourceManifest.h
+//  DbObjectManifest.h
 //  Implementation of the Class DbObjectManifest
 //  Created on:      04-Dec-2008 8:26:40 AM
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(__RESOURCEMANIFEST_H__)
-#define __RESOURCEMANIFEST_H__
+#if !defined(__DBOBJECTMANIFEST_H__)
+#define __DBOBJECTMANIFEST_H__
+
+#include <list>
+#include <map>
+#include "DbObject.h"
+#include "iBMECommon.h"
+
 
 class DbObjectManifest
 {
@@ -17,10 +23,10 @@ public:
 
 private:
 	std::list<UUID> DbObjectList;
-	std::map<UUID, DbObject& > DbObjectMap;
+	std::map<UUID, DbObject > DbObjectMap;
 
 };
-#endif // !defined(__RESOURCEMANIFEST_H__)
+#endif // !defined(__DBOBJECTMANIFEST_H__)
 
 // Local Variables: ***
 // mode: C++ ***

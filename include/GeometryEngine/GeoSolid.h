@@ -8,7 +8,7 @@
 #if !defined(__GEOSOLID_H__)
 #define __GEOSOLID_H__
 
-#include "AbstractResource.h"
+#include "DbObject.h"
 
 class GeoSolid: public DbObject {
 

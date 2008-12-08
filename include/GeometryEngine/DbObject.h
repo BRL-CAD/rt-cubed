@@ -5,16 +5,23 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(__ABSTRACTRESOURCE_H__)
-#define __ABSTRACTRESOURCE_H__
+#if !defined(__DBOBJECT_H__)
+#define __DBOBJECT_H__
+
+#include <iostream>
+#include <list>
+#include "iBMECommon.h"
+
+using namespace std;
+
 
 class DbObject {
 
 public:
-	DbObject();
-	virtual ~DbObject();
+  DbObject();
+  virtual ~DbObject();
 
-	void DbObject(long id, string name, unsigned int geoType, bool locked =
+  DbObject(long id, string name, unsigned int geoType, bool locked =
 			false);
 	string getName();
 	void setName(string name);
@@ -24,15 +31,14 @@ public:
 	void unlock();
 
 private:
-	std::string name;
+	string name;
 	UUID uuid;
-	std::list<DbObject&> parents;
-	std::list<DbObject&> children;
+	list<DbObject> parents;
+	list<DbObject> children;
 	int geoType;
-	BrlcadDb& db_file;
 
 };
-#endif // !defined(__ABSTRACTRESOURCE_H__)
+#endif // !defined(__DBOBJECT_H__)
 
 // Local Variables: ***
 // mode: C++ ***

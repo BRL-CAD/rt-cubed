@@ -1,30 +1,31 @@
 ///////////////////////////////////////////////////////////
-//  ResourceManager.h
+//  DbObjectManager.h
 //  Implementation of the Class DbObjectManager
 //  Created on:      04-Dec-2008 8:26:40 AM
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(__RESOURCEMANAGER_H__)
-#define __RESOURCEMANAGER_H__
+#if !defined(__DBOBJECTMANAGER_H__)
+#define __DBOBJECTMANAGER_H__
 
-#include "AbstractResourceSource.h"
+#include "iBMECommon.h"
+#include "AbstractDbObjectSource.h"
+#include "DbObject.h"
 
 class DbObjectManager {
 
 public:
 	DbObjectManager();
 	virtual ~DbObjectManager();
-	AbstractDbObjectSource *m_AbstractDbObjectSource;
 
-	DbObject& getDbObjectByURL(URL url);
-	DbObject& getDbObjectByUUID(UUID uuid);
+	DbObject& getDbObjectByURL(URL& url);
+	DbObject& getDbObjectByUUID(UUID& uuid);
 
 private:
-	std::list <AbstractDbObjectSource&> DbObjectSources;
+	std::list <AbstractDbObjectSource> DbObjectSources;
 
 };
-#endif // !defined(__RESOURCEMANAGER_H__)
+#endif // !defined(__DBOBJECTMANAGER_H__)
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

@@ -8,7 +8,7 @@
 #if !defined(__GEOCOLLECTION_H__)
 #define __GEOCOLLECTION_H__
 
-#include "AbstractResource.h"
+#include "DbObject.h"
 
 class GeoCollection : public DbObject
 {

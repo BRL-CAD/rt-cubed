@@ -11,13 +11,13 @@
 class CommandResult {
 
 public:
-	CommandResult();
 	virtual ~CommandResult();
 
-	void CommandResult(int resVal);
+	CommandResult(int resVal);
 	int getCommandResult();
 
 private:
+	CommandResult();
 	int ResultValue;
 
 };

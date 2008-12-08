@@ -8,7 +8,9 @@
 #if !defined(__RESOURCESVNLINK_H__)
 #define __RESOURCESVNLINK_H__
 
-#include "AbstractResourceSource.h"
+#include "iBMECommon.h"
+#include "AbstractDbObjectSource.h"
+#include "DbObject.h"
 
 class SourceSvnLink : public AbstractDbObjectSource
 {
@@ -17,7 +19,7 @@ public:
 	SourceSvnLink();
 	virtual ~SourceSvnLink();
 
-	virtual DbObject& getDbObjectByURL(URL url);
+	virtual DbObject& getDbObjectByURL(URL& url);
 	bool putDbObject(DbObject& dbobj);
 
 };

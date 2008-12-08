@@ -9,7 +9,7 @@
 #define __GEOMETRYENGINE_H__
 
 #include "GED.h"
-#include "ResourceManager.h"
+#include "DbObjectManager.h"
 
 /**
  * Singleton Class.
@@ -22,8 +22,6 @@ class GeometryEngine
 public:
 	GeometryEngine();
 	virtual ~GeometryEngine();
-	GED *m_GED;
-	DbObjectManager *m_DbObjectManager;
 
 };
 #endif // !defined(__GEOMETRYENGINE_H__)

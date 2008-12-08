@@ -1,15 +1,19 @@
 ///////////////////////////////////////////////////////////
-//  ResourceCache.h
+//  DBOBJECTCache.h
 //  Implementation of the Class DbObjectCache
 //  Created on:      04-Dec-2008 8:26:39 AM
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(__RESOURCECACHE_H__)
-#define __RESOURCECACHE_H__
+#if !defined(__DBOBJECTCACHE_H__)
+#define __DBOBJECTCACHE_H__
 
-#include "AbstractResourceSource.h"
-#include "AbstractResource.h"
+#include <set>
+#include <map>
+
+#include "iBMECommon.h"
+#include "AbstractDbObjectSource.h"
+#include "DbObject.h"
 
 class DbObjectCache : public AbstractDbObjectSource
 {
@@ -17,20 +21,19 @@ class DbObjectCache : public AbstractDbObjectSource
 public:
 	DbObjectCache();
 	virtual ~DbObjectCache();
-	DbObject *m_DbObject;
 
-	virtual DbObject& getDbObjectByURL(URL url);
-	bool addDbObject(DbObject& ar);
-	bool putDbObject(DbObject& res);
+	virtual DbObject& getDbObjectByURL(URL& url);
+	bool addDbObject(DbObject& dbo);
+	bool putDbObject(DbObject& dbo);
 
 private:
-	std::set <DbObject&> DbObjectCacheSet;
-	std::map <URL, DbObject&> URLDbObjectMap;
-	std::map <UUID, DbObject&> UUIDDbObjectMap;
-	std::map <DbObject&, AbstractDbObjectSource&> DbObjectOriginMap;
+	set <DbObject> dbObjectCacheSet;
+	map <URL, DbObject> urlDbObjectMap;
+	map <UUID, DbObject> uuidDbObjectMap;
+	map <DbObject, AbstractDbObjectSource> dbObjectOriginMap;
 
 };
-#endif // !defined(__RESOURCECACHE_H__)
+#endif // !defined(__DBOBJECTCACHE_H__)
 
 // Local Variables: ***
 // mode: C++ ***

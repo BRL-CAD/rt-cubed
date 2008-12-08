@@ -8,7 +8,11 @@
 #if !defined(__RESOURCEDISKLINK_H__)
 #define __RESOURCEDISKLINK_H__
 
-#include "AbstractResourceSource.h"
+#include "iBMECommon.h"
+#include "SourceDiskLink.h"
+#include "AbstractDbObjectSource.h"
+#include "DbObject.h"
+
 
 class SourceDiskLink : public AbstractDbObjectSource
 {
@@ -17,7 +21,7 @@ public:
 	SourceDiskLink();
 	virtual ~SourceDiskLink();
 
-	virtual DbObject& getDbObjectByURL(URL url);
+	virtual DbObject& getDbObjectByURL(URL& url);
 	bool putDbObject(DbObject& dbobj);
 
 };

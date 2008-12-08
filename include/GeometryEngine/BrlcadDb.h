@@ -1,40 +1,44 @@
 ///////////////////////////////////////////////////////////
-//  BrlcadDbResource.h
+//  BrlcadDb.h
 //  Implementation of the Class BrlcadDb
 //  Created on:      04-Dec-2008 8:26:36 AM
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#if !defined(__BRLCADDBRESOURCE_H__)
-#define __BRLCADDBRESOURCE_H__
+#if !defined(__BRLCADDB_H__)
+#define __BRLCADDB_H__
 
-#include "AbstractResource.h"
+#include <iostream>
+#include <map>
+#include "DbObject.h"
 
-class BrlcadDb: public DbObject {
+using namespace std;
+
+class BrlcadDb : public DbObject {
 
 public:
 	BrlcadDb();
 	virtual ~BrlcadDb();
 
-	virtual DbObject& getDbObjectByObjectName(std::string name);
+	virtual DbObject& getDbObjectByObjectName(string name);
 	virtual DbObject& getDbObjectByUUID(UUID uuid);
 
 private:
 	/**
 	 * The title of this BRL-CAD db
 	 */
-	std::string dbTitle;
+	string dbTitle;
 	/**
 	 * Directory of BRL-CAD object names and their offset into the BRL-CAD db
 	 */
-	Map<std::string, long> fileIndex;
+	map<string, long> fileIndex;
 	/**
 	 * Directory of BRL-CAD object names and their offset into the BRL-CAD db
 	 */
-	Map<std::string, DbObject&> nameMap;
+	map<string, DbObject> nameMap;
 
 };
-#endif // !defined(__BRLCADDBRESOURCE_H__)
+#endif // !defined(__BRLCADDB_H__)
 
 // Local Variables: ***
 // mode: C++ ***
