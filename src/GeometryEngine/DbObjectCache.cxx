@@ -8,26 +8,19 @@
 #include "DbObjectCache.h"
 
 DbObjectCache::DbObjectCache() {
-
 }
 
 DbObjectCache::~DbObjectCache() {
-
 }
 
-DbObject& DbObjectCache::getDbObjectByURL(URL url) {
-
-	return NULL;
+DbObject& DbObjectCache::getDbObjectByURL(URL& url) {
 }
 
-bool DbObjectCache::addDbObject(DbObject& ar) {
-
-	return false;
+bool DbObjectCache::addDbObject(DbObject& dbo) {
 }
 
-bool DbObjectCache::putDbObject(DbObject& res) {
-
-	return false;
+bool DbObjectCache::putDbObject(DbObject& dbo) {
+  return false;
 }
 
 

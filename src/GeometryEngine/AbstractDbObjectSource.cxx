@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////
-//  AbstractResourceSource.cxx
+//  AbstractDbObjectSource.cxx
 //  Implementation of the Class AbstractDbObjectSource
 //  Created on:      04-Dec-2008 8:26:34 AM
 //  Original author: Dave Loman
@@ -15,9 +15,8 @@ AbstractDbObjectSource::~AbstractDbObjectSource() {
 
 }
 
-DbObject& AbstractDbObjectSource::getDbObjectByURL(URL url) {
+DbObject& AbstractDbObjectSource::getDbObjectByURL(URL& url) {
 
-	return NULL;
 }
 
 bool AbstractDbObjectSource::putDbObject(DbObject& dbobj) {

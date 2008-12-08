@@ -7,9 +7,7 @@
 
 #include "CommandResult.h"
 
-CommandResult::CommandResult() {
-
-}
+CommandResult::CommandResult() {}
 
 CommandResult::~CommandResult() {
 
@@ -18,7 +16,7 @@ CommandResult::~CommandResult() {
 /**
  * Constructor
  */
-void CommandResult::CommandResult(int resVal) {
+CommandResult::CommandResult(int resVal) {
 
 }
 

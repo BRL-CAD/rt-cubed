@@ -8,21 +8,15 @@
 #include "BrlcadDb.h"
 
 BrlcadDb::BrlcadDb() {
-
 }
 
 BrlcadDb::~BrlcadDb() {
-
 }
 
-DbObject& BrlcadDb::getDbObjectByObjectName(std::string name) {
-
-	return NULL;
+DbObject& BrlcadDb::getDbObjectByObjectName(string name) {
 }
 
 DbObject& BrlcadDb::getDbObjectByUUID(UUID uuid) {
-
-	return NULL;
 }
 
 // Local Variables: ***

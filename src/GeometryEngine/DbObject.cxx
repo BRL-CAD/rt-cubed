@@ -15,7 +15,7 @@ DbObject::~DbObject() {
 
 }
 
-void DbObject::DbObject(long id, string name, unsigned int geoType, bool locked) {
+DbObject::DbObject(long id, string name, unsigned int geoType, bool locked) {
 
 }
 

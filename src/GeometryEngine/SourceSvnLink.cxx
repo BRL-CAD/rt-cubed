@@ -15,9 +15,7 @@ SourceSvnLink::~SourceSvnLink() {
 
 }
 
-DbObject& SourceSvnLink::getDbObjectByURL(URL url) {
-
-	return NULL;
+DbObject& SourceSvnLink::getDbObjectByURL(URL& url) {
 }
 
 bool SourceSvnLink::putDbObject(DbObject& dbobj) {

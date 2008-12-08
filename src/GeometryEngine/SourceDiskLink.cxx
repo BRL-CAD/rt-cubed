@@ -15,14 +15,10 @@ SourceDiskLink::~SourceDiskLink() {
 
 }
 
-DbObject& SourceDiskLink::getDbObjectByURL(URL url) {
-
-	return NULL;
+DbObject& SourceDiskLink::getDbObjectByURL(URL& url) {
 }
 
 bool SourceDiskLink::putDbObject(DbObject& dbobj) {
-
-	return false;
 }
 
 // Local Variables: ***
