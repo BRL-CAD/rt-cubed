@@ -1,34 +1,26 @@
 ///////////////////////////////////////////////////////////
-//  NetMsgActionJob.cpp
+//  NetMsgActionJob.cxx
 //  Implementation of the Class NetMsgActionJob
 //  Created on:      04-Dec-2008 8:26:45 AM
-//  Original author: david.h.loman
+//  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
 #include "NetMsgActionJob.h"
 
-
-NetMsgActionJob::NetMsgActionJob(){
-
-}
-
-
-
-NetMsgActionJob::~NetMsgActionJob(){
+NetMsgActionJob::NetMsgActionJob() {
 
 }
 
+NetMsgActionJob::~NetMsgActionJob() {
 
-
-
+}
 
 /**
  * Constructor
  */
-void NetMsgActionJob::NetMsgActionJob(NetMsg& msg){
+void NetMsgActionJob::NetMsgActionJob(NetMsg& msg) {
 
 }
-
 
 /**
  * 1) Performs lookup on NetMsgActionDefManager.actionDefs map
@@ -36,7 +28,15 @@ void NetMsgActionJob::NetMsgActionJob(NetMsg& msg){
  * 3) Obtains reference to AbstractPortal of NetMsg's origin from
  * CommunicationsManager.portals map.
  */
-bool NetMsgActionJob::doJob(){
+bool NetMsgActionJob::doJob() {
 
 	return false;
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8
