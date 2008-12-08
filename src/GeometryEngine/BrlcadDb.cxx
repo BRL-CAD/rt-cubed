@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "BrlcadDbResource.h"
+#include "BrlcadDb.h"
 
 BrlcadDb::BrlcadDb() {
 

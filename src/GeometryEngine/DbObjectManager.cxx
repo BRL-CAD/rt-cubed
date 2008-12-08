@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "ResourceManager.h"
+#include "DbObjectManager.h"
 
 DbObjectManager::DbObjectManager() {
 

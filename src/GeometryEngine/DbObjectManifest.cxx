@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "ResourceManifest.h"
+#include "DbObjectManifest.h"
 
 DbObjectManifest::DbObjectManifest() {
 

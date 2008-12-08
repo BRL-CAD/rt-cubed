@@ -1,29 +1,30 @@
 ///////////////////////////////////////////////////////////
-//  ResourceDiskLink.cxx
-//  Implementation of the Class SourceDiskLink
+//  ResourceSvnLink.cxx
+//  Implementation of the Class SourceSvnLink
 //  Created on:      04-Dec-2008 8:26:48 AM
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "ResourceDiskLink.h"
+#include "SourceSvnLink.h"
 
-SourceDiskLink::SourceDiskLink() {
-
-}
-
-SourceDiskLink::~SourceDiskLink() {
+SourceSvnLink::SourceSvnLink() {
 
 }
 
-DbObject& SourceDiskLink::getDbObjectByURL(URL url) {
+SourceSvnLink::~SourceSvnLink() {
+
+}
+
+DbObject& SourceSvnLink::getDbObjectByURL(URL url) {
 
 	return NULL;
 }
 
-bool SourceDiskLink::putDbObject(DbObject& dbobj) {
+bool SourceSvnLink::putDbObject(DbObject& dbobj) {
 
 	return false;
 }
+
 
 // Local Variables: ***
 // mode: C++ ***

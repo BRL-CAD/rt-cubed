@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "ResourceCache.h"
+#include "DbObjectCache.h"
 
 DbObjectCache::DbObjectCache() {
 

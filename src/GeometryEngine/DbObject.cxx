@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "AbstractResource.h"
+#include "DbObject.h"
 
 DbObject::DbObject() {
 
