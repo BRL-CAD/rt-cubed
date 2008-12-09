@@ -9,7 +9,7 @@
 #define __NETMSG_H__
 
 #include <list>
-#include "iBMECommon.h"
+#include "iBME/iBMECommon.h"
 
 
 

@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "CopyCacheToSvnJob.h"
+#include "GeometryService/Jobs/CopyCacheToSvnJob.h"
 
 CopyCacheToSvnJob::CopyCacheToSvnJob(DbObject& resToCopy) {
 }

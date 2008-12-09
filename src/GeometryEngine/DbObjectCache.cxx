@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "DbObjectCache.h"
+#include "GeometryEngine/DbObjectCache.h"
 
 DbObjectCache::DbObjectCache() {
 }

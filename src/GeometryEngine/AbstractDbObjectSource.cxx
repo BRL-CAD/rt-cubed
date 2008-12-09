@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "AbstractDbObjectSource.h"
+#include "GeometryEngine/AbstractDbObjectSource.h"
 
 AbstractDbObjectSource::AbstractDbObjectSource() {
 

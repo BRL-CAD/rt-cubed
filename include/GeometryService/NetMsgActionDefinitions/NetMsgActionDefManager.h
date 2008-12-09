@@ -8,7 +8,7 @@
 #if !defined(__NETMSGACTIONDEFMANAGER_H__)
 #define __NETMSGACTIONDEFMANAGER_H__
 
-#include "AbstractNetMsgActionDef.h"
+#include "GeometryService/NetMsgActionDefinitions/AbstractNetMsgActionDef.h"
 #include <map>
 
 using namespace std ;

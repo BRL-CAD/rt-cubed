@@ -8,9 +8,9 @@
 #if !defined(__RESOURCESVNLINK_H__)
 #define __RESOURCESVNLINK_H__
 
-#include "iBMECommon.h"
-#include "AbstractDbObjectSource.h"
-#include "DbObject.h"
+#include "iBME/iBMECommon.h"
+#include "GeometryEngine/AbstractDbObjectSource.h"
+#include "GeometryEngine/DbObject.h"
 
 class SourceSvnLink : public AbstractDbObjectSource
 {

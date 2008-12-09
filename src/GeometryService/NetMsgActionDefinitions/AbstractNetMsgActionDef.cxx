@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "AbstractNetMsgActionDef.h"
+#include "GeometryService/NetMsgActionDefinitions/AbstractNetMsgActionDef.h"
 
 AbstractNetMsgActionDef::AbstractNetMsgActionDef(){
 }

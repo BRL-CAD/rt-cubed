@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "NewSessionNMAD.h"
+#include "GeometryService/NetMsgActionDefinitions/NewSessionNMAD.h"
 
 
 NewSessionNetMsgActionDef::NewSessionNetMsgActionDef(){

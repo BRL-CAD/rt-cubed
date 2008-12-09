@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "NetSockPortal.h"
+#include "GeometryService/NetSockPortal.h"
 
 
 NetSockPortal::NetSockPortal(){

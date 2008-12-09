@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "CommunicationsManager.h"
+#include "GeometryService/CommunicationsManager.h"
 
 
 CommunicationsManager::CommunicationsManager(){

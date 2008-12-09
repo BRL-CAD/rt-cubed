@@ -8,7 +8,7 @@
 #if !defined(__NETSOCKPORTAL_H__)
 #define __NETSOCKPORTAL_H__
 
-#include "AbstractPortal.h"
+#include "GeometryService/AbstractPortal.h"
 
 class NetSockPortal : public AbstractPortal
 {

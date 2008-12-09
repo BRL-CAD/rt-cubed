@@ -11,9 +11,9 @@
 #include <set>
 #include <map>
 
-#include "iBMECommon.h"
-#include "AbstractDbObjectSource.h"
-#include "DbObject.h"
+#include "iBME/iBMECommon.h"
+#include "GeometryEngine/AbstractDbObjectSource.h"
+#include "GeometryEngine/DbObject.h"
 
 class DbObjectCache : public AbstractDbObjectSource
 {

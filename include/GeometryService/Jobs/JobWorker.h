@@ -8,8 +8,8 @@
 #if !defined(__JOBWORKER_H__)
 #define __JOBWORKER_H__
 
-#include "JobManager.h"
-#include "AbstractJob.h"
+#include "GeometryService/Jobs/JobManager.h"
+#include "GeometryService/Jobs/AbstractJob.h"
 
 class JobWorker
 {

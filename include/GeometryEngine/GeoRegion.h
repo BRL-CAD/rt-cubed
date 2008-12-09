@@ -8,7 +8,7 @@
 #if !defined(__GEOREGION_H__)
 #define __GEOREGION_H__
 
-#include "GeoCollection.h"
+#include "GeometryEngine/GeoCollection.h"
 
 class GeoRegion : public GeoCollection
 {

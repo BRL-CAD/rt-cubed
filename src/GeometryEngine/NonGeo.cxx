@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "NonGeo.h"
+#include "GeometryEngine/NonGeo.h"
 
 NonGeo::NonGeo() {
 

@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "GeoCollection.h"
+#include "GeometryEngine/GeoCollection.h"
 
 
 GeoCollection::GeoCollection(){

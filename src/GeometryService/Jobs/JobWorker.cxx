@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "JobWorker.h"
+#include "GeometryService/Jobs/JobWorker.h"
 
 
 JobWorker::JobWorker(){

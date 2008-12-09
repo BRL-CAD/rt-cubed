@@ -8,9 +8,9 @@
 #if !defined(__DBOBJECTMANAGER_H__)
 #define __DBOBJECTMANAGER_H__
 
-#include "iBMECommon.h"
-#include "AbstractDbObjectSource.h"
-#include "DbObject.h"
+#include "iBME/iBMECommon.h"
+#include "GeometryEngine/AbstractDbObjectSource.h"
+#include "GeometryEngine/DbObject.h"
 
 class DbObjectManager {
 
@@ -26,6 +26,8 @@ private:
 
 };
 #endif // !defined(__DBOBJECTMANAGER_H__)
+
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

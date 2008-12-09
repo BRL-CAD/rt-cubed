@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "SessionManager.h"
+#include "GeometryService/SessionManager.h"
 
 
 SessionManager::SessionManager(){

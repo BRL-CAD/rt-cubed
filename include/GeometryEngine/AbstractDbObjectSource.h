@@ -9,8 +9,8 @@
 #define __ABSTRACTDBOBJECTSOURCE_H__
 
 
-#include "iBMECommon.h"
-#include "DbObject.h"
+#include "iBME/iBMECommon.h"
+#include "GeometryEngine/DbObject.h"
 
 class AbstractDbObjectSource
 {

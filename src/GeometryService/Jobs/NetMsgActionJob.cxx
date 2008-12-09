@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "NetMsgActionJob.h"
+#include "GeometryService/Jobs/NetMsgActionJob.h"
 
 NetMsgActionJob::NetMsgActionJob() {
 }

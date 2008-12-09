@@ -8,7 +8,7 @@
 #if !defined(__NEWSESSIONNMAD_H__)
 #define __NEWSESSIONNMAD_H__
 
-#include "AbstractNetMsgActionDef.h"
+#include "GeometryService/NetMsgActionDefinitions/AbstractNetMsgActionDef.h"
 
 class NewSessionNetMsgActionDef : public AbstractNetMsgActionDef
 {

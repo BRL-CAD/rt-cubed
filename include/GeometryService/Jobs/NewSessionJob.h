@@ -8,8 +8,8 @@
 #if !defined(__NEWSESSIONJOB_H__)
 #define __NEWSESSIONJOB_H__
 
-#include "AbstractJob.h"
-#include "AbstractPortal.h"
+#include "GeometryService/Jobs/AbstractJob.h"
+#include "GeometryService/AbstractPortal.h"
 
 class NewSessionJob : public AbstractJob
 {

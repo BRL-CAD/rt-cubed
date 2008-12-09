@@ -8,10 +8,10 @@
 #if !defined(__RESOURCEDISKLINK_H__)
 #define __RESOURCEDISKLINK_H__
 
-#include "iBMECommon.h"
-#include "SourceDiskLink.h"
-#include "AbstractDbObjectSource.h"
-#include "DbObject.h"
+#include "iBME/iBMECommon.h"
+#include "GeometryEngine/SourceDiskLink.h"
+#include "GeometryEngine/AbstractDbObjectSource.h"
+#include "GeometryEngine/DbObject.h"
 
 
 class SourceDiskLink : public AbstractDbObjectSource

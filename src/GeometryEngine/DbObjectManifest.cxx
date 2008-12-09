@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "DbObjectManifest.h"
+#include "GeometryEngine/DbObjectManifest.h"
 
 DbObjectManifest::DbObjectManifest() {
 

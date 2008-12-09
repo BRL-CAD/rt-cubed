@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "AccessManager.h"
+#include "GeometryService/AccessManager.h"
 
 
 AccessManager::AccessManager(){

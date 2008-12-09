@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "AbstractJob.h"
+#include "GeometryService/Jobs/AbstractJob.h"
 
 AbstractJob::AbstractJob() {
 }

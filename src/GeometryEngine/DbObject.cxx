@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "DbObject.h"
+#include "GeometryEngine/DbObject.h"
 
 DbObject::DbObject() {
 

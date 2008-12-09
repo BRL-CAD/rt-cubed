@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "CommandResult.h"
+#include "GeometryEngine/CommandResult.h"
 
 CommandResult::CommandResult() {}
 

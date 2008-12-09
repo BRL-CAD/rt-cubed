@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "NetMsg.h"
+#include "GeometryService/NetMsg.h"
 
 
 NetMsg::NetMsg(){

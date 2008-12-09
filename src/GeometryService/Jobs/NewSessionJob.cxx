@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "NewSessionJob.h"
+#include "GeometryService/Jobs/NewSessionJob.h"
 
 NewSessionJob::NewSessionJob() {
 

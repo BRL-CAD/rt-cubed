@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "BrlcadDb.h"
+#include "GeometryEngine/BrlcadDb.h"
 
 BrlcadDb::BrlcadDb() {
 }

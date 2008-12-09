@@ -8,8 +8,8 @@
 #if !defined(__GEOMETRYENGINE_H__)
 #define __GEOMETRYENGINE_H__
 
-#include "GED.h"
-#include "DbObjectManager.h"
+
+
 
 /**
  * Singleton Class.

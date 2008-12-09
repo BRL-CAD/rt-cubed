@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "NetMsgActionDefManager.h"
+#include "GeometryService/NetMsgActionDefinitions/NetMsgActionDefManager.h"
 
 NetMsgActionDefManager::NetMsgActionDefManager() {
 }

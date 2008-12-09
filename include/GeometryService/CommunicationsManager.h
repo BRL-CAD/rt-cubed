@@ -12,8 +12,8 @@
 #include <list>
 #include <map>
 
-#include "AbstractPortal.h"
-#include "NetMsg.h"
+#include "GeometryService/AbstractPortal.h"
+#include "GeometryService/NetMsg.h"
 
 using namespace std;
 

@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "IntraAppPortal.h"
+#include "GeometryService/IntraAppPortal.h"
 
 
 IntraAppPortal::IntraAppPortal(){

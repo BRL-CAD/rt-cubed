@@ -9,7 +9,7 @@
 #define __SESSION_H__
 
 #include <iostream>
-#include "AbstractPortal.h"
+#include "GeometryService/AbstractPortal.h"
 
 using namespace std;
 

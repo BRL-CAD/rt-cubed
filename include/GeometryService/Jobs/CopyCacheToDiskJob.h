@@ -8,8 +8,8 @@
 #if !defined(__COPYCACHETODISKJOB_H__)
 #define __COPYCACHETODISKJOB_H__
 
-#include "AbstractJob.h"
-#include "DbObject.h"
+#include "GeometryService/Jobs/AbstractJob.h"
+#include "GeometryEngine/DbObject.h"
 
 
 class CopyCacheToDiskJob : public AbstractJob

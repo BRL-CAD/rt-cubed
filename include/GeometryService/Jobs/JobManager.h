@@ -9,7 +9,7 @@
 #define __JOBMANAGER_H__
 
 #include <list>
-#include "AbstractJob.h"
+#include "GeometryService/Jobs/AbstractJob.h"
 
 using namespace std;
 

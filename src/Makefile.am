@@ -1,6 +1,7 @@
 SUBDIRS = \
 	date \
 	GeometryEngine \
+	GeometryService \
 	libUtility \
 	libNumeric \
 	libImage \

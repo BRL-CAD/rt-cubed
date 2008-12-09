@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "SourceDiskLink.h"
+#include "GeometryEngine/SourceDiskLink.h"
 
 SourceDiskLink::SourceDiskLink() {
 

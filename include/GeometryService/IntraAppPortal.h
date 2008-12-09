@@ -8,7 +8,7 @@
 #if !defined(__INTRAAPPPORTAL_H___)
 #define __INTRAAPPPORTAL_H___
 
-#include "AbstractPortal.h"
+#include "GeometryService/AbstractPortal.h"
 
 class IntraAppPortal : public AbstractPortal
 {

@@ -8,7 +8,7 @@
 #if !defined(__NONGEO_H__)
 #define __NONGEO_H__
 
-#include "DbObject.h"
+#include "GeometryEngine/DbObject.h"
 
 class NonGeo: public DbObject {
 

@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "GeoRegion.h"
+#include "GeometryEngine/GeoRegion.h"
 
 GeoRegion::GeoRegion() {
 

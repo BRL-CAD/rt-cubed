@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "JobManager.h"
+#include "GeometryService/Jobs/JobManager.h"
 
 
 JobManager::JobManager(){

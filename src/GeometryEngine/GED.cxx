@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "GED.h"
+#include "GeometryEngine/GED.h"
 
 GED::GED() {
 

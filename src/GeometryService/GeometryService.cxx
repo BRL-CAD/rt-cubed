@@ -5,18 +5,27 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "GeometryService.h"
+#include "GeometryService/GeometryService.h"
+#include <iostream>
+#include <string>
 
 
 GeometryService::GeometryService(){
-
 }
-
 
 
 GeometryService::~GeometryService(){
+}
+
+
+int main (int argc, char* args[])
+{
+
+  cout << "Hello World." << endl << endl;
 
 }
+
+
 
 // Local Variables: ***
 // mode: C++ ***

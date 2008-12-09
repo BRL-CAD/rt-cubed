@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "SourceSvnLink.h"
+#include "GeometryEngine/SourceSvnLink.h"
 
 SourceSvnLink::SourceSvnLink() {
 

@@ -8,20 +8,21 @@
 #if !defined(__GEOMETRYSERVICE_H__)
 #define __GEOMETRYSERVICE_H__
 
-#include "GeometryEngine.h"
-#include "NetMsgActionDefManager.h"
-#include "JobManager.h"
-#include "CommunicationsManager.h"
-#include "SessionManager.h"
-#include "AccessManager.h"
+#include "GeometryEngine/GeometryEngine.h"
+#include "GeometryService/NetMsgActionDefinitions/NetMsgActionDefManager.h"
+#include "GeometryService/Jobs/JobManager.h"
+#include "GeometryService/CommunicationsManager.h"
+#include "GeometryService/SessionManager.h"
+#include "GeometryService/AccessManager.h"
+#include "GeometryService/GeometryService.h"
 
 /**
  * Singleton Class.
  *
- * Represents the object that is instantiated should the BME be set to run a
+ * Represents the object that is instantiated should the iBME be set to run a
  * Geometry Service
  */
-class GeometryService : public GeometryEngine
+class GeometryService
 {
 
 public:

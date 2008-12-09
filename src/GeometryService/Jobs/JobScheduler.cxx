@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "JobScheduler.h"
+#include "GeometryService/Jobs/JobScheduler.h"
 
 JobScheduler::JobScheduler() {
 }

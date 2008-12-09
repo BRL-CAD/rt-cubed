@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "CopyCacheToDiskJob.h"
+#include "GeometryService/Jobs/CopyCacheToDiskJob.h"
 
 CopyCacheToDiskJob::CopyCacheToDiskJob(DbObject& resToCopy) {
 }

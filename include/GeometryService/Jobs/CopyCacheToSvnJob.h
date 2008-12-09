@@ -8,8 +8,8 @@
 #if !defined(__COPYCACHETOSVNJOB_H__)
 #define __COPYCACHETOSVNJOB_H__
 
-#include "AbstractJob.h"
-#include "DbObject.h"
+#include "GeometryService/Jobs/AbstractJob.h"
+#include "GeometryEngine/DbObject.h"
 
 class CopyCacheToSvnJob : public AbstractJob
 {

@@ -8,8 +8,8 @@
 #if !defined(__ABSTRACTNETMSGACTIONDEF_H__)
 #define __ABSTRACTNETMSGACTIONDEF_H__
 
-#include "NetMsg.h"
-#include "AbstractJob.h"
+#include "GeometryService/NetMsg.h"
+#include "GeometryService/Jobs/AbstractJob.h"
 
 
 /**

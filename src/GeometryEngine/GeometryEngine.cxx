@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "GeometryEngine.h"
+#include "GeometryEngine/GeometryEngine.h"
 
 
 GeometryEngine::GeometryEngine(){

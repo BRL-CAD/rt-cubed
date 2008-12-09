@@ -8,7 +8,7 @@
 #if !defined(__SESSIONMANAGER_H__)
 #define __SESSIONMANAGER_H__
 
-#include "Session.h"
+#include "GeometryService/Session.h"
 
 class SessionManager
 {

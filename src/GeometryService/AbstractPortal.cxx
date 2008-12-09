@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "AbstractPortal.h"
+#include "GeometryService/AbstractPortal.h"
 
 
 AbstractPortal::AbstractPortal(){

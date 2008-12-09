@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "Session.h"
+#include "GeometryService/Session.h"
 
 
 Session::Session(){

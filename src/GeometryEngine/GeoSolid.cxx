@@ -5,7 +5,7 @@
 //  Original author: Dave Loman
 ///////////////////////////////////////////////////////////
 
-#include "GeoSolid.h"
+#include "GeometryEngine/GeoSolid.h"
 
 GeoSolid::GeoSolid() {
 

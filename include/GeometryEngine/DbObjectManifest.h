@@ -10,8 +10,8 @@
 
 #include <list>
 #include <map>
-#include "DbObject.h"
-#include "iBMECommon.h"
+#include "GeometryEngine/DbObject.h"
+#include "iBME/iBMECommon.h"
 
 
 class DbObjectManifest
