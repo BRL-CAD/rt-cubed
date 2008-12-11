@@ -761,9 +761,6 @@ AC_CONFIG_FILES([
 	src/rt^3d/Makefile
 	src/rt^3dbd/Makefile
 	src/scratch/Makefile
-	src/other/Makefile
-	src/other/pthreadcc/Makefile
-	src/other/socketcc/Makefile
 ])
 AC_OUTPUT
 
