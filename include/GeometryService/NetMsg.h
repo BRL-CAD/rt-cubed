@@ -8,7 +8,6 @@
 #if !defined(__NETMSG_H__)
 #define __NETMSG_H__
 
-#include <list>
 #include "iBME/iBMECommon.h"
 
 
@@ -18,24 +17,33 @@ class NetMsg
 {
 
 public:
-	virtual ~NetMsg();
-	NetMsg();
+
+  //Default Constructor
+  NetMsg();
+
+  //Regular Constructor
+  NetMsg(int mLen, int mType, std::string mUUID, std::string rUUID);
+
+  //Deserializing Constructor
+  NetMsg(char* byteArray);
+
+
+  virtual ~NetMsg();
+  
+
+  void serialize(char* data);
+  char[] serialize_();
 
 private:
-	int msgLen;
+  int msgLen;
+  int msgType;
+  UUID msgID;
+  UUID regardingMsgID;
+  char* data;
 
-	/**
-	 * OPCODE for the message
-	 */
-	int msgType;
 
-	/**
-	 * 
-	 */
-
-	UUID msgID;
-	UUID regardingMsgID;
-	list<char> data;
+  void deserialize_();
+  char[] serialize_();
 
 };
 #endif // !defined(__NETMSG_H__)

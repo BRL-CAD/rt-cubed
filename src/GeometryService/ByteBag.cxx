@@ -1,4 +1,4 @@
-/*                     B Y T E B A G . C P P
+/*                     B Y T E B A G . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2008 United States Government as represented by
@@ -17,7 +17,7 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file ByteBag.cpp
+/** @file ByteBag.cxx
  *
  *  Description -
  *      Source file for the ByteBag class.
