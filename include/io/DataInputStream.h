@@ -65,7 +65,8 @@ namespace ibme {
       virtual Long readLong() throw (IOException);
       virtual uLong readULong() throw (IOException);
 
-
+      virtual float readFloat() throw (IOException);
+      virtual double readDouble() throw (IOException);
 
       virtual uShort readChar() throw (IOException);
       virtual String readString(uInt strLen) throw (IOException);

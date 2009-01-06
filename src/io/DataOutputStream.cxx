@@ -129,6 +129,32 @@ void DataOutputStream::writeULong(uLong l) throw (IOException)
 }
 
 
+
+
+
+void DataOutputStream::writeFloat(float f) throw (IOException)
+{
+  uByte* b = (uByte*) &f;
+  for (uInt i = 0; i < 4; ++i)
+    {
+      this->write(*b++);
+    }
+}
+
+
+void DataOutputStream::writeDouble(double d) throw (IOException)
+{
+  uByte* b = (uByte*) &d;
+  for (uInt i = 0; i < 8; ++i)
+    {
+      this->write(*b++);
+    }
+
+}
+
+
+
+
 void DataOutputStream::writeChar(uShort v) throw (IOException)
 {
   this->writeUShort(v);

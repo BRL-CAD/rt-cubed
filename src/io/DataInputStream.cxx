@@ -88,7 +88,7 @@ uShort DataInputStream::readUShort() throw (IOException)
 {
   register uInt tmp = 0, rc;
 
-  for (register unsigned i = 0; i < 2; i++)
+  for (register unsigned i = 0; i < 2; ++i)
     {
       if ((rc = _pin->read()) < 0)
 	throw EOFException();
@@ -129,7 +129,7 @@ uInt DataInputStream::readUInt() throw (IOException)
   register uInt tmp = 0;
   register int rc;
 
-  for (register unsigned i = 0; i < 4; i++)
+  for (register unsigned i = 0; i < 4; ++i)
     {
       if ((rc = _pin->read()) < 0)
 	throw EOFException();
@@ -151,7 +151,7 @@ uLong DataInputStream::readULong() throw (IOException)
   register uLong tmp = 0;
   register int rc;
 
-  for (register unsigned i = 0; i < 8; i++)
+  for (register unsigned i = 0; i < 8; ++i)
     {
       if ((rc = _pin->read()) < 0)
 	throw EOFException();
@@ -163,6 +163,33 @@ uLong DataInputStream::readULong() throw (IOException)
 }
 
 
+float DataInputStream::readFloat() throw (IOException)
+{
+  float f = 0.0;
+  uByte* pf = (uByte*) &f;
+  uByte b;
+
+  for (uInt i = 0; i < 4; ++i)
+    {
+      *pf = this->readUByte();
+      *pf++;
+    }
+  return f;
+}
+
+double DataInputStream::readDouble() throw (IOException)
+{
+  double d = 0.0;
+  uByte* pd = (uByte*) &d;
+  uByte b;
+
+  for (uInt i = 0; i < 8; ++i)
+    {
+      *pd = this->readUByte();
+      *pd++;
+    }
+  return d;
+}
 
 
 

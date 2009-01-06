@@ -62,6 +62,9 @@ namespace ibme {
 			virtual void writeULong(const uLong v) throw (IOException) = 0;
 			virtual void writeLong(const Long v) throw (IOException) = 0;
 	
+			virtual void writeFloat(const float v) throw (IOException) = 0;
+			virtual void writeDouble(const double v) throw (IOException) = 0;
+
 
 			virtual void writeChar(const uShort c) throw (IOException) = 0;
 			virtual void writeString(const String& s) throw (IOException) = 0;
