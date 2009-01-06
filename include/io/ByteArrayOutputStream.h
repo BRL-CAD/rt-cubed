@@ -46,7 +46,7 @@ namespace ibme {
 
 
 		protected:
-			array<uint8_t> buf;
+			array<uByte> buf;
 			size_t    count;
 
 		public:
@@ -56,16 +56,16 @@ namespace ibme {
 
 			void reset() throw ();
 			size_t size() throw ();
-			array<uint8_t>* toByteArray();
-			void toByteArray(array<uint8_t>& b);
-			void toByteArray(uint8_t* data, size_t offset, size_t length);
+			array<uByte>* toByteArray();
+			void toByteArray(array<uByte>& b);
+			void toByteArray(uByte* data, size_t offset, size_t length);
 			void writeTo(OutputStream& out) throw (IOException);
 
 			virtual void close() throw (IOException);
 			virtual void flush() throw (IOException);
-			virtual void write(uint8_t b) throw (IOException);
-			virtual void write(const uint8_t* data, size_t offset, size_t length) throw (IOException);
-			virtual void write(const array<uint8_t>& b) throw (IOException);
+			virtual void write(uByte b) throw (IOException);
+			virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
+			virtual void write(const array<uByte>& b) throw (IOException);
 		};
 	}
 }

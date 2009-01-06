@@ -53,12 +53,12 @@ bool InputStream::markSupported() throw ()
 	return false;
 }
 
-int InputStream::read(array<uint8_t>& b) throw (IOException)
+int InputStream::read(array<uByte>& b) throw (IOException)
 {
 	return read(b.data(), 0, b.size());
 }
 
-int InputStream::read(uint8_t* data, size_t offset, size_t length) throw (IOException)
+int InputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
 		throw ibme::lang::NullPointerException();
@@ -67,7 +67,7 @@ int InputStream::read(uint8_t* data, size_t offset, size_t length) throw (IOExce
 	if (b < 0)
 		return -1;
 
-	data[offset] = (uint8_t) b;
+	data[offset] = (uByte) b;
 
 	size_t i = 1;
 	try
@@ -77,7 +77,7 @@ int InputStream::read(uint8_t* data, size_t offset, size_t length) throw (IOExce
 			b = read();
 			if (b < 0)
 				break;
-			data[offset+i++] = (uint8_t) b;
+			data[offset+i++] = (uByte) b;
 		}
 	}
 	catch (IOException)
@@ -91,7 +91,7 @@ off_t InputStream::skip(off_t n) throw (IOException)
 {
 	off_t remaining = n;
 
-	uint8_t skip[2048];
+	uByte skip[2048];
 
 	while (remaining > 0)
 	{

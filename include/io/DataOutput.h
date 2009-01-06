@@ -43,16 +43,30 @@ namespace ibme {
 		class DataOutput
 		{
 		public:
-			virtual void write(const array<uint8_t>& b) throw (IOException) = 0;
-			virtual void write(const uint8_t* data, size_t offset, size_t length) throw (IOException) = 0;
-			virtual void write(uint8_t v) throw (IOException) = 0;
-			virtual void writeBoolean(bool v) throw (IOException) = 0;
-			virtual void writeByte(uint8_t v) throw (IOException) = 0;
-			virtual void writeChars(const String& s) throw (IOException) = 0;
-			virtual void writeInt(int32_t v) throw (IOException) = 0;
-			virtual void writeLong(int64_t v) throw (IOException) = 0;
-			virtual void writeShort(int16_t v) throw (IOException) = 0;
-			virtual void writeUTF(const String& str) throw (IOException) = 0;
+			virtual void write(const array<uByte>& b) throw (IOException) = 0;
+			virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException) = 0;
+
+			virtual void write(uByte v) throw (IOException) = 0;
+
+			virtual void writeBoolean(const bool v) throw (IOException) = 0;
+
+			virtual void writeUByte(const uByte v) throw (IOException) = 0;
+			virtual void writeByte(const Byte v) throw (IOException) = 0;
+
+			virtual void writeUShort(const uShort v) throw (IOException) = 0;
+			virtual void writeShort(const Short v) throw (IOException) = 0;
+
+			virtual void writeUInt(const uInt v) throw (IOException) = 0;
+			virtual void writeInt(const Int v) throw (IOException) = 0;
+
+			virtual void writeULong(const uLong v) throw (IOException) = 0;
+			virtual void writeLong(const Long v) throw (IOException) = 0;
+	
+
+			virtual void writeChar(const uShort c) throw (IOException) = 0;
+			virtual void writeString(const String& s) throw (IOException) = 0;
+
+
 		};
 	}
 }

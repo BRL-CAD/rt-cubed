@@ -43,14 +43,14 @@ namespace ibme {
 		{
 
 		protected:
-			array<uint8_t> _buf;
+			array<uByte> _buf;
 			size_t    _count;
 			size_t    _mark;
 			size_t    _pos;
 
 		public:
-			ByteArrayInputStream(const uint8_t* data, size_t offset, size_t length);
-			ByteArrayInputStream(const array<uint8_t>& b);
+			ByteArrayInputStream(const uByte* data, size_t offset, size_t length);
+			ByteArrayInputStream(const array<uByte>& b);
 			virtual ~ByteArrayInputStream();
 
 			virtual off_t available() throw (IOException);
@@ -58,8 +58,8 @@ namespace ibme {
 			virtual void mark(off_t readlimit) throw ();
 			virtual bool markSupported() throw ();
 			virtual int read() throw (IOException);
-			virtual int read(uint8_t* data, size_t offset, size_t length) throw (IOException);
-			virtual int read(array<uint8_t>& b) throw (IOException);
+			virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
+			virtual int read(array<uByte>& b) throw (IOException);
 			virtual void reset() throw (IOException);
 			virtual off_t skip(off_t n) throw (IOException);
 		};

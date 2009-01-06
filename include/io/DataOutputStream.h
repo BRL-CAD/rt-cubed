@@ -52,16 +52,36 @@ namespace ibme {
 
 			size_t size() const throw ();
 
-			virtual void write(uint8_t b) throw (IOException);
-			virtual void write(const uint8_t* data, size_t offset, size_t length) throw (IOException);
-			virtual void write(const array<uint8_t>& b) throw (IOException);
-			virtual void writeBoolean(bool v) throw (IOException);
-			virtual void writeByte(uint8_t v) throw (IOException);
-			virtual void writeChar(int32_t v) throw (IOException);
-			virtual void writeChars(const String& s) throw (IOException);
-			virtual void writeInt(int32_t v) throw (IOException);
-			virtual void writeLong(int64_t v) throw (IOException);
-			virtual void writeShort(int16_t v) throw (IOException);
+
+
+
+
+
+			virtual void write(const array<uByte>& b) throw (IOException);
+			virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
+
+			virtual void write(uByte v) throw (IOException);
+
+			virtual void writeBoolean(const bool v) throw (IOException);
+
+			virtual void writeUByte(const uByte v) throw (IOException);
+			virtual void writeByte(const Byte v) throw (IOException);
+
+			virtual void writeUShort(const uShort v) throw (IOException);
+			virtual void writeShort(const Short v) throw (IOException);
+
+			virtual void writeUInt(const uInt v) throw (IOException);
+			virtual void writeInt(const Int v) throw (IOException);
+
+			virtual void writeULong(const uLong v) throw (IOException);
+			virtual void writeLong(const Long v) throw (IOException);
+	
+
+			virtual void writeChar(const uShort c) throw (IOException);
+			virtual void writeString(const String& s) throw (IOException);
+
+
+
 		};
 	}
 }

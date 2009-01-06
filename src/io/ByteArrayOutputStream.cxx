@@ -57,22 +57,22 @@ size_t ByteArrayOutputStream::size() throw ()
   return count;
 }
 
-array<uint8_t>* ByteArrayOutputStream::toByteArray()
+array<uByte>* ByteArrayOutputStream::toByteArray()
 {
-  array<uint8_t>* result = new array<uint8_t>();
+  array<uByte>* result = new array<uByte>();
 
   toByteArray(*result);
 
   return result;
 }
 
-void ByteArrayOutputStream::toByteArray(array<uint8_t>& b)
+void ByteArrayOutputStream::toByteArray(array<uByte>& b)
 {
   b.resize(count);
   memcpy(b.data(), buf.data(), count);
 }
 
-void ByteArrayOutputStream::toByteArray(uint8_t* data, size_t offset, size_t length)
+void ByteArrayOutputStream::toByteArray(uByte* data, size_t offset, size_t length)
 {
   if (!data)
     throw ibme::lang::NullPointerException();
@@ -87,7 +87,7 @@ void ByteArrayOutputStream::flush() throw (IOException)
 {
 }
 
-void ByteArrayOutputStream::write(uint8_t b) throw (IOException)
+void ByteArrayOutputStream::write(uByte b) throw (IOException)
 {
   size_t newcount = count+1;
   size_t actualsz = buf.size();
@@ -103,7 +103,7 @@ void ByteArrayOutputStream::write(uint8_t b) throw (IOException)
   buf[count++] = b;
 }
 
-void ByteArrayOutputStream::write(const uint8_t* data, size_t offset, size_t length) throw (IOException)
+void ByteArrayOutputStream::write(const uByte* data, size_t offset, size_t length) throw (IOException)
 {
   if (length)
     {
@@ -123,7 +123,7 @@ void ByteArrayOutputStream::write(const uint8_t* data, size_t offset, size_t len
     }
 }
 
-void ByteArrayOutputStream::write(const array<uint8_t>& b) throw (IOException)
+void ByteArrayOutputStream::write(const array<uByte>& b) throw (IOException)
 {
   write(b.data(), 0, b.size());
 }

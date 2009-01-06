@@ -62,30 +62,31 @@ bool DataInputStream::readBoolean() throw (IOException)
   return (b != 0);
 }
 
-int8_t DataInputStream::readByte() throw (IOException)
+Byte DataInputStream::readByte() throw (IOException)
+{
+  return static_cast<Byte>(this->readUByte());
+}
+
+uByte DataInputStream::readUByte() throw (IOException)
 {
   register int b = _pin->read();
 
   if (b < 0)
     throw EOFException();
 
-  return static_cast<int8_t>(b);
+  return static_cast<uByte>(b);
 }
 
-int DataInputStream::readUnsignedByte() throw (IOException)
+
+
+Short DataInputStream::readShort() throw (IOException)
 {
-  register int b = _pin->read();
-
-  if (b < 0)
-    throw EOFException();
-
-  return b;
+  return static_cast<Short>(this->readUShort());
 }
 
-int16_t DataInputStream::readShort() throw (IOException)
+uShort DataInputStream::readUShort() throw (IOException)
 {
-  register int16_t tmp = 0;
-  register int rc;
+  register uInt tmp = 0, rc;
 
   for (register unsigned i = 0; i < 2; i++)
     {
@@ -98,40 +99,34 @@ int16_t DataInputStream::readShort() throw (IOException)
   return tmp;
 }
 
-int DataInputStream::readUnsignedShort() throw (IOException)
+
+
+uShort DataInputStream::readChar() throw (IOException)
 {
-  register int tmp = 0, rc;
-
-  for (register unsigned i = 0; i < 2; i++)
-    {
-      if ((rc = _pin->read()) < 0)
-	throw EOFException();
-
-      tmp = (tmp << 8) + rc;
-    }
-
-  return tmp;
+  return this->readUShort();
 }
 
-uint16_t DataInputStream::readChar() throw (IOException)
+String DataInputStream::readString(uInt strLen) throw (IOException)
 {
-  register uint16_t tmp = 0;
-  register int rc;
+	String out = "";
 
-  for (register unsigned i = 0; i < 2; i++)
-    {
-      if ((rc = _pin->read()) < 0)
-	throw EOFException();
+	for (uInt i = 0; i < strLen; ++i)
+	  {
+	    out += this->readChar();
+	  }
 
-      tmp = (tmp << 8) + rc;
-    }
-
-  return tmp;
+	return out;
 }
 
-int32_t DataInputStream::readInt() throw (IOException)
+
+Int DataInputStream::readInt() throw (IOException)
 {
-  register int32_t tmp = 0;
+  return static_cast<Int>(this->readUInt());
+}
+
+uInt DataInputStream::readUInt() throw (IOException)
+{
+  register uInt tmp = 0;
   register int rc;
 
   for (register unsigned i = 0; i < 4; i++)
@@ -145,9 +140,15 @@ int32_t DataInputStream::readInt() throw (IOException)
   return tmp;
 }
 
-int64_t DataInputStream::readLong() throw (IOException)
+
+Long DataInputStream::readLong() throw (IOException)
 {
-  register int64_t tmp = 0;
+  return static_cast<uLong>(this->readULong());
+}
+
+uLong DataInputStream::readULong() throw (IOException)
+{
+  register uLong tmp = 0;
   register int rc;
 
   for (register unsigned i = 0; i < 8; i++)
@@ -160,6 +161,14 @@ int64_t DataInputStream::readLong() throw (IOException)
 
   return tmp;
 }
+
+
+
+
+
+
+
+
 
 
 String* DataInputStream::readLine() throw (IOException)
@@ -198,7 +207,7 @@ void DataInputStream::readLine(String& line) throw (IOException)
 	  if ((source_limit - source_buffer) == MAX_BYTES_PER_CHARACTER)
 	    throw IOException("fubar in readLine");
 
-	  *(source_limit++) = (uint8_t) ch;
+	  *(source_limit++) = (uByte) ch;
 	}
 
 
@@ -211,10 +220,10 @@ void DataInputStream::readLine(String& line) throw (IOException)
 	      // last character read was ASCII <CR>; is this one a <LF>?
 	      if (target_buffer[0] != 0x0A)
 		{
-		  // unread the right number of uint8_ts 
+		  // unread the right number of uBytes 
 		  PushbackInputStream* p = dynamic_cast<PushbackInputStream*>(_pin);
 		  if (p)
-		    p->unread((const uint8_t*) source_buffer, 0, source-source_buffer);
+		    p->unread((const uByte*) source_buffer, 0, source-source_buffer);
 		  else
 		    throw IOException("fubar in dynamic_cast");
 		}
@@ -249,7 +258,7 @@ void DataInputStream::readLine(String& line) throw (IOException)
     } while (ch >= 0);
 }
 
-void DataInputStream::readFully(uint8_t* data, size_t offset, size_t length) throw (IOException)
+void DataInputStream::readFully(uByte* data, size_t offset, size_t length) throw (IOException)
 {
   if (!data)
     throw ibme::lang:: NullPointerException();
@@ -265,7 +274,7 @@ void DataInputStream::readFully(uint8_t* data, size_t offset, size_t length) thr
     }
 }
 
-void DataInputStream::readFully(array<uint8_t>& b) throw (IOException)
+void DataInputStream::readFully(array<uByte>& b) throw (IOException)
 {
   readFully(b.data(), 0, b.size());
 }

@@ -50,13 +50,13 @@ size_t DataOutputStream::size() const throw ()
 	return written;
 }
 
-void DataOutputStream::write(uint8_t b) throw (IOException)
+void DataOutputStream::write(uByte b) throw (IOException)
 {
 	out.write(b);
 	written++;
 }
 
-void DataOutputStream::write(const uint8_t* data, size_t offset, size_t length) throw (IOException)
+void DataOutputStream::write(const uByte* data, size_t offset, size_t length) throw (IOException)
 {
 	if (length)
 	{
@@ -65,7 +65,7 @@ void DataOutputStream::write(const uint8_t* data, size_t offset, size_t length) 
 	}
 }
 
-void DataOutputStream::write(const array<uint8_t>& b) throw (IOException)
+void DataOutputStream::write(const array<uByte>& b) throw (IOException)
 {
 	write(b.data(), 0, b.size());
 }
@@ -76,20 +76,33 @@ void DataOutputStream::writeBoolean(bool b) throw (IOException)
 	written++;
 }
 
-void DataOutputStream::writeByte(uint8_t b) throw (IOException)
+void DataOutputStream::writeByte(Byte b) throw (IOException)
+{
+  this->writeUByte(static_cast<uByte>(b));
+}
+void DataOutputStream::writeUByte(uByte b) throw (IOException)
 {
 	out.write(b);
 	written++;
 }
 
-void DataOutputStream::writeShort(int16_t s) throw (IOException)
+
+void DataOutputStream::writeShort(Short s) throw (IOException)
+{
+  this->writeUShort(static_cast<uShort>(s));
+}
+void DataOutputStream::writeUShort(uShort s) throw (IOException)
 {
 	out.write((s >>  8)       );
 	out.write((s      ) & 0xff);
 	written += 2;
 }
 
-void DataOutputStream::writeInt(int32_t i) throw (IOException)
+void DataOutputStream::writeInt(Int i) throw (IOException)
+{
+  this->writeUInt(static_cast<uInt>(i));
+}
+void DataOutputStream::writeUInt(uInt i) throw (IOException)
 {
 	out.write((i >> 24)       );
 	out.write((i >> 16) & 0xff);
@@ -98,7 +111,11 @@ void DataOutputStream::writeInt(int32_t i) throw (IOException)
 	written += 4;
 }
 
-void DataOutputStream::writeLong(int64_t l) throw (IOException)
+void DataOutputStream::writeLong(Long l) throw (IOException)
+{
+  this->writeULong(static_cast<uLong>(l));
+}
+void DataOutputStream::writeULong(uLong l) throw (IOException)
 {
 	out.write((l >> 56)       );
 	out.write((l >> 48) & 0xff);
@@ -111,24 +128,18 @@ void DataOutputStream::writeLong(int64_t l) throw (IOException)
 	written += 8;
 }
 
-void DataOutputStream::writeChar(int32_t v) throw (IOException)
+
+void DataOutputStream::writeChar(uShort v) throw (IOException)
 {
-	out.write((v >> 8) && 0xff);
-	out.write((v     ) && 0xff);
-	written += 2;
+  this->writeUShort(v);
 }
 
-void DataOutputStream::writeChars(const String& str) throw (IOException)
+void DataOutputStream::writeString(const String& str) throw (IOException)
 {
-  const char* buffer = str.c_str();
-	size_t len = str.length();
-
-	for (size_t i = 0; i < len; i++)
+	for (size_t i = 0; i < str.length(); i++)
 	{
-		out.write((buffer[i] >> 8) & 0xff);
-		out.write((buffer[i]     ) & 0xff);
+	  this->writeChar(str[i]);
 	}
-	written += (len << 1);
 }
 
 

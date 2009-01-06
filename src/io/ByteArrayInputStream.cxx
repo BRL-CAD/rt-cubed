@@ -33,14 +33,14 @@
 using ibme::io::ByteArrayInputStream;
 using ibme::lang::NullPointerException;
 
-ByteArrayInputStream::ByteArrayInputStream(const array<uint8_t>& b) : _buf(b)
+ByteArrayInputStream::ByteArrayInputStream(const array<uByte>& b) : _buf(b)
 {
 	_count = _buf.size();
 	_mark = 0;
 	_pos = 0;
 }
 
-ByteArrayInputStream::ByteArrayInputStream(const uint8_t* data, size_t offset, size_t length) : _buf(data+offset, length)
+ByteArrayInputStream::ByteArrayInputStream(const uByte* data, size_t offset, size_t length) : _buf(data+offset, length)
 {
 	_count = _buf.size();
 	_mark = 0;
@@ -77,7 +77,7 @@ int ByteArrayInputStream::read() throw (IOException)
 	return rc;
 }
 
-int ByteArrayInputStream::read(uint8_t* data, size_t offset, size_t length) throw (IOException)
+int ByteArrayInputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
 		throw NullPointerException();
@@ -102,7 +102,7 @@ int ByteArrayInputStream::read(uint8_t* data, size_t offset, size_t length) thro
 	return length;
 }
 
-int ByteArrayInputStream::read(array<uint8_t>& b) throw (IOException)
+int ByteArrayInputStream::read(array<uByte>& b) throw (IOException)
 {
 	return read(b.data(), 0, b.size());
 }

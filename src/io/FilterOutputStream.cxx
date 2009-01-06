@@ -59,17 +59,17 @@ void FilterOutputStream::flush() throw (IOException)
 	out.flush();
 }
 
-void FilterOutputStream::write(uint8_t b) throw (IOException)
+void FilterOutputStream::write(uByte b) throw (IOException)
 {
 	out.write(b);
 }
 
-void FilterOutputStream::write(const uint8_t* data, size_t offset, size_t len) throw (IOException)
+void FilterOutputStream::write(const uByte* data, size_t offset, size_t len) throw (IOException)
 {
 	out.write(data, offset, len);
 }
 
-void FilterOutputStream::write(const array<uint8_t>& b) throw (IOException)
+void FilterOutputStream::write(const array<uByte>& b) throw (IOException)
 {
 	out.write(b.data(), 0, b.size());
 }

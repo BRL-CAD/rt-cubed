@@ -37,33 +37,47 @@
 
 
 namespace ibme {
-	namespace io {
-		class DataInputStream : public FilterInputStream, public DataInput
-		{
-		private:
-			bool _del;
-			InputStream* _pin;
+  namespace io {
+    class DataInputStream : public FilterInputStream, public DataInput
+    {
+    private:
+      bool _del;
+      InputStream* _pin;
 
-		public:
-			DataInputStream(InputStream& in);
-			virtual ~DataInputStream();
+    public:
+      DataInputStream(InputStream& in);
+      virtual ~DataInputStream();
 
-			virtual bool readBoolean() throw (IOException);
-			virtual int8_t readByte() throw (IOException);
-			virtual uint16_t readChar() throw (IOException);
-			virtual void readFully(uint8_t* data, size_t offset, size_t length) throw (IOException);
-			virtual void readFully(array<uint8_t>& b) throw (IOException);
-			virtual int32_t readInt() throw (IOException);
-			virtual String* readLine() throw (IOException);
-			virtual void readLine(String& line) throw (IOException);
-			virtual int64_t readLong() throw (IOException);
-			virtual int16_t readShort() throw (IOException);
-			virtual int readUnsignedByte() throw (IOException);
-			virtual int readUnsignedShort() throw (IOException);
+      virtual void readFully(uByte* data, size_t offset, size_t length) throw (IOException);
+      virtual void readFully(array<uByte>& b) throw (IOException);
 
-			virtual off_t skipBytes(off_t n) throw (IOException);
-		};
-	}
+      virtual bool readBoolean() throw (IOException);
+
+      virtual Byte readByte() throw (IOException);
+      virtual uByte readUByte() throw (IOException);
+
+      virtual Short readShort() throw (IOException);
+      virtual uShort readUShort() throw (IOException);
+
+      virtual Int readInt() throw (IOException);
+      virtual uInt readUInt() throw (IOException);
+
+      virtual Long readLong() throw (IOException);
+      virtual uLong readULong() throw (IOException);
+
+
+
+      virtual uShort readChar() throw (IOException);
+      virtual String readString(uInt strLen) throw (IOException);
+
+      virtual String* readLine() throw (IOException);
+      virtual void readLine(String& line) throw (IOException);
+
+	
+
+      virtual off_t skipBytes(off_t n) throw (IOException);
+    };
+  }
 }
 
 #endif

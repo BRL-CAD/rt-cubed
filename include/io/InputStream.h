@@ -48,8 +48,8 @@ namespace ibme {
 			virtual void mark(off_t readlimit) throw ();
 			virtual bool markSupported() throw ();
 			virtual int read() throw (IOException) = 0;
-			virtual int read(uint8_t* data, size_t offset, size_t length) throw (IOException);
-			virtual int read(array<uint8_t>& b) throw (IOException);
+			virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
+			virtual int read(array<uByte>& b) throw (IOException);
 			virtual void reset() throw (IOException);
 			virtual off_t skip(off_t n) throw (IOException);
 		};

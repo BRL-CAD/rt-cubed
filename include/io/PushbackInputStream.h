@@ -41,7 +41,7 @@ namespace ibme {
 			bool _closed;
 
 		protected:
-			array<uint8_t> buf;
+			array<uByte> buf;
 			size_t pos;
 
 		public:
@@ -52,12 +52,12 @@ namespace ibme {
 			virtual void close() throw (IOException);
 			virtual bool markSupported() throw ();
 			virtual int read() throw (IOException);
-			virtual int read(uint8_t* data, size_t offset, size_t length) throw (IOException);
+			virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
 			virtual off_t skip(off_t n) throw (IOException);
 
-			void unread(uint8_t) throw (IOException);
-			void unread(const uint8_t* data, size_t offset, size_t length) throw (IOException);
-			void unread(const array<uint8_t>& b) throw (IOException);
+			void unread(uByte) throw (IOException);
+			void unread(const uByte* data, size_t offset, size_t length) throw (IOException);
+			void unread(const array<uByte>& b) throw (IOException);
 		};
 	}
 }

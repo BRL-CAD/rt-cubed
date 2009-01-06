@@ -34,3 +34,15 @@ libge_la_SOURCES = \
 	../lang/Object.cxx \
 	../lang/RuntimeException.cxx \
 	../lang/Throwable.cxx 
+
+
+
+
+
+bin_PROGRAMS = sstest
+
+sstest_SOURCES = \
+	../io/sstest.cxx
+
+sstest_LDADD = \
+	libge.la

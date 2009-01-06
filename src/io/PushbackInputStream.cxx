@@ -75,7 +75,7 @@ bool PushbackInputStream::markSupported() throw ()
 	return false;
 }
 
-int PushbackInputStream::read(uint8_t* data, size_t offset, size_t length) throw (IOException)
+int PushbackInputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
 		throw ibme::lang::NullPointerException();
@@ -145,7 +145,7 @@ off_t PushbackInputStream::skip(off_t n) throw (IOException)
 	return canskip;
 }
 
-void PushbackInputStream::unread(uint8_t b) throw (IOException)
+void PushbackInputStream::unread(uByte b) throw (IOException)
 {
 	if (_closed)
 		throw IOException("Stream closed");
@@ -156,12 +156,12 @@ void PushbackInputStream::unread(uint8_t b) throw (IOException)
 	buf[--pos] = b;
 }
 
-void PushbackInputStream::unread(const array<uint8_t>& b) throw (IOException)
+void PushbackInputStream::unread(const array<uByte>& b) throw (IOException)
 {
 	unread(b.data(), 0, b.size());
 }
 
-void PushbackInputStream::unread(const uint8_t* data, size_t offset, size_t length) throw (IOException)
+void PushbackInputStream::unread(const uByte* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
 		throw ibme::lang::NullPointerException();
