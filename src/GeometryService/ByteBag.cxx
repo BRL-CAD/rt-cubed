@@ -103,16 +103,16 @@ int ByteBag::expand(int howMuch)
 int ByteBag::clear(char fill, long size)
 {
     if (size == 0) {
-	bytesFilled = 0;
-	bytesRead = 0;
+	uint8_tsFilled = 0;
+	uint8_tsRead = 0;
 	memset(data, (int)fill, currentSize);
     }
     else {
-	bytesFilled -= size;
-	if (currentSize-size < bytesRead)
-	    bytesRead = currentSize-size;
-	if (bytesFilled < 0) bytesFilled = 0;
-	memset((char*)data+bytesFilled, (int)fill, size);
+	uint8_tsFilled -= size;
+	if (currentSize-size < uint8_tsRead)
+	    uint8_tsRead = currentSize-size;
+	if (uint8_tsFilled < 0) uint8_tsFilled = 0;
+	memset((char*)data+uint8_tsFilled, (int)fill, size);
     }
     return BRLCAD_OK;
 }
@@ -121,10 +121,10 @@ int ByteBag::clear(char fill, long size)
 // lvalue ByteBag into the current one
 void ByteBag::operator+=(ByteBag &b)
 {
-    // we want to insert the other bytebag's data into this bytebag...
+    // we want to insert the other uint8_tbag's data into this uint8_tbag...
     register int bsize = b.getSize();
-    if (bsize + bytesFilled > currentSize) {
-	if (expand((bsize+bytesFilled)-currentSize)) {
+    if (bsize + uint8_tsFilled > currentSize) {
+	if (expand((bsize+uint8_tsFilled)-currentSize)) {
 	    copyIn(b.data, bsize);
 	}
     }
@@ -132,8 +132,8 @@ void ByteBag::operator+=(ByteBag &b)
 
 // now define a concatenation operator (+)
 extern ByteBag operator+(ByteBag &b, ByteBag &b1) {
-    // this operator will concatenate 2 bytebags and return a new
-    // bytebag with both sets of data... the concatenation will be
+    // this operator will concatenate 2 uint8_tbags and return a new
+    // uint8_tbag with both sets of data... the concatenation will be
     // performed like a queue: b1b2b3b4... etc
     ByteBag newbb(b.getSize()+ b1.getSize());
     newbb.copyIn(b.data, b.getSize());
@@ -145,7 +145,7 @@ extern ByteBag operator+(ByteBag &b, ByteBag &b1) {
 ByteBag& ByteBag::operator=(ByteBag &b)
 {
     // delete the current data stored in b
-    delete [] data; currentSize = bytesFilled = 0;
+    delete [] data; currentSize = uint8_tsFilled = 0;
     // copy the data in b1 into b
     copyIn(b.data, b.getSize());
     return *this;
@@ -212,7 +212,7 @@ extern ByteBag& operator<<(ByteBag &b, std::string &s)
 
 extern ByteBag& operator>>(ByteBag &b, std::string &s)
 {
-    if (b.bytesRead >= b.bytesFilled) throw ByteBagEmptyError();
+    if (b.uint8_tsRead >= b.uint8_tsFilled) throw ByteBagEmptyError();
     long l;
     char *buf;
     switch (b.m_lwid) {
@@ -235,64 +235,64 @@ extern ByteBag& operator>>(ByteBag &b, std::string &s)
     }
 
     buf = new char[l+1]; // for null-character
-    char *pos = ((char *)b.data+b.bytesRead);
+    char *pos = ((char *)b.data+b.uint8_tsRead);
     for (int i = 0; i < l; i++) {
 	buf[i] = *pos;
 	pos++;
     }
     buf[l] = '\0';
     s = std::string(buf);
-    b.bytesRead += sizeof(char)*(l);
+    b.uint8_tsRead += sizeof(char)*(l);
     return b;
 }
 
 extern ByteBag& operator>>(ByteBag &b, char& c)
 {
-    if (b.bytesRead >= b.bytesFilled) throw ByteBagEmptyError();
-    char *pos = (b.data+b.bytesRead);
+    if (b.uint8_tsRead >= b.uint8_tsFilled) throw ByteBagEmptyError();
+    char *pos = (b.data+b.uint8_tsRead);
     c = 0;
     c |= *(pos);
-    b.bytesRead += sizeof(char);
+    b.uint8_tsRead += sizeof(char);
     return b;
 }
 
 extern ByteBag& operator>>(ByteBag &b, short& s)
 {
-    if (b.bytesRead >= b.bytesFilled) throw ByteBagEmptyError();
-    char *pos = b.data+b.bytesRead;
+    if (b.uint8_tsRead >= b.uint8_tsFilled) throw ByteBagEmptyError();
+    char *pos = b.data+b.uint8_tsRead;
     s = 0;
     s |= *((short *)pos); s = ntohs(s);
-    b.bytesRead += sizeof(short);
+    b.uint8_tsRead += sizeof(short);
     return b;
 }
 
 extern ByteBag& operator>>(ByteBag &b, int& i)
 {
     // again, ints are not really suppported
-    if (b.bytesRead >= b.bytesFilled) throw ByteBagEmptyError();
-    char *pos = b.data+b.bytesRead;
+    if (b.uint8_tsRead >= b.uint8_tsFilled) throw ByteBagEmptyError();
+    char *pos = b.data+b.uint8_tsRead;
     long l = 0;
     l |= *((long*)pos); i = (int)ntohl(l);
-    b.bytesRead += sizeof(long);
+    b.uint8_tsRead += sizeof(long);
     return b;
 }
 
 extern ByteBag& operator>>(ByteBag &b, long& l)
 {
-    if (b.bytesRead >= b.bytesFilled) throw ByteBagEmptyError();
-    char *pos = b.data+b.bytesRead;
+    if (b.uint8_tsRead >= b.uint8_tsFilled) throw ByteBagEmptyError();
+    char *pos = b.data+b.uint8_tsRead;
     l = 0;
     l |= *((long*)pos); l = ntohl(l);
-    b.bytesRead += sizeof(long);
+    b.uint8_tsRead += sizeof(long);
     return b;
 }
 
 extern ByteBag& operator>>(ByteBag &b, double& d)
 {
-    if (b.bytesRead >= b.bytesFilled) throw ByteBagEmptyError();
-    char *pos = b.data+b.bytesRead;
+    if (b.uint8_tsRead >= b.uint8_tsFilled) throw ByteBagEmptyError();
+    char *pos = b.data+b.uint8_tsRead;
     b.fromND((unsigned char *)&d, (unsigned char *)(pos), 1);
-    b.bytesRead += sizeof(double);
+    b.uint8_tsRead += sizeof(double);
     return b;
 }
 
@@ -300,8 +300,8 @@ extern ByteBag& operator>>(ByteBag &b, double& d)
 // and back.
 void ByteBag::toND(register unsigned char *out, register unsigned char *in, int n)
 {
-    // since we know the intel machines are in little-endian byte
-    // order and ieee754 compliant, just flip the bytes around first,
+    // since we know the intel machines are in little-endian uint8_t
+    // order and ieee754 compliant, just flip the uint8_ts around first,
     // check to see if we are on an intel machine
     htond(out, in , n);
 }
@@ -342,19 +342,19 @@ int ByteBag::copyIn(const void *_data, long size)
 	}
 	return BRLCAD_OK;
     } else {
-	if (bytesFilled + size > currentSize) {
+	if (uint8_tsFilled + size > currentSize) {
 	    // we need to attempt an expand...
-	    if (expand((bytesFilled+size) - currentSize) == BRLCAD_OK) {
-		memcpy(((char*)data+bytesFilled), _data, size);
-		bytesFilled += size;
+	    if (expand((uint8_tsFilled+size) - currentSize) == BRLCAD_OK) {
+		memcpy(((char*)data+uint8_tsFilled), _data, size);
+		uint8_tsFilled += size;
 	    } else {
 		nFerror("expand() failed", "copyIn() not completed");
 		return BRLCAD_ERROR;
 	    }
 	} else {
 	    // just copy directly to that position
-	    memcpy(((char *)data+bytesFilled), _data, size);
-	    bytesFilled += size;
+	    memcpy(((char *)data+uint8_tsFilled), _data, size);
+	    uint8_tsFilled += size;
 	}
     }
     return BRLCAD_OK;
@@ -368,13 +368,13 @@ int ByteBag::copyIn(const void *_data, long size)
 int ByteBag::shrink()
 {
     char * newData = NULL;
-    if (bytesFilled < currentSize) {
-	newData = new char[bytesFilled];
+    if (uint8_tsFilled < currentSize) {
+	newData = new char[uint8_tsFilled];
 	if (newData == NULL) {
 	    nFerror("new() failed", "shrink() did not complete");
 	    return BRLCAD_ERROR;
 	}
-	memcpy(newData, data, bytesFilled);
+	memcpy(newData, data, uint8_tsFilled);
 	if (newData == NULL) {
 	    nFerror("memcpy() failed");
 	}
@@ -384,7 +384,7 @@ int ByteBag::shrink()
 }
 
 //
-// B B C A T    - concatenate 2 byte bags together
+// B B C A T    - concatenate 2 uint8_t bags together
 //
 ByteBag * bbCat(ByteBag &bb1, ByteBag &bb2)
 {

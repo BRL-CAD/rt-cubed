@@ -25,25 +25,27 @@ public:
   NetMsg(int mLen, int mType, std::string mUUID, std::string rUUID);
 
   //Deserializing Constructor
-  NetMsg(char* byteArray);
+  NetMsg(char* uint8_tArray);
 
 
   virtual ~NetMsg();
   
 
   void serialize(char* data);
-  char[] serialize_();
+  char* serialize();
+
+
 
 private:
   int msgLen;
   int msgType;
-  UUID msgID;
-  UUID regardingMsgID;
+  UUID msgUUID;
+  UUID reUUID;
   char* data;
 
 
-  void deserialize_();
-  char[] serialize_();
+  void _deserialize();
+  char* _serialize();
 
 };
 #endif // !defined(__NETMSG_H__)

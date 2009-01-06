@@ -16,4 +16,21 @@ libge_la_SOURCES = \
 	SourceDiskLink.cxx \
 	SourceSvnLink.cxx \
 	DbObjectManager.cxx \
-	DbObjectManifest.cxx
+	DbObjectManifest.cxx \
+	../io/ByteArrayInputStream.cxx \
+	../io/ByteArrayOutputStream.cxx \
+	../io/DataInputStream.cxx \
+	../io/DataOutputStream.cxx \
+	../io/EOFException.cxx \
+	../io/FilterInputStream.cxx \
+	../io/FilterOutputStream.cxx \
+	../io/InputStream.cxx \
+	../io/IOException.cxx \
+	../io/OutputStream.cxx \
+	../io/PushbackInputStream.cxx \
+	../lang/CloneNotSupportedException.cxx \
+	../lang/Exception.cxx \
+	../lang/NullPointerException.cxx \
+	../lang/Object.cxx \
+	../lang/RuntimeException.cxx \
+	../lang/Throwable.cxx 

@@ -23,7 +23,7 @@ dest[2]=v1[2]-v2[2];
 namespace Geometry {
 
 
-  // 128 bytes
+  // 128 uint8_ts
   typedef struct _triangle
   {
     double vertexA[3];
@@ -33,7 +33,7 @@ namespace Geometry {
     unsigned long int padding[8];
   } Triangle;
 
-  // 64 bytes
+  // 64 uint8_ts
   typedef struct _robustTriangle
   {
     double position[3];
@@ -42,7 +42,7 @@ namespace Geometry {
     unsigned long int padding;
   } RobustTriangle;
 
-  // 32 bytes
+  // 32 uint8_ts
   typedef struct _traditionalTriangle 
   {
     float position[3];
@@ -51,7 +51,7 @@ namespace Geometry {
     unsigned short int padding;
   } TraditionalTriangle;
 
-  // 16 bytes
+  // 16 uint8_ts
   typedef struct _compactTriangle 
   {
     float dotProduct; // precomputed dot (position*normal)

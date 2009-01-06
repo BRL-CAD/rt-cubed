@@ -13,26 +13,37 @@
 #include "GeometryService/NetMsg.h"
 
 
-NetMsg::NetMsg(){
+NetMsg::NetMsg()
+{
+}
 
+NetMsg::~NetMsg()
+{
 }
 
 NetMsg::NetMsg(int mLen, int mType, std::string mUUID, std::string rUUID):
-    msgLen(mLen), msgType(mType), msgUUID(mUUID), reUUID(rUUID){}
-
-NetMsg::NetMsg(char* byteArray):data(byteArray){
-
+    msgLen(mLen), msgType(mType), msgUUID(mUUID), reUUID(rUUID)
+{
 }
 
-
-NetMsg::~NetMsg(){
-
+NetMsg::NetMsg(char* uint8_tArray):data(uint8_tArray)
+{
 }
 
+char* NetMsg::serialize()
+{
+}
 
+void NetMsg::serialize(char* data)
+{
+}
 
-char[] serialize() {
+void NetMsg::_deserialize()
+{
+}
 
+char* NetMsg::_serialize()
+{
 }
 
 

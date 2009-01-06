@@ -8,14 +8,11 @@
 #define __IBMECOMMON_H__
 
 #include <iostream>
-using namespace std;
-
-
 
 // These are only temporary
-typedef string UUID;
-typedef string URL;
-
+typedef std::string     UUID;
+typedef std::string     URL;
+typedef std::string     String;
 
 
 

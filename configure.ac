@@ -737,11 +737,6 @@ AC_CONFIG_FILES([
 	Makefile
 	include/Makefile
 	include/conf/Makefile
-	include/Geometry/Makefile
-	include/GeometryEngine/Makefile
-	include/GeometryService/Makefile
-	include/GeometryService/Jobs/Makefile
-	include/GeometryService/NetMsgActionDefinitions/Makefile
 	include/Image/Makefile
 	include/Utility/Makefile
 	include/Raytrace/Makefile
