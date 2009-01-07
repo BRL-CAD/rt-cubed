@@ -1,4 +1,3 @@
-
 /*            I O E X C E P T I O N . H 
  * BRL-CAD
  *
@@ -28,26 +27,24 @@
  *
  */
 
-
 #ifndef _IOEXCEPTION_H_
 #define _IOEXCEPTION_H_
 
-#ifdef __cplusplus
-
 #include "lang/Exception.h"
 
-namespace ibme {
-	namespace io {
-
-	  class IOException : public ibme::lang::Exception
-		{
-		public:
-			IOException();
-			IOException(const String& message);
-		};
-	}
-}
+class IOException : public ibme::lang::Exception
+{
+	public:
+		IOException();
+		IOException(const String& message);
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

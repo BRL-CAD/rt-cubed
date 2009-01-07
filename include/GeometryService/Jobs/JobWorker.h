@@ -1,12 +1,34 @@
-///////////////////////////////////////////////////////////
-//  JobWorker.h
-//  Implementation of the Class JobWorker
-//  Created on:      04-Dec-2008 8:26:44 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                  J O B W O R K E R . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__JOBWORKER_H__)
-#define __JOBWORKER_H__
+/** @file JobWorker.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_JOBWORKER_H_)
+#define _JOBWORKER_H_
 
 #include "GeometryService/Jobs/JobManager.h"
 #include "GeometryService/Jobs/AbstractJob.h"
@@ -20,11 +42,11 @@ public:
 
 private:
   AbstractJob& job();
-  int status;
+  uInt status;
 
 };
-#endif // !defined(__JOBWORKER_H__)
 
+#endif // !defined(_JOBWORKER_H_)
 
 // Local Variables: ***
 // mode: C++ ***
@@ -33,4 +55,3 @@ private:
 // indent-tabs-mode: t ***
 // End: ***
 // ex: shiftwidth=2 tabstop=8
-

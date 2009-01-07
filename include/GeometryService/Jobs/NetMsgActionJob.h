@@ -1,12 +1,34 @@
-///////////////////////////////////////////////////////////
-//  NetMsgActionJob.h
-//  Implementation of the Class NetMsgActionJob
-//  Created on:      04-Dec-2008 8:26:45 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                 N E T M S G A C T I O N J O B . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__NETMSGACTIONJOB_H__)
-#define __NETMSGACTIONJOB_H__
+/** @file NetMsgActionJob.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_NETMSGACTIONJOB_H_)
+#define _NETMSGACTIONJOB_H_
 
 #include "GeometryService/Jobs/AbstractJob.h"
 #include "GeometryService/NetMsg.h"
@@ -26,9 +48,8 @@ private:
   NetMsg& msg();
 
 };
-#endif // !defined(__NETMSGACTIONJOB_H__)
 
-
+#endif // !defined(_NETMSGACTIONJOB_H_)
 
 // Local Variables: ***
 // mode: C++ ***

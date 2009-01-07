@@ -1,4 +1,3 @@
-
 /*             F I L T E R O U T P U T S T R E A M . H
  * BRL-CAD
  *
@@ -28,37 +27,33 @@
  *
  */
 
-
-
 #ifndef _CLASS_FILTEROUTPUTSTREAM_H
 #define _CLASS_FILTEROUTPUTSTREAM_H
 
-#ifdef __cplusplus
-
 #include "io/OutputStream.h"
 
+class  FilterOutputStream : public OutputStream
+	{
+	protected:
+		OutputStream& out;
 
-namespace ibme {
-	namespace io {
+	public:
+		FilterOutputStream(OutputStream& out);
+		virtual ~FilterOutputStream();
 
-		class  FilterOutputStream : public OutputStream
-		{
-		protected:
-			OutputStream& out;
-
-		public:
-			FilterOutputStream(OutputStream& out);
-			virtual ~FilterOutputStream();
-
-			virtual void close() throw (IOException);
-			virtual void flush() throw (IOException);
-			virtual void write(uByte b) throw (IOException);
-			virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
-			virtual void write(const array<uByte>& b) throw (IOException);
-		};
-	}
-}
+		virtual void close() throw (IOException);
+		virtual void flush() throw (IOException);
+		virtual void write(uByte b) throw (IOException);
+		virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
+		virtual void write(const array<uByte>& b) throw (IOException);
+	};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

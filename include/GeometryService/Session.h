@@ -1,17 +1,38 @@
-///////////////////////////////////////////////////////////
-//  Session.h
-//  Implementation of the Class Session
-//  Created on:      04-Dec-2008 8:26:47 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                S E S S I O N . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+
+/** @file Session.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
 
 #if !defined(__SESSION_H__)
 #define __SESSION_H__
 
 #include <iostream>
 #include "GeometryService/AbstractPortal.h"
-
-using namespace std;
+#include "iBME/iBMECommon.h"
 
 class Session
 {
@@ -22,10 +43,11 @@ public:
 
 private:
   AbstractPortal& portal();
-  int accessLevel;
-  string uName;
+  uInt accessLevel;
+  String uName;
 
 };
+
 #endif // !defined(__SESSION_H__)
 
 // Local Variables: ***

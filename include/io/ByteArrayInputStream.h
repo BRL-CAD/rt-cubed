@@ -1,4 +1,3 @@
-
 /*           B Y T E A R R A Y I N P U T S T R E A M . H
  * BRL-CAD
  *
@@ -31,41 +30,39 @@
 #ifndef _BYTEARRAYINPUTSTREAM_H_
 #define _BYTEARRAYINPUTSTREAM_H_
 
-#ifdef __cplusplus
-
 #include "common/array.h"
 #include "io/InputStream.h"
 
-namespace ibme {
-	namespace io {
+class ByteArrayInputStream : public InputStream
+{
+protected:
+	array<uByte> _buf;
+	size_t    _count;
+	size_t    _mark;
+	size_t    _pos;
 
-		class ByteArrayInputStream : public InputStream
-		{
+public:
+	ByteArrayInputStream(const uByte* data, size_t offset, size_t length);
+	ByteArrayInputStream(const array<uByte>& b);
+	virtual ~ByteArrayInputStream();
 
-		protected:
-			array<uByte> _buf;
-			size_t    _count;
-			size_t    _mark;
-			size_t    _pos;
-
-		public:
-			ByteArrayInputStream(const uByte* data, size_t offset, size_t length);
-			ByteArrayInputStream(const array<uByte>& b);
-			virtual ~ByteArrayInputStream();
-
-			virtual off_t available() throw (IOException);
-			virtual void close() throw (IOException);
-			virtual void mark(off_t readlimit) throw ();
-			virtual bool markSupported() throw ();
-			virtual int read() throw (IOException);
-			virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
-			virtual int read(array<uByte>& b) throw (IOException);
-			virtual void reset() throw (IOException);
-			virtual off_t skip(off_t n) throw (IOException);
-		};
-	}
-}
+	virtual off_t available() throw (IOException);
+	virtual void close() throw (IOException);
+	virtual void mark(off_t readlimit) throw ();
+	virtual bool markSupported() throw ();
+	virtual uInt read() throw (IOException);
+	virtual uInt read(uByte* data, size_t offset, size_t length) throw (IOException);
+	virtual uInt read(array<uByte>& b) throw (IOException);
+	virtual void reset() throw (IOException);
+	virtual off_t skip(off_t n) throw (IOException);
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

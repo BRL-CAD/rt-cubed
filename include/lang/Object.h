@@ -1,4 +1,3 @@
-
 /*                    O B J E C T . H
  * BRL-CAD
  *
@@ -28,31 +27,29 @@
  *
  */
 
-
-
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
-#ifdef __cplusplus
-
 #include "lang/CloneNotSupportedException.h"
 
-namespace ibme {
-	namespace lang {
-		class Object
-		{
-		protected:
-			virtual Object* clone() const throw (CloneNotSupportedException);
+class Object
+	{
+	protected:
+		virtual Object* clone() const throw (CloneNotSupportedException);
 
-		public:
-			Object() throw ();
-			virtual ~Object() {};
+	public:
+		Object() throw ();
+		virtual ~Object() {};
 
-			virtual bool equals(const Object& compare) const throw ();
-		};
-	}
-}
+		virtual bool equals(const Object& compare) const throw ();
+	};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

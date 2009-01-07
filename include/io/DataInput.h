@@ -31,13 +31,8 @@
 #ifndef _DATAINPUT_H_
 #define _DATAINPUT_H_
 
-#ifdef __cplusplus
-
 #include "common/array.h"
 #include "io/IOException.h"
-
-namespace ibme {
-  namespace io {
 
     class DataInput
     {
@@ -59,6 +54,8 @@ namespace ibme {
       virtual Long readLong() throw (IOException) = 0;
       virtual uLong readULong() throw (IOException) = 0;
 
+      virtual float readFloat() throw (IOException) = 0;
+      virtual double readDouble() throw (IOException) = 0;
 
       virtual uShort readChar() throw (IOException) = 0;
       virtual String readString(uInt strLen) throw (IOException) = 0;
@@ -69,9 +66,14 @@ namespace ibme {
 
       virtual off_t skipBytes(off_t n) throw (IOException) = 0;
     };
-  }
-}
+
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

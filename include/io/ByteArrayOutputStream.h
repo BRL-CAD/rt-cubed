@@ -1,5 +1,3 @@
-
-
 /*           B Y T E A R R A Y O U T P U T S T R E A M . H
  * BRL-CAD
  *
@@ -29,47 +27,43 @@
  *
  */
 
-
 #ifndef _BYTEARRAYOUTPUTSTREAM_H_
 #define _BYTEARRAYOUTPUTSTREAM_H_
 
-#ifdef __cplusplus
-
 #include "io/OutputStream.h"
 
-
-namespace ibme {
-	namespace io {
 	    
-		class ByteArrayOutputStream : public OutputStream
-		{
+	class ByteArrayOutputStream : public OutputStream
+	{
 
+	protected:
 
-		protected:
-			array<uByte> buf;
-			size_t    count;
+		array<uByte> buf;
+		size_t    count;
+	public:
 
-		public:
-			ByteArrayOutputStream();
-			ByteArrayOutputStream(size_t size);
-			virtual ~ByteArrayOutputStream();
-
+		ByteArrayOutputStream();
+		ByteArrayOutputStream(size_t size);
+		virtual ~ByteArrayOutputStream();
 			void reset() throw ();
-			size_t size() throw ();
-			array<uByte>* toByteArray();
-			void toByteArray(array<uByte>& b);
-			void toByteArray(uByte* data, size_t offset, size_t length);
-			void writeTo(OutputStream& out) throw (IOException);
-
+		size_t size() throw ();
+		array<uByte>* toByteArray();
+		void toByteArray(array<uByte>& b);
+		void toByteArray(uByte* data, size_t offset, size_t length);
+		void writeTo(OutputStream& out) throw (IOException);
 			virtual void close() throw (IOException);
-			virtual void flush() throw (IOException);
-			virtual void write(uByte b) throw (IOException);
-			virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
-			virtual void write(const array<uByte>& b) throw (IOException);
-		};
-	}
-}
+		virtual void flush() throw (IOException);
+		virtual void write(uByte b) throw (IOException);
+		virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
+		virtual void write(const array<uByte>& b) throw (IOException);
+	};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

@@ -32,11 +32,7 @@
 
 #include "iBME/iBMECommon.h"
 
-#ifdef __cplusplus
-
 #include <new>
-
-namespace ibme {
 
 	template <typename T>
 		class array
@@ -211,6 +207,11 @@ namespace ibme {
 				}
 				return *this;
 			}
+
+			
+
+
+
 		};
 
 	template<typename T>
@@ -220,8 +221,14 @@ namespace ibme {
 
 			return _con += _rhs;
 		};
-}
+
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

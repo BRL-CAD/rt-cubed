@@ -1,12 +1,34 @@
-///////////////////////////////////////////////////////////
-//  CommunicationsManager.h
-//  Implementation of the Class CommunicationsManager
-//  Created on:      04-Dec-2008 8:26:37 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*             C O M M U N I C A T I O N S M A N A G E R . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__COMMUNICATIONSMANAGER_H__)
-#define __COMMUNICATIONSMANAGER_H__
+/** @file CommunicationsManager.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_COMMUNICATIONSMANAGER_H_)
+#define _COMMUNICATIONSMANAGER_H_
 
 #include <iostream>
 #include <list>
@@ -15,32 +37,29 @@
 #include "GeometryService/AbstractPortal.h"
 #include "GeometryService/NetMsg.h"
 
-using namespace std;
+    /**
+     * CommMan performs the netMsg <-> Job conversion
+     */
+    class CommunicationsManager
+    {
 
-/**
- * CommMan performs the netMsg <-> Job conversion
- */
-class CommunicationsManager
-{
+    public:
+      CommunicationsManager();
+      virtual ~CommunicationsManager();
 
-public:
-	CommunicationsManager();
-	virtual ~CommunicationsManager();
+    private:
+      std::list<NetMsg> inbox;
+      std::list<NetMsg> outbox;
+      /**
+       * Maps hostnames to AbstractPortals
+       *
+       * This MAY not be necessary if all outgoing Traffic is handled by the individual
+       * Session Objects
+       */
+      std::map<String, AbstractPortal> portals;
+    };
 
-private:
-	list <NetMsg> inbox;
-	list <NetMsg> outbox;
-	/**
-	 * Maps hostnames to AbstractPortals
-	 *
-	 * This MAY not be necessary if all outgoing Traffic is handled by the individual
-	 * Session Objects
-	 */
-	map <string, AbstractPortal> portals;
-
-};
-#endif // !defined(__COMMUNICATIONSMANAGER_H__)
-
+#endif // !defined(_COMMUNICATIONSMANAGER_H_)
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,5 +1,3 @@
-
-
 /*                E X C E P T I O N . H
  * BRL-CAD
  *
@@ -29,26 +27,23 @@
  *
  */
 
-
-
 #ifndef _EXCEPTION_H_
 #define _EXCEPTION_H_
 
-#ifdef __cplusplus
-
 #include "lang/Throwable.h"
-
-namespace ibme {
-	namespace lang {
-		class  Exception : public Throwable
-		{
-		public:
-			Exception() throw ();
-			Exception(const String& message) throw ();
-		};
-	}
-}
+class  Exception : public Throwable
+{
+	public:
+		Exception() throw ();
+		Exception(const String& message) throw ();
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

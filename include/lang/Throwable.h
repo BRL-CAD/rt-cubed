@@ -1,4 +1,3 @@
-
 /*                T H R O W A B L E . H
  * BRL-CAD
  *
@@ -28,33 +27,31 @@
  *
  */
 
-
 #ifndef _THROWABLE_H_
 #define _THROWABLE_H_
 
-#ifdef __cplusplus
-
 #include "iBME/iBMECommon.h"
 
+class  Throwable
+{
+private:
+	String _msg;
 
-namespace ibme {
-	namespace lang {
-		class  Throwable
-		{
-		private:
-			String _msg;
+public:
+	Throwable() throw ();
+	Throwable(const String& message) throw ();
+	Throwable(const Throwable& cause) throw ();
+	virtual ~Throwable() throw () {};
 
-		public:
-			Throwable() throw ();
-			Throwable(const String& message) throw ();
-			Throwable(const Throwable& cause) throw ();
-			virtual ~Throwable() throw () {};
-
-			const String& getMessage() const throw ();
-		};
-	}
-}
+	const String& getMessage() const throw ();
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

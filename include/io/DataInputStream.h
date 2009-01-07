@@ -30,14 +30,9 @@
 #ifndef _DATAINPUTSTREAM_H_
 #define _DATAINPUTSTREAM_H_
 
-#ifdef __cplusplus
-
 #include "io/DataInput.h"
 #include "io/FilterInputStream.h"
 
-
-namespace ibme {
-  namespace io {
     class DataInputStream : public FilterInputStream, public DataInput
     {
     private:
@@ -78,9 +73,13 @@ namespace ibme {
 
       virtual off_t skipBytes(off_t n) throw (IOException);
     };
-  }
-}
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

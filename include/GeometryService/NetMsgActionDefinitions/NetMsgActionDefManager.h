@@ -1,18 +1,38 @@
-///////////////////////////////////////////////////////////
-//  NetMsgActionDefManager.h
-//  Implementation of the Class NetMsgActionDefManager
-//  Created on:      04-Dec-2008 8:26:45 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*         N E T M S G A C T I O N D E F M A N A G E R. H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__NETMSGACTIONDEFMANAGER_H__)
-#define __NETMSGACTIONDEFMANAGER_H__
+/** @file NetMsgActionDefManager.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_NETMSGACTIONDEFMANAGER_H_)
+#define _NETMSGACTIONDEFMANAGER_H_
 
 #include "GeometryService/NetMsgActionDefinitions/AbstractNetMsgActionDef.h"
+#include "iBME/iBMECommon.h"
 #include <map>
-
-using namespace std ;
-
 
 class NetMsgActionDefManager
 {
@@ -22,16 +42,16 @@ public:
 	virtual ~NetMsgActionDefManager();
 
 	void registerNetMsgActionDef(AbstractNetMsgActionDef& def);
-	int unregisterNetMsgActionDef(AbstractNetMsgActionDef& def);
-	AbstractNetMsgActionDef& unregisterNetMsgActionDef(int msgType);
-	AbstractNetMsgActionDef& getNetMsgActionDef(int msgType);
+	uInt unregisterNetMsgActionDef(AbstractNetMsgActionDef& def);
+	AbstractNetMsgActionDef& unregisterNetMsgActionDef(uInt msgType);
+	AbstractNetMsgActionDef& getNetMsgActionDef(uInt msgType);
 
 private:
-	map <int, AbstractNetMsgActionDef> conversionDefs;
+	std::map <uInt, AbstractNetMsgActionDef> conversionDefs();
 
 };
-#endif // !defined(__NETMSGACTIONDEFMANAGER_H__)
 
+#endif // !defined(_NETMSGACTIONDEFMANAGER_H_)
 
 // Local Variables: ***
 // mode: C++ ***

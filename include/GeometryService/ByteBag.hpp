@@ -31,8 +31,8 @@
 // might want to just insert data directly into the bag. primitive
 // data types, like short, char, long, double, should be supported.
 
-#ifndef __BYTEBAG_H__
-#define __BYTEBAG_H__
+#ifndef _BYTEBAG_H_
+#define _BYTEBAG_H_
 
 #include <iostream>
 #include <string>
@@ -225,7 +225,7 @@ inline void ByteBag::reset() {
     bytesRead = 0;
 }
 
-#endif /* __BYTEBAG_H__ */
+#endif /* _BYTEBAG_H_ */
 
 
 // Local Variables:

@@ -1,12 +1,33 @@
-///////////////////////////////////////////////////////////
-//  AbstractDbObjectSource.h
-//  Implementation of the Class AbstractDbObjectSource
-//  Created on:      04-Dec-2008 8:26:34 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                 A B S T R A C T D B O B J E C T S O U R C E . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__ABSTRACTDBOBJECTSOURCE_H__)
-#define __ABSTRACTDBOBJECTSOURCE_H__
+/** @file AbstractDbObjectSource.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+#if !defined(_ABSTRACTDBOBJECTSOURCE_H_)
+#define _ABSTRACTDBOBJECTSOURCE_H_
 
 
 #include "iBME/iBMECommon.h"
@@ -21,9 +42,9 @@ public:
 
 	virtual DbObject& getDbObjectByURL(URL& url);
 	bool putDbObject(DbObject& dbobj);
-
 };
-#endif // !defined(__ABSTRACTDBOBJECTSOURCE_H__)
+
+#endif // !defined(_ABSTRACTDBOBJECTSOURCE_H_)
 
 // Local Variables: ***
 // mode: C++ ***

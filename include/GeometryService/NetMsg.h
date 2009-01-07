@@ -1,54 +1,89 @@
-///////////////////////////////////////////////////////////
-//  NetMsg.h
-//  Implementation of the Class NetMsg
-//  Created on:      04-Dec-2008 8:26:44 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                      N E T M S G . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__NETMSG_H__)
-#define __NETMSG_H__
+/** @file NetMsg.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_NETMSG_H_)
+#define _NETMSG_H_
 
 #include "iBME/iBMECommon.h"
+#include "io/DataInputStream.h"
+#include "io/DataOutputStream.h"
+#include "io/ByteArrayOutputStream.h"
 
+    class NetMsg
+    {
 
+    public:
 
+      //Default Constructor
+      NetMsg();
 
-class NetMsg
-{
+      //HeaderOnly Constructor
+      NetMsg(uInt mLen, uInt mType, UUID mUUID, UUID rUUID);
 
-public:
+      //Deserializing Constructor
+      NetMsg(DataInputStream dis);
 
-  //Default Constructor
-  NetMsg();
-
-  //Regular Constructor
-  NetMsg(int mLen, int mType, std::string mUUID, std::string rUUID);
-
-  //Deserializing Constructor
-  NetMsg(char* uint8_tArray);
-
-
-  virtual ~NetMsg();
+      //Destructor
+      virtual ~NetMsg();
   
 
-  void serialize(char* data);
-  char* serialize();
+      //Serializers
+      array<uByte>* serialize();
+      void serialize(DataOutputStream* dos);
+
+      /*
+       *Getters n Setters
+       */
+      uInt getMsgLen();
+      uInt getMsgType();
+      UUID getMsgUUID();
+      UUID getReUUID();
+
+      void setMsgLen(uInt v);
+      void setMsgType(uInt v);
+      void setMsgUUID(UUID v);
+      void setReUUID(UUID v);
+
+    private:
+      uInt msgLen;
+      uInt msgType;
+      UUID msgUUID;
+      UUID reUUID;
+      array<uByte> data;
 
 
+      void _deserialize();
+      void _serialize(DataOutputStream* dos);
 
-private:
-  int msgLen;
-  int msgType;
-  UUID msgUUID;
-  UUID reUUID;
-  char* data;
+    };
 
-
-  void _deserialize();
-  char* _serialize();
-
-};
-#endif // !defined(__NETMSG_H__)
+#endif // !defined(_NETMSG_H_)
 
 // Local Variables: ***
 // mode: C++ ***

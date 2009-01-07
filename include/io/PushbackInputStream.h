@@ -26,42 +26,43 @@
  *  Author - David Loman
  *
  */
+
 #ifndef _PUSHBACKINPUTSTREAM_H_
 #define _PUSHBACKINPUTSTREAM_H_
 
-#ifdef __cplusplus
-
 #include "io/FilterInputStream.h"
 
-namespace ibme {
-	namespace io {
-		class  PushbackInputStream : public FilterInputStream
-		{
-		private:
-			bool _closed;
+class  PushbackInputStream : public FilterInputStream
+	{
+	private:
+		bool _closed;
 
-		protected:
-			array<uByte> buf;
-			size_t pos;
+	protected:
+		array<uByte> buf;
+		size_t pos;
 
-		public:
-			PushbackInputStream(InputStream& in, size_t size = 1);
-			virtual ~PushbackInputStream();
+	public:
+		PushbackInputStream(InputStream& in, size_t size = 1);
+		virtual ~PushbackInputStream();
 
-			virtual off_t available() throw (IOException);
-			virtual void close() throw (IOException);
-			virtual bool markSupported() throw ();
-			virtual int read() throw (IOException);
-			virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
-			virtual off_t skip(off_t n) throw (IOException);
+		virtual off_t available() throw (IOException);
+		virtual void close() throw (IOException);
+		virtual bool markSupported() throw ();
+		virtual int read() throw (IOException);
+		virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
+		virtual off_t skip(off_t n) throw (IOException);
 
-			void unread(uByte) throw (IOException);
-			void unread(const uByte* data, size_t offset, size_t length) throw (IOException);
-			void unread(const array<uByte>& b) throw (IOException);
-		};
-	}
-}
+		void unread(uByte) throw (IOException);
+		void unread(const uByte* data, size_t offset, size_t length) throw (IOException);
+		void unread(const array<uByte>& b) throw (IOException);
+	};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

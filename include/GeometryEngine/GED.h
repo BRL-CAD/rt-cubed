@@ -1,17 +1,35 @@
-///////////////////////////////////////////////////////////
-//  GED.h
-//  Implementation of the Class GED
-//  Created on:      04-Dec-2008 8:26:40 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
-
-#if !defined(__GED_H__)
-#define __GED_H__
-
-/**
- * Static Class, or Singleton Class.  Explore the possibility of having multiple
- * Geometry Engines Running.... will that be of ANY benefit?
+/*                         G E D . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
  */
+
+/** @file GED.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_GED_H_)
+#define _GED_H_
+
 class GED {
 
 public:
@@ -19,7 +37,9 @@ public:
 	virtual ~GED();
 
 };
-#endif // !defined(__GED_H__)
+
+#endif // !defined(_GED_H_)
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

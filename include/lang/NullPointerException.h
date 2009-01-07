@@ -1,5 +1,3 @@
-
-
 /*               N U L L P O I N T E R  E X C E P T I O N . H
  * BRL-CAD
  *
@@ -29,27 +27,24 @@
  *
  */
 
-
-
 #ifndef _NULLPOINTEREXCEPTION_H_
 #define _NULLPOINTEREXCEPTION_H_
 
-#ifdef __cplusplus
-
 #include "lang/RuntimeException.h"
 
-namespace ibme {
-	namespace lang {
-
-		class  NullPointerException : public RuntimeException
-		{
-		public:
-			NullPointerException() throw ();
-			NullPointerException(const String& message) throw ();
-		};
-	}
-}
+class  NullPointerException : public RuntimeException
+{
+public:
+	NullPointerException() throw ();
+	NullPointerException(const String& message) throw ();
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

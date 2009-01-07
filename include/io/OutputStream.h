@@ -1,5 +1,3 @@
-
-
 /*           O U T P U T S T R E A M . H
  * BRL-CAD
  *
@@ -32,28 +30,28 @@
 #ifndef _OUTPUTSTREAM_H_
 #define _OUTPUTSTREAM_H_
 
-#ifdef __cplusplus
-
 #include "common/array.h"
 #include "io/IOException.h"
 #include "lang/Object.h"
 
-namespace ibme {
-	namespace io {
-		class OutputStream : public ibme::lang::Object
-		{
-		public:
-			virtual ~OutputStream() {};
+class OutputStream : public ibme::lang::Object
+	{
+	public:
+		virtual ~OutputStream() {};
 
-			virtual void close() throw (IOException);
-			virtual void flush() throw (IOException);
-			virtual void write(uByte b) throw (IOException) = 0;
-			virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
-			virtual void write(const array<uByte>& b) throw (IOException);
+		virtual void close() throw (IOException);
+		virtual void flush() throw (IOException);
+		virtual void write(uByte b) throw (IOException) = 0;
+		virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
+		virtual void write(const array<uByte>& b) throw (IOException);
 		};
-	}
-}
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

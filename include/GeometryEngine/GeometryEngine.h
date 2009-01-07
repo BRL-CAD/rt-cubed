@@ -1,21 +1,35 @@
-///////////////////////////////////////////////////////////
-//  GeometryEngine.h
-//  Implementation of the Class GeometryEngine
-//  Created on:      04-Dec-2008 8:26:41 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
-
-#if !defined(__GEOMETRYENGINE_H__)
-#define __GEOMETRYENGINE_H__
-
-
-
-
-/**
- * Singleton Class.
- * Will contain all Geometric Processing functions to include: Format Converters,
- * Tessilation, SVN access, IMG processors.
+/*                 G E O M E T R Y E N G I N E . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
  */
+
+/** @file GeometryEngine.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_GEOMETRYENGINE_H_)
+#define _GEOMETRYENGINE_H_
+
 class GeometryEngine
 {
 
@@ -24,7 +38,8 @@ public:
 	virtual ~GeometryEngine();
 
 };
-#endif // !defined(__GEOMETRYENGINE_H__)
+
+#endif // !defined(_GEOMETRYENGINE_H_)
 
 // Local Variables: ***
 // mode: C++ ***

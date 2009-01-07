@@ -1,35 +1,53 @@
-///////////////////////////////////////////////////////////
-//  AbstractNetMsgActionDef.h
-//  Implementation of the Class AbstractNetMsgActionDef
-//  Created on:      04-Dec-2008 8:26:35 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*      A B S T R A C T N E T M S G A C T I O N D E F . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__ABSTRACTNETMSGACTIONDEF_H__)
-#define __ABSTRACTNETMSGACTIONDEF_H__
+/** @file AbstractNetMsgActionDef.h
+ *
+ *  Description -
+ *      Base class to be extended from to implement all NetMsg to Job Conversions
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_ABSTRACTNETMSGACTIONDEF_H_)
+#define _ABSTRACTNETMSGACTIONDEF_H_
 
 #include "GeometryService/NetMsg.h"
 #include "GeometryService/Jobs/AbstractJob.h"
 
-
-/**
- * Base class to be extended from to implement all NetMsg to Job Conversions
- */
 class AbstractNetMsgActionDef
 {
 
-public:
-	AbstractNetMsgActionDef();
-	virtual ~AbstractNetMsgActionDef();
+	public:
+		AbstractNetMsgActionDef();
+		virtual ~AbstractNetMsgActionDef();
 
-	AbstractJob& convert(NetMsg& msg);
+  		AbstractJob& convert(NetMsg& msg);
 
-private:
-	int msgType;
+	private:
+		uInt msgType;
 
 };
-#endif // !defined(__ABSTRACTNETMSGACTIONDEF_H__)
 
+#endif // !defined(_ABSTRACTNETMSGACTIONDEF_H_)
 
 // Local Variables: ***
 // mode: C++ ***

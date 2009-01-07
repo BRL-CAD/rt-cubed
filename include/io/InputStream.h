@@ -30,32 +30,32 @@
 #ifndef _INPUTSTREAM_H_
 #define _INPUTSTREAM_H_
 
-#ifdef __cplusplus
-
 #include "common/array.h"
 #include "io/IOException.h"
 #include "lang/Object.h"
 
-namespace ibme {
-	namespace io {
-	  class InputStream : public ibme::lang::Object
-		{
-		public:
-			virtual ~InputStream() {};
+class InputStream : public ibme::lang::Object
+{
+public:
+	virtual ~InputStream() {};
 
-			virtual off_t available() throw (IOException);
-			virtual void close() throw (IOException);
-			virtual void mark(off_t readlimit) throw ();
-			virtual bool markSupported() throw ();
-			virtual int read() throw (IOException) = 0;
-			virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
-			virtual int read(array<uByte>& b) throw (IOException);
-			virtual void reset() throw (IOException);
-			virtual off_t skip(off_t n) throw (IOException);
-		};
-	}
-}
+	virtual off_t available() throw (IOException);
+	virtual void close() throw (IOException);
+	virtual void mark(off_t readlimit) throw ();
+	virtual bool markSupported() throw ();
+	virtual int read() throw (IOException) = 0;
+	virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
+	virtual int read(array<uByte>& b) throw (IOException);
+	virtual void reset() throw (IOException);
+	virtual off_t skip(off_t n) throw (IOException);
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

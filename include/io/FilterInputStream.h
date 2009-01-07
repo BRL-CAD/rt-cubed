@@ -27,39 +27,36 @@
  *
  */
 
-
 #ifndef _FILTERINPUTSTREAM_H_
 #define _FILTERINPUTSTREAM_H_
 
-#ifdef __cplusplus
-
 #include "io/InputStream.h"
 
-namespace ibme {
-	namespace io {
+class  FilterInputStream : public InputStream
+{
+	protected:
+		InputStream& in;
 
-		class  FilterInputStream : public InputStream
-		{
-		protected:
-			InputStream& in;
-
-		public:
-			FilterInputStream(InputStream& in);
-			virtual ~FilterInputStream();
-
-			virtual off_t available() throw (IOException);
-			virtual void close() throw (IOException);
-			virtual void mark(off_t) throw ();
-			virtual bool markSupported() throw ();
-			virtual int read() throw (IOException);
-			virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
-			virtual int read(array<uByte>& b) throw (IOException);
-			virtual void reset() throw (IOException);
-			virtual off_t skip(off_t) throw (IOException);
-		};
-	}
-}
+	public:
+		FilterInputStream(InputStream& in);
+		virtual ~FilterInputStream();
+		virtual off_t available() throw (IOException);
+		virtual void close() throw (IOException);
+		virtual void mark(off_t) throw ();
+		virtual bool markSupported() throw ();
+		virtual int read() throw (IOException);
+		virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
+		virtual int read(array<uByte>& b) throw (IOException);
+		virtual void reset() throw (IOException);
+		virtual off_t skip(off_t) throw (IOException);
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

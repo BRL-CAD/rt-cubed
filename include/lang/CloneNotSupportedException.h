@@ -28,26 +28,24 @@
  *
  */
 
-
 #ifndef _CLONENOTSUPPORTEDEXCEPTION_H_
 #define _CLONENOTSUPPORTEDEXCEPTION_H_
 
-#ifdef __cplusplus
-
 #include "lang/Exception.h"
 
-namespace ibme {
-	namespace lang {
-
-		class  CloneNotSupportedException : public Exception
-		{
-		public:
-			CloneNotSupportedException() throw ();
-			CloneNotSupportedException(const String& message) throw ();
-		};
-	}
-}
+class  CloneNotSupportedException : public Exception
+{
+	public:
+		CloneNotSupportedException() throw ();
+		CloneNotSupportedException(const String& message) throw ();
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

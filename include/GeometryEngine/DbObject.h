@@ -1,19 +1,38 @@
-///////////////////////////////////////////////////////////
-//  AbstractResource.h
-//  Implementation of the Class DbObject
-//  Created on:      04-Dec-2008 8:26:39 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                 D B O B J E C T . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__DBOBJECT_H__)
-#define __DBOBJECT_H__
+/** @file DbObject.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_DBOBJECT_H_)
+#define _DBOBJECT_H_
 
 #include <iostream>
 #include <list>
 #include "iBME/iBMECommon.h"
-
-using namespace std;
-
 
 class DbObject {
 
@@ -21,24 +40,24 @@ public:
   DbObject();
   virtual ~DbObject();
 
-  DbObject(long id, string name, unsigned int geoType, bool locked =
-			false);
-	string getName();
-	void setName(string name);
-	unsigned int getGeoType();
-	void setGeoType(unsigned int geoType);
+  DbObject(uLong id, String name, uInt geoType, bool locked = false);
+	String getName();
+	void setName(String name);
+	uInt getGeoType();
+	void setGeoType(uInt geoType);
 	void lock();
 	void unlock();
 
 private:
-	string name;
+	String name;
 	UUID uuid;
-	list<DbObject> parents;
-	list<DbObject> children;
-	int geoType;
+	std::list<DbObject> parents;
+	std::list<DbObject> children;
+	uInt geoType;
 
 };
-#endif // !defined(__DBOBJECT_H__)
+
+#endif // !defined(_DBOBJECT_H_)
 
 // Local Variables: ***
 // mode: C++ ***

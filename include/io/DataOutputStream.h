@@ -1,4 +1,3 @@
-
 /*           D A T A O U T P U T S T R E A M . H
  * BRL-CAD
  *
@@ -31,15 +30,9 @@
 #ifndef _DATAOUTPUTSTREAM_H_
 #define _DATAOUTPUTSTREAM_H_
 
-#ifdef __cplusplus
-
-
 #include "io/DataOutput.h"
 #include "io/FilterOutputStream.h"
 
-namespace ibme {
-  namespace io {
-		
     class DataOutputStream : public FilterOutputStream, public DataOutput
     {
 
@@ -51,11 +44,6 @@ namespace ibme {
       virtual ~DataOutputStream();
 
       size_t size() const throw ();
-
-
-
-
-
 
       virtual void write(const array<uByte>& b) throw (IOException);
       virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
@@ -82,12 +70,15 @@ namespace ibme {
       virtual void writeChar(const uShort c) throw (IOException);
       virtual void writeString(const String& s) throw (IOException);
 
-
-
     };
-  }
-}
+
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

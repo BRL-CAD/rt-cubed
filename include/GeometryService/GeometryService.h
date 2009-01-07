@@ -1,44 +1,48 @@
-///////////////////////////////////////////////////////////
-//  GeometryService.h
-//  Implementation of the Class GeometryService
-//  Created on:      04-Dec-2008 8:26:41 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                G E O M E T R Y S E R V I C E . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__GEOMETRYSERVICE_H__)
-#define __GEOMETRYSERVICE_H__
+/** @file GeometryService.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_GEOMETRYSERVICE_H_)
+#define _GEOMETRYSERVICE_H_
 
 #include "GeometryEngine/GeometryEngine.h"
-#include "GeometryService/NetMsgActionDefinitions/NetMsgActionDefManager.h"
-#include "GeometryService/Jobs/JobManager.h"
-#include "GeometryService/CommunicationsManager.h"
-#include "GeometryService/SessionManager.h"
-#include "GeometryService/AccessManager.h"
-#include "GeometryService/GeometryService.h"
+#include "iBME/iBMECommon.h"
 
-/**
- * Singleton Class.
- *
- * Represents the object that is instantiated should the iBME be set to run a
- * Geometry Service
- */
 class GeometryService
 {
 
-public:
-  GeometryService();
-  virtual ~GeometryService();
-
-private:
-  JobManager& jobMan();
-  SessionManager& sessionMan();
-  CommunicationsManager& comMan();
-  NetMsgActionDefManager& nmadMan();
-  AccessManager& accessMan();
-
+    public:
+      GeometryService();
+      virtual ~GeometryService();
+ 
 };
-#endif // !defined(__GEOMETRYSERVICE_H__)
 
+#endif // !defined(_GEOMETRYSERVICE_H_)
 
 // Local Variables: ***
 // mode: C++ ***

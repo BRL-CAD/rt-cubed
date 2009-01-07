@@ -1,4 +1,3 @@
-
 /*              R U N T I M E E X C E P T I O N . H
  * BRL-CAD
  *
@@ -28,28 +27,24 @@
  *
  */
 
-
-
-
 #ifndef _RUNTIMEEXCEPTION_H_
 #define _RUNTIMEEXCEPTION_H_
 
-#ifdef __cplusplus
-
 #include "lang/Exception.h"
 
-namespace ibme {
-	namespace lang {
-
-		class  RuntimeException : public Exception
-		{
-		public:
-			RuntimeException() throw ();
-			RuntimeException(const String& message) throw ();
-		};
-	}
-}
+class  RuntimeException : public Exception
+{
+public:
+	RuntimeException() throw ();
+	RuntimeException(const String& message) throw ();
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

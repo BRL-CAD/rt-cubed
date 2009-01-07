@@ -27,27 +27,24 @@
  *
  */
 
-
 #ifndef _CLASS_EOFEXCEPTION_H
 #define _CLASS_EOFEXCEPTION_H
 
-#ifdef __cplusplus
-
 #include "io/IOException.h"
 
-
-namespace ibme {
-	namespace io {
-
-		class  EOFException : public IOException
-		{
-		public:
-			EOFException() throw ();
-			EOFException(const String& message) throw ();
-		};
-	}
-}
+class  EOFException : public IOException
+{
+	public:
+		EOFException() throw ();
+		EOFException(const String& message) throw ();
+};
 
 #endif
 
-#endif
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

@@ -1,12 +1,34 @@
-///////////////////////////////////////////////////////////
-//  DBOBJECTCache.h
-//  Implementation of the Class DbObjectCache
-//  Created on:      04-Dec-2008 8:26:39 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                 D B O B J E C T C A C H E . H
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
 
-#if !defined(__DBOBJECTCACHE_H__)
-#define __DBOBJECTCACHE_H__
+/** @file DbObjectCache.h
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
+#if !defined(_DBOBJECTCACHE_H_)
+#define _DBOBJECTCACHE_H_
 
 #include <set>
 #include <map>
@@ -27,13 +49,14 @@ public:
 	bool putDbObject(DbObject& dbo);
 
 private:
-	set <DbObject> dbObjectCacheSet;
-	map <URL, DbObject> urlDbObjectMap;
-	map <UUID, DbObject> uuidDbObjectMap;
-	map <DbObject, AbstractDbObjectSource> dbObjectOriginMap;
+	std::set <DbObject> dbObjectCacheSet;
+	std::map <URL, DbObject> urlDbObjectMap;
+	std::map <UUID, DbObject> uuidDbObjectMap;
+	std::map <DbObject, AbstractDbObjectSource> dbObjectOriginMap;
 
 };
-#endif // !defined(__DBOBJECTCACHE_H__)
+
+#endif // !defined(_DBOBJECTCACHE_H_)
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,5 +1,3 @@
-
-
 /*               S T R I N G . H
  * BRL-CAD
  *
@@ -32,25 +30,22 @@
 #ifndef _STRING_H_
 #define _STRING_H_
 
-#ifdef __cplusplus
+class  String
+{
+private:
+	std::string s;
 
-namespace ibme {
-	namespace lang {
+public:
 
-		class  String
-		{
-		private:
-		  std::string s;
+};
 
-		public:
-
-		};
-
-
-	}
-}
 
 #endif
 
-#endif
-
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8
