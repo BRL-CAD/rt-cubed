@@ -34,6 +34,7 @@
 #include "io/DataInputStream.h"
 #include "io/DataOutputStream.h"
 #include "io/ByteArrayOutputStream.h"
+#include "io/ByteArrayInputStream.h"
 
     class NetMsg
     {
@@ -44,10 +45,11 @@
       NetMsg();
 
       //HeaderOnly Constructor
-      NetMsg(uInt mLen, uInt mType, UUID mUUID, UUID rUUID);
+      NetMsg(uInt mType, UUID mUUID, UUID rUUID);
 
-      //Deserializing Constructor
-      NetMsg(DataInputStream dis);
+      //Deserializing Constructors
+      NetMsg(array<uByte>* data);
+      NetMsg(DataInputStream* dis);
 
       //Destructor
       virtual ~NetMsg();
@@ -70,6 +72,9 @@
       void setMsgUUID(UUID v);
       void setReUUID(UUID v);
 
+      virtual String toString();
+      void printMe();
+
     private:
       uInt msgLen;
       uInt msgType;
@@ -77,9 +82,10 @@
       UUID reUUID;
       array<uByte> data;
 
+      void deserialize(DataInputStream* dis);
 
-      void _deserialize();
-      void _serialize(DataOutputStream* dos);
+      virtual bool _deserialize(DataInputStream* dis);
+      virtual bool _serialize(DataOutputStream* dos);
 
     };
 

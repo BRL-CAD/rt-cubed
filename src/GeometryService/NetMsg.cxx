@@ -28,6 +28,7 @@
  */
 
 #include "GeometryService/NetMsg.h"
+#include <sstream>
 
 //Default Constructor
 NetMsg::NetMsg()
@@ -35,15 +36,27 @@ NetMsg::NetMsg()
 }
 
 //HeaderOnly Constructor
-NetMsg::NetMsg(uInt mLen, uInt mType, String mUUID, String rUUID):
-  msgLen(mLen), msgType(mType), msgUUID(mUUID), reUUID(rUUID)
+NetMsg::NetMsg(uInt mType, String mUUID, String rUUID):
+  msgType(mType), msgUUID(mUUID), reUUID(rUUID)
 {
 }
 
-//Deserializing Constructor
-NetMsg::NetMsg(DataInputStream dis)
+//Deserializing Constructors
+NetMsg::NetMsg(DataInputStream* dis)
 {
+  this->deserialize(dis);
 }
+NetMsg::NetMsg(array<uByte>* data)
+{
+  ByteArrayInputStream* bais = new ByteArrayInputStream(*data);
+  DataInputStream* dis = new DataInputStream(*bais);
+
+  this->deserialize(dis);
+
+  delete dis;
+  delete bais;
+}
+
 
 //Destructor
 NetMsg::~NetMsg()
@@ -68,15 +81,60 @@ array<uByte>* NetMsg::serialize()
 
 void NetMsg::serialize(DataOutputStream* dos)
 {
-  //TODO implement serialization here.
+  //Get a temp BAOS and DOS
+  ByteArrayOutputStream* baos2 = new ByteArrayOutputStream();
+  DataOutputStream* dos2 = new DataOutputStream(*baos2);
+
+  //Serialize Header
+  dos2->writeUInt(this->msgType);
+  dos2->writeString(this->msgUUID);
+  dos2->writeString(this->reUUID);
+
+  if (!this->_serialize(dos2))
+    {
+      //Error here.
+    }
+
+  //Get the total length of the fully serialized object
+  uInt len = baos2->size();
+
+  //write the length and THEN object data to the external DOS.
+  dos->writeUInt(len);
+  array<uByte>* data = baos2->toByteArray();
+  dos->write(*data);
+
+  delete data;
+  delete dos2;
+  delete baos2;
 }
 
-void NetMsg::_deserialize()
+void NetMsg::deserialize(DataInputStream* dis)
 {
+  //Read data len
+  uInt len =  dis->readUInt();
+
+  //deserialize Header
+  this->msgType = dis->readUInt();
+
+  this->msgUUID = dis->readString();
+
+  this->reUUID = dis->readString();
+
+  if (!this->_deserialize(dis))
+    {
+      //Error here.
+    }
+
 }
 
-void NetMsg::_serialize(DataOutputStream* dos)
+bool NetMsg::_deserialize(DataInputStream* dis)
 {
+  return true;
+}
+
+bool NetMsg::_serialize(DataOutputStream* dos)
+{
+  return true;
 }
 
 /*
@@ -89,16 +147,47 @@ UUID NetMsg::getReUUID() {return this->reUUID;}
 
 void NetMsg::setMsgLen(uInt v)
 {
+  this->msgLen = v;
 }
 void NetMsg::setMsgType(uInt v)
 {
+  this->msgType = v;
 }
 void NetMsg::setMsgUUID(UUID v)
 {
+  this->msgUUID = v;
 }
 void NetMsg::setReUUID(UUID v)
 {
+  this->reUUID = v;
 }
+
+
+
+String NetMsg::toString() 
+{
+
+  //Temp hack until I get String Class working.
+
+  std::stringstream Num;
+  Num << this->msgType;   
+  String mt = Num.str();
+
+  String out = "";
+  out += "msgType: " + mt + " ";
+  out += "msgUUID: " + this->msgUUID + " ";
+  out += "reUUID: " + this->reUUID;
+  out += "\n";
+  return out;
+}
+
+void NetMsg::printMe()
+{
+  String s = this->toString();
+  std::cout << s;
+}
+
+
 
 // Local Variables: ***
 // mode: C++ ***

@@ -162,6 +162,8 @@ void DataOutputStream::writeChar(uByte v) throw (IOException)
 
 void DataOutputStream::writeString(const String& str) throw (IOException)
 {
+	this->writeUInt(str.size());
+
 	for (size_t i = 0; i < str.length(); i++)
 	{
 	  this->writeChar(str[i]);

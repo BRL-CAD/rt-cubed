@@ -64,7 +64,7 @@
       virtual double readDouble() throw (IOException);
 
       virtual uByte readChar() throw (IOException);
-      virtual String readString(uInt strLen) throw (IOException);
+      virtual String readString() throw (IOException);
 
       virtual String* readLine() throw (IOException);
       virtual void readLine(String& line) throw (IOException);

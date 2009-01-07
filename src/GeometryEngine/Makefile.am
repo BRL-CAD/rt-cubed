@@ -36,13 +36,10 @@ libge_la_SOURCES = \
 	../lang/Throwable.cxx 
 
 
+bin_PROGRAMS = serialtest
 
-
-
-bin_PROGRAMS = sstest
-
-sstest_SOURCES = \
+serialtest_SOURCES = \
 	../io/sstest.cxx
 
-sstest_LDADD = \
+serialtest_LDADD = \
 	libge.la

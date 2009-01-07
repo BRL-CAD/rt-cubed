@@ -104,11 +104,14 @@ uByte DataInputStream::readChar() throw (IOException)
   return this->readUByte();
 }
 
-String DataInputStream::readString(uInt strLen) throw (IOException)
+String DataInputStream::readString() throw (IOException)
 {
+
+	uInt len = this->readUInt();
+
 	String out = "";
 
-	for (uInt i = 0; i < strLen; ++i)
+	for (uInt i = 0; i < len; ++i)
 	  {
 	    out += this->readChar();
 	  }

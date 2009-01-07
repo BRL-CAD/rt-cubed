@@ -209,7 +209,14 @@
 			}
 
 			
-
+			void printMe()
+			{
+				for (uInt i = 0; i < _size ; ++i)
+				{
+					std::cout << _data[i];
+				}
+				std::cout << std::endl;
+			}
 
 
 		};

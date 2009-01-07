@@ -1,4 +1,4 @@
-bin_PROGRAMS = geoservice
+bin_PROGRAMS = geoservice netMsgSerialTest
 
 geoservice_SOURCES = \
 	AbstractPortal.cxx \
@@ -23,4 +23,12 @@ geoservice_SOURCES = \
 	Jobs/NetMsgActionJob.cxx
 
 geoservice_LDADD = \
+	../GeometryEngine/libge.la
+
+
+netMsgSerialTest_SOURCES = \
+	NetMsg.cxx \
+	../io/netMsgSerialTest.cxx
+
+netMsgSerialTest_LDADD = \
 	../GeometryEngine/libge.la
