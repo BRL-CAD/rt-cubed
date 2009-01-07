@@ -45,6 +45,11 @@ Object::~Object(void) throw() {
 };
 
 
+const char* Object::ClassName(void) throw() {
+    return "Object";
+}
+
+
 const char* Object::Name(void) const throw() {
     const char* ret = 0;
 
@@ -119,22 +124,8 @@ const Object& Object::operator=
 (
     const Object& original
 ) throw() {
-    if (&original != this) {
-        if (m_name != 0)
-            bu_free(m_name, "BRLCAD::Object::operator=");
-
-        m_resp = 0;
-        m_pDir = 0;
-        m_ip   = 0;
-        m_dbip = 0;
-
-        const char* name = original.Name();
-
-        if (name != 0)
-            m_name = bu_strdupm(name, "BRLCAD::Object::operator=");
-        else
-            m_name = 0;
-    }
+    if (&original != this)
+        SetName(original.Name());
 
     return *this;
 }

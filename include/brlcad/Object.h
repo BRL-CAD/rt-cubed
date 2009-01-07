@@ -45,9 +45,7 @@ namespace BRLCAD {
         virtual ~Object(void) throw();
 
         // these two functions can be used to determine the type of the object
-        static const char*  ClassName(void) throw() {
-            return "Object";
-        }
+        static const char*  ClassName(void) throw();
         virtual const char* Type(void) const  = 0;
 
         // for all objects

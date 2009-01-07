@@ -31,10 +31,11 @@
 #include <cstring>
 #include <cassert>
 
+#include "raytrace.h"
+
+#include <brlcad/Combination.h>
 #include <brlcad/Unknown.h>
 #include <brlcad/ConstDatabase.h>
-
-#include "raytrace.h"
 
 #if defined (_DEBUG)
 #   define LOOKUP_NOISE LOOKUP_NOISY
@@ -166,6 +167,10 @@ void ConstDatabase::Get
                 int            id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
 
                 switch(id) {
+                case ID_COMBINATION:
+                    callback(Combination(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                    break;
+
                 default:
                     callback(Unknown(m_resp, pDir, &intern, m_rtip->rti_dbip));
                 }

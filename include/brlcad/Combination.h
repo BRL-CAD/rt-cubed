@@ -1,4 +1,4 @@
-/*                      U N K N O W N . H
+/*                      C O M B I N A T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 2008 United States Government as represented by
@@ -17,48 +17,51 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file Unknown.h
+/** @file Combination.h
  *
  *  BRL-CAD core C++ interface:
- *      yet unknown database object declaration
+ *      combination (ID_COMBINATION) database object declaration
  *
  *  Origin -
  *      TNO (Netherlands)
  *      IABG mbH (Germany)
  */
 
-#ifndef BRLCAD_UNKNOWN_INCLUDED
-#define BRLCAD_UNKNOWN_INCLUDED
+#ifndef BRLCAD_COMBINATION_INCLUDED
+#define BRLCAD_COMBINATION_INCLUDED
 
 #include <brlcad/Object.h>
 
 
-namespace BRLCAD {
-    class BRLCAD_COREINTERFACE_EXPORT Unknown : public Object {
-    public:
-        Unknown(const Unknown& original) throw();
-        virtual ~Unknown(void) throw();
+struct rt_comb_internal;
 
-        const Unknown&      operator=(const Unknown& original) throw();
+
+namespace BRLCAD {
+    class BRLCAD_COREINTERFACE_EXPORT Combination : public Object {
+    public:
+        Combination(void);
+        Combination(const Combination& original) throw();
+        virtual ~Combination(void) throw();
+
+        const Combination&  operator=(const Combination& original) throw();
 
         // inherited from BRLCAD::Object
         static const char*  ClassName(void) throw();
         virtual const char* Type(void) const throw();
 
-        // there is nothing special with BRLCAD::Unknown
-
     protected:
-        Unknown(resource*       resp,
-                directory*      pDir,
-                rt_db_internal* ip,
-                db_i*           dbip = 0) throw();
+        Combination(resource*       resp,
+                    directory*      pDir,
+                    rt_db_internal* ip,
+                    db_i*           dbip = 0) throw();
 
         friend class ConstDatabase;
 
     private:
-        Unknown(void); // not implemented
+        // holds Objects's content if not connected to a database
+        rt_comb_internal* m_internalp;
     };
 }
 
 
-#endif // BRLCAD_UNKNOWN_INCLUDED
+#endif // BRLCAD_COMBINATION_INCLUDED

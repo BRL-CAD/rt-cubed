@@ -49,6 +49,11 @@ const Unknown& Unknown::operator=(const Unknown& original) throw() {
 }
 
 
+const char* Unknown::ClassName(void) throw() {
+    return "Unknown";
+}
+
+
 const char* Unknown::Type(void) const throw() {
     return ClassName();
 }
