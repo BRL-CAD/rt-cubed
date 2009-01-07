@@ -30,8 +30,6 @@
 #include "io/OutputStream.h"
 #include "lang/NullPointerException.h"
 
-using ibme::io::OutputStream;
-
 void OutputStream::close() throw (IOException)
 {
 }
@@ -45,7 +43,7 @@ void OutputStream::write(const uByte* data, size_t offset, size_t length) throw 
 	if (length)
 	{
 		if (!data)
-			throw ibme::lang::NullPointerException();
+			throw NullPointerException();
 
 		for (size_t i = 0; i < length; i++)
 			write(data[offset+i]);
@@ -56,3 +54,11 @@ void OutputStream::write(const array<uByte>& b) throw (IOException)
 {
 	write(b.data(), 0, b.size());
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

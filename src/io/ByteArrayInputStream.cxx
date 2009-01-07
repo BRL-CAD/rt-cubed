@@ -30,9 +30,6 @@
 #include "io/ByteArrayInputStream.h"
 #include "lang/NullPointerException.h"
 
-using ibme::io::ByteArrayInputStream;
-using ibme::lang::NullPointerException;
-
 ByteArrayInputStream::ByteArrayInputStream(const array<uByte>& b) : _buf(b)
 {
 	_count = _buf.size();
@@ -70,14 +67,14 @@ bool ByteArrayInputStream::markSupported() throw ()
 	return true;
 }
 
-int ByteArrayInputStream::read() throw (IOException)
+uInt ByteArrayInputStream::read() throw (IOException)
 {
 	register int rc;
 	rc = (_pos < _count) ? _buf[_pos++] : -1;
 	return rc;
 }
 
-int ByteArrayInputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
+uInt ByteArrayInputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
 		throw NullPointerException();
@@ -102,7 +99,7 @@ int ByteArrayInputStream::read(uByte* data, size_t offset, size_t length) throw 
 	return length;
 }
 
-int ByteArrayInputStream::read(array<uByte>& b) throw (IOException)
+uInt ByteArrayInputStream::read(array<uByte>& b) throw (IOException)
 {
 	return read(b.data(), 0, b.size());
 }
@@ -119,3 +116,11 @@ off_t ByteArrayInputStream::skip(off_t n) throw (IOException)
 	_pos += n;
 	return n;
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

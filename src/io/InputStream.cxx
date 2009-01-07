@@ -27,13 +27,8 @@
  *
  */
 
-
-
-
 #include "io/InputStream.h"
 #include "lang/NullPointerException.h"
-
-using ibme::io::InputStream;
 
 off_t InputStream::available() throw (IOException)
 {
@@ -53,15 +48,15 @@ bool InputStream::markSupported() throw ()
 	return false;
 }
 
-int InputStream::read(array<uByte>& b) throw (IOException)
+uInt InputStream::read(array<uByte>& b) throw (IOException)
 {
 	return read(b.data(), 0, b.size());
 }
 
-int InputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
+uInt InputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
-		throw ibme::lang::NullPointerException();
+		throw NullPointerException();
 
 	int b = read();
 	if (b < 0)
@@ -108,3 +103,11 @@ void InputStream::reset() throw (IOException)
 {
 	throw IOException("reset not supported");
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

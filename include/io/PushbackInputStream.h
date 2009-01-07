@@ -48,8 +48,8 @@ class  PushbackInputStream : public FilterInputStream
 		virtual off_t available() throw (IOException);
 		virtual void close() throw (IOException);
 		virtual bool markSupported() throw ();
-		virtual int read() throw (IOException);
-		virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
+		virtual uInt read() throw (IOException);
+		virtual uInt read(uByte* data, size_t offset, size_t length) throw (IOException);
 		virtual off_t skip(off_t n) throw (IOException);
 
 		void unread(uByte) throw (IOException);

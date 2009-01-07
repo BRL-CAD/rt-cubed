@@ -27,8 +27,8 @@
  *
  */
 
-#if !defined(__NETSOCKPORTAL_H__)
-#define __NETSOCKPORTAL_H__
+#if !defined(_NETSOCKPORTAL_H_)
+#define _NETSOCKPORTAL_H_
 
 #include "GeometryService/AbstractPortal.h"
 
@@ -41,7 +41,7 @@ public:
 
 };
 
-#endif // !defined(__NETSOCKPORTAL_H__)
+#endif // !defined(_NETSOCKPORTAL_H_)
 
 // Local Variables: ***
 // mode: C++ ***

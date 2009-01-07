@@ -32,7 +32,7 @@
 
 #include "lang/Exception.h"
 
-class IOException : public ibme::lang::Exception
+class IOException : public Exception
 {
 	public:
 		IOException();

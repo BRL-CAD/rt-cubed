@@ -44,9 +44,9 @@ class  FilterInputStream : public InputStream
 		virtual void close() throw (IOException);
 		virtual void mark(off_t) throw ();
 		virtual bool markSupported() throw ();
-		virtual int read() throw (IOException);
-		virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
-		virtual int read(array<uByte>& b) throw (IOException);
+		virtual uInt read() throw (IOException);
+		virtual uInt read(uByte* data, size_t offset, size_t length) throw (IOException);
+		virtual uInt read(array<uByte>& b) throw (IOException);
 		virtual void reset() throw (IOException);
 		virtual off_t skip(off_t) throw (IOException);
 };

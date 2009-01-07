@@ -27,11 +27,7 @@
  *
  */
 
-
-
 #include "io/FilterInputStream.h"
-
-using ibme::io::FilterInputStream;
 
 FilterInputStream::FilterInputStream(InputStream& in) : in(in)
 {
@@ -63,17 +59,17 @@ bool FilterInputStream::markSupported() throw ()
 	return in.markSupported();
 }
 
-int FilterInputStream::read() throw (IOException)
+uInt FilterInputStream::read() throw (IOException)
 {
 	return in.read();
 }
 
-int FilterInputStream::read(uByte* data, size_t offset, size_t len) throw (IOException)
+uInt FilterInputStream::read(uByte* data, size_t offset, size_t len) throw (IOException)
 {
 	return in.read(data, offset, len);
 }
 
-int FilterInputStream::read(array<uByte>& b) throw (IOException)
+uInt FilterInputStream::read(array<uByte>& b) throw (IOException)
 {
 	return in.read(b);
 }
@@ -89,3 +85,11 @@ off_t FilterInputStream::skip(off_t n) throw (IOException)
 {
 	return in.skip(n);
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

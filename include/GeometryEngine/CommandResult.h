@@ -30,6 +30,8 @@
 #if !defined(_COMMANDRESULT_H_)
 #define _COMMANDRESULT_H_
 
+#include "iBME/iBMECommon.h"
+
 class CommandResult {
 
 public:

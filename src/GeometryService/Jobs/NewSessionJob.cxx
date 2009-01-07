@@ -1,31 +1,50 @@
-///////////////////////////////////////////////////////////
-//  NewSessionJob.cxx
-//  Implementation of the Class NewSessionJob
-//  Created on:      04-Dec-2008 8:26:46 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                 N E W S E S S I O N J O B . C X X 
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+
+/** @file NewSessionJob.cxx
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
 
 #include "GeometryService/Jobs/NewSessionJob.h"
 
-NewSessionJob::NewSessionJob() {
-
+NewSessionJob::NewSessionJob()
+{
 }
 
-NewSessionJob::~NewSessionJob() {
-
+NewSessionJob::~NewSessionJob()
+{
 }
 
-/**
- * Constructor
- */
-NewSessionJob::NewSessionJob(AbstractPortal& portal) {
-
+NewSessionJob::NewSessionJob(AbstractPortal& portal)
+{
 }
 
-bool NewSessionJob::doJob() {
+bool NewSessionJob::doJob()
+{
  return false;
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

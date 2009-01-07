@@ -27,11 +27,7 @@
  *
  */
 
-
-
 #include "io/FilterOutputStream.h"
-
-using ibme::io::FilterOutputStream;
 
 FilterOutputStream::FilterOutputStream(OutputStream& out) : out(out)
 {
@@ -73,3 +69,11 @@ void FilterOutputStream::write(const array<uByte>& b) throw (IOException)
 {
 	out.write(b.data(), 0, b.size());
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

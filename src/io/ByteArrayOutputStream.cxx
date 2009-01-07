@@ -30,9 +30,6 @@
 #include "io/ByteArrayOutputStream.h"
 #include "lang/NullPointerException.h"
 
-using ibme::io::ByteArrayOutputStream;
-using ibme::array;
-
 ByteArrayOutputStream::ByteArrayOutputStream() : buf(32)
 {
   count = 0;
@@ -75,7 +72,7 @@ void ByteArrayOutputStream::toByteArray(array<uByte>& b)
 void ByteArrayOutputStream::toByteArray(uByte* data, size_t offset, size_t length)
 {
   if (!data)
-    throw ibme::lang::NullPointerException();
+    throw NullPointerException();
   memcpy(data+offset, buf.data(), length < count ? length : count);
 
 }
@@ -108,7 +105,7 @@ void ByteArrayOutputStream::write(const uByte* data, size_t offset, size_t lengt
   if (length)
     {
       if (!data)
-	throw ibme::lang::NullPointerException();
+	throw NullPointerException();
 
       size_t newcount = count + length;
       size_t actualsz = buf.size();
@@ -135,3 +132,11 @@ void ByteArrayOutputStream::writeTo(OutputStream& out) throw (IOException)
       out.write(buf.data(), 0, count);
     }
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

@@ -28,11 +28,7 @@
  *
  */
 
-
-
 #include "lang/Throwable.h"
-
-using ibme::lang::Throwable;
 
 Throwable::Throwable() throw ()
 {
@@ -52,3 +48,11 @@ const String& Throwable::getMessage() const throw ()
 {
 	return _msg;
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

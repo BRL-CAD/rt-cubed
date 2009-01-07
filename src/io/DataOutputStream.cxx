@@ -34,8 +34,6 @@
 
 #include <iostream>
 
-using ibme::io::DataOutputStream;
-
 DataOutputStream::DataOutputStream(OutputStream& out) : FilterOutputStream(out)
 {
 	written = 0;
@@ -134,6 +132,7 @@ void DataOutputStream::writeULong(uLong l) throw (IOException)
 
 void DataOutputStream::writeFloat(float f) throw (IOException)
 {
+//need to route this through htonf
   uByte* b = (uByte*) &f;
   for (uInt i = 0; i < 4; ++i)
     {
@@ -144,6 +143,7 @@ void DataOutputStream::writeFloat(float f) throw (IOException)
 
 void DataOutputStream::writeDouble(double d) throw (IOException)
 {
+//Need to route this through htond
   uByte* b = (uByte*) &d;
   for (uInt i = 0; i < 8; ++i)
     {
@@ -155,9 +155,9 @@ void DataOutputStream::writeDouble(double d) throw (IOException)
 
 
 
-void DataOutputStream::writeChar(uShort v) throw (IOException)
+void DataOutputStream::writeChar(uByte v) throw (IOException)
 {
-  this->writeUShort(v);
+  this->writeUByte(v);
 }
 
 void DataOutputStream::writeString(const String& str) throw (IOException)
@@ -169,3 +169,11 @@ void DataOutputStream::writeString(const String& str) throw (IOException)
 }
 
 
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

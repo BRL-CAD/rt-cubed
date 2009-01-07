@@ -30,8 +30,6 @@
 #include "io/PushbackInputStream.h"
 #include "lang/NullPointerException.h"
 
-using ibme::io::PushbackInputStream;
-
 PushbackInputStream::PushbackInputStream(InputStream& in, size_t size) : FilterInputStream(in), buf(size)
 {
 	_closed = false;
@@ -59,7 +57,7 @@ void PushbackInputStream::close() throw (IOException)
 	}
 }
 
-int PushbackInputStream::read() throw (IOException)
+uInt PushbackInputStream::read() throw (IOException)
 {
 	if (_closed)
 		throw IOException("Stream closed");
@@ -75,10 +73,10 @@ bool PushbackInputStream::markSupported() throw ()
 	return false;
 }
 
-int PushbackInputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
+uInt PushbackInputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
-		throw ibme::lang::NullPointerException();
+		throw NullPointerException();
 
 	if (_closed)
 		throw IOException("Stream closed");
@@ -164,9 +162,17 @@ void PushbackInputStream::unread(const array<uByte>& b) throw (IOException)
 void PushbackInputStream::unread(const uByte* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
-		throw ibme::lang::NullPointerException();
+		throw NullPointerException();
 
 	pos -= length;
 
 	memcpy(buf.data()+pos, data+offset, length);
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

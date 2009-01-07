@@ -34,8 +34,6 @@
 
 #define MAX_BYTES_PER_CHARACTER	8
 
-using ibme::io::DataInputStream;
-
 DataInputStream::DataInputStream(InputStream& in) : FilterInputStream(in)
 {
   _pin = &in;
@@ -101,9 +99,9 @@ uShort DataInputStream::readUShort() throw (IOException)
 
 
 
-uShort DataInputStream::readChar() throw (IOException)
+uByte DataInputStream::readChar() throw (IOException)
 {
-  return this->readUShort();
+  return this->readUByte();
 }
 
 String DataInputStream::readString(uInt strLen) throw (IOException)
@@ -165,6 +163,7 @@ uLong DataInputStream::readULong() throw (IOException)
 
 float DataInputStream::readFloat() throw (IOException)
 {
+//Need to route this through ntohf
   float f = 0.0;
   uByte* pf = (uByte*) &f;
   uByte b;
@@ -179,6 +178,7 @@ float DataInputStream::readFloat() throw (IOException)
 
 double DataInputStream::readDouble() throw (IOException)
 {
+//Need to route this through ntohd
   double d = 0.0;
   uByte* pd = (uByte*) &d;
   uByte b;
@@ -288,7 +288,7 @@ void DataInputStream::readLine(String& line) throw (IOException)
 void DataInputStream::readFully(uByte* data, size_t offset, size_t length) throw (IOException)
 {
   if (!data)
-    throw ibme::lang:: NullPointerException();
+    throw NullPointerException();
 
   size_t total = 0;
 
@@ -315,3 +315,11 @@ off_t DataInputStream::skipBytes(off_t n) throw (IOException)
 
   return total;
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

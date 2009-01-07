@@ -34,7 +34,7 @@
 #include "io/IOException.h"
 #include "lang/Object.h"
 
-class OutputStream : public ibme::lang::Object
+class OutputStream : public Object
 	{
 	public:
 		virtual ~OutputStream() {};

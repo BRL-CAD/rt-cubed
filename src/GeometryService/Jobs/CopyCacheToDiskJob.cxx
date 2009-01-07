@@ -1,19 +1,44 @@
-///////////////////////////////////////////////////////////
-//  CopyCacheToDiskJob.cxx
-//  Implementation of the Class CopyCacheToDiskJob
-//  Created on:      04-Dec-2008 8:26:38 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                 C O P Y C A C H E T O D I S K J O B . C X X
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+
+/** @file CopyCacheToDiskJob.cxx
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
 
 #include "GeometryService/Jobs/CopyCacheToDiskJob.h"
 
-CopyCacheToDiskJob::CopyCacheToDiskJob(DbObject& resToCopy) {
+CopyCacheToDiskJob::CopyCacheToDiskJob(DbObject& resToCopy)
+{
 }
 
-CopyCacheToDiskJob::~CopyCacheToDiskJob() {
+CopyCacheToDiskJob::~CopyCacheToDiskJob()
+{
 }
 
-bool CopyCacheToDiskJob::doJob() {
+bool CopyCacheToDiskJob::doJob()
+{
 	return false;
 }
 

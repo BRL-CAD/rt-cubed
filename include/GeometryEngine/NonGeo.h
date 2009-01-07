@@ -26,6 +26,7 @@
  *  Author - David Loman
  *
  */
+
 #if !defined(_NONGEO_H_)
 #define _NONGEO_H_
 

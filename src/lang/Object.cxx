@@ -30,8 +30,6 @@
 
 #include "lang/Object.h"
 
-using ibme::lang::Object;
-
 Object::Object() throw ()
 {
 }
@@ -45,3 +43,11 @@ bool Object::equals(const Object& cmp) const throw ()
 {
 	return this == &cmp;
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

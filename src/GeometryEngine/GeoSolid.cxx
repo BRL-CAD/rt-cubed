@@ -1,19 +1,42 @@
-///////////////////////////////////////////////////////////
-//  GeoSolid.cxx
-//  Implementation of the Class GeoSolid
-//  Created on:      04-Dec-2008 8:26:42 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                 G E O S O L I D . C X X
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+
+/** @file GeoSolid.cxx
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
 
 #include "GeometryEngine/GeoSolid.h"
 
-GeoSolid::GeoSolid() {
-
+GeoSolid::GeoSolid()
+{
 }
 
-GeoSolid::~GeoSolid() {
-
+GeoSolid::~GeoSolid()
+{
 }
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

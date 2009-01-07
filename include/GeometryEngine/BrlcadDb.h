@@ -33,6 +33,7 @@
 #include <iostream>
 #include <map>
 #include "GeometryEngine/DbObject.h"
+#include "iBME/iBMECommon.h"
 
 class BrlcadDb : public DbObject {
 

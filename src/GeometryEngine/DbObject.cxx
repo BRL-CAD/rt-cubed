@@ -1,50 +1,71 @@
-///////////////////////////////////////////////////////////
-//  AbstractResource.cpp
-//  Implementation of the Class DbObject
-//  Created on:      04-Dec-2008 8:26:39 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*                 D B O B J E C T . C X X
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2008 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+
+/** @file DbObject.cxx
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
 
 #include "GeometryEngine/DbObject.h"
 
-DbObject::DbObject() {
-
+DbObject::DbObject()
+{
 }
 
-DbObject::~DbObject() {
-
+DbObject::~DbObject() 
+{
 }
 
-DbObject::DbObject(long id, string name, unsigned int geoType, bool locked) {
-
+DbObject::DbObject(uLong id, String name, uInt geoType, bool locked) 
+{
 }
 
-string DbObject::getName() {
-
+String DbObject::getName() 
+{
 	return NULL;
 }
 
-void DbObject::setName(string name) {
-
+void DbObject::setName(String name) 
+{
 }
 
-unsigned int DbObject::getGeoType() {
-
+uInt DbObject::getGeoType() 
+{
 	return 0;
 }
 
-void DbObject::setGeoType(unsigned int geoType) {
-
+void DbObject::setGeoType(uInt geoType) 
+{
 }
 
-void DbObject::lock() {
-
+void DbObject::lock() 
+{
 }
 
-void DbObject::unlock() {
-
+void DbObject::unlock()
+{
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

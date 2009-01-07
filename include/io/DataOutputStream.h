@@ -67,7 +67,7 @@
       virtual void writeFloat(const float v) throw (IOException);
       virtual void writeDouble(const double v) throw (IOException);
 
-      virtual void writeChar(const uShort c) throw (IOException);
+      virtual void writeChar(const uByte v) throw (IOException);
       virtual void writeString(const String& s) throw (IOException);
 
     };

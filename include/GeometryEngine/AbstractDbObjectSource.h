@@ -1,4 +1,4 @@
-/*                 A B S T R A C T D B O B J E C T S O U R C E . H
+/*        A B S T R A C T D B O B J E C T S O U R C E . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2008 United States Government as represented by
@@ -26,6 +26,7 @@
  *  Author - David Loman
  *
  */
+
 #if !defined(_ABSTRACTDBOBJECTSOURCE_H_)
 #define _ABSTRACTDBOBJECTSOURCE_H_
 

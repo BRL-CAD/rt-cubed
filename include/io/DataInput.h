@@ -57,7 +57,7 @@
       virtual float readFloat() throw (IOException) = 0;
       virtual double readDouble() throw (IOException) = 0;
 
-      virtual uShort readChar() throw (IOException) = 0;
+      virtual uByte readChar() throw (IOException) = 0;
       virtual String readString(uInt strLen) throw (IOException) = 0;
 
       virtual String* readLine() throw (IOException) = 0;

@@ -34,7 +34,7 @@
 #include "io/IOException.h"
 #include "lang/Object.h"
 
-class InputStream : public ibme::lang::Object
+class InputStream : public Object
 {
 public:
 	virtual ~InputStream() {};
@@ -43,9 +43,9 @@ public:
 	virtual void close() throw (IOException);
 	virtual void mark(off_t readlimit) throw ();
 	virtual bool markSupported() throw ();
-	virtual int read() throw (IOException) = 0;
-	virtual int read(uByte* data, size_t offset, size_t length) throw (IOException);
-	virtual int read(array<uByte>& b) throw (IOException);
+	virtual uInt read() throw (IOException) = 0;
+	virtual uInt read(uByte* data, size_t offset, size_t length) throw (IOException);
+	virtual uInt read(array<uByte>& b) throw (IOException);
 	virtual void reset() throw (IOException);
 	virtual off_t skip(off_t n) throw (IOException);
 };

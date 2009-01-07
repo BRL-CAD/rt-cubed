@@ -27,11 +27,7 @@
  *
  */
 
-
-
 #include "io/EOFException.h"
-
-using ibme::io::EOFException;
 
 EOFException::EOFException() throw ()
 {
@@ -40,3 +36,11 @@ EOFException::EOFException() throw ()
 EOFException::EOFException(const String& message) throw () : IOException(message)
 {
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

@@ -30,8 +30,6 @@
 
 #include "lang/NullPointerException.h"
 
-using ibme::lang::NullPointerException;
-
 NullPointerException::NullPointerException() throw ()
 {
 }
@@ -39,3 +37,11 @@ NullPointerException::NullPointerException() throw ()
 NullPointerException::NullPointerException(const String& message) throw () : RuntimeException(message)
 {
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

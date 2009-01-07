@@ -31,12 +31,18 @@
 #include "io/IOException.h"
 #include "lang/Exception.h"
 
-using ibme::io::IOException;
-
 IOException::IOException()
 {
 }
 
-IOException::IOException(const String& message) : ibme::lang::Exception(message)
+IOException::IOException(const String& message) : Exception(message)
 {
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8
