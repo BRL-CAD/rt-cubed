@@ -1,10 +1,13 @@
-bin_PROGRAMS = geoservice netMsgSerialTest
+lib_LTLIBRARIES = libgs.la
 
-geoservice_SOURCES = \
+libgs_la_SOURCES = \
 	AbstractPortal.cxx \
 	CommunicationsManager.cxx \
 	IntraAppPortal.cxx \
 	NetMsg.cxx \
+	RemHostNameSetMsg.cxx \
+	RemHostNameSetFailMsg.cxx \
+	GeometryReqMsg.cxx \
 	Session.cxx \
 	AccessManager.cxx \
 	GeometryService.cxx \
@@ -22,13 +25,24 @@ geoservice_SOURCES = \
 	Jobs/JobWorker.cxx \
 	Jobs/NetMsgActionJob.cxx
 
-geoservice_LDADD = \
-	../GeometryEngine/libge.la
+
+bin_PROGRAMS = netMsgSerialTest
+
+
+#gsph0_SOURCES = \
+#	gsph0.cxx
+#
+#gsph0_LDADD = \
+#	../GeometryEngine/libge.la \
+#	libgs.la
+
 
 
 netMsgSerialTest_SOURCES = \
-	NetMsg.cxx \
 	../io/netMsgSerialTest.cxx
 
 netMsgSerialTest_LDADD = \
-	../GeometryEngine/libge.la
+	../GeometryEngine/libge.la \
+	libgs.la
+
+

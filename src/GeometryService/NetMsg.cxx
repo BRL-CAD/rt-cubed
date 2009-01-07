@@ -166,19 +166,12 @@ void NetMsg::setReUUID(UUID v)
 
 String NetMsg::toString() 
 {
-
-  //Temp hack until I get String Class working.
-
   std::stringstream Num;
-  Num << this->msgType;   
-  String mt = Num.str();
-
-  String out = "";
-  out += "msgType: " + mt + " ";
-  out += "msgUUID: " + this->msgUUID + " ";
-  out += "reUUID: " + this->reUUID;
-  out += "\n";
-  return out;
+  Num << "msgType: " << this->msgType << " \t";
+  Num << "msgUUID: " << this->msgUUID << " \t";
+  Num << "reUUID: " << this->reUUID;
+  Num << "\n";
+  return Num.str();
 }
 
 void NetMsg::printMe()

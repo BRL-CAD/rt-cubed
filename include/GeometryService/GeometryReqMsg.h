@@ -1,4 +1,4 @@
-/*                      N E T M S G . H
+/*                  G E O M E T R Y R E Q M S G. H
  * BRL-CAD
  *
  * Copyright (c) 1997-2008 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file NetMsg.h
+/** @file GeometryReqMsg.h
  *
  *  Description -
  *      
@@ -27,69 +27,44 @@
  *
  */
 
-#if !defined(_NETMSG_H_)
-#define _NETMSG_H_
+#if !defined(_GEOMETRYREQ_H_)
+#define _GEOMETRYREQ_H_
 
 #include "iBME/iBMECommon.h"
 #include "io/DataInputStream.h"
 #include "io/DataOutputStream.h"
 #include "io/ByteArrayOutputStream.h"
 #include "io/ByteArrayInputStream.h"
+#include "GeometryService/NetMsg.h"
 
-    class NetMsg
+
+class GeometryReqMsg : public NetMsg
     {
 
     public:
 
-      //Default Constructor
-      NetMsg();
-
-      //HeaderOnly Constructor
-      NetMsg(uInt mType, UUID mUUID, UUID rUUID);
+      //Only Constructor
+      GeometryReqMsg(uInt mType, UUID mUUID, UUID rUUID, uByte v, array<uByte>* d);
 
       //Deserializing Constructors
-      NetMsg(array<uByte>* data);
-      NetMsg(DataInputStream* dis);
+      GeometryReqMsg(array<uByte>* data);
+      GeometryReqMsg(DataInputStream* dis);
 
       //Destructor
-      virtual ~NetMsg();
+      virtual ~GeometryReqMsg();
   
-
-      //Serializers
-      array<uByte>* serialize();
-      void serialize(DataOutputStream* dos);
-
-      /*
-       *Getters n Setters
-       */
-      uInt getMsgLen();
-      uInt getMsgType();
-      UUID getMsgUUID();
-      UUID getReUUID();
-
-      void setMsgLen(uInt v);
-      void setMsgType(uInt v);
-      void setMsgUUID(UUID v);
-      void setReUUID(UUID v);
-
       virtual String toString();
-      void printMe();
 
-    protected:
-      uInt msgLen;
-      uInt msgType;
-      UUID msgUUID;
-      UUID reUUID;
-//      array<uByte> data;
 
-      void deserialize(DataInputStream* dis);
-
+    private:
+      uByte reqType;
+      array<uByte>* data;
       virtual bool _deserialize(DataInputStream* dis);
       virtual bool _serialize(DataOutputStream* dos);
 
     };
 
-#endif // !defined(_NETMSG_H_)
+#endif // !defined(_GEOMETRYREQ_H_)
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,4 @@
-/*                      N E T M S G . H
+/*         R E M H O S T N A M E S E T F A I L M S G . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2008 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file NetMsg.h
+/** @file RemHostNameSetFailMsg.h
  *
  *  Description -
  *      
@@ -27,69 +27,43 @@
  *
  */
 
-#if !defined(_NETMSG_H_)
-#define _NETMSG_H_
+#if !defined(_REMHOSTNAMESETFAILMSG_H_)
+#define _REMHOSTNAMESETFAILMSG_H_
 
 #include "iBME/iBMECommon.h"
 #include "io/DataInputStream.h"
 #include "io/DataOutputStream.h"
 #include "io/ByteArrayOutputStream.h"
 #include "io/ByteArrayInputStream.h"
+#include "GeometryService/NetMsg.h"
 
-    class NetMsg
+
+class RemHostNameSetFailMsg : public NetMsg
     {
 
     public:
 
-      //Default Constructor
-      NetMsg();
-
-      //HeaderOnly Constructor
-      NetMsg(uInt mType, UUID mUUID, UUID rUUID);
+      //Only Constructor
+      RemHostNameSetFailMsg(uInt mType, UUID mUUID, UUID rUUID, uByte v);
 
       //Deserializing Constructors
-      NetMsg(array<uByte>* data);
-      NetMsg(DataInputStream* dis);
+      RemHostNameSetFailMsg(array<uByte>* data);
+      RemHostNameSetFailMsg(DataInputStream* dis);
 
       //Destructor
-      virtual ~NetMsg();
+      virtual ~RemHostNameSetFailMsg();
   
-
-      //Serializers
-      array<uByte>* serialize();
-      void serialize(DataOutputStream* dos);
-
-      /*
-       *Getters n Setters
-       */
-      uInt getMsgLen();
-      uInt getMsgType();
-      UUID getMsgUUID();
-      UUID getReUUID();
-
-      void setMsgLen(uInt v);
-      void setMsgType(uInt v);
-      void setMsgUUID(UUID v);
-      void setReUUID(UUID v);
-
       virtual String toString();
-      void printMe();
 
-    protected:
-      uInt msgLen;
-      uInt msgType;
-      UUID msgUUID;
-      UUID reUUID;
-//      array<uByte> data;
 
-      void deserialize(DataInputStream* dis);
-
+    private:
+      uByte failureCode;
       virtual bool _deserialize(DataInputStream* dis);
       virtual bool _serialize(DataOutputStream* dos);
 
     };
 
-#endif // !defined(_NETMSG_H_)
+#endif // !defined(_REMHOSTNAMESETFAILMSG_H_)
 
 // Local Variables: ***
 // mode: C++ ***
