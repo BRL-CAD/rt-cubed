@@ -25,25 +25,3 @@ libgs_la_SOURCES = \
 	netMsg/NetMsg.cxx \
 	netMsg/RemHostNameSetFailMsg.cxx \
 	netMsg/RemHostNameSetMsg.cxx
-
-
-bin_PROGRAMS = netMsgSerialTest
-
-
-#gsph0_SOURCES = \
-#	gsph0.cxx
-#
-#gsph0_LDADD = \
-#	../GeometryEngine/libge.la \
-#	libgs.la
-
-
-
-netMsgSerialTest_SOURCES = \
-	../io/netMsgSerialTest.cxx
-
-netMsgSerialTest_LDADD = \
-	../GeometryEngine/libge.la \
-	libgs.la
-
-

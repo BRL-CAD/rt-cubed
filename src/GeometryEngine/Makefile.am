@@ -1,4 +1,3 @@
-
 lib_LTLIBRARIES = libge.la
 
 libge_la_SOURCES = \
@@ -34,12 +33,3 @@ libge_la_SOURCES = \
 	../lang/Object.cxx \
 	../lang/RuntimeException.cxx \
 	../lang/Throwable.cxx 
-
-
-bin_PROGRAMS = serialtest
-
-serialtest_SOURCES = \
-	../io/sstest.cxx
-
-serialtest_LDADD = \
-	libge.la

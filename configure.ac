@@ -746,6 +746,7 @@ AC_CONFIG_FILES([
 	src/date/Makefile
 	src/GeometryEngine/Makefile
 	src/GeometryService/Makefile
+	src/iBME/Makefile
 	src/libGeometry/Makefile
 	src/libImage/Makefile
 	src/libNetwork/Makefile
