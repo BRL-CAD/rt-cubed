@@ -35,10 +35,6 @@ GeometryService::GeometryService()
 GeometryService::~GeometryService()
 {
 }
-
-int main(int argc, char* argv[])
-{
-}
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

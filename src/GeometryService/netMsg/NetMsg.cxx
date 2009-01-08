@@ -111,7 +111,7 @@ void NetMsg::serialize(DataOutputStream* dos)
 void NetMsg::deserialize(DataInputStream* dis)
 {
   //Read data len
-  uInt len =  dis->readUInt();
+  //uInt len =  dis->readUInt();
 
   //deserialize Header
   this->msgType = dis->readUInt();
