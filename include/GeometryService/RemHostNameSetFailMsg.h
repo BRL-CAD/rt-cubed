@@ -55,6 +55,11 @@ class RemHostNameSetFailMsg : public NetMsg
   
       virtual String toString();
 
+      /*
+       *Getters n Setters
+       */
+	uByte getFailureCode();
+	void  setFailureCode(uByte v);
 
     private:
       uByte failureCode;

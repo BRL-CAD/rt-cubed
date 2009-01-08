@@ -55,6 +55,15 @@ class GeometryReqMsg : public NetMsg
   
       virtual String toString();
 
+      /*
+       *Getters n Setters
+       */
+	uByte getReqType();
+	void setReqType(uByte v);
+
+	array<uByte>* getData();
+	void setData(array<uByte>* v);
+
 
     private:
       uByte reqType;

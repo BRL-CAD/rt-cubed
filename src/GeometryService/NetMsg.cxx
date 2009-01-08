@@ -141,22 +141,24 @@ bool NetMsg::_serialize(DataOutputStream* dos)
  *Getters n Setters
  */
 uInt NetMsg::getMsgLen() {return this->msgLen;}
-uInt NetMsg::getMsgType(){return this->msgType;}
-UUID NetMsg::getMsgUUID(){return this->msgUUID;}
-UUID NetMsg::getReUUID() {return this->reUUID;}
-
 void NetMsg::setMsgLen(uInt v)
 {
   this->msgLen = v;
 }
+
+uInt NetMsg::getMsgType(){return this->msgType;}
 void NetMsg::setMsgType(uInt v)
 {
   this->msgType = v;
 }
+
+UUID NetMsg::getMsgUUID(){return this->msgUUID;}
 void NetMsg::setMsgUUID(UUID v)
 {
   this->msgUUID = v;
 }
+
+UUID NetMsg::getReUUID() {return this->reUUID;}
 void NetMsg::setReUUID(UUID v)
 {
   this->reUUID = v;

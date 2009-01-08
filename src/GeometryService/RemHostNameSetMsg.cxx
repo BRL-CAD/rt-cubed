@@ -81,6 +81,14 @@ String RemHostNameSetMsg::toString()
   return Num.str();
 }
 
+ /*
+ *Getters n Setters
+ */
+String RemHostNameSetMsg::getHostName() {return this->hostname;}
+void RemHostNameSetMsg::setHostName(String v)
+{
+  this->hostname = v;
+}
 
 // Local Variables: ***
 // mode: C++ ***

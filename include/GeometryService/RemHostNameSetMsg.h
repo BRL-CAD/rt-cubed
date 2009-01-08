@@ -55,6 +55,12 @@ class RemHostNameSetMsg : public NetMsg
   
       virtual String toString();
 
+      /*
+       *Getters n Setters
+       */
+	String getHostName();
+	void setHostName(String v);
+
 
     private:
       String hostname;

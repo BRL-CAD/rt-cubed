@@ -70,6 +70,15 @@ bool RemHostNameSetFailMsg::_serialize(DataOutputStream* dos)
   return true;
 }
 
+/*
+ *Getters n Setters
+ */
+uByte RemHostNameSetFailMsg::getFailureCode() {return this->failureCode;}
+void  RemHostNameSetFailMsg::setFailureCode(uByte v)
+{
+  this->msgLen = v;
+}
+
 String RemHostNameSetFailMsg::toString() 
 {
   std::stringstream Num;
@@ -80,7 +89,6 @@ String RemHostNameSetFailMsg::toString()
   Num << "\n";
   return Num.str();
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

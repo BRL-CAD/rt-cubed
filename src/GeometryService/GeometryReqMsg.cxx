@@ -95,6 +95,21 @@ String GeometryReqMsg::toString()
   return Num.str();
 }
 
+/*
+ *Getters n Setters
+ */
+uByte GeometryReqMsg::getReqType() {return this->reqType;}
+void GeometryReqMsg::setReqType(uByte v)
+{
+  this->reqType = v;
+}
+
+array<uByte>* GeometryReqMsg::getData() {return this->data;}
+void GeometryReqMsg::setData(array<uByte>* v)
+{
+  this->data = v;
+}
+
 
 // Local Variables: ***
 // mode: C++ ***
