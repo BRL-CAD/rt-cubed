@@ -35,7 +35,7 @@
 #include "io/DataOutputStream.h"
 #include "io/ByteArrayOutputStream.h"
 #include "io/ByteArrayInputStream.h"
-#include "GeometryService/NetMsg.h"
+#include "GeometryService/netMsg/NetMsg.h"
 
 
 class RemHostNameSetFailMsg : public NetMsg

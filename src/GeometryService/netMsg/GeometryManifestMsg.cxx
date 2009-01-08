@@ -31,8 +31,8 @@
 #include <sstream>
 
 //HeaderOnly Constructor
-GeometryManifestMsg::GeometryManifestMsg(uInt mType, String mUUID, String rUUID, uByte v, array<uByte>* d):
-  NetMsg(mType, mUUID, rUUID), reqType(v), data(d)
+GeometryManifestMsg::GeometryManifestMsg(uInt mType, String mUUID, String rUUID):
+  NetMsg(mType, mUUID, rUUID)
 {
 }
 
@@ -60,26 +60,23 @@ GeometryManifestMsg::~GeometryManifestMsg()
 
 bool GeometryManifestMsg::_deserialize(DataInputStream* dis)
 {
-  this->reqType = dis->readUByte();
-  uInt dataLen = dis->readUInt();
-
-  array<uByte>* t = new array<uByte>(dataLen);
-
-  for (uInt i = 0; i< dataLen; ++i) 
-  {
-	t[i] = dis->readByte();
-  }
-
-  this->data = t;
-
+  uInt numOfItems = dis->readUInt();
+  
+  for (uInt i = 0; i< numOfItems; ++i)
+	{
+		this->itemData.push_back(dis->readString());
+	}
   return true;
 }
 
 bool GeometryManifestMsg::_serialize(DataOutputStream* dos)
 {
-  dos->writeUByte(this->reqType);
-  dos->writeUInt(this->data->size());
-  dos->write(*this->data);
+  dos->writeUInt(this->itemData.size());
+
+  for (uInt i = 0; i< this->itemData.size(); ++i)
+	{
+		dos->writeString(this->itemData[i]);
+	}
   return true;
 }
 
@@ -88,28 +85,25 @@ String GeometryManifestMsg::toString()
   std::stringstream Num;
   Num << "msgType: " << this->msgType << " \t";   
   Num << "msgUUID: " << this->msgUUID << " \t";
-  Num << "reUUID: " << this->reUUID << " \t";
-  Num << "ReqType: " << this->reqType << " \t";
-  Num << "LenOfData: " << this->data->size();
+  Num << "reUUID: " << this->reUUID << " \t\n";
+  Num << "\t\titemData.size(): " << this->itemData.size();
   Num << "\n";
+
+  for (uInt i = 0; i< this->itemData.size(); ++i)
+	{
+		Num << "\t\t" << this->itemData[i] << "\n";
+	}
+  Num << "\n";
+
   return Num.str();
 }
 
 /*
  *Getters n Setters
  */
-uByte GeometryManifestMsg::getReqType() {return this->reqType;}
-void GeometryManifestMsg::setReqType(uByte v)
-{
-  this->reqType = v;
-}
+uInt GeometryManifestMsg::getNumOfItems() {return this->itemData.size();}
 
-array<uByte>* GeometryManifestMsg::getData() {return this->data;}
-void GeometryManifestMsg::setData(array<uByte>* v)
-{
-  this->data = v;
-}
-
+std::vector<String>* GeometryManifestMsg::getItemData() {return &this->itemData;}
 
 // Local Variables: ***
 // mode: C++ ***

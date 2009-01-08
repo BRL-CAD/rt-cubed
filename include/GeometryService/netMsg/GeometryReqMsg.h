@@ -27,15 +27,15 @@
  *
  */
 
-#if !defined(_GEOMETRYREQ_H_)
-#define _GEOMETRYREQ_H_
+#if !defined(_GEOMETRYREQMSG_H_)
+#define _GEOMETRYREQMSG_H_
 
 #include "iBME/iBMECommon.h"
 #include "io/DataInputStream.h"
 #include "io/DataOutputStream.h"
 #include "io/ByteArrayOutputStream.h"
 #include "io/ByteArrayInputStream.h"
-#include "GeometryService/NetMsg.h"
+#include "GeometryService/netMsg/NetMsg.h"
 
 
 class GeometryReqMsg : public NetMsg
@@ -44,7 +44,7 @@ class GeometryReqMsg : public NetMsg
     public:
 
       //Only Constructor
-      GeometryReqMsg(uInt mType, UUID mUUID, UUID rUUID, uByte v, array<uByte>* d);
+      GeometryReqMsg(uInt mType, UUID mUUID, UUID rUUID, uByte v, String d);
 
       //Deserializing Constructors
       GeometryReqMsg(array<uByte>* data);
@@ -61,19 +61,19 @@ class GeometryReqMsg : public NetMsg
 	uByte getReqType();
 	void setReqType(uByte v);
 
-	array<uByte>* getData();
-	void setData(array<uByte>* v);
+	String getData();
+	void setData(String v);
 
 
     private:
       uByte reqType;
-      array<uByte>* data;
+      String data;
       virtual bool _deserialize(DataInputStream* dis);
       virtual bool _serialize(DataOutputStream* dos);
 
     };
 
-#endif // !defined(_GEOMETRYREQ_H_)
+#endif // !defined(_GEOMETRYREQMSG_H_)
 
 // Local Variables: ***
 // mode: C++ ***

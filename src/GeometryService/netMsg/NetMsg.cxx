@@ -27,7 +27,7 @@
  *
  */
 
-#include "GeometryService/NetMsg.h"
+#include "GeometryService/netMsg/NetMsg.h"
 #include <sstream>
 
 //Default Constructor

@@ -4,10 +4,6 @@ libgs_la_SOURCES = \
 	AbstractPortal.cxx \
 	CommunicationsManager.cxx \
 	IntraAppPortal.cxx \
-	NetMsg.cxx \
-	RemHostNameSetMsg.cxx \
-	RemHostNameSetFailMsg.cxx \
-	GeometryReqMsg.cxx \
 	Session.cxx \
 	AccessManager.cxx \
 	GeometryService.cxx \
@@ -16,14 +12,19 @@ libgs_la_SOURCES = \
 	NetMsgActionDefinitions/AbstractNetMsgActionDef.cxx \
 	NetMsgActionDefinitions/NetMsgActionDefManager.cxx \
 	NetMsgActionDefinitions/NewSessionNMAD.cxx \
-	Jobs/AbstractJob.cxx  \
-	Jobs/CopyCacheToSvnJob.cxx  \
-	Jobs/JobScheduler.cxx  \
+	Jobs/AbstractJob.cxx \
+	Jobs/CopyCacheToSvnJob.cxx \
+	Jobs/JobScheduler.cxx \
 	Jobs/NewSessionJob.cxx \
 	Jobs/CopyCacheToDiskJob.cxx \
 	Jobs/JobManager.cxx \
 	Jobs/JobWorker.cxx \
-	Jobs/NetMsgActionJob.cxx
+	Jobs/NetMsgActionJob.cxx \
+	netMsg/GeometryManifestMsg.cxx \
+	netMsg/GeometryReqMsg.cxx \
+	netMsg/NetMsg.cxx \
+	netMsg/RemHostNameSetFailMsg.cxx \
+	netMsg/RemHostNameSetMsg.cxx
 
 
 bin_PROGRAMS = netMsgSerialTest

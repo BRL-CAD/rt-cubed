@@ -30,7 +30,7 @@
 #if !defined(_ABSTRACTNETMSGACTIONDEF_H_)
 #define _ABSTRACTNETMSGACTIONDEF_H_
 
-#include "GeometryService/NetMsg.h"
+#include "GeometryService/netMsg/NetMsg.h"
 #include "GeometryService/Jobs/AbstractJob.h"
 
 class AbstractNetMsgActionDef

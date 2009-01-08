@@ -31,7 +31,7 @@
 #define _NETMSGACTIONJOB_H_
 
 #include "GeometryService/Jobs/AbstractJob.h"
-#include "GeometryService/NetMsg.h"
+#include "GeometryService/netMsg/NetMsg.h"
 
 class NetMsgActionJob : public AbstractJob
 {

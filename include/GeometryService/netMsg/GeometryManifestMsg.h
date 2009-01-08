@@ -1,4 +1,4 @@
-/*                  G E O M E T R Y R E Q M S G. H
+/*                  G E O M E T R Y M A N I F E S T M S G. H
  * BRL-CAD
  *
  * Copyright (c) 1997-2008 United States Government as represented by
@@ -30,12 +30,13 @@
 #if !defined(_GEOMETRYMANIFESTMSG_H_)
 #define _GEOMETRYMANIFESTMSG_H_
 
+#include <vector>
 #include "iBME/iBMECommon.h"
 #include "io/DataInputStream.h"
 #include "io/DataOutputStream.h"
 #include "io/ByteArrayOutputStream.h"
 #include "io/ByteArrayInputStream.h"
-#include "GeometryService/NetMsg.h"
+#include "GeometryService/netMsg/NetMsg.h"
 
 
 class GeometryManifestMsg : public NetMsg
@@ -43,8 +44,8 @@ class GeometryManifestMsg : public NetMsg
 
     public:
 
-      //Only Constructor
-      GeometryManifestMsg(uInt mType, UUID mUUID, UUID rUUID, uByte v, array<uByte>* d);
+      //Constructor
+      GeometryManifestMsg(uInt mType, UUID mUUID, UUID rUUID);
 
       //Deserializing Constructors
       GeometryManifestMsg(array<uByte>* data);
@@ -58,16 +59,13 @@ class GeometryManifestMsg : public NetMsg
       /*
        *Getters n Setters
        */
-	uByte getReqType();
-	void setReqType(uByte v);
+	uInt getNumOfItems();
 
-	array<uByte>* getData();
-	void setData(array<uByte>* v);
+	std::vector<String>* getItemData();
 
 
     private:
-      uByte reqType;
-      array<uByte>* data;
+      std::vector<String> itemData;
       virtual bool _deserialize(DataInputStream* dis);
       virtual bool _serialize(DataOutputStream* dos);
 

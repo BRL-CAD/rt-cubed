@@ -27,7 +27,7 @@
  *
  */
 
-#include "GeometryService/RemHostNameSetMsg.h"
+#include "GeometryService/netMsg/RemHostNameSetMsg.h"
 #include <sstream>
 
 //HeaderOnly Constructor

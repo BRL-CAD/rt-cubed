@@ -27,7 +27,7 @@
  *
  */
 
-#include "GeometryService/RemHostNameSetFailMsg.h"
+#include "GeometryService/netMsg/RemHostNameSetFailMsg.h"
 #include <sstream>
 
 //HeaderOnly Constructor
@@ -85,7 +85,7 @@ String RemHostNameSetFailMsg::toString()
   Num << "msgType: " << this->msgType << " \t";   
   Num << "msgUUID: " << this->msgUUID << " \t";
   Num << "reUUID: " << this->reUUID << " \t";
-  Num << "FailureCode: " << this->failureCode;
+  Num << "FailureCode: " << (uInt)this->failureCode;
   Num << "\n";
   return Num.str();
 }

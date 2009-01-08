@@ -27,11 +27,11 @@
  *
  */
 
-#include "GeometryService/GeometryReqMsg.h"
+#include "GeometryService/netMsg/GeometryReqMsg.h"
 #include <sstream>
 
 //HeaderOnly Constructor
-GeometryReqMsg::GeometryReqMsg(uInt mType, String mUUID, String rUUID, uByte v, array<uByte>* d):
+GeometryReqMsg::GeometryReqMsg(uInt mType, String mUUID, String rUUID, uByte v, String d):
   NetMsg(mType, mUUID, rUUID), reqType(v), data(d)
 {
 }
@@ -61,16 +61,7 @@ GeometryReqMsg::~GeometryReqMsg()
 bool GeometryReqMsg::_deserialize(DataInputStream* dis)
 {
   this->reqType = dis->readUByte();
-  uInt dataLen = dis->readUInt();
-
-  array<uByte>* t = new array<uByte>(dataLen);
-
-  for (uInt i = 0; i< dataLen; ++i) 
-  {
-	t[i] = dis->readByte();
-  }
-
-  this->data = t;
+  this->data = dis->readString();
 
   return true;
 }
@@ -78,8 +69,7 @@ bool GeometryReqMsg::_deserialize(DataInputStream* dis)
 bool GeometryReqMsg::_serialize(DataOutputStream* dos)
 {
   dos->writeUByte(this->reqType);
-  dos->writeUInt(this->data->size());
-  dos->write(*this->data);
+  dos->writeString(this->data);
   return true;
 }
 
@@ -89,8 +79,8 @@ String GeometryReqMsg::toString()
   Num << "msgType: " << this->msgType << " \t";   
   Num << "msgUUID: " << this->msgUUID << " \t";
   Num << "reUUID: " << this->reUUID << " \t";
-  Num << "ReqType: " << this->reqType << " \t";
-  Num << "LenOfData: " << this->data->size();
+  Num << "ReqType: " << (uInt)this->reqType << " \t";
+  Num << "LenOfData: " << this->data.size();
   Num << "\n";
   return Num.str();
 }
@@ -104,8 +94,8 @@ void GeometryReqMsg::setReqType(uByte v)
   this->reqType = v;
 }
 
-array<uByte>* GeometryReqMsg::getData() {return this->data;}
-void GeometryReqMsg::setData(array<uByte>* v)
+String GeometryReqMsg::getData() {return this->data;}
+void GeometryReqMsg::setData(String v)
 {
   this->data = v;
 }

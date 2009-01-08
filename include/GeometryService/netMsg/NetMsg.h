@@ -80,7 +80,6 @@
       uInt msgType;
       UUID msgUUID;
       UUID reUUID;
-//      array<uByte> data;
 
       void deserialize(DataInputStream* dis);
 

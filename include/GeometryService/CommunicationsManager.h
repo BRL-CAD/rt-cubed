@@ -35,7 +35,7 @@
 #include <map>
 
 #include "GeometryService/AbstractPortal.h"
-#include "GeometryService/NetMsg.h"
+#include "GeometryService/netMsg/NetMsg.h"
 
     /**
      * CommMan performs the netMsg <-> Job conversion
