@@ -2,7 +2,7 @@
 #                       H E A D E R . S H
 # BRL-CAD
 #
-# Copyright (C) 2004-2005 United States Government as represented by
+# Copyright (c) 2004-2009 United States Government as represented by
 # the U.S. Army Research Laboratory.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -47,55 +47,52 @@
 #
 #   find src/lib* -type f \( -name \*.c -or -name \*.h \) -exec sh/header.sh LGPL {} \;
 #
-#   find src -type f \( -name \*.c -or -name \*.h \) -not -regex '.*src/lib.*' -exec sh/header.sh GPL {} \;
+#   find src -type f \( -name \*.c -or -name \*.h \) -not -regex '.*src/lib.*' -exec sh/header.sh BSD {} \;
 #
-# Author -
-#   Christopher Sean Morrison
-#
-# Source -
-#   The U.S. Army Research Laboratory
-#   Aberdeen Proving Ground, Maryland 21005-5068  USA
 ###
 
 LICE="$1"
 FILE="$2"
+PROJ="$3"
+COPY="$4"
 
 # force locale setting to C so things like date output as expected
 LC_ALL=C
 
+USAGE="Usage: $0 LICENSE FILE [ProjectName] [CopyrightHolder]"
 
 ##################
 # validate input #
 ##################
 if [ "x$LICE" = "x" ] ; then
-    echo "ERROR: must give a license type (BSD, LGPL, GPL, GFDL)"
-    echo "Usage: $0 LICENSE FILE"
+    echo "ERROR: must give a license type (BSD, BDL, LGPL, PD)"
+    echo "$USAGE"
     exit 1
 fi
 case $LICE in
     bsd|BSD)
-        LICE=BSD
+	LICE=BSD
 	;;
-    lgpl|LGPL)
-        LICE=LGPL
+    bdl|BDL|doc|docs|documentation)
+	LICE=BDL
 	;;
-    gpl|GPL)
-        LICE=GPL
+    lgpl|LGPL|lesser|library)
+	LICE=LGPL
 	;;
-    gfdl|fdl|GFDL|FDL)
-        LICE=GFDL
-    	;;
+    pd|PD|pdl|PDL|public|publicdomain)
+	LICE=PD
+	;;
     *)
-        echo "ERROR: Unknown license type: $LICE"
-	echo "License should be one of BSD, LGPL, GPL, GFDL"
-        echo "Usage: $0 LICENSE FILE"
+	echo "ERROR: Unknown or unsupported license type: $LICE"
+	echo "License should be one of BSD, BDL, LGPL, PD (public domain)"
+	echo "$USAGE"
 	exit 1
 	;;
 esac
 
 if [ "x$FILE" = "x" ] ; then
     echo "ERROR: must give the name/path of a file to check/update"
-    echo "Usage: $0 LICENSE FILE"
+    echo "$USAGE"
     exit 1
 elif [ ! -f "$FILE" ] ; then
     echo "ERROR: unable to find $FILE"
@@ -108,11 +105,20 @@ elif [ ! -w "$FILE" ] ; then
     exit 2
 fi
 
+if [ "x$PROJ" = "x" ] ; then
+    PROJ="BRL-CAD"
+else
+    echo "Outputting header for [$PROJ]"
+fi
 
-if [ "x$3" != "x" ] ; then
-    echo "Usage: $0 LICENSE FILE"
-    echo "LICENSE should be one of BSD, LGPL, GPL, or GFDL"
+if [ "x$COPY" = "x" ] ; then
+    echo "Assuming U.S. Government copyright assignment"
+fi
+
+if [ "x$5" != "x" ] ; then
+    echo "ERROR: LICENSE should be one of BSD, BDL, LGPL, or PD (public domain)"
     echo "No other arguments should follow."
+    echo "$USAGE"
     exit 3
 fi
 
@@ -124,80 +130,170 @@ fi
 # commentprefix is the comment character to prefex each line
 ###
 case $FILE in
-    *.sh)
+    *.sh )
 	echo "$FILE is a shell script"
 	wrap=0
 	commentprefix="#"
 	;;
-    *.c)
+    *.c )
 	echo "$FILE is a C source file"
 	wrap=1
 	commentprefix=" *"
 	;;
-    *.h)
+    *.h )
 	echo "$FILE is a C header"
 	wrap=1
 	commentprefix=" *"
 	;;
-    *.java)
+    *.cc | *.cp | *.cxx | *.cpp | *.CPP | *.c++ | *.C )
+	echo "$FILE is a C++ source file"
+	wrap=1
+	commentprefix=" *"
+	;;
+    *.hh | *.hp | *.hxx | *.hpp | *.HPP | *.h++ | *.H )
+	echo "$FILE is a C++ header"
+	wrap=1
+	commentprefix=" *"
+	;;
+    *.java )
+	echo "$FILE is a Java header"
+	wrap=1
+	commentprefix=" *"
+	;;
+    *.l )
+	echo "$FILE is a Lex/Flex lexer source file"
+	wrap=1
+	commentprefix=" *"
+	;;
+    *.y )
+	echo "$FILE is a Yacc parser source file"
+	wrap=1
+	commentprefix=" *"
+	;;
+    *.m )
+	echo "$FILE is an Objective-C source file"
+	wrap=1
+	commentprefix=" *"
+	;;
+    *.mm | *.M )
+	echo "$FILE is an Objective-C++ source file"
+	wrap=1
+	commentprefix=" *"
+	;;
+    *.java )
 	echo "$FILE is a Java source file"
 	wrap=1
 	commentprefix=" *"
 	;;
-    *.tcl)
+    *.tcl )
 	echo "$FILE is a Tcl source file"
 	wrap=0
 	commentprefix="#"
 	;;
-    *.tk)
+    *.tk )
 	echo "$FILE is a Tk source file"
 	wrap=0
 	commentprefix="#"
 	;;
-    *.itcl)
+    *.itcl )
 	echo "$FILE is a IncrTcl source file"
 	wrap=0
 	commentprefix="#"
 	;;
-    *.itk)
+    *.itk )
 	echo "$FILE is a IncrTk source file"
 	wrap=0
 	commentprefix="#"
 	;;
-    *.pl)
+    *.pl )
 	echo "$FILE is a Perl source file"
 	wrap=0
 	commentprefix="#"
 	;;
-    *.am)
+    *.py )
+	echo "$FILE is a Python source file"
+	wrap=0
+	commentprefix="#"
+	;;
+    *.am )
 	echo "$FILE is an Automake template file"
 	wrap=0
 	commentprefix="#"
 	;;
-    *.in)
+    *.in )
 	echo "$FILE is an Autoconf template file"
 	wrap=0
 	commentprefix="#"
 	;;
-    *.mk)
-	echo "$FILE is a make file"
+    *.ac )
+	echo "$FILE is an Autoconf template file"
 	wrap=0
 	commentprefix="#"
 	;;
-    *.bat)
+    *.m4 )
+	echo "$FILE is an m4 macro file"
+	wrap=0
+	commentprefix="#"
+	;;
+    *.mk )
+	echo "$FILE is a make resource file"
+	wrap=0
+	commentprefix="#"
+	;;
+    *.bat )
 	echo "$FILE is a batch shell script"
 	wrap=0
 	commentprefix="REM "
 	;;
-    *.[0-9])
+    *.vim )
+	echo "$FILE is a VIM syntax file"
+	wrap=0
+	commentprefix="\""
+	;;
+    *.el )
+	echo "$FILE is an Emacs Lisp file"
+	wrap=0
+	commentprefix=";;"
+	;;
+    *.[0-9] )
 	echo "$FILE is a manual page"
 	wrap=0
-	commentprefix="./\""
+	commentprefix=".\\\""
 	;;
-    *)
-	echo "ERROR: $FILE has an unknown filetype"
-	exit 0
-	;;
+    * )
+	# check the first line, see if it is a script
+	filesig="`head -n 1 $FILE`"
+	case $filesig in
+	    */bin/sh )
+		echo "$FILE is a shell script"
+		wrap=0
+		commentprefix="#"
+		;;
+	    */bin/tclsh )
+		echo "$FILE is a Tcl script"
+		wrap=0
+		commentprefix="#"
+		;;
+	    */bin/wish )
+		echo "$FILE is a Tk script"
+		wrap=0
+		commentprefix="#"
+		;;
+	    */bin/perl )
+		echo "$FILE is a Perl script"
+		wrap=0
+		commentprefix="#"
+		;;
+	    */bin/python )
+		echo "$FILE is a Python script"
+		wrap=0
+		commentprefix="#"
+		;;
+	    * )
+		echo "ERROR: $FILE has an unknown filetype"
+		exit 4
+		;;
+	esac
 esac
 
 
@@ -207,14 +303,14 @@ esac
 basefilename=`basename $FILE`
 if [ "x$basefilename" = "x" ] ; then
     echo "ERROR: basename of $FILE failed"
-    exit 4
+    exit 5
 fi
 
 title="`echo $basefilename | tr [a-z] [A-Z] | sed 's/\(.\)/\1 /g' | sed 's/ $//'`"
 length="`echo $title | wc | awk '{print $3}'`"
 if [ "x$length" = "x" ] ; then
     echo "ERROR: could not determine title length??"
-    exit 5
+    exit 6
 fi
 titlesansext="`echo $title | sed 's/ \..*//'`"
 
@@ -224,7 +320,7 @@ if [ $length -lt `expr 69 - $prefixlen - 1` ] ; then
     position=`expr \( \( 69 - $prefixlen - 1 - $length \) / 2 \) - 1`
     if [ "x$position" = "x" ] ; then
 	echo "ERROR: could not determine title position??"
-	exit 6
+	exit 7
     fi
 fi
 
@@ -244,7 +340,7 @@ titleline="${titleline}${title}"
 # figure out the copyright extent #
 ###################################
 copyright=""
-currentyear="`date | awk '{print $6}'`"
+currentyear="`date +%Y`"
 copyrightline="`grep -i copyright $FILE | grep -v -i notice | grep -v -i '\.SH' | head -n 1`"
 if [ "x$copyrightline" = "x" ] ; then
     copyrightline="`grep -i copyright $FILE | grep -v -i united | grep -v -i '\.SH' | head -n 1`"
@@ -255,7 +351,7 @@ else
     startyear="`echo "$copyrightline" | sed 's/.*\([0-9][0-9][0-9][0-9]\)-[0-9][0-9][0-9][0-9].*/\1/'`"
     echo "start is $startyear"
     if [ `echo $startyear | wc | awk '{print $3}'` -gt 10 -o "x$startyear" = "x" ] ; then
-        startyear="`echo "$copyrightline" | sed 's/.*[^0-9]\([0-9][0-9][0-9][0-9]\),[0-9][0-9][0-9][0-9],[0-9][0-9][0-9][0-9][^0-9].*/\1/'`"
+	startyear="`echo "$copyrightline" | sed 's/.*[^0-9]\([0-9][0-9][0-9][0-9]\),[0-9][0-9][0-9][0-9],[0-9][0-9][0-9][0-9][^0-9].*/\1/'`"
 	echo "start2 is $startyear"
 	if [ `echo $startyear | wc | awk '{print $3}'` -gt 10 -o "x$startyear" = "x" ] ; then
 	    # didn't find a year, so use current year
@@ -287,17 +383,38 @@ echo "using copyright of $copyright"
 block=""
 c="$commentprefix"
 block="${block}${titleline}
-$c BRL-CAD
+$c ${PROJ}
 $c"
 
-block="${block}
+if [ "x$COPY" = "x" ] ; then
+    if [ "x$LICE" = "xPD" ] ; then
+        block="${block}
+$c Published in $copyright by the United States Government.
+$c This work is in the public domain.
+$c"
+    else
+        block="${block}
 $c Copyright (c) $copyright United States Government as represented by
 $c the U.S. Army Research Laboratory.
 $c"
-
-case $LICE in
-    BSD)
+    fi
+else
+    if [ "x$LICE" = "xPD" ] ; then
         block="${block}
+$c Published in $copyright by $COPY
+$c This work is in the public domain.
+$c"
+    else
+        block="${block}
+$c Copyright (c) $copyright $COPY
+$c"
+    fi
+fi
+
+
+case "x$LICE" in
+    xBSD)
+	block="${block}
 $c Redistribution and use in source and binary forms, with or without
 $c modification, are permitted provided that the following conditions
 $c are met:
@@ -326,13 +443,47 @@ $c WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 $c NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 $c SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 "
-        ;;
-    LGPL)
-        block="${block}
+	;;
+    xBDL)
+	block="${block}
+$c Redistribution and use in source (Docbook format) and 'compiled'
+$c forms (PDF, PostScript, HTML, RTF, etc), with or without
+$c modification, are permitted provided that the following conditions
+$c are met:
+$c
+$c 1. Redistributions of source code (Docbook format) must retain the
+$c above copyright notice, this list of conditions and the following
+$c disclaimer.
+$c
+$c 2. Redistributions in compiled form (transformed to other DTDs,
+$c converted to PDF, PostScript, HTML, RTF, and other formats) must
+$c reproduce the above copyright notice, this list of conditions and
+$c the following disclaimer in the documentation and/or other
+$c materials provided with the distribution.
+$c
+$c 3. The name of the author may not be used to endorse or promote
+$c products derived from this documentation without specific prior
+$c written permission.
+$c
+$c THIS DOCUMENTATION IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY
+$c EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+$c IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+$c PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+$c ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+$c CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+$c OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+$c BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+$c LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+$c (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+$c USE OF THIS DOCUMENTATION, EVEN IF ADVISED OF THE POSSIBILITY OF
+$c SUCH DAMAGE.
+"
+	;;
+    xLGPL)
+	block="${block}
 $c This library is free software; you can redistribute it and/or
 $c modify it under the terms of the GNU Lesser General Public License
-$c as published by the Free Software Foundation; either version 2 of
-$c the License, or (at your option) any later version.
+$c version 2.1 as published by the Free Software Foundation.
 $c
 $c This library is distributed in the hope that it will be useful, but
 $c WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -343,46 +494,13 @@ $c You should have received a copy of the GNU Lesser General Public
 $c License along with this file; see the file named COPYING for more
 $c information.
 "
-        ;;
-    GPL)
-        block="${block}
-$c This program is free software; you can redistribute it and/or
-$c modify it under the terms of the GNU General Public License as
-$c published by the Free Software Foundation; either version 2 of the
-$c License, or (at your option) any later version.
-$c
-$c This program is distributed in the hope that it will be useful, but
-$c WITHOUT ANY WARRANTY; without even the implied warranty of
-$c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-$c General Public License for more details.
-$c
-$c You should have received a copy of the GNU General Public License
-$c along with this file; see the file named COPYING for more
-$c information.
-"
-        ;;
-    GFDL)
-        block="${block}
-$c This document is made available under the terms of the GNU Free
-$c Documentation License or, at your option, under the terms of the
-$c GNU General Public License as published by the Free Software
-$c Foundation.  Permission is granted to copy, distribute and/or
-$c modify this document under the terms of the GNU Free Documentation
-$c License, Version 1.2 or any later version published by the Free
-$c Software Foundation; with no Invariant Sections, no Front-Cover
-$c Texts, and no Back-Cover Texts.  Permission is also granted to
-$c redistribute this document under the terms of the GNU General
-$c Public License; either version 2 of the License, or (at your
-$c option) any later version.
-$c
-$c You should have received a copy of the GNU Free Documentation
-$c License and/or the GNU General Public License along with this
-$c document; see the file named COPYING for more information.
-"
-        ;;
+	;;
+    xPD)
+	echo "Public domain specified, no license applies."
+	;;
     *)
-        echo "ERROR: encountered unknown license type $LICE during processing"
-	exit 6
+	echo "ERROR: encountered unknown license type $LICE during processing"
+	exit 8
 	;;
 esac
 
@@ -412,7 +530,7 @@ fi
 
 if [ "x$prepend" = "xno" ] ; then
     echo "ERROR: $FILE already has a license header"
-    exit 7
+    exit 9
 fi
 
 
@@ -421,7 +539,7 @@ fi
 #######################
 if [ -f ${FILE}.backup ] ; then
     echo "ERROR: backup file exists... ${FILE}.backup .. remove it"
-    exit 8
+    exit 10
 fi
 echo "$FILE ... appending"
 
@@ -432,49 +550,49 @@ skip=1
 lineone="`cat ${FILE}.backup | head -n 1`"
 linetwo="`cat ${FILE}.backup | head -n 2 | tail -n 1`"
 linethree="`cat ${FILE}.backup | head -n 3 | tail -n 1`"
-case "$lineone" in
-    "/*"*${title})
-        echo "Found C comment start with file header"
+case "x$lineone" in
+    "x/*"*${title})
+	echo "Found C comment start with file header"
 	skip=2
-	case "$linetwo" in
-	    " *")
-	        echo "Found empty comment line"
+	case "x$linetwo" in
+	    "x *")
+		echo "Found empty comment line"
 		skip=3
 		;;
 	esac
 	;;
-    "/*"*${titlesansext})
-        echo "Found C comment start with file header sans extension"
+    "x/*"*${titlesansext})
+	echo "Found C comment start with file header sans extension"
 	skip=2
-	case "$linetwo" in
-	    " *")
-	        echo "Found empty comment line"
+	case "x$linetwo" in
+	    "x *")
+		echo "Found empty comment line"
 		skip=3
 		;;
 	esac
 	;;
-    "/*")
-        echo "Found C comment start"
+    "x/*")
+	echo "Found C comment start"
 	skip=2
-	case "$linetwo" in
-	    " *"*${title})
-	        echo "Found old file header"
+	case "x$linetwo" in
+	    "x *"*${title})
+		echo "Found old file header"
 		skip=3
 		;;
-	    " *"*${titlesansext})
-	        echo "Found old file header sans extension"
+	    "x *"*${titlesansext})
+		echo "Found old file header sans extension"
 		skip=3
 		;;
-	    " *")
-	        echo "Found empty comment line"
+	    "x *")
+		echo "Found empty comment line"
 		skip=3
 		if [ "x$foundtitle" = "x1" ] ; then
-		    case "$linethree" in
-			" *"*${title})
+		    case "x$linethree" in
+			"x *"*${title})
 			    echo "Found old file header"
 			    skip=4
 			    ;;
-			" *"*${titlesansext})
+			"x *"*${titlesansext})
 			    echo "Found old file header sans extension"
 			    skip=4
 			    ;;
@@ -483,74 +601,59 @@ case "$lineone" in
 		;;
 	esac
 	;;
-    ".TH"*)
+    "x.TH"*)
 	echo "Found manpage title header line"
 	echo "$lineone" >> $FILE
 	skip=2
 	;;
-    "/*"*)
-        echo "WARNING: Found C comment start with stuff trailing"
+    "x/*"*)
+	echo "WARNING: Found C comment start with stuff trailing"
 	skip=0
 	closeit=1
 	;;
-    "#!/bin/"*)
-        echo "Found script exec line"
+    "x#"*"!"*"/bin/"*)
+	echo "Found script exec line"
 	echo "$lineone" >> $FILE
 	skip=2
-	case "$linetwo" in
-	    "# "*${title})
-	        echo "Found old file header"
+	case "x$linetwo" in
+	    "x# "*${title})
+		echo "Found old file header"
 		skip=3
 		;;
-	    "# "*${titlesansext})
-	        echo "Found old file header sans extension"
+	    "x# "*${titlesansext})
+		echo "Found old file header sans extension"
 		skip=3
 		;;
 	esac
 	;;
-    "# !/bin/"*)
-        echo "Found script exec line"
-	echo "$lineone" >> $FILE
-	skip=2
-	case "$linetwo" in
-	    "# "*${title})
-	        echo "Found old file header"
-		skip=3
-		;;
-	    "# "*${titlesansext})
-	        echo "Found old file header sans extension"
-		skip=3
-		;;
-	esac
-	;;
-    "")
-        echo "Found empty line"
+    "x")
+	echo "Found empty line"
 	skip=2
 	closeit=1
-	case "$linetwo" in
-	    "/*")
-	        echo "Found C comment start"
+	case "x$linetwo" in
+	    "x/*")
+		echo "Found C comment start"
 		skip=3
 		closeit=0
-		case "$linethree" in
-		    " *"*${title})
-		        echo "Found old file header"
+		case "x$linethree" in
+		    "x *"*${title})
+			echo "Found old file header"
 			skip=4
 			;;
-		    " *"*${titlesansext})
-		        echo "Found old file header sans extension"
+		    "x *"*${titlesansext})
+			echo "Found old file header sans extension"
 			skip=4
 			;;
-		    " *")
-		        echo "Found empty comment line"
+		    "x *")
+			echo "Found empty comment line"
 			skip=4
 			if [ "x$foundtitle" = "x1" ] ; then
-			    case "$linethree" in
-				" *"*${title})
+			    case "x$linethree" in
+				"x *"*${title})
 				    echo "Found old file header"
 				    skip=5
 				    ;;
-				" *"*${titlesansext})
+				"x *"*${titlesansext})
 				    echo "Found old file header sans extension"
 				    skip=5
 				    ;;
@@ -560,65 +663,67 @@ case "$lineone" in
 			;;
 		esac
 		;;
-	    "/*"*${title})
-	        echo "Found C comment start with file header"
+	    "x/*"*${title})
+		echo "Found C comment start with file header"
 		skip=3
 		closeit=0
-		case "$linetwo" in
-		    " *")
-	                echo "Found empty comment line"
+		case "x$linetwo" in
+		    "x *")
+			echo "Found empty comment line"
 			skip=4
 			;;
 		esac
 		;;
-	    "/*"*${titlesansext})
-	        echo "Found C comment start with file header sans extension"
+	    "x/*"*${titlesansext})
+		echo "Found C comment start with file header sans extension"
 		skip=3
 		closeit=0
-		case "$linetwo" in
-		    " *")
-	                echo "Found empty comment line"
+		case "x$linetwo" in
+		    "x *")
+			echo "Found empty comment line"
 			skip=4
 			;;
 		esac
 		;;
 	esac
 	;;
-    [a-z]*)
-        echo "found code"
+    x[a-z]*)
+	echo "found code"
 	skip=0
 	closeit=1
 	;;
-    \#include*)
-        echo "found code"
+    x\#include*)
+	echo "found code"
 	skip=0
 	closeit=1
 	;;
-    \#*${title})
-        echo "Found old file header"
+    x\#*${title})
+	echo "Found old file header"
 	skip=2
 	;;
-    \#*${titlesansext})
-        echo "Found old file header sans extension"
+    x\#*${titlesansext})
+	echo "Found old file header sans extension"
 	skip=2
 	;;
-    \#*)
-        echo "found comment line"
+    x\#*)
+	echo "found comment line"
 	skip=0
 	closeit=1
 	;;
-    \@*)
-        echo "found batch command"
+    x\@*)
+	echo "found batch command"
 	skip=0
 	;;
-    \REM*)
-        echo "found batch comment"
+    x\REM*)
+	echo "found batch comment"
 	skip=0
 	;;
     *)
-        echo "${FILE}:1 ERROR: Unknown line one: $lineone"
-	mv -f ${FILE}.backup $FILE
-	exit 9
+	echo "WARNING: Unknown line one in [$FILE]:"
+	echo "Line one is [$lineone]"
+	skip=0
+# 	mv -f ${FILE}.backup $FILE
+# 	exit 9
 	;;
 esac
 
@@ -626,6 +731,8 @@ if [ "x$wrap" = "x1" ] ; then
     if [ "x$closeit" = "x1" ] ; then
 	echo "/${block}
 /** @file $basefilename
+ *
+ * Brief description
  *
  */
 " >> $FILE

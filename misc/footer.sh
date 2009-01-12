@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #                       F O O T E R . S H
 # BRL-CAD
 #
-# Copyright (C) 2004-2005 United States Government as represented by
+# Copyright (c) 2004-2009 United States Government as represented by
 # the U.S. Army Research Laboratory.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -39,17 +39,11 @@
 # the requested indentation settings.
 #
 # The script assumes one file as the argument, so example use might be:
-#   find . -type f -and \( -name \*.sh -or -name \*.c -or -name \*.h -or -name \*.tcl -or -name \*.tk -or -name \*.itcl -or -name \*.itk -or -name \*.pl \) -not -regex '.*src/other.*' -exec sh/footer.sh {} \;
+#   find . -type f -and \( -name \*.cxx -or -or -name \*.h \) -not -regex '.*src/other.*' -exec sh/footer.sh {} \;
 #
 # bash arrays are actually used for convenience, hence why bash and
 # not sh.
 #
-# Author -
-#   Christopher Sean Morrison
-#
-# Source -
-#   The U.S. Army Research Laboratory
-#   Aberdeen Proving Ground, Maryland 21005-5068  USA
 ###
 
 FILE="$1"
@@ -100,70 +94,126 @@ wrap=0
 commentchar=""
 
 case $FILE in
-    *.sh)
+    *.sh )
 	echo "$FILE is a shell script"
 	mode="sh"
 	mode_vars="sh-indentation sh-basic-offset"
 	wrap=0
 	commentchar="#"
 	;;
-    *.c)
+    *.c )
 	echo "$FILE is a C source file"
 	mode="C"
-	mode_vars="c-basic-offset"
+	mode_vars=""
 	wrap=1
 	commentchar="*"
 	;;
-    *.h)
+    *.h )
 	echo "$FILE is a C header"
 	mode="C"
+	mode_vars=""
+	wrap=1
+	commentchar="*"
+	;;
+    *.cc | *.cp | *.cxx | *.cpp | *.CPP | *.c++ | *.C )
+	echo "$FILE is a C++ source file"
+	mode="C++"
+	mode_vars="c-basic-offset"
+	wrap=0
+	commentchar="//"
+	;;
+    *.hh | *.hp | *.hxx | *.hpp | *.HPP | *.h++ | *.H )
+	echo "$FILE is a C++ header"
+	mode="C++"
+	mode_vars="c-basic-offset"
+	wrap=0
+	commentchar="//"
+	;;
+    *.java )
+	echo "$FILE is a Java source file"
+	mode="Java"
+	mode_vars="c-basic-offset"
+	wrap=0
+	commentchar="//"
+	;;
+    *.m )
+	echo "$FILE is an Objective C-source file"
+	mode="objc"
 	mode_vars="c-basic-offset"
 	wrap=1
 	commentchar="*"
 	;;
-    *.tcl)
+    *.mm | *.M )
+	echo "$FILE is an Objective-C++ source file"
+	mode="objc"
+	mode_vars="c-basic-offset"
+	wrap=1
+	commentchar="*"
+	;;
+    *.l )
+	echo "$FILE is a Lex/Flex lexer source file"
+	mode="C"
+	mode_vars=""
+	wrap=1
+	commentchar="*"
+	;;
+    *.y )
+	echo "$FILE is a Yacc parser source file"
+	mode="C"
+	mode_vars=""
+	wrap=1
+	commentchar="*"
+	;;
+    *.tcl )
 	echo "$FILE is a Tcl source file"
 	mode="Tcl"
 	mode_vars="c-basic-offset tcl-indent-level"
 	wrap=0
 	commentchar="#"
 	;;
-    *.tk)
+    *.tk )
 	echo "$FILE is a Tk source file"
 	mode="Tcl"
 	mode_vars="c-basic-offset tcl-indent-level"
 	wrap=0
 	commentchar="#"
 	;;
-    *.itcl)
+    *.itcl )
 	echo "$FILE is a IncrTcl source file"
 	mode="Tcl"
 	mode_vars="c-basic-offset tcl-indent-level"
 	wrap=0
 	commentchar="#"
 	;;
-    *.itk)
+    *.itk )
 	echo "$FILE is a IncrTk source file"
 	mode="Tcl"
 	mode_vars="c-basic-offset tcl-indent-level"
 	wrap=0
 	commentchar="#"
 	;;
-    *.pl)
+    *.pl )
 	echo "$FILE is a Perl source file"
 	mode="Perl"
 	mode_vars="c-basic-offset perl-indent-level"
 	wrap=0
 	commentchar="#"
 	;;
-    *.m4)
+    *.py )
+	echo "$FILE is a Python source file"
+	mode="Python"
+	mode_vars="c-basic-offset python-indent-level"
+	wrap=0
+	commentchar="#"
+	;;
+    *.m4 )
 	echo "$FILE is an M4 source file"
 	mode="m4"
 	mode_vars="standard-indent"
 	wrap=0
 	commentchar="#"
 	;;
-    *.am)
+    *.am )
 	echo "$FILE is an Automake template file"
 	mode="Makefile"
 	wrap=0
@@ -172,7 +222,28 @@ case $FILE in
 	indentation=8
 	tab_width=8
 	;;
-    *.mk)
+    *.ac )
+	echo "$FILE is an Autoconf template file"
+	mode="autoconf"
+	wrap=0
+	commentchar="#"
+	;;
+    *.in )
+	echo "$FILE is an Autoconf template file"
+	mode="autoconf"
+	wrap=0
+	commentchar="#"
+	;;
+    *.m4 )
+	echo "$FILE is an m4 macro file"
+	mode="m4"
+	wrap=0
+	commentchar="#"
+	# override any indent since 8 is required
+	indentation=8
+	tab_width=8
+	;;
+    *.mk )
 	echo "$FILE is a make file"
 	mode="Makefile"
 	wrap=0
@@ -181,33 +252,100 @@ case $FILE in
 	indentation=8
 	tab_width=8
 	;;
-    *.bat)
+    *.bat )
 	echo "$FILE is a batch shell script"
 	mode="sh"
 	mode_vars="sh-indentation sh-basic-offset"
 	wrap=0
 	commentchar="REM"
 	;;
-    *)
-	echo "ERROR: $FILE has an unknown filetype"
-	exit 0
+    *.vim )
+	echo "$FILE is a VIM syntax file"
+	mode="tcl"
+	mode_vars="c-basic-offset tcl-indent-level"
+	wrap=0
+	commentchar="\""
 	;;
+    *.el )
+	echo "$FILE is an Emacs Lisp file"
+	mode="Lisp"
+	mode_vars="lisp-indent-offset"
+	wrap=0
+	commentchar=";;"
+	;;
+    *.[0-9] )
+	echo "$FILE is a manual page"
+	mode="nroff"
+	wrap=0
+	commentchar=".\\\""
+	# override any indent since 8 is required
+	indentation=8
+	tab_width=8
+	;;
+    * )
+	# check the first line, see if it is a script
+	filesig="`head -n 1 $FILE`"
+	case $filesig in
+	    */bin/sh )
+		echo "$FILE is a shell script"
+		mode="sh"
+		mode_vars="sh-indentation sh-basic-offset"
+		wrap=0
+		commentchar="#"
+		;;
+	    */bin/tclsh )
+		echo "$FILE is a Tcl script"
+		mode="Tcl"
+		mode_vars="c-basic-offset tcl-indent-level"
+		wrap=0
+		commentchar="#"
+		;;
+	    */bin/wish )
+		echo "$FILE is a Tk script"
+		mode="Tcl"
+		mode_vars="c-basic-offset tcl-indent-level"
+		wrap=0
+		commentchar="#"
+		;;
+	    */bin/perl )
+		echo "$FILE is a Perl script"
+		mode="Perl"
+		mode_vars="c-basic-offset perl-indent-level"
+		wrap=0
+		commentchar="#"
+		;;
+	    */bin/python )
+		echo "$FILE is a Python script"
+		mode="Python"
+		mode_vars="c-basic-offset python-indent-level"
+		wrap=0
+		commentchar="#"
+		;;
+	    * )
+		echo "ERROR: $FILE has an unknown filetype"
+		exit 4
+		;;
+	esac
 esac
 
 
 #################################
 # prepare emacs variable arrays #
 #################################
-variables=( ${variables[@]} mode )
-values=( ${values[@]} $mode )
-variables=( ${variables[@]} tab-width )
-values=( ${values[@]} $tab_width )
+variables=( mode ${variables[@]} )
+values=( $mode ${values[@]} )
+variables=( tab-width ${variables[@]} )
+values=( $tab_width ${values[@]} )
 for mv in $mode_vars ; do
     variables=( ${variables[@]} $mv )
     values=( ${values[@]} $indentation )
 done
 variables=( ${variables[@]} indent-tabs-mode )
 values=( ${values[@]} t )
+if [ "x$mode" = "xC" -o "x$mode" = "xC++" ] ; then
+    variables=( ${variables[@]} c-file-style )
+    values=( ${values[@]} "\"stroustrup\"" )
+fi
 
 
 ##############################
@@ -256,8 +394,8 @@ matching_found=0
 index=0
 for var in ${variables[@]} ; do
     if [ ! "x$commentchar" = "x" ] ; then
-	existing_var=`cat $FILE | grep -i "${prefixspace}[${commentchar}] ${var}:" | sed 's/:/ /g' | awk '{print $3}'`
-	existing_suffix=`cat $FILE | grep -i "${prefixspace}[${commentchar}] ${var}:" | sed 's/:/ /g' | awk '{print $4}'`
+	existing_var=`cat $FILE | grep -i "${prefixspace}[${commentchar}][${commentchar}]* ${var}:" | sed 's/:/ /g' | awk '{print $3}'`
+	existing_suffix=`cat $FILE | grep -i "${prefixspace}[${commentchar}][${commentchar}]* ${var}:" | sed 's/:/ /g' | awk '{print $4}'`
     fi
 
     if [ "x$existing_var" = "x" ] ; then
@@ -268,10 +406,10 @@ for var in ${variables[@]} ; do
 #    echo "found $var=$existing_var"
 	if [ "x$existing_var" != "x${values[$index]}" ] ; then
 	    echo "$var does not match ... fixing"
-	    perl -pi -e "s/(${prefixspace}[${commentchar}] ${var}:.*)/${prefixspace}${commentchar} ${var}: ${values[$index]}/i" $FILE
+	    perl -pi -e "s,(${prefixspace}[${commentchar}]+ ${var}:.*),${prefixspace}${commentchar} ${var}: ${values[$index]},i" $FILE
 	elif [ "x$existing_suffix" != "x" ] ; then
 	    echo "$var has trailing goo ... fixing"
-	    perl -pi -e "s/(${prefixspace}[${commentchar}] ${var}:.*)/${prefixspace}${commentchar} ${var}: ${values[$index]}/i" $FILE
+	    perl -pi -e "s,(${prefixspace}[${commentchar}]+ ${var}:.*),${prefixspace}${commentchar} ${var}: ${values[$index]},i" $FILE
 	fi
 
     fi
@@ -289,7 +427,7 @@ else
     vi_line="${prefixspace}${commentchar} ex: shiftwidth=$indentation tabstop=$tab_width"
     if [ "x$existing_vi" != "x$vi_line" ] ; then
 	echo "vi line is wrong ... fixing"
-	perl -pi -e "s/(${prefixspace}[${commentchar}] ex:.*)/${prefixspace}${commentchar} ex: shiftwidth=${indentation} tabstop=${tab_width}/i" $FILE
+	perl -pi -e "s,(${prefixspace}[${commentchar}]+ ex:.*),${prefixspace}${commentchar} ex: shiftwidth=${indentation} tabstop=${tab_width},i" $FILE
     fi
 fi
 
@@ -318,18 +456,18 @@ else
     match="Variables"
 
     if [ ! "x$commentchar" = "x" ] ; then
-	existing_suffix=`cat $FILE | grep -i "${prefixspace}[${commentchar}] ${do_not} ${match}:" | sed 's/:/ /g' | awk '{print $4}'`
+	existing_suffix=`cat $FILE | grep -i "${prefixspace}[${commentchar}][${commentchar}]* ${do_not} ${match}:" | sed 's/:/ /g' | awk '{print $4}'`
     fi
     if [ "x$existing_suffix" != "x" ] ; then
 	echo "loc. var has trailing goo ... fixing"
-	perl -pi -e "s/(${prefixspace}[${commentchar}] ${do_not} ${match}:.*)/${prefixspace}${commentchar} ${do_not} ${match}:/i" $FILE
+	perl -pi -e "s,(${prefixspace}[${commentchar}]+ ${do_not} ${match}:.*),${prefixspace}${commentchar} ${do_not} ${match}:,i" $FILE
     fi
     if [ ! "x$commentchar" = "x" ] ; then
-	existing_suffix=`cat $FILE | grep -i "${prefixspace}[${commentchar}] End:" | sed 's/:/ /g' | awk '{print $3}'`
+	existing_suffix=`cat $FILE | grep -i "${prefixspace}[${commentchar}][${commentchar}]* End:" | sed 's/:/ /g' | awk '{print $3}'`
     fi
     if [ "x$existing_suffix" != "x" ] ; then
 	echo "end has trailing goo ... fixing"
-	perl -pi -e "s/(${prefixspace}[${commentchar}] End:.*)/${prefixspace}${commentchar} End:/i" $FILE
+	perl -pi -e "s,(${prefixspace}[${commentchar}]+ End:.*),${prefixspace}${commentchar} End:,i" $FILE
     fi
 fi
 
