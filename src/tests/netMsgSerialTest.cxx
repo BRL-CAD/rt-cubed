@@ -1,7 +1,7 @@
 /*                  N E T M S G S E R I A L T E S T . C X X 
  * BRL-CAD
  *
- * Copyright (c) 1997-2008 United States Government as represented by
+ * Copyright (c) 1997-2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or

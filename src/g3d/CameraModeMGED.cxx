@@ -1,7 +1,7 @@
 /*                C A M E R A M O D E M G E D . C X X
  * BRL-CAD
  *
- * Copyright (c) 2008 United States Government as represented by the
+ * Copyright (c) 2008-2009 United States Government as represented by the
  * U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or

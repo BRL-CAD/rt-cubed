@@ -1,7 +1,7 @@
 /*                 J O B S C H E D U L E R . H
  * BRL-CAD
  *
- * Copyright (c) 1997-2008 United States Government as represented by
+ * Copyright (c) 1997-2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or

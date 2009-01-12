@@ -1,7 +1,7 @@
 /*           B Y T E A R R A Y O U T P U T S T R E A M . C X X
  * BRL-CAD
  *
- * Copyright (c) 1997-2008 United States Government as represented by
+ * Copyright (c) 1997-2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
