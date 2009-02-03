@@ -16,6 +16,8 @@ libge_la_SOURCES = \
 	SourceSvnLink.cxx \
 	DbObjectManager.cxx \
 	DbObjectManifest.cxx \
+	../io/DataStream.cxx \
+	../io/StreamEmptyException.cxx \
 	../io/ByteArrayInputStream.cxx \
 	../io/ByteArrayOutputStream.cxx \
 	../io/DataInputStream.cxx \
