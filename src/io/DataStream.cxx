@@ -136,6 +136,28 @@ uInt DataStream::clear(uChar fill, uInt size)
 /*
  * Input
  */
+extern DataStream& operator<<(DataStream &dest, DataStream source)
+{
+
+  uInt availBytes = source.getBytesFilled() - source.getBytesRead();
+
+  uChar c;
+
+  if (availBytes > 0)
+    {
+      for (uInt i = 0; i < availBytes; i++)
+	{
+	  source >> c;
+	  dest << c;
+	}      
+    }
+
+  return dest;
+}
+
+
+
+
 extern DataStream& operator<<(DataStream &b, Char c)
 {
   b << (uChar)c;
@@ -268,6 +290,7 @@ extern DataStream& operator>>(DataStream &b, uInt& i)
   uInt l = 0;
   l = *((uInt*)pos);
   i = (uInt)ntohl(l);
+
   b.setBytesRead( b.getBytesRead() + sizeof(uInt));
   return b;
 }

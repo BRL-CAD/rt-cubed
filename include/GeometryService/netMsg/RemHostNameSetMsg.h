@@ -47,8 +47,8 @@ class RemHostNameSetMsg : public NetMsg
       RemHostNameSetMsg(uInt mType, UUID mUUID, UUID rUUID, String v);
 
       //Deserializing Constructors
-      RemHostNameSetMsg(array<uByte>* data);
-      RemHostNameSetMsg(DataInputStream* dis);
+      RemHostNameSetMsg(uByte data[], uInt len);
+      RemHostNameSetMsg(DataStream* ds);
 
       //Destructor
       virtual ~RemHostNameSetMsg();
@@ -64,8 +64,8 @@ class RemHostNameSetMsg : public NetMsg
 
     private:
       String hostname;
-      virtual bool _deserialize(DataInputStream* dis);
-      virtual bool _serialize(DataOutputStream* dos);
+      virtual bool _deserialize(DataStream* ds);
+      virtual bool _serialize(DataStream* ds);
 
     };
 

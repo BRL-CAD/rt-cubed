@@ -68,6 +68,8 @@ class DataStream {
   uInt copyIn(const void *_data, uInt size = 0);
   uInt clear(uByte fill = '\0', uInt size = 0);
 
+  friend DataStream& operator<<(DataStream &dest, DataStream source);
+
   friend DataStream& operator<<(DataStream &b, Char c);
   friend DataStream& operator<<(DataStream &b, uChar c);
   friend DataStream& operator<<(DataStream &b, Short s);

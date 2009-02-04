@@ -33,41 +33,44 @@
 #include "GeometryService/netMsg/RemHostNameSetFailMsg.h"
 #include "GeometryService/netMsg/GeometryReqMsg.h"
 #include "GeometryService/netMsg/GeometryManifestMsg.h"
-#include "common/array.h"
+#include "io/DataStream.h"
 
 
 int main(int argc, char* argv[])
 {
 
- array<uByte>* data;
+  uInt dsLen;
+  DataStream* pds;
+
 
   std::cout << "\n\n\n*******************\n";
   std::cout << "Testing NetMsg.cxx:\n";
   std::cout << "*******************\n";
 
-  NetMsg* n = new NetMsg(100, "60a03846-c39b-42e6-865f-394056a4fa04", "90645abd-3109-4538-a425-07810542cc2d");
+  NetMsg* n1 = new NetMsg(100, "60a03846-c39b-42e6-865f-394056a4fa04", "90645abd-3109-4538-a425-07810542cc2d");
 
   std::cout << "\nOriginal Data: \n";
-  n->printMe();
+  n1->printMe();
 
-  data = n->serialize();
+  pds = n1->serialize();
 
-  std::cout << "\nIntermediate Data: \n";
-  data->printMe();
+  *pds >> dsLen;
+  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
+  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
 
-
-  NetMsg* n2 = new NetMsg(data);
+  NetMsg* n2 = new NetMsg(pds);
 
   std::cout << "\nResultant Data: \n";
   n2->printMe();
   std::cout << "\n";
-  delete data;
-  delete n;
+
+  delete pds;
+  delete n1;
   delete n2;
-
-
-
  
+
+
+
 
   std::cout << "\n\n\n*******************\n";
   std::cout << "Testing RemHostNameSetMsg.cxx:\n";
@@ -78,18 +81,19 @@ int main(int argc, char* argv[])
   std::cout << "\nOriginal Data: \n";
   n3->printMe();
 
-  data = n3->serialize();
+  pds = n3->serialize();
 
-  std::cout << "\nIntermediate Data: \n";
-  data->printMe();
+  *pds >> dsLen;
+  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
+  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
 
-
-  RemHostNameSetMsg* n4 = new RemHostNameSetMsg(data);
+  RemHostNameSetMsg* n4 = new RemHostNameSetMsg(pds);
 
   std::cout << "\nResultant Data: \n";
   n4->printMe();
   std::cout << "\n";
-  delete data;
+
+  delete pds;
   delete n3;
   delete n4;
 
@@ -109,18 +113,19 @@ int main(int argc, char* argv[])
   std::cout << "\nOriginal Data: \n";
   n5->printMe();
 
-  data = n5->serialize();
+  pds = n5->serialize();
 
-  std::cout << "\nIntermediate Data: \n";
-  data->printMe();
+  *pds >> dsLen;
+  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
+  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
 
-
-  RemHostNameSetFailMsg* n6 = new RemHostNameSetFailMsg(data);
+  RemHostNameSetFailMsg* n6 = new RemHostNameSetFailMsg(pds);
 
   std::cout << "\nResultant Data: \n";
   n6->printMe();
   std::cout << "\n";
-  delete data;
+
+  delete pds;
   delete n5;
   delete n6;
 
@@ -140,17 +145,19 @@ int main(int argc, char* argv[])
   std::cout << "\nOriginal Data: \n";
   n7->printMe();
 
-  data = n7->serialize();
+  pds = n7->serialize();
 
-  std::cout << "\nIntermediate Data: \n";
-  data->printMe();
-	
-  GeometryReqMsg* n8 = new GeometryReqMsg(data);
+  *pds >> dsLen;
+  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
+  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
+
+  GeometryReqMsg* n8 = new GeometryReqMsg(pds);
 
   std::cout << "\nResultant Data: \n";
   n8->printMe();
   std::cout << "\n";
-  delete data;
+
+  delete pds;
   delete n7;
   delete n8;
 
@@ -181,17 +188,19 @@ int main(int argc, char* argv[])
   std::cout << "\nOriginal Data: \n";
   n9->printMe();
 
-  data = n9->serialize();
+  pds = n9->serialize();
 
-  std::cout << "\nIntermediate Data: \n";
-  data->printMe();
-	
-  GeometryManifestMsg* n10 = new GeometryManifestMsg(data);
+  *pds >> dsLen;
+  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
+  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
+
+  GeometryManifestMsg* n10 = new GeometryManifestMsg(pds);
 
   std::cout << "\nResultant Data: \n";
   n10->printMe();
   std::cout << "\n";
-  delete data;
+ 
+  delete pds;
   delete n9;
   delete n10;
 

@@ -47,8 +47,8 @@ class RemHostNameSetFailMsg : public NetMsg
       RemHostNameSetFailMsg(uInt mType, UUID mUUID, UUID rUUID, uByte v);
 
       //Deserializing Constructors
-      RemHostNameSetFailMsg(array<uByte>* data);
-      RemHostNameSetFailMsg(DataInputStream* dis);
+      RemHostNameSetFailMsg(uByte data[], uInt len);
+      RemHostNameSetFailMsg(DataStream* ds);
 
       //Destructor
       virtual ~RemHostNameSetFailMsg();
@@ -63,8 +63,8 @@ class RemHostNameSetFailMsg : public NetMsg
 
     private:
       uByte failureCode;
-      virtual bool _deserialize(DataInputStream* dis);
-      virtual bool _serialize(DataOutputStream* dos);
+      virtual bool _deserialize(DataStream* ds);
+      virtual bool _serialize(DataStream* ds);
 
     };
 

@@ -37,19 +37,18 @@ RemHostNameSetMsg::RemHostNameSetMsg(uInt mType, String mUUID, String rUUID, Str
 }
 
 //Deserializing Constructors
-RemHostNameSetMsg::RemHostNameSetMsg(DataInputStream* dis)
+RemHostNameSetMsg::RemHostNameSetMsg(DataStream* ds)
 {
-  this->deserialize(dis);
+  this->deserialize(ds);
 }
-RemHostNameSetMsg::RemHostNameSetMsg(array<uByte>* data)
+RemHostNameSetMsg::RemHostNameSetMsg(uByte data[], uInt len)
 {
-  ByteArrayInputStream* bais = new ByteArrayInputStream(*data);
-  DataInputStream* dis = new DataInputStream(*bais);
-
-  this->deserialize(dis);
-
-  delete dis;
-  delete bais;
+  DataStream ds;
+  for (uInt i = 0; i < len; i++)
+    {
+      ds << data[i];
+    }
+  this->deserialize(&ds);
 }
 
 //Destructor
@@ -58,15 +57,15 @@ RemHostNameSetMsg::~RemHostNameSetMsg()
 }
 
 
-bool RemHostNameSetMsg::_deserialize(DataInputStream* dis)
+bool RemHostNameSetMsg::_deserialize(DataStream* ds)
 {
-  this->hostname = dis->readString();
+  *ds >> this->hostname;
   return true;
 }
 
-bool RemHostNameSetMsg::_serialize(DataOutputStream* dos)
+bool RemHostNameSetMsg::_serialize(DataStream* ds)
 {
-  dos->writeString(this->hostname);
+  *ds << this->hostname;
   return true;
 }
 

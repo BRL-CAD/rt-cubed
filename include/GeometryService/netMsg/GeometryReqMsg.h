@@ -31,10 +31,7 @@
 #define _GEOMETRYREQMSG_H_
 
 #include "iBME/iBMECommon.h"
-#include "io/DataInputStream.h"
-#include "io/DataOutputStream.h"
-#include "io/ByteArrayOutputStream.h"
-#include "io/ByteArrayInputStream.h"
+#include "io/DataStream.h"
 #include "GeometryService/netMsg/NetMsg.h"
 
 
@@ -47,8 +44,8 @@ class GeometryReqMsg : public NetMsg
       GeometryReqMsg(uInt mType, UUID mUUID, UUID rUUID, uByte v, String d);
 
       //Deserializing Constructors
-      GeometryReqMsg(array<uByte>* data);
-      GeometryReqMsg(DataInputStream* dis);
+      GeometryReqMsg(uByte data[], uInt len);
+      GeometryReqMsg(DataStream* ds);
 
       //Destructor
       virtual ~GeometryReqMsg();
@@ -68,8 +65,8 @@ class GeometryReqMsg : public NetMsg
     private:
       uByte reqType;
       String data;
-      virtual bool _deserialize(DataInputStream* dis);
-      virtual bool _serialize(DataOutputStream* dos);
+      virtual bool _deserialize(DataStream* ds);
+      virtual bool _serialize(DataStream* ds);
 
     };
 

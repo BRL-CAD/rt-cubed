@@ -37,19 +37,18 @@ GeometryManifestMsg::GeometryManifestMsg(uInt mType, String mUUID, String rUUID)
 }
 
 //Deserializing Constructors
-GeometryManifestMsg::GeometryManifestMsg(DataInputStream* dis)
+GeometryManifestMsg::GeometryManifestMsg(DataStream* ds)
 {
-  this->deserialize(dis);
+  this->deserialize(ds);
 }
-GeometryManifestMsg::GeometryManifestMsg(array<uByte>* data)
+GeometryManifestMsg::GeometryManifestMsg(uByte data[], uInt len)
 {
-  ByteArrayInputStream* bais = new ByteArrayInputStream(*data);
-  DataInputStream* dis = new DataInputStream(*bais);
-
-  this->deserialize(dis);
-
-  delete dis;
-  delete bais;
+  DataStream ds;
+  for (uInt i = 0; i < len; i++)
+    {
+      ds << data[i];
+    }
+  this->deserialize(&ds);
 }
 
 //Destructor
@@ -58,25 +57,28 @@ GeometryManifestMsg::~GeometryManifestMsg()
 }
 
 
-bool GeometryManifestMsg::_deserialize(DataInputStream* dis)
+bool GeometryManifestMsg::_deserialize(DataStream* ds)
 {
-  uInt numOfItems = dis->readUInt();
-  
-  for (uInt i = 0; i< numOfItems; ++i)
-	{
-		this->itemData.push_back(dis->readString());
-	}
+  uInt numOfItems;
+  *ds >> numOfItems;
+  std::string s;
+
+  for (uInt i = 0; i < numOfItems; ++i)
+    {
+      *ds >> s;
+      this->itemData.push_back(s);
+    }
   return true;
 }
 
-bool GeometryManifestMsg::_serialize(DataOutputStream* dos)
+bool GeometryManifestMsg::_serialize(DataStream* ds)
 {
-  dos->writeUInt(this->itemData.size());
+  *ds << (uInt)this->itemData.size();
 
   for (uInt i = 0; i< this->itemData.size(); ++i)
-	{
-		dos->writeString(this->itemData[i]);
-	}
+    {
+      *ds << this->itemData[i];
+    }
   return true;
 }
 
@@ -90,9 +92,9 @@ String GeometryManifestMsg::toString()
   Num << "\n";
 
   for (uInt i = 0; i< this->itemData.size(); ++i)
-	{
-		Num << "\t\t" << this->itemData[i] << "\n";
-	}
+    {
+      Num << "\t\t" << this->itemData[i] << "\n";
+    }
   Num << "\n";
 
   return Num.str();

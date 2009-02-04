@@ -37,19 +37,18 @@ GeometryReqMsg::GeometryReqMsg(uInt mType, String mUUID, String rUUID, uByte v, 
 }
 
 //Deserializing Constructors
-GeometryReqMsg::GeometryReqMsg(DataInputStream* dis)
+GeometryReqMsg::GeometryReqMsg(DataStream* ds)
 {
-  this->deserialize(dis);
+  this->deserialize(ds);
 }
-GeometryReqMsg::GeometryReqMsg(array<uByte>* data)
+GeometryReqMsg::GeometryReqMsg(uByte data[], uInt len)
 {
-  ByteArrayInputStream* bais = new ByteArrayInputStream(*data);
-  DataInputStream* dis = new DataInputStream(*bais);
-
-  this->deserialize(dis);
-
-  delete dis;
-  delete bais;
+  DataStream ds;
+  for (uInt i = 0; i < len; i++)
+    {
+      ds << data[i];
+    }
+  this->deserialize(&ds);
 }
 
 //Destructor
@@ -58,18 +57,18 @@ GeometryReqMsg::~GeometryReqMsg()
 }
 
 
-bool GeometryReqMsg::_deserialize(DataInputStream* dis)
+bool GeometryReqMsg::_deserialize(DataStream* ds)
 {
-  this->reqType = dis->readUByte();
-  this->data = dis->readString();
+  *ds >> this->reqType;
+  *ds >> this->data;
 
   return true;
 }
 
-bool GeometryReqMsg::_serialize(DataOutputStream* dos)
+bool GeometryReqMsg::_serialize(DataStream* ds)
 {
-  dos->writeUByte(this->reqType);
-  dos->writeString(this->data);
+  *ds << this->reqType;
+  *ds << this->data;
   return true;
 }
 

@@ -32,44 +32,41 @@
 
 #include <vector>
 #include "iBME/iBMECommon.h"
-#include "io/DataInputStream.h"
-#include "io/DataOutputStream.h"
-#include "io/ByteArrayOutputStream.h"
-#include "io/ByteArrayInputStream.h"
+#include "io/DataStream.h"
 #include "GeometryService/netMsg/NetMsg.h"
 
 
 class GeometryManifestMsg : public NetMsg
-    {
+{
 
-    public:
+public:
 
-      //Constructor
-      GeometryManifestMsg(uInt mType, UUID mUUID, UUID rUUID);
+  //Constructor
+  GeometryManifestMsg(uInt mType, UUID mUUID, UUID rUUID);
 
-      //Deserializing Constructors
-      GeometryManifestMsg(array<uByte>* data);
-      GeometryManifestMsg(DataInputStream* dis);
+  //Deserializing Constructors
+  GeometryManifestMsg(uByte data[], uInt len);
+  GeometryManifestMsg(DataStream* ds);
 
-      //Destructor
-      virtual ~GeometryManifestMsg();
+  //Destructor
+  virtual ~GeometryManifestMsg();
   
-      virtual String toString();
+  virtual String toString();
 
-      /*
-       *Getters n Setters
-       */
-	uInt getNumOfItems();
+  /*
+   *Getters n Setters
+   */
+  uInt getNumOfItems();
 
-	std::vector<String>* getItemData();
+  std::vector<String>* getItemData();
 
 
-    private:
-      std::vector<String> itemData;
-      virtual bool _deserialize(DataInputStream* dis);
-      virtual bool _serialize(DataOutputStream* dos);
+private:
+  std::vector<String> itemData;
+  virtual bool _deserialize(DataStream* ds);
+  virtual bool _serialize(DataStream* ds);
 
-    };
+};
 
 #endif // !defined(_GEOMETRYMANIFESTMSG_H_)
 

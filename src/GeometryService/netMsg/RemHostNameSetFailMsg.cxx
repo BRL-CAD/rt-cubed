@@ -37,19 +37,18 @@ RemHostNameSetFailMsg::RemHostNameSetFailMsg(uInt mType, String mUUID, String rU
 }
 
 //Deserializing Constructors
-RemHostNameSetFailMsg::RemHostNameSetFailMsg(DataInputStream* dis)
+RemHostNameSetFailMsg::RemHostNameSetFailMsg(DataStream* ds)
 {
-  this->deserialize(dis);
+  this->deserialize(ds);
 }
-RemHostNameSetFailMsg::RemHostNameSetFailMsg(array<uByte>* data)
+RemHostNameSetFailMsg::RemHostNameSetFailMsg(uByte data[], uInt len)
 {
-  ByteArrayInputStream* bais = new ByteArrayInputStream(*data);
-  DataInputStream* dis = new DataInputStream(*bais);
-
-  this->deserialize(dis);
-
-  delete dis;
-  delete bais;
+  DataStream ds;
+  for (uInt i = 0; i < len; i++)
+    {
+      ds << data[i];
+    }
+  this->deserialize(&ds);
 }
 
 //Destructor
@@ -58,15 +57,15 @@ RemHostNameSetFailMsg::~RemHostNameSetFailMsg()
 }
 
 
-bool RemHostNameSetFailMsg::_deserialize(DataInputStream* dis)
+bool RemHostNameSetFailMsg::_deserialize(DataStream* ds)
 {
-  this->failureCode = dis->readUByte();
+  *ds >> this->failureCode;
   return true;
 }
 
-bool RemHostNameSetFailMsg::_serialize(DataOutputStream* dos)
+bool RemHostNameSetFailMsg::_serialize(DataStream* ds)
 {
-  dos->writeUByte(this->failureCode);
+  *ds << this->failureCode;
   return true;
 }
 

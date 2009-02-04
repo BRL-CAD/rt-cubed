@@ -42,19 +42,20 @@ NetMsg::NetMsg(uInt mType, String mUUID, String rUUID):
 }
 
 //Deserializing Constructors
-NetMsg::NetMsg(DataInputStream* dis)
+NetMsg::NetMsg(DataStream* ds)
 {
-  this->deserialize(dis);
+  this->deserialize(ds);
 }
-NetMsg::NetMsg(array<uByte>* data)
+NetMsg::NetMsg(uByte data[], uInt len)
 {
-  ByteArrayInputStream* bais = new ByteArrayInputStream(*data);
-  DataInputStream* dis = new DataInputStream(*bais);
+  DataStream ds;
 
-  this->deserialize(dis);
+  for (uInt i = 0; i < len; i++)
+    {
+      ds << data[i];
+    }
 
-  delete dis;
-  delete bais;
+  this->deserialize(&ds);
 }
 
 
@@ -65,74 +66,63 @@ NetMsg::~NetMsg()
 
 
 //Serializers
-array<uByte>* NetMsg::serialize()
+DataStream* NetMsg::serialize()
 {
-  ByteArrayOutputStream* baos = new ByteArrayOutputStream();
-  DataOutputStream* dos = new DataOutputStream(*baos);
+  DataStream* pds = new DataStream();
 
-  this->serialize(dos);
-  array<uByte>* pa = baos->toByteArray();
+  this->serialize(pds); 
 
-  delete dos;
-  delete baos;
-
-  return pa;
+  return pds;
 }
 
-void NetMsg::serialize(DataOutputStream* dos)
+void NetMsg::serialize(DataStream* pds)
 {
-  //Get a temp BAOS and DOS
-  ByteArrayOutputStream* baos2 = new ByteArrayOutputStream();
-  DataOutputStream* dos2 = new DataOutputStream(*baos2);
+  //Make a Temp DS
+  DataStream* tds = new DataStream;;
 
   //Serialize Header
-  dos2->writeUInt(this->msgType);
-  dos2->writeString(this->msgUUID);
-  dos2->writeString(this->reUUID);
+  *tds << this->msgType;
+  *tds << this->msgUUID;
+  *tds << this->reUUID;
 
-  if (!this->_serialize(dos2))
+  //Call Serialize subroutine for subclassess.
+  if (!this->_serialize(tds))
     {
       //Error here.
     }
 
-  //Get the total length of the fully serialized object
-  uInt len = baos2->size();
+  //write the length of tds and then the contents of tds 
+  *pds << tds->getBytesFilled();
+  *pds << *tds;
 
-  //write the length and THEN object data to the external DOS.
-  dos->writeUInt(len);
-  array<uByte>* data = baos2->toByteArray();
-  dos->write(*data);
-
-  delete data;
-  delete dos2;
-  delete baos2;
+  delete tds;
 }
 
-void NetMsg::deserialize(DataInputStream* dis)
+void NetMsg::deserialize(DataStream* ds)
 {
-  //Read data len
-  //uInt len =  dis->readUInt();
+  try {
+    //deserialize Header
+    *ds >> this->msgType;
+    *ds >> this->msgUUID;
+    *ds >> this->reUUID;
+  } catch (IOException ioe) {
+    std::cerr << "Error: " << ioe.getMessage() << std::endl;
+  }
 
-  //deserialize Header
-  this->msgType = dis->readUInt();
-
-  this->msgUUID = dis->readString();
-
-  this->reUUID = dis->readString();
-
-  if (!this->_deserialize(dis))
+  if (!this->_deserialize(ds))
     {
       //Error here.
     }
-
 }
 
-bool NetMsg::_deserialize(DataInputStream* dis)
+
+
+bool NetMsg::_deserialize(DataStream* ds)
 {
   return true;
 }
 
-bool NetMsg::_serialize(DataOutputStream* dos)
+bool NetMsg::_serialize(DataStream* ds)
 {
   return true;
 }

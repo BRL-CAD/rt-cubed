@@ -31,62 +31,59 @@
 #define _NETMSG_H_
 
 #include "iBME/iBMECommon.h"
-#include "io/DataInputStream.h"
-#include "io/DataOutputStream.h"
-#include "io/ByteArrayOutputStream.h"
-#include "io/ByteArrayInputStream.h"
+#include "io/DataStream.h"
 
-    class NetMsg
-    {
+class NetMsg
+{
 
-    public:
+public:
 
-      //Default Constructor
-      NetMsg();
+  //Default Constructor
+  NetMsg();
 
-      //HeaderOnly Constructor
-      NetMsg(uInt mType, UUID mUUID, UUID rUUID);
+  //HeaderOnly Constructor
+  NetMsg(uInt mType, UUID mUUID, UUID rUUID);
 
-      //Deserializing Constructors
-      NetMsg(array<uByte>* data);
-      NetMsg(DataInputStream* dis);
+  //Deserializing Constructors
+  NetMsg(uByte data[], uInt len);
+  NetMsg(DataStream* ds);
 
-      //Destructor
-      virtual ~NetMsg();
+  //Destructor
+  virtual ~NetMsg();
   
 
-      //Serializers
-      array<uByte>* serialize();
-      void serialize(DataOutputStream* dos);
+  //Serializers
+  DataStream* serialize();
+  void serialize(DataStream* ds);
 
-      /*
-       *Getters n Setters
-       */
-      uInt getMsgLen();
-      uInt getMsgType();
-      UUID getMsgUUID();
-      UUID getReUUID();
+  /*
+   *Getters n Setters
+   */
+  uInt getMsgLen();
+  uInt getMsgType();
+  UUID getMsgUUID();
+  UUID getReUUID();
 
-      void setMsgLen(uInt v);
-      void setMsgType(uInt v);
-      void setMsgUUID(UUID v);
-      void setReUUID(UUID v);
+  void setMsgLen(uInt v);
+  void setMsgType(uInt v);
+  void setMsgUUID(UUID v);
+  void setReUUID(UUID v);
 
-      virtual String toString();
-      void printMe();
+  virtual String toString();
+  void printMe();
 
-    protected:
-      uInt msgLen;
-      uInt msgType;
-      UUID msgUUID;
-      UUID reUUID;
+protected:
+  uInt msgLen;
+  uInt msgType;
+  UUID msgUUID;
+  UUID reUUID;
 
-      void deserialize(DataInputStream* dis);
+  void deserialize(DataStream* ds);
 
-      virtual bool _deserialize(DataInputStream* dis);
-      virtual bool _serialize(DataOutputStream* dos);
+  virtual bool _deserialize(DataStream* ds);
+  virtual bool _serialize(DataStream* ds);
 
-    };
+};
 
 #endif // !defined(_NETMSG_H_)
 
