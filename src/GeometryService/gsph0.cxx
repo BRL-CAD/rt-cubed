@@ -33,137 +33,10 @@
 #include <boost/asio.hpp>
 #include "iBME/iBMECommon.h"
 #include "common/array.h"
+#include "GeometryService/Session.h"
 
 
 using boost::asio::ip::tcp;
-
-///////////////////////////////////////////////////////////
-//
-//       Session Class
-//
-///////////////////////////////////////////////////////////
-
-
-class session
-{
-public:
-  session(boost::asio::io_service& io_service)
-    : socket_(io_service)
-  {
-    std::cout << "New Session\n";
-  }
-
-  ~session() 
-  { 
-    std::cout << "End Session\n\n";
-  }
-
-
-  tcp::socket& socket()
-  {
-    return socket_;
-  }
-
-  void start()
-  {
-    //kick things off by prepping to read.
-
-   socket_.async_read_some(boost::asio::buffer(data_, max_length),
-        boost::bind(&session::handle_read, this,
-          boost::asio::placeholders::error,
-          boost::asio::placeholders::bytes_transferred));
-
-  }
-
-  void handle_read(const boost::system::error_code& error,
-		   size_t uint8_ts_transferred)
-  {
-    if (!error)
-      {
-
-	//Form recieved data
-
-	uByte* pd = (uByte*)data_;
-
-	array<uByte> newData(pd, uint8_ts_transferred);
-
-
-	std::string str(data_);
- 
-	if (str.find("noecho") == std::string::npos)
-	  {
-	    std::cout << "Writing: (" << str.size()  << ") " << data_  << std::endl;
-
-	    str = "You said: " + str;
-	    
-	    for (int i = 0; i < str.length(); ++i) {
-	      data_[i] = str[i];
-	    }
-
-	    std::cout << "Writing: (" << str.size()  << ") " << data_  << std::endl;
-
-	    //Prep a Write job:
-	    boost::asio::async_write(socket_,
-				     boost::asio::buffer(data_, str.length()),
-				     boost::bind(&session::handle_write, 
-						 this,
-						 boost::asio::placeholders::error));
-	  } 
-	else
-	  {
-	    std::cout << "Skipping write...\n";
-	    //Setup to read again.
-	    socket_.async_read_some(boost::asio::buffer(data_, max_length),
-				    boost::bind(&session::handle_read, this,
-						boost::asio::placeholders::error,
-						boost::asio::placeholders::bytes_transferred));
-	  }
-
-      }
-    else
-      {
-
-	
-	std::cerr << "Exception " << error << " on handle_read() \n";
-
-
-	delete this;
-      }
-  }
-
-  void handle_write(const boost::system::error_code& error)
-  {
-    if (!error)
-    {
-
-      std::string str(data_);
-      std::cout << "Waiting for Read.\n";
-
-
-      //flush the buffer when we are done with it.
-      for (int i = 0; i < this->max_length; ++i ) {
-	data_[i] = 0;
-      }
-
-      //Setup to read again.  Pass in an empty buffer to be used.
-      socket_.async_read_some(boost::asio::buffer(data_, max_length),
-			      boost::bind(&session::handle_read, this,
-					  boost::asio::placeholders::error,
-					  boost::asio::placeholders::bytes_transferred));
-    }
-    else
-    {
-	std::cerr << "Exception " << error << " on handle_write() \n";
-      delete this;
-    }
-  }
-
-private:
-  tcp::socket socket_;
-  enum { max_length = 10240 };
-  char data_[max_length];
-};
-
 
 ///////////////////////////////////////////////////////////
 //
@@ -180,20 +53,20 @@ public:
       acceptor_(io_service, 
       tcp::endpoint(tcp::v4(), port))
   {
-    session* new_session = new session(io_service_);
-    acceptor_.async_accept(new_session->socket(),
+    Session* new_session = new Session(io_service_);
+    acceptor_.async_accept(new_session->Socket(),
 			   boost::bind(&server::handle_accept, this, new_session,
 				       boost::asio::placeholders::error));
   }
 
-  void handle_accept(session* new_session,
+  void handle_accept(Session* new_session,
 		     const boost::system::error_code& error)
   {
     if (!error)
     {
-      new_session->start();
-      new_session = new session(io_service_);
-      acceptor_.async_accept(new_session->socket(),
+      new_session->Start();
+      new_session = new Session(io_service_);
+      acceptor_.async_accept(new_session->Socket(),
 			     boost::bind(&server::handle_accept, this, new_session,
 					 boost::asio::placeholders::error));
     }

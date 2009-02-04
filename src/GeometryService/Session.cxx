@@ -29,13 +29,192 @@
 
 #include "GeometryService/Session.h"
 
-Session::Session()
+using boost::asio::ip::tcp;
+
+Session::Session(boost::asio::io_service& io_service)
+  : socket_(io_service)
 {
+  this->sessionBuffer = new DataStream(128);
+  this->newMsgFlag = true;
+  std::cout << "New Session\n";
 }
 
-Session::~Session()
-{
+Session::~Session() 
+{ 
+  delete this->sessionBuffer;
+  std::cout << "End Session\n\n";
 }
+
+
+tcp::socket& Session::Socket()
+{
+  return socket_;
+}
+
+void Session::Start()
+{
+  //kick things off by listening for a NewRead event
+  socket_.async_read_some(boost::asio::buffer(data_, max_length),
+			  boost::bind(&Session::HandleRead, this,
+				      boost::asio::placeholders::error,
+				      boost::asio::placeholders::bytes_transferred));
+
+}
+
+void Session::HandleRead(const boost::system::error_code& error,
+			 size_t bytesXferred)
+{
+  if (!error)
+    {
+      
+      //Read in New Data:
+      this->sessionBuffer->writeUByteArray(data_, bytesXferred);
+      std::cout << "\tNew data(" <<  bytesXferred << "): " << data_ << "\n";
+      std::cout << "\tNewMsgFlag=" << this->newMsgFlag << "\n";
+ 
+      //Check to see if we are processing a new msg
+      if (this->newMsgFlag) {
+
+	//pull the 'msgLEN' out of the buffer
+	this->targetLen = this->sessionBuffer->readUInt();
+	std::cout << "\tNew TargetLen\n";
+      }
+      std::cout << "\tTargetLen=" << this->targetLen << "\n";
+
+      std::cout << "\tsessionBuffer Data: " << this->sessionBuffer->getBytesFilled() << " bytes filled, ";
+      std::cout << this->sessionBuffer->getBytesRead() << " bytes read. \n";
+
+      //check to see if the full message has been recieved yet
+      if (this->sessionBuffer->getBytesAvailToRead() < this->targetLen)
+	{
+	  //Setup to read some more!
+	  socket_.async_read_some(boost::asio::buffer(data_, max_length),
+				  boost::bind(&Session::HandleRead, this,
+					      boost::asio::placeholders::error,
+					      boost::asio::placeholders::bytes_transferred));
+	  this->newMsgFlag = false;
+	  std::cout << "\tReading More...\n";
+	  return;
+	} 
+      else
+	{
+	this->newMsgFlag = true;
+      }
+      std::cout << "\n\tDone Reading, making Msg.\n";
+
+
+      //Now that we ace >= targetLen, lets build a netMsg
+      uInt msgType = this->sessionBuffer->peakUInt();
+      NetMsg* msg;
+      NetMsg* retMsg;
+
+      std::cout << "\tMsgType=" << msgType << "\n";
+
+      //TODO: move these msgTypes over to a DEFINES
+      switch (msgType) {
+
+      case 0: //RemHostNameSET
+	msg = new RemHostNameSetMsg(this->sessionBuffer);
+
+	retMsg = new RemHostNameSetFailMsg(5, msg->getReUUID(), msg->getMsgUUID(), 42 );
+	this->SendMsg(retMsg);
+	
+	break;
+      case 5: //RemHostNameSETFAIL
+	msg = new RemHostNameSetFailMsg(this->sessionBuffer);
+	break;
+      case 10: //RemHostNameSETOK
+	msg = new NetMsg(this->sessionBuffer);
+	break;
+      case 15: //DisconnectREQ
+	msg = new NetMsg(this->sessionBuffer);
+	break;
+      case 20: //NewHostOneNetINFO
+	msg = new RemHostNameSetMsg(this->sessionBuffer);
+	break;
+
+      case 40: //NewSessionREQ
+	msg = new NetMsg(this->sessionBuffer);
+	break;
+      case 45: //NewSessionREQFAIL
+	msg = new RemHostNameSetFailMsg(this->sessionBuffer);
+	break;
+      case 50: //NewSessionREQOK
+	msg = new RemHostNameSetMsg(this->sessionBuffer);
+	break;
+
+      case 100: //GeometryREQ
+	msg = new GeometryReqMsg(this->sessionBuffer);
+	break;
+      case 105: //GeometryREQFAIL
+	msg = new RemHostNameSetFailMsg(this->sessionBuffer);
+	break;
+      case 110: //GeometryMANIFEST
+	msg = new GeometryManifestMsg(this->sessionBuffer);
+	break;
+      case 115: //GeometryCHUNK
+	msg = new RemHostNameSetMsg(this->sessionBuffer);
+	break;
+
+        
+      default:
+	//We have got a bad MsgType... or corrupt data!
+	break;
+
+      }
+      
+	delete retMsg;
+      delete msg;
+
+    }
+  else
+    {	
+      std::cerr << "Exception " << error << " in HandleRead() \n";
+      delete this;
+    }
+}
+
+
+void Session::SendMsg(NetMsg* msg) {
+  DataStream* ds = new DataStream(128);
+  msg->serialize(ds);
+  
+  uInt msgLen = ds->peakUInt();
+  uByte* dataToSend;
+  dataToSend = new uByte[msgLen];
+  
+  msgLen = ds->readUByteArray(dataToSend, msgLen);
+
+  
+  boost::asio::async_write(socket_,
+			   boost::asio::buffer(dataToSend, msgLen),
+			   boost::bind(&Session::HandleWrite, this,
+				       boost::asio::placeholders::error));
+  
+
+  delete ds;
+}
+
+
+
+
+void Session::HandleWrite(const boost::system::error_code& error)
+{
+  if (!error)
+    {
+      //Setup to read again.  Pass in an empty buffer to be used.
+      socket_.async_read_some(boost::asio::buffer(data_, max_length),
+			      boost::bind(&Session::HandleRead, this,
+					  boost::asio::placeholders::error,
+					  boost::asio::placeholders::bytes_transferred));
+    }
+  else
+    {
+      std::cerr << "Exception " << error << " on handleWrite() \n";
+      delete this;
+    }
+}
+
 
 // Local Variables: ***
 // mode: C++ ***

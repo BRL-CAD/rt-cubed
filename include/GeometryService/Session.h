@@ -30,21 +30,41 @@
 #if !defined(__SESSION_H__)
 #define __SESSION_H__
 
+#include <cstdlib>
 #include <iostream>
-#include "GeometryService/AbstractPortal.h"
+#include <boost/bind.hpp>
+#include <boost/asio.hpp>
 #include "iBME/iBMECommon.h"
+#include "common/array.h"
+#include "io/DataStream.h"
+#include "GeometryService/netMsg/NetMsg.h"
+#include "GeometryService/netMsg/GeometryManifestMsg.h"
+#include "GeometryService/netMsg/GeometryReqMsg.h"
+#include "GeometryService/netMsg/RemHostNameSetMsg.h"
+#include "GeometryService/netMsg/RemHostNameSetFailMsg.h"
+
 
 class Session
 {
 
 public:
-  Session();
+  Session(boost::asio::io_service& io_service);
   virtual ~Session();
 
+  
+  boost::asio::ip::tcp::socket& Socket();
+  void Start();
+  void HandleRead(const boost::system::error_code& error, size_t bytesXferred);
+  void SendMsg(NetMsg* msg);
+  void HandleWrite(const boost::system::error_code& error);
+
 private:
-  AbstractPortal& portal();
-  uInt accessLevel;
-  String uName;
+  boost::asio::ip::tcp::socket socket_;
+  enum { max_length = 10240 };
+  uChar data_[max_length];
+  DataStream* sessionBuffer;
+  uInt targetLen;
+  bool newMsgFlag;
 
 };
 

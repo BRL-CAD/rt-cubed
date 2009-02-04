@@ -68,8 +68,9 @@ class DataStream {
   uInt copyIn(const void *_data, uInt size = 0);
   uInt clear(uByte fill = '\0', uInt size = 0);
 
-  friend DataStream& operator<<(DataStream &dest, DataStream source);
 
+
+  friend DataStream& operator<<(DataStream &dest, DataStream source);
   friend DataStream& operator<<(DataStream &b, Char c);
   friend DataStream& operator<<(DataStream &b, uChar c);
   friend DataStream& operator<<(DataStream &b, Short s);
@@ -81,6 +82,25 @@ class DataStream {
   friend DataStream& operator<<(DataStream &b, float f);
   friend DataStream& operator<<(DataStream &b, double d);
   friend DataStream& operator<<(DataStream &b, std::string &s);
+
+  void writeDataStream(DataStream& source);
+  void writeDataStream(DataStream& source, uInt baSize);
+  void writeUByteArray(uByte ba[], uInt baSize);
+
+  void writeChar(const Char c);
+  void writeUChar(const uChar c);
+  void writeShort(const Short s);
+  void writeUShort(const uShort s);
+  void writeInt(const Int i);
+  void writeUInt(const uInt i);
+  //  void writeLong(const Long l);
+  //  void writeULong(const uLong l);
+  void writeFloat(const float f);
+  void writeDouble(const double d);
+  void writeString(const std::string s);
+
+
+
 
   friend DataStream& operator>>(DataStream &b, Char &c);
   friend DataStream& operator>>(DataStream &b, uChar &c);
@@ -95,11 +115,29 @@ class DataStream {
   friend DataStream& operator>>(DataStream &b, std::string &s);
 
 
-  uByte peakByte();
-  uShort peakShort();
-  uInt peakInt();
-  //Need Long
-  //Need uLong
+  uInt readUByteArray(uByte* b, uInt size);
+  Char readChar();
+  uChar readUChar();
+  Short readShort();
+  uShort readUShort();
+  Int readInt();
+  uInt readUInt();
+  //Long readLong();
+  //uLong readULong();
+  float readFloat();
+  double readDouble();
+  std::string readString();
+
+
+  uInt peakUByteArray(uByte* b, uInt size, uInt offset = 0);
+  Char peakChar();
+  uChar peakUChar();
+  Short peakShort();
+  uShort peakUShort();
+  Int peakInt();
+  uInt peakUInt();
+  //Long peakLong();
+  //uLong peakULong();
   float peakFloat();
   double peakDouble();
   std::string peakString();
@@ -112,6 +150,7 @@ class DataStream {
   uInt getCurrentSize();
   uInt getBytesFilled();
   uInt getBytesRead();
+  uInt getBytesAvailToRead(); 
   uByte* getData();
 
   bool empty();

@@ -25,7 +25,7 @@ netMsgSerialTest_LDADD = \
 	../GeometryEngine/libge.la \
 	../GeometryService/libgs.la
 
-
+netMsgSerialTest_LDFLAGS =  -L/home/dloman/lib/ -lboost_system-gcc41-mt-1_37
 
 
 gsph0_SOURCES = \

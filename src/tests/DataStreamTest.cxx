@@ -58,9 +58,9 @@ int main(int argc, char* argv[])
     ds << i;
     //  ds << ul;
     //  ds << l;
+    ds << str;
     ds << f;
     ds << d;
-    ds << str;
 
 
     /////////////////////////
@@ -72,11 +72,11 @@ int main(int argc, char* argv[])
     std::cout << "Int: \t\t" << i << "\n";
     //  std::cout << "uLong: \t\t" << ul << "\n";
     //  std::cout << "Long: \t\t" << l << "\n";
+    std::cout << "string: \t" << "(" << str.size() << ")" << str << "-\n";
     std::cout << "float: \t\t" << f << "\n";
     std::cout << "double: \t" << d << "\n";
-    std::cout << "string: \t" << "(" << str.size() << ")" << str << "\n\n";
 
-
+    std::cout << "\n";
     std::cout << "Stream Current Size: " << ds.getCurrentSize() << "\n";
     std::cout << "Stream Bytes Filled: " << ds.getBytesFilled() << "\n";
     std::cout << "Stream Bytes Read: " << ds.getBytesRead() << "\n";
@@ -91,6 +91,22 @@ int main(int argc, char* argv[])
   std::cout << "\n----\n\n";
   ////////////////////////////
 
+    uInt bytes = ds.getBytesAvailToRead();
+    uByte* myArray;
+    myArray = new uByte[bytes];
+	
+    uInt bytesRead = ds.peakUByteArray(myArray, bytes);
+
+    std::cout << "ByteStream(" << bytesRead << "): " << myArray << "\n";
+    std::cout << "\n";
+    std::cout << "Stream Current Size: " << ds.getCurrentSize() << "\n";
+    std::cout << "Stream Bytes Filled: " << ds.getBytesFilled() << "\n";
+    std::cout << "Stream Bytes Read: " << ds.getBytesRead() << "\n";
+
+  ////////////////////////////
+  std::cout << "\n----\n\n";
+  ////////////////////////////
+
 
   ////////////////
   //De-Serialize 
@@ -99,18 +115,15 @@ int main(int argc, char* argv[])
   try {
     bool nboo;
   
-    uByte nub;
-    ds >> nub;
+    uByte nub = ds.readUChar();
     Byte nb;
     ds >> nb;
 
-    uShort nush;
-    ds >> nush;
+    uShort nush = ds.readUShort();
     Short nsh;
     ds >> nsh;
 
-    uInt nui;
-    ds >>  nui;
+    uInt nui = ds.readUInt();
     Int ni;
     ds >> ni;
     /*
@@ -119,13 +132,15 @@ int main(int argc, char* argv[])
       Long nl;  
       ds >> nl;
     */
+
+    String nmyStr;
+    ds >> nmyStr;
+
     float nf; 
     ds >> nf;
     double nd;
     ds >> nd;
 
-    String nmyStr;
-    ds >> nmyStr;
 
     ///////////////////////////
     std::cout << "uByte: \t\t" << nub << " (error= " << (ub - nub) << ")\n";
@@ -136,10 +151,11 @@ int main(int argc, char* argv[])
     std::cout << "Int: \t\t" << ni << " (error= " << (i - ni) << ")\n";
     //  std::cout << "uLong: \t\t" << nul << " (error= " << (ul - nul) << ")\n";
     //  std::cout << "Long: \t\t" << nl << " (error= " << (l - nl) << ")\n";
+    std::cout << "string: \t" << "(" << nmyStr.size() << ")" << nmyStr << "-\n";
     std::cout << "float: \t\t" << nf << " (error= " << (f - nf) << ")\n";
     std::cout << "double: \t" << nd << " (error= " << (d - nd) << ")\n";
-    std::cout << "string: \t" << "(" << nmyStr.size() << ")" << nmyStr << "\n\n";
-
+	
+    std::cout << "\n";
     std::cout << "Stream Current Size: " << ds.getCurrentSize() << "\n";
     std::cout << "Stream Bytes Filled: " << ds.getBytesFilled() << "\n";
     std::cout << "Stream Bytes Read: " << ds.getBytesRead() << "\n";

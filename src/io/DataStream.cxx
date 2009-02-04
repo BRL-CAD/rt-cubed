@@ -32,7 +32,7 @@
 
 DataStream::DataStream()
 {
-  // create a bag with a DEFAULT_SIZE size
+  // create a stream with a DEFAULT_SIZE size
   data = NULL;
   currentSize = DEFAULT_SIZE;
   bytesFilled = 0;
@@ -133,103 +133,141 @@ uInt DataStream::clear(uChar fill, uInt size)
 
 
 
-/*
+/********************
  * Input
- */
+ ********************/
 extern DataStream& operator<<(DataStream &dest, DataStream source)
 {
-
-  uInt availBytes = source.getBytesFilled() - source.getBytesRead();
-
-  uChar c;
-
-  if (availBytes > 0)
-    {
-      for (uInt i = 0; i < availBytes; i++)
-	{
-	  source >> c;
-	  dest << c;
-	}      
-    }
-
+  dest.writeDataStream(source, source.getBytesAvailToRead());
   return dest;
 }
 
-
-
-
 extern DataStream& operator<<(DataStream &b, Char c)
 {
-  b << (uChar)c;
+  b.writeUChar((uChar)c);
   return b;
 }
 extern DataStream& operator<<(DataStream &b, uChar c)
 {
-  b.copyIn((void *)(&c), sizeof(uChar));
-  return b;
+  b.writeUChar(c);
+    return b;
 }
 
 
 extern DataStream& operator<<(DataStream &b, Short s)
 {
-  b << (uShort)s;
+  b.writeUShort((uShort)s);
   return b;
 }
 extern DataStream& operator<<(DataStream &b, uShort s)
 {
-  uShort c = htons(s);
-  b.copyIn((void *)(&c), sizeof(uShort));
+  b.writeUShort(s);
   return b;
 }
 
 
 extern DataStream& operator<<(DataStream &b, Int i)
 {
-  b << (uInt)i;
+  b.writeUInt((uInt)i);  
   return b;
 }
 extern DataStream& operator<<(DataStream &b, uInt i)
 {
-  uInt c = htonl(i);
-  b.copyIn((void *)(&c), sizeof(uInt));
+  b.writeUInt(i);
   return b;
 }
-
-/*
-extern DataStream& operator<<(DataStream &b, Long l)
-{
-  b << (uLong)l;
-  return b;
-}
-extern DataStream& operator<<(DataStream &b, uLong l)
-{
-  uLong nl = htonl(l);
-  b.copyIn((void *)(&nl), sizeof(uLong));
-  return b;
-}
-*/
 
 extern DataStream& operator<<(DataStream &b, float f)
 {
-  float nf;
-  b.toND((uByte *)&nf, (uByte *)&f, 1);
-  b.copyIn((void *)(&nf), sizeof(float)); 
+  b.writeFloat(f);
   return b;
 }
 extern DataStream& operator<<(DataStream &b, double d)
 {
-  double c;
-  b.toND((uByte *)&c, (uByte *)&d, 1);
-  b.copyIn((void *)(&c), sizeof(double)); 
+  b.writeDouble(d);
   return b;
 }
 
 
 extern DataStream& operator<<(DataStream &b, std::string &s)
 {
-  b << (uInt)s.length();
-  b.copyIn((void *)(s.c_str()), s.length());
+  b.writeString(s);
   return b;
+}
+
+
+
+
+void DataStream::writeDataStream(DataStream& source)
+{
+  this->writeDataStream(source, source.getBytesAvailToRead());
+}
+void DataStream::writeDataStream(DataStream& source, uInt baSize)
+{
+  uInt availBytes = source.getBytesAvailToRead();
+  if (availBytes > 0)
+    {
+      for (uInt i = 0; i < baSize; i++)
+	{
+	  this->writeUChar(source.readUChar());
+	}      
+    }
+}
+void DataStream::writeUByteArray(uByte ba[], uInt baSize)
+{
+  for (uInt i = 0; i < baSize; i++)
+    {
+      this->writeUChar(ba[i]);
+    }      
+}
+
+void DataStream::writeChar(const Char c) 
+{
+  this->writeUChar((uChar)c);
+}
+void DataStream::writeUChar(const uChar c)
+{
+  this->copyIn((void *)(&c), sizeof(uChar));
+}
+
+void DataStream::writeShort(const Short s) 
+{
+  this->writeUShort((uShort)s);
+}
+void DataStream::writeUShort(const uShort s)
+{
+  uShort c = htons(s);
+  this->copyIn((void *)(&c), sizeof(uShort));
+}
+
+
+void DataStream::writeInt(const Int i)
+{
+  this->writeUInt((uInt)i);
+}
+void DataStream::writeUInt(const uInt i)
+{
+  uInt c = htonl(i);
+  this->copyIn((void *)(&c), sizeof(uInt));
+}
+
+void DataStream::writeFloat(const float f)
+{
+  float nf;
+  this->toND((uByte *)&nf, (uByte *)&f, 1);
+  this->copyIn((void *)(&nf), sizeof(float)); 
+}
+void DataStream::writeDouble(const double d)
+{
+  double c;
+  this->toND((uByte *)&c, (uByte *)&d, 1);
+  this->copyIn((void *)(&c), sizeof(double)); 
+}
+
+void DataStream::writeString(const std::string s)
+{
+  this->writeUInt((uInt)s.length());
+  this->copyIn((void *)(s.c_str()), s.length());
 }
 
 
@@ -237,159 +275,137 @@ extern DataStream& operator<<(DataStream &b, std::string &s)
 
 
 
-/*
+
+
+/********************
  * Output
- */
+ ********************/
 extern DataStream& operator>>(DataStream &b, Char& c)
 {
-  uChar uc;
-  b >> uc;
-  c = (Char)uc;
+  c = b.readChar();
   return b;
 }
 extern DataStream& operator>>(DataStream &b, uChar& c)
 {
-  if (b.empty()) throw IOException("Stream is Empty");
-  uByte *pos = (b.getData() + b.getBytesRead());
-  c = 0;
-  c |= *(pos);
-  b.setBytesRead( b.getBytesRead() + sizeof(uChar));
+  c = b.readUChar();
   return b;
 }
 
-
 extern DataStream& operator>>(DataStream &b, Short& s)
 {
-  uShort us;
-  b >> us;
-  s = (Short) us;
+  s = b.readShort();
   return b;
 }
 extern DataStream& operator>>(DataStream &b, uShort& s)
 {
-  if (b.empty()) throw IOException("Stream is Empty");
-  uByte *pos = b.getData() + b.getBytesRead();
-  s = 0;
-  s |= *((uShort *)pos);
-  s = ntohs(s);
-  b.setBytesRead( b.getBytesRead() + sizeof(uShort));
+  s = b.readUShort();
   return b;
 }
 
 extern DataStream& operator>>(DataStream &b, Int& i)
 {
-  uInt ui;
-  b >> ui;
-  i = (Int) ui;
+  i = b.readInt();
   return b;
 }
 extern DataStream& operator>>(DataStream &b, uInt& i)
 {
-  if (b.empty()) throw IOException("Stream is Empty");
-  uByte *pos = b.getData() + b.getBytesRead();
-  uInt l = 0;
-  l = *((uInt*)pos);
-  i = (uInt)ntohl(l);
-
-  b.setBytesRead( b.getBytesRead() + sizeof(uInt));
+  i = b.readUInt();
   return b;
 }
-/*
-extern DataStream& operator>>(DataStream &b, Long& l)
-{
-  uLong ul;
-  b >> ul;
-  l = (uLong) ul;
-  return b;
-}
-extern DataStream& operator>>(DataStream &b, uLong& l)
-{
-  if (b.empty()) throw IOException("Stream is Empty");
-  uByte *pos = b.getData() + b.getBytesRead();
-  uInt nl = 0;
-  nl = *((uInt*)pos);
-  l = (uInt)ntohl(nl);
-  b.setBytesRead( b.getBytesRead() + sizeof(uLong));
-  return b;
-}
-*/
 
 extern DataStream& operator>>(DataStream &b, float& f)
 {
-  if (b.empty()) throw IOException("Stream is Empty");
-  uByte *pos = (b.getData() + b.getBytesRead());
-  b.fromNF((uByte *)&f, (uByte *)(pos), 1);
-  b.setBytesRead( b.getBytesRead() + sizeof(float));
+  f = b.readFloat();
   return b;
 }
 extern DataStream& operator>>(DataStream &b, double& d)
 {
-  if (b.empty()) throw IOException("Stream is Empty");
-
-  uByte *pos = (b.getData() + b.getBytesRead());
-  b.fromND((uByte *)&d, (uByte *)(pos), 1);
-  b.setBytesRead( b.getBytesRead() + sizeof(double));
+  d = b.readDouble();
   return b;
 }
 
 extern DataStream& operator>>(DataStream &b, std::string &s)
 {
-  if (b.empty()) throw IOException("Stream is Empty");
-
-  //Get the StringLen:
-  uInt i;
-  b >> i;
-  
-  uInt availableBytes;
-  availableBytes = b.getBytesFilled() - b.getBytesRead(); 
-
-  //Check to see if there is enough room to perform a read of i bytes
-  if (availableBytes < i) {
-    std::cerr << "Warning:  StringLength requested exceeds current Stream's endpoint. Truncating.\n";
-    i = availableBytes;
-  }
-
-  uChar *buf;
-
-  buf = new uChar[ i + 1 ]; // for null-character
-  uChar *pos = ((uChar *)b.getData() + b.getBytesRead());
-
-  for (uInt cnt = 0; cnt < i; cnt++) {
-    buf[cnt] = *pos;
-    pos++;
-  }
-
-  buf[i] = '\0';
-  s = std::string((char*)buf);
-  b.setBytesRead( b.getBytesRead() + sizeof(uChar)*i);
+  s = b.readString();
   return b;
 }
 
 
 
-
-
-
-
-std::string DataStream::peakString()
+uInt DataStream::readUByteArray(uByte* b, uInt size)
 {
-  if (this->empty()) throw IOException("Stream is Empty");
-  uInt i;
-  i = this->peakInt();
-  uChar *buf;
-  buf = new uChar[ i + 1 ]; // for null-character
-  uChar *pos = ((uChar *)this->data + this->bytesRead + 4); // + 4 for peakInt()
-  for (uInt cnt = 0; cnt < i; cnt++) {
-    buf[cnt] = *pos;
-    pos++;
-  }
-  buf[i] = '\0';
-  std::string s;
-  s = std::string((char*)buf);
+  uInt retVal = this->peakUByteArray(b, size);
+  this->setBytesRead( this->getBytesRead() + retVal);
+  return retVal;
+}
+
+
+Char DataStream::readChar()
+{
+  return (Char)this->readUChar();
+}
+uChar DataStream::readUChar()
+{
+  uChar c = this->peakUChar();
+  this->setBytesRead( this->getBytesRead() + sizeof(uChar));
+  return c;
+}
+
+Short DataStream::readShort()
+{
+  return (Short)this->readUShort();
+}
+uShort DataStream::readUShort()
+{
+  uShort s = this->peakUShort();
+  this->setBytesRead( this->getBytesRead() + sizeof(uShort));
   return s;
 }
 
-uByte DataStream::peakByte()
+Int DataStream::readInt()
+{
+  return (Int)this->readUInt();
+}
+uInt DataStream::readUInt()
+{
+  uInt i = this->peakUInt();
+  this->setBytesRead( this->getBytesRead() + sizeof(uInt));
+  return i;
+}
+
+float DataStream::readFloat()
+{
+  float f = this->peakFloat();
+  this->setBytesRead( this->getBytesRead() + sizeof(float));
+  return f;
+}
+double DataStream::readDouble()
+{
+  double d = this->peakDouble();
+  this->setBytesRead( this->getBytesRead() + sizeof(double));
+  return d;
+}
+
+std::string DataStream::readString()
+{
+  std::string s;
+  s = this->peakString();
+  this->setBytesRead( this->getBytesRead() + s.length() + sizeof(uInt));
+  return s;
+}
+
+
+
+/********************
+ * Peaks
+ ********************/
+
+
+Char DataStream::peakChar()
+{
+  return (Char)this->peakUChar();
+}
+uChar DataStream::peakUChar()
 {
   if (this->empty()) throw IOException("Stream is Empty");
   uByte b;
@@ -399,7 +415,12 @@ uByte DataStream::peakByte()
   return b;
 }
 
-uShort DataStream::peakShort()
+
+Short DataStream::peakShort()
+{
+  return (Short)this->peakUShort();
+}
+uShort DataStream::peakUShort()
 {
   if (this->empty()) throw IOException("Stream is Empty");
   uShort s;
@@ -410,7 +431,11 @@ uShort DataStream::peakShort()
   return s;
 }
 
-uInt DataStream::peakInt()
+Int DataStream::peakInt()
+{
+  return (Int)this->peakUInt();
+}
+uInt DataStream::peakUInt()
 {
   if (this->empty()) throw IOException("Stream is Empty");
   uByte *pos = (this->data + this->bytesRead);
@@ -438,6 +463,49 @@ double DataStream::peakDouble()
 }
 
 
+std::string DataStream::peakString()
+{
+  //Get the StringLen:
+  uInt i = this->peakUInt();
+
+  uChar *buf;
+  buf = new uChar[ i + 1 ]; // for null-character
+
+  uInt used = this->peakUByteArray(buf, i, sizeof(uInt));
+
+  buf[used] = '\0';
+
+  std::string  s = std::string((char*)buf);
+  return s;
+}
+
+
+
+
+uInt DataStream::peakUByteArray(uByte* b, uInt size, uInt offset)
+{
+  if (this->empty()) throw IOException("Stream is Empty");
+
+  uInt realSize = size;
+  uInt availableBytes;
+  availableBytes = this->getBytesAvailToRead();
+
+  //Check to see if there is enough room to perform a read of i bytes
+  if (availableBytes < size) {
+    std::cerr << "Warning:  uByte[] length requested exceeds current ";
+    std::cerr << "Stream's endpoint. Returning all available data.\n";
+    realSize = availableBytes;
+  }
+
+  uChar *pos = ((uChar *)this->getData() + this->getBytesRead() + offset);
+
+  for (uInt i = 0; i < realSize; ++i) {
+    b[i] = *pos;
+    pos++;
+  }
+
+  return realSize;
+}
 
 
 
@@ -515,6 +583,13 @@ uInt DataStream::getBytesRead()
   return this->bytesRead;
 }
 
+uInt DataStream::getBytesAvailToRead() 
+{ 
+  return this->bytesFilled - this->bytesRead;
+}
+
+
+
 void DataStream::setBytesRead(uInt v) 
 { 
   this->bytesRead = v;
@@ -555,22 +630,26 @@ void DataStream::Ferror(std::string mesg)
 // utility fns to convert host order Floats to network order, and back.
 void DataStream::toNF(register uByte *out, register uByte *in, uInt n)
 {
+  *out = *in;
   //htonf(out, in , n);
 }
 
 void DataStream::fromNF(register uByte *out, register uByte *in, uInt n)
 {
+  *out = *in;
   //ntohf(out, in, n);
 }
 
 // utility fns to convert host order doubles to network order, and back.
 void DataStream::toND(register uByte *out, register uByte *in, uInt n)
 {
+  *out = *in;
   //htond(out, in , n);
 }
 
 void DataStream::fromND(register uByte *out, register uByte *in, uInt n)
 {
+  *out = *in;
   //ntohd(out, in, n);
 }
 
