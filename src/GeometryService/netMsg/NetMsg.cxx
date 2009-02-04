@@ -159,9 +159,9 @@ void NetMsg::setReUUID(UUID v)
 String NetMsg::toString() 
 {
   std::stringstream Num;
-  Num << "msgType: " << this->msgType << " \t";
-  Num << "msgUUID: " << this->msgUUID << " \t";
-  Num << "reUUID: " << this->reUUID;
+  Num << "msgType: '" << this->msgType << "' \t";
+  Num << "msgUUID: '" << this->msgUUID << "' \t";
+  Num << "reUUID: '" << this->reUUID << "'";
   Num << "\n";
   return Num.str();
 }

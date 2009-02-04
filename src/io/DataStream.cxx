@@ -490,6 +490,8 @@ uInt DataStream::peakUByteArray(uByte* b, uInt size, uInt offset)
   uInt availableBytes;
   availableBytes = this->getBytesAvailToRead();
 
+  //std::cout << "\tRequested uByteArray Size: " << size << "\n";
+
   //Check to see if there is enough room to perform a read of i bytes
   if (availableBytes < size) {
     std::cerr << "Warning:  uByte[] length requested exceeds current ";

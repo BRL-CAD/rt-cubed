@@ -72,6 +72,19 @@ void Session::HandleRead(const boost::system::error_code& error,
       std::cout << "\tNew data(" <<  bytesXferred << "): " << data_ << "\n";
       std::cout << "\tNewMsgFlag=" << this->newMsgFlag << "\n";
  
+
+      //Do we have more than 4 bytes of data yet?
+      if (this->sessionBuffer->getBytesAvailToRead() < 4)
+	{
+	  socket_.async_read_some(boost::asio::buffer(data_, max_length),
+				  boost::bind(&Session::HandleRead, this,
+					      boost::asio::placeholders::error,
+					      boost::asio::placeholders::bytes_transferred));
+	  std::cout << "\tReading More...\n\n";
+	  return;
+	}
+
+
       //Check to see if we are processing a new msg
       if (this->newMsgFlag) {
 
@@ -93,7 +106,7 @@ void Session::HandleRead(const boost::system::error_code& error,
 					      boost::asio::placeholders::error,
 					      boost::asio::placeholders::bytes_transferred));
 	  this->newMsgFlag = false;
-	  std::cout << "\tReading More...\n";
+	  std::cout << "\tReading More...\n\n";
 	  return;
 	} 
       else
@@ -116,9 +129,13 @@ void Session::HandleRead(const boost::system::error_code& error,
       case 0: //RemHostNameSET
 	msg = new RemHostNameSetMsg(this->sessionBuffer);
 
+	msg->printMe();
+
 	retMsg = new RemHostNameSetFailMsg(5, msg->getReUUID(), msg->getMsgUUID(), 42 );
 	this->SendMsg(retMsg);
-	
+
+	delete retMsg;
+	delete msg;
 	break;
       case 5: //RemHostNameSETFAIL
 	msg = new RemHostNameSetFailMsg(this->sessionBuffer);
@@ -163,8 +180,7 @@ void Session::HandleRead(const boost::system::error_code& error,
 
       }
       
-	delete retMsg;
-      delete msg;
+
 
     }
   else
@@ -185,13 +201,13 @@ void Session::SendMsg(NetMsg* msg) {
   
   msgLen = ds->readUByteArray(dataToSend, msgLen);
 
+  std::cout << "\nSending Msg: msgLen: " << msgLen << "\t ";
+  msg->printMe();
   
   boost::asio::async_write(socket_,
-			   boost::asio::buffer(dataToSend, msgLen),
+			   boost::asio::buffer(dataToSend, msgLen + 4),
 			   boost::bind(&Session::HandleWrite, this,
 				       boost::asio::placeholders::error));
-  
-
   delete ds;
 }
 
