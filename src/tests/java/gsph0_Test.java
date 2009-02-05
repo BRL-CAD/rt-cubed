@@ -1,4 +1,32 @@
-import java.io.ByteArrayOutputStream;
+/*                 G S P H 0 _ T E S T . J A V A
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2009 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+
+/** @file gsph0_Test.java
+ *
+ *  Description -
+ *      
+ *
+ *  Author - David Loman
+ *
+ */
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -6,125 +34,159 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.UUID;
 
-public class gsph0_Test
-{
+public class gsph0_Test {
 	public static void main(String[] args) {
 		Socket s;
 		DataInputStream dis;
 		DataOutputStream dos;
-		int i = 0;
-		
+
 		try {
 			s = new Socket("128.63.32.72", 56789);
 			dis = new DataInputStream(s.getInputStream());
 			dos = new DataOutputStream(s.getOutputStream());
-				
-			//test sending a msg
-			sendRemHostNameSET(dos);
+
+			// Start by sending a RemHostNameSetMsg
+			RemHostNameSetMsg msg01 = new RemHostNameSetMsg(MsgTypes.RemHostNameSET, UUID.randomUUID().toString(), UUID.randomUUID()
+					.toString(), "Shota");
+
+			// serialize it and send it to the socket
+			msg01.serialize(dos);
+			System.out.print("Sent:\t");
+			msg01.printMe();
 			
-			while (++i < 20) {
-				
-				//Wait till there is enough in the input stream
-				while(dis.available() < 4) {
-					System.out.println("Have: " + dis.available() + " waiting for 4");
-					Thread.sleep(10L);	
-				}
+			gsph0_Test.sendRecvLoop(dis, dos);
 
-				int msgLen = dis.readInt() - 4;
-				
-				//Wait till there is enough in the input stream
-				while(dis.available() < msgLen) {
-					System.out.println("Have: " + dis.available() + " waiting for " + msgLen);
-					Thread.sleep(10L);			
-				}
+			s.close();
 
-				System.out.println("Have: " + dis.available() + ", making msg:\n");
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
+	public static void sendRecvLoop(DataInputStream sockIn, DataOutputStream sockOut) {
+		int loopCnt = 0;
+		long waitTime = 100L;
+		NetMsg villageMsg;
+		
+		while (loopCnt++ < 4)
+			
+		try {
+			System.out.println("\n\nSend/Recv Loop pass #" + loopCnt);
+
+			/*
+			 * RECV
+			 */
+
+			// Wait till there is enough in the input stream
+			System.out.print("Have: " + sockIn.available() + " bytes, waiting for 4 bytes... ");
+			while (sockIn.available() < 4) {
+				Thread.sleep(waitTime);
+			}
+			System.out.println("Done.");
+
+			
+			int msgLen = sockIn.readInt();
+			System.out.println("New MsgLen: " + msgLen + ". (" + sockIn.available() +  "/" + msgLen + ")");
+
+			
+			// Wait till there is enough in the input stream
+			while (sockIn.available() < msgLen) {
+				Thread.sleep(waitTime);
+				System.out.println("\t\t(" + sockIn.available() +  "/" + msgLen + ")");
+			}
+			
+			villageMsg = new NetMsg(sockIn);
+			villageMsg.printMe();
+			
+			switch (villageMsg.getMsgType()) {
+			case MsgTypes.RemHostNameSET:
 				
-				int msgType = dis.readInt();
-				System.out.println("\tmsgType=" + msgType + "\t\t\tLEN=4");
-				System.out.println("\t\t" + dis.available() + " remaining");
+				RemHostNameSetMsg msg1 = new RemHostNameSetMsg(villageMsg, sockIn);
+				msg1.printMe();
 				
-				int msgUUIDlen = dis.readInt();
-				byte[] baMsgUUID = new byte[msgUUIDlen];
-				dis.read(baMsgUUID, 0, msgUUIDlen);
-				String msgUUID = new String(baMsgUUID);
-				System.out.println("\tMsgUUID='" + msgUUID + "'\t LEN=" + msgUUIDlen);
-				System.out.println("\t\t" + dis.available() + " remaining");
+				//Now send an OK
+				NetMsg okayMsg = new NetMsg(MsgTypes.RemHostNameSETOK, UUID.randomUUID().toString(), UUID.randomUUID().toString() );
+				System.out.print("Sending: ");
+				okayMsg.serialize(sockOut);
+				okayMsg.printMe();
 				
-				int reUUIDlen = dis.readInt();
-				byte[] baReUUID = new byte[reUUIDlen];
-				dis.read(baReUUID, 0, reUUIDlen);
-				String reUUID = new String(baReUUID);
-				System.out.println("\tReUUID= '" + reUUID + "'\t LEN=" + reUUIDlen);
-				System.out.println("\t\t" + dis.available() + " remaining");
+				//Sent the OK, now wait a bit
+				System.out.print("\nThis app waits a bit, then requests a new Session.\n");
+				Thread.sleep(2500L);
 				
-				byte by= dis.readByte();
-				System.out.println("\tErrorCode=" + by + "\t LEN=1");
-				System.out.println("\t\t" + dis.available() + " remaining");
+				//Now send a NewSessionRequest
+				NetMsg newSession = new NetMsg(MsgTypes.NewSessionREQ, UUID.randomUUID().toString(), UUID.randomUUID().toString() );
+				System.out.print("Sending: ");
+				newSession.serialize(sockOut);
+				newSession.printMe();
 				
-				System.out.println("Have: " + dis.available() + " leftover.");
+				break;
+			case MsgTypes.RemHostNameSETFAIL:
+				
+				RemHostNameSetFailMsg msg2 = new RemHostNameSetFailMsg(villageMsg, sockIn);
+				msg2.printMe();
+				return; //Exit loop
+				
+			case MsgTypes.RemHostNameSETOK:
+				//NoReply Needed				
+				break;
+			case MsgTypes.DisconnectREQ:
+				return; //Exit loop
+			case MsgTypes.NewHostOnNetINFO:
+				break;
+			
+			case MsgTypes.NewSessionREQ:
+				break;
+			case MsgTypes.NewSessionREQFAIL:
+				break;
+			case MsgTypes.NewSessionREQOK:
+				RemHostNameSetMsg nsReqOkay = new RemHostNameSetMsg(villageMsg, sockIn);
+				nsReqOkay.printMe();
+				
+				
+				//Got a new Session, now wait a bit
+				System.out.print("\nThis app waits a bit, then requests a some Geometry.\n");
+				Thread.sleep(2500L);
+				
+				//Now send a NewSessionRequest
+				GeometryReqMsg geoReq = new GeometryReqMsg(MsgTypes.GeometryREQ, 
+									UUID.randomUUID().toString(), UUID.randomUUID().toString(),
+									(byte)1, "testing.g");
+				System.out.print("Sending: ");
+				geoReq.serialize(sockOut);
+				geoReq.printMe();
+		
+				break;
+
+			case MsgTypes.GeometryREQ:
+				break;
+			case MsgTypes.GeometryREQFAIL:
+				break;
+			case MsgTypes.GeometryMANIFEST:
+				break;
+			case MsgTypes.GeometryCHUNK:
+				break;
+				
+			default:
+				System.err.println("Unknown msgType!");
+				
+				
 				break;
 			}
 			
 			
 			
+			//Clean up the bytes here based on msgLen from above....
 			
-			s.close();
-			
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}		
+		}
+
 	}
 
-	
-	public static void sendRemHostNameSET(DataOutputStream dos) {
-		
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream out = new DataOutputStream(baos);
-			
-		try {
-			out.writeInt(0); //msgType
-			
-//			String MsgUUID = UUID.randomUUID().toString();
-			String MsgUUID = "dcae96d9-a1bc-4d0c-bfbe-f3035b4fc7df";
-			System.out.println(MsgUUID + " Size=" + MsgUUID.length());
-			out.writeInt(MsgUUID.length());
-			out.write(MsgUUID.getBytes("US-ASCII"));
-			
-			
-//			String ReUUID = UUID.randomUUID().toString();
-			String ReUUID = "b01e3f29-8dd1-4d37-8d77-58a96b9348e9";
-			System.out.println(ReUUID + " Size=" + ReUUID.length());
-			out.writeInt(ReUUID.length());
-			out.write(ReUUID.getBytes("US-ASCII"));
-			
-			
-			String hostname = "Shota";
-	
-			System.out.println(hostname + " Size=" + hostname.length());
-			out.writeInt(hostname.length());
-			out.write(hostname.getBytes("US-ASCII"));
-			
-			byte[] ba = baos.toByteArray();
-
-			
-			
-			
-			// Write the length of all the data in the message.
-			dos.writeInt(ba.length);
-			System.out.println(ba.length);
-			System.out.println(ba);
-			
-			
-			// Write in all the data
-			dos.write(ba);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
 }
