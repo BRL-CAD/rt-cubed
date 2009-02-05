@@ -442,6 +442,9 @@ uInt DataStream::peakUInt()
   uInt i = 0;
   i |= *((uInt*)pos);
   i = (uInt)ntohl(i);
+
+  //std::cout << "Peaked a uInt of " << i << "\n";
+
   return i;
 }
 

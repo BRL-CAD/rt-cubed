@@ -79,7 +79,8 @@ String GeometryReqMsg::toString()
   Num << "msgUUID: " << this->msgUUID << " \t";
   Num << "reUUID: " << this->reUUID << " \t";
   Num << "ReqType: " << (uInt)this->reqType << " \t";
-  Num << "LenOfData: " << this->data.size();
+  Num << "LenOfData: " << this->data.size() << " \t";
+  Num << "Data: " << this->data;
   Num << "\n";
   return Num.str();
 }

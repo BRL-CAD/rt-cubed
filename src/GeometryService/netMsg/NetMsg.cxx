@@ -102,17 +102,17 @@ void NetMsg::deserialize(DataStream* ds)
 {
   try {
     //deserialize Header
-    *ds >> this->msgType;
-    *ds >> this->msgUUID;
-    *ds >> this->reUUID;
-  } catch (IOException ioe) {
-    std::cerr << "Error: " << ioe.getMessage() << std::endl;
-  }
+    this->msgType = ds->readUInt();
+    this->msgUUID = ds->readString();
+    this->reUUID = ds->readString();
 
-  if (!this->_deserialize(ds))
-    {
-      //Error here.
-    }
+    if (!this->_deserialize(ds))
+      {
+	//Error here.
+      }
+  } catch (IOException ioe) {
+    std::cerr << "Error in NetMsg(): " << ioe.getMessage() << std::endl;
+  }
 }
 
 
