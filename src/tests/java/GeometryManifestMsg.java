@@ -29,7 +29,7 @@ public class GeometryManifestMsg extends AbstractMsg {
 	@Override
 	protected void _deserialize(DataInputStream dis) {
 		try {
-
+			this.items = new ArrayList<String>();
 			int itemsInManifest = dis.readInt();
 			int len = 0;
 
