@@ -85,7 +85,7 @@ class DataStream {
 
   void writeDataStream(DataStream& source);
   void writeDataStream(DataStream& source, uInt baSize);
-  void writeUByteArray(uByte ba[], uInt baSize);
+  void writeUByteArray(uByte* ba, uInt baSize);
 
   void writeChar(const Char c);
   void writeUChar(const uChar c);

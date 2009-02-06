@@ -45,7 +45,7 @@ public:
   GeometryManifestMsg(uInt mType, UUID mUUID, UUID rUUID);
 
   //Deserializing Constructors
-  GeometryManifestMsg(uByte data[], uInt len);
+  GeometryManifestMsg(uByte* data, uInt len);
   GeometryManifestMsg(DataStream* ds);
 
   //Destructor
@@ -60,9 +60,10 @@ public:
 
   std::vector<String>* getItemData();
 
+  
 
 private:
-  std::vector<String> itemData;
+  std::vector<String>* itemData;
   virtual bool _deserialize(DataStream* ds);
   virtual bool _serialize(DataStream* ds);
 

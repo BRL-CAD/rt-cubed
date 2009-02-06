@@ -55,6 +55,40 @@
   typedef uint64_t   uLong;
   typedef int64_t    Long;
 
+
+/*  NetMsg Types */
+
+#define RemHostNameSET 		0
+#define	RemHostNameSETFAIL 	5
+#define	RemHostNameSETOK 	10
+
+#define	DisconnectREQ 		15
+#define NewHostOnNetINFO 	20
+
+#define FullHostListREQ		25
+#define FullHostListREQFAIL	30
+#define FullHostListREQOK	35
+
+#define NewSessionREQ		40
+#define NewSessionREQFAIL	45
+#define NewSessionREQOK		50
+
+
+#define	GeometryREQ		100
+   #define ReqByUUID         0
+   #define ReqByFilePath     1
+#define	GeometryREQFAIL		105
+#define GeometryMANIFEST	110
+#define GeometryCHUNK		115
+
+
+/*  Failure Codes */
+#define UUIDNotFoundFailure      0
+#define FileNotFoundFailure      1
+
+
+
+
 #endif // !defined(_IBMECOMMON_H_)
 
 // Local Variables: ***

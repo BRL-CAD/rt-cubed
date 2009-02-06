@@ -213,7 +213,7 @@ void DataStream::writeDataStream(DataStream& source, uInt baSize)
 	}      
     }
 }
-void DataStream::writeUByteArray(uByte ba[], uInt baSize)
+void DataStream::writeUByteArray(uByte* ba, uInt baSize)
 {
   for (uInt i = 0; i < baSize; i++)
     {

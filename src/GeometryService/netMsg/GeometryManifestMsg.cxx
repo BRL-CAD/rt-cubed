@@ -34,6 +34,8 @@
 GeometryManifestMsg::GeometryManifestMsg(uInt mType, String mUUID, String rUUID):
   NetMsg(mType, mUUID, rUUID)
 {
+  this->itemData = new std::vector<String>();
+
 }
 
 //Deserializing Constructors
@@ -41,7 +43,7 @@ GeometryManifestMsg::GeometryManifestMsg(DataStream* ds)
 {
   this->deserialize(ds);
 }
-GeometryManifestMsg::GeometryManifestMsg(uByte data[], uInt len)
+GeometryManifestMsg::GeometryManifestMsg(uByte* data, uInt len)
 {
   DataStream ds;
   for (uInt i = 0; i < len; i++)
@@ -59,26 +61,34 @@ GeometryManifestMsg::~GeometryManifestMsg()
 
 bool GeometryManifestMsg::_deserialize(DataStream* ds)
 {
-  uInt numOfItems;
-  *ds >> numOfItems;
+  uInt numOfItems = ds->readUInt();
   std::string s;
 
   for (uInt i = 0; i < numOfItems; ++i)
     {
-      *ds >> s;
-      this->itemData.push_back(s);
+      s = ds->readString();
+      this->itemData->push_back(s);
     }
   return true;
 }
 
 bool GeometryManifestMsg::_serialize(DataStream* ds)
 {
-  *ds << (uInt)this->itemData.size();
+  ds->writeUInt((uInt)this->itemData->size());
 
-  for (uInt i = 0; i< this->itemData.size(); ++i)
+  std::vector<String>::const_iterator cii;
+  for(cii=this->itemData->begin(); cii!=this->itemData->end(); cii++)
     {
-      *ds << this->itemData[i];
+      ds->writeString(*cii);
     }
+  /*
+
+  for (uInt i = 0; i< this->itemData->size(); ++i)
+  {
+      
+  ds->writeString(this->itemData[i]);
+  }
+  */
   return true;
 }
 
@@ -88,12 +98,13 @@ String GeometryManifestMsg::toString()
   Num << "msgType: " << this->msgType << " \t";   
   Num << "msgUUID: " << this->msgUUID << " \t";
   Num << "reUUID: " << this->reUUID << " \t\n";
-  Num << "\t\titemData.size(): " << this->itemData.size();
+  Num << "\t\titemData.size(): " << this->itemData->size();
   Num << "\n";
 
-  for (uInt i = 0; i< this->itemData.size(); ++i)
+  std::vector<String>::const_iterator cii;
+  for(cii=this->itemData->begin(); cii!=this->itemData->end(); cii++)
     {
-      Num << "\t\t" << this->itemData[i] << "\n";
+      Num  << "\t\t" << *cii << "\n";
     }
   Num << "\n";
 
@@ -103,9 +114,9 @@ String GeometryManifestMsg::toString()
 /*
  *Getters n Setters
  */
-uInt GeometryManifestMsg::getNumOfItems() {return this->itemData.size();}
+uInt GeometryManifestMsg::getNumOfItems() {return this->itemData->size();}
 
-std::vector<String>* GeometryManifestMsg::getItemData() {return &this->itemData;}
+std::vector<String>* GeometryManifestMsg::getItemData() {return this->itemData;}
 
 // Local Variables: ***
 // mode: C++ ***

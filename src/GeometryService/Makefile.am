@@ -7,7 +7,7 @@ libgs_la_SOURCES = \
 	Session.cxx \
 	AccessManager.cxx \
 	GeometryService.cxx \
- 	NetSockPortal.cxx \
+	NetSockPortal.cxx \
 	SessionManager.cxx \
 	NetMsgActionDefinitions/AbstractNetMsgActionDef.cxx \
 	NetMsgActionDefinitions/NetMsgActionDefManager.cxx \
@@ -21,6 +21,7 @@ libgs_la_SOURCES = \
 	Jobs/JobWorker.cxx \
 	Jobs/NetMsgActionJob.cxx \
 	netMsg/GeometryManifestMsg.cxx \
+	netMsg/GeometryChunkMsg.cxx \
 	netMsg/GeometryReqMsg.cxx \
 	netMsg/NetMsg.cxx \
 	netMsg/RemHostNameSetFailMsg.cxx \
