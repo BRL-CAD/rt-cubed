@@ -1,4 +1,5 @@
-/*           C L O N E N O T S U P P O R T E D E X C E P T I O N . C X X
+
+/*                T H R O W A B L E . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +19,7 @@
  * information.
  */
 
-/** @file CloneNotSupportedException.cxx
+/** @file Throwable.cxx
  *
  *  Description -
  *      
@@ -27,15 +28,25 @@
  *
  */
 
+#include "exception/Throwable.h"
 
-#include "lang/CloneNotSupportedException.h"
-
-CloneNotSupportedException::CloneNotSupportedException() throw ()
+Throwable::Throwable() throw ()
 {
 }
 
-CloneNotSupportedException::CloneNotSupportedException(const String& message) throw () : Exception(message)
+Throwable::Throwable(const String& message) throw ()
 {
+	_msg = message;
+}
+
+Throwable::Throwable(const Throwable& copy) throw ()
+{
+	_msg = copy._msg;
+}
+
+const String& Throwable::getMessage() const throw ()
+{
+	return _msg;
 }
 
 // Local Variables: ***

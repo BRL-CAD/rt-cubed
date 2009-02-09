@@ -1,5 +1,4 @@
-
-/*            I O E X C E P T I O N . C X X
+/*                    O B J E C T . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +18,7 @@
  * information.
  */
 
-/** @file IOException.cxx
+/** @file Object.h
  *
  *  Description -
  *      
@@ -28,16 +27,24 @@
  *
  */
 
-#include "io/IOException.h"
-#include "lang/Exception.h"
+#ifndef _OBJECT_H_
+#define _OBJECT_H_
 
-IOException::IOException()
-{
-}
+#include "exception/CloneNotSupportedException.h"
 
-IOException::IOException(const String& message) : Exception(message)
-{
-}
+class Object
+	{
+	protected:
+		virtual Object* clone() const throw (CloneNotSupportedException);
+
+	public:
+		Object() throw ();
+		virtual ~Object() {};
+
+		virtual bool equals(const Object& compare) const throw ();
+	};
+
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

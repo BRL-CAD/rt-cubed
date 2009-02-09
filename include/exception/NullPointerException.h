@@ -1,5 +1,4 @@
-
-/*                    O B J E C T . C X X
+/*               N U L L P O I N T E R  E X C E P T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +18,7 @@
  * information.
  */
 
-/** @file Object.cxx
+/** @file NullPointerException.h
  *
  *  Description -
  *      
@@ -28,21 +27,19 @@
  *
  */
 
-#include "lang/Object.h"
+#ifndef _NULLPOINTEREXCEPTION_H_
+#define _NULLPOINTEREXCEPTION_H_
 
-Object::Object() throw ()
-{
-}
+#include "exception/RuntimeException.h"
 
-Object* Object::clone() const throw (CloneNotSupportedException)
+class  NullPointerException : public RuntimeException
 {
-	throw CloneNotSupportedException();
-}
+public:
+	NullPointerException() throw ();
+	NullPointerException(const String& message) throw ();
+};
 
-bool Object::equals(const Object& cmp) const throw ()
-{
-	return this == &cmp;
-}
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,5 @@
-/*                E X C E P T I O N . C X X
+
+/*              R U N T I M E E X C E P T I O N . C X X 
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +19,7 @@
  * information.
  */
 
-/** @file Exception.cxx
+/** @file RunTimeException.cxx
  *
  *  Description -
  *      
@@ -27,14 +28,13 @@
  *
  */
 
+#include "exception/RuntimeException.h"
 
-#include "lang/Exception.h"
-
-Exception::Exception() throw ()
+RuntimeException::RuntimeException() throw ()
 {
 }
 
-Exception::Exception(const String& message) throw () : Throwable(message)
+RuntimeException::RuntimeException(const String& message) throw () : Exception(message)
 {
 }
 

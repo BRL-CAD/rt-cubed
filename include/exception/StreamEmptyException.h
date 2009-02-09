@@ -1,4 +1,5 @@
-/*            I O E X C E P T I O N . H 
+
+/*        S T R E A M E M P T Y E X C E P T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +19,7 @@
  * information.
  */
 
-/** @file IOException.h
+/** @file StreamEmptyException.h
  *
  *  Description -
  *      
@@ -27,16 +28,16 @@
  *
  */
 
-#ifndef _IOEXCEPTION_H_
-#define _IOEXCEPTION_H_
+#ifndef _STREAMEMPTYEXCEPTION_H_
+#define _STREAMEMPTYEXCEPTION_H_
 
-#include "lang/Exception.h"
+#include "exception/Exception.h"
 
-class IOException : public Exception
+class StreamEmptyException : public Exception
 {
 	public:
-		IOException();
-		IOException(const String& message);
+		StreamEmptyException();
+		StreamEmptyException(const String& message);
 };
 
 #endif

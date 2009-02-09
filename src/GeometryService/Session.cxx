@@ -134,18 +134,6 @@ void Session::HandleRead(const boost::system::error_code& error,
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
       //TODO: move these msgTypes over to a DEFINES
       switch (msgType) {
 
@@ -427,6 +415,7 @@ void Session::Handle_GeometryReq()
 
     if(!file.is_open()) {
       std::cout << " was not found.\n";
+
       //Send a Geometry Fail
       geoFailMsg = new RemHostNameSetFailMsg(GeometryREQFAIL,"7e213dfe-71cf-4233-8d03-c147685c4bb8",geoReqMsg->getMsgUUID(), UUIDNotFoundFailure );
       this->SendMsg(geoFailMsg);

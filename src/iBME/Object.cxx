@@ -1,4 +1,5 @@
-/*                    O B J E C T . H
+
+/*                    O B J E C T . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +19,7 @@
  * information.
  */
 
-/** @file Object.h
+/** @file Object.cxx
  *
  *  Description -
  *      
@@ -27,24 +28,21 @@
  *
  */
 
-#ifndef _OBJECT_H_
-#define _OBJECT_H_
+#include "iBME/Object.h"
 
-#include "lang/CloneNotSupportedException.h"
+Object::Object() throw ()
+{
+}
 
-class Object
-	{
-	protected:
-		virtual Object* clone() const throw (CloneNotSupportedException);
+Object* Object::clone() const throw (CloneNotSupportedException)
+{
+	throw CloneNotSupportedException();
+}
 
-	public:
-		Object() throw ();
-		virtual ~Object() {};
-
-		virtual bool equals(const Object& compare) const throw ();
-	};
-
-#endif
+bool Object::equals(const Object& cmp) const throw ()
+{
+	return this == &cmp;
+}
 
 // Local Variables: ***
 // mode: C++ ***

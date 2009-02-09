@@ -1,4 +1,4 @@
-/*              R U N T I M E E X C E P T I O N . H
+/*            I O E X C E P T I O N . H 
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file RunTimeException.h
+/** @file IOException.h
  *
  *  Description -
  *      
@@ -27,16 +27,16 @@
  *
  */
 
-#ifndef _RUNTIMEEXCEPTION_H_
-#define _RUNTIMEEXCEPTION_H_
+#ifndef _IOEXCEPTION_H_
+#define _IOEXCEPTION_H_
 
-#include "lang/Exception.h"
+#include "exception/Exception.h"
 
-class  RuntimeException : public Exception
+class IOException : public Exception
 {
-public:
-	RuntimeException() throw ();
-	RuntimeException(const String& message) throw ();
+	public:
+		IOException();
+		IOException(const String& message);
 };
 
 #endif

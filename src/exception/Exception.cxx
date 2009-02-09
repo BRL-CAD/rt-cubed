@@ -1,4 +1,4 @@
-/*           O U T P U T S T R E A M . C X X
+/*                E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file OutputStream.cxx
+/** @file Exception.cxx
  *
  *  Description -
  *      
@@ -27,32 +27,15 @@
  *
  */
 
-#include "io/OutputStream.h"
-#include "exception/NullPointerException.h"
 
-void OutputStream::close() throw (IOException)
+#include "exception/Exception.h"
+
+Exception::Exception() throw ()
 {
 }
 
-void OutputStream::flush() throw (IOException)
+Exception::Exception(const String& message) throw () : Throwable(message)
 {
-}
-
-void OutputStream::write(const uByte* data, size_t offset, size_t length) throw (IOException)
-{
-	if (length)
-	{
-		if (!data)
-			throw NullPointerException();
-
-		for (size_t i = 0; i < length; i++)
-			write(data[offset+i]);
-	}
-}
-
-void OutputStream::write(const array<uByte>& b) throw (IOException)
-{
-	write(b.data(), 0, b.size());
 }
 
 // Local Variables: ***

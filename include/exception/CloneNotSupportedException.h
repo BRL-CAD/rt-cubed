@@ -1,4 +1,5 @@
-/*           O U T P U T S T R E A M . C X X
+
+/*           C L O N E N O T S U P P O R T E D E X C E P T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +19,7 @@
  * information.
  */
 
-/** @file OutputStream.cxx
+/** @file CloneNotSupportedException.h
  *
  *  Description -
  *      
@@ -27,33 +28,19 @@
  *
  */
 
-#include "io/OutputStream.h"
-#include "exception/NullPointerException.h"
+#ifndef _CLONENOTSUPPORTEDEXCEPTION_H_
+#define _CLONENOTSUPPORTEDEXCEPTION_H_
 
-void OutputStream::close() throw (IOException)
+#include "exception/Exception.h"
+
+class  CloneNotSupportedException : public Exception
 {
-}
+	public:
+		CloneNotSupportedException() throw ();
+		CloneNotSupportedException(const String& message) throw ();
+};
 
-void OutputStream::flush() throw (IOException)
-{
-}
-
-void OutputStream::write(const uByte* data, size_t offset, size_t length) throw (IOException)
-{
-	if (length)
-	{
-		if (!data)
-			throw NullPointerException();
-
-		for (size_t i = 0; i < length; i++)
-			write(data[offset+i]);
-	}
-}
-
-void OutputStream::write(const array<uByte>& b) throw (IOException)
-{
-	write(b.data(), 0, b.size());
-}
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

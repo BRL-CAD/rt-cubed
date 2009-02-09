@@ -31,8 +31,8 @@
 #define _OUTPUTSTREAM_H_
 
 #include "common/array.h"
-#include "io/IOException.h"
-#include "lang/Object.h"
+#include "exception/IOException.h"
+#include "iBME/Object.h"
 
 class OutputStream : public Object
 	{

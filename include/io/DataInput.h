@@ -32,7 +32,7 @@
 #define _DATAINPUT_H_
 
 #include "common/array.h"
-#include "io/IOException.h"
+#include "exception/IOException.h"
 
     class DataInput
     {

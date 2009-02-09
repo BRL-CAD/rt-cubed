@@ -28,7 +28,7 @@
  */
 
 #include "io/ByteArrayInputStream.h"
-#include "lang/NullPointerException.h"
+#include "exception/NullPointerException.h"
 
 ByteArrayInputStream::ByteArrayInputStream(const array<uByte>& b) : _buf(b)
 {

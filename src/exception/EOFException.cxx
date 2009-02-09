@@ -1,5 +1,4 @@
-
-/*           C L O N E N O T S U P P O R T E D E X C E P T I O N . H
+/*           E O F E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +18,7 @@
  * information.
  */
 
-/** @file CloneNotSupportedException.h
+/** @file EOFException.cxx
  *
  *  Description -
  *      
@@ -28,19 +27,15 @@
  *
  */
 
-#ifndef _CLONENOTSUPPORTEDEXCEPTION_H_
-#define _CLONENOTSUPPORTEDEXCEPTION_H_
+#include "exception/EOFException.h"
 
-#include "lang/Exception.h"
-
-class  CloneNotSupportedException : public Exception
+EOFException::EOFException() throw ()
 {
-	public:
-		CloneNotSupportedException() throw ();
-		CloneNotSupportedException(const String& message) throw ();
-};
+}
 
-#endif
+EOFException::EOFException(const String& message) throw () : IOException(message)
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

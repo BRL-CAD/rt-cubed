@@ -1,5 +1,4 @@
-
-/*                T H R O W A B L E . C X X
+/*           E O F E X C E P T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +18,7 @@
  * information.
  */
 
-/** @file Throwable.cxx
+/** @file EOFException.h
  *
  *  Description -
  *      
@@ -28,26 +27,19 @@
  *
  */
 
-#include "lang/Throwable.h"
+#ifndef _CLASS_EOFEXCEPTION_H
+#define _CLASS_EOFEXCEPTION_H
 
-Throwable::Throwable() throw ()
-{
-}
+#include "exception/IOException.h"
 
-Throwable::Throwable(const String& message) throw ()
+class  EOFException : public IOException
 {
-	_msg = message;
-}
+	public:
+		EOFException() throw ();
+		EOFException(const String& message) throw ();
+};
 
-Throwable::Throwable(const Throwable& copy) throw ()
-{
-	_msg = copy._msg;
-}
-
-const String& Throwable::getMessage() const throw ()
-{
-	return _msg;
-}
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

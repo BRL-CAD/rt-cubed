@@ -1,4 +1,5 @@
-/*           E O F E X C E P T I O N . C X X
+
+/*               N U L L P O I N T E R  E X C E P T I O N . C X X 
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +19,7 @@
  * information.
  */
 
-/** @file EOFException.cxx
+/** @file NullPointerException.cxx
  *
  *  Description -
  *      
@@ -27,13 +28,13 @@
  *
  */
 
-#include "io/EOFException.h"
+#include "exception/NullPointerException.h"
 
-EOFException::EOFException() throw ()
+NullPointerException::NullPointerException() throw ()
 {
 }
 
-EOFException::EOFException(const String& message) throw () : IOException(message)
+NullPointerException::NullPointerException(const String& message) throw () : RuntimeException(message)
 {
 }
 

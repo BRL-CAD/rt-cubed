@@ -1,4 +1,5 @@
-/*                E X C E P T I O N . H
+
+/*            I O E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +19,7 @@
  * information.
  */
 
-/** @file Exception.h
+/** @file IOException.cxx
  *
  *  Description -
  *      
@@ -27,18 +28,16 @@
  *
  */
 
-#ifndef _EXCEPTION_H_
-#define _EXCEPTION_H_
+#include "exception/IOException.h"
+#include "exception/Exception.h"
 
-#include "lang/Throwable.h"
-class  Exception : public Throwable
+IOException::IOException()
 {
-	public:
-		Exception() throw ();
-		Exception(const String& message) throw ();
-};
+}
 
-#endif
+IOException::IOException(const String& message) : Exception(message)
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

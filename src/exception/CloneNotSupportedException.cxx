@@ -1,5 +1,4 @@
-
-/*               N U L L P O I N T E R  E X C E P T I O N . C X X 
+/*           C L O N E N O T S U P P O R T E D E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +18,7 @@
  * information.
  */
 
-/** @file NullPointerException.cxx
+/** @file CloneNotSupportedException.cxx
  *
  *  Description -
  *      
@@ -28,13 +27,14 @@
  *
  */
 
-#include "lang/NullPointerException.h"
 
-NullPointerException::NullPointerException() throw ()
+#include "exception/CloneNotSupportedException.h"
+
+CloneNotSupportedException::CloneNotSupportedException() throw ()
 {
 }
 
-NullPointerException::NullPointerException(const String& message) throw () : RuntimeException(message)
+CloneNotSupportedException::CloneNotSupportedException(const String& message) throw () : Exception(message)
 {
 }
 

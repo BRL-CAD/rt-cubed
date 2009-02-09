@@ -1,4 +1,4 @@
-/*               N U L L P O I N T E R  E X C E P T I O N . H
+/*                E X C E P T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file NullPointerException.h
+/** @file Exception.h
  *
  *  Description -
  *      
@@ -27,16 +27,15 @@
  *
  */
 
-#ifndef _NULLPOINTEREXCEPTION_H_
-#define _NULLPOINTEREXCEPTION_H_
+#ifndef _EXCEPTION_H_
+#define _EXCEPTION_H_
 
-#include "lang/RuntimeException.h"
-
-class  NullPointerException : public RuntimeException
+#include "exception/Throwable.h"
+class  Exception : public Throwable
 {
-public:
-	NullPointerException() throw ();
-	NullPointerException(const String& message) throw ();
+	public:
+		Exception() throw ();
+		Exception(const String& message) throw ();
 };
 
 #endif
