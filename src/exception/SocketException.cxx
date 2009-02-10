@@ -1,4 +1,4 @@
-/*             C O M M U N I C A T I O N S M A N A G E R . H
+/*            S O C K E T E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file CommunicationsManager.h
+/** @file SocketException.cxx
  *
  *  Description -
  *      
@@ -27,41 +27,16 @@
  *
  */
 
-#if !defined(_COMMUNICATIONSMANAGER_H_)
-#define _COMMUNICATIONSMANAGER_H_
+#include "exception/SocketException.h"
+#include "exception/Exception.h"
 
-#include <iostream>
-#include <list>
-#include <map>
+SocketException::SocketException()
+{
+}
 
-#include "GeometryService/AbstractPortal.h"
-#include "GeometryService/netMsg/NetMsg.h"
-
-    /**
-     * CommMan performs the netMsg <-> Job conversion
-     */
-    class CommunicationsManager
-    {
-
-    public:
-      CommunicationsManager();
-      virtual ~CommunicationsManager();
-
-      void startListening(uInt port);
-
-    private:
-      std::list<NetMsg> inbox;
-      std::list<NetMsg> outbox;
-      /**
-       * Maps hostnames to AbstractPortals
-       *
-       * This MAY not be necessary if all outgoing Traffic is handled by the individual
-       * Session Objects
-       */
-      std::map<String, AbstractPortal> portals;
-    };
-
-#endif // !defined(_COMMUNICATIONSMANAGER_H_)
+SocketException::SocketException(const String& message) : Exception(message)
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

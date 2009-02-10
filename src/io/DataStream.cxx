@@ -32,12 +32,12 @@
 
 DataStream::DataStream()
 {
-  // create a stream with a DEFAULT_SIZE size
+  // create a stream with  size = 32
   data = NULL;
-  currentSize = DEFAULT_SIZE;
+  currentSize = 32;
   bytesFilled = 0;
   bytesRead = 0;
-  data = new uByte[DEFAULT_SIZE];
+  data = new uByte[this->currentSize];
   if (data == NULL) {
     Ferror("new() failed");
   }

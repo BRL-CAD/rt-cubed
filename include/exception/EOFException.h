@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef _CLASS_EOFEXCEPTION_H
-#define _CLASS_EOFEXCEPTION_H
+#ifndef __EOFEXCEPTION_H
+#define __EOFEXCEPTION_H
 
 #include "exception/IOException.h"
 

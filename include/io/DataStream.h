@@ -33,11 +33,9 @@
 #include "exception/IOException.h"
 #include <netinet/in.h>
 
-
-const uInt DEFAULT_SIZE = 128;
-
 class DataStream {
  private:
+
   uInt currentSize;
 
   uInt bytesFilled;

@@ -1,4 +1,4 @@
-/*             C O M M U N I C A T I O N S M A N A G E R . H
+/*          G E O M E T R Y C H U N K M S G. H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file CommunicationsManager.h
+/** @file GeometryChunkMsg.h
  *
  *  Description -
  *      
@@ -27,41 +27,52 @@
  *
  */
 
-#if !defined(_COMMUNICATIONSMANAGER_H_)
-#define _COMMUNICATIONSMANAGER_H_
+#if !defined(_GEOMETRYCHUNKMSG_H_)
+#define _GEOMETRYCHUCKMSG_H_
 
-#include <iostream>
-#include <list>
-#include <map>
-
-#include "GeometryService/AbstractPortal.h"
+#include "iBME/iBMECommon.h"
+#include "io/DataInputStream.h"
+#include "io/DataOutputStream.h"
+#include "io/ByteArrayOutputStream.h"
+#include "io/ByteArrayInputStream.h"
 #include "GeometryService/netMsg/NetMsg.h"
 
-    /**
-     * CommMan performs the netMsg <-> Job conversion
-     */
-    class CommunicationsManager
+
+class GeometryChunkMsg : public NetMsg
     {
 
     public:
-      CommunicationsManager();
-      virtual ~CommunicationsManager();
 
-      void startListening(uInt port);
+      //Only Constructor
+      GeometryChunkMsg(uInt mType, String mUUID, String rUUID, uByte* ba, uInt len);
+
+      //Deserializing Constructors
+      GeometryChunkMsg(DataStream* ds);
+
+      //Destructor
+      virtual ~GeometryChunkMsg();
+  
+      virtual String toString();
+
+      /*
+       *Getters n Setters
+       */
+      uByte* getData();
+      void setData(const uByte* v, const uInt vLen);
+
+      uInt getDataLen();
+
 
     private:
-      std::list<NetMsg> inbox;
-      std::list<NetMsg> outbox;
-      /**
-       * Maps hostnames to AbstractPortals
-       *
-       * This MAY not be necessary if all outgoing Traffic is handled by the individual
-       * Session Objects
-       */
-      std::map<String, AbstractPortal> portals;
+      uByte* data;
+      uInt dataLen;
+
+      virtual bool _deserialize(DataStream* ds);
+      virtual bool _serialize(DataStream* ds);
+
     };
 
-#endif // !defined(_COMMUNICATIONSMANAGER_H_)
+#endif // !defined(_REMHOSTNAMESETMSG_H_)
 
 // Local Variables: ***
 // mode: C++ ***
