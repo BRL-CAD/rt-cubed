@@ -36,10 +36,8 @@ using namespace BRLCAD;
 
 
 Combination::Combination(void) throw() : Object() {
-    m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::Combination::Combination::m_resp"));
-    rt_init_resource(m_resp, 0, NULL);
-
     m_internalp = static_cast<rt_comb_internal*>(bu_calloc(1, sizeof(rt_comb_internal), "BRLCAD::Combination::Combination::m_internalp"));
+
     m_internalp->magic = RT_COMB_MAGIC;
     bu_vls_init(&m_internalp->shader);
     bu_vls_init(&m_internalp->material);
@@ -51,9 +49,6 @@ Combination::Combination
 (
     const Combination& original
 ) throw() : Object(original) {
-    m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::Combination::Combination::m_resp"));
-    rt_init_resource(m_resp, 0, NULL);
-
     const rt_comb_internal* internalFrom;
 
     if (original.m_ip != 0)
@@ -96,10 +91,6 @@ Combination::~Combination(void) throw() {
         bu_vls_free(&m_internalp->material);
 
         bu_free(m_internalp, "BRLCAD::Combination::~Combination::m_internalp");
-
-        rt_clean_resource_complete(0, m_resp);
-        bu_free(m_resp, "BRLCAD::Combination::~Combination::m_resp");
-        m_resp = 0;
     }
 }
 

@@ -42,6 +42,11 @@ using namespace BRLCAD;
 Object::~Object(void) throw() {
     if (m_name != 0)
         bu_free(m_name, "BRLCAD::Object::~Object");
+
+    if (m_pDir == 0) {
+        rt_clean_resource_complete(0, m_resp);
+        bu_free(m_resp, "BRLCAD::Object::~Object::m_resp");
+    }
 };
 
 
@@ -95,7 +100,10 @@ void Object::SetName
 }
 
 
-Object::Object(void) throw() : m_resp(0), m_pDir(0), m_ip(0), m_dbip(0), m_name(0) {}
+Object::Object(void) throw() : m_pDir(0), m_ip(0), m_dbip(0), m_name(0) {
+    m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::Object::Object::m_resp"));
+    rt_init_resource(m_resp, 0, NULL);
+}
 
 
 Object::Object
@@ -106,13 +114,17 @@ Object::Object
     db_i*           dbip
 ) throw() : m_resp(resp), m_pDir(pDir), m_ip(ip), m_dbip(dbip), m_name(0) {
     assert((m_dbip == 0) || !m_dbip->dbi_read_only);
+    assert(m_pDir != 0);
 }
 
 
 Object::Object
 (
     const Object& original
-) throw() : m_resp(0), m_pDir(0), m_ip(0), m_dbip(0), m_name(0) {
+) throw() : m_pDir(0), m_ip(0), m_dbip(0), m_name(0) {
+    m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::Object::Object::m_resp"));
+    rt_init_resource(m_resp, 0, NULL);
+
     const char* name = original.Name();
 
     if (name != 0)
