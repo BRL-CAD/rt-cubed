@@ -62,7 +62,7 @@ namespace BRLCAD {
         Object(resource*       resp,
                directory*      pDir,
                rt_db_internal* ip,
-               db_i*           dbip = 0) throw();
+               db_i*           dbip) throw();
         Object(const Object& original) throw();
         const Object& operator=(const Object& original) throw();
 

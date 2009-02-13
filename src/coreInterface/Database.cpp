@@ -74,26 +74,25 @@ void Database::Get
     if (m_rtip != 0) {
         class ObjectCallbackIntern : public ConstDatabase::ObjectCallback {
         public:
-            ObjectCallbackIntern(Database::ObjectCallback& callback,
-                                 db_i*                     dbip) : ConstDatabase::ObjectCallback(),
-                                                                   m_callback(callback),
-                                                                   m_dbip(dbip) {}
+            ObjectCallbackIntern(Database::ObjectCallback& callback) : ConstDatabase::ObjectCallback(),
+                                                                       m_callback(callback) {}
 
             virtual ~ObjectCallbackIntern(void) {}
 
             virtual void operator()(const Object& object) {
                 Object& objectIntern = const_cast<Object&>(object);
-                objectIntern.m_dbip  = m_dbip;
 
                 m_callback(objectIntern);
 
-                rt_db_put_internal(objectIntern.m_pDir, objectIntern.m_dbip, objectIntern.m_ip, objectIntern.m_resp);
+                rt_db_put_internal(objectIntern.m_pDir,
+                                   objectIntern.m_dbip,
+                                   objectIntern.m_ip,
+                                   objectIntern.m_resp);
             }
 
         private:
             Database::ObjectCallback& m_callback;
-            db_i*                     m_dbip;
-        } callbackIntern(callback, m_rtip->rti_dbip);
+        } callbackIntern(callback);
 
         ConstDatabase::Get(objectName, callbackIntern);
     }
