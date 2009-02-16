@@ -49,6 +49,9 @@ namespace BRLCAD {
 
         void         SetTitle(const char* title) throw();
 
+        /// Adds an object to the database
+        bool         Add(const Object& object);
+
         /// @name Accessing objects
         //@{
         class ObjectCallback {

@@ -27,9 +27,14 @@
  *      IABG mbH (Germany)
  */
 
-#include <brlcad/Database.h>
+#include <cassert>
 
 #include "raytrace.h"
+#include "rtgeom.h"
+
+#include <brlcad/Halfspace.h>
+#include <brlcad/Combination.h>
+#include <brlcad/Database.h>
 
 
 using namespace BRLCAD;
@@ -63,6 +68,52 @@ void Database::SetTitle
 END_MARK:
         BU_UNSETJUMP;
     }
+}
+
+
+bool Database::Add
+(
+    const Object& object
+) {
+    bool  ret        = false;
+    int   id         = ID_NULL;
+    void* rtInternal = 0;
+
+    if (object.Type() == Halfspace::ClassName()) {
+        id = ID_HALF;
+
+        const Halfspace* halfspace = dynamic_cast<const Halfspace*>(&object);
+
+        assert(halfspace != 0);
+
+        BU_GETSTRUCT(rtInternal, rt_half_internal);
+        memcpy(rtInternal, halfspace->Internal(), sizeof(rt_half_internal));
+    }
+    else if (object.Type() == Combination::ClassName()) {
+        id = ID_COMBINATION;
+
+        const Combination* combination = dynamic_cast<const Combination*>(&object);
+
+        assert(combination != 0);
+
+        const rt_comb_internal* internalFrom = combination->Internal();
+
+        BU_GETSTRUCT(rtInternal, rt_comb_internal);
+        memcpy(rtInternal, internalFrom, sizeof(rt_comb_internal));
+
+        rt_comb_internal* internalTo = static_cast<rt_comb_internal*>(rtInternal);
+
+        if (internalFrom->tree != 0)
+            internalTo->tree = db_dup_subtree(internalFrom->tree, object.m_resp);
+
+        bu_vls_strcpy(&internalTo->shader, bu_vls_addr(&internalFrom->shader));
+        bu_vls_strcpy(&internalTo->material, bu_vls_addr(&internalFrom->material));
+    }
+
+    if (id != ID_NULL)
+        ret = (wdb_export(m_wdbp, object.Name(), rtInternal, id, 1.) == 0);
+
+    return ret;
 }
 
 
