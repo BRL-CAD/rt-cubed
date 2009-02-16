@@ -364,10 +364,10 @@ END_MARK:
 }
 
 
-class ConstDatabaseHit : public Hit {
+class ConstDatabaseHit : public ConstDatabase::Hit {
 public:
     ConstDatabaseHit(application* ap,
-                     partition*   part) throw() : Hit(),
+                     partition*   part) throw() : ConstDatabase::Hit(),
                                                   m_application(ap),
                                                   m_partition(part),
                                                   m_inVectorsComputed(false),
@@ -472,7 +472,7 @@ static int HitDo
     partition*   partitionHead,
     seg*         segment
 ) {
-    HitCallback* callback = static_cast<HitCallback*>(ap->a_uptr);
+    ConstDatabase::HitCallback* callback = static_cast<ConstDatabase::HitCallback*>(ap->a_uptr);
 
     for (partition* part = partitionHead->pt_forw;
          part != partitionHead;

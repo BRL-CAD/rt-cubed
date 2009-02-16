@@ -31,8 +31,6 @@
 #define BRLCAD_CONSTDATABASE_INCLUDED
 
 #include <brlcad/common.h>
-#include <brlcad/raytrace.h>
-
 #include <brlcad/Object.h>
 
 
@@ -100,6 +98,48 @@ namespace BRLCAD {
         Vector3D     BoundingBoxMaxima(void) const throw();
 
         /// ray trace
+        class Hit {
+        public:
+            virtual ~Hit(void) throw() {}
+
+            virtual const char* Name(void) const throw()                = 0;
+            virtual double      DistanceIn(void) const throw()          = 0;
+            virtual double      DistanceOut(void) const throw()         = 0;
+            virtual Vector3D    PointIn(void) const throw()             = 0;
+            virtual Vector3D    PointOut(void) const throw()            = 0;
+            virtual Vector3D    SurfaceNormaleIn(void) const throw()    = 0;
+            virtual Vector3D    SurfaceNormaleOut(void) const throw()   = 0;
+            virtual Curvature3D SurfaceCurvatureIn(void) const throw()  = 0;
+            virtual Curvature3D SurfaceCurvatureOut(void) const throw() = 0;
+            virtual Mapping2D   Surface2DMappingIn(void) const throw()  = 0;
+            virtual Mapping2D   Surface2DMappingOut(void) const throw() = 0;
+
+        protected:
+            Hit(void) throw() {}
+            Hit(const Hit&) throw() {}
+            const Hit& operator=(const Hit&) throw() {return *this;}
+        };
+
+
+        class HitCallback {
+        public:
+            virtual ~HitCallback(void) {}
+
+            /** return true: go on; false: stop
+                The return value gives the calling function the possibility to optimize.
+                However be aware the return value may be ignored. */
+            /** Do not throw en exception here.
+                This method will be called from deep inside the brlcad libraries.
+                The status of the program after an exception will be undetermined. */
+            virtual bool operator()(const Hit& hit) throw() = 0;
+
+        protected:
+            HitCallback(void) {}
+            HitCallback(const HitCallback&) {}
+            const HitCallback& operator=(const HitCallback&) {return *this;}
+        };
+
+
         void         ShootRay(const Ray3D& ray,
                               HitCallback& callback) const throw();
         //@}
