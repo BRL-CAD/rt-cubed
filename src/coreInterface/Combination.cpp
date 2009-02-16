@@ -49,14 +49,7 @@ Combination::Combination
 (
     const Combination& original
 ) throw() : Object(original) {
-    const rt_comb_internal* internalFrom;
-
-    if (original.m_ip != 0)
-        internalFrom = static_cast<const rt_comb_internal*>(original.m_ip->idb_ptr);
-    else
-        internalFrom = original.m_internalp;
-
-    RT_CHECK_COMB(internalFrom);
+    const rt_comb_internal* internalFrom = original.Internal();
 
     m_internalp = static_cast<rt_comb_internal*>(bu_calloc(1, sizeof(rt_comb_internal), "BRLCAD::Combination::Combination::m_internalp"));
 
@@ -99,27 +92,9 @@ const Combination& Combination::operator=(const Combination& original) throw() {
     if (&original != this) {
         Object::operator=(original);
 
-        // from
-        const rt_comb_internal* internalFrom;
+        const rt_comb_internal* internalFrom = original.Internal();
+        rt_comb_internal*       internalTo = Internal();
 
-        if (original.m_ip != 0)
-            internalFrom = static_cast<const rt_comb_internal*>(original.m_ip->idb_ptr);
-        else
-            internalFrom = original.m_internalp;
-
-        RT_CHECK_COMB(internalFrom);
-
-        // to
-        rt_comb_internal* internalTo;
-
-        if (m_ip != 0)
-            internalTo = static_cast<rt_comb_internal*>(m_ip->idb_ptr);
-        else
-            internalTo = m_internalp;
-
-        RT_CHECK_COMB(internalTo);
-
-        // copy
         if (internalTo->tree != 0)
             db_free_tree(m_internalp->tree, m_resp);
 
@@ -165,3 +140,31 @@ Combination::Combination
     rt_db_internal* ip,
     db_i*           dbip
 ) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+
+
+const rt_comb_internal* Combination::Internal(void) const {
+    const rt_comb_internal* ret;
+
+    if (m_ip != 0)
+        ret = static_cast<const rt_comb_internal*>(m_ip->idb_ptr);
+    else
+        ret = m_internalp;
+
+    RT_CHECK_COMB(ret);
+
+    return ret;
+}
+
+
+rt_comb_internal* Combination::Internal(void) {
+    rt_comb_internal* ret;
+
+    if (m_ip != 0)
+        ret = static_cast<rt_comb_internal*>(m_ip->idb_ptr);
+    else
+        ret = m_internalp;
+
+    RT_CHECK_COMB(ret);
+
+    return ret;
+}

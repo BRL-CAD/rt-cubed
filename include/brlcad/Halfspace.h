@@ -68,6 +68,8 @@ namespace BRLCAD {
 
         const rt_half_internal* Internal(void) const;
         rt_half_internal*       Internal(void);
+
+        friend class Database;
     };
 }
 

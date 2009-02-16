@@ -42,7 +42,7 @@ Halfspace::Halfspace(void) throw() : Object() {
     m_internalp->magic = RT_HALF_INTERNAL_MAGIC;
     m_internalp->eqn[X] = 0.;
     m_internalp->eqn[Y] = 0.;
-    m_internalp->eqn[Z] = 0.;
+    m_internalp->eqn[Z] = 1.;
     m_internalp->eqn[3] = 0.;
 }
 
@@ -51,12 +51,8 @@ Halfspace::Halfspace
 (
     const Halfspace& original
 ) throw() : Object(original) {
-    const rt_half_internal* internalFrom = original.Internal();
-
     m_internalp = static_cast<rt_half_internal*>(bu_calloc(1, sizeof(rt_half_internal), "BRLCAD::Halfspace::Halfspace::m_internalp"));
-
-    m_internalp->magic = internalFrom->magic;
-    memcpy(m_internalp->eqn, internalFrom->eqn, sizeof(plane_t));
+    memcpy(m_internalp, original.Internal(), sizeof(rt_half_internal));
 }
 
 
@@ -82,7 +78,14 @@ Vector3D Halfspace::Normal(void) const {
 
 
 void Halfspace::SetNormal(const Vector3D& normal) {
-    memcpy(Internal()->eqn, normal.coordinates, 3 * sizeof(double));
+    double length = MAGNITUDE(normal.coordinates);
+
+    if (length >= VDIVIDE_TOL) {
+        vect_t guaranteedNormal;
+        VSCALE(guaranteedNormal, normal.coordinates, 1. / length);
+
+        VMOVE(Internal()->eqn, guaranteedNormal);
+    }
 }
 
 

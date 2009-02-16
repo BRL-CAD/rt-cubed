@@ -60,6 +60,11 @@ namespace BRLCAD {
     private:
         // holds Objects's content if not connected to a database
         rt_comb_internal* m_internalp;
+
+        const rt_comb_internal*   Internal(void) const;
+        virtual rt_comb_internal* Internal(void);
+
+        friend class Database;
     };
 }
 
