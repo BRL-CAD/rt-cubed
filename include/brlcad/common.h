@@ -84,6 +84,14 @@ namespace BRLCAD {
             coordinates[1] = vector[1];
             coordinates[2] = vector[2];
         }
+
+        Vector3D(double x,
+                 double y,
+                 double z) {
+            coordinates[0] = x;
+            coordinates[1] = y;
+            coordinates[2] = z;
+        }
     };
 
 
