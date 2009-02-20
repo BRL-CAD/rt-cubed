@@ -64,7 +64,7 @@ Halfspace::~Halfspace(void) throw() {
 
 const Halfspace& Halfspace::operator=(const Halfspace& original) throw() {
     if (&original != this) {
-        Object::operator=(original);
+        Copy(original);
         memcpy(Internal()->eqn, original.Internal()->eqn, sizeof(plane_t));
     }
 
@@ -72,12 +72,12 @@ const Halfspace& Halfspace::operator=(const Halfspace& original) throw() {
 }
 
 
-Vector3D Halfspace::Normal(void) const {
+Vector3D Halfspace::Normal(void) const throw() {
     return Vector3D(Internal()->eqn);
 }
 
 
-void Halfspace::SetNormal(const Vector3D& normal) {
+void Halfspace::SetNormal(const Vector3D& normal) throw() {
     double length = MAGNITUDE(normal.coordinates);
 
     if (length >= VDIVIDE_TOL) {
@@ -89,13 +89,32 @@ void Halfspace::SetNormal(const Vector3D& normal) {
 }
 
 
-double Halfspace::DistanceFromOrigin(void) const {
+double Halfspace::DistanceFromOrigin(void) const throw() {
     return Internal()->eqn[3];
 }
 
 
-void Halfspace::SetDistanceFromOrigin(double distance) {
+void Halfspace::SetDistanceFromOrigin(double distance) throw() {
     Internal()->eqn[3] = distance;
+}
+
+
+const Object& Halfspace::operator=
+(
+    const Object& original
+) throw() {
+    const Halfspace* half = dynamic_cast<const Halfspace*>(&original);
+    assert(half != 0);
+
+    if (half != 0)
+        *this = *half;
+
+    return *this;
+}
+
+
+Object* Halfspace::Clone(void) const throw(std::bad_alloc) {
+    return new Halfspace(*this);
 }
 
 
@@ -118,7 +137,7 @@ Halfspace::Halfspace
 ) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-const rt_half_internal* Halfspace::Internal(void) const {
+const rt_half_internal* Halfspace::Internal(void) const throw() {
     const rt_half_internal* ret;
 
     if (m_ip != 0)
@@ -132,7 +151,7 @@ const rt_half_internal* Halfspace::Internal(void) const {
 }
 
 
-rt_half_internal* Halfspace::Internal(void) {
+rt_half_internal* Halfspace::Internal(void) throw() {
     rt_half_internal* ret;
 
     if (m_ip != 0)

@@ -36,6 +36,7 @@
 
 struct rt_i;
 struct resource;
+struct directory;
 
 
 namespace BRLCAD {
@@ -47,25 +48,56 @@ namespace BRLCAD {
         /// associates the handle with a BRL-CAD database file (*.g)
         /** If the handle was already associated with a database file this association will be discarded.
             The file will be opened for reading only. */
-        virtual bool Load(const char* fileName) throw();
+        virtual bool      Load(const char* fileName) throw();
 
         /// @name Parsing the database
         //@{
         /// title string read from the database
-        const char*  Title(void) const throw();
-        /// returns the list of the top level objects via call-backs
-        /** To get a list of objects contained in a combination see ListObjects(). */
-        void         ListTopObjects(StringCalback& callback) const;
+        const char*       Title(void) const throw();
+
+
+        class BRLCAD_COREINTERFACE_EXPORT TopObjectIterator {
+        public:
+            TopObjectIterator(const TopObjectIterator& original) throw() : m_hashTablePosition(original.m_hashTablePosition),
+                                                                           m_pDir(original.m_pDir),
+                                                                           m_rtip(original.m_rtip) {}
+
+            virtual ~TopObjectIterator(void) throw() {}
+
+            const TopObjectIterator& operator=(const TopObjectIterator& original) throw() {
+                m_hashTablePosition = original.m_hashTablePosition;
+                m_pDir              = original.m_pDir;
+                m_rtip              = original.m_rtip;
+
+                return *this;
+            }
+
+            const TopObjectIterator& operator++(void) throw();
+            bool                     Good(void) const throw();
+            const char*              Name(void) const throw();
+
+        private:
+            size_t           m_hashTablePosition;
+            const directory* m_pDir;
+            const rt_i*      m_rtip;
+
+            TopObjectIterator(size_t           hashTablePosition,
+                              const directory* pDir,
+                              const rt_i*      rtip) throw();
+
+            friend class ConstDatabase;
+
+            TopObjectIterator(void);
+        };
+
+
+        /// returns the first of the top level objects via an iterator object
+        /** To get a list of all top level objects you have to use the iterator returned by this function. */
+        TopObjectIterator FirstTopObject(void) const;
         //@}
 
         /// @name Accessing objects
         //@{
-        bool         IsRegion(const char* objectName) const throw();
-        /// returns the list of the objects contained in the combination \a objectName via call-backs
-        /** To get a list of top level objects see ListTopObjects(). */
-        void         ListObjects(const char*    objectName,
-                                 StringCalback& callback) const;
-
         class ObjectCallback {
         public:
             virtual ~ObjectCallback(void) {}
@@ -80,8 +112,8 @@ namespace BRLCAD {
         };
 
         /// selects a single object and hand it over to an ObjectCallback (read only)
-        void         Get(const char*     objectName,
-                         ObjectCallback& callback);
+        void              Get(const char*     objectName,
+                              ObjectCallback& callback) const;
         //@}
 
         /// @name Active set functions
@@ -89,13 +121,13 @@ namespace BRLCAD {
         /// add the database object \a objectName to the active set
         /** The function accepts a space separated list of object names too,
             but it is not sure that this behaviour will be kept in future versions. */
-        void         Select(const char* objectName) throw();
+        void              Select(const char* objectName) throw();
         /// clear the active set
-        void         UnSelectAll(void) throw();
+        void              UnSelectAll(void) throw();
 
-        bool         SelectionIsEmpty(void) const throw();
-        Vector3D     BoundingBoxMinima(void) const throw();
-        Vector3D     BoundingBoxMaxima(void) const throw();
+        bool              SelectionIsEmpty(void) const throw();
+        Vector3D          BoundingBoxMinima(void) const throw();
+        Vector3D          BoundingBoxMaxima(void) const throw();
 
         /// ray trace
         class Hit {
@@ -140,8 +172,8 @@ namespace BRLCAD {
         };
 
 
-        void         ShootRay(const Ray3D& ray,
-                              HitCallback& callback) const throw();
+        void              ShootRay(const Ray3D& ray,
+                                   HitCallback& callback) const throw();
         //@}
 
     protected:

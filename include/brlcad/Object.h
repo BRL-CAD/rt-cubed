@@ -30,6 +30,8 @@
 #ifndef BRLCAD_OBJECT_INCLUDED
 #define BRLCAD_OBJECT_INCLUDED
 
+#include <new>
+
 #include <brlcad/common.h>
 
 
@@ -44,13 +46,22 @@ namespace BRLCAD {
     public:
         virtual ~Object(void) throw();
 
+        // works if both Objects are of the same derived class
+        virtual const Object& operator=(const Object& original) throw() = 0;
+
+        // a virtual constructor which creates the right derived class
+        // and the corresponding destructor
+        // which keeps the memory management in a healthy state
+        virtual Object*       Clone(void) const throw(std::bad_alloc)   = 0;
+        void                  Destroy(void) throw();
+
         // these two functions can be used to determine the type of the object
-        static const char*  ClassName(void) throw();
-        virtual const char* Type(void) const  = 0;
+        static const char*    ClassName(void) throw();
+        virtual const char*   Type(void) const                          = 0;
 
         // for all objects
-        const char*         Name(void) const throw();
-        void                SetName(const char* name) throw();
+        const char*           Name(void) const throw();
+        void                  SetName(const char* name) throw();
 
     protected:
         resource*       m_resp;
@@ -64,7 +75,8 @@ namespace BRLCAD {
                rt_db_internal* ip,
                db_i*           dbip) throw();
         Object(const Object& original) throw();
-        const Object& operator=(const Object& original) throw();
+
+        const Object& Copy(const Object& original) throw();
 
         friend class Database;
 

@@ -118,22 +118,6 @@ namespace BRLCAD {
                             minPrincipalCurvature(0.),
                             maxPrincipalCurvature(0.) {}
     };
-
-
-    class StringCalback {
-    public:
-        virtual ~StringCalback(void) {}
-
-        /** return true: go on; false: stop
-            The return value gives the calling function the possibility to optimize.
-            However be aware the return value may be ignored. */
-        virtual bool operator()(const char* string) = 0;
-
-    protected:
-        StringCalback(void) {}
-        StringCalback(const StringCalback&) {}
-        const StringCalback& operator=(const StringCalback&) {return *this;}
-    };
 }
 
 

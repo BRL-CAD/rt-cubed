@@ -117,37 +117,87 @@ const char* ConstDatabase::Title(void) const throw() {
 }
 
 
-void ConstDatabase::ListTopObjects
+const ConstDatabase::TopObjectIterator& ConstDatabase::TopObjectIterator::operator++(void) throw() {
+    if (m_pDir != 0) {
+        const directory* oldPDir = m_pDir;
+
+        for (const directory* pDir = m_pDir->d_forw; pDir != RT_DIR_NULL; pDir = pDir->d_forw) {
+            if (pDir->d_nref == 0) {
+                m_pDir = pDir;
+                break;
+            }
+        }
+
+        if (m_pDir == oldPDir) {
+            for (size_t i = m_hashTablePosition + 1; (i < RT_DBNHASH) && (m_pDir == oldPDir); ++i) {
+                for (const directory* pDir = m_rtip->rti_dbip->dbi_Head[i]; pDir != RT_DIR_NULL; pDir = pDir->d_forw) {
+                    if (pDir->d_nref == 0) {
+                        m_hashTablePosition = i;
+                        m_pDir              = pDir;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (m_pDir == oldPDir)
+            m_pDir = 0;
+    }
+
+    return *this;
+}
+
+
+bool ConstDatabase::TopObjectIterator::Good(void) const throw() {
+    return (m_pDir != 0);
+}
+
+
+const char* ConstDatabase::TopObjectIterator::Name(void) const throw() {
+    assert(m_pDir != 0);
+
+    const char* ret = 0;
+
+    if (m_pDir != 0)
+        ret = m_pDir->d_namep;
+
+    return ret;
+}
+
+
+ConstDatabase::TopObjectIterator::TopObjectIterator
 (
-    StringCalback& callback
-) const {
+    size_t           hashTablePosition,
+    const directory* pDir,
+    const rt_i*      rtip
+) throw() : m_hashTablePosition(hashTablePosition), m_pDir(pDir), m_rtip(rtip) {}
+
+
+ConstDatabase::TopObjectIterator ConstDatabase::FirstTopObject(void) const {
+    size_t           hashTablePosition = 0;
+    const directory* pDirectory        = 0;
+
     if (m_rtip != 0) {
         if (BU_SETJUMP)
             goto END_MARK;
 
-        {
-            db_update_nref(m_rtip->rti_dbip, m_resp);
+        db_update_nref(m_rtip->rti_dbip, m_resp);
 
-            for (size_t i = 0; i < RT_DBNHASH; i++)
-                for (directory* pDir = m_rtip->rti_dbip->dbi_Head[i]; pDir != RT_DIR_NULL; pDir = pDir->d_forw)
-                    if (pDir->d_nref == 0) {
-                        try {
-                            if (!callback(pDir->d_namep)) {
-                                i = RT_DBNHASH - 1;
-                                break;
-                            }
-                        }
-                        catch(...) {
-                            BU_UNSETJUMP;
-
-                            throw;
-                        }
-                    }
+        for (size_t i = 0; (i < RT_DBNHASH) && (pDirectory == 0); ++i) {
+            for (const directory* pDir = m_rtip->rti_dbip->dbi_Head[i]; pDir != RT_DIR_NULL; pDir = pDir->d_forw) {
+                if (pDir->d_nref == 0) {
+                    hashTablePosition = i;
+                    pDirectory        = pDir;
+                    break;
+                }
+            }
         }
 
 END_MARK:
         BU_UNSETJUMP;
     }
+
+    return ConstDatabase::TopObjectIterator(hashTablePosition, pDirectory, m_rtip);
 }
 
 
@@ -155,7 +205,7 @@ void ConstDatabase::Get
 (
     const char*     objectName,
     ObjectCallback& callback
-) {
+) const {
     if (m_rtip != 0) {
         if (BU_SETJUMP)
             goto END_MARK;
@@ -167,17 +217,23 @@ void ConstDatabase::Get
                 rt_db_internal intern;
                 int            id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
 
-                switch(id) {
-                case ID_HALF:
-                    callback(Halfspace(m_resp, pDir, &intern, m_rtip->rti_dbip));
-                    break;
+                try {
+                    switch(id) {
+                    case ID_HALF:
+                        callback(Halfspace(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                        break;
 
-                case ID_COMBINATION:
-                    callback(Combination(m_resp, pDir, &intern, m_rtip->rti_dbip));
-                    break;
+                    case ID_COMBINATION:
+                        callback(Combination(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                        break;
 
-                default:
-                    callback(Unknown(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                    default:
+                        callback(Unknown(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                    }
+                }
+                catch(...) {
+                    rt_db_free_internal(&intern, m_resp);
+                    throw;
                 }
 
                 rt_db_free_internal(&intern, m_resp);
@@ -266,101 +322,6 @@ END_MARK:
     }
 
     return ret;
-}
-
-
-bool ConstDatabase::IsRegion
-(
-    const char* objectName
-) const throw() {
-    bool ret = false;
-
-    if (m_rtip != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
-
-        if ((objectName != 0) && (strlen(objectName) > 0)) {
-            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
-
-            if (pDir != RT_DIR_NULL) {
-                if (pDir->d_flags & RT_DIR_REGION)
-                    ret = true;
-            }
-        }
-
-END_MARK:
-        BU_UNSETJUMP;
-    }
-
-    return ret;
-}
-
-
-void ConstDatabase::ListObjects
-(
-    const char*    objectName,
-    StringCalback& callback
-) const {
-    if (m_rtip != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
-
-        if ((objectName != 0) && (strlen(objectName) > 0)) {
-            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
-
-            if (pDir != RT_DIR_NULL) {
-                if (pDir->d_flags & RT_DIR_COMB) {
-                    rt_db_internal intern;
-                    int            id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
-
-                    if (id >= 0) {
-                        rt_comb_internal* comb = static_cast<rt_comb_internal*>(intern.idb_ptr);
-
-                        if (comb->tree != 0) {
-                            if (db_ck_v4gift_tree(comb->tree) < 0)
-                                db_non_union_push(comb->tree, m_resp);
-
-                            if (db_ck_v4gift_tree(comb->tree) >= 0) {
-                                int nodeCount = db_tree_nleaves(comb->tree);
-
-                                if (nodeCount > 0) {
-                                    rt_tree_array* pRtTreeArray = static_cast<rt_tree_array*>(bu_calloc(nodeCount, sizeof(rt_tree_array), "tree list" ));
-                                    int            actualCount  = db_flatten_tree(pRtTreeArray, comb->tree, OP_UNION, 1, m_resp) - pRtTreeArray;
-
-                                    comb->tree = TREE_NULL;
-
-                                    if (actualCount <= nodeCount) {
-                                        for (int i = 0; i < actualCount; i++) {
-                                            try {
-                                                if (!callback(pRtTreeArray[i].tl_tree->tr_l.tl_name))
-                                                    break;
-                                            }
-                                            catch(...) {
-                                                db_free_tree(pRtTreeArray[i].tl_tree, m_resp);
-                                                bu_free(pRtTreeArray, "tree list");
-                                                rt_db_free_internal(&intern, m_resp);
-                                                BU_UNSETJUMP;
-
-                                                throw;
-                                            }
-                                            db_free_tree(pRtTreeArray[i].tl_tree, m_resp);
-                                        }
-                                    }
-
-                                    bu_free(pRtTreeArray, "tree list");
-                                }
-                            }
-                        }
-
-                        rt_db_free_internal(&intern, m_resp);
-                    }
-                }
-            }
-        }
-
-END_MARK:
-        BU_UNSETJUMP;
-    }
 }
 
 

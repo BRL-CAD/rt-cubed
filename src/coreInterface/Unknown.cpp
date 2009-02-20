@@ -27,6 +27,8 @@
  *      IABG mbH (Germany)
  */
 
+#include <cassert>
+
 #include <brlcad/Unknown.h>
 
 
@@ -43,9 +45,28 @@ Unknown::~Unknown(void) throw() {}
 
 
 const Unknown& Unknown::operator=(const Unknown& original) throw() {
-    Object::operator=(original);
+    Copy(original);
 
     return *this;
+}
+
+
+const Object& Unknown::operator=
+(
+    const Object& original
+) throw() {
+    const Unknown* unknown = dynamic_cast<const Unknown*>(&original);
+    assert(unknown != 0);
+
+    if (unknown != 0)
+        *this = *unknown;
+
+    return *this;
+}
+
+
+Object* Unknown::Clone(void) const throw(std::bad_alloc) {
+    return new Unknown(*this);
 }
 
 

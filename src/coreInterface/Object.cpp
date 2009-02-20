@@ -50,6 +50,11 @@ Object::~Object(void) throw() {
 };
 
 
+void Object::Destroy(void) throw() {
+    delete this;
+}
+
+
 const char* Object::ClassName(void) throw() {
     return "Object";
 }
@@ -113,7 +118,6 @@ Object::Object
     rt_db_internal* ip,
     db_i*           dbip
 ) throw() : m_resp(resp), m_pDir(pDir), m_ip(ip), m_dbip(dbip), m_name(0) {
-    assert((m_dbip == 0) || !m_dbip->dbi_read_only);
     assert(m_pDir != 0);
 }
 
@@ -132,7 +136,7 @@ Object::Object
 }
 
 
-const Object& Object::operator=
+const Object& Object::Copy
 (
     const Object& original
 ) throw() {

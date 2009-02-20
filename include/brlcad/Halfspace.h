@@ -43,16 +43,18 @@ namespace BRLCAD {
         Halfspace(const Halfspace& original) throw();
         virtual ~Halfspace(void) throw();
 
-        const Halfspace&    operator=(const Halfspace& original) throw();
+        const Halfspace&      operator=(const Halfspace& original) throw();
 
-        Vector3D            Normal(void) const;
-        void                SetNormal(const Vector3D& normal);
-        double              DistanceFromOrigin(void) const;
-        void                SetDistanceFromOrigin(double distance);
+        Vector3D              Normal(void) const throw();
+        void                  SetNormal(const Vector3D& normal) throw();
+        double                DistanceFromOrigin(void) const throw();
+        void                  SetDistanceFromOrigin(double distance) throw();
 
         // inherited from BRLCAD::Object
-        static const char*  ClassName(void) throw();
-        virtual const char* Type(void) const throw();
+        virtual const Object& operator=(const Object& original) throw();
+        virtual Object*       Clone(void) const throw(std::bad_alloc);
+        static const char*    ClassName(void) throw();
+        virtual const char*   Type(void) const throw();
 
     protected:
         Halfspace(resource*       resp,
@@ -66,8 +68,8 @@ namespace BRLCAD {
         // holds Objects's content if not connected to a database
         rt_half_internal* m_internalp;
 
-        const rt_half_internal* Internal(void) const;
-        rt_half_internal*       Internal(void);
+        const rt_half_internal* Internal(void) const throw();
+        rt_half_internal*       Internal(void) throw();
 
         friend class Database;
     };

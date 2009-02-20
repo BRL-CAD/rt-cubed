@@ -27,6 +27,8 @@
  *      IABG mbH (Germany)
  */
 
+#include <cassert>
+
 #include "raytrace.h"
 
 #include <brlcad/Combination.h>
@@ -34,6 +36,126 @@
 
 using namespace BRLCAD;
 
+
+static Combination::ConstTreeNode::Operator ConvertOperator
+(
+    tree* brlcadTree
+) {
+    Combination::ConstTreeNode::Operator ret = Combination::ConstTreeNode::Null;
+
+    if (brlcadTree != 0) {
+        switch (brlcadTree->tr_op) {
+        case OP_UNION:
+            ret = Combination::ConstTreeNode::Union;
+            break;
+
+        case OP_INTERSECT:
+            ret = Combination::ConstTreeNode::Intersection;
+            break;
+
+        case OP_SUBTRACT:
+            ret = Combination::ConstTreeNode::Subtraction;
+            break;
+
+        case OP_XOR:
+            ret = Combination::ConstTreeNode::ExclusiveOr;
+            break;
+
+        case OP_NOT:
+            ret = Combination::ConstTreeNode::Not;
+            break;
+
+        case OP_DB_LEAF:
+            ret = Combination::ConstTreeNode::Leaf;
+            break;
+
+        default:
+            assert(0);
+        }
+    }
+
+    return ret;
+}
+
+
+//
+// class Combination::ConstTreeNode
+//
+
+Combination::ConstTreeNode::Operator Combination::ConstTreeNode::Operation(void) const {
+    return ConvertOperator(m_tree);
+}
+
+
+Combination::ConstTreeNode Combination::ConstTreeNode::LeftOperand(void) const {
+    ConstTreeNode ret;
+
+    switch (ConvertOperator(m_tree)) {
+    case Union:
+    case Intersection:
+    case Subtraction:
+    case ExclusiveOr:
+        ret.m_tree = m_tree->tr_b.tb_left;
+    }
+
+    return ret;
+}
+
+
+Combination::ConstTreeNode Combination::ConstTreeNode::RightOperand(void) const {
+    ConstTreeNode ret;
+
+    switch (ConvertOperator(m_tree)) {
+    case Union:
+    case Intersection:
+    case Subtraction:
+    case ExclusiveOr:
+        ret.m_tree = m_tree->tr_b.tb_right;
+    }
+
+    return ret;
+}
+
+
+Combination::ConstTreeNode Combination::ConstTreeNode::Operand(void) const {
+    ConstTreeNode ret;
+
+    switch (ConvertOperator(m_tree)) {
+    case Not:
+        ret.m_tree = m_tree->tr_b.tb_left;
+    }
+
+    return ret;
+}
+
+
+const char* Combination::ConstTreeNode::Name(void) const {
+    const char* ret = 0;
+
+    switch (ConvertOperator(m_tree)) {
+    case Leaf:
+        ret = m_tree->tr_l.tl_name;
+    }
+
+    return ret;
+}
+
+
+const double* Combination::ConstTreeNode::Matrix(void) const {
+    const double* ret = 0;
+
+    switch (ConvertOperator(m_tree)) {
+    case Leaf:
+        ret = m_tree->tr_l.tl_mat;
+    }
+
+    return ret;
+}
+
+
+//
+// class Combination
+//
 
 Combination::Combination(void) throw() : Object() {
     m_internalp = static_cast<rt_comb_internal*>(bu_calloc(1, sizeof(rt_comb_internal), "BRLCAD::Combination::Combination::m_internalp"));
@@ -90,7 +212,7 @@ Combination::~Combination(void) throw() {
 
 const Combination& Combination::operator=(const Combination& original) throw() {
     if (&original != this) {
-        Object::operator=(original);
+        Copy(original);
 
         const rt_comb_internal* internalFrom = original.Internal();
         rt_comb_internal*       internalTo = Internal();
@@ -120,6 +242,204 @@ const Combination& Combination::operator=(const Combination& original) throw() {
     }
 
     return *this;
+}
+
+
+Combination::ConstTreeNode Combination::Tree(void) const {
+    return ConstTreeNode(Internal()->tree);
+}
+
+
+bool Combination::IsRegion(void) const throw() {
+    return Internal()->region_flag != 0;
+}
+
+
+void Combination::SetIsRegion(bool value) throw() {
+    Internal()->region_flag = (value) ? '\1' : '\0';
+}
+
+
+Combination::FastgenType Combination::FastgenRegion(void) const throw() {
+    Combination::FastgenType ret = Non;
+
+    switch (Internal()->is_fastgen) {
+    case REGION_NON_FASTGEN:
+        ret = Non;
+        break;
+
+    case REGION_FASTGEN_PLATE:
+        ret = Plate;
+        break;
+
+    case REGION_FASTGEN_VOLUME:
+        ret = Volume;
+        break;
+
+    default:
+        assert(0);
+    }
+
+    return ret;
+}
+
+
+void Combination::SetFastgenRegion(Combination::FastgenType value) throw() {
+    switch (value) {
+    case Non:
+        Internal()->is_fastgen = REGION_NON_FASTGEN;
+        break;
+
+    case Plate:
+        Internal()->is_fastgen = REGION_FASTGEN_PLATE;
+        break;
+
+    case Volume:
+        Internal()->is_fastgen = REGION_FASTGEN_VOLUME;
+        break;
+
+    default:
+        assert(0);
+    }
+}
+
+
+int Combination::RegionId(void) const throw() {
+    return Internal()->region_id;
+}
+
+
+void Combination:: SetRegionId(int value) throw() {
+    Internal()->region_id = value;
+}
+
+
+int Combination::Aircode(void) const throw() {
+    return Internal()->aircode;
+}
+
+
+void Combination::SetAircode(int value) throw() {
+    Internal()->aircode = value;
+}
+
+
+int Combination::GiftMaterial(void) const throw() {
+    return Internal()->GIFTmater;
+}
+
+
+void Combination::SetGiftMaterial(int value) throw() {
+    Internal()->GIFTmater = value;
+}
+
+
+int Combination::LineOfSight(void) const throw() {
+    return Internal()->los;
+}
+
+
+void Combination::SetLineOfSight(int value) throw() {
+    Internal()->los = value;
+}
+
+
+bool Combination::HasColor(void) const throw() {
+    return Internal()->rgb_valid != 0;
+}
+
+
+void Combination::SetHasColor(bool value) throw() {
+    Internal()->rgb_valid = (value) ? '\1' : '\0';
+}
+
+
+unsigned char Combination::Red(void) const throw() {
+    return Internal()->rgb[0];
+}
+
+
+void Combination::SetRed(unsigned char value) throw() {
+    Internal()->rgb[0] = value;
+}
+
+
+unsigned char Combination::Green(void) const throw() {
+    return Internal()->rgb[1];
+}
+
+
+void Combination::SetGreen(unsigned char value) throw() {
+    Internal()->rgb[1] = value;
+}
+
+
+unsigned char Combination::Blue(void) const throw() {
+    return Internal()->rgb[2];
+}
+
+
+void Combination::SetBlue(unsigned char value) throw() {
+    Internal()->rgb[2] = value;
+}
+
+
+const char* Combination::Shader(void) const throw() {
+    return bu_vls_addr(&Internal()->shader);
+}
+
+
+void Combination::SetShader(const char* value) throw() {
+    bu_vls_strcpy(&Internal()->shader, value);
+}
+
+
+bool Combination::Inherit(void) const throw() {
+    return Internal()->inherit != 0;
+}
+
+
+void Combination::SetInherit(bool value) throw() {
+    Internal()->inherit = (value) ? '\1' : '\0';
+}
+
+
+const char* Combination::Material(void) const throw() {
+    return bu_vls_addr(&Internal()->material);
+}
+
+
+void Combination::SetMaterial(const char* value) throw() {
+    bu_vls_strcpy(&Internal()->material, value);
+}
+
+
+double Combination::Temperature(void) const throw() {
+    return Internal()->temperature;
+}
+
+
+void Combination::SetTemperature(double value) throw() {
+    Internal()->temperature = static_cast<float>(value);
+}
+
+
+const Object& Combination::operator=
+(
+    const Object& original
+) throw() {
+    const Combination* comb = dynamic_cast<const Combination*>(&original);
+    assert(comb != 0);
+
+    if (comb != 0)
+        *this = *comb;
+
+    return *this;
+}
+
+
+Object* Combination::Clone(void) const throw(std::bad_alloc) {
+    return new Combination(*this);
 }
 
 

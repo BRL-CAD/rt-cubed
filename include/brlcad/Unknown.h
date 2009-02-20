@@ -39,11 +39,13 @@ namespace BRLCAD {
         Unknown(const Unknown& original) throw();
         virtual ~Unknown(void) throw();
 
-        const Unknown&      operator=(const Unknown& original) throw();
+        const Unknown&        operator=(const Unknown& original) throw();
 
         // inherited from BRLCAD::Object
-        static const char*  ClassName(void) throw();
-        virtual const char* Type(void) const throw();
+        virtual const Object& operator=(const Object& original) throw();
+        virtual Object*       Clone(void) const throw(std::bad_alloc);
+        static const char*    ClassName(void) throw();
+        virtual const char*   Type(void) const throw();
 
         // there is nothing special with BRLCAD::Unknown
 
