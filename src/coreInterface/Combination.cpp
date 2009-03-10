@@ -78,6 +78,84 @@ static Combination::ConstTreeNode::Operator ConvertOperator
 }
 
 
+static int ConvertOperatorBack
+(
+    Combination::ConstTreeNode::Operator op
+) {
+    int ret = 0;
+
+    switch (op) {
+    case Combination::ConstTreeNode::Union:
+        ret = OP_UNION;
+        break;
+
+    case Combination::ConstTreeNode::Intersection:
+        ret = OP_INTERSECT;
+        break;
+
+    case Combination::ConstTreeNode::Subtraction:
+        ret = OP_SUBTRACT;
+        break;
+
+    case Combination::ConstTreeNode::ExclusiveOr:
+        ret = OP_XOR;
+        break;
+
+    case Combination::ConstTreeNode::Not:
+        ret = OP_NOT;
+        break;
+
+    case Combination::ConstTreeNode::Leaf:
+        ret = OP_DB_LEAF;
+        break;
+
+    default:
+        assert(0);
+    }
+
+    return ret;
+}
+
+
+static tree* ParentTree
+(
+    tree* searchTree,
+    tree* rootTree
+) {
+    tree* ret = 0;
+
+    switch (ConvertOperator(rootTree)) {
+    case Combination::ConstTreeNode::Union:
+    case Combination::ConstTreeNode::Intersection:
+    case Combination::ConstTreeNode::Subtraction:
+    case Combination::ConstTreeNode::ExclusiveOr:
+        if (searchTree == rootTree->tr_b.tb_left)
+            ret = rootTree;
+        else if (searchTree == rootTree->tr_b.tb_right)
+            ret = rootTree;
+        else {
+            ret = ParentTree(searchTree, rootTree->tr_b.tb_left);
+
+            if (ret == 0)
+                ParentTree(searchTree, rootTree->tr_b.tb_right);
+        }
+        break;
+
+    case Combination::ConstTreeNode::Not:
+        if (searchTree == rootTree->tr_b.tb_left)
+            ret = rootTree;
+        else 
+            ret = ParentTree(searchTree, rootTree->tr_b.tb_left);
+        break;
+
+    default:
+        assert(0);
+    }
+
+    return ret;
+}
+
+
 //
 // class Combination::ConstTreeNode
 //
@@ -96,6 +174,10 @@ Combination::ConstTreeNode Combination::ConstTreeNode::LeftOperand(void) const {
     case Subtraction:
     case ExclusiveOr:
         ret.m_tree = m_tree->tr_b.tb_left;
+        break;
+
+    default:
+        assert(0);
     }
 
     return ret;
@@ -111,6 +193,10 @@ Combination::ConstTreeNode Combination::ConstTreeNode::RightOperand(void) const 
     case Subtraction:
     case ExclusiveOr:
         ret.m_tree = m_tree->tr_b.tb_right;
+        break;
+
+    default:
+        assert(0);
     }
 
     return ret;
@@ -123,6 +209,10 @@ Combination::ConstTreeNode Combination::ConstTreeNode::Operand(void) const {
     switch (ConvertOperator(m_tree)) {
     case Not:
         ret.m_tree = m_tree->tr_b.tb_left;
+        break;
+
+    default:
+        assert(0);
     }
 
     return ret;
@@ -135,6 +225,10 @@ const char* Combination::ConstTreeNode::Name(void) const {
     switch (ConvertOperator(m_tree)) {
     case Leaf:
         ret = m_tree->tr_l.tl_name;
+        break;
+
+    default:
+        assert(0);
     }
 
     return ret;
@@ -147,9 +241,352 @@ const double* Combination::ConstTreeNode::Matrix(void) const {
     switch (ConvertOperator(m_tree)) {
     case Leaf:
         ret = m_tree->tr_l.tl_mat;
+        break;
+
+    default:
+        assert(0);
     }
 
     return ret;
+}
+
+
+//
+// class Combination::TreeNode
+//
+
+Combination::TreeNode Combination::TreeNode::LeftOperand(void) {
+    TreeNode ret;
+
+    switch (ConvertOperator(m_tree)) {
+    case Union:
+    case Intersection:
+    case Subtraction:
+    case ExclusiveOr:
+        ret.m_tree      = m_tree->tr_b.tb_left;
+        ret.m_internalp = m_internalp;
+        ret.m_resp      = m_resp;
+        break;
+
+    default:
+        assert(0);
+    }
+
+    return ret;
+}
+
+
+Combination::TreeNode Combination::TreeNode::RightOperand(void) {
+    TreeNode ret;
+
+    switch (ConvertOperator(m_tree)) {
+    case Union:
+    case Intersection:
+    case Subtraction:
+    case ExclusiveOr:
+        ret.m_tree      = m_tree->tr_b.tb_right;
+        ret.m_internalp = m_internalp;
+        ret.m_resp      = m_resp;
+        break;
+
+    default:
+        assert(0);
+    }
+
+    return ret;
+}
+
+
+Combination::TreeNode Combination::TreeNode::Operand(void) {
+    TreeNode ret;
+
+    switch (ConvertOperator(m_tree)) {
+    case Not:
+        ret.m_tree      = m_tree->tr_b.tb_left;
+        ret.m_internalp = m_internalp;
+        ret.m_resp      = m_resp;
+        break;
+
+    default:
+        assert(0);
+    }
+
+    return ret;
+}
+
+
+Combination::TreeNode Combination::TreeNode::Apply
+(
+    Combination::ConstTreeNode::Operator op
+) {
+    assert(m_tree != 0);
+
+    TreeNode ret;
+
+    if (BU_SETJUMP)
+        goto END_MARK;
+
+    if (m_tree != 0) {
+        switch (op) {
+        case Not:
+            tree* newNode;
+            RT_GET_TREE(newNode, m_resp);
+
+            *newNode = *m_tree; // copies all values in the union
+
+            // this->m_tree will be transfered to ret and becomes the "Not" node
+            ret.m_tree               = m_tree;
+            ret.m_tree->tr_op        = OP_NOT;
+            ret.m_tree->tr_b.tb_left = newNode;
+
+            ret.m_internalp = m_internalp;
+            ret.m_resp      = m_resp;
+
+            // this gets newNode (which is a copy of the former this->m_tree)
+            m_tree = newNode;
+            break;
+
+        default:
+            assert(0);
+        }
+    }
+
+END_MARK:
+    BU_UNSETJUMP;
+
+    return ret;
+}
+
+
+Combination::TreeNode Combination::TreeNode::Apply
+(
+    Combination::ConstTreeNode::Operator op,
+    const Combination::ConstTreeNode&    theOther
+) {
+    assert(m_tree != 0);
+    assert(theOther.m_tree != 0);
+
+    TreeNode ret;
+
+    if (BU_SETJUMP)
+        goto END_MARK;
+
+    if ((m_tree != 0) && (theOther.m_tree != 0)) {
+        switch (op) {
+        case Union:
+        case Intersection:
+        case Subtraction:
+        case ExclusiveOr:
+            tree* newNode;
+            RT_GET_TREE(newNode, m_resp);
+
+            *newNode = *m_tree; // copies all values in the union
+
+            // this->m_tree will be transfered to ret and becomes the <op> node
+            ret.m_tree                = m_tree;
+            ret.m_tree->tr_op         = ConvertOperatorBack(op);
+            ret.m_tree->tr_b.tb_left  = newNode;
+            ret.m_tree->tr_b.tb_right = db_dup_subtree(theOther.m_tree, m_resp);
+
+            ret.m_internalp = m_internalp;
+            ret.m_resp      = m_resp;
+
+            // this gets newNode (which is a copy of the former this->m_tree)
+            m_tree = newNode;
+            break;
+
+        default:
+            assert(0);
+        }
+    }
+
+END_MARK:
+    BU_UNSETJUMP;
+
+    return ret;
+}
+
+
+Combination::TreeNode Combination::TreeNode::Apply
+(
+    Combination::ConstTreeNode::Operator op,
+    const char*                          leafName
+) {
+    assert(leafName != 0);
+
+    TreeNode ret;
+
+    if (BU_SETJUMP)
+        goto END_MARK;
+
+    if (leafName != 0) {
+        TreeNode newLeaf(*this);
+        RT_GET_TREE(newLeaf.m_tree, newLeaf.m_resp);
+
+        newLeaf.m_tree->magic        = RT_TREE_MAGIC;
+        newLeaf.m_tree->tr_op        = OP_DB_LEAF;
+        newLeaf.m_tree->tr_l.tl_mat  = 0;
+        newLeaf.m_tree->tr_l.tl_name = bu_strdup(leafName);
+
+        ret = Apply(op, newLeaf);
+
+        if (ret.m_tree == 0) // in case of an error
+            RT_FREE_TREE(newLeaf.m_tree, newLeaf.m_resp);
+    }
+
+END_MARK:
+    BU_UNSETJUMP;
+
+    return ret;
+}
+
+
+Combination::TreeNode Combination::TreeNode::Apply
+(
+    const Combination::ConstTreeNode&    theOther,
+    Combination::ConstTreeNode::Operator op
+) {
+    assert(m_tree != 0);
+    assert(theOther.m_tree != 0);
+
+    TreeNode ret;
+
+    if (BU_SETJUMP)
+        goto END_MARK;
+
+    if ((m_tree != 0) && (theOther.m_tree != 0)) {
+        switch (op) {
+        case Union:
+        case Intersection:
+        case Subtraction:
+        case ExclusiveOr:
+            tree* newNode;
+            RT_GET_TREE(newNode, m_resp);
+
+            *newNode = *m_tree; // copies all values in the union
+
+            // this->m_tree will be transfered to ret and becomes the <op> node
+            ret.m_tree                = m_tree;
+            ret.m_tree->tr_op         = ConvertOperatorBack(op);
+            ret.m_tree->tr_b.tb_left  = db_dup_subtree(theOther.m_tree, m_resp);
+            ret.m_tree->tr_b.tb_right = newNode;
+
+            ret.m_internalp = m_internalp;
+            ret.m_resp      = m_resp;
+
+            // this gets newNode (which is a copy of the former this->m_tree)
+            m_tree = newNode;
+            break;
+
+        default:
+            assert(0);
+        }
+    }
+
+END_MARK:
+    BU_UNSETJUMP;
+
+    return ret;
+}
+
+
+Combination::TreeNode Combination::TreeNode::Apply
+(
+    const char*                          leafName,
+    Combination::ConstTreeNode::Operator op
+) {
+    assert(leafName != 0);
+
+    TreeNode ret;
+
+    if (BU_SETJUMP)
+        goto END_MARK;
+
+    if (leafName != 0) {
+        TreeNode newLeaf(*this);
+        RT_GET_TREE(newLeaf.m_tree, newLeaf.m_resp);
+
+        newLeaf.m_tree->magic        = RT_TREE_MAGIC;
+        newLeaf.m_tree->tr_op        = OP_DB_LEAF;
+        newLeaf.m_tree->tr_l.tl_mat  = 0;
+        newLeaf.m_tree->tr_l.tl_name = bu_strdup(leafName);
+
+        ret = Apply(newLeaf, op);
+
+        if (ret.m_tree == 0) // in case of an error
+            RT_FREE_TREE(newLeaf.m_tree, newLeaf.m_resp);
+    }
+
+END_MARK:
+    BU_UNSETJUMP;
+
+    return ret;
+}
+
+
+void Combination::TreeNode::Delete(void) {
+    assert(m_tree != 0);
+
+    TreeNode ret;
+
+    if (BU_SETJUMP)
+        goto END_MARK;
+
+    while (m_tree != 0) {
+        if (m_tree == m_internalp->tree) {
+            db_free_tree(m_tree, m_resp);
+            m_internalp->tree = 0;
+
+            m_tree      = 0;
+            m_internalp = 0;
+            m_resp      = 0;
+        }
+        else {
+            tree* parent = ParentTree(m_tree, m_internalp->tree);
+
+            if (parent != 0) {
+                switch (ConvertOperator(parent)) {
+                case Union:
+                case Intersection:
+                case Subtraction:
+                case ExclusiveOr:
+                    if (m_tree == parent->tr_b.tb_left)
+                        db_tree_del_lhs(parent, m_resp);
+                    else {
+                        assert(m_tree == parent->tr_b.tb_right);
+                        db_tree_del_rhs(parent, m_resp);
+                    }
+
+                    m_tree      = 0;
+                    m_internalp = 0;
+                    m_resp      = 0;
+                    break;
+
+                case Not:
+                    m_tree = parent; // go into the next iteration
+                    break;
+
+                default:
+                    assert(0);
+
+                    // give up
+                    m_tree      = 0;
+                    m_internalp = 0;
+                    m_resp      = 0;
+                }
+            }
+            else {
+                assert(0); // we have a problem here: m_tree is not a child of m_internalp->tree, give up
+
+                m_tree      = 0;
+                m_internalp = 0;
+                m_resp      = 0;
+            }
+        }
+    }
+
+END_MARK:
+    BU_UNSETJUMP;
 }
 
 
@@ -175,7 +612,7 @@ Combination::Combination
 
     m_internalp = static_cast<rt_comb_internal*>(bu_calloc(1, sizeof(rt_comb_internal), "BRLCAD::Combination::Combination::m_internalp"));
 
-    m_internalp->magic       = internalFrom->magic;
+    m_internalp->magic = internalFrom->magic;
 
     if (internalFrom->tree != 0)
         m_internalp->tree = db_dup_subtree(internalFrom->tree, m_resp);
@@ -247,6 +684,37 @@ const Combination& Combination::operator=(const Combination& original) throw() {
 
 Combination::ConstTreeNode Combination::Tree(void) const {
     return ConstTreeNode(Internal()->tree);
+}
+
+
+Combination::TreeNode Combination::Tree(void) {
+    return TreeNode(Internal()->tree, Internal(), m_resp);
+}
+
+
+void Combination::AddLeaf
+(
+    const char* leafName
+) {
+    rt_comb_internal* internalp = Internal();
+
+    if (internalp->tree == 0) {
+        if (BU_SETJUMP)
+            goto END_MARK;
+
+        RT_GET_TREE(internalp->tree, m_resp);
+
+        internalp->tree->magic        = RT_TREE_MAGIC;
+        internalp->tree->tr_op        = OP_DB_LEAF;
+        internalp->tree->tr_l.tl_mat  = 0;
+        internalp->tree->tr_l.tl_name = bu_strdup(leafName);
+
+END_MARK:
+        BU_UNSETJUMP;
+    }
+    else {
+        Tree().Apply(ConstTreeNode::Union, leafName);
+    }
 }
 
 

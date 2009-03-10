@@ -49,7 +49,7 @@ namespace BRLCAD {
         class BRLCAD_COREINTERFACE_EXPORT ConstTreeNode {
         public:
             enum Operator {
-                Null,         ///< the empty tree of an empty combination, may signal an error too e.g. if an operator of a leaf was requested
+                Null,         ///< the empty tree of an empty combination, may signal an error too e.g. if an operand of a leaf was requested
                 Union,        ///< a binary operation, the set theoretic union set of the two operands
                 Intersection, ///< a binary operation, the set theoretic intersection set of the two operands
                 Subtraction,  ///< a binary operation, the set theoretic complement or difference set of the two operands
@@ -58,37 +58,121 @@ namespace BRLCAD {
                 Leaf          ///< actually an operand
             };
 
-            ConstTreeNode(void) throw() : m_tree(0) {}
             ConstTreeNode(const ConstTreeNode& original) throw() : m_tree(original.m_tree) {}
             ~ConstTreeNode(void) throw() {}
 
-            const ConstTreeNode&  operator=(const ConstTreeNode& original) throw() {
+            const ConstTreeNode& operator=(const ConstTreeNode& original) throw() {
                 m_tree = original.m_tree;
                 return *this;
             }
 
-            Operator      Operation(void) const;
-            ConstTreeNode LeftOperand(void) const;  ///< the left operand of a binary operation
-            ConstTreeNode RightOperand(void) const; ///< the right operand of a binary operation
-            ConstTreeNode Operand(void) const;      ///< the operand of a unary operation
-            const char*   Name(void) const;         ///< the name of the operand object in a leaf
-            const double* Matrix(void) const;       ///< the transformation matrix of the operand object in a leaf
+            Operator             Operation(void) const;
+            ConstTreeNode        LeftOperand(void) const;  ///< the left operand of a binary operation
+            ConstTreeNode        RightOperand(void) const; ///< the right operand of a binary operation
+            ConstTreeNode        Operand(void) const;      ///< the operand of a unary operation
+            const char*          Name(void) const;         ///< the name of the operand object in a leaf
+            const double*        Matrix(void) const;       ///< the transformation matrix of the operand object in a leaf
 
         protected:
             tree* m_tree;
 
+            ConstTreeNode(void) throw() : m_tree(0) {}
             ConstTreeNode(tree* original) throw() : m_tree(original) {}
 
             friend Combination;
         };
 
+        class BRLCAD_COREINTERFACE_EXPORT TreeNode : public ConstTreeNode {
+        public:
+            TreeNode(const TreeNode& original) throw() : ConstTreeNode(original) {}
+            ~TreeNode(void) throw() {}
+
+            const TreeNode& operator=(const TreeNode& original) throw() {
+                ConstTreeNode::operator=(original);
+                return *this;
+            }
+
+            TreeNode        LeftOperand(void);  ///< the left operand of a binary operation
+            TreeNode        RightOperand(void); ///< the right operand of a binary operation
+            TreeNode        Operand(void);      ///< the operand of a unary operation
+
+            /// applies an operator to this node
+            /** - it creates a new node
+                - the operator has to be unary, i.e. \a Not
+                - \return the new created operation node
+            */
+            TreeNode        Apply(Operator op);
+
+            /// creates a new node with "this op theOther"
+            /** - the operator has to be binary
+                - this node becomes a child of the new created one
+                - \return the new created operation node
+            */
+            TreeNode        Apply(Operator             op,
+                                  const ConstTreeNode& theOther);
+
+            /// "this op leaf(\a leafName)"
+            /** - creates two nodes
+                  - a leaf node using \a leafName
+                  - a operation node
+                - the operator has to be binary
+                - this node becomes a child of the new created operation node
+                - \return the new created operation node
+            */
+            TreeNode        Apply(Operator    op,
+                                  const char* leafName);
+
+            /// creates a new node with "theOther op this"
+            /** - the operator has to be binary
+                - this node becomes a child of the new created one
+                - \return the new created operation node
+            */
+            TreeNode        Apply(const ConstTreeNode& theOther,
+                                  Operator             op);
+
+            /// "this op leaf(\a leafName)"
+            /** - creates two nodes
+                  - a leaf node using \a leafName
+                  - a operation node
+                - the operator has to be binary
+                - this node becomes a child of the new created operation node
+                - \return the new created operation node
+            */
+            TreeNode        Apply(const char* leafName,
+                                  Operator    op);
+
+            /// deletes this node and rewinds all parint nodes until a valid state is reached
+            /** E.g. if this node is an operand of a binary operation, this operation will be removed too
+                and the other operand of this binary operation becomes the new child node of the former binary operations parent node.
+
+                This node becomes invalid (operator \a Null) during this procedure.
+            */
+            void            Delete(void);
+
+        private:
+            rt_comb_internal* m_internalp;
+            resource*         m_resp;
+
+            TreeNode(void) throw() : ConstTreeNode(), m_internalp(0) {}
+            TreeNode(tree*             original,
+                     rt_comb_internal* internalp,
+                     resource*         resp) throw() : ConstTreeNode(original), m_internalp(internalp), m_resp(resp) {}
+
+            friend Combination;
+        };
+
         ConstTreeNode         Tree(void) const;
+        TreeNode              Tree(void);
+
+        /// adds a leaf to the tree
+        /** if the tree's root node is not \a Null \a Tree().Apply(Union, leafName) will be performed */
+        void                  AddLeaf(const char* leafName);
 
         bool                  IsRegion(void) const throw();
         void                  SetIsRegion(bool value) throw();
 
         enum FastgenType {
-            Non, ///< not a Fastgen region
+            Non,   ///< not a Fastgen region
             Plate,
             Volume
         };
