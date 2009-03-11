@@ -27,63 +27,6 @@
  *
  */
 
-#include <cstdlib>
-#include <iostream>
-#include <boost/bind.hpp>
-#include <boost/asio.hpp>
-#include "iBME/iBMECommon.h"
-#include "common/array.h"
-#include "GeometryService/Session.h"
-
-
-using boost::asio::ip::tcp;
-
-///////////////////////////////////////////////////////////
-//
-//       Server Class
-//
-///////////////////////////////////////////////////////////
-
-
-class server
-{
-public:
-  server(boost::asio::io_service& io_service, short port)
-    : io_service_(io_service),
-      acceptor_(io_service, 
-      tcp::endpoint(tcp::v4(), port))
-  {
-    Session* new_session = new Session(io_service_);
-    acceptor_.async_accept(new_session->Socket(),
-			   boost::bind(&server::handle_accept, this, new_session,
-				       boost::asio::placeholders::error));
-  }
-
-  void handle_accept(Session* new_session,
-		     const boost::system::error_code& error)
-  {
-    if (!error)
-    {
-      new_session->Start();
-      new_session = new Session(io_service_);
-      acceptor_.async_accept(new_session->Socket(),
-			     boost::bind(&server::handle_accept, this, new_session,
-					 boost::asio::placeholders::error));
-    }
-    else
-    {
-	std::cerr << "Exception " << error << " on handle_accept() \n";
-       delete new_session;
-    }
-  }
-
-private:
-  boost::asio::io_service& io_service_;
-  tcp::acceptor acceptor_;
-};
-
-
-
 ///////////////////////////////////////////////////////////
 //
 //        EXE entry point
@@ -92,26 +35,6 @@ private:
 
 int main(int argc, char* argv[])
 {
-  try
-  {
-    if (argc != 2)
-    {
-      std::cerr << "Usage: gsph0 <port>\n";
-      return 1;
-    }
-
-    boost::asio::io_service io_service;
-    //boost::asio::io_service::work work(io_service);
-
-    using namespace std; // For atoi.
-    server s(io_service, atoi(argv[1]));
-
-    io_service.run();
-  }
-  catch (std::exception& e)
-  {
-    std::cerr << "Exception: " << e.what() << "\n";
-  }
 
   return 0;
 }
