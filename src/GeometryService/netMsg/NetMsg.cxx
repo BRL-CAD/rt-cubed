@@ -36,7 +36,7 @@ NetMsg::NetMsg()
 }
 
 //HeaderOnly Constructor
-NetMsg::NetMsg(uInt mType, String mUUID, String rUUID):
+NetMsg::NetMsg(unsigned int mType, UUID mUUID, UUID rUUID):
   msgType(mType), msgUUID(mUUID), reUUID(rUUID)
 {
 }
@@ -46,11 +46,11 @@ NetMsg::NetMsg(DataStream* ds)
 {
   this->deserialize(ds);
 }
-NetMsg::NetMsg(uByte data[], uInt len)
+NetMsg::NetMsg(unsigned char data[], unsigned int len)
 {
   DataStream ds;
 
-  for (uInt i = 0; i < len; i++)
+  for (int i = 0; i < len; i++)
     {
       ds << data[i];
     }
@@ -130,14 +130,14 @@ bool NetMsg::_serialize(DataStream* ds)
 /*
  *Getters n Setters
  */
-uInt NetMsg::getMsgLen() {return this->msgLen;}
-void NetMsg::setMsgLen(uInt v)
+unsigned int NetMsg::getMsgLen() {return this->msgLen;}
+void NetMsg::setMsgLen(unsigned int v)
 {
   this->msgLen = v;
 }
 
-uInt NetMsg::getMsgType(){return this->msgType;}
-void NetMsg::setMsgType(uInt v)
+unsigned int NetMsg::getMsgType(){return this->msgType;}
+void NetMsg::setMsgType(unsigned int v)
 {
   this->msgType = v;
 }
@@ -156,7 +156,7 @@ void NetMsg::setReUUID(UUID v)
 
 
 
-String NetMsg::toString() 
+std::string NetMsg::toString() 
 {
   std::stringstream Num;
   Num << "msgType: '" << this->msgType << "' \t";
@@ -168,7 +168,7 @@ String NetMsg::toString()
 
 void NetMsg::printMe()
 {
-  String s = this->toString();
+  std::string s = this->toString();
   std::cout << s;
 }
 

@@ -30,14 +30,14 @@
 #include "io/ByteArrayInputStream.h"
 #include "exception/NullPointerException.h"
 
-ByteArrayInputStream::ByteArrayInputStream(const array<uByte>& b) : _buf(b)
+ByteArrayInputStream::ByteArrayInputStream(const array<unsigned char>& b) : _buf(b)
 {
 	_count = _buf.size();
 	_mark = 0;
 	_pos = 0;
 }
 
-ByteArrayInputStream::ByteArrayInputStream(const uByte* data, size_t offset, size_t length) : _buf(data+offset, length)
+ByteArrayInputStream::ByteArrayInputStream(const unsigned char* data, size_t offset, size_t length) : _buf(data+offset, length)
 {
 	_count = _buf.size();
 	_mark = 0;
@@ -67,14 +67,14 @@ bool ByteArrayInputStream::markSupported() throw ()
 	return true;
 }
 
-uInt ByteArrayInputStream::read() throw (IOException)
+unsigned int ByteArrayInputStream::read() throw (IOException)
 {
 	register int rc;
 	rc = (_pos < _count) ? _buf[_pos++] : -1;
 	return rc;
 }
 
-uInt ByteArrayInputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
+unsigned int ByteArrayInputStream::read(unsigned char* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
 		throw NullPointerException();
@@ -99,7 +99,7 @@ uInt ByteArrayInputStream::read(uByte* data, size_t offset, size_t length) throw
 	return length;
 }
 
-uInt ByteArrayInputStream::read(array<uByte>& b) throw (IOException)
+unsigned int ByteArrayInputStream::read(array<unsigned char>& b) throw (IOException)
 {
 	return read(b.data(), 0, b.size());
 }

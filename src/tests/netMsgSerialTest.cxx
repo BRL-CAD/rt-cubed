@@ -39,7 +39,7 @@
 int main(int argc, char* argv[])
 {
 
-  uInt dsLen;
+  unsigned int dsLen;
   DataStream* pds;
 
 

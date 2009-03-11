@@ -41,30 +41,30 @@ class GeometryReqMsg : public NetMsg
     public:
 
       //Only Constructor
-      GeometryReqMsg(uInt mType, UUID mUUID, UUID rUUID, uByte v, String d);
+      GeometryReqMsg(unsigned int mType, UUID mUUID, UUID rUUID, unsigned char v, std::string d);
 
       //Deserializing Constructors
-      GeometryReqMsg(uByte data[], uInt len);
+      GeometryReqMsg(unsigned char data[], unsigned int len);
       GeometryReqMsg(DataStream* ds);
 
       //Destructor
       virtual ~GeometryReqMsg();
   
-      virtual String toString();
+      virtual std::string toString();
 
       /*
        *Getters n Setters
        */
-	uByte getReqType();
-	void setReqType(uByte v);
+	unsigned char getReqType();
+	void setReqType(unsigned char v);
 
-	String getData();
-	void setData(String v);
+	std::string getData();
+	void setData(std::string v);
 
 
     private:
-      uByte reqType;
-      String data;
+      unsigned char reqType;
+      std::string data;
       virtual bool _deserialize(DataStream* ds);
       virtual bool _serialize(DataStream* ds);
 

@@ -36,106 +36,105 @@
 class DataStream {
  private:
 
-  uInt currentSize;
+  unsigned int currentSize;
 
-  uInt bytesFilled;
-  uInt bytesRead; 
+  unsigned int bytesFilled;
+  unsigned int bytesRead; 
 
-  uByte *data;  
+  unsigned char *data;  
 
-  uInt expand(uInt howMuch);
-  uInt shrink();
+  unsigned int expand(unsigned int howMuch);
+  unsigned int shrink();
 
-  void setBytesRead(uInt v);
+  void setBytesRead(unsigned int v);
 
 
  public:
   DataStream();
 
   /// constructor for specifying initial size
-  DataStream(uInt size);
+  DataStream(unsigned int size);
 
   /// constructor for specifying both initial size and data to fit
-  DataStream(void *_data, uInt size);
+  DataStream(void *_data, unsigned int size);
 
 /***************************************
  *
  * DATA IO  Functions
  *
  **************************************/
-  uInt copyIn(const void *_data, uInt size = 0);
-  uInt clear(uByte fill = '\0', uInt size = 0);
+  unsigned int copyIn(const void *_data, uint size = 0);
+  unsigned int clear(unsigned char fill = '\0', uint size = 0);
 
 
 
   friend DataStream& operator<<(DataStream &dest, DataStream source);
-  friend DataStream& operator<<(DataStream &b, Char c);
-  friend DataStream& operator<<(DataStream &b, uChar c);
-  friend DataStream& operator<<(DataStream &b, Short s);
-  friend DataStream& operator<<(DataStream &b, uShort s);
-  friend DataStream& operator<<(DataStream &b, Int i);
-  friend DataStream& operator<<(DataStream &b, uInt i);
-  //  friend DataStream& operator<<(DataStream &b, Long l);
-  //  friend DataStream& operator<<(DataStream &b, uLong l);
+  friend DataStream& operator<<(DataStream &b, char c);
+  friend DataStream& operator<<(DataStream &b, unsigned char c);
+  friend DataStream& operator<<(DataStream &b, short s);
+  friend DataStream& operator<<(DataStream &b, unsigned short s);
+  friend DataStream& operator<<(DataStream &b, int i);
+  friend DataStream& operator<<(DataStream &b, unsigned int i);
+  friend DataStream& operator<<(DataStream &b, long l);
+  friend DataStream& operator<<(DataStream &b, ulong l);
   friend DataStream& operator<<(DataStream &b, float f);
   friend DataStream& operator<<(DataStream &b, double d);
   friend DataStream& operator<<(DataStream &b, std::string &s);
 
   void writeDataStream(DataStream& source);
-  void writeDataStream(DataStream& source, uInt baSize);
-  void writeUByteArray(uByte* ba, uInt baSize);
+  void writeDataStream(DataStream& source, unsigned int baSize);
+  void writeUCharArray(unsigned char* ba, unsigned int baSize);
 
-  void writeChar(const Char c);
-  void writeUChar(const uChar c);
-  void writeShort(const Short s);
-  void writeUShort(const uShort s);
-  void writeInt(const Int i);
-  void writeUInt(const uInt i);
-  //  void writeLong(const Long l);
-  //  void writeULong(const uLong l);
+  void writeChar(const char c);
+  void writeUChar(const unsigned char c);
+  void writeShort(const short s);
+  void writeUShort(const unsigned short s);
+  void writeInt(const int i);
+  void writeUInt(const unsigned int i);
+  void writeLong(const long l);
+  void writeULong(const unsigned long l);
   void writeFloat(const float f);
   void writeDouble(const double d);
   void writeString(const std::string s);
 
 
 
-
-  friend DataStream& operator>>(DataStream &b, Char &c);
-  friend DataStream& operator>>(DataStream &b, uChar &c);
-  friend DataStream& operator>>(DataStream &b, Short &s);
-  friend DataStream& operator>>(DataStream &b, uShort &s);
-  friend DataStream& operator>>(DataStream &b, Int &i);
-  friend DataStream& operator>>(DataStream &b, uInt &i);
-  //  friend DataStream& operator>>(DataStream &b, Long &l);
-  //  friend DataStream& operator>>(DataStream &b, uLong &l);
+  friend DataStream& operator>>(DataStream &b, char &c);
+  friend DataStream& operator>>(DataStream &b, unsigned char &c);
+  friend DataStream& operator>>(DataStream &b, short &s);
+  friend DataStream& operator>>(DataStream &b, unsigned short &s);
+  friend DataStream& operator>>(DataStream &b, int &i);
+  friend DataStream& operator>>(DataStream &b, unsigned int &i);
+  friend DataStream& operator>>(DataStream &b, long &l);
+  friend DataStream& operator>>(DataStream &b, unsigned long &l);
   friend DataStream& operator>>(DataStream &b, float &f);
   friend DataStream& operator>>(DataStream &b, double &d);
   friend DataStream& operator>>(DataStream &b, std::string &s);
 
 
-  uInt readUByteArray(uByte* b, uInt size);
-  Char readChar();
-  uChar readUChar();
-  Short readShort();
-  uShort readUShort();
-  Int readInt();
-  uInt readUInt();
-  //Long readLong();
-  //uLong readULong();
+  unsigned int readUCharArray(unsigned char* b, unsigned int size);
+  char readChar();
+  unsigned char readUChar();
+  short readShort();
+  unsigned short readUShort();
+  int readInt();
+  unsigned int readUInt();
+  long readLong();
+  unsigned long readULong();
   float readFloat();
   double readDouble();
   std::string readString();
 
 
-  uInt peakUByteArray(uByte* b, uInt size, uInt offset = 0);
-  Char peakChar();
-  uChar peakUChar();
-  Short peakShort();
-  uShort peakUShort();
-  Int peakInt();
-  uInt peakUInt();
-  //Long peakLong();
-  //uLong peakULong();
+  unsigned int peakUCharArray(unsigned char* b, unsigned int size, unsigned int offset = 0);
+  char peakChar();
+  unsigned char peakUChar();
+  short peakShort();
+  unsigned short peakUShort();
+  int peakInt();
+  unsigned int peakUInt();
+  long peakLong();
+  unsigned long peakULong();
   float peakFloat();
   double peakDouble();
   std::string peakString();
@@ -145,11 +144,11 @@ class DataStream {
  * Getters n Setters
  *
  **************************************/
-  uInt getCurrentSize();
-  uInt getBytesFilled();
-  uInt getBytesRead();
-  uInt getBytesAvailToRead(); 
-  uByte* getData();
+  unsigned int getCurrentSize();
+  unsigned int getBytesFilled();
+  unsigned int getBytesRead();
+  unsigned int getBytesAvailToRead(); 
+  unsigned char* getData();
 
   bool empty();
   void reset();
@@ -161,10 +160,10 @@ class DataStream {
  **************************************/
   void nFerror(std::string mesg);
   void Ferror(std::string mesg);
-  void toND(register uByte *out, register uByte *in, uInt n);
-  void fromND(register uByte *out, register uByte *in, uInt n);
-  void toNF(register uByte *out, register uByte *in, uInt n);
-  void fromNF(register uByte *out, register uByte *in, uInt n);
+  void toND(register unsigned char *out, register unsigned char *in, unsigned int n);
+  void fromND(register unsigned char *out, register unsigned char *in, unsigned int n);
+  void toNF(register unsigned char *out, register unsigned char *in, unsigned int n);
+  void fromNF(register unsigned char *out, register unsigned char *in, unsigned int n);
 
 };
 

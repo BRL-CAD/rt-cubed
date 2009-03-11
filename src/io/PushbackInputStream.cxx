@@ -57,7 +57,7 @@ void PushbackInputStream::close() throw (IOException)
 	}
 }
 
-uInt PushbackInputStream::read() throw (IOException)
+unsigned int PushbackInputStream::read() throw (IOException)
 {
 	if (_closed)
 		throw IOException("Stream closed");
@@ -73,7 +73,7 @@ bool PushbackInputStream::markSupported() throw ()
 	return false;
 }
 
-uInt PushbackInputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
+unsigned int PushbackInputStream::read(unsigned char* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
 		throw NullPointerException();
@@ -143,7 +143,7 @@ off_t PushbackInputStream::skip(off_t n) throw (IOException)
 	return canskip;
 }
 
-void PushbackInputStream::unread(uByte b) throw (IOException)
+void PushbackInputStream::unread(unsigned char b) throw (IOException)
 {
 	if (_closed)
 		throw IOException("Stream closed");
@@ -154,12 +154,12 @@ void PushbackInputStream::unread(uByte b) throw (IOException)
 	buf[--pos] = b;
 }
 
-void PushbackInputStream::unread(const array<uByte>& b) throw (IOException)
+void PushbackInputStream::unread(const array<unsigned char>& b) throw (IOException)
 {
 	unread(b.data(), 0, b.size());
 }
 
-void PushbackInputStream::unread(const uByte* data, size_t offset, size_t length) throw (IOException)
+void PushbackInputStream::unread(const unsigned char* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
 		throw NullPointerException();

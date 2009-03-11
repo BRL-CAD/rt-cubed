@@ -43,18 +43,18 @@ void NetMsgActionDefManager::registerNetMsgActionDef(
 {
 }
 
-uInt NetMsgActionDefManager::unregisterNetMsgActionDef(
+unsigned int NetMsgActionDefManager::unregisterNetMsgActionDef(
 		AbstractNetMsgActionDef& def)
 {
 	return 0;
 }
 
 AbstractNetMsgActionDef& NetMsgActionDefManager::unregisterNetMsgActionDef(
-		uInt msgType)
+		unsigned int msgType)
 {
 }
 
-AbstractNetMsgActionDef& NetMsgActionDefManager::getNetMsgActionDef(uInt msgType)
+AbstractNetMsgActionDef& NetMsgActionDefManager::getNetMsgActionDef(unsigned int msgType)
 {
 }
 

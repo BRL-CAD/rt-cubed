@@ -37,12 +37,12 @@ class CommandResult {
 public:
 	virtual ~CommandResult();
 
-	CommandResult(uInt resVal);
-	uInt getCommandResult();
+	CommandResult(unsigned int resVal);
+	unsigned int getCommandResult();
 
 private:
 	CommandResult();
-	uInt ResultValue;
+	unsigned int ResultValue;
 
 };
 

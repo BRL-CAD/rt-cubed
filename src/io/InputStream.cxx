@@ -48,12 +48,12 @@ bool InputStream::markSupported() throw ()
 	return false;
 }
 
-uInt InputStream::read(array<uByte>& b) throw (IOException)
+unsigned int InputStream::read(array<unsigned char>& b) throw (IOException)
 {
 	return read(b.data(), 0, b.size());
 }
 
-uInt InputStream::read(uByte* data, size_t offset, size_t length) throw (IOException)
+unsigned int InputStream::read(unsigned char* data, size_t offset, size_t length) throw (IOException)
 {
 	if (!data)
 		throw NullPointerException();
@@ -62,7 +62,7 @@ uInt InputStream::read(uByte* data, size_t offset, size_t length) throw (IOExcep
 	if (b < 0)
 		return -1;
 
-	data[offset] = (uByte) b;
+	data[offset] = (unsigned char) b;
 
 	size_t i = 1;
 	try
@@ -72,7 +72,7 @@ uInt InputStream::read(uByte* data, size_t offset, size_t length) throw (IOExcep
 			b = read();
 			if (b < 0)
 				break;
-			data[offset+i++] = (uByte) b;
+			data[offset+i++] = (unsigned char) b;
 		}
 	}
 	catch (IOException)
@@ -86,7 +86,7 @@ off_t InputStream::skip(off_t n) throw (IOException)
 {
 	off_t remaining = n;
 
-	uByte skip[2048];
+	unsigned char skip[2048];
 
 	while (remaining > 0)
 	{

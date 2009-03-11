@@ -34,9 +34,9 @@
 
 class  EOFException : public IOException
 {
-	public:
-		EOFException() throw ();
-		EOFException(const String& message) throw ();
+public:
+  EOFException() throw ();
+  EOFException(const std::string& message) throw ();
 };
 
 #endif

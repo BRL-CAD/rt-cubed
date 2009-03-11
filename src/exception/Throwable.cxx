@@ -34,7 +34,7 @@ Throwable::Throwable() throw ()
 {
 }
 
-Throwable::Throwable(const String& message) throw ()
+Throwable::Throwable(const std::string& message) throw ()
 {
 	_msg = message;
 }
@@ -44,7 +44,7 @@ Throwable::Throwable(const Throwable& copy) throw ()
 	_msg = copy._msg;
 }
 
-const String& Throwable::getMessage() const throw ()
+const std::string& Throwable::getMessage() const throw ()
 {
 	return _msg;
 }

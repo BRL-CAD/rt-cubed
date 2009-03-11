@@ -34,28 +34,28 @@ int main(int argc, char* argv[])
 
   bool boo = false;
 
-  uByte ub = 255;
-  Byte b =   127;
+  unsigned char ub = 255;
+  char b =   127;
 
-  uShort ush = 65535;
-  Short sh =   32767;
+  unsigned short ush = 65535;
+  short sh =   32767;
 
-  uInt ui = 4294967295;
-  Int i =   2147483647;
+  unsigned int ui = 4294967295;
+  int i =   2147483647;
 
-  uLong ul = 18446744073709551615;
-  Long l =    9223372036854775807;
+  unsigned long ul = 18446744073709551615;
+  long l =    9223372036854775807;
 
   float f =  1234.567890123456789;
   double d = 1234.567890123456789;
 
 
-  String str = "This is a test string for the serialization test!";
+  std::string str = "This is a test string for the serialization test!";
   
 
   dos->writeBoolean(boo);
-  dos->writeUByte(ub);
-  dos->writeByte(b);
+  dos->writeUChar(ub);
+  dos->writeChar(b);
   dos->writeUShort(ush);
   dos->writeShort(sh);
   dos->writeUInt(ui);
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
   delete dos;
   delete baos;
 
-  array<uByte>* data = baos->toByteArray();
+  array<unsigned char>* data = baos->toCharArray();
 
   /////////////////////////
   std::cout << boo << "\n";
@@ -103,22 +103,22 @@ int main(int argc, char* argv[])
 
   bool nboo = dis->readBoolean();
 
-  uByte nub = dis->readUByte();
-  Byte nb =   dis->readByte();
+  unsigned char nub = dis->readUChar();
+  char nb =   dis->readChar();
 
-  uShort nush = dis->readUShort();
-  Short nsh =   dis->readShort();
+  unsigned short nush = dis->readUShort();
+  short nsh =   dis->readShort();
 
-  uInt nui = dis->readUInt();
-  Int ni =   dis->readInt();
+  unsigned int nui = dis->readUInt();
+  int ni =   dis->readInt();
 
-  uLong nul = dis->readULong();
-  Long nl =   dis->readLong();
+  unsigned long nul = dis->readULong();
+  long nl =   dis->readLong();
 
   float nf = dis->readFloat();
   double nd = dis->readDouble();
 
-  String nmyStr = dis->readString();
+  std::string nmyStr = dis->readString();
 
 
   ///////////////////////////

@@ -33,29 +33,29 @@
 #include "io/FilterInputStream.h"
 
 class  PushbackInputStream : public FilterInputStream
-	{
-	private:
-		bool _closed;
+{
+private:
+  bool _closed;
 
-	protected:
-		array<uByte> buf;
-		size_t pos;
+protected:
+  array<unsigned char> buf;
+  size_t pos;
 
-	public:
-		PushbackInputStream(InputStream& in, size_t size = 1);
-		virtual ~PushbackInputStream();
+public:
+  PushbackInputStream(InputStream& in, size_t size = 1);
+  virtual ~PushbackInputStream();
 
-		virtual off_t available() throw (IOException);
-		virtual void close() throw (IOException);
-		virtual bool markSupported() throw ();
-		virtual uInt read() throw (IOException);
-		virtual uInt read(uByte* data, size_t offset, size_t length) throw (IOException);
-		virtual off_t skip(off_t n) throw (IOException);
+  virtual off_t available() throw (IOException);
+  virtual void close() throw (IOException);
+  virtual bool markSupported() throw ();
+  virtual unsigned int read() throw (IOException);
+  virtual unsigned int read(unsigned char* data, size_t offset, size_t length) throw (IOException);
+  virtual off_t skip(off_t n) throw (IOException);
 
-		void unread(uByte) throw (IOException);
-		void unread(const uByte* data, size_t offset, size_t length) throw (IOException);
-		void unread(const array<uByte>& b) throw (IOException);
-	};
+  void unread(unsigned char) throw (IOException);
+  void unread(const unsigned char* data, size_t offset, size_t length) throw (IOException);
+  void unread(const array<unsigned char>& b) throw (IOException);
+};
 
 #endif
 

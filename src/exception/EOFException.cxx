@@ -33,7 +33,7 @@ EOFException::EOFException() throw ()
 {
 }
 
-EOFException::EOFException(const String& message) throw () : IOException(message)
+EOFException::EOFException(const std::string& message) throw () : IOException(message)
 {
 }
 

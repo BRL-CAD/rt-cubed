@@ -30,14 +30,14 @@ int main(int argc, char* argv[])
 
   bool boo = false;
 
-  uByte ub = 255;
-  Byte b =   127;
+  unsigned char ub = 255;
+  char b =   127;
 
-  uShort ush = 65535;
-  Short sh =   32767;
+  unsigned short ush = 65535;
+  short sh =   32767;
 
-  uInt ui = 4294967295;
-  Int i =   2147483647;
+  unsigned int ui = 4294967295;
+  int i =   2147483647;
 
   //  uLong ul = 18446744073709551615;
   //  Long l =    9223372036854775807;
@@ -91,11 +91,11 @@ int main(int argc, char* argv[])
   std::cout << "\n----\n\n";
   ////////////////////////////
 
-    uInt bytes = ds.getBytesAvailToRead();
-    uByte* myArray;
-    myArray = new uByte[bytes];
+    unsigned int bytes = ds.getBytesAvailToRead();
+    unsigned char* myArray;
+    myArray = new unsigned char[bytes];
 	
-    uInt bytesRead = ds.peakUByteArray(myArray, bytes);
+    unsigned int bytesRead = ds.peakUCharArray(myArray, bytes);
 
     std::cout << "ByteStream(" << bytesRead << "): " << myArray << "\n";
     std::cout << "\n";
@@ -115,16 +115,16 @@ int main(int argc, char* argv[])
   try {
     bool nboo;
   
-    uByte nub = ds.readUChar();
-    Byte nb;
+    unsigned char nub = ds.readUChar();
+    char nb;
     ds >> nb;
 
-    uShort nush = ds.readUShort();
-    Short nsh;
+    unsigned short nush = ds.readUShort();
+    short nsh;
     ds >> nsh;
 
-    uInt nui = ds.readUInt();
-    Int ni;
+    unsigned int nui = ds.readUInt();
+    int ni;
     ds >> ni;
     /*
       uLong nul;
@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
       ds >> nl;
     */
 
-    String nmyStr;
+    std::string nmyStr;
     ds >> nmyStr;
 
     float nf; 

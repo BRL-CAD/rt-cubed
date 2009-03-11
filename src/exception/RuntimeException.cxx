@@ -34,7 +34,7 @@ RuntimeException::RuntimeException() throw ()
 {
 }
 
-RuntimeException::RuntimeException(const String& message) throw () : Exception(message)
+RuntimeException::RuntimeException(const std::string& message) throw () : Exception(message)
 {
 }
 

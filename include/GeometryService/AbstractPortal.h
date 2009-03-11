@@ -42,9 +42,9 @@ public:
 	virtual ~AbstractPortal();
 
 private:
-	uInt connectionType;
-	String host;
-	std::list <String> proxy_hosts();
+	unsigned int connectionType;
+	std::string host;
+	std::list <std::string> proxy_hosts();
 
 };
 

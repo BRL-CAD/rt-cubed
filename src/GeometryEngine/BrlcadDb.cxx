@@ -37,7 +37,7 @@ BrlcadDb::~BrlcadDb()
 {
 }
 
-DbObject& BrlcadDb::getDbObjectByObjectName(String name) {
+DbObject& BrlcadDb::getDbObjectByObjectName(std::string name) {
 }
 
 DbObject& BrlcadDb::getDbObjectByUUID(UUID uuid) {

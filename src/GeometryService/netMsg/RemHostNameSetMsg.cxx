@@ -31,7 +31,7 @@
 #include <sstream>
 
 //HeaderOnly Constructor
-RemHostNameSetMsg::RemHostNameSetMsg(uInt mType, String mUUID, String rUUID, String v):
+RemHostNameSetMsg::RemHostNameSetMsg(unsigned int mType, UUID mUUID, UUID rUUID, std::string v):
   NetMsg(mType, mUUID, rUUID), hostname(v)
 {
 }
@@ -41,10 +41,10 @@ RemHostNameSetMsg::RemHostNameSetMsg(DataStream* ds)
 {
   this->deserialize(ds);
 }
-RemHostNameSetMsg::RemHostNameSetMsg(uByte data[], uInt len)
+RemHostNameSetMsg::RemHostNameSetMsg(unsigned char data[], unsigned int len)
 {
   DataStream ds;
-  for (uInt i = 0; i < len; i++)
+  for (int i = 0; i < len; i++)
     {
       ds << data[i];
     }
@@ -69,7 +69,7 @@ bool RemHostNameSetMsg::_serialize(DataStream* ds)
   return true;
 }
 
-String RemHostNameSetMsg::toString() 
+std::string RemHostNameSetMsg::toString() 
 {
   std::stringstream Num;
   Num << "msgType: " << this->msgType << " \t";   
@@ -83,8 +83,8 @@ String RemHostNameSetMsg::toString()
  /*
  *Getters n Setters
  */
-String RemHostNameSetMsg::getHostName() {return this->hostname;}
-void RemHostNameSetMsg::setHostName(String v)
+std::string RemHostNameSetMsg::getHostName() {return this->hostname;}
+void RemHostNameSetMsg::setHostName(std::string v)
 {
   this->hostname = v;
 }

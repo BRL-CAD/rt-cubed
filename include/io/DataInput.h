@@ -37,31 +37,30 @@
     class DataInput
     {
     public:
-      virtual void readFully(uByte* data, size_t offset, size_t length) = 0;
-      virtual void readFully(array<uByte>& b) = 0;
+      virtual void readFully(unsigned char* data, size_t offset, size_t length) = 0;
+      virtual void readFully(array<unsigned char>& b) = 0;
 
       virtual bool readBoolean() throw (IOException) = 0;
 
-      virtual Byte readByte() throw (IOException) = 0;
-      virtual uByte readUByte() throw (IOException) = 0;
+      virtual char readChar() throw (IOException) = 0;
+      virtual unsigned char readUChar() throw (IOException) = 0;
 
-      virtual Short readShort() throw (IOException) = 0;
-      virtual uShort readUShort() throw (IOException) = 0;
+      virtual short readShort() throw (IOException) = 0;
+      virtual unsigned short readUShort() throw (IOException) = 0;
 
-      virtual Int readInt() throw (IOException) = 0;
-      virtual uInt readUInt() throw (IOException) = 0;
+      virtual int readInt() throw (IOException) = 0;
+      virtual unsigned int readUInt() throw (IOException) = 0;
 
-      virtual Long readLong() throw (IOException) = 0;
-      virtual uLong readULong() throw (IOException) = 0;
+      virtual long readLong() throw (IOException) = 0;
+      virtual unsigned long readULong() throw (IOException) = 0;
 
       virtual float readFloat() throw (IOException) = 0;
       virtual double readDouble() throw (IOException) = 0;
 
-      virtual uByte readChar() throw (IOException) = 0;
-      virtual String readString() throw (IOException) = 0;
+      virtual std::string readString() throw (IOException) = 0;
 
-      virtual String* readLine() throw (IOException) = 0;
-      virtual void readLine(String& line) throw (IOException) = 0;
+      virtual std::string* readLine() throw (IOException) = 0;
+      virtual void readLine(std::string& line) throw (IOException) = 0;
 
 
       virtual off_t skipBytes(off_t n) throw (IOException) = 0;

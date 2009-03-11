@@ -35,11 +35,12 @@
   // These are only temporary
   typedef std::string     UUID;
   typedef std::string     URL;
-  typedef std::string     String;
+//  typedef std::string     String;
 
 
 
   // These are Perminent
+/*
   typedef uint8_t    uChar;
   typedef int8_t     Char;
 
@@ -54,7 +55,7 @@
 
   typedef uint64_t   uLong;
   typedef int64_t    Long;
-
+*/
 
 /*  NetMsg Types */
 

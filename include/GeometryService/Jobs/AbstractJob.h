@@ -41,7 +41,7 @@ public:
   virtual bool doJob();
 
 private:
-  uInt jobID;
+  unsigned int jobID;
 
 };
 

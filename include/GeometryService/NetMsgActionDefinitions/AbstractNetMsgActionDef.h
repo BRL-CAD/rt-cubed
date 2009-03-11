@@ -43,7 +43,7 @@ class AbstractNetMsgActionDef
   		AbstractJob& convert(NetMsg& msg);
 
 	private:
-		uInt msgType;
+		unsigned int msgType;
 
 };
 

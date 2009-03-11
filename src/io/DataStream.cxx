@@ -37,35 +37,36 @@ DataStream::DataStream()
   currentSize = 32;
   bytesFilled = 0;
   bytesRead = 0;
-  data = new uByte[this->currentSize];
+  data = new unsigned char[this->currentSize];
   if (data == NULL) {
     Ferror("new() failed");
   }
 }
 
-DataStream::DataStream(uInt size) 
+
+DataStream::DataStream(unsigned int size) 
 {
   data = NULL;
   currentSize = size;
   bytesFilled = 0;
   bytesRead = 0;
-  data = new uByte[size];
+  data = new unsigned char[size];
   if (data == NULL) {
     Ferror("new() failed");
   }
 }
 
-DataStream::DataStream(void *_data, uInt size) {
+DataStream::DataStream(void *_data, unsigned int size) {
   data = NULL;
   currentSize = size;
   bytesFilled = 0;
   bytesRead = 0;
-  data = new uByte[size];
+  data = new unsigned char[size];
   if (data == NULL) {
     Ferror("new() failed");
   }
 
-  data = (uByte*)memcpy(data, _data, size);
+  data = (unsigned char*)memcpy(data, _data, size);
   if (data == NULL) {
     nFerror("memcpy() failed");
   }
@@ -79,7 +80,7 @@ DataStream::DataStream(void *_data, uInt size) {
 
 
 // copy _data into this stream.
-uInt DataStream::copyIn(const void *_data, uInt size)
+unsigned int DataStream::copyIn(const void *_data, unsigned int size)
 {
   if (size == 0) { // assume that data is same size as stream
     memcpy(this->data, _data, this->currentSize);
@@ -94,10 +95,10 @@ uInt DataStream::copyIn(const void *_data, uInt size)
       //Attempt to expand:
 	  
       //calc the difference in current size and needed size
-      uInt diffSize = ((this->bytesFilled + size) - this->currentSize);
+      unsigned int diffSize = ((this->bytesFilled + size) - this->currentSize);
 
       if (this->expand(diffSize) == 0) {
-	memcpy(((uByte*)this->data + this->bytesFilled), _data, size);
+	memcpy(((unsigned char*)this->data + this->bytesFilled), _data, size);
 	this->bytesFilled += size;
       } else {
 	nFerror("expand() failed: copyIn() not completed");
@@ -105,7 +106,7 @@ uInt DataStream::copyIn(const void *_data, uInt size)
       }
     } else {
       // No expand: Just copy directly to that position
-      memcpy(((uByte *)this->data + this->bytesFilled), _data, size);
+      memcpy(((unsigned char *)this->data + this->bytesFilled), _data, size);
       this->bytesFilled += size;
 
     }
@@ -114,19 +115,19 @@ uInt DataStream::copyIn(const void *_data, uInt size)
 }
 
 // will clear the specified size with the designated character.
-uInt DataStream::clear(uChar fill, uInt size)
+unsigned int DataStream::clear(unsigned char fill, unsigned int size)
 {
   if (size == 0) {
     this->bytesFilled = 0;
     this->bytesRead = 0;
-    memset(this->data, (uInt)fill, this->currentSize);
+    memset(this->data, (unsigned int)fill, this->currentSize);
   }
   else {
     this->bytesFilled -= size;
     if (this->currentSize - size < this->bytesRead)
       this->bytesRead = this->currentSize - size;
     if (this->bytesFilled < 0) this->bytesFilled = 0;
-    memset((uByte*)this->data + this->bytesFilled, (uInt)fill, size);
+    memset((unsigned char*)this->data + this->bytesFilled, (unsigned int)fill, size);
   }
   return 0;
 }
@@ -142,36 +143,36 @@ extern DataStream& operator<<(DataStream &dest, DataStream source)
   return dest;
 }
 
-extern DataStream& operator<<(DataStream &b, Char c)
+extern DataStream& operator<<(DataStream &b, char c)
 {
-  b.writeUChar((uChar)c);
+  b.writeUChar((unsigned char)c);
   return b;
 }
-extern DataStream& operator<<(DataStream &b, uChar c)
+extern DataStream& operator<<(DataStream &b, unsigned char c)
 {
   b.writeUChar(c);
     return b;
 }
 
 
-extern DataStream& operator<<(DataStream &b, Short s)
+extern DataStream& operator<<(DataStream &b, short s)
 {
-  b.writeUShort((uShort)s);
+  b.writeUShort((unsigned short)s);
   return b;
 }
-extern DataStream& operator<<(DataStream &b, uShort s)
+extern DataStream& operator<<(DataStream &b, unsigned short s)
 {
   b.writeUShort(s);
   return b;
 }
 
 
-extern DataStream& operator<<(DataStream &b, Int i)
+extern DataStream& operator<<(DataStream &b, int i)
 {
-  b.writeUInt((uInt)i);  
+  b.writeUInt((unsigned int)i);  
   return b;
 }
-extern DataStream& operator<<(DataStream &b, uInt i)
+extern DataStream& operator<<(DataStream &b, unsigned int i)
 {
   b.writeUInt(i);
   return b;
@@ -202,71 +203,71 @@ void DataStream::writeDataStream(DataStream& source)
 {
   this->writeDataStream(source, source.getBytesAvailToRead());
 }
-void DataStream::writeDataStream(DataStream& source, uInt baSize)
+void DataStream::writeDataStream(DataStream& source, unsigned int baSize)
 {
-  uInt availBytes = source.getBytesAvailToRead();
+  unsigned int availBytes = source.getBytesAvailToRead();
   if (availBytes > 0)
     {
-      for (uInt i = 0; i < baSize; i++)
+      for (unsigned int i = 0; i < baSize; i++)
 	{
 	  this->writeUChar(source.readUChar());
 	}      
     }
 }
-void DataStream::writeUByteArray(uByte* ba, uInt baSize)
+void DataStream::writeUCharArray(unsigned char* ba, unsigned int baSize)
 {
-  for (uInt i = 0; i < baSize; i++)
+  for (unsigned int i = 0; i < baSize; i++)
     {
       this->writeUChar(ba[i]);
     }      
 }
 
-void DataStream::writeChar(const Char c) 
+void DataStream::writeChar(const char c) 
 {
-  this->writeUChar((uChar)c);
+  this->writeUChar((unsigned char)c);
 }
-void DataStream::writeUChar(const uChar c)
+void DataStream::writeUChar(const unsigned char c)
 {
-  this->copyIn((void *)(&c), sizeof(uChar));
-}
-
-void DataStream::writeShort(const Short s) 
-{
-  this->writeUShort((uShort)s);
-}
-void DataStream::writeUShort(const uShort s)
-{
-  uShort c = htons(s);
-  this->copyIn((void *)(&c), sizeof(uShort));
+  this->copyIn((void *)(&c), sizeof(unsigned char));
 }
 
-
-void DataStream::writeInt(const Int i)
+void DataStream::writeShort(const short s) 
 {
-  this->writeUInt((uInt)i);
+  this->writeUShort((unsigned short)s);
 }
-void DataStream::writeUInt(const uInt i)
+void DataStream::writeUShort(const unsigned short s)
 {
-  uInt c = htonl(i);
-  this->copyIn((void *)(&c), sizeof(uInt));
+  unsigned short c = htons(s);
+  this->copyIn((void *)(&c), sizeof(unsigned short));
+}
+
+
+void DataStream::writeInt(const int i)
+{
+  this->writeUInt((unsigned int)i);
+}
+void DataStream::writeUInt(const unsigned int i)
+{
+  unsigned int c = htonl(i);
+  this->copyIn((void *)(&c), sizeof(unsigned int));
 }
 
 void DataStream::writeFloat(const float f)
 {
   float nf;
-  this->toND((uByte *)&nf, (uByte *)&f, 1);
+  this->toND((unsigned char *)&nf, (unsigned char *)&f, 1);
   this->copyIn((void *)(&nf), sizeof(float)); 
 }
 void DataStream::writeDouble(const double d)
 {
   double c;
-  this->toND((uByte *)&c, (uByte *)&d, 1);
+  this->toND((unsigned char *)&c, (unsigned char *)&d, 1);
   this->copyIn((void *)(&c), sizeof(double)); 
 }
 
 void DataStream::writeString(const std::string s)
 {
-  this->writeUInt((uInt)s.length());
+  this->writeUInt((unsigned int)s.length());
   this->copyIn((void *)(s.c_str()), s.length());
 }
 
@@ -280,34 +281,34 @@ void DataStream::writeString(const std::string s)
 /********************
  * Output
  ********************/
-extern DataStream& operator>>(DataStream &b, Char& c)
+extern DataStream& operator>>(DataStream &b, char& c)
 {
   c = b.readChar();
   return b;
 }
-extern DataStream& operator>>(DataStream &b, uChar& c)
+extern DataStream& operator>>(DataStream &b, unsigned char& c)
 {
   c = b.readUChar();
   return b;
 }
 
-extern DataStream& operator>>(DataStream &b, Short& s)
+extern DataStream& operator>>(DataStream &b, short& s)
 {
   s = b.readShort();
   return b;
 }
-extern DataStream& operator>>(DataStream &b, uShort& s)
+extern DataStream& operator>>(DataStream &b, unsigned short& s)
 {
   s = b.readUShort();
   return b;
 }
 
-extern DataStream& operator>>(DataStream &b, Int& i)
+extern DataStream& operator>>(DataStream &b, int& i)
 {
   i = b.readInt();
   return b;
 }
-extern DataStream& operator>>(DataStream &b, uInt& i)
+extern DataStream& operator>>(DataStream &b, unsigned int& i)
 {
   i = b.readUInt();
   return b;
@@ -332,44 +333,44 @@ extern DataStream& operator>>(DataStream &b, std::string &s)
 
 
 
-uInt DataStream::readUByteArray(uByte* b, uInt size)
+unsigned int DataStream::readUCharArray(unsigned char* b, unsigned int size)
 {
-  uInt retVal = this->peakUByteArray(b, size);
+  unsigned int retVal = this->peakUCharArray(b, size);
   this->setBytesRead( this->getBytesRead() + retVal);
   return retVal;
 }
 
 
-Char DataStream::readChar()
+char DataStream::readChar()
 {
-  return (Char)this->readUChar();
+  return (char)this->readUChar();
 }
-uChar DataStream::readUChar()
+unsigned char DataStream::readUChar()
 {
-  uChar c = this->peakUChar();
-  this->setBytesRead( this->getBytesRead() + sizeof(uChar));
+  unsigned char c = this->peakUChar();
+  this->setBytesRead( this->getBytesRead() + sizeof(unsigned char));
   return c;
 }
 
-Short DataStream::readShort()
+short DataStream::readShort()
 {
-  return (Short)this->readUShort();
+  return (short)this->readUShort();
 }
-uShort DataStream::readUShort()
+unsigned short DataStream::readUShort()
 {
-  uShort s = this->peakUShort();
-  this->setBytesRead( this->getBytesRead() + sizeof(uShort));
+  unsigned short s = this->peakUShort();
+  this->setBytesRead( this->getBytesRead() + sizeof(unsigned short));
   return s;
 }
 
-Int DataStream::readInt()
+int DataStream::readInt()
 {
-  return (Int)this->readUInt();
+  return (int)this->readUInt();
 }
-uInt DataStream::readUInt()
+unsigned int DataStream::readUInt()
 {
-  uInt i = this->peakUInt();
-  this->setBytesRead( this->getBytesRead() + sizeof(uInt));
+  unsigned int i = this->peakUInt();
+  this->setBytesRead( this->getBytesRead() + sizeof(unsigned int));
   return i;
 }
 
@@ -390,7 +391,7 @@ std::string DataStream::readString()
 {
   std::string s;
   s = this->peakString();
-  this->setBytesRead( this->getBytesRead() + s.length() + sizeof(uInt));
+  this->setBytesRead( this->getBytesRead() + s.length() + sizeof(unsigned int));
   return s;
 }
 
@@ -401,49 +402,49 @@ std::string DataStream::readString()
  ********************/
 
 
-Char DataStream::peakChar()
+char DataStream::peakChar()
 {
-  return (Char)this->peakUChar();
+  return (char)this->peakUChar();
 }
-uChar DataStream::peakUChar()
+unsigned char DataStream::peakUChar()
 {
   if (this->empty()) throw IOException("Stream is Empty");
-  uByte b;
-  uByte *pos = (this->data + this->bytesRead);
+  unsigned char b;
+  unsigned char *pos = (this->data + this->bytesRead);
   b = 0;
   b |= *(pos);
   return b;
 }
 
 
-Short DataStream::peakShort()
+short DataStream::peakShort()
 {
-  return (Short)this->peakUShort();
+  return (short)this->peakUShort();
 }
-uShort DataStream::peakUShort()
+unsigned short DataStream::peakUShort()
 {
   if (this->empty()) throw IOException("Stream is Empty");
-  uShort s;
-  uByte *pos = (this->data + this->bytesRead);
+  unsigned short s;
+  unsigned char *pos = (this->data + this->bytesRead);
   s = 0;
-  s |= *((uShort *)pos);
+  s |= *((unsigned short *)pos);
   s = ntohs(s);
   return s;
 }
 
-Int DataStream::peakInt()
+int DataStream::peakInt()
 {
-  return (Int)this->peakUInt();
+  return (int)this->peakUInt();
 }
-uInt DataStream::peakUInt()
+unsigned int DataStream::peakUInt()
 {
   if (this->empty()) throw IOException("Stream is Empty");
-  uByte *pos = (this->data + this->bytesRead);
-  uInt i = 0;
-  i |= *((uInt*)pos);
-  i = (uInt)ntohl(i);
+  unsigned char *pos = (this->data + this->bytesRead);
+  unsigned int i = 0;
+  i |= *((unsigned int*)pos);
+  i = (unsigned int)ntohl(i);
 
-  //std::cout << "Peaked a uInt of " << i << "\n";
+  //std::cout << "Peaked a unsigned int of " << i << "\n";
 
   return i;
 }
@@ -451,30 +452,30 @@ uInt DataStream::peakUInt()
 float DataStream::peakFloat()
 {
   if (this->empty()) throw IOException("Stream is Empty");
-  uByte *pos = (this->data + this->bytesRead);
+  unsigned char *pos = (this->data + this->bytesRead);
   float f;
-  this->fromNF((uByte *)&f, (uByte *)(pos), 1);
+  this->fromNF((unsigned char *)&f, (unsigned char *)(pos), 1);
   return f;
 }
 double DataStream::peakDouble()
 {
   if (this->empty()) throw IOException("Stream is Empty");
-  uByte *pos = (this->data + this->bytesRead);
+  unsigned char *pos = (this->data + this->bytesRead);
   double d;
-  this->fromND((uByte *)&d, (uByte *)(pos), 1);
+  this->fromND((unsigned char *)&d, (unsigned char *)(pos), 1);
   return d;
 }
 
 
 std::string DataStream::peakString()
 {
-  //Get the StringLen:
-  uInt i = this->peakUInt();
+  //Get the std::stringLen:
+  unsigned int i = this->peakUInt();
 
-  uChar *buf;
-  buf = new uChar[ i + 1 ]; // for null-character
+  unsigned char *buf;
+  buf = new unsigned char[ i + 1 ]; // for null-character
 
-  uInt used = this->peakUByteArray(buf, i, sizeof(uInt));
+  unsigned int used = this->peakUCharArray(buf, i, sizeof(unsigned int));
 
   buf[used] = '\0';
 
@@ -485,26 +486,26 @@ std::string DataStream::peakString()
 
 
 
-uInt DataStream::peakUByteArray(uByte* b, uInt size, uInt offset)
+unsigned int DataStream::peakUCharArray(unsigned char* b, unsigned int size, unsigned int offset)
 {
   if (this->empty()) throw IOException("Stream is Empty");
 
-  uInt realSize = size;
-  uInt availableBytes;
+  unsigned int realSize = size;
+  unsigned int availableBytes;
   availableBytes = this->getBytesAvailToRead();
 
-  //std::cout << "\tRequested uByteArray Size: " << size << "\n";
+  //std::cout << "\tRequested unsigned charArray Size: " << size << "\n";
 
   //Check to see if there is enough room to perform a read of i bytes
   if (availableBytes < size) {
-    std::cerr << "Warning:  uByte[] length requested exceeds current ";
+    std::cerr << "Warning:  unsigned char[] length requested exceeds current ";
     std::cerr << "Stream's endpoint. Returning all available data.\n";
     realSize = availableBytes;
   }
 
-  uChar *pos = ((uChar *)this->getData() + this->getBytesRead() + offset);
+  unsigned char *pos = ((unsigned char *)this->getData() + this->getBytesRead() + offset);
 
-  for (uInt i = 0; i < realSize; ++i) {
+  for (unsigned int i = 0; i < realSize; ++i) {
     b[i] = *pos;
     pos++;
   }
@@ -523,14 +524,14 @@ uInt DataStream::peakUByteArray(uByte* b, uInt size, uInt offset)
  **************************************/
 
 // expand the stream by size if possible
-uInt DataStream::expand(uInt howMuch)
+unsigned int DataStream::expand(unsigned int howMuch)
 {
-  uByte* newData = NULL;
+  unsigned char* newData = NULL;
   if (howMuch == 0) {
     return 0;
   }
 
-  newData = new uByte[this->currentSize + howMuch];
+  newData = new unsigned char[this->currentSize + howMuch];
   if (newData == NULL) {
     nFerror("new() failed, expand() did not complete");
     return 1;
@@ -548,11 +549,11 @@ uInt DataStream::expand(uInt howMuch)
 }
 
 // shrink the stream to the size of bytesFilled.
-uInt DataStream::shrink()
+unsigned int DataStream::shrink()
 {
-  uByte * newData = NULL;
+  unsigned char * newData = NULL;
   if (this->bytesFilled < this->currentSize) {
-    newData = new uByte[this->bytesFilled];
+    newData = new unsigned char[this->bytesFilled];
     if (newData == NULL) {
       nFerror("new() failed, shrink() did not complete");
       return 1;
@@ -573,34 +574,34 @@ uInt DataStream::shrink()
  * Getters n Setters
  *
  **************************************/
-uInt DataStream::getCurrentSize() 
+unsigned int DataStream::getCurrentSize() 
 { 
   return this->currentSize;
 }
 
-uInt DataStream::getBytesFilled() 
+unsigned int DataStream::getBytesFilled() 
 { 
   return this->bytesFilled;
 }
 
-uInt DataStream::getBytesRead() 
+unsigned int DataStream::getBytesRead() 
 { 
   return this->bytesRead;
 }
 
-uInt DataStream::getBytesAvailToRead() 
+unsigned int DataStream::getBytesAvailToRead() 
 { 
   return this->bytesFilled - this->bytesRead;
 }
 
 
 
-void DataStream::setBytesRead(uInt v) 
+void DataStream::setBytesRead(unsigned int v) 
 { 
   this->bytesRead = v;
 }
 
-uByte* DataStream::getData()
+unsigned char* DataStream::getData()
 {
   return this->data;
 }
@@ -633,26 +634,26 @@ void DataStream::Ferror(std::string mesg)
 }
 
 // utility fns to convert host order Floats to network order, and back.
-void DataStream::toNF(register uByte *out, register uByte *in, uInt n)
+void DataStream::toNF(register unsigned char *out, register unsigned char *in, unsigned int n)
 {
   *out = *in;
   //htonf(out, in , n);
 }
 
-void DataStream::fromNF(register uByte *out, register uByte *in, uInt n)
+void DataStream::fromNF(register unsigned char *out, register unsigned char *in, unsigned int n)
 {
   *out = *in;
   //ntohf(out, in, n);
 }
 
 // utility fns to convert host order doubles to network order, and back.
-void DataStream::toND(register uByte *out, register uByte *in, uInt n)
+void DataStream::toND(register unsigned char *out, register unsigned char *in, unsigned int n)
 {
   *out = *in;
   //htond(out, in , n);
 }
 
-void DataStream::fromND(register uByte *out, register uByte *in, uInt n)
+void DataStream::fromND(register unsigned char *out, register unsigned char *in, unsigned int n)
 {
   *out = *in;
   //ntohd(out, in, n);

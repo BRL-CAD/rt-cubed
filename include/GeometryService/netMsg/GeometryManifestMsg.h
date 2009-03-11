@@ -42,28 +42,28 @@ class GeometryManifestMsg : public NetMsg
 public:
 
   //Constructor
-  GeometryManifestMsg(uInt mType, UUID mUUID, UUID rUUID);
+  GeometryManifestMsg(unsigned int mType, UUID mUUID, UUID rUUID);
 
   //Deserializing Constructors
-  GeometryManifestMsg(uByte* data, uInt len);
+  GeometryManifestMsg(unsigned char* data, unsigned int len);
   GeometryManifestMsg(DataStream* ds);
 
   //Destructor
   virtual ~GeometryManifestMsg();
   
-  virtual String toString();
+  virtual std::string toString();
 
   /*
    *Getters n Setters
    */
-  uInt getNumOfItems();
+  unsigned int getNumOfItems();
 
-  std::vector<String>* getItemData();
+  std::vector<std::string>* getItemData();
 
   
 
 private:
-  std::vector<String>* itemData;
+  std::vector<std::string>* itemData;
   virtual bool _deserialize(DataStream* ds);
   virtual bool _serialize(DataStream* ds);
 

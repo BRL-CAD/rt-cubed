@@ -38,24 +38,24 @@
 
 	protected:
 
-		array<uByte> buf;
+		array<unsigned char> buf;
 		size_t    count;
 	public:
 
 		ByteArrayOutputStream();
 		ByteArrayOutputStream(size_t size);
 		virtual ~ByteArrayOutputStream();
-			void reset() throw ();
+		void reset() throw ();
 		size_t size() throw ();
-		array<uByte>* toByteArray();
-		void toByteArray(array<uByte>& b);
-		void toByteArray(uByte* data, size_t offset, size_t length);
+		array<unsigned char>* toCharArray();
+		void toCharArray(array<unsigned char>& b);
+		void toCharArray(unsigned char* data, size_t offset, size_t length);
 		void writeTo(OutputStream& out) throw (IOException);
-			virtual void close() throw (IOException);
+		virtual void close() throw (IOException);
 		virtual void flush() throw (IOException);
-		virtual void write(uByte b) throw (IOException);
-		virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
-		virtual void write(const array<uByte>& b) throw (IOException);
+		virtual void write(unsigned char b) throw (IOException);
+		virtual void write(const unsigned char* data, size_t offset, size_t length) throw (IOException);
+		virtual void write(const array<unsigned char>& b) throw (IOException);
 	};
 
 #endif

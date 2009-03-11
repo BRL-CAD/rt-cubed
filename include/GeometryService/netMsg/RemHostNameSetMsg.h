@@ -44,26 +44,26 @@ class RemHostNameSetMsg : public NetMsg
     public:
 
       //Only Constructor
-      RemHostNameSetMsg(uInt mType, UUID mUUID, UUID rUUID, String v);
+      RemHostNameSetMsg(unsigned int mType, UUID mUUID, UUID rUUID, std::string v);
 
       //Deserializing Constructors
-      RemHostNameSetMsg(uByte data[], uInt len);
+      RemHostNameSetMsg(unsigned char data[], unsigned int len);
       RemHostNameSetMsg(DataStream* ds);
 
       //Destructor
       virtual ~RemHostNameSetMsg();
   
-      virtual String toString();
+      virtual std::string toString();
 
       /*
        *Getters n Setters
        */
-	String getHostName();
-	void setHostName(String v);
+	std::string getHostName();
+	void setHostName(std::string v);
 
 
     private:
-      String hostname;
+      std::string hostname;
       virtual bool _deserialize(DataStream* ds);
       virtual bool _serialize(DataStream* ds);
 

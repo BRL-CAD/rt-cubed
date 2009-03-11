@@ -44,25 +44,25 @@ class RemHostNameSetFailMsg : public NetMsg
     public:
 
       //Only Constructor
-      RemHostNameSetFailMsg(uInt mType, UUID mUUID, UUID rUUID, uByte v);
+      RemHostNameSetFailMsg(unsigned int mType, UUID mUUID, UUID rUUID, unsigned char v);
 
       //Deserializing Constructors
-      RemHostNameSetFailMsg(uByte data[], uInt len);
+      RemHostNameSetFailMsg(unsigned char data[], unsigned int len);
       RemHostNameSetFailMsg(DataStream* ds);
 
       //Destructor
       virtual ~RemHostNameSetFailMsg();
   
-      virtual String toString();
+      virtual std::string toString();
 
       /*
        *Getters n Setters
        */
-	uByte getFailureCode();
-	void  setFailureCode(uByte v);
+	unsigned char getFailureCode();
+	void  setFailureCode(unsigned char v);
 
     private:
-      uByte failureCode;
+      unsigned char failureCode;
       virtual bool _deserialize(DataStream* ds);
       virtual bool _serialize(DataStream* ds);
 

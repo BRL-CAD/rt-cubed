@@ -38,7 +38,7 @@ void OutputStream::flush() throw (IOException)
 {
 }
 
-void OutputStream::write(const uByte* data, size_t offset, size_t length) throw (IOException)
+void OutputStream::write(const unsigned char* data, size_t offset, size_t length) throw (IOException)
 {
 	if (length)
 	{
@@ -50,7 +50,7 @@ void OutputStream::write(const uByte* data, size_t offset, size_t length) throw 
 	}
 }
 
-void OutputStream::write(const array<uByte>& b) throw (IOException)
+void OutputStream::write(const array<unsigned char>& b) throw (IOException)
 {
 	write(b.data(), 0, b.size());
 }

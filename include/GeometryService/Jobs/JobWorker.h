@@ -42,7 +42,7 @@ public:
 
 private:
   AbstractJob& job();
-  uInt status;
+  unsigned int status;
 
 };
 

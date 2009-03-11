@@ -44,7 +44,7 @@ class GeometryChunkMsg : public NetMsg
     public:
 
       //Only Constructor
-      GeometryChunkMsg(uInt mType, String mUUID, String rUUID, uByte* ba, uInt len);
+      GeometryChunkMsg(unsigned int mType, UUID mUUID, UUID rUUID, unsigned char* ba, unsigned int len);
 
       //Deserializing Constructors
       GeometryChunkMsg(DataStream* ds);
@@ -52,20 +52,20 @@ class GeometryChunkMsg : public NetMsg
       //Destructor
       virtual ~GeometryChunkMsg();
   
-      virtual String toString();
+      virtual std::string toString();
 
       /*
        *Getters n Setters
        */
-      uByte* getData();
-      void setData(const uByte* v, const uInt vLen);
+      unsigned char* getData();
+      void setData(const unsigned char* v, const unsigned int vLen);
 
-      uInt getDataLen();
+      unsigned int getDataLen();
 
 
     private:
-      uByte* data;
-      uInt dataLen;
+      unsigned char* data;
+      unsigned int dataLen;
 
       virtual bool _deserialize(DataStream* ds);
       virtual bool _serialize(DataStream* ds);

@@ -41,22 +41,22 @@ public:
 	BrlcadDb();
 	virtual ~BrlcadDb();
 
-	virtual DbObject& getDbObjectByObjectName(String name);
+	virtual DbObject& getDbObjectByObjectName(std::string name);
 	virtual DbObject& getDbObjectByUUID(UUID uuid);
 
 private:
 	/**
 	 * The title of this BRL-CAD db
 	 */
-	String dbTitle;
+	std::string dbTitle;
 	/**
 	 * Directory of BRL-CAD object names and their offset into the BRL-CAD db
 	 */
-	std::map<String, uLong> fileIndex;
+	std::map<std::string, unsigned long> fileIndex;
 	/**
 	 * Directory of BRL-CAD object names and their offset into the BRL-CAD db
 	 */
-	std::map<String, DbObject> nameMap;
+	std::map<std::string, DbObject> nameMap;
 
 };
 

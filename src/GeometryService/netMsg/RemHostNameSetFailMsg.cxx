@@ -31,7 +31,7 @@
 #include <sstream>
 
 //HeaderOnly Constructor
-RemHostNameSetFailMsg::RemHostNameSetFailMsg(uInt mType, String mUUID, String rUUID, uByte v):
+RemHostNameSetFailMsg::RemHostNameSetFailMsg(unsigned int mType, UUID  mUUID, UUID rUUID, unsigned char v):
   NetMsg(mType, mUUID, rUUID), failureCode(v)
 {
 }
@@ -41,10 +41,10 @@ RemHostNameSetFailMsg::RemHostNameSetFailMsg(DataStream* ds)
 {
   this->deserialize(ds);
 }
-RemHostNameSetFailMsg::RemHostNameSetFailMsg(uByte data[], uInt len)
+RemHostNameSetFailMsg::RemHostNameSetFailMsg(unsigned char data[], unsigned int len)
 {
   DataStream ds;
-  for (uInt i = 0; i < len; i++)
+  for (int i = 0; i < len; i++)
     {
       ds << data[i];
     }
@@ -72,19 +72,19 @@ bool RemHostNameSetFailMsg::_serialize(DataStream* ds)
 /*
  *Getters n Setters
  */
-uByte RemHostNameSetFailMsg::getFailureCode() {return this->failureCode;}
-void  RemHostNameSetFailMsg::setFailureCode(uByte v)
+unsigned char RemHostNameSetFailMsg::getFailureCode() {return this->failureCode;}
+void  RemHostNameSetFailMsg::setFailureCode(unsigned char v)
 {
   this->msgLen = v;
 }
 
-String RemHostNameSetFailMsg::toString() 
+std::string RemHostNameSetFailMsg::toString() 
 {
   std::stringstream Num;
   Num << "msgType: " << this->msgType << " \t";   
   Num << "msgUUID: " << this->msgUUID << " \t";
   Num << "reUUID: " << this->reUUID << " \t";
-  Num << "FailureCode: " << (uInt)this->failureCode;
+  Num << "FailureCode: " << static_cast<unsigned int>(this->failureCode);
   Num << "\n";
   return Num.str();
 }

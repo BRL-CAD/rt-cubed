@@ -54,22 +54,22 @@ size_t ByteArrayOutputStream::size() throw ()
   return count;
 }
 
-array<uByte>* ByteArrayOutputStream::toByteArray()
+array<unsigned char>* ByteArrayOutputStream::toCharArray()
 {
-  array<uByte>* result = new array<uByte>();
+  array<unsigned char>* result = new array<unsigned char>();
 
-  toByteArray(*result);
+  this->toCharArray(*result);
 
   return result;
 }
 
-void ByteArrayOutputStream::toByteArray(array<uByte>& b)
+void ByteArrayOutputStream::toCharArray(array<unsigned char>& b)
 {
   b.resize(count);
   memcpy(b.data(), buf.data(), count);
 }
 
-void ByteArrayOutputStream::toByteArray(uByte* data, size_t offset, size_t length)
+void ByteArrayOutputStream::toCharArray(unsigned char* data, size_t offset, size_t length)
 {
   if (!data)
     throw NullPointerException();
@@ -84,7 +84,7 @@ void ByteArrayOutputStream::flush() throw (IOException)
 {
 }
 
-void ByteArrayOutputStream::write(uByte b) throw (IOException)
+void ByteArrayOutputStream::write(unsigned char b) throw (IOException)
 {
   size_t newcount = count+1;
   size_t actualsz = buf.size();
@@ -100,7 +100,7 @@ void ByteArrayOutputStream::write(uByte b) throw (IOException)
   buf[count++] = b;
 }
 
-void ByteArrayOutputStream::write(const uByte* data, size_t offset, size_t length) throw (IOException)
+void ByteArrayOutputStream::write(const unsigned char* data, size_t offset, size_t length) throw (IOException)
 {
   if (length)
     {
@@ -120,7 +120,7 @@ void ByteArrayOutputStream::write(const uByte* data, size_t offset, size_t lengt
     }
 }
 
-void ByteArrayOutputStream::write(const array<uByte>& b) throw (IOException)
+void ByteArrayOutputStream::write(const array<unsigned char>& b) throw (IOException)
 {
   write(b.data(), 0, b.size());
 }

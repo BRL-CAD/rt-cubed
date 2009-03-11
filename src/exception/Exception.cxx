@@ -34,7 +34,7 @@ Exception::Exception() throw ()
 {
 }
 
-Exception::Exception(const String& message) throw () : Throwable(message)
+Exception::Exception(const std::string& message) throw () : Throwable(message)
 {
 }
 

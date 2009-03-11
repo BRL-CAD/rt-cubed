@@ -36,8 +36,8 @@
 class StreamEmptyException : public Exception
 {
 	public:
-		StreamEmptyException();
-		StreamEmptyException(const String& message);
+  StreamEmptyException();
+  StreamEmptyException(const std::string& message);
 };
 
 #endif

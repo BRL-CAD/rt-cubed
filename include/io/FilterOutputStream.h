@@ -43,9 +43,9 @@ class  FilterOutputStream : public OutputStream
 
 		virtual void close() throw (IOException);
 		virtual void flush() throw (IOException);
-		virtual void write(uByte b) throw (IOException);
-		virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException);
-		virtual void write(const array<uByte>& b) throw (IOException);
+		virtual void write(unsigned char b) throw (IOException);
+		virtual void write(const unsigned char* data, size_t offset, size_t length) throw (IOException);
+		virtual void write(const array<unsigned char>& b) throw (IOException);
 	};
 
 #endif

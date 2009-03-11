@@ -35,9 +35,9 @@
 
 class  CloneNotSupportedException : public Exception
 {
-	public:
-		CloneNotSupportedException() throw ();
-		CloneNotSupportedException(const String& message) throw ();
+public:
+  CloneNotSupportedException() throw ();
+  CloneNotSupportedException(const std::string& message) throw ();
 };
 
 #endif

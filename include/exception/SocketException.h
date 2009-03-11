@@ -34,9 +34,9 @@
 
 class  SocketException : public Exception
 {
-	public:
-		SocketException() throw ();
-		SocketException(const String& message) throw ();
+public:
+  SocketException() throw ();
+  SocketException(const std::string& message) throw ();
 };
 
 #endif //_SOCKETEXCEPTION_H_

@@ -35,7 +35,7 @@ StreamEmptyException::StreamEmptyException()
 {
 }
 
-StreamEmptyException::StreamEmptyException(const String& message) : Exception(message)
+StreamEmptyException::StreamEmptyException(const std::string& message) : Exception(message)
 {
 }
 

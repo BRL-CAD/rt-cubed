@@ -37,25 +37,25 @@ DbObject::~DbObject()
 {
 }
 
-DbObject::DbObject(uLong id, String name, uInt geoType, bool locked) 
+DbObject::DbObject(unsigned long id, std::string name, unsigned int geoType, bool locked) 
 {
 }
 
-String DbObject::getName() 
+std::string DbObject::getName() 
 {
 	return NULL;
 }
 
-void DbObject::setName(String name) 
+void DbObject::setName(std::string name) 
 {
 }
 
-uInt DbObject::getGeoType() 
+unsigned int DbObject::getGeoType() 
 {
 	return 0;
 }
 
-void DbObject::setGeoType(uInt geoType) 
+void DbObject::setGeoType(unsigned int geoType) 
 {
 }
 

@@ -35,7 +35,7 @@ IOException::IOException()
 {
 }
 
-IOException::IOException(const String& message) : Exception(message)
+IOException::IOException(const std::string& message) : Exception(message)
 {
 }
 

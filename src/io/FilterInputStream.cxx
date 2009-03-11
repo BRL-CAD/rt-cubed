@@ -59,17 +59,17 @@ bool FilterInputStream::markSupported() throw ()
 	return in.markSupported();
 }
 
-uInt FilterInputStream::read() throw (IOException)
+unsigned int FilterInputStream::read() throw (IOException)
 {
 	return in.read();
 }
 
-uInt FilterInputStream::read(uByte* data, size_t offset, size_t len) throw (IOException)
+unsigned int FilterInputStream::read(unsigned char* data, size_t offset, size_t len) throw (IOException)
 {
 	return in.read(data, offset, len);
 }
 
-uInt FilterInputStream::read(array<uByte>& b) throw (IOException)
+unsigned int FilterInputStream::read(array<unsigned char>& b) throw (IOException)
 {
 	return in.read(b);
 }

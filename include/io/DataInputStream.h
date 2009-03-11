@@ -43,33 +43,31 @@
       DataInputStream(InputStream& in);
       virtual ~DataInputStream();
 
-      virtual void readFully(uByte* data, size_t offset, size_t length) throw (IOException);
-      virtual void readFully(array<uByte>& b) throw (IOException);
+      virtual void readFully(unsigned char* data, size_t offset, size_t length) throw (IOException);
+      virtual void readFully(array<unsigned char>& b) throw (IOException);
 
       virtual bool readBoolean() throw (IOException);
 
-      virtual Byte readByte() throw (IOException);
-      virtual uByte readUByte() throw (IOException);
+      virtual char readChar() throw (IOException);
+      virtual unsigned char readUChar() throw (IOException);
 
-      virtual Short readShort() throw (IOException);
-      virtual uShort readUShort() throw (IOException);
+      virtual short readShort() throw (IOException);
+      virtual unsigned short readUShort() throw (IOException);
 
-      virtual Int readInt() throw (IOException);
-      virtual uInt readUInt() throw (IOException);
+      virtual int readInt() throw (IOException);
+      virtual unsigned int readUInt() throw (IOException);
 
-      virtual Long readLong() throw (IOException);
-      virtual uLong readULong() throw (IOException);
+      virtual long readLong() throw (IOException);
+      virtual unsigned long readULong() throw (IOException);
 
       virtual float readFloat() throw (IOException);
       virtual double readDouble() throw (IOException);
 
-      virtual uByte readChar() throw (IOException);
-      virtual String readString() throw (IOException);
+      virtual std::string readString() throw (IOException);
 
-      virtual String* readLine() throw (IOException);
-      virtual void readLine(String& line) throw (IOException);
+      virtual std::string* readLine() throw (IOException);
+      virtual void readLine(std::string& line) throw (IOException);
 
-	
 
       virtual off_t skipBytes(off_t n) throw (IOException);
     };

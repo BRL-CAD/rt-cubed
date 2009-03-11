@@ -42,12 +42,12 @@ public:
 	virtual ~NetMsgActionDefManager();
 
 	void registerNetMsgActionDef(AbstractNetMsgActionDef& def);
-	uInt unregisterNetMsgActionDef(AbstractNetMsgActionDef& def);
-	AbstractNetMsgActionDef& unregisterNetMsgActionDef(uInt msgType);
-	AbstractNetMsgActionDef& getNetMsgActionDef(uInt msgType);
+	unsigned int unregisterNetMsgActionDef(AbstractNetMsgActionDef& def);
+	AbstractNetMsgActionDef& unregisterNetMsgActionDef(unsigned int msgType);
+	AbstractNetMsgActionDef& getNetMsgActionDef(unsigned int msgType);
 
 private:
-	std::map <uInt, AbstractNetMsgActionDef> conversionDefs();
+	std::map <unsigned int, AbstractNetMsgActionDef> conversionDefs();
 
 };
 

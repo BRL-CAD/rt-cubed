@@ -36,23 +36,23 @@
 class ByteArrayInputStream : public InputStream
 {
 protected:
-	array<uByte> _buf;
+	array<unsigned char> _buf;
 	size_t    _count;
 	size_t    _mark;
 	size_t    _pos;
 
 public:
-	ByteArrayInputStream(const uByte* data, size_t offset, size_t length);
-	ByteArrayInputStream(const array<uByte>& b);
+	ByteArrayInputStream(const unsigned char* data, size_t offset, size_t length);
+	ByteArrayInputStream(const array<unsigned char>& b);
 	virtual ~ByteArrayInputStream();
 
 	virtual off_t available() throw (IOException);
 	virtual void close() throw (IOException);
 	virtual void mark(off_t readlimit) throw ();
 	virtual bool markSupported() throw ();
-	virtual uInt read() throw (IOException);
-	virtual uInt read(uByte* data, size_t offset, size_t length) throw (IOException);
-	virtual uInt read(array<uByte>& b) throw (IOException);
+	virtual unsigned int read() throw (IOException);
+	virtual unsigned int read(unsigned char* data, size_t offset, size_t length) throw (IOException);
+	virtual unsigned int read(array<unsigned char>& b) throw (IOException);
 	virtual void reset() throw (IOException);
 	virtual off_t skip(off_t n) throw (IOException);
 };

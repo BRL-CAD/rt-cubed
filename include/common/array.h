@@ -211,7 +211,7 @@
 			
 			void printMe()
 			{
-				for (uInt i = 0; i < _size ; ++i)
+				for (int i = 0; i < _size ; ++i)
 				{
 					std::cout << _data[i];
 				}

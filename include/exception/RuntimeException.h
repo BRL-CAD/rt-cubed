@@ -35,8 +35,8 @@
 class  RuntimeException : public Exception
 {
 public:
-	RuntimeException() throw ();
-	RuntimeException(const String& message) throw ();
+  RuntimeException() throw ();
+  RuntimeException(const std::string& message) throw ();
 };
 
 #endif

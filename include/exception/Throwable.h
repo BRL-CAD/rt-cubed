@@ -35,15 +35,15 @@
 class  Throwable
 {
 private:
-	String _msg;
+  std::string _msg;
 
 public:
-	Throwable() throw ();
-	Throwable(const String& message) throw ();
-	Throwable(const Throwable& cause) throw ();
-	virtual ~Throwable() throw () {};
+  Throwable() throw ();
+  Throwable(const std::string& message) throw ();
+  Throwable(const Throwable& cause) throw ();
+  virtual ~Throwable() throw () {};
 
-	const String& getMessage() const throw ();
+  const std::string& getMessage() const throw ();
 };
 
 #endif

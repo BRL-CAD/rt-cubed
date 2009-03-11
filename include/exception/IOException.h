@@ -34,9 +34,9 @@
 
 class IOException : public Exception
 {
-	public:
-		IOException();
-		IOException(const String& message);
+public:
+  IOException();
+  IOException(const std::string& message);
 };
 
 #endif

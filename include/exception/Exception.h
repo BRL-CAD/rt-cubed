@@ -33,9 +33,9 @@
 #include "exception/Throwable.h"
 class  Exception : public Throwable
 {
-	public:
-		Exception() throw ();
-		Exception(const String& message) throw ();
+public:
+  Exception() throw ();
+  Exception(const std::string& message) throw ();
 };
 
 #endif

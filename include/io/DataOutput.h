@@ -37,30 +37,30 @@
     class DataOutput
     {
     public:
-      virtual void write(const array<uByte>& b) throw (IOException) = 0;
-      virtual void write(const uByte* data, size_t offset, size_t length) throw (IOException) = 0;
+      virtual void write(const array<unsigned char>& b) throw (IOException) = 0;
+      virtual void write(const unsigned char* data, size_t offset, size_t length) throw (IOException) = 0;
 
-      virtual void write(uByte v) throw (IOException) = 0;
+      virtual void write(unsigned char v) throw (IOException) = 0;
 
       virtual void writeBoolean(const bool v) throw (IOException) = 0;
 
-      virtual void writeUByte(const uByte v) throw (IOException) = 0;
-      virtual void writeByte(const Byte v) throw (IOException) = 0;
+      virtual void writeUChar(const unsigned char v) throw (IOException) = 0;
+      virtual void writeChar(const char v) throw (IOException) = 0;
 
-      virtual void writeUShort(const uShort v) throw (IOException) = 0;
-      virtual void writeShort(const Short v) throw (IOException) = 0;
+      virtual void writeUShort(const unsigned short v) throw (IOException) = 0;
+      virtual void writeShort(const short v) throw (IOException) = 0;
 
-      virtual void writeUInt(const uInt v) throw (IOException) = 0;
-      virtual void writeInt(const Int v) throw (IOException) = 0;
+      virtual void writeUInt(const unsigned int v) throw (IOException) = 0;
+      virtual void writeInt(const int v) throw (IOException) = 0;
 
-      virtual void writeULong(const uLong v) throw (IOException) = 0;
-      virtual void writeLong(const Long v) throw (IOException) = 0;
+      virtual void writeULong(const unsigned long v) throw (IOException) = 0;
+      virtual void writeLong(const long v) throw (IOException) = 0;
 	
       virtual void writeFloat(const float v) throw (IOException) = 0;
       virtual void writeDouble(const double v) throw (IOException) = 0;
 
-      virtual void writeChar(const uByte v) throw (IOException) = 0;
-      virtual void writeString(const String& s) throw (IOException) = 0;
+      virtual void writeChar(const unsigned char v) throw (IOException) = 0;
+      virtual void writeString(const std::string& s) throw (IOException) = 0;
 
 
     };

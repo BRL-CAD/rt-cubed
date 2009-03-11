@@ -31,7 +31,7 @@
 #include <sstream>
 
 //HeaderOnly Constructor
-GeometryChunkMsg::GeometryChunkMsg(uInt mType, String mUUID, String rUUID, uByte* ba, uInt  len):
+GeometryChunkMsg::GeometryChunkMsg(unsigned int mType, UUID mUUID, UUID  rUUID, unsigned char* ba, unsigned int  len):
   NetMsg(mType, mUUID, rUUID)
 {
   this->setData(ba, len);
@@ -54,9 +54,9 @@ GeometryChunkMsg::~GeometryChunkMsg()
 bool GeometryChunkMsg::_deserialize(DataStream* ds)
 {
   this->dataLen = ds->readUInt();
-  this->data = new uByte[this->dataLen];
+  this->data = new unsigned char[this->dataLen];
 
-  uInt actualRead = ds->readUByteArray(this->data, this->dataLen);
+  unsigned int actualRead = ds->readUCharArray(this->data, this->dataLen);
 
   if (actualRead != this->dataLen) {
     std::cerr << "There was an error in GeometryChunkMsg.setData()\n";
@@ -68,11 +68,11 @@ bool GeometryChunkMsg::_deserialize(DataStream* ds)
 bool GeometryChunkMsg::_serialize(DataStream* ds)
 {
   ds->writeUInt(this->dataLen);
-  ds->writeUByteArray(this->data, this->dataLen);
+  ds->writeUCharArray(this->data, this->dataLen);
   return true;
 }
 
-String GeometryChunkMsg::toString() 
+std::string GeometryChunkMsg::toString() 
 {
   std::stringstream Num;
   Num << "msgType: " << this->msgType << " \t";   
@@ -87,17 +87,17 @@ String GeometryChunkMsg::toString()
  /*
  *Getters n Setters
  */
-uByte* GeometryChunkMsg::getData() {return this->data;}
-uint GeometryChunkMsg::getDataLen(){return this->dataLen;}
+unsigned char* GeometryChunkMsg::getData() {return this->data;}
+unsigned int GeometryChunkMsg::getDataLen(){return this->dataLen;}
 
-void GeometryChunkMsg::setData(const uByte* v, const uInt vLen)
+void GeometryChunkMsg::setData(const unsigned char* v, const unsigned int vLen)
 {
-  uByte* pv = (uByte*)v;
+  unsigned char* pv = (unsigned char*)v;
 
-  this->data = new uByte[vLen];
+  this->data = new unsigned char[vLen];
   this->dataLen = vLen;
   
-  for (uInt i = 0; i < this->dataLen; ++i)
+  for (int i = 0; i < this->dataLen; ++i)
     {
       this->data[i] = *pv;
       pv++;

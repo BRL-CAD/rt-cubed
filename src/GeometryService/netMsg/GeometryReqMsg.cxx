@@ -31,7 +31,7 @@
 #include <sstream>
 
 //HeaderOnly Constructor
-GeometryReqMsg::GeometryReqMsg(uInt mType, String mUUID, String rUUID, uByte v, String d):
+GeometryReqMsg::GeometryReqMsg(unsigned int mType, UUID mUUID, UUID rUUID, unsigned char v, std::string d):
   NetMsg(mType, mUUID, rUUID), reqType(v), data(d)
 {
 }
@@ -41,10 +41,10 @@ GeometryReqMsg::GeometryReqMsg(DataStream* ds)
 {
   this->deserialize(ds);
 }
-GeometryReqMsg::GeometryReqMsg(uByte data[], uInt len)
+GeometryReqMsg::GeometryReqMsg(unsigned char data[], unsigned int len)
 {
   DataStream ds;
-  for (uInt i = 0; i < len; i++)
+  for (int i = 0; i < len; i++)
     {
       ds << data[i];
     }
@@ -72,13 +72,13 @@ bool GeometryReqMsg::_serialize(DataStream* ds)
   return true;
 }
 
-String GeometryReqMsg::toString() 
+std::string GeometryReqMsg::toString() 
 {
   std::stringstream Num;
   Num << "msgType: " << this->msgType << " \t";   
   Num << "msgUUID: " << this->msgUUID << " \t";
   Num << "reUUID: " << this->reUUID << " \t";
-  Num << "ReqType: " << (uInt)this->reqType << " \t";
+  Num << "ReqType: " << static_cast<unsigned int>(this->reqType) << " \t";
   Num << "LenOfData: " << this->data.size() << " \t";
   Num << "Data: " << this->data;
   Num << "\n";
@@ -88,14 +88,14 @@ String GeometryReqMsg::toString()
 /*
  *Getters n Setters
  */
-uByte GeometryReqMsg::getReqType() {return this->reqType;}
-void GeometryReqMsg::setReqType(uByte v)
+unsigned char GeometryReqMsg::getReqType() {return this->reqType;}
+void GeometryReqMsg::setReqType(unsigned char v)
 {
   this->reqType = v;
 }
 
-String GeometryReqMsg::getData() {return this->data;}
-void GeometryReqMsg::setData(String v)
+std::string GeometryReqMsg::getData() {return this->data;}
+void GeometryReqMsg::setData(std::string v)
 {
   this->data = v;
 }

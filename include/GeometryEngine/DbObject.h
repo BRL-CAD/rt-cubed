@@ -40,20 +40,20 @@ public:
   DbObject();
   virtual ~DbObject();
 
-  DbObject(uLong id, String name, uInt geoType, bool locked = false);
-	String getName();
-	void setName(String name);
-	uInt getGeoType();
-	void setGeoType(uInt geoType);
-	void lock();
-	void unlock();
+  DbObject(unsigned long id, std::string name, unsigned int geoType, bool locked = false);
+  std::string getName();
+  void setName(std::string name);
+  unsigned int getGeoType();
+  void setGeoType(unsigned int geoType);
+  void lock();
+  void unlock();
 
 private:
-	String name;
-	UUID uuid;
-	std::list<DbObject> parents;
-	std::list<DbObject> children;
-	uInt geoType;
+  std::string name;
+  UUID uuid;
+  std::list<DbObject> parents;
+  std::list<DbObject> children;
+  unsigned int geoType;
 
 };
 

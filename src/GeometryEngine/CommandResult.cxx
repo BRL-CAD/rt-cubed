@@ -37,11 +37,11 @@ CommandResult::~CommandResult()
 {
 }
 
-CommandResult::CommandResult(uInt resVal)
+CommandResult::CommandResult(unsigned int resVal)
 {
 }
 
-uInt CommandResult::getCommandResult()
+unsigned int CommandResult::getCommandResult()
 {
 	return 0;
 }

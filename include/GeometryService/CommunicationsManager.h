@@ -47,7 +47,7 @@
       CommunicationsManager();
       virtual ~CommunicationsManager();
 
-      void startListening(uInt port);
+      void startListening(unsigned int port);
 
     private:
       std::list<NetMsg> inbox;
@@ -58,7 +58,7 @@
        * This MAY not be necessary if all outgoing Traffic is handled by the individual
        * Session Objects
        */
-      std::map<String, AbstractPortal> portals;
+      std::map<std::string, AbstractPortal> portals;
     };
 
 #endif // !defined(_COMMUNICATIONSMANAGER_H_)

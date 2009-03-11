@@ -35,8 +35,8 @@
 class  NullPointerException : public RuntimeException
 {
 public:
-	NullPointerException() throw ();
-	NullPointerException(const String& message) throw ();
+  NullPointerException() throw ();
+  NullPointerException(const std::string& message) throw ();
 };
 
 #endif

@@ -42,10 +42,10 @@ public:
   NetMsg();
 
   //HeaderOnly Constructor
-  NetMsg(uInt mType, UUID mUUID, UUID rUUID);
+  NetMsg(unsigned int mType, UUID mUUID, UUID rUUID);
 
   //Deserializing Constructors
-  NetMsg(uByte data[], uInt len);
+  NetMsg(unsigned char data[], unsigned int len);
   NetMsg(DataStream* ds);
 
   //Destructor
@@ -59,22 +59,22 @@ public:
   /*
    *Getters n Setters
    */
-  uInt getMsgLen();
-  uInt getMsgType();
+  unsigned int getMsgLen();
+  unsigned int getMsgType();
   UUID getMsgUUID();
   UUID getReUUID();
 
-  void setMsgLen(uInt v);
-  void setMsgType(uInt v);
+  void setMsgLen(unsigned int v);
+  void setMsgType(unsigned int v);
   void setMsgUUID(UUID v);
   void setReUUID(UUID v);
 
-  virtual String toString();
+  virtual std::string toString();
   void printMe();
 
 protected:
-  uInt msgLen;
-  uInt msgType;
+  unsigned int msgLen;
+  unsigned int msgType;
   UUID msgUUID;
   UUID reUUID;
 

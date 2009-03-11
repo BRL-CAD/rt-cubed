@@ -60,33 +60,33 @@ bool DataInputStream::readBoolean() throw (IOException)
   return (b != 0);
 }
 
-Byte DataInputStream::readByte() throw (IOException)
+char DataInputStream::readChar() throw (IOException)
 {
-  return static_cast<Byte>(this->readUByte());
+  return static_cast<char>(this->readUChar());
 }
 
-uByte DataInputStream::readUByte() throw (IOException)
+unsigned char DataInputStream::readUChar() throw (IOException)
 {
   register int b = _pin->read();
 
   if (b < 0)
     throw EOFException();
 
-  return static_cast<uByte>(b);
+  return static_cast<unsigned char>(b);
 }
 
 
 
-Short DataInputStream::readShort() throw (IOException)
+short DataInputStream::readShort() throw (IOException)
 {
-  return static_cast<Short>(this->readUShort());
+  return static_cast<short>(this->readUShort());
 }
 
-uShort DataInputStream::readUShort() throw (IOException)
+unsigned short DataInputStream::readUShort() throw (IOException)
 {
-  register uInt tmp = 0, rc;
+  register unsigned int tmp = 0, rc;
 
-  for (register unsigned i = 0; i < 2; ++i)
+  for (register unsigned int i = 0; i < 2; ++i)
     {
       if ((rc = _pin->read()) < 0)
 	throw EOFException();
@@ -99,19 +99,14 @@ uShort DataInputStream::readUShort() throw (IOException)
 
 
 
-uByte DataInputStream::readChar() throw (IOException)
-{
-  return this->readUByte();
-}
-
-String DataInputStream::readString() throw (IOException)
+std::string DataInputStream::readString() throw (IOException)
 {
 
-	uInt len = this->readUInt();
+	unsigned int len = this->readUInt();
 
-	String out = "";
+	std::string out = "";
 
-	for (uInt i = 0; i < len; ++i)
+	for (int i = 0; i < len; ++i)
 	  {
 	    out += this->readChar();
 	  }
@@ -120,17 +115,17 @@ String DataInputStream::readString() throw (IOException)
 }
 
 
-Int DataInputStream::readInt() throw (IOException)
+int DataInputStream::readInt() throw (IOException)
 {
-  return static_cast<Int>(this->readUInt());
+  return static_cast<int>(this->readUInt());
 }
 
-uInt DataInputStream::readUInt() throw (IOException)
+unsigned int DataInputStream::readUInt() throw (IOException)
 {
-  register uInt tmp = 0;
+  register unsigned int tmp = 0;
   register int rc;
 
-  for (register unsigned i = 0; i < 4; ++i)
+  for (register unsigned int i = 0; i < 4; ++i)
     {
       if ((rc = _pin->read()) < 0)
 	throw EOFException();
@@ -142,17 +137,17 @@ uInt DataInputStream::readUInt() throw (IOException)
 }
 
 
-Long DataInputStream::readLong() throw (IOException)
+long DataInputStream::readLong() throw (IOException)
 {
-  return static_cast<uLong>(this->readULong());
+  return static_cast<long>(this->readULong());
 }
 
-uLong DataInputStream::readULong() throw (IOException)
+unsigned long DataInputStream::readULong() throw (IOException)
 {
-  register uLong tmp = 0;
+  register unsigned long tmp = 0;
   register int rc;
 
-  for (register unsigned i = 0; i < 8; ++i)
+  for (register unsigned int i = 0; i < 8; ++i)
     {
       if ((rc = _pin->read()) < 0)
 	throw EOFException();
@@ -168,12 +163,12 @@ float DataInputStream::readFloat() throw (IOException)
 {
 //Need to route this through ntohf
   float f = 0.0;
-  uByte* pf = (uByte*) &f;
-  uByte b;
+  unsigned char* pf = (unsigned char*) &f;
+  unsigned char b;
 
-  for (uInt i = 0; i < 4; ++i)
+  for (int i = 0; i < 4; ++i)
     {
-      *pf = this->readUByte();
+      *pf = this->readUChar();
       *pf++;
     }
   return f;
@@ -183,12 +178,12 @@ double DataInputStream::readDouble() throw (IOException)
 {
 //Need to route this through ntohd
   double d = 0.0;
-  uByte* pd = (uByte*) &d;
-  uByte b;
+  unsigned char* pd = (unsigned char*) &d;
+  unsigned char b;
 
-  for (uInt i = 0; i < 8; ++i)
+  for (int i = 0; i < 8; ++i)
     {
-      *pd = this->readUByte();
+      *pd = this->readUChar();
       *pd++;
     }
   return d;
@@ -201,16 +196,16 @@ double DataInputStream::readDouble() throw (IOException)
 
 
 
-String* DataInputStream::readLine() throw (IOException)
+std::string* DataInputStream::readLine() throw (IOException)
 {
-  String* result = new String();
+  std::string* result = new std::string();
 
   readLine(*result);
 
   return result;
 }
 
-void DataInputStream::readLine(String& line) throw (IOException)
+void DataInputStream::readLine(std::string& line) throw (IOException)
 {
 
 
@@ -237,7 +232,7 @@ void DataInputStream::readLine(String& line) throw (IOException)
 	  if ((source_limit - source_buffer) == MAX_BYTES_PER_CHARACTER)
 	    throw IOException("fubar in readLine");
 
-	  *(source_limit++) = (uByte) ch;
+	  *(source_limit++) = (unsigned char) ch;
 	}
 
 
@@ -250,10 +245,10 @@ void DataInputStream::readLine(String& line) throw (IOException)
 	      // last character read was ASCII <CR>; is this one a <LF>?
 	      if (target_buffer[0] != 0x0A)
 		{
-		  // unread the right number of uBytes 
+		  // unread the right number of unsigned chars 
 		  PushbackInputStream* p = dynamic_cast<PushbackInputStream*>(_pin);
 		  if (p)
-		    p->unread((const uByte*) source_buffer, 0, source-source_buffer);
+		    p->unread((const unsigned char*) source_buffer, 0, source-source_buffer);
 		  else
 		    throw IOException("fubar in dynamic_cast");
 		}
@@ -288,7 +283,7 @@ void DataInputStream::readLine(String& line) throw (IOException)
     } while (ch >= 0);
 }
 
-void DataInputStream::readFully(uByte* data, size_t offset, size_t length) throw (IOException)
+void DataInputStream::readFully(unsigned char* data, size_t offset, size_t length) throw (IOException)
 {
   if (!data)
     throw NullPointerException();
@@ -304,7 +299,7 @@ void DataInputStream::readFully(uByte* data, size_t offset, size_t length) throw
     }
 }
 
-void DataInputStream::readFully(array<uByte>& b) throw (IOException)
+void DataInputStream::readFully(array<unsigned char>& b) throw (IOException)
 {
   readFully(b.data(), 0, b.size());
 }
