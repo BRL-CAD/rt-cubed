@@ -46,6 +46,7 @@ namespace BRLCAD {
         virtual Object*       Clone(void) const throw(std::bad_alloc);
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw();
+        virtual bool          IsValid(void) const throw();
 
         // there is nothing special with BRLCAD::Unknown
 

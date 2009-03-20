@@ -128,14 +128,12 @@ namespace BRLCAD {
         void                  SetPoints(const Vector3D& point1,
                                         const Vector3D& point2) throw(); ///< this becomes an rectangular parallel piped
 
-        /// checks for planarity of faces and direction of face normals
-        bool                  IsValid(void) const throw();
-
         // inherited from BRLCAD::Object
         virtual const Object& operator=(const Object& original) throw();
         virtual Object*       Clone(void) const throw(std::bad_alloc);
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw();
+        virtual bool          IsValid(void) const throw(); ///< checks for planarity of faces and direction of face normals
 
     protected:
         Arb8(resource*       resp,

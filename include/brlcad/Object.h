@@ -57,11 +57,13 @@ namespace BRLCAD {
 
         // these two functions can be used to determine the type of the object
         static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const                          = 0;
+        virtual const char*   Type(void) const throw()                  = 0;
 
         // for all objects
         const char*           Name(void) const throw();
         void                  SetName(const char* name) throw();
+
+        virtual bool          IsValid(void) const throw()               = 0;
 
     protected:
         resource*       m_resp;
@@ -77,6 +79,7 @@ namespace BRLCAD {
         Object(const Object& original) throw();
 
         const Object& Copy(const Object& original) throw();
+        bool          Validate(void) const throw();
 
         friend class Database;
 

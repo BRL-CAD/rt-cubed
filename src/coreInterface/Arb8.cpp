@@ -449,10 +449,39 @@ void Arb8::SetPoints
 }
 
 
+const Object& Arb8::operator=
+(
+    const Object& original
+) throw() {
+    const Arb8* arb8 = dynamic_cast<const Arb8*>(&original);
+    assert(arb8 != 0);
+
+    if (arb8 != 0)
+        *this = *arb8;
+
+    return *this;
+}
+
+
+Object* Arb8::Clone(void) const throw(std::bad_alloc) {
+    return new Arb8(*this);
+}
+
+
+const char* Arb8::ClassName(void) throw() {
+    return "Arb8";
+}
+
+
+const char* Arb8::Type(void) const throw() {
+    return ClassName();
+}
+
+
 bool Arb8::IsValid(void) const throw() {
     enum FaceType {FT_4Sided, FT_Triangle, FT_Degenerated};
 
-    bool                   ret                = true;
+    bool                   ret                = Validate();
     static const FaceType  faceTypes[5][6]    = {{FT_Triangle, FT_Degenerated, FT_Degenerated, FT_Triangle, FT_Triangle, FT_Triangle},
                                                  {FT_4Sided,   FT_Degenerated, FT_Triangle,    FT_Triangle, FT_Triangle, FT_Triangle},
                                                  {FT_4Sided,   FT_Degenerated, FT_4Sided,      FT_4Sided,   FT_Triangle, FT_Triangle},
@@ -551,35 +580,6 @@ bool Arb8::IsValid(void) const throw() {
     }
 
     return ret;
-}
-
-
-const Object& Arb8::operator=
-(
-    const Object& original
-) throw() {
-    const Arb8* arb8 = dynamic_cast<const Arb8*>(&original);
-    assert(arb8 != 0);
-
-    if (arb8 != 0)
-        *this = *arb8;
-
-    return *this;
-}
-
-
-Object* Arb8::Clone(void) const throw(std::bad_alloc) {
-    return new Arb8(*this);
-}
-
-
-const char* Arb8::ClassName(void) throw() {
-    return "Arb8";
-}
-
-
-const char* Arb8::Type(void) const throw() {
-    return ClassName();
 }
 
 

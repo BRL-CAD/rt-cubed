@@ -80,6 +80,11 @@ const char* Unknown::Type(void) const throw() {
 }
 
 
+bool Unknown::IsValid(void) const throw() {
+    return Validate(); // the opportunistic solution
+}
+
+
 Unknown::Unknown
 (
     resource*       resp,

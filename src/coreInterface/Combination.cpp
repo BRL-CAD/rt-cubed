@@ -699,17 +699,15 @@ void Combination::AddLeaf
     rt_comb_internal* internalp = Internal();
 
     if (internalp->tree == 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP) {
+            RT_GET_TREE(internalp->tree, m_resp);
 
-        RT_GET_TREE(internalp->tree, m_resp);
+            internalp->tree->magic        = RT_TREE_MAGIC;
+            internalp->tree->tr_op        = OP_DB_LEAF;
+            internalp->tree->tr_l.tl_mat  = 0;
+            internalp->tree->tr_l.tl_name = bu_strdup(leafName);
+        }
 
-        internalp->tree->magic        = RT_TREE_MAGIC;
-        internalp->tree->tr_op        = OP_DB_LEAF;
-        internalp->tree->tr_l.tl_mat  = 0;
-        internalp->tree->tr_l.tl_name = bu_strdup(leafName);
-
-END_MARK:
         BU_UNSETJUMP;
     }
     else {
@@ -918,6 +916,29 @@ const char* Combination::ClassName(void) throw() {
 
 const char* Combination::Type(void) const throw() {
     return ClassName();
+}
+
+
+bool Combination::IsValid(void) const throw() {
+    bool ret = Validate();
+
+    if (ret) {
+        if (!BU_SETJUMP) {
+            const rt_comb_internal* internalp = Internal();
+
+            // check operators in tree
+            db_ck_tree(internalp->tree);
+
+            if (internalp->region_flag == 0)
+                ret = (db_is_tree_all_unions(internalp->tree) == 1);
+        }
+        else
+            ret = false;
+
+        BU_UNSETJUMP;
+    }
+
+    return ret;
 }
 
 

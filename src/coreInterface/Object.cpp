@@ -145,3 +145,9 @@ const Object& Object::Copy
 
     return *this;
 }
+
+bool Object::Validate(void) const throw() {
+    const char* name = Name();
+
+    return (name != 0) && (strlen(name) > 0);
+}

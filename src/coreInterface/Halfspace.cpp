@@ -128,6 +128,20 @@ const char* Halfspace::Type(void) const throw() {
 }
 
 
+bool Halfspace::IsValid(void) const throw() {
+    bool ret = Validate();
+
+    if (ret) {
+        double length = MAGNITUDE(Internal()->eqn);
+
+        if (MAGNITUDE(Internal()->eqn) <= VDIVIDE_TOL) // or has it to be 1?
+            ret = false;
+    }
+
+    return ret;
+}
+
+
 Halfspace::Halfspace
 (
     resource*       resp,
