@@ -33,6 +33,7 @@
 
 #include "raytrace.h"
 
+#include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
 #include <brlcad/Combination.h>
 #include <brlcad/Unknown.h>
@@ -219,6 +220,10 @@ void ConstDatabase::Get
 
                 try {
                     switch(id) {
+                    case ID_ARB8:
+                        callback(Arb8(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                        break;
+
                     case ID_HALF:
                         callback(Halfspace(m_resp, pDir, &intern, m_rtip->rti_dbip));
                         break;
