@@ -47,23 +47,23 @@ namespace BRLCAD {
         virtual ~Object(void) throw();
 
         // works if both Objects are of the same derived class
-        virtual const Object& operator=(const Object& original) throw() = 0;
+        virtual const Object& operator=(const Object& original) throw(std::bad_alloc) = 0;
 
         // a virtual constructor which creates the right derived class
         // and the corresponding destructor
         // which keeps the memory management in a healthy state
-        virtual Object*       Clone(void) const throw(std::bad_alloc)   = 0;
+        virtual Object*       Clone(void) const throw(std::bad_alloc)                 = 0;
         void                  Destroy(void) throw();
 
         // these two functions can be used to determine the type of the object
         static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const throw()                  = 0;
+        virtual const char*   Type(void) const throw()                                = 0;
 
         // for all objects
         const char*           Name(void) const throw();
-        void                  SetName(const char* name) throw();
+        void                  SetName(const char* name) throw(std::bad_alloc);
 
-        virtual bool          IsValid(void) const throw()               = 0;
+        virtual bool          IsValid(void) const throw()                             = 0;
 
     protected:
         resource*       m_resp;
@@ -71,14 +71,14 @@ namespace BRLCAD {
         rt_db_internal* m_ip;
         db_i*           m_dbip;
 
-        Object(void) throw();
+        Object(void) throw(std::bad_alloc);
         Object(resource*       resp,
                directory*      pDir,
                rt_db_internal* ip,
                db_i*           dbip) throw();
-        Object(const Object& original) throw();
+        Object(const Object& original) throw(std::bad_alloc);
 
-        const Object& Copy(const Object& original) throw();
+        const Object& Copy(const Object& original) throw(std::bad_alloc);
         bool          Validate(void) const throw();
 
         friend class Database;

@@ -40,11 +40,11 @@ union tree;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Combination : public Object {
     public:
-        Combination(void);
-        Combination(const Combination& original) throw();
+        Combination(void) throw(std::bad_alloc);
+        Combination(const Combination& original) throw(std::bad_alloc);
         virtual ~Combination(void) throw();
 
-        const Combination&    operator=(const Combination& original) throw();
+        const Combination&    operator=(const Combination& original) throw(std::bad_alloc);
 
         class BRLCAD_COREINTERFACE_EXPORT ConstTreeNode {
         public:
@@ -66,12 +66,12 @@ namespace BRLCAD {
                 return *this;
             }
 
-            Operator             Operation(void) const;
-            ConstTreeNode        LeftOperand(void) const;  ///< the left operand of a binary operation
-            ConstTreeNode        RightOperand(void) const; ///< the right operand of a binary operation
-            ConstTreeNode        Operand(void) const;      ///< the operand of a unary operation
-            const char*          Name(void) const;         ///< the name of the operand object in a leaf
-            const double*        Matrix(void) const;       ///< the transformation matrix of the operand object in a leaf
+            Operator             Operation(void) const throw();
+            ConstTreeNode        LeftOperand(void) const throw();  ///< the left operand of a binary operation
+            ConstTreeNode        RightOperand(void) const throw(); ///< the right operand of a binary operation
+            ConstTreeNode        Operand(void) const throw();      ///< the operand of a unary operation
+            const char*          Name(void) const throw();         ///< the name of the operand object in a leaf
+            const double*        Matrix(void) const throw();       ///< the transformation matrix of the operand object in a leaf
 
         protected:
             tree* m_tree;
@@ -82,26 +82,33 @@ namespace BRLCAD {
             friend Combination;
         };
 
+
         class BRLCAD_COREINTERFACE_EXPORT TreeNode : public ConstTreeNode {
         public:
-            TreeNode(const TreeNode& original) throw() : ConstTreeNode(original) {}
+            TreeNode(const TreeNode& original) throw() : ConstTreeNode(original),
+                                                         m_internalp(original.m_internalp),
+                                                         m_resp(original.m_resp) {}
             ~TreeNode(void) throw() {}
 
             const TreeNode& operator=(const TreeNode& original) throw() {
                 ConstTreeNode::operator=(original);
+
+                m_internalp = original.m_internalp;
+                m_resp      = original.m_resp;
+
                 return *this;
             }
 
-            TreeNode        LeftOperand(void);  ///< the left operand of a binary operation
-            TreeNode        RightOperand(void); ///< the right operand of a binary operation
-            TreeNode        Operand(void);      ///< the operand of a unary operation
+            TreeNode        LeftOperand(void) throw();  ///< the left operand of a binary operation
+            TreeNode        RightOperand(void) throw(); ///< the right operand of a binary operation
+            TreeNode        Operand(void) throw();      ///< the operand of a unary operation
 
             /// applies an operator to this node
             /** - it creates a new node
                 - the operator has to be unary, i.e. \a Not
                 - \return the new created operation node
             */
-            TreeNode        Apply(Operator op);
+            TreeNode        Apply(Operator op) throw(std::bad_alloc);
 
             /// creates a new node with "this op theOther"
             /** - the operator has to be binary
@@ -109,7 +116,7 @@ namespace BRLCAD {
                 - \return the new created operation node
             */
             TreeNode        Apply(Operator             op,
-                                  const ConstTreeNode& theOther);
+                                  const ConstTreeNode& theOther) throw(std::bad_alloc);
 
             /// "this op leaf(\a leafName)"
             /** - creates two nodes
@@ -120,7 +127,7 @@ namespace BRLCAD {
                 - \return the new created operation node
             */
             TreeNode        Apply(Operator    op,
-                                  const char* leafName);
+                                  const char* leafName) throw(std::bad_alloc);
 
             /// creates a new node with "theOther op this"
             /** - the operator has to be binary
@@ -128,7 +135,7 @@ namespace BRLCAD {
                 - \return the new created operation node
             */
             TreeNode        Apply(const ConstTreeNode& theOther,
-                                  Operator             op);
+                                  Operator             op) throw(std::bad_alloc);
 
             /// "this op leaf(\a leafName)"
             /** - creates two nodes
@@ -139,7 +146,7 @@ namespace BRLCAD {
                 - \return the new created operation node
             */
             TreeNode        Apply(const char* leafName,
-                                  Operator    op);
+                                  Operator    op) throw(std::bad_alloc);
 
             /// deletes this node and rewinds all parint nodes until a valid state is reached
             /** E.g. if this node is an operand of a binary operation, this operation will be removed too
@@ -147,13 +154,13 @@ namespace BRLCAD {
 
                 This node becomes invalid (operator \a Null) during this procedure.
             */
-            void            Delete(void);
+            void            Delete(void) throw();
 
         private:
             rt_comb_internal* m_internalp;
             resource*         m_resp;
 
-            TreeNode(void) throw() : ConstTreeNode(), m_internalp(0) {}
+            TreeNode(void) throw() : ConstTreeNode(), m_internalp(0), m_resp(0) {}
             TreeNode(tree*             original,
                      rt_comb_internal* internalp,
                      resource*         resp) throw() : ConstTreeNode(original), m_internalp(internalp), m_resp(resp) {}
@@ -161,12 +168,13 @@ namespace BRLCAD {
             friend Combination;
         };
 
-        ConstTreeNode         Tree(void) const;
-        TreeNode              Tree(void);
+
+        ConstTreeNode         Tree(void) const throw();
+        TreeNode              Tree(void) throw();
 
         /// adds a leaf to the tree
-        /** if the tree's root node is not \a Null \a Tree().Apply(Union, leafName) will be performed */
-        void                  AddLeaf(const char* leafName);
+        /** If the tree's root node is not \a Null \a Tree().Apply(Union, leafName) will be performed */
+        void                  AddLeaf(const char* leafName) throw(std::bad_alloc);
 
         bool                  IsRegion(void) const throw();
         void                  SetIsRegion(bool value) throw();
@@ -196,16 +204,16 @@ namespace BRLCAD {
         unsigned char         Blue(void) const throw();
         void                  SetBlue(unsigned char value) throw();
         const char*           Shader(void) const throw();
-        void                  SetShader(const char* value) throw();
+        void                  SetShader(const char* value) throw(std::bad_alloc);
         bool                  Inherit(void) const throw(); ///< override lower nodes color and shader
         void                  SetInherit(bool value) throw();
         const char*           Material(void) const throw();
-        void                  SetMaterial(const char* value) throw();
+        void                  SetMaterial(const char* value) throw(std::bad_alloc);
         double                Temperature(void) const throw();
         void                  SetTemperature(double value) throw();
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw();
+        virtual const Object& operator=(const Object& original) throw(std::bad_alloc);
         virtual Object*       Clone(void) const throw(std::bad_alloc);
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw();
@@ -223,8 +231,8 @@ namespace BRLCAD {
         // holds Objects's content if not connected to a database
         rt_comb_internal* m_internalp;
 
-        const rt_comb_internal*   Internal(void) const;
-        virtual rt_comb_internal* Internal(void);
+        const rt_comb_internal*   Internal(void) const throw();
+        virtual rt_comb_internal* Internal(void) throw();
 
         friend class Database;
     };

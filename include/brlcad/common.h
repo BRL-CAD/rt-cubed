@@ -30,8 +30,12 @@
 #ifndef BRLCAD_COMMON_INCLUDED
 #define BRLCAD_COMMON_INCLUDED
 
+#ifdef _MSC_VER // Microsoft Visual C++ compiler
+#   pragma warning(disable: 4290) // C++ exception specification ignored
+#endif
+
 /// a define for the interface's binding
-/** Meaningful values are for example __declspec(dllexport), __declspec(dllimport) or virtual.
+/** Meaningful values are for example __declspec(dllexport) or __declspec(dllimport).
     It has to be defined by the build environment (Makefile, *.vcproj etc.).
     The default is no special declaration. */
 #ifndef BRLCAD_COREINTERFACE_EXPORT
@@ -43,18 +47,18 @@ namespace BRLCAD {
     struct Vector2D {
         double coordinates[2];
 
-        Vector2D(void) {
+        Vector2D(void) throw() {
             coordinates[0] = 0.;
             coordinates[1] = 0.;
         }
 
-        Vector2D(const double vector[2]) {
+        Vector2D(const double vector[2]) throw() {
             coordinates[0] = vector[0];
             coordinates[1] = vector[1];
         }
 
         Vector2D(double x,
-                 double y) {
+                 double y) throw() {
             coordinates[0] = x;
             coordinates[1] = y;
         }
@@ -66,20 +70,20 @@ namespace BRLCAD {
         Vector2D delta;
 
         Mapping2D(const Vector2D& pt,
-                  const Vector2D& dl) : point(pt), delta(dl) {}
+                  const Vector2D& dl) throw() : point(pt), delta(dl) {}
     };
 
 
     struct Vector3D {
         double coordinates[3];
 
-        Vector3D(void) {
+        Vector3D(void) throw() {
             coordinates[0] = 0.;
             coordinates[1] = 0.;
             coordinates[2] = 0.;
         }
 
-        Vector3D(const double vector[3]) {
+        Vector3D(const double vector[3]) throw() {
             coordinates[0] = vector[0];
             coordinates[1] = vector[1];
             coordinates[2] = vector[2];
@@ -87,7 +91,7 @@ namespace BRLCAD {
 
         Vector3D(double x,
                  double y,
-                 double z) {
+                 double z) throw() {
             coordinates[0] = x;
             coordinates[1] = y;
             coordinates[2] = z;
@@ -108,15 +112,15 @@ namespace BRLCAD {
 
         Curvature3D(const Vector3D& minDirection,
                     double          minCurvature,
-                    double          maxCurvature) {
+                    double          maxCurvature) throw() {
             minPrincipalDirection = minDirection;
             minPrincipalCurvature = minCurvature;
             maxPrincipalCurvature = maxCurvature;
         }
 
-        Curvature3D(void) : minPrincipalDirection(),
-                            minPrincipalCurvature(0.),
-                            maxPrincipalCurvature(0.) {}
+        Curvature3D(void) throw() : minPrincipalDirection(),
+                                    minPrincipalCurvature(0.),
+                                    maxPrincipalCurvature(0.) {}
     };
 }
 
