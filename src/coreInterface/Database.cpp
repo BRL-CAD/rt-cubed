@@ -37,6 +37,12 @@
 #include <brlcad/Combination.h>
 #include <brlcad/Database.h>
 
+#if defined (_DEBUG)
+#   define LOOKUP_NOISE LOOKUP_NOISY
+#else
+#   define LOOKUP_NOISE LOOKUP_QUIET
+#endif
+
 
 using namespace BRLCAD;
 
@@ -125,6 +131,21 @@ bool Database::Add
         ret = (wdb_export(m_wdbp, object.Name(), rtInternal, id, 1.) == 0);
 
     return ret;
+}
+
+
+void Database::Delete
+(
+    const char* objectName
+) throw() {
+    if (m_rtip != 0) {
+        directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
+
+        if (pDir != RT_DIR_NULL) {
+            if (db_delete(m_wdbp->dbip, pDir) == 0)
+                db_dirdelete(m_wdbp->dbip, pDir);
+        }
+    }
 }
 
 

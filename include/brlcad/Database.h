@@ -49,8 +49,12 @@ namespace BRLCAD {
 
         void         SetTitle(const char* title) throw();
 
-        /// Adds an object to the database
+        /// adds an object to the database
         bool         Add(const Object& object);
+
+        /// removes an object from the database
+        /** The object but not its references are removed. */
+        void         Delete(const char* objectName) throw();
 
         /// @name Accessing objects
         //@{
