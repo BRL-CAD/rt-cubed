@@ -49,23 +49,28 @@
 using namespace BRLCAD;
 
 
-ConstDatabase::ConstDatabase(void) throw() : m_rtip(0), m_resp(0) {
+ConstDatabase::ConstDatabase(void) throw(std::bad_alloc) : m_rtip(0), m_resp(0) {
     if (rt_uniresource.re_magic != RESOURCE_MAGIC)
         rt_init_resource(&rt_uniresource, 0, NULL);
 
-    m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::ConstDatabase::~ConstDatabase::m_resp"));
-    rt_init_resource(m_resp, 0, NULL);
+    if (!BU_SETJUMP) {
+        m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::ConstDatabase::~ConstDatabase::m_resp"));
+        rt_init_resource(m_resp, 0, NULL);
+    }
+    else {
+        BU_UNSETJUMP;
+        throw std::bad_alloc("BRLCAD::Object::Object");
+    }
+
+    BU_UNSETJUMP;
 }
 
 
 ConstDatabase::~ConstDatabase(void) throw() {
     if (m_rtip != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP)
+            rt_free_rti(m_rtip);
 
-        rt_free_rti(m_rtip);
-
-END_MARK:
         BU_UNSETJUMP;
     }
 
@@ -82,26 +87,33 @@ bool ConstDatabase::Load
 ) throw() {
     if (m_resp != 0) {
         if (m_rtip != 0) {
-            if (BU_SETJUMP)
-                goto TRY_IT_MARK;
+            if (!BU_SETJUMP)
+                rt_free_rti(m_rtip);
 
-            rt_free_rti(m_rtip);
+            BU_UNSETJUMP;
+
             m_rtip = 0;
         }
 
-TRY_IT_MARK:
+        if (!BU_SETJUMP)
+            m_rtip = rt_dirbuild(fileName, 0, 0);
+
         BU_UNSETJUMP;
 
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (m_rtip != 0) {
+            if (!BU_SETJUMP)
+                rt_init_resource(m_resp, 0, m_rtip);
+            else {
+                BU_UNSETJUMP;
 
-        m_rtip = rt_dirbuild(fileName, 0, 0);
+                if (!BU_SETJUMP)
+                    rt_free_rti(m_rtip);
 
-        if (m_rtip != 0)
-            rt_init_resource(m_resp, 0, m_rtip);
+                m_rtip = 0;
+            }
 
-END_MARK:
-        BU_UNSETJUMP;
+            BU_UNSETJUMP;
+        }
     }
 
     return (m_rtip != 0);
@@ -174,27 +186,25 @@ ConstDatabase::TopObjectIterator::TopObjectIterator
 ) throw() : m_hashTablePosition(hashTablePosition), m_pDir(pDir), m_rtip(rtip) {}
 
 
-ConstDatabase::TopObjectIterator ConstDatabase::FirstTopObject(void) const {
+ConstDatabase::TopObjectIterator ConstDatabase::FirstTopObject(void) const throw() {
     size_t           hashTablePosition = 0;
     const directory* pDirectory        = 0;
 
     if (m_rtip != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP) {
+            db_update_nref(m_rtip->rti_dbip, m_resp);
 
-        db_update_nref(m_rtip->rti_dbip, m_resp);
-
-        for (size_t i = 0; (i < RT_DBNHASH) && (pDirectory == 0); ++i) {
-            for (const directory* pDir = m_rtip->rti_dbip->dbi_Head[i]; pDir != RT_DIR_NULL; pDir = pDir->d_forw) {
-                if (pDir->d_nref == 0) {
-                    hashTablePosition = i;
-                    pDirectory        = pDir;
-                    break;
+            for (size_t i = 0; (i < RT_DBNHASH) && (pDirectory == 0); ++i) {
+                for (const directory* pDir = m_rtip->rti_dbip->dbi_Head[i]; pDir != RT_DIR_NULL; pDir = pDir->d_forw) {
+                    if (pDir->d_nref == 0) {
+                        hashTablePosition = i;
+                        pDirectory        = pDir;
+                        break;
+                    }
                 }
             }
         }
 
-END_MARK:
         BU_UNSETJUMP;
     }
 
@@ -208,44 +218,43 @@ void ConstDatabase::Get
     ObjectCallback& callback
 ) const {
     if (m_rtip != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP) {
+            if ((objectName != 0) && (strlen(objectName) > 0)) {
+                directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
 
-        if ((objectName != 0) && (strlen(objectName) > 0)) {
-            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
+                if (pDir != RT_DIR_NULL) {
+                    rt_db_internal intern;
+                    int            id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
 
-            if (pDir != RT_DIR_NULL) {
-                rt_db_internal intern;
-                int            id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
+                    try {
+                        switch(id) {
+                        case ID_ARB8:
+                            callback(Arb8(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
 
-                try {
-                    switch(id) {
-                    case ID_ARB8:
-                        callback(Arb8(m_resp, pDir, &intern, m_rtip->rti_dbip));
-                        break;
+                        case ID_HALF:
+                            callback(Halfspace(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
 
-                    case ID_HALF:
-                        callback(Halfspace(m_resp, pDir, &intern, m_rtip->rti_dbip));
-                        break;
+                        case ID_COMBINATION:
+                            callback(Combination(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
 
-                    case ID_COMBINATION:
-                        callback(Combination(m_resp, pDir, &intern, m_rtip->rti_dbip));
-                        break;
-
-                    default:
-                        callback(Unknown(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                        default:
+                            callback(Unknown(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                        }
                     }
-                }
-                catch(...) {
-                    rt_db_free_internal(&intern, m_resp);
-                    throw;
-                }
+                    catch(...) {
+                        BU_UNSETJUMP;
+                        rt_db_free_internal(&intern, m_resp);
+                        throw;
+                    }
 
-                rt_db_free_internal(&intern, m_resp);
+                    rt_db_free_internal(&intern, m_resp);
+                }
             }
         }
 
-END_MARK:
         BU_UNSETJUMP;
     }
 }
@@ -256,12 +265,9 @@ void ConstDatabase::Select
     const char* objectName
 ) throw() {
     if (m_rtip != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP)
+            rt_gettree(m_rtip, objectName);
 
-        rt_gettree(m_rtip, objectName);
-
-END_MARK:
         BU_UNSETJUMP;
     }
 }
@@ -269,12 +275,9 @@ END_MARK:
 
 void ConstDatabase::UnSelectAll(void) throw() {
     if (m_rtip != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP)
+            rt_clean(m_rtip);
 
-        rt_clean(m_rtip);
-
-END_MARK:
         BU_UNSETJUMP;
     }
 }
@@ -294,15 +297,13 @@ Vector3D ConstDatabase::BoundingBoxMinima(void) const throw() {
     Vector3D ret;
 
     if (!SelectionIsEmpty()) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP) {
+            if (m_rtip->needprep)
+                rt_prep(m_rtip);
 
-        if (m_rtip->needprep)
-            rt_prep(m_rtip);
+            VMOVE(ret.coordinates, m_rtip->mdl_min);
+        }
 
-        VMOVE(ret.coordinates, m_rtip->mdl_min);
-
-END_MARK:
         BU_UNSETJUMP;
     }
 
@@ -314,15 +315,13 @@ Vector3D ConstDatabase::BoundingBoxMaxima(void) const throw() {
     Vector3D ret;
 
     if (!SelectionIsEmpty()) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP) {
+            if (m_rtip->needprep)
+                rt_prep(m_rtip);
 
-        if (m_rtip->needprep)
-            rt_prep(m_rtip);
+            VMOVE(ret.coordinates, m_rtip->mdl_max);
+        }
 
-        VMOVE(ret.coordinates, m_rtip->mdl_max);
-
-END_MARK:
         BU_UNSETJUMP;
     }
 
@@ -455,7 +454,7 @@ void ConstDatabase::ShootRay
 (
     const Ray3D& ray,
     HitCallback& callback
-) const throw() {
+) const {
     if (!SelectionIsEmpty()) {
         application ap = {0};
 
@@ -470,14 +469,18 @@ void ConstDatabase::ShootRay
 
         VMOVE(ap.a_ray.r_pt, ray.origin.coordinates);
         VMOVE(ap.a_ray.r_dir, ray.direction.coordinates);
-
-        if (BU_SETJUMP)
-            goto END_MARK;
-
         VUNITIZE(ap.a_ray.r_dir);
-        rt_shootray(&ap);
 
-END_MARK:
+        if (!BU_SETJUMP) {
+            try {
+                rt_shootray(&ap);
+            }
+            catch(...) {
+                BU_UNSETJUMP;
+                throw;
+            }
+        }
+
         BU_UNSETJUMP;
     }
 }

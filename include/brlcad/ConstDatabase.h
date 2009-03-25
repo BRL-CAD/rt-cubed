@@ -42,7 +42,7 @@ struct directory;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT ConstDatabase {
     public:
-        ConstDatabase(void) throw();
+        ConstDatabase(void) throw(std::bad_alloc);
         virtual ~ConstDatabase(void) throw();
 
         /// associates the handle with a BRL-CAD database file (*.g)
@@ -93,22 +93,22 @@ namespace BRLCAD {
 
         /// returns the first of the top level objects via an iterator object
         /** To get a list of all top level objects you have to use the iterator returned by this function. */
-        TopObjectIterator FirstTopObject(void) const;
+        TopObjectIterator FirstTopObject(void) const throw();
         //@}
 
         /// @name Accessing objects
         //@{
         class ObjectCallback {
         public:
-            virtual ~ObjectCallback(void) {}
+            virtual ~ObjectCallback(void) throw() {}
 
             /// the user has to implement this object method to evaluate the object
             virtual void operator()(const Object& object) = 0;
 
         protected:
-            ObjectCallback(void) {}
-            ObjectCallback(const ObjectCallback&) {}
-            const ObjectCallback& operator=(const ObjectCallback&) {return *this;}
+            ObjectCallback(void) throw() {}
+            ObjectCallback(const ObjectCallback&) throw() {}
+            const ObjectCallback& operator=(const ObjectCallback&) throw() {return *this;}
         };
 
         /// selects a single object and hand it over to an ObjectCallback (read only)
@@ -166,14 +166,14 @@ namespace BRLCAD {
             virtual bool operator()(const Hit& hit) throw() = 0;
 
         protected:
-            HitCallback(void) {}
-            HitCallback(const HitCallback&) {}
-            const HitCallback& operator=(const HitCallback&) {return *this;}
+            HitCallback(void) throw() {}
+            HitCallback(const HitCallback&) throw() {}
+            const HitCallback& operator=(const HitCallback&) throw() {return *this;}
         };
 
 
         void              ShootRay(const Ray3D& ray,
-                                   HitCallback& callback) const throw();
+                                   HitCallback& callback) const;
         //@}
 
     protected:
@@ -181,8 +181,8 @@ namespace BRLCAD {
         resource* m_resp;
 
     private:
-        ConstDatabase(const ConstDatabase&) throw();                  // not implemented
-        const ConstDatabase& operator=(const ConstDatabase&) throw(); // not implemented
+        ConstDatabase(const ConstDatabase&);                  // not implemented
+        const ConstDatabase& operator=(const ConstDatabase&); // not implemented
     };
 }
 

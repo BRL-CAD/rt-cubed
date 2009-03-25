@@ -35,7 +35,7 @@
 using namespace BRLCAD;
 
 
-FileDatabase::FileDatabase(void) throw() : Database() {}
+FileDatabase::FileDatabase(void) throw(std::bad_alloc) : Database() {}
 
 
 FileDatabase::~FileDatabase(void) throw() {}
@@ -49,53 +49,50 @@ bool FileDatabase::Load
 
     if (m_resp != 0) {
         if (m_rtip != 0) {
-            if (BU_SETJUMP)
-                goto TRY_A_MARK;
+            if (!BU_SETJUMP)
+                rt_free_rti(m_rtip);
 
-            rt_free_rti(m_rtip);
+            BU_UNSETJUMP;
             m_rtip = 0;
         }
 
-TRY_A_MARK:
-        BU_UNSETJUMP;
-
         if (m_wdbp != 0) {
-            if (BU_SETJUMP)
-                goto TRY_B_MARK;
+            if (!BU_SETJUMP)
+                wdb_close(m_wdbp);
 
-            wdb_close(m_wdbp);
+            BU_UNSETJUMP;
             m_wdbp = 0;
         }
 
-TRY_B_MARK:
-        BU_UNSETJUMP;
+        if (!BU_SETJUMP) {
+            struct db_i* dbip = db_open(fileName, "rw");
 
-        if (BU_SETJUMP)
-            goto END_MARK;
+            if (db_dirbuild(dbip) == 0) {
+                m_wdbp = wdb_dbopen(dbip, RT_WDB_TYPE_DB_DISK); // takes ownership of dbip
 
-        struct db_i* dbip = db_open(fileName, "rw");
+                if (m_wdbp != 0) {
+                    m_rtip = rt_new_rti(m_wdbp->dbip);          // clones dbip
 
-        if (db_dirbuild(dbip) == 0) {
-            m_wdbp = wdb_dbopen(dbip, RT_WDB_TYPE_DB_DISK); // takes ownership of dbip
-
-            if (m_wdbp != 0) {
-                m_rtip = rt_new_rti(m_wdbp->dbip);          // clones dbip
-
-                if (m_rtip != 0) {
-                    rt_init_resource(m_resp, 0, m_rtip);
-                    ret = true;
+                    if (m_rtip != 0) {
+                        rt_init_resource(m_resp, 0, m_rtip);
+                        ret = true;
+                    }
+                    else {
+                        wdb_close(m_wdbp);
+                        m_wdbp = 0;
+                    }
                 }
                 else
-                    wdb_close(m_wdbp);
+                    db_close(dbip);
             }
-            else
-                db_close(dbip);
+        }
+        else {
+            m_wdbp = 0;
+            m_rtip = 0;
         }
 
-END_MARK:
         BU_UNSETJUMP;
     }
 
     return ret;
 }
-

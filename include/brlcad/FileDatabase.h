@@ -36,8 +36,9 @@
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT FileDatabase : public Database {
     public:
-        /// creates a new in-memory database with default _GLOBAL object
-        FileDatabase(void) throw();
+        /// creates a dysfunctional database
+        /** Use Load() to enable this object. */
+        FileDatabase(void) throw(std::bad_alloc);
         virtual ~FileDatabase(void) throw();
 
         /// loads a BRL-CAD database file (*.g)
@@ -45,8 +46,8 @@ namespace BRLCAD {
         virtual bool Load(const char* fileName) throw();
 
     private:
-        FileDatabase(const FileDatabase&) throw();                  // not implemented
-        const FileDatabase& operator=(const FileDatabase&) throw(); // not implemented
+        FileDatabase(const FileDatabase&);                  // not implemented
+        const FileDatabase& operator=(const FileDatabase&); // not implemented
     };
 }
 

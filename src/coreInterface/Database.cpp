@@ -47,16 +47,11 @@
 using namespace BRLCAD;
 
 
-Database::Database(void) throw() : ConstDatabase(), m_wdbp(0) {}
-
-
 Database::~Database(void) throw() {
     if (m_wdbp != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP)
+            wdb_close(m_wdbp);
 
-        wdb_close(m_wdbp);
-END_MARK:
         BU_UNSETJUMP;
     }
 }
@@ -65,14 +60,15 @@ END_MARK:
 void Database::SetTitle
 (
     const char* title
-) throw() {
+) throw(std::bad_alloc) {
     if (m_wdbp != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+        if (!BU_SETJUMP)
+            db_update_ident(m_wdbp->dbip, title, m_wdbp->dbip->dbi_base2local);
+        else {
+            BU_UNSETJUMP;
+            throw std::bad_alloc("BRLCAD::Database::SetTitle");
+        }
 
-        db_update_ident(m_wdbp->dbip, title, m_wdbp->dbip->dbi_base2local);
-
-END_MARK:
         BU_UNSETJUMP;
     }
 }
@@ -81,54 +77,61 @@ END_MARK:
 bool Database::Add
 (
     const Object& object
-) {
-    bool  ret        = false;
-    int   id         = ID_NULL;
-    void* rtInternal = 0;
+) throw() {
+    bool ret = false;
 
-    if (object.Type() == Arb8::ClassName()) {
-        id = ID_ARB8;
+    if (m_wdbp != 0) {
+        if (!BU_SETJUMP) {
+            int   id         = ID_NULL;
+            void* rtInternal = 0;
 
-        const Arb8* arb8 = dynamic_cast<const Arb8*>(&object);
+            if (object.Type() == Arb8::ClassName()) {
+                id = ID_ARB8;
 
-        assert(arb8 != 0);
+                const Arb8* arb8 = dynamic_cast<const Arb8*>(&object);
 
-        BU_GETSTRUCT(rtInternal, rt_arb_internal);
-        memcpy(rtInternal, arb8->Internal(), sizeof(rt_arb_internal));
+                assert(arb8 != 0);
+
+                BU_GETSTRUCT(rtInternal, rt_arb_internal);
+                memcpy(rtInternal, arb8->Internal(), sizeof(rt_arb_internal));
+            }
+            else if (object.Type() == Halfspace::ClassName()) {
+                id = ID_HALF;
+
+                const Halfspace* halfspace = dynamic_cast<const Halfspace*>(&object);
+
+                assert(halfspace != 0);
+
+                BU_GETSTRUCT(rtInternal, rt_half_internal);
+                memcpy(rtInternal, halfspace->Internal(), sizeof(rt_half_internal));
+            }
+            else if (object.Type() == Combination::ClassName()) {
+                id = ID_COMBINATION;
+
+                const Combination* combination = dynamic_cast<const Combination*>(&object);
+
+                assert(combination != 0);
+
+                const rt_comb_internal* internalFrom = combination->Internal();
+
+                BU_GETSTRUCT(rtInternal, rt_comb_internal);
+                memcpy(rtInternal, internalFrom, sizeof(rt_comb_internal));
+
+                rt_comb_internal* internalTo = static_cast<rt_comb_internal*>(rtInternal);
+
+                if (internalFrom->tree != 0)
+                    internalTo->tree = db_dup_subtree(internalFrom->tree, object.m_resp);
+
+                bu_vls_strcpy(&internalTo->shader, bu_vls_addr(&internalFrom->shader));
+                bu_vls_strcpy(&internalTo->material, bu_vls_addr(&internalFrom->material));
+            }
+
+            if (id != ID_NULL)
+                ret = (wdb_export(m_wdbp, object.Name(), rtInternal, id, 1.) == 0);
+        }
+
+        BU_UNSETJUMP;
     }
-    else if (object.Type() == Halfspace::ClassName()) {
-        id = ID_HALF;
-
-        const Halfspace* halfspace = dynamic_cast<const Halfspace*>(&object);
-
-        assert(halfspace != 0);
-
-        BU_GETSTRUCT(rtInternal, rt_half_internal);
-        memcpy(rtInternal, halfspace->Internal(), sizeof(rt_half_internal));
-    }
-    else if (object.Type() == Combination::ClassName()) {
-        id = ID_COMBINATION;
-
-        const Combination* combination = dynamic_cast<const Combination*>(&object);
-
-        assert(combination != 0);
-
-        const rt_comb_internal* internalFrom = combination->Internal();
-
-        BU_GETSTRUCT(rtInternal, rt_comb_internal);
-        memcpy(rtInternal, internalFrom, sizeof(rt_comb_internal));
-
-        rt_comb_internal* internalTo = static_cast<rt_comb_internal*>(rtInternal);
-
-        if (internalFrom->tree != 0)
-            internalTo->tree = db_dup_subtree(internalFrom->tree, object.m_resp);
-
-        bu_vls_strcpy(&internalTo->shader, bu_vls_addr(&internalFrom->shader));
-        bu_vls_strcpy(&internalTo->material, bu_vls_addr(&internalFrom->material));
-    }
-
-    if (id != ID_NULL)
-        ret = (wdb_export(m_wdbp, object.Name(), rtInternal, id, 1.) == 0);
 
     return ret;
 }
@@ -138,13 +141,17 @@ void Database::Delete
 (
     const char* objectName
 ) throw() {
-    if (m_rtip != 0) {
-        directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
+    if (m_wdbp != 0) {
+        if (!BU_SETJUMP) {
+            directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
 
-        if (pDir != RT_DIR_NULL) {
-            if (db_delete(m_wdbp->dbip, pDir) == 0)
-                db_dirdelete(m_wdbp->dbip, pDir);
+            if (pDir != RT_DIR_NULL) {
+                if (db_delete(m_wdbp->dbip, pDir) == 0)
+                    db_dirdelete(m_wdbp->dbip, pDir);
+            }
         }
+
+        BU_UNSETJUMP;
     }
 }
 
@@ -154,29 +161,33 @@ void Database::Get
     const char*     objectName,
     ObjectCallback& callback
 ) {
-    if (m_rtip != 0) {
-        class ObjectCallbackIntern : public ConstDatabase::ObjectCallback {
-        public:
-            ObjectCallbackIntern(Database::ObjectCallback& callback) : ConstDatabase::ObjectCallback(),
-                                                                       m_callback(callback) {}
+    class ObjectCallbackIntern : public ConstDatabase::ObjectCallback {
+    public:
+        ObjectCallbackIntern(Database::ObjectCallback& callback) : ConstDatabase::ObjectCallback(),
+                                                                   m_callback(callback) {}
 
-            virtual ~ObjectCallbackIntern(void) {}
+        virtual ~ObjectCallbackIntern(void) throw() {}
 
-            virtual void operator()(const Object& object) {
-                Object& objectIntern = const_cast<Object&>(object);
+        virtual void operator()(const Object& object) {
+            Object& objectIntern = const_cast<Object&>(object);
 
-                m_callback(objectIntern);
+            m_callback(objectIntern);
 
+            if (!BU_SETJUMP)
                 rt_db_put_internal(objectIntern.m_pDir,
                                    objectIntern.m_dbip,
                                    objectIntern.m_ip,
                                    objectIntern.m_resp);
-            }
 
-        private:
-            Database::ObjectCallback& m_callback;
-        } callbackIntern(callback);
+            BU_UNSETJUMP;
+        }
 
-        ConstDatabase::Get(objectName, callbackIntern);
-    }
+    private:
+        Database::ObjectCallback& m_callback;
+    } callbackIntern(callback);
+
+    ConstDatabase::Get(objectName, callbackIntern);
 }
+
+
+Database::Database(void) throw(std::bad_alloc) : ConstDatabase(), m_wdbp(0) {}

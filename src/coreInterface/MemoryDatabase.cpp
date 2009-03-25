@@ -37,25 +37,34 @@
 using namespace BRLCAD;
 
 
-MemoryDatabase::MemoryDatabase(void) throw() : Database() {
-    if (m_resp != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
+MemoryDatabase::MemoryDatabase(void) throw(std::bad_alloc) : Database() {
+    db_i* dbip = 0;
 
-        db_i* dbip = db_create_inmem();
-
-        if (dbip != DBI_NULL) {
-            RT_CK_DBI(dbip);
-
-            m_rtip = rt_new_rti(dbip); // clones dbip
-            rt_init_resource(m_resp, 0, m_rtip);
-
-            m_wdbp = dbip->dbi_wdbp;   // takes ownership of dbip
-        }
-
-    END_MARK:
-            BU_UNSETJUMP;
+    if (!BU_SETJUMP) {
+        dbip = db_create_inmem();
+        RT_CK_DBI(dbip);
     }
+    else {
+        BU_UNSETJUMP;
+        throw std::bad_alloc("BRLCAD::MemoryDatabase::MemoryDatabase");
+    }
+
+    BU_UNSETJUMP;
+
+    if (!BU_SETJUMP) {
+        m_rtip = rt_new_rti(dbip); // clones dbip
+        rt_init_resource(m_resp, 0, m_rtip);
+    }
+    else {
+        BU_UNSETJUMP;
+        db_close(dbip);
+        m_rtip = 0;
+        throw std::bad_alloc("BRLCAD::MemoryDatabase::MemoryDatabase");
+    }
+
+    BU_UNSETJUMP;
+
+    m_wdbp = dbip->dbi_wdbp;   // takes ownership of dbip
 }
 
 
@@ -68,10 +77,7 @@ bool MemoryDatabase::Load
 ) throw() {
     bool ret = false;
 
-    if (m_wdbp != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
-
+    if (!BU_SETJUMP) {
         rt_i* source = rt_dirbuild(fileName, 0, 0);
 
         if (source != 0) {
@@ -82,10 +88,9 @@ bool MemoryDatabase::Load
 
             rt_free_rti(source);
         }
-
-END_MARK:
-        BU_UNSETJUMP;
     }
+
+    BU_UNSETJUMP;
 
     return ret;
 }
@@ -97,20 +102,16 @@ bool MemoryDatabase::Save
 ) throw() {
     bool ret = false;
 
-    if (m_wdbp != 0) {
-        if (BU_SETJUMP)
-            goto END_MARK;
-
+    if (!BU_SETJUMP) {
         rt_wdb* target = wdb_fopen(fileName);
 
         if (target != 0) {
             ret = (db_dump(target, m_wdbp->dbip) == 0);
             wdb_close(target);
         }
-
-END_MARK:
-        BU_UNSETJUMP;
     }
+
+    BU_UNSETJUMP;
 
     return ret;
 }
