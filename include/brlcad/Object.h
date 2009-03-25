@@ -78,8 +78,8 @@ namespace BRLCAD {
                db_i*           dbip) throw();
         Object(const Object& original) throw(std::bad_alloc);
 
-        const Object& Copy(const Object& original) throw(std::bad_alloc);
-        bool          Validate(void) const throw();
+        void Copy(const Object& original) throw(std::bad_alloc);
+        bool Validate(void) const throw();
 
         friend class Database;
 

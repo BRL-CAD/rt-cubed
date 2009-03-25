@@ -167,15 +167,14 @@ Object::Object
 }
 
 
-const Object& Object::Copy
+void Object::Copy
 (
     const Object& original
 ) throw(std::bad_alloc) {
     if (&original != this)
         SetName(original.Name());
-
-    return *this;
 }
+
 
 bool Object::Validate(void) const throw() {
     const char* name = Name();
