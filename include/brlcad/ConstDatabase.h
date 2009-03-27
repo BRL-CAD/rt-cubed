@@ -62,7 +62,7 @@ namespace BRLCAD {
                                                                            m_pDir(original.m_pDir),
                                                                            m_rtip(original.m_rtip) {}
 
-            virtual ~TopObjectIterator(void) throw() {}
+            ~TopObjectIterator(void) throw() {}
 
             const TopObjectIterator& operator=(const TopObjectIterator& original) throw() {
                 m_hashTablePosition = original.m_hashTablePosition;
