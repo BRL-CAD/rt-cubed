@@ -27,6 +27,7 @@
  *      IABG mbH (Germany)
  */
 
+#include <cstring>
 #include <cassert>
 
 #include "raytrace.h"
@@ -312,6 +313,63 @@ Combination::TreeNode Combination::TreeNode::Operand(void) throw() {
     }
 
     return ret;
+}
+
+
+void Combination::TreeNode::SetName
+(
+    const char* value
+) const throw(std::bad_alloc) {
+    switch (ConvertOperator(m_tree)) {
+    case Leaf:
+        if (value != 0) {
+            if (!BU_SETJUMP) {
+                if (m_tree->tr_l.tl_name != 0) {
+                    if (strcmp(m_tree->tr_l.tl_name, value) != 0) {
+                        bu_free(m_tree->tr_l.tl_name, "BRLCAD::Combination::TreeNode::SetNamem_tree->tr_l.tl_name");
+                        m_tree->tr_l.tl_name = bu_strdupm(value, "BRLCAD::Combination::TreeNode::SetNamem_tree->tr_l.tl_name");
+                    }
+                }
+                else
+                    m_tree->tr_l.tl_name = bu_strdupm(value, "BRLCAD::Combination::TreeNode::SetNamem_tree->tr_l.tl_name");
+            }
+            else {
+                BU_UNSETJUMP;
+                m_tree->tr_l.tl_name = 0;
+                throw std::bad_alloc("BRLCAD::Combination::TreeNode::SetName");
+            }
+
+            BU_UNSETJUMP;
+        }
+        else if (m_tree->tr_l.tl_name != 0) {
+            bu_free(m_tree->tr_l.tl_name, "BRLCAD::Combination::TreeNode::SetName::m_tree->tr_l.tl_name");
+            m_tree->tr_l.tl_name = 0;
+        }
+        break;
+
+    default:
+        assert(0);
+    }
+}
+
+
+void Combination::TreeNode::SetMatrix
+(
+    double value[16]
+) const throw(std::bad_alloc) {
+    if (m_tree->tr_l.tl_mat == 0) {
+        if (!BU_SETJUMP)
+            m_tree->tr_l.tl_mat = bn_mat_dup(value);
+        else {
+            BU_UNSETJUMP;
+            m_tree->tr_l.tl_mat = 0;
+            throw std::bad_alloc("BRLCAD::Combination::TreeNode::SetMatrix");
+        }
+
+        BU_UNSETJUMP;
+    }
+    else
+        memcpy(m_tree->tr_l.tl_mat, value, sizeof(mat_t));
 }
 
 

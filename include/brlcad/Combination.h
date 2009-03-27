@@ -59,7 +59,7 @@ namespace BRLCAD {
             };
 
             ConstTreeNode(const ConstTreeNode& original) throw() : m_tree(original.m_tree) {}
-            ~ConstTreeNode(void) throw() {}
+            virtual ~ConstTreeNode(void) throw() {}
 
             const ConstTreeNode& operator=(const ConstTreeNode& original) throw() {
                 m_tree = original.m_tree;
@@ -88,7 +88,7 @@ namespace BRLCAD {
             TreeNode(const TreeNode& original) throw() : ConstTreeNode(original),
                                                          m_internalp(original.m_internalp),
                                                          m_resp(original.m_resp) {}
-            ~TreeNode(void) throw() {}
+            virtual ~TreeNode(void) throw() {}
 
             const TreeNode& operator=(const TreeNode& original) throw() {
                 ConstTreeNode::operator=(original);
@@ -99,9 +99,11 @@ namespace BRLCAD {
                 return *this;
             }
 
-            TreeNode        LeftOperand(void) throw();  ///< the left operand of a binary operation
-            TreeNode        RightOperand(void) throw(); ///< the right operand of a binary operation
-            TreeNode        Operand(void) throw();      ///< the operand of a unary operation
+            TreeNode        LeftOperand(void) throw();                               ///< the left operand of a binary operation
+            TreeNode        RightOperand(void) throw();                              ///< the right operand of a binary operation
+            TreeNode        Operand(void) throw();                                   ///< the operand of a unary operation
+            void            SetName(const char* value) const throw(std::bad_alloc);  ///< sets the name of the operand object in a leaf
+            void            SetMatrix(double value[16]) const throw(std::bad_alloc); ///< sets the transformation matrix of the operand object in a leaf
 
             /// applies an operator to this node
             /** - it creates a new node
