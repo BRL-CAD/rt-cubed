@@ -126,8 +126,31 @@ bool Database::Add
                 bu_vls_strcpy(&internalTo->material, bu_vls_addr(&internalFrom->material));
             }
 
-            if (id != ID_NULL)
+            if (id != ID_NULL) {
                 ret = (wdb_export(m_wdbp, object.Name(), rtInternal, id, 1.) == 0);
+
+                // copy attributes
+                if (ret) {
+                    const bu_attribute_value_set* origAvs = object.GetAvs();
+                    
+                    if ((origAvs != 0) && (origAvs->count > 0)) {
+                        directory* pDir = db_lookup(m_rtip->rti_dbip, object.Name(), LOOKUP_NOISE);
+
+                        assert(pDir != 0);
+
+                        if (pDir != 0) {
+                            bu_attribute_value_set avs;
+                            bu_avs_init(&avs, origAvs->count, "BRLCAD::Database::Add");
+
+                            for (size_t i = 0; i < origAvs->count; ++i)
+                                bu_avs_add_nonunique(&avs, origAvs->avp->name, origAvs->avp->value);
+
+                            ret = (db5_replace_attributes(pDir, &avs, m_rtip->rti_dbip) == 0);
+                        }
+                    }
+                }
+
+            }
         }
 
         BU_UNSETJUMP;

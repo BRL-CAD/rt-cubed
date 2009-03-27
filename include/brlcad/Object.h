@@ -39,6 +39,7 @@ struct resource;
 struct directory;
 struct rt_db_internal;
 struct db_i;
+struct bu_attribute_value_set;
 
 
 namespace BRLCAD {
@@ -59,11 +60,59 @@ namespace BRLCAD {
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw()                                = 0;
 
+        // Is this object functional?
+        virtual bool          IsValid(void) const throw()                             = 0;
+
         // for all objects
         const char*           Name(void) const throw();
         void                  SetName(const char* name) throw(std::bad_alloc);
 
-        virtual bool          IsValid(void) const throw()                             = 0;
+
+        class BRLCAD_COREINTERFACE_EXPORT AttributeIterator {
+        public:
+            AttributeIterator(const AttributeIterator& original) throw() : m_avs(original.m_avs),
+                                                                           m_searchKey(original.m_searchKey),
+                                                                           m_index(original.m_index) {}
+            ~AttributeIterator(void) throw() {}
+
+            const AttributeIterator& operator=(const AttributeIterator& original) throw() {
+                m_avs       = original.m_avs;
+                m_searchKey = original.m_searchKey;
+                m_index     = original.m_index;
+                return *this;
+            }
+
+            const AttributeIterator& operator++(void) throw();
+            bool                     Good(void) const throw();
+            const char*              Key(void) const throw();
+            const char*              Value(void) const throw();
+
+        private:
+            const bu_attribute_value_set* m_avs;
+            const char*                   m_searchKey;
+            size_t                        m_index;
+
+            AttributeIterator(const bu_attribute_value_set* avs,
+                              const char*                   searchKey,
+                              size_t                        index) throw();
+
+            friend Object;
+
+            AttributeIterator(void); // not implemented
+        };
+
+
+        bool                  HasAttribute(const char* key) const throw();
+        AttributeIterator     FirstAttribute(void) const throw();                         ///> returns an iterator pointing on the first attribute
+        const char*           Attribute(const char* key) const throw();                   ///> returns the value of the first attribute with this key
+        AttributeIterator     MultiAttribute(const char* key) const throw();              ///> returns an iterator pointing on the first attribute with this key
+        void                  SetAttribute(const char* key,
+                                           const char* value) throw(std::bad_alloc);      ///> overwrites the attribute entry with this key or creates a new one if there is none
+        void                  AddMultiAttribute(const char* key,
+                                                const char* value) throw(std::bad_alloc); ///> creates an attribute entry with this values even if there exitsts already one with this key
+        void                  RemoveAttribute(const char* key) throw();                   ///> removes the first attribute with this key
+        void                  ClearAttributes(void) throw();                              ///> removes all attributes
+
 
     protected:
         resource*       m_resp;
@@ -81,11 +130,15 @@ namespace BRLCAD {
         void Copy(const Object& original) throw(std::bad_alloc);
         bool Validate(void) const throw();
 
-        friend class Database;
-
     private:
         // holds Objects's name if not connected to a database
-        char* m_name;
+        char*                   m_name;
+        bu_attribute_value_set* m_avs;
+
+        const bu_attribute_value_set* GetAvs(void) const throw();
+        bu_attribute_value_set*       GetAvs(bool create) throw();
+
+        friend class Database;
     };
 }
 
