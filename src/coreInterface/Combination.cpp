@@ -145,7 +145,7 @@ static tree* ParentTree
     case Combination::ConstTreeNode::Not:
         if (searchTree == rootTree->tr_b.tb_left)
             ret = rootTree;
-        else 
+        else
             ret = ParentTree(searchTree, rootTree->tr_b.tb_left);
         break;
 
@@ -1145,9 +1145,6 @@ bool Combination::IsValid(void) const throw() {
 
             // check operators in tree
             db_ck_tree(internalp->tree);
-
-            if (internalp->region_flag == 0)
-                ret = (db_is_tree_all_unions(internalp->tree) == 1);
         }
         else
             ret = false;
