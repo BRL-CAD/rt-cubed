@@ -5,20 +5,10 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
 include(${CMAKE_MODULE_PATH}/UsePkgConfig.cmake)
 include(${CMAKE_MODULE_PATH}/UseBrlcadConfig.cmake)
 
-if(NOT BRLCAD_ROOT)
-  message(FATAL_ERROR "BRL-CAD root not set, necessary for configuration (call cmake again with -DBRLCAD_ROOT=/path/to/brlcad/root)")
-endif(NOT BRLCAD_ROOT)
-
 find_program(PKGCONFIG_EXECUTABLE NAMES pkg-config PATHS /usr/local/bin /usr/bin)
 if(NOT PKGCONFIG_EXECUTABLE)
   message(FATAL_ERROR "Could not find 'pkg-config', necessary for configuration")
 endif(NOT PKGCONFIG_EXECUTABLE)
-
-find_program(BRLCADCONFIG_EXECUTABLE NAMES brlcad-config PATHS ${BRLCAD_ROOT}/bin)
-if(NOT BRLCADCONFIG_EXECUTABLE)
-  message(FATAL_ERROR "Could not find 'brlcad-config', necessary for configuration")
-endif(NOT BRLCADCONFIG_EXECUTABLE)
-
 
 #source_group("Source Files" FILES ${SOURCES})
 #source_group("Header Files" FILES ${HEADERS})
@@ -45,43 +35,46 @@ endif(APPLE)
 add_definitions( -D${SYSTEM} )
 message(STATUS "Detected system name '${CMAKE_SYSTEM_NAME}', building for system '${SYSTEM}'")
 message(STATUS "Will use C++ compiler '${CMAKE_CXX_COMPILER}'")
-message(STATUS "BRL-CAD root at '${BRLCAD_ROOT}'")
 
 # Needed libraries
-set(ESSENTIAL_LIBS OGRE OIS Mocha RBGui)
-PKGCONFIG_ATLEAST(OGRE 1.7.0 OGRE_FOUND)
-PKGCONFIG_ATLEAST(OIS 1.2.0 OIS_FOUND)
-PKGCONFIG_ATLEAST(Mocha 0.1.3 Mocha_FOUND)
-PKGCONFIG_ATLEAST(RBGui 0.1.3 RBGui_FOUND)
-foreach(l ${ESSENTIAL_LIBS})
-  if(NOT ${l}_FOUND)
-    message(SEND_ERROR "${l} library not found")
-    set(CANNOT_BUILD true)
-  endif(NOT ${l}_FOUND)
-endforeach(l)
+find_package(OGRE REQUIRED)
+include_directories(${OGRE_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${OGRE_LIBRARIES})
 
-set(BRLCAD_ATLEAST "7.13.0")
-BRLCADCONFIG_ATLEAST(${BRLCAD_ATLEAST} BRLCAD_FOUND)
-if(NOT BRLCAD_FOUND)
-  message(SEND_ERROR "BRL-CAD library not found (or older than required ${BRLCAD_ATLEAST})")
-  set(CANNOT_BUILD true)
-endif(NOT BRLCAD_FOUND)
+find_package(OIS REQUIRED)
+include_directories(${OIS_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${OIS_LIBRARIES})
+
+find_package(libged REQUIRED)
+include_directories(${libged_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${libged_LIBRARIES})
+
+find_package(libbu REQUIRED)
+include_directories(${libbu_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${libbu_LIBRARIES})
+
+find_package(Mocha REQUIRED)
+include_directories(${Mocha_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${Mocha_LIBRARIES})
+
+find_package(RBGui REQUIRED)
+include_directories(${RBGui_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${RBGui_LIBRARIES})
 
 if(CANNOT_BUILD)
   message(FATAL_ERROR "Missing essential libraries, aborting")
 else(CANNOT_BUILD)
-  PKGCONFIG_WRAPPER("--cflags ${ESSENTIAL_LIBS}" PC_CFLAGS PC_EXIT_CODE)
-  PKGCONFIG_WRAPPER("--libs ${ESSENTIAL_LIBS}" PC_LDFLAGS PC_EXIT_CODE)
-  PKGCONFIG_WRAPPER("--variable=includedir ${ESSENTIAL_LIBS}" PC_INCLUDE_DIR PC_EXIT_CODE)
-  PKGCONFIG_WRAPPER("--variable=libdir ${ESSENTIAL_LIBS}" PC_LIB_DIR PC_EXIT_CODE)
+  #PKGCONFIG_WRAPPER("--cflags ${ESSENTIAL_LIBS}" PC_CFLAGS PC_EXIT_CODE)
+  #PKGCONFIG_WRAPPER("--libs ${ESSENTIAL_LIBS}" PC_LDFLAGS PC_EXIT_CODE)
+  #PKGCONFIG_WRAPPER("--variable=includedir ${ESSENTIAL_LIBS}" PC_INCLUDE_DIR PC_EXIT_CODE)
+  #PKGCONFIG_WRAPPER("--variable=libdir ${ESSENTIAL_LIBS}" PC_LIB_DIR PC_EXIT_CODE)
 
-  BRLCADCONFIG_WRAPPER("--cflags" BRLCAD_CFLAGS BRLCAD_EXIT_CODE)
-  BRLCADCONFIG_WRAPPER("--libs ged" BRLCAD_LDFLAGS BRLCAD_EXIT_CODE)
-  BRLCADCONFIG_WRAPPER("--includedir" BRLCAD_INCLUDE_DIR BRLCAD_EXIT_CODE)
-  BRLCADCONFIG_WRAPPER("--libdir" BRLCAD_LIB_DIR BRLCAD_EXIT_CODE)
+  #BRLCADCONFIG_WRAPPER("--cflags" BRLCAD_CFLAGS BRLCAD_EXIT_CODE)
+  #BRLCADCONFIG_WRAPPER("--libs ged" BRLCAD_LDFLAGS BRLCAD_EXIT_CODE)
+  #BRLCADCONFIG_WRAPPER("--includedir" BRLCAD_INCLUDE_DIR BRLCAD_EXIT_CODE)
+  #BRLCADCONFIG_WRAPPER("--libdir" BRLCAD_LIB_DIR BRLCAD_EXIT_CODE)
 
-  include_directories(${PC_INCLUDE_DIR} ${BRLCAD_INCLUDE_DIR})
-  link_directories(${PC_LIB_DIR} ${BRLCAD_LIB_DIR})
+  #link_directories(${PC_LIB_DIR} ${BRLCAD_LIB_DIR})
 
   # Not necessary at the moment, maybe never
   #if(TCL_INCLUDE)
@@ -92,9 +85,9 @@ else(CANNOT_BUILD)
   #endif(TCL_LIB)
 
   #link_libraries( g3d ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Mocha_LIBRARIES} ${RBGui_LIBRARIES} )
-  add_definitions(${PC_CFLAGS} ${BRLCAD_CFLAGS})
+  #add_definitions(${PC_CFLAGS} ${BRLCAD_CFLAGS})
   add_executable( g3d ${G3D_SOURCES} ${G3D_HEADERS} )
-  target_link_libraries( g3d ${PC_LDFLAGS} ${BRLCAD_LDFLAGS} )
+  target_link_libraries( g3d ${LIBS} )
 
   # OGRE config files
   file(WRITE ${PROJECT_BINARY_DIR}/resources.cfg "# Resource locations to be added to the default path
