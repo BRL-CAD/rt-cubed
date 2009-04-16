@@ -30,6 +30,8 @@
 #ifndef BRLCAD_COMMON_INCLUDED
 #define BRLCAD_COMMON_INCLUDED
 
+#include <new>
+
 #ifdef _MSC_VER // Microsoft Visual C++ compiler
 #   pragma warning(disable: 4290) // C++ exception specification ignored
 #endif
@@ -121,6 +123,30 @@ namespace BRLCAD {
         Curvature3D(void) throw() : minPrincipalDirection(),
                                     minPrincipalCurvature(0.),
                                     maxPrincipalCurvature(0.) {}
+    };
+
+
+    class bad_alloc : public std::bad_alloc {
+    public:
+        bad_alloc(const char* hint) throw() : std::bad_alloc(), m_hint(hint) {}
+
+        bad_alloc(const bad_alloc& original) throw() : std::bad_alloc(original), m_hint(original.m_hint) {}
+
+        virtual const bad_alloc& operator=(const bad_alloc& original) throw() {
+            std::bad_alloc::operator=(original);
+            m_hint = original.m_hint;
+
+            return *this;
+        }
+
+        virtual const char* what(void) const throw() {
+            return m_hint;
+        }
+
+    private:
+        const char* m_hint;
+
+        bad_alloc(void); // not implemented
     };
 }
 
