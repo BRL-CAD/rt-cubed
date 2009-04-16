@@ -36,12 +36,12 @@
 using namespace BRLCAD;
 
 
-Halfspace::Halfspace(void) throw(std::bad_alloc) : Object() {
+Halfspace::Halfspace(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP)
         m_internalp = static_cast<rt_half_internal*>(bu_calloc(1, sizeof(rt_half_internal), "BRLCAD::Halfspace::Halfspace::m_internalp"));
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Halfspace::Halfspace");
+        throw bad_alloc("BRLCAD::Halfspace::Halfspace");
     }
 
     BU_UNSETJUMP;
@@ -57,12 +57,12 @@ Halfspace::Halfspace(void) throw(std::bad_alloc) : Object() {
 Halfspace::Halfspace
 (
     const Halfspace& original
-) throw(std::bad_alloc) : Object(original) {
+) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP)
         m_internalp = static_cast<rt_half_internal*>(bu_calloc(1, sizeof(rt_half_internal), "BRLCAD::Halfspace::Halfspace::m_internalp"));
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Halfspace::Halfspace");
+        throw bad_alloc("BRLCAD::Halfspace::Halfspace");
     }
 
     BU_UNSETJUMP;
@@ -77,7 +77,7 @@ Halfspace::~Halfspace(void) throw() {
 }
 
 
-const Halfspace& Halfspace::operator=(const Halfspace& original) throw(std::bad_alloc) {
+const Halfspace& Halfspace::operator=(const Halfspace& original) throw(bad_alloc) {
     if (&original != this) {
         Copy(original);
         memcpy(Internal()->eqn, original.Internal()->eqn, sizeof(plane_t));
@@ -117,7 +117,7 @@ void Halfspace::SetDistanceFromOrigin(double distance) throw() {
 const Object& Halfspace::operator=
 (
     const Object& original
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     const Halfspace* half = dynamic_cast<const Halfspace*>(&original);
     assert(half != 0);
 
@@ -128,7 +128,7 @@ const Object& Halfspace::operator=
 }
 
 
-Object* Halfspace::Clone(void) const throw(std::bad_alloc) {
+Object* Halfspace::Clone(void) const throw(bad_alloc) {
     return new Halfspace(*this);
 }
 

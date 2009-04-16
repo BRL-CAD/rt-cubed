@@ -38,7 +38,7 @@ using namespace BRLCAD;
 Unknown::Unknown
 (
     const Unknown& original
-) throw(std::bad_alloc) : Object(original) {}
+) throw(bad_alloc) : Object(original) {}
 
 
 Unknown::~Unknown(void) throw() {}
@@ -47,7 +47,7 @@ Unknown::~Unknown(void) throw() {}
 const Unknown& Unknown::operator=
 (
     const Unknown& original
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     Copy(original);
 
     return *this;
@@ -57,7 +57,7 @@ const Unknown& Unknown::operator=
 const Object& Unknown::operator=
 (
     const Object& original
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     const Unknown* unknown = dynamic_cast<const Unknown*>(&original);
     assert(unknown != 0);
 
@@ -68,7 +68,7 @@ const Object& Unknown::operator=
 }
 
 
-Object* Unknown::Clone(void) const throw(std::bad_alloc) {
+Object* Unknown::Clone(void) const throw(bad_alloc) {
     return new Unknown(*this);
 }
 

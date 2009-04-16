@@ -38,7 +38,7 @@ namespace BRLCAD {
     public:
         /// creates a dysfunctional database
         /** Use Load() to enable this object. */
-        FileDatabase(void) throw(std::bad_alloc);
+        FileDatabase(void) throw(bad_alloc);
         virtual ~FileDatabase(void) throw();
 
         /// loads a BRL-CAD database file (*.g)

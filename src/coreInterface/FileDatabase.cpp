@@ -35,7 +35,7 @@
 using namespace BRLCAD;
 
 
-FileDatabase::FileDatabase(void) throw(std::bad_alloc) : Database() {}
+FileDatabase::FileDatabase(void) throw(bad_alloc) : Database() {}
 
 
 FileDatabase::~FileDatabase(void) throw() {}

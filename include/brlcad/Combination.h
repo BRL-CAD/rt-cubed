@@ -40,11 +40,11 @@ union tree;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Combination : public Object {
     public:
-        Combination(void) throw(std::bad_alloc);
-        Combination(const Combination& original) throw(std::bad_alloc);
+        Combination(void) throw(bad_alloc);
+        Combination(const Combination& original) throw(bad_alloc);
         virtual ~Combination(void) throw();
 
-        const Combination&    operator=(const Combination& original) throw(std::bad_alloc);
+        const Combination&    operator=(const Combination& original) throw(bad_alloc);
 
         class BRLCAD_COREINTERFACE_EXPORT ConstTreeNode {
         public:
@@ -79,7 +79,7 @@ namespace BRLCAD {
             ConstTreeNode(void) throw() : m_tree(0) {}
             ConstTreeNode(tree* original) throw() : m_tree(original) {}
 
-            friend Combination;
+            friend class Combination;
         };
 
 
@@ -99,18 +99,18 @@ namespace BRLCAD {
                 return *this;
             }
 
-            TreeNode        LeftOperand(void) throw();                               ///< the left operand of a binary operation
-            TreeNode        RightOperand(void) throw();                              ///< the right operand of a binary operation
-            TreeNode        Operand(void) throw();                                   ///< the operand of a unary operation
-            void            SetName(const char* value) const throw(std::bad_alloc);  ///< sets the name of the operand object in a leaf
-            void            SetMatrix(double value[16]) const throw(std::bad_alloc); ///< sets the transformation matrix of the operand object in a leaf
+            TreeNode        LeftOperand(void) throw();                          ///< the left operand of a binary operation
+            TreeNode        RightOperand(void) throw();                         ///< the right operand of a binary operation
+            TreeNode        Operand(void) throw();                              ///< the operand of a unary operation
+            void            SetName(const char* value) const throw(bad_alloc);  ///< sets the name of the operand object in a leaf
+            void            SetMatrix(double value[16]) const throw(bad_alloc); ///< sets the transformation matrix of the operand object in a leaf
 
             /// applies an operator to this node
             /** - it creates a new node
                 - the operator has to be unary, i.e. \a Not
                 - \return the new created operation node
             */
-            TreeNode        Apply(Operator op) throw(std::bad_alloc);
+            TreeNode        Apply(Operator op) throw(bad_alloc);
 
             /// creates a new node with "this op theOther"
             /** - the operator has to be binary
@@ -118,7 +118,7 @@ namespace BRLCAD {
                 - \return the new created operation node
             */
             TreeNode        Apply(Operator             op,
-                                  const ConstTreeNode& theOther) throw(std::bad_alloc);
+                                  const ConstTreeNode& theOther) throw(bad_alloc);
 
             /// "this op leaf(\a leafName)"
             /** - creates two nodes
@@ -129,7 +129,7 @@ namespace BRLCAD {
                 - \return the new created operation node
             */
             TreeNode        Apply(Operator    op,
-                                  const char* leafName) throw(std::bad_alloc);
+                                  const char* leafName) throw(bad_alloc);
 
             /// creates a new node with "theOther op this"
             /** - the operator has to be binary
@@ -137,7 +137,7 @@ namespace BRLCAD {
                 - \return the new created operation node
             */
             TreeNode        Apply(const ConstTreeNode& theOther,
-                                  Operator             op) throw(std::bad_alloc);
+                                  Operator             op) throw(bad_alloc);
 
             /// "this op leaf(\a leafName)"
             /** - creates two nodes
@@ -148,7 +148,7 @@ namespace BRLCAD {
                 - \return the new created operation node
             */
             TreeNode        Apply(const char* leafName,
-                                  Operator    op) throw(std::bad_alloc);
+                                  Operator    op) throw(bad_alloc);
 
             /// deletes this node and rewinds all parint nodes until a valid state is reached
             /** E.g. if this node is an operand of a binary operation, this operation will be removed too
@@ -167,7 +167,7 @@ namespace BRLCAD {
                      rt_comb_internal* internalp,
                      resource*         resp) throw() : ConstTreeNode(original), m_internalp(internalp), m_resp(resp) {}
 
-            friend Combination;
+            friend class Combination;
         };
 
 
@@ -176,7 +176,7 @@ namespace BRLCAD {
 
         /// adds a leaf to the tree
         /** If the tree's root node is not \a Null \a Tree().Apply(Union, leafName) will be performed */
-        void                  AddLeaf(const char* leafName) throw(std::bad_alloc);
+        void                  AddLeaf(const char* leafName) throw(bad_alloc);
 
         bool                  IsRegion(void) const throw();
         void                  SetIsRegion(bool value) throw();
@@ -206,17 +206,17 @@ namespace BRLCAD {
         unsigned char         Blue(void) const throw();
         void                  SetBlue(unsigned char value) throw();
         const char*           Shader(void) const throw();
-        void                  SetShader(const char* value) throw(std::bad_alloc);
+        void                  SetShader(const char* value) throw(bad_alloc);
         bool                  Inherit(void) const throw(); ///< override lower nodes color and shader
         void                  SetInherit(bool value) throw();
         const char*           Material(void) const throw();
-        void                  SetMaterial(const char* value) throw(std::bad_alloc);
+        void                  SetMaterial(const char* value) throw(bad_alloc);
         double                Temperature(void) const throw();
         void                  SetTemperature(double value) throw();
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(std::bad_alloc);
-        virtual Object*       Clone(void) const throw(std::bad_alloc);
+        virtual const Object& operator=(const Object& original) throw(bad_alloc);
+        virtual Object*       Clone(void) const throw(bad_alloc);
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw();
         virtual bool          IsValid(void) const throw();

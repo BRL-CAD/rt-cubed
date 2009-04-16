@@ -319,7 +319,7 @@ Combination::TreeNode Combination::TreeNode::Operand(void) throw() {
 void Combination::TreeNode::SetName
 (
     const char* value
-) const throw(std::bad_alloc) {
+) const throw(bad_alloc) {
     switch (ConvertOperator(m_tree)) {
     case Leaf:
         if (value != 0) {
@@ -336,7 +336,7 @@ void Combination::TreeNode::SetName
             else {
                 BU_UNSETJUMP;
                 m_tree->tr_l.tl_name = 0;
-                throw std::bad_alloc("BRLCAD::Combination::TreeNode::SetName");
+                throw bad_alloc("BRLCAD::Combination::TreeNode::SetName");
             }
 
             BU_UNSETJUMP;
@@ -356,14 +356,14 @@ void Combination::TreeNode::SetName
 void Combination::TreeNode::SetMatrix
 (
     double value[16]
-) const throw(std::bad_alloc) {
+) const throw(bad_alloc) {
     if (m_tree->tr_l.tl_mat == 0) {
         if (!BU_SETJUMP)
             m_tree->tr_l.tl_mat = bn_mat_dup(value);
         else {
             BU_UNSETJUMP;
             m_tree->tr_l.tl_mat = 0;
-            throw std::bad_alloc("BRLCAD::Combination::TreeNode::SetMatrix");
+            throw bad_alloc("BRLCAD::Combination::TreeNode::SetMatrix");
         }
 
         BU_UNSETJUMP;
@@ -376,7 +376,7 @@ void Combination::TreeNode::SetMatrix
 Combination::TreeNode Combination::TreeNode::Apply
 (
     Combination::ConstTreeNode::Operator op
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     assert(m_tree != 0);
 
     TreeNode ret;
@@ -391,7 +391,7 @@ Combination::TreeNode Combination::TreeNode::Apply
             }
             else {
                 BU_UNSETJUMP;
-                throw std::bad_alloc("BRLCAD::Combination::TreeNode::Apply");
+                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
             }
 
             BU_UNSETJUMP;
@@ -423,7 +423,7 @@ Combination::TreeNode Combination::TreeNode::Apply
 (
     Combination::ConstTreeNode::Operator op,
     const Combination::ConstTreeNode&    theOther
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     assert(m_tree != 0);
     assert(theOther.m_tree != 0);
 
@@ -442,7 +442,7 @@ Combination::TreeNode Combination::TreeNode::Apply
             }
             else {
                 BU_UNSETJUMP;
-                throw std::bad_alloc("BRLCAD::Combination::TreeNode::Apply");
+                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
             }
 
             BU_UNSETJUMP;
@@ -459,7 +459,7 @@ Combination::TreeNode Combination::TreeNode::Apply
             else {
                 BU_UNSETJUMP;
                 RT_FREE_TREE(newNode, m_resp);
-                throw std::bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
+                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
             }
 
             BU_UNSETJUMP;
@@ -484,7 +484,7 @@ Combination::TreeNode Combination::TreeNode::Apply
 (
     Combination::ConstTreeNode::Operator op,
     const char*                          leafName
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     assert(leafName != 0);
 
     TreeNode ret;
@@ -497,7 +497,7 @@ Combination::TreeNode Combination::TreeNode::Apply
         }
         else {
             BU_UNSETJUMP;
-            throw std::bad_alloc("BRLCAD::Combination::TreeNode::Apply");
+            throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
         }
 
         BU_UNSETJUMP;
@@ -510,7 +510,7 @@ Combination::TreeNode Combination::TreeNode::Apply
             newLeaf.m_tree->tr_l.tl_name = bu_strdup(leafName);
         else {
             BU_UNSETJUMP;
-            throw std::bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
+            throw bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
         }
 
         BU_UNSETJUMP;
@@ -529,7 +529,7 @@ Combination::TreeNode Combination::TreeNode::Apply
 (
     const Combination::ConstTreeNode&    theOther,
     Combination::ConstTreeNode::Operator op
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     assert(m_tree != 0);
     assert(theOther.m_tree != 0);
 
@@ -548,7 +548,7 @@ Combination::TreeNode Combination::TreeNode::Apply
             }
             else {
                 BU_UNSETJUMP;
-                throw std::bad_alloc("BRLCAD::Combination::TreeNode::Apply");
+                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
             }
 
             BU_UNSETJUMP;
@@ -564,7 +564,7 @@ Combination::TreeNode Combination::TreeNode::Apply
             else {
                 BU_UNSETJUMP;
                 RT_FREE_TREE(newNode, m_resp);
-                throw std::bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
+                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
             }
 
             BU_UNSETJUMP;
@@ -591,7 +591,7 @@ Combination::TreeNode Combination::TreeNode::Apply
 (
     const char*                          leafName,
     Combination::ConstTreeNode::Operator op
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     assert(leafName != 0);
 
     TreeNode ret;
@@ -604,7 +604,7 @@ Combination::TreeNode Combination::TreeNode::Apply
         }
         else {
             BU_UNSETJUMP;
-            throw std::bad_alloc("BRLCAD::Combination::TreeNode::Apply");
+            throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
         }
 
         BU_UNSETJUMP;
@@ -617,7 +617,7 @@ Combination::TreeNode Combination::TreeNode::Apply
             newLeaf.m_tree->tr_l.tl_name = bu_strdup(leafName);
         else {
             BU_UNSETJUMP;
-            throw std::bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
+            throw bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
         }
 
         BU_UNSETJUMP;
@@ -700,12 +700,12 @@ void Combination::TreeNode::Delete(void) throw() {
 // class Combination
 //
 
-Combination::Combination(void) throw(std::bad_alloc) : Object(), m_internalp(0) {
+Combination::Combination(void) throw(bad_alloc) : Object(), m_internalp(0) {
     if (!BU_SETJUMP)
         m_internalp = static_cast<rt_comb_internal*>(bu_calloc(1, sizeof(rt_comb_internal), "BRLCAD::Combination::Combination::m_internalp"));
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Combination::Combination");
+        throw bad_alloc("BRLCAD::Combination::Combination");
     }
 
     BU_UNSETJUMP;
@@ -720,7 +720,7 @@ Combination::Combination(void) throw(std::bad_alloc) : Object(), m_internalp(0) 
 Combination::Combination
 (
     const Combination& original
-) throw(std::bad_alloc) : Object(original), m_internalp(0) {
+) throw(bad_alloc) : Object(original), m_internalp(0) {
     if (&original != this) {
         Copy(original);
 
@@ -761,7 +761,7 @@ Combination::Combination
                 bu_free(m_internalp, "BRLCAD::Combination::Combination::m_internalp");
             }
 
-            throw std::bad_alloc("BRLCAD::Combination::Combination");
+            throw bad_alloc("BRLCAD::Combination::Combination");
         }
 
         BU_UNSETJUMP;
@@ -785,7 +785,7 @@ Combination::~Combination(void) throw() {
 const Combination& Combination::operator=
 (
     const Combination& original
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (&original != this) {
         Copy(original);
 
@@ -818,7 +818,7 @@ const Combination& Combination::operator=
         }
         else {
             BU_UNSETJUMP;
-            throw std::bad_alloc("BRLCAD::Combination::Combination");
+            throw bad_alloc("BRLCAD::Combination::Combination");
         }
 
         BU_UNSETJUMP;
@@ -841,7 +841,7 @@ Combination::TreeNode Combination::Tree(void) throw() {
 void Combination::AddLeaf
 (
     const char* leafName
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     rt_comb_internal* internalp = Internal();
 
     if (internalp->tree == 0) {
@@ -850,7 +850,7 @@ void Combination::AddLeaf
         }
         else {
             BU_UNSETJUMP;
-            throw std::bad_alloc("BRLCAD::Combination::AddLeaf");
+            throw bad_alloc("BRLCAD::Combination::AddLeaf");
         }
 
         BU_UNSETJUMP;
@@ -866,7 +866,7 @@ void Combination::AddLeaf
             RT_FREE_TREE(internalp->tree, m_resp);
             internalp->tree = 0;
 
-            throw std::bad_alloc("BRLCAD::Combination::AddLeaf");
+            throw bad_alloc("BRLCAD::Combination::AddLeaf");
         }
 
         BU_UNSETJUMP;
@@ -1049,12 +1049,12 @@ const char* Combination::Shader(void) const throw() {
 void Combination::SetShader
 (
     const char* value
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (!BU_SETJUMP)
         bu_vls_strcpy(&Internal()->shader, value);
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Combination::SetShader");
+        throw bad_alloc("BRLCAD::Combination::SetShader");
     }
 
     BU_UNSETJUMP;
@@ -1082,12 +1082,12 @@ const char* Combination::Material(void) const throw() {
 void Combination::SetMaterial
 (
     const char* value
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (!BU_SETJUMP)
         bu_vls_strcpy(&Internal()->material, value);
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Combination::SetMaterial");
+        throw bad_alloc("BRLCAD::Combination::SetMaterial");
     }
 
     BU_UNSETJUMP;
@@ -1110,7 +1110,7 @@ void Combination::SetTemperature
 const Object& Combination::operator=
 (
     const Object& original
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     const Combination* comb = dynamic_cast<const Combination*>(&original);
     assert(comb != 0);
 
@@ -1121,7 +1121,7 @@ const Object& Combination::operator=
 }
 
 
-Object* Combination::Clone(void) const throw(std::bad_alloc) {
+Object* Combination::Clone(void) const throw(bad_alloc) {
     return new Combination(*this);
 }
 

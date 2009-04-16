@@ -46,7 +46,7 @@
 using namespace BRLCAD;
 
 
-Arb8::Arb8(void) throw(std::bad_alloc) : Object() {
+Arb8::Arb8(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_arb_internal);
         m_internalp->magic = RT_ARB_INTERNAL_MAGIC;
@@ -55,7 +55,7 @@ Arb8::Arb8(void) throw(std::bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Arb8::Arb8");
+        throw bad_alloc("BRLCAD::Arb8::Arb8");
     }
 
     BU_UNSETJUMP;
@@ -68,7 +68,7 @@ Arb8::Arb8
     const Vector3D& point2,
     const Vector3D& point3,
     const Vector3D& point4
-) throw(std::bad_alloc) : Object() {
+) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_arb_internal);
         m_internalp->magic = RT_ARB_INTERNAL_MAGIC;
@@ -77,7 +77,7 @@ Arb8::Arb8
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Arb8::Arb8");
+        throw bad_alloc("BRLCAD::Arb8::Arb8");
     }
 
     BU_UNSETJUMP;
@@ -91,7 +91,7 @@ Arb8::Arb8
     const Vector3D& point3,
     const Vector3D& point4,
     const Vector3D& point5
-) throw(std::bad_alloc) : Object() {
+) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_arb_internal);
         m_internalp->magic = RT_ARB_INTERNAL_MAGIC;
@@ -100,7 +100,7 @@ Arb8::Arb8
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Arb8::Arb8");
+        throw bad_alloc("BRLCAD::Arb8::Arb8");
     }
 
     BU_UNSETJUMP;
@@ -115,7 +115,7 @@ Arb8::Arb8
     const Vector3D& point4,
     const Vector3D& point5,
     const Vector3D& point6
-) throw(std::bad_alloc) : Object() {
+) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_arb_internal);
         m_internalp->magic = RT_ARB_INTERNAL_MAGIC;
@@ -124,7 +124,7 @@ Arb8::Arb8
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Arb8::Arb8");
+        throw bad_alloc("BRLCAD::Arb8::Arb8");
     }
 
     BU_UNSETJUMP;
@@ -140,7 +140,7 @@ Arb8::Arb8
     const Vector3D& point5,
     const Vector3D& point6,
     const Vector3D& point7
-) throw(std::bad_alloc) : Object() {
+) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_arb_internal);
         m_internalp->magic = RT_ARB_INTERNAL_MAGIC;
@@ -149,7 +149,7 @@ Arb8::Arb8
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Arb8::Arb8");
+        throw bad_alloc("BRLCAD::Arb8::Arb8");
     }
 
     BU_UNSETJUMP;
@@ -166,7 +166,7 @@ Arb8::Arb8
     const Vector3D& point6,
     const Vector3D& point7,
     const Vector3D& point8
-) throw(std::bad_alloc) : Object() {
+) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_arb_internal);
         m_internalp->magic = RT_ARB_INTERNAL_MAGIC;
@@ -175,7 +175,7 @@ Arb8::Arb8
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Arb8::Arb8");
+        throw bad_alloc("BRLCAD::Arb8::Arb8");
     }
 
     BU_UNSETJUMP;
@@ -186,7 +186,7 @@ Arb8::Arb8
 (
     const Vector3D& point1,
     const Vector3D& point2
-) throw(std::bad_alloc) : Object() {
+) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_arb_internal);
         m_internalp->magic = RT_ARB_INTERNAL_MAGIC;
@@ -195,7 +195,7 @@ Arb8::Arb8
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Arb8::Arb8");
+        throw bad_alloc("BRLCAD::Arb8::Arb8");
     }
 
     BU_UNSETJUMP;
@@ -205,14 +205,14 @@ Arb8::Arb8
 Arb8::Arb8
 (
     const Arb8& original
-) throw(std::bad_alloc) : Object(original) {
+) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_arb_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_arb_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Arb8::Arb8");
+        throw bad_alloc("BRLCAD::Arb8::Arb8");
     }
 
     BU_UNSETJUMP;
@@ -228,7 +228,7 @@ Arb8::~Arb8(void) throw() {
 const Arb8& Arb8::operator=
 (
     const Arb8& original
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (&original != this) {
         Copy(original);
         memcpy(Internal()->pt, original.Internal()->pt, 8 * sizeof(point_t));
@@ -517,7 +517,7 @@ void Arb8::SetPoints
 const Object& Arb8::operator=
 (
     const Object& original
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     const Arb8* arb8 = dynamic_cast<const Arb8*>(&original);
     assert(arb8 != 0);
 
@@ -528,7 +528,7 @@ const Object& Arb8::operator=
 }
 
 
-Object* Arb8::Clone(void) const throw(std::bad_alloc) {
+Object* Arb8::Clone(void) const throw(bad_alloc) {
     return new Arb8(*this);
 }
 

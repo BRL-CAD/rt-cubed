@@ -39,11 +39,11 @@ struct rt_half_internal;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Halfspace : public Object {
     public:
-        Halfspace(void) throw(std::bad_alloc);
-        Halfspace(const Halfspace& original) throw(std::bad_alloc);
+        Halfspace(void) throw(bad_alloc);
+        Halfspace(const Halfspace& original) throw(bad_alloc);
         virtual ~Halfspace(void) throw();
 
-        const Halfspace&      operator=(const Halfspace& original) throw(std::bad_alloc);
+        const Halfspace&      operator=(const Halfspace& original) throw(bad_alloc);
 
         Vector3D              Normal(void) const throw();
         void                  SetNormal(const Vector3D& normal) throw();
@@ -51,8 +51,8 @@ namespace BRLCAD {
         void                  SetDistanceFromOrigin(double distance) throw();
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(std::bad_alloc);
-        virtual Object*       Clone(void) const throw(std::bad_alloc);
+        virtual const Object& operator=(const Object& original) throw(bad_alloc);
+        virtual Object*       Clone(void) const throw(bad_alloc);
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw();
         virtual bool          IsValid(void) const throw();

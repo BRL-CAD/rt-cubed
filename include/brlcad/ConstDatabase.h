@@ -42,7 +42,7 @@ struct directory;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT ConstDatabase {
     public:
-        ConstDatabase(void) throw(std::bad_alloc);
+        ConstDatabase(void) throw(bad_alloc);
         virtual ~ConstDatabase(void) throw();
 
         /// associates the handle with a BRL-CAD database file (*.g)

@@ -36,14 +36,14 @@
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Unknown : public Object {
     public:
-        Unknown(const Unknown& original) throw(std::bad_alloc);
+        Unknown(const Unknown& original) throw(bad_alloc);
         virtual ~Unknown(void) throw();
 
-        const Unknown&        operator=(const Unknown& original) throw(std::bad_alloc);
+        const Unknown&        operator=(const Unknown& original) throw(bad_alloc);
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(std::bad_alloc);
-        virtual Object*       Clone(void) const throw(std::bad_alloc);
+        virtual const Object& operator=(const Object& original) throw(bad_alloc);
+        virtual Object*       Clone(void) const throw(bad_alloc);
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw();
         virtual bool          IsValid(void) const throw();

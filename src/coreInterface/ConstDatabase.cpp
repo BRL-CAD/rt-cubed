@@ -50,7 +50,7 @@
 using namespace BRLCAD;
 
 
-ConstDatabase::ConstDatabase(void) throw(std::bad_alloc) : m_rtip(0), m_resp(0) {
+ConstDatabase::ConstDatabase(void) throw(bad_alloc) : m_rtip(0), m_resp(0) {
     if (rt_uniresource.re_magic != RESOURCE_MAGIC)
         rt_init_resource(&rt_uniresource, 0, NULL);
 
@@ -60,7 +60,7 @@ ConstDatabase::ConstDatabase(void) throw(std::bad_alloc) : m_rtip(0), m_resp(0) 
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Object::Object");
+        throw bad_alloc("BRLCAD::Object::Object");
     }
 
     BU_UNSETJUMP;

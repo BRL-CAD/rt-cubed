@@ -61,13 +61,13 @@ Database::~Database(void) throw() {
 void Database::SetTitle
 (
     const char* title
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (m_wdbp != 0) {
         if (!BU_SETJUMP)
             db_update_ident(m_wdbp->dbip, title, m_wdbp->dbip->dbi_base2local);
         else {
             BU_UNSETJUMP;
-            throw std::bad_alloc("BRLCAD::Database::SetTitle");
+            throw bad_alloc("BRLCAD::Database::SetTitle");
         }
 
         BU_UNSETJUMP;
@@ -224,4 +224,4 @@ void Database::Get
 }
 
 
-Database::Database(void) throw(std::bad_alloc) : ConstDatabase(), m_wdbp(0) {}
+Database::Database(void) throw(bad_alloc) : ConstDatabase(), m_wdbp(0) {}

@@ -151,7 +151,7 @@ const char* Object::Name(void) const throw() {
 void Object::SetName
 (
     const char* name
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     assert(!((m_pDir != RT_DIR_NULL) && (m_name != 0)));
 
     // not connected with a non-writable database
@@ -174,7 +174,7 @@ void Object::SetName
             else {
                 BU_UNSETJUMP;
                 m_name = 0;
-                throw std::bad_alloc("BRLCAD::Object::SetName");
+                throw bad_alloc("BRLCAD::Object::SetName");
             }
 
             BU_UNSETJUMP;
@@ -265,7 +265,7 @@ void Object::SetAttribute
 (
     const char* key,
     const char* value
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (!BU_SETJUMP) {
         bu_attribute_value_set* avs = GetAvs(true);
 
@@ -274,7 +274,7 @@ void Object::SetAttribute
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Object::SetMultiAttribute");
+        throw bad_alloc("BRLCAD::Object::SetMultiAttribute");
     }
 
     BU_UNSETJUMP;
@@ -285,7 +285,7 @@ void Object::AddMultiAttribute
 (
     const char* key,
     const char* value
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (!BU_SETJUMP) {
         bu_attribute_value_set* avs = GetAvs(true);
 
@@ -294,7 +294,7 @@ void Object::AddMultiAttribute
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Object::SetMultiAttribute");
+        throw bad_alloc("BRLCAD::Object::SetMultiAttribute");
     }
 
     BU_UNSETJUMP;
@@ -320,14 +320,14 @@ void Object::ClearAttributes(void) throw() {
 }
 
 
-Object::Object(void) throw(std::bad_alloc) : m_pDir(0), m_ip(0), m_dbip(0), m_name(0), m_avs(0) {
+Object::Object(void) throw(bad_alloc) : m_pDir(0), m_ip(0), m_dbip(0), m_name(0), m_avs(0) {
     if (!BU_SETJUMP) {
         m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::Object::Object::m_resp"));
         rt_init_resource(m_resp, 0, NULL);
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Object::Object");
+        throw bad_alloc("BRLCAD::Object::Object");
     }
 
     BU_UNSETJUMP;
@@ -348,7 +348,7 @@ Object::Object
 Object::Object
 (
     const Object& original
-) throw(std::bad_alloc) : m_resp(0), m_pDir(0), m_ip(0), m_dbip(0), m_name(0), m_avs(0) {
+) throw(bad_alloc) : m_resp(0), m_pDir(0), m_ip(0), m_dbip(0), m_name(0), m_avs(0) {
     if (!BU_SETJUMP) {
         m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::Object::Object::m_resp"));
         rt_init_resource(m_resp, 0, NULL);
@@ -359,7 +359,7 @@ Object::Object
         if (m_resp != 0)
             bu_free(m_resp, "BRLCAD::Object::Object::m_resp");
 
-        throw std::bad_alloc("BRLCAD::Object::Object");
+        throw bad_alloc("BRLCAD::Object::Object");
     }
 
     BU_UNSETJUMP;
@@ -371,7 +371,7 @@ Object::Object
 void Object::Copy
 (
     const Object& original
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (&original != this) {
         SetName(original.Name());
 
@@ -398,7 +398,7 @@ void Object::Copy
                 }
                 else {
                     BU_UNSETJUMP;
-                    throw std::bad_alloc("BRLCAD::Object::Copy");
+                    throw bad_alloc("BRLCAD::Object::Copy");
                 }
 
                 BU_UNSETJUMP;

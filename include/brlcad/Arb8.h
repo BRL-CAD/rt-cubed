@@ -39,29 +39,29 @@ struct rt_arb_internal;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Arb8 : public Object {
     public:
-        Arb8(void) throw(std::bad_alloc);
+        Arb8(void) throw(bad_alloc);
         Arb8(const Vector3D& point1,
              const Vector3D& point2,
              const Vector3D& point3,
-             const Vector3D& point4) throw(std::bad_alloc); ///< arb4 constructor
+             const Vector3D& point4) throw(bad_alloc); ///< arb4 constructor
         Arb8(const Vector3D& point1,
              const Vector3D& point2,
              const Vector3D& point3,
              const Vector3D& point4,
-             const Vector3D& point5) throw(std::bad_alloc); ///< arb5 constructor
+             const Vector3D& point5) throw(bad_alloc); ///< arb5 constructor
         Arb8(const Vector3D& point1,
              const Vector3D& point2,
              const Vector3D& point3,
              const Vector3D& point4,
              const Vector3D& point5,
-             const Vector3D& point6) throw(std::bad_alloc); ///< arb6 constructor
+             const Vector3D& point6) throw(bad_alloc); ///< arb6 constructor
         Arb8(const Vector3D& point1,
              const Vector3D& point2,
              const Vector3D& point3,
              const Vector3D& point4,
              const Vector3D& point5,
              const Vector3D& point6,
-             const Vector3D& point7) throw(std::bad_alloc); ///< arb7 constructor
+             const Vector3D& point7) throw(bad_alloc); ///< arb7 constructor
         Arb8(const Vector3D& point1,
              const Vector3D& point2,
              const Vector3D& point3,
@@ -69,13 +69,13 @@ namespace BRLCAD {
              const Vector3D& point5,
              const Vector3D& point6,
              const Vector3D& point7,
-             const Vector3D& point8) throw(std::bad_alloc); ///< arb8 constructor
+             const Vector3D& point8) throw(bad_alloc); ///< arb8 constructor
         Arb8(const Vector3D& point1,
-             const Vector3D& point2) throw(std::bad_alloc); ///< rectangular parallel piped constructor
-        Arb8(const Arb8& original) throw(std::bad_alloc);
+             const Vector3D& point2) throw(bad_alloc); ///< rectangular parallel piped constructor
+        Arb8(const Arb8& original) throw(bad_alloc);
         virtual ~Arb8(void) throw();
 
-        const Arb8&           operator=(const Arb8& original) throw(std::bad_alloc);
+        const Arb8&           operator=(const Arb8& original) throw(bad_alloc);
 
         /// number of effective vertices
         /** returns 0 in case of en error */
@@ -129,8 +129,8 @@ namespace BRLCAD {
                                         const Vector3D& point2) throw(); ///< this becomes an rectangular parallel piped
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(std::bad_alloc);
-        virtual Object*       Clone(void) const throw(std::bad_alloc);
+        virtual const Object& operator=(const Object& original) throw(bad_alloc);
+        virtual Object*       Clone(void) const throw(bad_alloc);
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw();
         virtual bool          IsValid(void) const throw(); ///< checks for planarity of faces and direction of face normals
@@ -146,8 +146,8 @@ namespace BRLCAD {
     private:
         rt_arb_internal* m_internalp;
 
-        rt_arb_internal*	Internal(void);
-        const rt_arb_internal*	Internal(void) const;
+        rt_arb_internal*	Internal(void) throw();
+        const rt_arb_internal*	Internal(void) const throw();
 
         friend class Database;
     };

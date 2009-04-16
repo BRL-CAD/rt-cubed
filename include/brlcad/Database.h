@@ -45,7 +45,7 @@ namespace BRLCAD {
         /** The implementation will be determed by the subclasses. */
         virtual bool Load(const char* fileName) throw() = 0;
 
-        void         SetTitle(const char* title) throw(std::bad_alloc);
+        void         SetTitle(const char* title) throw(bad_alloc);
 
         /// adds an object to the database
         bool         Add(const Object& object) throw();
@@ -77,7 +77,7 @@ namespace BRLCAD {
     protected:
         rt_wdb* m_wdbp;
 
-        Database(void) throw(std::bad_alloc);
+        Database(void) throw(bad_alloc);
 
     private:
         Database(const Database&);                  // not implemented

@@ -36,7 +36,7 @@
 using namespace BRLCAD;
 
 
-Ellipsoid::Ellipsoid(void) throw(std::bad_alloc) : Object() {
+Ellipsoid::Ellipsoid(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -45,7 +45,7 @@ Ellipsoid::Ellipsoid(void) throw(std::bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
+        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
@@ -58,7 +58,7 @@ Ellipsoid::Ellipsoid
     const Vector3D& semiPrincipalAxisA,
     const Vector3D& semiPrincipalAxisB,
     const Vector3D& semiPrincipalAxisC
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -67,7 +67,7 @@ Ellipsoid::Ellipsoid
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
+        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
@@ -79,7 +79,7 @@ Ellipsoid::Ellipsoid
     const Vector3D& center,
     const Vector3D& semiPrincipalAxis,
     double          radius
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -88,7 +88,7 @@ Ellipsoid::Ellipsoid
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
+        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
@@ -99,7 +99,7 @@ Ellipsoid::Ellipsoid
 (
     const Vector3D& center, 
     double          radius
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -108,7 +108,7 @@ Ellipsoid::Ellipsoid
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
+        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
@@ -118,14 +118,14 @@ Ellipsoid::Ellipsoid
 Ellipsoid::Ellipsoid
 (
     const Ellipsoid& original
-) throw(std::bad_alloc) : Object(original) {
+) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GETSTRUCT(m_internalp, rt_ell_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_ell_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
+        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
@@ -133,16 +133,15 @@ Ellipsoid::Ellipsoid
 
 
 Ellipsoid::~Ellipsoid(void) throw() {
-    if (m_internalp != 0){
+    if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::Ellipsoid::~Ellipsoid::m_internalp");
-    }
 }
 
 
-const Ellipsoid& Ellipsoid::operator =
+const Ellipsoid& Ellipsoid::operator=
 (
     const Ellipsoid& original
-) throw(std::bad_alloc) {
+) throw(bad_alloc) {
     if(&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_ell_internal));
@@ -320,7 +319,7 @@ void Ellipsoid::SetSphere
 const Object& Ellipsoid::operator=
 (
     const Object& original
-) throw() {
+) throw(bad_alloc) {
     const Ellipsoid* ell = dynamic_cast<const Ellipsoid*>(&original);
     assert(ell != 0);
 
@@ -331,7 +330,7 @@ const Object& Ellipsoid::operator=
 }
 
 
-Object* Ellipsoid::Clone(void) const throw(std::bad_alloc) {
+Object* Ellipsoid::Clone(void) const throw(bad_alloc) {
     return new Ellipsoid(*this);
 }
 
@@ -346,7 +345,7 @@ const char* Ellipsoid::Type(void) const throw() {
 }
 
 
-bool Ellipsoid::IsValid(void) const throw(){
+bool Ellipsoid::IsValid(void) const throw() {
     bool                   ret       = false;
     const rt_ell_internal* internalp = Internal();
 
@@ -374,7 +373,7 @@ Ellipsoid::Ellipsoid
 rt_ell_internal* Ellipsoid::Internal(void) throw() {
     rt_ell_internal* ret;
 
-    if(m_ip != 0)
+    if (m_ip != 0)
         ret = static_cast<rt_ell_internal*>(m_ip->idb_ptr);
     else
         ret = m_internalp;
@@ -385,7 +384,7 @@ rt_ell_internal* Ellipsoid::Internal(void) throw() {
 }
 
 
-const rt_ell_internal* Ellipsoid::Internal(void) const {
+const rt_ell_internal* Ellipsoid::Internal(void) const throw() {
     const rt_ell_internal* ret;
 
     if (m_ip != 0)

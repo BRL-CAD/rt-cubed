@@ -39,20 +39,20 @@ struct rt_ell_internal;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Ellipsoid : public Object {
     public:
-        Ellipsoid(void) throw(std::bad_alloc);                               ///< constructs the unit circle around the origin
+        Ellipsoid(void) throw(bad_alloc);                               ///< constructs the unit circle around the origin
         Ellipsoid(const Vector3D& center,
                   const Vector3D& semiPrincipalAxisA,
                   const Vector3D& semiPrincipalAxisB,
-                  const Vector3D& semiPrincipalAxisC) throw(std::bad_alloc); ///< center and three perpendicular semi-principal-axes
+                  const Vector3D& semiPrincipalAxisC) throw(bad_alloc); ///< center and three perpendicular semi-principal-axes
         Ellipsoid(const Vector3D& center,
                   const Vector3D& semiPrincipalAxis,
-                  double          radius) throw(std::bad_alloc);             ///< center, one semi-principal-axis and radius (body of revolution)
+                  double          radius) throw(bad_alloc);             ///< center, one semi-principal-axis and radius (body of revolution)
         Ellipsoid(const Vector3D& center,
-                  double          radius) throw(std::bad_alloc);             ///< sphere with center and radius
-        Ellipsoid(const Ellipsoid& original) throw(std::bad_alloc);
+                  double          radius) throw(bad_alloc);             ///< sphere with center and radius
+        Ellipsoid(const Ellipsoid& original) throw(bad_alloc);
         virtual ~Ellipsoid(void) throw();
 
-        const Ellipsoid&      operator=(const Ellipsoid& original) throw(std::bad_alloc);
+        const Ellipsoid&      operator=(const Ellipsoid& original) throw(bad_alloc);
 
         Vector3D              Center(void) const throw();
         void                  SetCenter(const Vector3D& center) throw();
@@ -76,8 +76,8 @@ namespace BRLCAD {
                                         double          radius) throw();
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(std::bad_alloc);
-        virtual Object*       Clone(void) const throw(std::bad_alloc);
+        virtual const Object& operator=(const Object& original) throw(bad_alloc);
+        virtual Object*       Clone(void) const throw(bad_alloc);
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw();
         virtual bool          IsValid(void) const throw(); ///< checks if semi-principal axes are perpendicular and if they have positive length
@@ -93,8 +93,8 @@ namespace BRLCAD {
     private:
         rt_ell_internal* m_internalp;
 
-        rt_ell_internal*       Internal(void);
-        const rt_ell_internal* Internal(void) const;
+        rt_ell_internal*       Internal(void) throw();
+        const rt_ell_internal* Internal(void) const throw();
 
         friend class Database;
     };
