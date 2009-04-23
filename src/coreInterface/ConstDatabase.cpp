@@ -50,7 +50,36 @@
 using namespace BRLCAD;
 
 
+static int NullLogger
+(
+    genptr_t data,
+    genptr_t string
+) {
+    return 0;
+}
+
+
+static void InitBrlCad(void) throw() {
+    static bool init = true;
+
+    if (init) { // do it only once
+        init = false;
+
+        if (!BU_SETJUMP)
+            bu_log_add_hook(NullLogger, 0);
+
+        BU_UNSETJUMP;
+    }
+}
+
+
+//
+// class ConstDatabase
+//
+
 ConstDatabase::ConstDatabase(void) throw(bad_alloc) : m_rtip(0), m_resp(0) {
+    InitBrlCad();
+
     if (rt_uniresource.re_magic != RESOURCE_MAGIC)
         rt_init_resource(&rt_uniresource, 0, NULL);
 
