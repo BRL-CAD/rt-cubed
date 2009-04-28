@@ -8,9 +8,9 @@ rt_3_SOURCES = \
 	main.h
 
 LDADD = \
-	../libUtility/libUtility.a \
-	../libGeometry/libGeometry.a \
-	../libImage/libImage.a \
-	../libRaytrace/libRaytrace.a
+	../GE/libUtility/libUtility.a \
+	../GE/libGeometry/libGeometry.a \
+	../GE/libImage/libImage.a \
+	../GE/libRaytrace/libRaytrace.a
 
 rt_3_LDFLAGS = ../date/buildStamp.o

@@ -6,7 +6,7 @@
 #include <algorithm>
 
 // implementation headers
-#include "../date/buildStamp.h"
+#include "../../date/buildStamp.h"
 
 using namespace Utility;
 

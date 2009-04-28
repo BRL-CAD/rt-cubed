@@ -744,15 +744,15 @@ AC_CONFIG_FILES([
 	misc/Makefile
 	src/Makefile
 	src/date/Makefile
-	src/GE/Makefile
-	src/GS/Makefile
 	src/iBME/Makefile
-	src/libGeometry/Makefile
-	src/libImage/Makefile
+	src/GE/Makefile
+	src/GE/libGeometry/Makefile
+	src/GE/libImage/Makefile
+	src/GE/libNumeric/Makefile
+	src/GE/libRaytrace/Makefile
+	src/GE/libUtility/Makefile
+	src/GS/Makefile
 	src/libNetwork/Makefile
-	src/libNumeric/Makefile
-	src/libRaytrace/Makefile
-	src/libUtility/Makefile
 	src/rt^3/Makefile
 	src/rt^3d/Makefile
 	src/rt^3dbd/Makefile

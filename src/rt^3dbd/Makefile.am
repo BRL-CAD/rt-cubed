@@ -5,7 +5,7 @@ rt_3dbd_SOURCES = \
 	main.cxx \
 	main.h
 
-LDADD = ../libUtility/libUtility.a
+LDADD = ../GE/libUtility/libUtility.a
 
 rt_3dbd_LDFLAGS = ../date/buildStamp.o
 

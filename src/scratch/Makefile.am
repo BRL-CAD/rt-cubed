@@ -5,7 +5,7 @@ scratch_SOURCES = \
 	main.cxx \
 	main.h
 
-LDADD = ../libUtility/libUtility.a
+LDADD = ../GE/libUtility/libUtility.a
 
 scratch_LDFLAGS = ../date/buildStamp.o
 

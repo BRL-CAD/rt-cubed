@@ -1,3 +1,10 @@
+SUBDIRS = \
+        libGeometry \
+        libNumeric \
+        libImage \
+        libRaytrace \
+        libUtility 
+
 lib_LTLIBRARIES = libge.la
 
 libge_la_SOURCES = \
