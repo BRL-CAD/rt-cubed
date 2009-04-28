@@ -30,7 +30,7 @@
 #if !defined(_GEOMETRYSERVICE_H_)
 #define _GEOMETRYSERVICE_H_
 
-#include "GeometryEngine/GeometryEngine.h"
+#include "GE/GeometryEngine.h"
 #include "iBME/iBMECommon.h"
 
 class GeometryService

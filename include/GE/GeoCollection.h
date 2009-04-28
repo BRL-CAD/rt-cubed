@@ -1,4 +1,4 @@
-/*                 D B O B J E C T M A N A G E R . H
+/*                 G E O C O L L E C T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectManager.h
+/** @file GeoCollection.h
  *
  *  Description -
  *      
@@ -27,28 +27,21 @@
  *
  */
 
-#if !defined(_DBOBJECTMANAGER_H_)
-#define _DBOBJECTMANAGER_H_
+#if !defined(_GEOCOLLECTION_H_)
+#define _GEOCOLLECTION_H_
 
-#include "iBME/iBMECommon.h"
-#include "GeometryEngine/AbstractDbObjectSource.h"
-#include "GeometryEngine/DbObject.h"
+#include "GE/DbObject.h"
 
-class DbObjectManager {
+class GeoCollection : public DbObject
+{
 
 public:
-	DbObjectManager();
-	virtual ~DbObjectManager();
-
-	DbObject& getDbObjectByURL(URL& url);
-	DbObject& getDbObjectByUUID(UUID& uuid);
-
-private:
-	std::list <AbstractDbObjectSource> DbObjectSources;
+	GeoCollection();
+	virtual ~GeoCollection();
 
 };
 
-#endif // !defined(_DBOBJECTMANAGER_H_)
+#endif // !defined(_GEOCOLLECTION_H_)
 
 // Local Variables: ***
 // mode: C++ ***

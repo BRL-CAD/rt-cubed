@@ -1,4 +1,4 @@
-/*                 S O U R C E S V N L I N K . C X X
+/*                 D B O B J E C T C A C H E . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file SourceSvnLink.cxx
+/** @file DbObjectCache.h
  *
  *  Description -
  *      
@@ -27,24 +27,36 @@
  *
  */
 
-#include "GeometryEngine/SourceSvnLink.h"
+#if !defined(_DBOBJECTCACHE_H_)
+#define _DBOBJECTCACHE_H_
 
-SourceSvnLink::SourceSvnLink()
-{
-}
+#include <set>
+#include <map>
 
-SourceSvnLink::~SourceSvnLink()
-{
-}
+#include "iBME/iBMECommon.h"
+#include "GE/AbstractDbObjectSource.h"
+#include "GE/DbObject.h"
 
-DbObject& SourceSvnLink::getDbObjectByURL(URL& url)
+class DbObjectCache : public AbstractDbObjectSource
 {
-}
 
-bool SourceSvnLink::putDbObject(DbObject& dbobj) 
-{
-	return false;
-}
+public:
+	DbObjectCache();
+	virtual ~DbObjectCache();
+
+	virtual DbObject& getDbObjectByURL(URL& url);
+	bool addDbObject(DbObject& dbo);
+	bool putDbObject(DbObject& dbo);
+
+private:
+	std::set <DbObject> dbObjectCacheSet;
+	std::map <URL, DbObject> urlDbObjectMap;
+	std::map <UUID, DbObject> uuidDbObjectMap;
+	std::map <DbObject, AbstractDbObjectSource> dbObjectOriginMap;
+
+};
+
+#endif // !defined(_DBOBJECTCACHE_H_)
 
 // Local Variables: ***
 // mode: C++ ***

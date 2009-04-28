@@ -1,4 +1,4 @@
-/*                D B O B J E C T M A N I F E S T . H
+/*                 G E O S O L I D . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectManifest.h
+/** @file GeoSolid.cxx
  *
  *  Description -
  *      
@@ -27,28 +27,15 @@
  *
  */
 
-#if !defined(_DBOBJECTMANIFEST_H_)
-#define _DBOBJECTMANIFEST_H_
+#include "GE/GeoSolid.h"
 
-#include <list>
-#include <map>
-#include "GeometryEngine/DbObject.h"
-#include "iBME/iBMECommon.h"
-
-class DbObjectManifest
+GeoSolid::GeoSolid()
 {
+}
 
-public:
-	DbObjectManifest();
-	virtual ~DbObjectManifest();
-
-private:
-	std::list<UUID> DbObjectList;
-	std::map<UUID, DbObject > DbObjectMap;
-
-};
-
-#endif // !defined(_DBOBJECTMANIFEST_H_)
+GeoSolid::~GeoSolid()
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

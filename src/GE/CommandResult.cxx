@@ -1,4 +1,4 @@
-/*                 S O U R C E S V N L I N K . H
+/*                    C O M M A N D R E S U L T . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file SourceSvnLink.h
+/** @file CommandResult.cxx
  *
  *  Description -
  *      
@@ -27,26 +27,24 @@
  *
  */
 
-#if !defined(_SOURCESVNLINK_H_)
-#define _SOURCESVNLINK_H_
+#include "GE/CommandResult.h"
 
-#include "iBME/iBMECommon.h"
-#include "GeometryEngine/AbstractDbObjectSource.h"
-#include "GeometryEngine/DbObject.h"
-
-class SourceSvnLink : public AbstractDbObjectSource
+CommandResult::CommandResult()
 {
+}
 
-public:
-	SourceSvnLink();
-	virtual ~SourceSvnLink();
+CommandResult::~CommandResult() 
+{
+}
 
-	virtual DbObject& getDbObjectByURL(URL& url);
-	bool putDbObject(DbObject& dbobj);
+CommandResult::CommandResult(unsigned int resVal)
+{
+}
 
-};
-
-#endif // !defined(_SOURCESVNLINK_H_)
+unsigned int CommandResult::getCommandResult()
+{
+	return 0;
+}
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,4 @@
-/*                         G E D . C X X
+/*                 G E O R E G I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file GED.cxx
+/** @file GeoRegion.h
  *
  *  Description -
  *      
@@ -27,13 +27,13 @@
  *
  */
 
-#include "GeometryEngine/GED.h"
+#include "GE/GeoRegion.h"
 
-GED::GED()
+GeoRegion::GeoRegion()
 {
 }
 
-GED::~GED()
+GeoRegion::~GeoRegion()
 {
 }
 

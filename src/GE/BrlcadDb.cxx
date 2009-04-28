@@ -1,4 +1,4 @@
-/*        A B S T R A C T D B O B J E C T S O U R C E . C X X
+/*                 B R L C A D D B . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file AbstractDbObjectSource.cxx
+/** @file BrlcadDb.cxx
  *
  *  Description -
  *      
@@ -27,25 +27,21 @@
  *
  */
 
-#include "GeometryEngine/AbstractDbObjectSource.h"
+#include "GE/BrlcadDb.h"
 
-AbstractDbObjectSource::AbstractDbObjectSource() {
-
+BrlcadDb::BrlcadDb()
+{
 }
 
-AbstractDbObjectSource::~AbstractDbObjectSource() {
-
+BrlcadDb::~BrlcadDb() 
+{
 }
 
-DbObject& AbstractDbObjectSource::getDbObjectByURL(URL& url) {
-
+DbObject& BrlcadDb::getDbObjectByObjectName(std::string name) {
 }
 
-bool AbstractDbObjectSource::putDbObject(DbObject& dbobj) {
-
-	return false;
+DbObject& BrlcadDb::getDbObjectByUUID(UUID uuid) {
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

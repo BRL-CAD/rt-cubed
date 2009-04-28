@@ -1,4 +1,4 @@
-/*                 S O U R C E D I S K L I N K . C X X
+/*                 D B O B J E C T M A N A G E R . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file SourceDiskLink.cxx
+/** @file DbObjectManager.h
  *
  *  Description -
  *      
@@ -27,23 +27,28 @@
  *
  */
 
-#include "GeometryEngine/SourceDiskLink.h"
+#if !defined(_DBOBJECTMANAGER_H_)
+#define _DBOBJECTMANAGER_H_
 
-SourceDiskLink::SourceDiskLink()
-{
-}
+#include "iBME/iBMECommon.h"
+#include "GE/AbstractDbObjectSource.h"
+#include "GE/DbObject.h"
 
-SourceDiskLink::~SourceDiskLink()
-{
-}
+class DbObjectManager {
 
-DbObject& SourceDiskLink::getDbObjectByURL(URL& url)
-{
-}
+public:
+	DbObjectManager();
+	virtual ~DbObjectManager();
 
-bool SourceDiskLink::putDbObject(DbObject& dbobj)
-{
-}
+	DbObject& getDbObjectByURL(URL& url);
+	DbObject& getDbObjectByUUID(UUID& uuid);
+
+private:
+	std::list <AbstractDbObjectSource> DbObjectSources;
+
+};
+
+#endif // !defined(_DBOBJECTMANAGER_H_)
 
 // Local Variables: ***
 // mode: C++ ***

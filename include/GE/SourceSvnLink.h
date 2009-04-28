@@ -1,4 +1,4 @@
-/*                D B O B J E C T M A N I F E S T . C X X
+/*                 S O U R C E S V N L I N K . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectManifest.cxx
+/** @file SourceSvnLink.h
  *
  *  Description -
  *      
@@ -27,15 +27,26 @@
  *
  */
 
-#include "GeometryEngine/DbObjectManifest.h"
+#if !defined(_SOURCESVNLINK_H_)
+#define _SOURCESVNLINK_H_
 
-DbObjectManifest::DbObjectManifest()
-{
-}
+#include "iBME/iBMECommon.h"
+#include "GE/AbstractDbObjectSource.h"
+#include "GE/DbObject.h"
 
-DbObjectManifest::~DbObjectManifest()
+class SourceSvnLink : public AbstractDbObjectSource
 {
-}
+
+public:
+	SourceSvnLink();
+	virtual ~SourceSvnLink();
+
+	virtual DbObject& getDbObjectByURL(URL& url);
+	bool putDbObject(DbObject& dbobj);
+
+};
+
+#endif // !defined(_SOURCESVNLINK_H_)
 
 // Local Variables: ***
 // mode: C++ ***

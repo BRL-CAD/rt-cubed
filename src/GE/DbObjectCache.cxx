@@ -1,4 +1,4 @@
-/*        A B S T R A C T D B O B J E C T S O U R C E . H
+/*                 D B O B J E C T C A C H E . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file AbstractDbObjectSource.h
+/** @file DbObjectCache.cxx
  *
  *  Description -
  *      
@@ -27,25 +27,28 @@
  *
  */
 
-#if !defined(_ABSTRACTDBOBJECTSOURCE_H_)
-#define _ABSTRACTDBOBJECTSOURCE_H_
+#include "GE/DbObjectCache.h"
 
-
-#include "iBME/iBMECommon.h"
-#include "GeometryEngine/DbObject.h"
-
-class AbstractDbObjectSource
+DbObjectCache::DbObjectCache()
 {
+}
 
-public:
-	AbstractDbObjectSource();
-	virtual ~AbstractDbObjectSource();
+DbObjectCache::~DbObjectCache()
+{
+}
 
-	virtual DbObject& getDbObjectByURL(URL& url);
-	bool putDbObject(DbObject& dbobj);
-};
+DbObject& DbObjectCache::getDbObjectByURL(URL& url)
+{
+}
 
-#endif // !defined(_ABSTRACTDBOBJECTSOURCE_H_)
+bool DbObjectCache::addDbObject(DbObject& dbo)
+{
+}
+
+bool DbObjectCache::putDbObject(DbObject& dbo)
+{
+  return false;
+}
 
 // Local Variables: ***
 // mode: C++ ***

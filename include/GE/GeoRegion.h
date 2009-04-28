@@ -1,4 +1,4 @@
-/*                 D B O B J E C T . C X X
+/*                 G E O R E G I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObject.cxx
+/** @file GeoRegion.h
  *
  *  Description -
  *      
@@ -27,45 +27,21 @@
  *
  */
 
-#include "GeometryEngine/DbObject.h"
+#if !defined(_GEOREGION_H_)
+#define _GEOREGION_H_
 
-DbObject::DbObject()
-{
-}
+#include "GE/GeoCollection.h"
 
-DbObject::~DbObject() 
+class GeoRegion : public GeoCollection
 {
-}
 
-DbObject::DbObject(unsigned long id, std::string name, unsigned int geoType, bool locked) 
-{
-}
+public:
+	GeoRegion();
+	virtual ~GeoRegion();
 
-std::string DbObject::getName() 
-{
-	return NULL;
-}
+};
 
-void DbObject::setName(std::string name) 
-{
-}
-
-unsigned int DbObject::getGeoType() 
-{
-	return 0;
-}
-
-void DbObject::setGeoType(unsigned int geoType) 
-{
-}
-
-void DbObject::lock() 
-{
-}
-
-void DbObject::unlock()
-{
-}
+#endif // !defined(_GEOREGION_H_)
 
 // Local Variables: ***
 // mode: C++ ***

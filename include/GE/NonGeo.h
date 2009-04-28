@@ -1,4 +1,4 @@
-/*                 G E O C O L L E C T I O N . C X X
+/*                     N O N G E O . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file GeoCollection.cxx
+/** @file NonGeo.h
  *
  *  Description -
  *      
@@ -27,15 +27,20 @@
  *
  */
 
-#include "GeometryEngine/GeoCollection.h"
+#if !defined(_NONGEO_H_)
+#define _NONGEO_H_
 
-GeoCollection::GeoCollection()
-{
-}
+#include "GE/DbObject.h"
 
-GeoCollection::~GeoCollection()
-{
-}
+class NonGeo: public DbObject {
+
+public:
+	NonGeo();
+	virtual ~NonGeo();
+
+};
+
+#endif // !defined(_NONGEO_H_)
 
 // Local Variables: ***
 // mode: C++ ***

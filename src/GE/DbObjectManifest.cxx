@@ -1,4 +1,4 @@
-/*                 S O U R C E D I S K L I N K . H
+/*                D B O B J E C T M A N I F E S T . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file SourceDiskLink.h
+/** @file DbObjectManifest.cxx
  *
  *  Description -
  *      
@@ -27,27 +27,15 @@
  *
  */
 
-#if !defined(_SOURCEDISKLINK_H_)
-#define _SOURCEDISKLINK_H_
+#include "GE/DbObjectManifest.h"
 
-#include "iBME/iBMECommon.h"
-#include "GeometryEngine/SourceDiskLink.h"
-#include "GeometryEngine/AbstractDbObjectSource.h"
-#include "GeometryEngine/DbObject.h"
-
-class SourceDiskLink : public AbstractDbObjectSource
+DbObjectManifest::DbObjectManifest()
 {
+}
 
-public:
-	SourceDiskLink();
-	virtual ~SourceDiskLink();
-
-	virtual DbObject& getDbObjectByURL(URL& url);
-	bool putDbObject(DbObject& dbobj);
-
-};
-
-#endif // !defined(_SOURCEDISKLINK_H_)
+DbObjectManifest::~DbObjectManifest()
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

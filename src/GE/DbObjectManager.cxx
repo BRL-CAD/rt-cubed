@@ -1,4 +1,4 @@
-/*                 G E O R E G I O N . H
+/*                 D B O B J E C T M A N A G E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file GeoRegion.h
+/** @file DbObjectManager.cxx
  *
  *  Description -
  *      
@@ -27,13 +27,21 @@
  *
  */
 
-#include "GeometryEngine/GeoRegion.h"
+#include "GE/DbObjectManager.h"
 
-GeoRegion::GeoRegion()
+DbObjectManager::DbObjectManager() 
 {
 }
 
-GeoRegion::~GeoRegion()
+DbObjectManager::~DbObjectManager() 
+{
+}
+
+DbObject& DbObjectManager::getDbObjectByURL(URL& url) 
+{
+}
+
+DbObject& DbObjectManager::getDbObjectByUUID(UUID& uuid) 
 {
 }
 

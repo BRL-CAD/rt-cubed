@@ -1,4 +1,4 @@
-/*                 B R L C A D D B . C X X
+/*                 S O U R C E D I S K L I N K . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file BrlcadDb.cxx
+/** @file SourceDiskLink.h
  *
  *  Description -
  *      
@@ -27,21 +27,27 @@
  *
  */
 
-#include "GeometryEngine/BrlcadDb.h"
+#if !defined(_SOURCEDISKLINK_H_)
+#define _SOURCEDISKLINK_H_
 
-BrlcadDb::BrlcadDb()
+#include "iBME/iBMECommon.h"
+#include "GE/SourceDiskLink.h"
+#include "GE/AbstractDbObjectSource.h"
+#include "GE/DbObject.h"
+
+class SourceDiskLink : public AbstractDbObjectSource
 {
-}
 
-BrlcadDb::~BrlcadDb() 
-{
-}
+public:
+	SourceDiskLink();
+	virtual ~SourceDiskLink();
 
-DbObject& BrlcadDb::getDbObjectByObjectName(std::string name) {
-}
+	virtual DbObject& getDbObjectByURL(URL& url);
+	bool putDbObject(DbObject& dbobj);
 
-DbObject& BrlcadDb::getDbObjectByUUID(UUID uuid) {
-}
+};
+
+#endif // !defined(_SOURCEDISKLINK_H_)
 
 // Local Variables: ***
 // mode: C++ ***

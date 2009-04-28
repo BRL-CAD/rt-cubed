@@ -1,4 +1,4 @@
-/*                     N O N G E O . H
+/*                 S O U R C E D I S K L I N K . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file NonGeo.h
+/** @file SourceDiskLink.cxx
  *
  *  Description -
  *      
@@ -27,20 +27,23 @@
  *
  */
 
-#if !defined(_NONGEO_H_)
-#define _NONGEO_H_
+#include "GE/SourceDiskLink.h"
 
-#include "GeometryEngine/DbObject.h"
+SourceDiskLink::SourceDiskLink()
+{
+}
 
-class NonGeo: public DbObject {
+SourceDiskLink::~SourceDiskLink()
+{
+}
 
-public:
-	NonGeo();
-	virtual ~NonGeo();
+DbObject& SourceDiskLink::getDbObjectByURL(URL& url)
+{
+}
 
-};
-
-#endif // !defined(_NONGEO_H_)
+bool SourceDiskLink::putDbObject(DbObject& dbobj)
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

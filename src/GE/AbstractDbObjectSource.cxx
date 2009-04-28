@@ -1,4 +1,4 @@
-/*                 G E O S O L I D . H
+/*        A B S T R A C T D B O B J E C T S O U R C E . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file GeoSolid.h
+/** @file AbstractDbObjectSource.cxx
  *
  *  Description -
  *      
@@ -27,20 +27,25 @@
  *
  */
 
-#if !defined(_GEOSOLID_H_)
-#define _GEOSOLID_H_
+#include "GE/AbstractDbObjectSource.h"
 
-#include "GeometryEngine/DbObject.h"
+AbstractDbObjectSource::AbstractDbObjectSource() {
 
-class GeoSolid: public DbObject {
+}
 
-public:
-	GeoSolid();
-	virtual ~GeoSolid();
+AbstractDbObjectSource::~AbstractDbObjectSource() {
 
-};
+}
 
-#endif // !defined(_GEOSOLID_H_)
+DbObject& AbstractDbObjectSource::getDbObjectByURL(URL& url) {
+
+}
+
+bool AbstractDbObjectSource::putDbObject(DbObject& dbobj) {
+
+	return false;
+}
+
 
 // Local Variables: ***
 // mode: C++ ***

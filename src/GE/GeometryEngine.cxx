@@ -1,4 +1,4 @@
-/*                 G E O S O L I D . C X X
+/*                 G E O M E T R Y E N G I N E . C X X 
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file GeoSolid.cxx
+/** @file GeometryEngine.cxx
  *
  *  Description -
  *      
@@ -27,13 +27,14 @@
  *
  */
 
-#include "GeometryEngine/GeoSolid.h"
+#include "GE/GeometryEngine.h"
 
-GeoSolid::GeoSolid()
+GeometryEngine::GeometryEngine()
 {
 }
 
-GeoSolid::~GeoSolid()
+
+GeometryEngine::~GeometryEngine()
 {
 }
 

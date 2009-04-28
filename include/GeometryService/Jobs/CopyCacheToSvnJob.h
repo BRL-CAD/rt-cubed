@@ -31,7 +31,7 @@
 #define _COPYCACHETOSVNJOB_H_
 
 #include "GeometryService/Jobs/AbstractJob.h"
-#include "GeometryEngine/DbObject.h"
+#include "GE/DbObject.h"
 
 class CopyCacheToSvnJob : public AbstractJob
 {

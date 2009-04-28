@@ -1,4 +1,4 @@
-/*                 G E O R E G I O N . H
+/*                D B O B J E C T M A N I F E S T . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file GeoRegion.h
+/** @file DbObjectManifest.h
  *
  *  Description -
  *      
@@ -27,21 +27,28 @@
  *
  */
 
-#if !defined(_GEOREGION_H_)
-#define _GEOREGION_H_
+#if !defined(_DBOBJECTMANIFEST_H_)
+#define _DBOBJECTMANIFEST_H_
 
-#include "GeometryEngine/GeoCollection.h"
+#include <list>
+#include <map>
+#include "GE/DbObject.h"
+#include "iBME/iBMECommon.h"
 
-class GeoRegion : public GeoCollection
+class DbObjectManifest
 {
 
 public:
-	GeoRegion();
-	virtual ~GeoRegion();
+	DbObjectManifest();
+	virtual ~DbObjectManifest();
+
+private:
+	std::list<UUID> DbObjectList;
+	std::map<UUID, DbObject > DbObjectMap;
 
 };
 
-#endif // !defined(_GEOREGION_H_)
+#endif // !defined(_DBOBJECTMANIFEST_H_)
 
 // Local Variables: ***
 // mode: C++ ***

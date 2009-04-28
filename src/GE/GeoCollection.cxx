@@ -1,4 +1,4 @@
-/*                 D B O B J E C T C A C H E . H
+/*                 G E O C O L L E C T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectCache.h
+/** @file GeoCollection.cxx
  *
  *  Description -
  *      
@@ -27,36 +27,15 @@
  *
  */
 
-#if !defined(_DBOBJECTCACHE_H_)
-#define _DBOBJECTCACHE_H_
+#include "GE/GeoCollection.h"
 
-#include <set>
-#include <map>
-
-#include "iBME/iBMECommon.h"
-#include "GeometryEngine/AbstractDbObjectSource.h"
-#include "GeometryEngine/DbObject.h"
-
-class DbObjectCache : public AbstractDbObjectSource
+GeoCollection::GeoCollection()
 {
+}
 
-public:
-	DbObjectCache();
-	virtual ~DbObjectCache();
-
-	virtual DbObject& getDbObjectByURL(URL& url);
-	bool addDbObject(DbObject& dbo);
-	bool putDbObject(DbObject& dbo);
-
-private:
-	std::set <DbObject> dbObjectCacheSet;
-	std::map <URL, DbObject> urlDbObjectMap;
-	std::map <UUID, DbObject> uuidDbObjectMap;
-	std::map <DbObject, AbstractDbObjectSource> dbObjectOriginMap;
-
-};
-
-#endif // !defined(_DBOBJECTCACHE_H_)
+GeoCollection::~GeoCollection()
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,6 +1,6 @@
 SUBDIRS = \
 	date \
-	GeometryEngine \
+	GE \
 	GeometryService \
 	iBME\
 	libUtility \

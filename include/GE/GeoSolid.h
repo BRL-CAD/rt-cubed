@@ -1,4 +1,4 @@
-/*                    C O M M A N D R E S U L T . C X X
+/*                 G E O S O L I D . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file CommandResult.cxx
+/** @file GeoSolid.h
  *
  *  Description -
  *      
@@ -27,24 +27,20 @@
  *
  */
 
-#include "GeometryEngine/CommandResult.h"
+#if !defined(_GEOSOLID_H_)
+#define _GEOSOLID_H_
 
-CommandResult::CommandResult()
-{
-}
+#include "GE/DbObject.h"
 
-CommandResult::~CommandResult() 
-{
-}
+class GeoSolid: public DbObject {
 
-CommandResult::CommandResult(unsigned int resVal)
-{
-}
+public:
+	GeoSolid();
+	virtual ~GeoSolid();
 
-unsigned int CommandResult::getCommandResult()
-{
-	return 0;
-}
+};
+
+#endif // !defined(_GEOSOLID_H_)
 
 // Local Variables: ***
 // mode: C++ ***

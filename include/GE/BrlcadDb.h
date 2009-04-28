@@ -1,4 +1,4 @@
-/*                 D B O B J E C T M A N A G E R . C X X
+/*                 B R L C A D D B . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectManager.cxx
+/** @file BrlcadDb.h
  *
  *  Description -
  *      
@@ -27,23 +27,40 @@
  *
  */
 
-#include "GeometryEngine/DbObjectManager.h"
+#if !defined(_BRLCADDB_H_)
+#define _BRLCADDB_H_
 
-DbObjectManager::DbObjectManager() 
-{
-}
+#include <iostream>
+#include <map>
+#include "GE/DbObject.h"
+#include "iBME/iBMECommon.h"
 
-DbObjectManager::~DbObjectManager() 
-{
-}
+class BrlcadDb : public DbObject {
 
-DbObject& DbObjectManager::getDbObjectByURL(URL& url) 
-{
-}
+public:
+	BrlcadDb();
+	virtual ~BrlcadDb();
 
-DbObject& DbObjectManager::getDbObjectByUUID(UUID& uuid) 
-{
-}
+	virtual DbObject& getDbObjectByObjectName(std::string name);
+	virtual DbObject& getDbObjectByUUID(UUID uuid);
+
+private:
+	/**
+	 * The title of this BRL-CAD db
+	 */
+	std::string dbTitle;
+	/**
+	 * Directory of BRL-CAD object names and their offset into the BRL-CAD db
+	 */
+	std::map<std::string, unsigned long> fileIndex;
+	/**
+	 * Directory of BRL-CAD object names and their offset into the BRL-CAD db
+	 */
+	std::map<std::string, DbObject> nameMap;
+
+};
+
+#endif // !defined(_BRLCADDB_H_)
 
 // Local Variables: ***
 // mode: C++ ***

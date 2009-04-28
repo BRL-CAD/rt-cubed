@@ -1,4 +1,4 @@
-/*                     N O N G E O . C X X
+/*                         G E D . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file NonGeo.cxx
+/** @file GED.cxx
  *
  *  Description -
  *      
@@ -27,13 +27,13 @@
  *
  */
 
-#include "GeometryEngine/NonGeo.h"
+#include "GE/GED.h"
 
-NonGeo::NonGeo()
+GED::GED()
 {
 }
 
-NonGeo::~NonGeo()
+GED::~GED()
 {
 }
 

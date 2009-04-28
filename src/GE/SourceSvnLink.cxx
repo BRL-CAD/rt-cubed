@@ -1,4 +1,4 @@
-/*                 G E O M E T R Y E N G I N E . C X X 
+/*                 S O U R C E S V N L I N K . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file GeometryEngine.cxx
+/** @file SourceSvnLink.cxx
  *
  *  Description -
  *      
@@ -27,15 +27,23 @@
  *
  */
 
-#include "GeometryEngine/GeometryEngine.h"
+#include "GE/SourceSvnLink.h"
 
-GeometryEngine::GeometryEngine()
+SourceSvnLink::SourceSvnLink()
 {
 }
 
-
-GeometryEngine::~GeometryEngine()
+SourceSvnLink::~SourceSvnLink()
 {
+}
+
+DbObject& SourceSvnLink::getDbObjectByURL(URL& url)
+{
+}
+
+bool SourceSvnLink::putDbObject(DbObject& dbobj) 
+{
+	return false;
 }
 
 // Local Variables: ***

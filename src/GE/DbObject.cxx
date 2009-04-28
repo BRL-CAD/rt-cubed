@@ -1,4 +1,4 @@
-/*                 D B O B J E C T C A C H E . C X X
+/*                 D B O B J E C T . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectCache.cxx
+/** @file DbObject.cxx
  *
  *  Description -
  *      
@@ -27,27 +27,44 @@
  *
  */
 
-#include "GeometryEngine/DbObjectCache.h"
+#include "GE/DbObject.h"
 
-DbObjectCache::DbObjectCache()
+DbObject::DbObject()
 {
 }
 
-DbObjectCache::~DbObjectCache()
+DbObject::~DbObject() 
 {
 }
 
-DbObject& DbObjectCache::getDbObjectByURL(URL& url)
+DbObject::DbObject(unsigned long id, std::string name, unsigned int geoType, bool locked) 
 {
 }
 
-bool DbObjectCache::addDbObject(DbObject& dbo)
+std::string DbObject::getName() 
+{
+	return NULL;
+}
+
+void DbObject::setName(std::string name) 
 {
 }
 
-bool DbObjectCache::putDbObject(DbObject& dbo)
+unsigned int DbObject::getGeoType() 
 {
-  return false;
+	return 0;
+}
+
+void DbObject::setGeoType(unsigned int geoType) 
+{
+}
+
+void DbObject::lock() 
+{
+}
+
+void DbObject::unlock()
+{
 }
 
 // Local Variables: ***

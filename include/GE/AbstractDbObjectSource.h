@@ -1,4 +1,4 @@
-/*                 B R L C A D D B . H
+/*        A B S T R A C T D B O B J E C T S O U R C E . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file BrlcadDb.h
+/** @file AbstractDbObjectSource.h
  *
  *  Description -
  *      
@@ -27,40 +27,25 @@
  *
  */
 
-#if !defined(_BRLCADDB_H_)
-#define _BRLCADDB_H_
+#if !defined(_ABSTRACTDBOBJECTSOURCE_H_)
+#define _ABSTRACTDBOBJECTSOURCE_H_
 
-#include <iostream>
-#include <map>
-#include "GeometryEngine/DbObject.h"
+
 #include "iBME/iBMECommon.h"
+#include "GE/DbObject.h"
 
-class BrlcadDb : public DbObject {
+class AbstractDbObjectSource
+{
 
 public:
-	BrlcadDb();
-	virtual ~BrlcadDb();
+	AbstractDbObjectSource();
+	virtual ~AbstractDbObjectSource();
 
-	virtual DbObject& getDbObjectByObjectName(std::string name);
-	virtual DbObject& getDbObjectByUUID(UUID uuid);
-
-private:
-	/**
-	 * The title of this BRL-CAD db
-	 */
-	std::string dbTitle;
-	/**
-	 * Directory of BRL-CAD object names and their offset into the BRL-CAD db
-	 */
-	std::map<std::string, unsigned long> fileIndex;
-	/**
-	 * Directory of BRL-CAD object names and their offset into the BRL-CAD db
-	 */
-	std::map<std::string, DbObject> nameMap;
-
+	virtual DbObject& getDbObjectByURL(URL& url);
+	bool putDbObject(DbObject& dbobj);
 };
 
-#endif // !defined(_BRLCADDB_H_)
+#endif // !defined(_ABSTRACTDBOBJECTSOURCE_H_)
 
 // Local Variables: ***
 // mode: C++ ***

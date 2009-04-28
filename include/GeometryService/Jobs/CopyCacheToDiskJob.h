@@ -31,7 +31,7 @@
 #define _COPYCACHETODISKJOB_H_
 
 #include "GeometryService/Jobs/AbstractJob.h"
-#include "GeometryEngine/DbObject.h"
+#include "GE/DbObject.h"
 
 class CopyCacheToDiskJob : public AbstractJob
 {
