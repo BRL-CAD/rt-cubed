@@ -23,11 +23,11 @@ netMsgSerialTest_SOURCES = \
 
 netMsgSerialTest_LDADD = \
 	../GE/libge.la \
-	../GeometryService/libgs.la
+	../GS/libgs.la
 
 gsph0_SOURCES = \
-	../GeometryService/gsph0.cxx
+	../GS/gsph0.cxx
 
 gsph0_LDADD = \
 	../GE/libge.la \
-	../GeometryService/libgs.la
+	../GS/libgs.la

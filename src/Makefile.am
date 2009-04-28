@@ -1,7 +1,7 @@
 SUBDIRS = \
 	date \
 	GE \
-	GeometryService \
+	GS \
 	iBME\
 	libUtility \
 	libNumeric \

@@ -28,11 +28,11 @@
  *
  */
 
-#include "GeometryService/netMsg/NetMsg.h"
-#include "GeometryService/netMsg/RemHostNameSetMsg.h"
-#include "GeometryService/netMsg/RemHostNameSetFailMsg.h"
-#include "GeometryService/netMsg/GeometryReqMsg.h"
-#include "GeometryService/netMsg/GeometryManifestMsg.h"
+#include "GS/netMsg/NetMsg.h"
+#include "GS/netMsg/RemHostNameSetMsg.h"
+#include "GS/netMsg/RemHostNameSetFailMsg.h"
+#include "GS/netMsg/GeometryReqMsg.h"
+#include "GS/netMsg/GeometryManifestMsg.h"
 #include "io/DataStream.h"
 
 
