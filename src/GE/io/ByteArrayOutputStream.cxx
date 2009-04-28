@@ -27,7 +27,7 @@
  *
  */
 
-#include "io/ByteArrayOutputStream.h"
+#include "GE/io/ByteArrayOutputStream.h"
 #include "exception/NullPointerException.h"
 
 ByteArrayOutputStream::ByteArrayOutputStream() : buf(32)

@@ -31,7 +31,7 @@
 #define _BYTEARRAYINPUTSTREAM_H_
 
 #include "common/array.h"
-#include "io/InputStream.h"
+#include "GE/io/InputStream.h"
 
 class ByteArrayInputStream : public InputStream
 {

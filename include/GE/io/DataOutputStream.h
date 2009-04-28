@@ -30,8 +30,8 @@
 #ifndef _DATAOUTPUTSTREAM_H_
 #define _DATAOUTPUTSTREAM_H_
 
-#include "io/DataOutput.h"
-#include "io/FilterOutputStream.h"
+#include "GE/io/DataOutput.h"
+#include "GE/io/FilterOutputStream.h"
 
     class DataOutputStream : public FilterOutputStream, public DataOutput
     {

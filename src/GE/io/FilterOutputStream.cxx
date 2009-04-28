@@ -1,4 +1,4 @@
-/*           O U T P U T S T R E A M . C X X
+/*             F I L T E R O U T P U T S T R E A M . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file OutputStream.cxx
+/** @file FilterOutputStream.cxx
  *
  *  Description -
  *      
@@ -27,32 +27,47 @@
  *
  */
 
-#include "io/OutputStream.h"
-#include "exception/NullPointerException.h"
+#include "GE/io/FilterOutputStream.h"
 
-void OutputStream::close() throw (IOException)
+FilterOutputStream::FilterOutputStream(OutputStream& out) : out(out)
 {
 }
 
-void OutputStream::flush() throw (IOException)
+FilterOutputStream::~FilterOutputStream()
 {
 }
 
-void OutputStream::write(const unsigned char* data, size_t offset, size_t length) throw (IOException)
+void FilterOutputStream::close() throw (IOException)
 {
-	if (length)
+	try
 	{
-		if (!data)
-			throw NullPointerException();
-
-		for (size_t i = 0; i < length; i++)
-			write(data[offset+i]);
+		flush();
 	}
+	catch (IOException)
+	{
+		// ignore
+	}
+	out.close();
 }
 
-void OutputStream::write(const array<unsigned char>& b) throw (IOException)
+void FilterOutputStream::flush() throw (IOException)
 {
-	write(b.data(), 0, b.size());
+	out.flush();
+}
+
+void FilterOutputStream::write(unsigned char b) throw (IOException)
+{
+	out.write(b);
+}
+
+void FilterOutputStream::write(const unsigned char* data, size_t offset, size_t len) throw (IOException)
+{
+	out.write(data, offset, len);
+}
+
+void FilterOutputStream::write(const array<unsigned char>& b) throw (IOException)
+{
+	out.write(b.data(), 0, b.size());
 }
 
 // Local Variables: ***

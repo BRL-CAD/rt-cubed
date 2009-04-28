@@ -1,4 +1,4 @@
-/*             F I L T E R O U T P U T S T R E A M . H
+/*           B Y T E A R R A Y O U T P U T S T R E A M . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file FilterOutputStream.h
+/** @file ByteArrayOutputStream.h
  *
  *  Description -
  *      
@@ -27,20 +27,30 @@
  *
  */
 
-#ifndef _CLASS_FILTEROUTPUTSTREAM_H
-#define _CLASS_FILTEROUTPUTSTREAM_H
+#ifndef _BYTEARRAYOUTPUTSTREAM_H_
+#define _BYTEARRAYOUTPUTSTREAM_H_
 
-#include "io/OutputStream.h"
+#include "GE/io/OutputStream.h"
 
-class  FilterOutputStream : public OutputStream
+	    
+	class ByteArrayOutputStream : public OutputStream
 	{
+
 	protected:
-		OutputStream& out;
 
+		array<unsigned char> buf;
+		size_t    count;
 	public:
-		FilterOutputStream(OutputStream& out);
-		virtual ~FilterOutputStream();
 
+		ByteArrayOutputStream();
+		ByteArrayOutputStream(size_t size);
+		virtual ~ByteArrayOutputStream();
+		void reset() throw ();
+		size_t size() throw ();
+		array<unsigned char>* toCharArray();
+		void toCharArray(array<unsigned char>& b);
+		void toCharArray(unsigned char* data, size_t offset, size_t length);
+		void writeTo(OutputStream& out) throw (IOException);
 		virtual void close() throw (IOException);
 		virtual void flush() throw (IOException);
 		virtual void write(unsigned char b) throw (IOException);

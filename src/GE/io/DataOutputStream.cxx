@@ -30,7 +30,7 @@
 
 
 
-#include "io/DataOutputStream.h"
+#include "GE/io/DataOutputStream.h"
 
 #include <iostream>
 

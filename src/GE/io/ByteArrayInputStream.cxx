@@ -27,7 +27,7 @@
  *
  */
 
-#include "io/ByteArrayInputStream.h"
+#include "GE/io/ByteArrayInputStream.h"
 #include "exception/NullPointerException.h"
 
 ByteArrayInputStream::ByteArrayInputStream(const array<unsigned char>& b) : _buf(b)

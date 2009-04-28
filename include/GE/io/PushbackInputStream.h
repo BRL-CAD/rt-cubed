@@ -1,4 +1,4 @@
-/*                  G E O M E T R Y M A N I F E S T M S G. H
+/*             P U S H B A C K I N P U T S T R E A M . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file GeometryManifestMsg.h
+/** @file PushBackInputStream.h
  *
  *  Description -
  *      
@@ -27,49 +27,37 @@
  *
  */
 
-#if !defined(_GEOMETRYMANIFESTMSG_H_)
-#define _GEOMETRYMANIFESTMSG_H_
+#ifndef _PUSHBACKINPUTSTREAM_H_
+#define _PUSHBACKINPUTSTREAM_H_
 
-#include <vector>
-#include "iBME/iBMECommon.h"
-#include "GE/io/DataStream.h"
-#include "GS/netMsg/NetMsg.h"
+#include "GE/io/FilterInputStream.h"
 
-
-class GeometryManifestMsg : public NetMsg
+class  PushbackInputStream : public FilterInputStream
 {
+private:
+  bool _closed;
+
+protected:
+  array<unsigned char> buf;
+  size_t pos;
 
 public:
+  PushbackInputStream(InputStream& in, size_t size = 1);
+  virtual ~PushbackInputStream();
 
-  //Constructor
-  GeometryManifestMsg(unsigned int mType, UUID mUUID, UUID rUUID);
+  virtual off_t available() throw (IOException);
+  virtual void close() throw (IOException);
+  virtual bool markSupported() throw ();
+  virtual unsigned int read() throw (IOException);
+  virtual unsigned int read(unsigned char* data, size_t offset, size_t length) throw (IOException);
+  virtual off_t skip(off_t n) throw (IOException);
 
-  //Deserializing Constructors
-  GeometryManifestMsg(unsigned char* data, unsigned int len);
-  GeometryManifestMsg(DataStream* ds);
-
-  //Destructor
-  virtual ~GeometryManifestMsg();
-  
-  virtual std::string toString();
-
-  /*
-   *Getters n Setters
-   */
-  unsigned int getNumOfItems();
-
-  std::vector<std::string>* getItemData();
-
-  
-
-private:
-  std::vector<std::string>* itemData;
-  virtual bool _deserialize(DataStream* ds);
-  virtual bool _serialize(DataStream* ds);
-
+  void unread(unsigned char) throw (IOException);
+  void unread(const unsigned char* data, size_t offset, size_t length) throw (IOException);
+  void unread(const array<unsigned char>& b) throw (IOException);
 };
 
-#endif // !defined(_GEOMETRYMANIFESTMSG_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

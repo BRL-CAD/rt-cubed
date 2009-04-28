@@ -31,7 +31,7 @@
 #define _GEOMETRYREQMSG_H_
 
 #include "iBME/iBMECommon.h"
-#include "io/DataStream.h"
+#include "GE/io/DataStream.h"
 #include "GS/netMsg/NetMsg.h"
 
 

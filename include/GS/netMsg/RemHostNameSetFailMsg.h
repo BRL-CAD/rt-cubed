@@ -31,10 +31,10 @@
 #define _REMHOSTNAMESETFAILMSG_H_
 
 #include "iBME/iBMECommon.h"
-#include "io/DataInputStream.h"
-#include "io/DataOutputStream.h"
-#include "io/ByteArrayOutputStream.h"
-#include "io/ByteArrayInputStream.h"
+#include "GE/io/DataInputStream.h"
+#include "GE/io/DataOutputStream.h"
+#include "GE/io/ByteArrayOutputStream.h"
+#include "GE/io/ByteArrayInputStream.h"
 #include "GS/netMsg/NetMsg.h"
 
 

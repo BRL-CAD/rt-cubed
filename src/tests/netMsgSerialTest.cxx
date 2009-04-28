@@ -33,7 +33,7 @@
 #include "GS/netMsg/RemHostNameSetFailMsg.h"
 #include "GS/netMsg/GeometryReqMsg.h"
 #include "GS/netMsg/GeometryManifestMsg.h"
-#include "io/DataStream.h"
+#include "GE/io/DataStream.h"
 
 
 int main(int argc, char* argv[])

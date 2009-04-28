@@ -27,7 +27,7 @@
  *
  */
 
-#include "io/FilterInputStream.h"
+#include "GE/io/FilterInputStream.h"
 
 FilterInputStream::FilterInputStream(InputStream& in) : in(in)
 {

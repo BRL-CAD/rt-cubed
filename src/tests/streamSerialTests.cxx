@@ -8,10 +8,10 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
-#include "io/ByteArrayOutputStream.h"
-#include "io/DataOutputStream.h"
-#include "io/ByteArrayInputStream.h"
-#include "io/DataInputStream.h"
+#include "GE/io/ByteArrayOutputStream.h"
+#include "GE/io/DataOutputStream.h"
+#include "GE/io/ByteArrayInputStream.h"
+#include "GE/io/DataInputStream.h"
 #include "common/array.h"
 
 int main(int argc, char* argv[])

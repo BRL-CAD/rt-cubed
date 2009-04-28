@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
-#include "io/DataStream.h"
+#include "GE/io/DataStream.h"
 
 int main(int argc, char* argv[])
 {

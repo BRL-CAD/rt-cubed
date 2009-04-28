@@ -1,4 +1,4 @@
-/*             P U S H B A C K I N P U T S T R E A M . H
+/*             F I L T E R I N P U T S T R E A M . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file PushBackInputStream.h
+/** @file FilterInputStream.h
  *
  *  Description -
  *      
@@ -27,34 +27,28 @@
  *
  */
 
-#ifndef _PUSHBACKINPUTSTREAM_H_
-#define _PUSHBACKINPUTSTREAM_H_
+#ifndef _FILTERINPUTSTREAM_H_
+#define _FILTERINPUTSTREAM_H_
 
-#include "io/FilterInputStream.h"
+#include "GE/io/InputStream.h"
 
-class  PushbackInputStream : public FilterInputStream
+class  FilterInputStream : public InputStream
 {
-private:
-  bool _closed;
+	protected:
+		InputStream& in;
 
-protected:
-  array<unsigned char> buf;
-  size_t pos;
-
-public:
-  PushbackInputStream(InputStream& in, size_t size = 1);
-  virtual ~PushbackInputStream();
-
-  virtual off_t available() throw (IOException);
-  virtual void close() throw (IOException);
-  virtual bool markSupported() throw ();
-  virtual unsigned int read() throw (IOException);
-  virtual unsigned int read(unsigned char* data, size_t offset, size_t length) throw (IOException);
-  virtual off_t skip(off_t n) throw (IOException);
-
-  void unread(unsigned char) throw (IOException);
-  void unread(const unsigned char* data, size_t offset, size_t length) throw (IOException);
-  void unread(const array<unsigned char>& b) throw (IOException);
+	public:
+		FilterInputStream(InputStream& in);
+		virtual ~FilterInputStream();
+		virtual off_t available() throw (IOException);
+		virtual void close() throw (IOException);
+		virtual void mark(off_t) throw ();
+		virtual bool markSupported() throw ();
+		virtual unsigned int read() throw (IOException);
+		virtual unsigned int read(unsigned char* data, size_t offset, size_t length) throw (IOException);
+		virtual unsigned int read(array<unsigned char>& b) throw (IOException);
+		virtual void reset() throw (IOException);
+		virtual off_t skip(off_t) throw (IOException);
 };
 
 #endif

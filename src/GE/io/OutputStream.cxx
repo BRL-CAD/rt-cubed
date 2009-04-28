@@ -1,4 +1,4 @@
-/*             F I L T E R I N P U T S T R E A M . H
+/*           O U T P U T S T R E A M . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file FilterInputStream.h
+/** @file OutputStream.cxx
  *
  *  Description -
  *      
@@ -27,31 +27,33 @@
  *
  */
 
-#ifndef _FILTERINPUTSTREAM_H_
-#define _FILTERINPUTSTREAM_H_
+#include "GE/io/OutputStream.h"
+#include "exception/NullPointerException.h"
 
-#include "io/InputStream.h"
-
-class  FilterInputStream : public InputStream
+void OutputStream::close() throw (IOException)
 {
-	protected:
-		InputStream& in;
+}
 
-	public:
-		FilterInputStream(InputStream& in);
-		virtual ~FilterInputStream();
-		virtual off_t available() throw (IOException);
-		virtual void close() throw (IOException);
-		virtual void mark(off_t) throw ();
-		virtual bool markSupported() throw ();
-		virtual unsigned int read() throw (IOException);
-		virtual unsigned int read(unsigned char* data, size_t offset, size_t length) throw (IOException);
-		virtual unsigned int read(array<unsigned char>& b) throw (IOException);
-		virtual void reset() throw (IOException);
-		virtual off_t skip(off_t) throw (IOException);
-};
+void OutputStream::flush() throw (IOException)
+{
+}
 
-#endif
+void OutputStream::write(const unsigned char* data, size_t offset, size_t length) throw (IOException)
+{
+	if (length)
+	{
+		if (!data)
+			throw NullPointerException();
+
+		for (size_t i = 0; i < length; i++)
+			write(data[offset+i]);
+	}
+}
+
+void OutputStream::write(const array<unsigned char>& b) throw (IOException)
+{
+	write(b.data(), 0, b.size());
+}
 
 // Local Variables: ***
 // mode: C++ ***

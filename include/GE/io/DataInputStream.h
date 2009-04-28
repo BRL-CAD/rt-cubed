@@ -30,8 +30,8 @@
 #ifndef _DATAINPUTSTREAM_H_
 #define _DATAINPUTSTREAM_H_
 
-#include "io/DataInput.h"
-#include "io/FilterInputStream.h"
+#include "GE/io/DataInput.h"
+#include "GE/io/FilterInputStream.h"
 
     class DataInputStream : public FilterInputStream, public DataInput
     {

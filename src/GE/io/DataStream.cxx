@@ -27,7 +27,7 @@
  *
  */
 
-#include "io/DataStream.h"
+#include "GE/io/DataStream.h"
 
 
 DataStream::DataStream()
