@@ -30,7 +30,7 @@
 #ifndef _SOCKETEXCEPTION_H_
 #define _SOCKETEXCEPTION_H_
 
-#include "exception/Exception.h"
+#include "GE/exception/Exception.h"
 
 class  SocketException : public Exception
 {

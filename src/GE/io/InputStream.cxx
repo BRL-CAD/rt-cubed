@@ -28,7 +28,7 @@
  */
 
 #include "GE/io/InputStream.h"
-#include "exception/NullPointerException.h"
+#include "GE/exception/NullPointerException.h"
 
 off_t InputStream::available() throw (IOException)
 {

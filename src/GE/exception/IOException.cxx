@@ -1,5 +1,5 @@
 
-/*               N U L L P O I N T E R  E X C E P T I O N . C X X 
+/*            I O E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +19,7 @@
  * information.
  */
 
-/** @file NullPointerException.cxx
+/** @file IOException.cxx
  *
  *  Description -
  *      
@@ -28,13 +28,14 @@
  *
  */
 
-#include "exception/NullPointerException.h"
+#include "GE/exception/IOException.h"
+#include "GE/exception/Exception.h"
 
-NullPointerException::NullPointerException() throw ()
+IOException::IOException()
 {
 }
 
-NullPointerException::NullPointerException(const std::string& message) throw () : RuntimeException(message)
+IOException::IOException(const std::string& message) : Exception(message)
 {
 }
 

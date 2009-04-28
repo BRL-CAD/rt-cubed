@@ -32,7 +32,7 @@
 #define _DATAOUTPUT_H_
 
 #include "common/array.h"
-#include "exception/IOException.h"
+#include "GE/exception/IOException.h"
 
     class DataOutput
     {

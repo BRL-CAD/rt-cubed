@@ -1,4 +1,5 @@
-/*           E O F E X C E P T I O N . C X X
+
+/*              R U N T I M E E X C E P T I O N . C X X 
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +19,7 @@
  * information.
  */
 
-/** @file EOFException.cxx
+/** @file RunTimeException.cxx
  *
  *  Description -
  *      
@@ -27,13 +28,13 @@
  *
  */
 
-#include "exception/EOFException.h"
+#include "GE/exception/RuntimeException.h"
 
-EOFException::EOFException() throw ()
+RuntimeException::RuntimeException() throw ()
 {
 }
 
-EOFException::EOFException(const std::string& message) throw () : IOException(message)
+RuntimeException::RuntimeException(const std::string& message) throw () : Exception(message)
 {
 }
 

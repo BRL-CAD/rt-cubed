@@ -1,4 +1,4 @@
-/*           C L O N E N O T S U P P O R T E D E X C E P T I O N . C X X
+/*            I O E X C E P T I O N . H 
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file CloneNotSupportedException.cxx
+/** @file IOException.h
  *
  *  Description -
  *      
@@ -27,16 +27,19 @@
  *
  */
 
+#ifndef _IOEXCEPTION_H_
+#define _IOEXCEPTION_H_
 
-#include "exception/CloneNotSupportedException.h"
+#include "GE/exception/Exception.h"
 
-CloneNotSupportedException::CloneNotSupportedException() throw ()
+class IOException : public Exception
 {
-}
+public:
+  IOException();
+  IOException(const std::string& message);
+};
 
-CloneNotSupportedException::CloneNotSupportedException(const std::string& message) throw () : Exception(message)
-{
-}
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

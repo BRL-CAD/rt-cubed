@@ -1,4 +1,4 @@
-/*               N U L L P O I N T E R  E X C E P T I O N . H
+/*           E O F E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file NullPointerException.h
+/** @file EOFException.cxx
  *
  *  Description -
  *      
@@ -27,19 +27,15 @@
  *
  */
 
-#ifndef _NULLPOINTEREXCEPTION_H_
-#define _NULLPOINTEREXCEPTION_H_
+#include "GE/exception/EOFException.h"
 
-#include "exception/RuntimeException.h"
-
-class  NullPointerException : public RuntimeException
+EOFException::EOFException() throw ()
 {
-public:
-  NullPointerException() throw ();
-  NullPointerException(const std::string& message) throw ();
-};
+}
 
-#endif
+EOFException::EOFException(const std::string& message) throw () : IOException(message)
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

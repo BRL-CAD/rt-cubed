@@ -1,4 +1,4 @@
-/*            S O C K E T E X C E P T I O N . C X X
+/*              R U N T I M E E X C E P T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file SocketException.cxx
+/** @file RunTimeException.h
  *
  *  Description -
  *      
@@ -27,16 +27,19 @@
  *
  */
 
-#include "exception/SocketException.h"
-#include "exception/Exception.h"
+#ifndef _RUNTIMEEXCEPTION_H_
+#define _RUNTIMEEXCEPTION_H_
 
-SocketException::SocketException()
-{
-}
+#include "GE/exception/Exception.h"
 
-SocketException::SocketException(const String& message) : Exception(message)
+class  RuntimeException : public Exception
 {
-}
+public:
+  RuntimeException() throw ();
+  RuntimeException(const std::string& message) throw ();
+};
+
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

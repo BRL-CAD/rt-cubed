@@ -28,7 +28,7 @@
  */
 
 #include "GE/io/PushbackInputStream.h"
-#include "exception/NullPointerException.h"
+#include "GE/exception/NullPointerException.h"
 
 PushbackInputStream::PushbackInputStream(InputStream& in, size_t size) : FilterInputStream(in), buf(size)
 {

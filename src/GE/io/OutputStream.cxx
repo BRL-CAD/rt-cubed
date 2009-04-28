@@ -28,7 +28,7 @@
  */
 
 #include "GE/io/OutputStream.h"
-#include "exception/NullPointerException.h"
+#include "GE/exception/NullPointerException.h"
 
 void OutputStream::close() throw (IOException)
 {

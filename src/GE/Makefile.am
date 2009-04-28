@@ -34,11 +34,11 @@ libge_la_SOURCES = \
 	io/InputStream.cxx \
 	io/OutputStream.cxx \
 	io/PushbackInputStream.cxx \
-	../exception/CloneNotSupportedException.cxx \
-	../exception/Exception.cxx \
-	../exception/NullPointerException.cxx \
-	../exception/RuntimeException.cxx \
-	../exception/Throwable.cxx \
-	../exception/StreamEmptyException.cxx \
-	../exception/EOFException.cxx \
-	../exception/IOException.cxx
+	exception/CloneNotSupportedException.cxx \
+	exception/Exception.cxx \
+	exception/NullPointerException.cxx \
+	exception/RuntimeException.cxx \
+	exception/Throwable.cxx \
+	exception/StreamEmptyException.cxx \
+	exception/EOFException.cxx \
+	exception/IOException.cxx

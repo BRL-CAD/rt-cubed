@@ -1,5 +1,4 @@
-
-/*        S T R E A M E M P T Y E X C E P T I O N . C X X
+/*           E O F E X C E P T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +18,7 @@
  * information.
  */
 
-/** @file StreamEmptyException.cxx
+/** @file EOFException.h
  *
  *  Description -
  *      
@@ -28,16 +27,19 @@
  *
  */
 
-#include "exception/StreamEmptyException.h"
-#include "exception/Exception.h"
+#ifndef __EOFEXCEPTION_H
+#define __EOFEXCEPTION_H
 
-StreamEmptyException::StreamEmptyException()
-{
-}
+#include "GE/exception/IOException.h"
 
-StreamEmptyException::StreamEmptyException(const std::string& message) : Exception(message)
+class  EOFException : public IOException
 {
-}
+public:
+  EOFException() throw ();
+  EOFException(const std::string& message) throw ();
+};
+
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

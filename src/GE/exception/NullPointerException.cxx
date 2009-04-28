@@ -1,5 +1,5 @@
 
-/*           C L O N E N O T S U P P O R T E D E X C E P T I O N . H
+/*               N U L L P O I N T E R  E X C E P T I O N . C X X 
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +19,7 @@
  * information.
  */
 
-/** @file CloneNotSupportedException.h
+/** @file NullPointerException.cxx
  *
  *  Description -
  *      
@@ -28,19 +28,15 @@
  *
  */
 
-#ifndef _CLONENOTSUPPORTEDEXCEPTION_H_
-#define _CLONENOTSUPPORTEDEXCEPTION_H_
+#include "GE/exception/NullPointerException.h"
 
-#include "exception/Exception.h"
-
-class  CloneNotSupportedException : public Exception
+NullPointerException::NullPointerException() throw ()
 {
-public:
-  CloneNotSupportedException() throw ();
-  CloneNotSupportedException(const std::string& message) throw ();
-};
+}
 
-#endif
+NullPointerException::NullPointerException(const std::string& message) throw () : RuntimeException(message)
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

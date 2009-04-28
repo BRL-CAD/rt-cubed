@@ -1,5 +1,5 @@
 
-/*        S T R E A M E M P T Y E X C E P T I O N . H
+/*        S T R E A M E M P T Y E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +19,7 @@
  * information.
  */
 
-/** @file StreamEmptyException.h
+/** @file StreamEmptyException.cxx
  *
  *  Description -
  *      
@@ -28,19 +28,16 @@
  *
  */
 
-#ifndef _STREAMEMPTYEXCEPTION_H_
-#define _STREAMEMPTYEXCEPTION_H_
+#include "GE/exception/StreamEmptyException.h"
+#include "GE/exception/Exception.h"
 
-#include "exception/Exception.h"
-
-class StreamEmptyException : public Exception
+StreamEmptyException::StreamEmptyException()
 {
-	public:
-  StreamEmptyException();
-  StreamEmptyException(const std::string& message);
-};
+}
 
-#endif
+StreamEmptyException::StreamEmptyException(const std::string& message) : Exception(message)
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***

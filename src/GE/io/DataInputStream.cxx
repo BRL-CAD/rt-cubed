@@ -28,9 +28,9 @@
  */
 
 #include "GE/io/DataInputStream.h"
-#include "exception/EOFException.h"
+#include "GE/exception/EOFException.h"
 #include "GE/io/PushbackInputStream.h"
-#include "exception/NullPointerException.h"
+#include "GE/exception/NullPointerException.h"
 
 #define MAX_BYTES_PER_CHARACTER	8
 

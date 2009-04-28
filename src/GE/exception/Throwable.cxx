@@ -1,4 +1,5 @@
-/*              R U N T I M E E X C E P T I O N . H
+
+/*                T H R O W A B L E . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +19,7 @@
  * information.
  */
 
-/** @file RunTimeException.h
+/** @file Throwable.cxx
  *
  *  Description -
  *      
@@ -27,19 +28,26 @@
  *
  */
 
-#ifndef _RUNTIMEEXCEPTION_H_
-#define _RUNTIMEEXCEPTION_H_
+#include "GE/exception/Throwable.h"
 
-#include "exception/Exception.h"
-
-class  RuntimeException : public Exception
+Throwable::Throwable() throw ()
 {
-public:
-  RuntimeException() throw ();
-  RuntimeException(const std::string& message) throw ();
-};
+}
 
-#endif
+Throwable::Throwable(const std::string& message) throw ()
+{
+	_msg = message;
+}
+
+Throwable::Throwable(const Throwable& copy) throw ()
+{
+	_msg = copy._msg;
+}
+
+const std::string& Throwable::getMessage() const throw ()
+{
+	return _msg;
+}
 
 // Local Variables: ***
 // mode: C++ ***

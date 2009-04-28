@@ -1,4 +1,4 @@
-/*                E X C E P T I O N . C X X
+/*            S O C K E T E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file Exception.cxx
+/** @file SocketException.cxx
  *
  *  Description -
  *      
@@ -27,14 +27,14 @@
  *
  */
 
+#include "GE/exception/SocketException.h"
+#include "GE/exception/Exception.h"
 
-#include "exception/Exception.h"
-
-Exception::Exception() throw ()
+SocketException::SocketException()
 {
 }
 
-Exception::Exception(const std::string& message) throw () : Throwable(message)
+SocketException::SocketException(const String& message) : Exception(message)
 {
 }
 

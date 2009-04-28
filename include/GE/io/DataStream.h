@@ -30,7 +30,7 @@
 #define _DATASTREAM_H_
 
 #include "iBME/iBMECommon.h"
-#include "exception/IOException.h"
+#include "GE/exception/IOException.h"
 #include <netinet/in.h>
 
 class DataStream {

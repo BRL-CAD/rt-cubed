@@ -1,5 +1,5 @@
 
-/*              R U N T I M E E X C E P T I O N . C X X 
+/*        S T R E A M E M P T Y E X C E P T I O N . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +19,7 @@
  * information.
  */
 
-/** @file RunTimeException.cxx
+/** @file StreamEmptyException.h
  *
  *  Description -
  *      
@@ -28,15 +28,19 @@
  *
  */
 
-#include "exception/RuntimeException.h"
+#ifndef _STREAMEMPTYEXCEPTION_H_
+#define _STREAMEMPTYEXCEPTION_H_
 
-RuntimeException::RuntimeException() throw ()
-{
-}
+#include "GE/exception/Exception.h"
 
-RuntimeException::RuntimeException(const std::string& message) throw () : Exception(message)
+class StreamEmptyException : public Exception
 {
-}
+	public:
+  StreamEmptyException();
+  StreamEmptyException(const std::string& message);
+};
+
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

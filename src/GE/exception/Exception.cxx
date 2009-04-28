@@ -1,5 +1,4 @@
-
-/*            I O E X C E P T I O N . C X X
+/*                E X C E P T I O N . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -19,7 +18,7 @@
  * information.
  */
 
-/** @file IOException.cxx
+/** @file Exception.cxx
  *
  *  Description -
  *      
@@ -28,14 +27,14 @@
  *
  */
 
-#include "exception/IOException.h"
-#include "exception/Exception.h"
 
-IOException::IOException()
+#include "GE/exception/Exception.h"
+
+Exception::Exception() throw ()
 {
 }
 
-IOException::IOException(const std::string& message) : Exception(message)
+Exception::Exception(const std::string& message) throw () : Throwable(message)
 {
 }
 
