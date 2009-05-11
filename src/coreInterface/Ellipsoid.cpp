@@ -30,7 +30,7 @@
 #include "rtgeom.h"
 #include "raytrace.h"
 
-#include<brlcad/Ellipsoid.h>
+#include <brlcad/Ellipsoid.h>
 
 
 using namespace BRLCAD;
@@ -97,7 +97,7 @@ Ellipsoid::Ellipsoid
 
 Ellipsoid::Ellipsoid
 (
-    const Vector3D& center, 
+    const Vector3D& center,
     double          radius
 ) throw(bad_alloc) {
     if (!BU_SETJUMP) {
@@ -173,7 +173,7 @@ Vector3D Ellipsoid::SemiPrincipalAxis
     assert(index < 3);
 
     switch (index) {
-        case 0: 
+        case 0:
             VMOVE(ret.coordinates, Internal()->a);
             break;
 
@@ -197,7 +197,7 @@ void Ellipsoid::SetSemiPrincipalAxis
     assert(index < 3);
 
     switch (index) {
-        case 0: 
+        case 0:
             VMOVE(Internal()->a, semiPrincipalAxis.coordinates);
             break;
 
@@ -213,9 +213,9 @@ void Ellipsoid::SetSemiPrincipalAxis
 
 void Ellipsoid::Set
 (
-    const Vector3D& center, 
-    const Vector3D& semiPrincipalAxisA, 
-    const Vector3D& semiPrincipalAxisB, 
+    const Vector3D& center,
+    const Vector3D& semiPrincipalAxisA,
+    const Vector3D& semiPrincipalAxisB,
     const Vector3D& semiPrincipalAxisC
 ) throw(){
     rt_ell_internal* internalp = Internal();
@@ -255,8 +255,8 @@ void Ellipsoid::Set
 
 void Ellipsoid::SetFocals
 (
-    const Vector3D& focalA, 
-    const Vector3D& focalB, 
+    const Vector3D& focalA,
+    const Vector3D& focalB,
     double          majorAxisLength
 ) throw(){
     assert(majorAxisLength > SMALL_FASTF);
@@ -300,7 +300,7 @@ void Ellipsoid::SetFocals
 
 void Ellipsoid::SetSphere
 (
-    const Vector3D& center, 
+    const Vector3D& center,
     double          radius
 ) throw() {
     assert(radius > SMALL_FASTF);
