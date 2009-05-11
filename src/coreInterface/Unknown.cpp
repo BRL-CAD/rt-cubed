@@ -68,7 +68,7 @@ const Object& Unknown::operator=
 }
 
 
-Object* Unknown::Clone(void) const throw(bad_alloc) {
+Object* Unknown::Clone(void) const throw(bad_alloc, std::bad_alloc) {
     return new Unknown(*this);
 }
 

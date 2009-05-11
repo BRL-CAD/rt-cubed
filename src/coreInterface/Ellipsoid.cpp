@@ -330,7 +330,7 @@ const Object& Ellipsoid::operator=
 }
 
 
-Object* Ellipsoid::Clone(void) const throw(bad_alloc) {
+Object* Ellipsoid::Clone(void) const throw(bad_alloc, std::bad_alloc) {
     return new Ellipsoid(*this);
 }
 

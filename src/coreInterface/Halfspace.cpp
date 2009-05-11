@@ -128,7 +128,7 @@ const Object& Halfspace::operator=
 }
 
 
-Object* Halfspace::Clone(void) const throw(bad_alloc) {
+Object* Halfspace::Clone(void) const throw(bad_alloc, std::bad_alloc) {
     return new Halfspace(*this);
 }
 

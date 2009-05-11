@@ -528,7 +528,7 @@ const Object& Arb8::operator=
 }
 
 
-Object* Arb8::Clone(void) const throw(bad_alloc) {
+Object* Arb8::Clone(void) const throw(bad_alloc, std::bad_alloc) {
     return new Arb8(*this);
 }
 

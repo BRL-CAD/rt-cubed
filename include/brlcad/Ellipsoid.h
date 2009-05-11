@@ -77,7 +77,7 @@ namespace BRLCAD {
 
         // inherited from BRLCAD::Object
         virtual const Object& operator=(const Object& original) throw(bad_alloc);
-        virtual Object*       Clone(void) const throw(bad_alloc);
+        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc);
         static const char*    ClassName(void) throw();
         virtual const char*   Type(void) const throw();
         virtual bool          IsValid(void) const throw(); ///< checks if semi-principal axes are perpendicular and if they have positive length

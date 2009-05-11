@@ -1121,7 +1121,7 @@ const Object& Combination::operator=
 }
 
 
-Object* Combination::Clone(void) const throw(bad_alloc) {
+Object* Combination::Clone(void) const throw(bad_alloc, std::bad_alloc) {
     return new Combination(*this);
 }
 

@@ -51,7 +51,7 @@ namespace BRLCAD {
         // a virtual constructor which creates the right derived class
         // and the corresponding destructor
         // which keeps the memory management in a healthy state
-        virtual Object*       Clone(void) const throw(bad_alloc)                 = 0;
+        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc) = 0;
         void                  Destroy(void) throw();
 
         // these two functions can be used to determine the type of the object
