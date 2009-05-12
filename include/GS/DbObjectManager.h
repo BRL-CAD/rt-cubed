@@ -1,4 +1,4 @@
-/*                 D B O B J E C T M A N A G E R . C X X
+/*                 D B O B J E C T M A N A G E R . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectManager.cxx
+/** @file DbObjectManager.h
  *
  *  Description -
  *      
@@ -27,23 +27,29 @@
  *
  */
 
-#include "GE/DbObjectManager.h"
+#if !defined(_DBOBJECTMANAGER_H_)
+#define _DBOBJECTMANAGER_H_
 
-DbObjectManager::DbObjectManager() 
-{
-}
+#include "iBME/iBMECommon.h"
+#include "GS/AbstractDbObjectSource.h"
+#include <string>
+#include <list>
 
-DbObjectManager::~DbObjectManager() 
-{
-}
+class DbObjectManager {
 
-std::string DbObjectManager::getDbObjectByURL(std::string url) 
-{
-}
+public:
+	DbObjectManager();
+	virtual ~DbObjectManager();
 
-std::string DbObjectManager::getDbObjectByUUID(UUID& uuid) 
-{
-}
+	std::string getDbObjectByURL(std::string url);
+	std::string getDbObjectByUUID(UUID& uuid);
+
+private:
+	std::list <AbstractDbObjectSource> DbObjectSources;
+
+};
+
+#endif // !defined(_DBOBJECTMANAGER_H_)
 
 // Local Variables: ***
 // mode: C++ ***

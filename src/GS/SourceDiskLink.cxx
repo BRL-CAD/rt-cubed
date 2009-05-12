@@ -1,4 +1,4 @@
-/*                 D B O B J E C T C A C H E . C X X
+/*                 S O U R C E D I S K L I N K . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectCache.cxx
+/** @file SourceDiskLink.cxx
  *
  *  Description -
  *      
@@ -27,29 +27,22 @@
  *
  */
 
-#include "GE/DbObjectCache.h"
-#include <string>
+#include "GS/SourceDiskLink.h"
 
-
-DbObjectCache::DbObjectCache()
+SourceDiskLink::SourceDiskLink()
 {
 }
 
-DbObjectCache::~DbObjectCache()
+SourceDiskLink::~SourceDiskLink()
 {
 }
 
-std::string DbObjectCache::getDbObjectByURL(std::string url)
+std::string SourceDiskLink::getDbObjectByURL(std::string url)
 {
 }
 
-bool DbObjectCache::addDbObject(std::string dbo)
+bool SourceDiskLink::putDbObject(std::string dbobj)
 {
-}
-
-bool DbObjectCache::putDbObject(std::string dbo)
-{
-  return false;
 }
 
 // Local Variables: ***

@@ -1,4 +1,4 @@
-/*                 D B O B J E C T M A N A G E R . H
+/*                 D B O B J E C T C A C H E . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectManager.h
+/** @file DbObjectCache.h
  *
  *  Description -
  *      
@@ -27,29 +27,36 @@
  *
  */
 
-#if !defined(_DBOBJECTMANAGER_H_)
-#define _DBOBJECTMANAGER_H_
+#if !defined(_DBOBJECTCACHE_H_)
+#define _DBOBJECTCACHE_H_
+
+#include <set>
+#include <map>
+#include <string>
 
 #include "iBME/iBMECommon.h"
-#include "GE/AbstractDbObjectSource.h"
-#include <string>
-#include <list>
+#include "GS/AbstractDbObjectSource.h"
 
-class DbObjectManager {
+class DbObjectCache : public AbstractDbObjectSource
+{
 
 public:
-	DbObjectManager();
-	virtual ~DbObjectManager();
+	DbObjectCache();
+	virtual ~DbObjectCache();
 
-	std::string getDbObjectByURL(std::string url);
-	std::string getDbObjectByUUID(UUID& uuid);
+  virtual std::string getDbObjectByURL(std::string url);
+  bool addDbObject(std::string dbo);
+  bool putDbObject(std::string dbo);
 
 private:
-	std::list <AbstractDbObjectSource> DbObjectSources;
+  std::set <std::string> dbObjectCacheSet;
+  std::map <std::string, std::string> urlDbObjectMap;
+	std::map <UUID, std::string> uuidDbObjectMap;
+	std::map <std::string, AbstractDbObjectSource> dbObjectOriginMap;
 
 };
 
-#endif // !defined(_DBOBJECTMANAGER_H_)
+#endif // !defined(_DBOBJECTCACHE_H_)
 
 // Local Variables: ***
 // mode: C++ ***

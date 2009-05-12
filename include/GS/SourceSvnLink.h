@@ -1,4 +1,4 @@
-/*                 S O U R C E D I S K L I N K . C X X
+/*                 S O U R C E S V N L I N K . H
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file SourceDiskLink.cxx
+/** @file SourceSvnLink.h
  *
  *  Description -
  *      
@@ -27,23 +27,26 @@
  *
  */
 
-#include "GE/SourceDiskLink.h"
+#if !defined(_SOURCESVNLINK_H_)
+#define _SOURCESVNLINK_H_
 
-SourceDiskLink::SourceDiskLink()
-{
-}
+#include "iBME/iBMECommon.h"
+#include "GS/AbstractDbObjectSource.h"
+#include <string>
 
-SourceDiskLink::~SourceDiskLink()
+class SourceSvnLink : public AbstractDbObjectSource
 {
-}
 
-std::string SourceDiskLink::getDbObjectByURL(std::string url)
-{
-}
+public:
+	SourceSvnLink();
+	virtual ~SourceSvnLink();
 
-bool SourceDiskLink::putDbObject(std::string dbobj)
-{
-}
+	virtual std::string getDbObjectByURL(std::string url);
+	bool putDbObject(std::string dbobj);
+
+};
+
+#endif // !defined(_SOURCESVNLINK_H_)
 
 // Local Variables: ***
 // mode: C++ ***

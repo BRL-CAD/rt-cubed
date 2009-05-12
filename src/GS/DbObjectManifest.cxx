@@ -1,4 +1,4 @@
-/*        A B S T R A C T D B O B J E C T S O U R C E . C X X
+/*                D B O B J E C T M A N I F E S T . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file AbstractDbObjectSource.cxx
+/** @file DbObjectManifest.cxx
  *
  *  Description -
  *      
@@ -27,25 +27,15 @@
  *
  */
 
-#include "GE/AbstractDbObjectSource.h"
+#include "GS/DbObjectManifest.h"
 
-AbstractDbObjectSource::AbstractDbObjectSource() {
-
+DbObjectManifest::DbObjectManifest()
+{
 }
 
-AbstractDbObjectSource::~AbstractDbObjectSource() {
-
+DbObjectManifest::~DbObjectManifest()
+{
 }
-
-std::string AbstractDbObjectSource::getDbObjectByURL(std::string url) {
-
-}
-
-bool AbstractDbObjectSource::putDbObject(std::string dbobj) {
-
-	return false;
-}
-
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,4 @@
-/*                 D B O B J E C T C A C H E . H
+/*                 D B O B J E C T C A C H E . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file DbObjectCache.h
+/** @file DbObjectCache.cxx
  *
  *  Description -
  *      
@@ -27,36 +27,30 @@
  *
  */
 
-#if !defined(_DBOBJECTCACHE_H_)
-#define _DBOBJECTCACHE_H_
-
-#include <set>
-#include <map>
+#include "GS/DbObjectCache.h"
 #include <string>
 
-#include "iBME/iBMECommon.h"
-#include "GE/AbstractDbObjectSource.h"
 
-class DbObjectCache : public AbstractDbObjectSource
+DbObjectCache::DbObjectCache()
 {
+}
 
-public:
-	DbObjectCache();
-	virtual ~DbObjectCache();
+DbObjectCache::~DbObjectCache()
+{
+}
 
-  virtual std::string getDbObjectByURL(std::string url);
-  bool addDbObject(std::string dbo);
-  bool putDbObject(std::string dbo);
+std::string DbObjectCache::getDbObjectByURL(std::string url)
+{
+}
 
-private:
-  std::set <std::string> dbObjectCacheSet;
-  std::map <std::string, std::string> urlDbObjectMap;
-	std::map <UUID, std::string> uuidDbObjectMap;
-	std::map <std::string, AbstractDbObjectSource> dbObjectOriginMap;
+bool DbObjectCache::addDbObject(std::string dbo)
+{
+}
 
-};
-
-#endif // !defined(_DBOBJECTCACHE_H_)
+bool DbObjectCache::putDbObject(std::string dbo)
+{
+  return false;
+}
 
 // Local Variables: ***
 // mode: C++ ***

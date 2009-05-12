@@ -1,4 +1,4 @@
-/*                 S O U R C E S V N L I N K . C X X
+/*                 D B O B J E C T M A N A G E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file SourceSvnLink.cxx
+/** @file DbObjectManager.cxx
  *
  *  Description -
  *      
@@ -27,23 +27,22 @@
  *
  */
 
-#include "GE/SourceSvnLink.h"
+#include "GS/DbObjectManager.h"
 
-SourceSvnLink::SourceSvnLink()
+DbObjectManager::DbObjectManager() 
 {
 }
 
-SourceSvnLink::~SourceSvnLink()
+DbObjectManager::~DbObjectManager() 
 {
 }
 
-std::string SourceSvnLink::getDbObjectByURL(std::string url)
+std::string DbObjectManager::getDbObjectByURL(std::string url) 
 {
 }
 
-bool SourceSvnLink::putDbObject(std::string dbobj) 
+std::string DbObjectManager::getDbObjectByUUID(UUID& uuid) 
 {
-	return false;
 }
 
 // Local Variables: ***
