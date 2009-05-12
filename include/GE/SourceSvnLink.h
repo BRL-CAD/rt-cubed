@@ -32,7 +32,7 @@
 
 #include "iBME/iBMECommon.h"
 #include "GE/AbstractDbObjectSource.h"
-#include "GE/DbObject.h"
+#include <string>
 
 class SourceSvnLink : public AbstractDbObjectSource
 {
@@ -41,8 +41,8 @@ public:
 	SourceSvnLink();
 	virtual ~SourceSvnLink();
 
-	virtual DbObject& getDbObjectByURL(URL& url);
-	bool putDbObject(DbObject& dbobj);
+	virtual std::string getDbObjectByURL(std::string url);
+	bool putDbObject(std::string dbobj);
 
 };
 

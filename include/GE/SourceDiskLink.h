@@ -33,7 +33,8 @@
 #include "iBME/iBMECommon.h"
 #include "GE/SourceDiskLink.h"
 #include "GE/AbstractDbObjectSource.h"
-#include "GE/DbObject.h"
+#include <string>
+
 
 class SourceDiskLink : public AbstractDbObjectSource
 {
@@ -42,8 +43,8 @@ public:
 	SourceDiskLink();
 	virtual ~SourceDiskLink();
 
-	virtual DbObject& getDbObjectByURL(URL& url);
-	bool putDbObject(DbObject& dbobj);
+	virtual std::string getDbObjectByURL(std::string url);
+	bool putDbObject(std::string dbobj);
 
 };
 

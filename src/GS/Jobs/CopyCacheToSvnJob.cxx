@@ -29,7 +29,7 @@
 
 #include "GS/Jobs/CopyCacheToSvnJob.h"
 
-CopyCacheToSvnJob::CopyCacheToSvnJob(DbObject& resToCopy)
+CopyCacheToSvnJob::CopyCacheToSvnJob(std::string resToCopy)
 {
 }
 

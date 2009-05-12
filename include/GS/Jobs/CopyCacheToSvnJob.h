@@ -31,19 +31,19 @@
 #define _COPYCACHETOSVNJOB_H_
 
 #include "GS/Jobs/AbstractJob.h"
-#include "GE/DbObject.h"
+#include <string>
 
 class CopyCacheToSvnJob : public AbstractJob
 {
 
 public:
-  CopyCacheToSvnJob( DbObject& resToCopy);
+  CopyCacheToSvnJob( std::string resToCopy);
   virtual ~CopyCacheToSvnJob();
 
   virtual bool doJob();
 
 private:
-  DbObject& resToCopy();
+  std::string resToCopy();
 
 };
 

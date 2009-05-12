@@ -37,11 +37,11 @@ AbstractDbObjectSource::~AbstractDbObjectSource() {
 
 }
 
-DbObject& AbstractDbObjectSource::getDbObjectByURL(URL& url) {
+std::string AbstractDbObjectSource::getDbObjectByURL(std::string url) {
 
 }
 
-bool AbstractDbObjectSource::putDbObject(DbObject& dbobj) {
+bool AbstractDbObjectSource::putDbObject(std::string dbobj) {
 
 	return false;
 }

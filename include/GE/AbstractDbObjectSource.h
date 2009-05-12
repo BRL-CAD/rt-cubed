@@ -30,9 +30,8 @@
 #if !defined(_ABSTRACTDBOBJECTSOURCE_H_)
 #define _ABSTRACTDBOBJECTSOURCE_H_
 
-
+#include <string>
 #include "iBME/iBMECommon.h"
-#include "GE/DbObject.h"
 
 class AbstractDbObjectSource
 {
@@ -41,8 +40,8 @@ public:
 	AbstractDbObjectSource();
 	virtual ~AbstractDbObjectSource();
 
-	virtual DbObject& getDbObjectByURL(URL& url);
-	bool putDbObject(DbObject& dbobj);
+	virtual std::string getDbObjectByURL(std::string url);
+	bool putDbObject(std::string dbobj);
 };
 
 #endif // !defined(_ABSTRACTDBOBJECTSOURCE_H_)

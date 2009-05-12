@@ -37,11 +37,11 @@ DbObjectManager::~DbObjectManager()
 {
 }
 
-DbObject& DbObjectManager::getDbObjectByURL(URL& url) 
+std::string DbObjectManager::getDbObjectByURL(std::string url) 
 {
 }
 
-DbObject& DbObjectManager::getDbObjectByUUID(UUID& uuid) 
+std::string DbObjectManager::getDbObjectByUUID(UUID& uuid) 
 {
 }
 

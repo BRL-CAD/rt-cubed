@@ -28,6 +28,8 @@
  */
 
 #include "GE/DbObjectCache.h"
+#include <string>
+
 
 DbObjectCache::DbObjectCache()
 {
@@ -37,15 +39,15 @@ DbObjectCache::~DbObjectCache()
 {
 }
 
-DbObject& DbObjectCache::getDbObjectByURL(URL& url)
+std::string DbObjectCache::getDbObjectByURL(std::string url)
 {
 }
 
-bool DbObjectCache::addDbObject(DbObject& dbo)
+bool DbObjectCache::addDbObject(std::string dbo)
 {
 }
 
-bool DbObjectCache::putDbObject(DbObject& dbo)
+bool DbObjectCache::putDbObject(std::string dbo)
 {
   return false;
 }

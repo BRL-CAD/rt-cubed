@@ -37,11 +37,11 @@ SourceSvnLink::~SourceSvnLink()
 {
 }
 
-DbObject& SourceSvnLink::getDbObjectByURL(URL& url)
+std::string SourceSvnLink::getDbObjectByURL(std::string url)
 {
 }
 
-bool SourceSvnLink::putDbObject(DbObject& dbobj) 
+bool SourceSvnLink::putDbObject(std::string dbobj) 
 {
 	return false;
 }

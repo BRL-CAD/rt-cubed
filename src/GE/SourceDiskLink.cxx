@@ -37,11 +37,11 @@ SourceDiskLink::~SourceDiskLink()
 {
 }
 
-DbObject& SourceDiskLink::getDbObjectByURL(URL& url)
+std::string SourceDiskLink::getDbObjectByURL(std::string url)
 {
 }
 
-bool SourceDiskLink::putDbObject(DbObject& dbobj)
+bool SourceDiskLink::putDbObject(std::string dbobj)
 {
 }
 

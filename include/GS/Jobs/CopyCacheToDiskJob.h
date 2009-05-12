@@ -31,19 +31,19 @@
 #define _COPYCACHETODISKJOB_H_
 
 #include "GS/Jobs/AbstractJob.h"
-#include "GE/DbObject.h"
+#include <string>
 
 class CopyCacheToDiskJob : public AbstractJob
 {
 
 public:
-  CopyCacheToDiskJob(DbObject& resToCopy);
+  CopyCacheToDiskJob(std::string resToCopy);
   virtual ~CopyCacheToDiskJob();
 
   virtual bool doJob();
 
 private:
-  DbObject& resToCopy();
+  std::string resToCopy();
 
 };
 

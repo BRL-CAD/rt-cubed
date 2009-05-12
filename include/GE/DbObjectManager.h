@@ -32,7 +32,8 @@
 
 #include "iBME/iBMECommon.h"
 #include "GE/AbstractDbObjectSource.h"
-#include "GE/DbObject.h"
+#include <string>
+#include <list>
 
 class DbObjectManager {
 
@@ -40,8 +41,8 @@ public:
 	DbObjectManager();
 	virtual ~DbObjectManager();
 
-	DbObject& getDbObjectByURL(URL& url);
-	DbObject& getDbObjectByUUID(UUID& uuid);
+	std::string getDbObjectByURL(std::string url);
+	std::string getDbObjectByUUID(UUID& uuid);
 
 private:
 	std::list <AbstractDbObjectSource> DbObjectSources;

@@ -32,10 +32,10 @@
 
 #include <set>
 #include <map>
+#include <string>
 
 #include "iBME/iBMECommon.h"
 #include "GE/AbstractDbObjectSource.h"
-#include "GE/DbObject.h"
 
 class DbObjectCache : public AbstractDbObjectSource
 {
@@ -44,15 +44,15 @@ public:
 	DbObjectCache();
 	virtual ~DbObjectCache();
 
-	virtual DbObject& getDbObjectByURL(URL& url);
-	bool addDbObject(DbObject& dbo);
-	bool putDbObject(DbObject& dbo);
+  virtual std::string getDbObjectByURL(std::string url);
+  bool addDbObject(std::string dbo);
+  bool putDbObject(std::string dbo);
 
 private:
-	std::set <DbObject> dbObjectCacheSet;
-	std::map <URL, DbObject> urlDbObjectMap;
-	std::map <UUID, DbObject> uuidDbObjectMap;
-	std::map <DbObject, AbstractDbObjectSource> dbObjectOriginMap;
+  std::set <std::string> dbObjectCacheSet;
+  std::map <std::string, std::string> urlDbObjectMap;
+	std::map <UUID, std::string> uuidDbObjectMap;
+	std::map <std::string, AbstractDbObjectSource> dbObjectOriginMap;
 
 };
 

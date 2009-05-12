@@ -32,7 +32,7 @@
 
 #include <list>
 #include <map>
-#include "GE/DbObject.h"
+#include <string>
 #include "iBME/iBMECommon.h"
 
 class DbObjectManifest
@@ -44,7 +44,7 @@ public:
 
 private:
 	std::list<UUID> DbObjectList;
-	std::map<UUID, DbObject > DbObjectMap;
+	std::map<UUID, std::string > DbObjectMap;
 
 };
 

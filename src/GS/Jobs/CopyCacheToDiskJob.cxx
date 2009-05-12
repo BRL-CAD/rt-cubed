@@ -29,7 +29,7 @@
 
 #include "GS/Jobs/CopyCacheToDiskJob.h"
 
-CopyCacheToDiskJob::CopyCacheToDiskJob(DbObject& resToCopy)
+CopyCacheToDiskJob::CopyCacheToDiskJob(std::string resToCopy)
 {
 }
 
