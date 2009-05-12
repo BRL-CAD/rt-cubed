@@ -21,7 +21,7 @@
 /** @file DataStream.h
  *
  *  Description - Combination of ByteBag, DataInputStream and DataOutputStream
- *      
+ *
  *
  *  Author - David Loman
  *
@@ -39,9 +39,9 @@ class DataStream {
   unsigned int currentSize;
 
   unsigned int bytesFilled;
-  unsigned int bytesRead; 
+  unsigned int bytesRead;
 
-  unsigned char *data;  
+  unsigned char *data;
 
   unsigned int expand(unsigned int howMuch);
   unsigned int shrink();
@@ -76,7 +76,7 @@ class DataStream {
   friend DataStream& operator<<(DataStream &b, int i);
   friend DataStream& operator<<(DataStream &b, unsigned int i);
   friend DataStream& operator<<(DataStream &b, long l);
-  friend DataStream& operator<<(DataStream &b, ulong l);
+  friend DataStream& operator<<(DataStream &b, unsigned long l);
   friend DataStream& operator<<(DataStream &b, float f);
   friend DataStream& operator<<(DataStream &b, double d);
   friend DataStream& operator<<(DataStream &b, std::string &s);
@@ -147,7 +147,7 @@ class DataStream {
   unsigned int getCurrentSize();
   unsigned int getBytesFilled();
   unsigned int getBytesRead();
-  unsigned int getBytesAvailToRead(); 
+  unsigned int getBytesAvailToRead();
   unsigned char* getData();
 
   bool empty();
