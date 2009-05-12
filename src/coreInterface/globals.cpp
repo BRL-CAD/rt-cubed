@@ -52,7 +52,7 @@ static int Logger
 }
 
 
-void BRLCAD_COREINTERFACE_EXPORT RegisterLogHandler
+void BRLCAD_COREINTERFACE_EXPORT BRLCAD::RegisterLogHandler
 (
     LogHandler& logHandler
 ) throw(bad_alloc) {
@@ -67,7 +67,7 @@ void BRLCAD_COREINTERFACE_EXPORT RegisterLogHandler
 }
 
 
-void BRLCAD_COREINTERFACE_EXPORT DeRegisterLogHandler
+void BRLCAD_COREINTERFACE_EXPORT BRLCAD::DeRegisterLogHandler
 (
     LogHandler& logHandler
 ) throw() {
