@@ -1,7 +1,13 @@
 lib_LTLIBRARIES = libgs.la
 
 libgs_la_SOURCES = \
+	AbstractDbObjectSource.cxx \
 	AbstractPortal.cxx \
+	DbObjectCache.cxx \
+	SourceDiskLink.cxx \
+	SourceSvnLink.cxx \
+	DbObjectManager.cxx \
+	DbObjectManifest.cxx \
 	CommunicationsManager.cxx \
 	IntraAppPortal.cxx \
 	Session.cxx \
