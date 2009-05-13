@@ -484,15 +484,6 @@ static int HitDo
 }
 
 
-static int MissDo
-(
-    application* ap
-) {
-    // do nothing
-    return 0; // return won't be evaluated
-}
-
-
 void ConstDatabase::ShootRay
 (
     const Ray3D& ray,
@@ -502,7 +493,7 @@ void ConstDatabase::ShootRay
         application ap = {0};
 
         ap.a_hit      = HitDo;
-        ap.a_miss     = MissDo;
+        ap.a_miss     = 0;
         ap.a_overlap  = 0;
         ap.a_rt_i     = m_rtip;
         ap.a_level    = 0;
