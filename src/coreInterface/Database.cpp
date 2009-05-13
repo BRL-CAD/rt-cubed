@@ -32,6 +32,7 @@
 #include "raytrace.h"
 #include "rtgeom.h"
 
+#include <brlcad/Cone.h>
 #include <brlcad/Ellipsoid.h>
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
@@ -86,7 +87,17 @@ bool Database::Add
             int   id         = ID_NULL;
             void* rtInternal = 0;
 
-            if (object.Type() == Ellipsoid::ClassName()) {
+            if (object.Type() == Cone::ClassName()) {
+                id = ID_TGC;
+
+                const Cone* cone = dynamic_cast<const Cone*>(&object);
+
+                assert(cone != 0);
+
+                BU_GETSTRUCT(rtInternal, rt_tgc_internal);
+                memcpy(rtInternal, cone->Internal(), sizeof(rt_tgc_internal));
+            }
+            else if (object.Type() == Ellipsoid::ClassName()) {
                 id = ID_ELL;
 
                 const Ellipsoid* ellipsoid = dynamic_cast<const Ellipsoid*>(&object);

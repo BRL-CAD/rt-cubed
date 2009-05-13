@@ -33,6 +33,7 @@
 
 #include "raytrace.h"
 
+#include <brlcad/Cone.h>
 #include <brlcad/Ellipsoid.h>
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
@@ -258,6 +259,10 @@ void ConstDatabase::Get
 
                     try {
                         switch(id) {
+                        case ID_TGC:
+                            callback(Cone(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
+
                         case ID_ELL:
                             callback(Ellipsoid(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
