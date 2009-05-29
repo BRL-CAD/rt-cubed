@@ -35,6 +35,14 @@
 
 
 namespace BRLCAD {
+    /// @name get BRL-CAD version information
+    //@{
+    int BRLCAD_COREINTERFACE_EXPORT  MajorVersion(void) throw();
+    int BRLCAD_COREINTERFACE_EXPORT  MinorVersion(void) throw();
+    int BRLCAD_COREINTERFACE_EXPORT  PatchVersion(void) throw();
+    //@}
+
+
     /// @name capturing the logging output
     //@{
     /// log handler (to be implemented by the caller)

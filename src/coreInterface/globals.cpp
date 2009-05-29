@@ -30,10 +30,26 @@
 
 #include "bu.h"
 
+#include <brlcad/brlcadversion.h>
 #include <brlcad/globals.h>
 
 
 using namespace BRLCAD;
+
+
+int BRLCAD_COREINTERFACE_EXPORT BRLCAD::MajorVersion(void) throw() {
+    return BRLCAD_LIB_MAJOR;
+}
+
+
+int BRLCAD_COREINTERFACE_EXPORT BRLCAD::MinorVersion(void) throw() {
+    return BRLCAD_LIB_MINOR;
+}
+
+
+int BRLCAD_COREINTERFACE_EXPORT BRLCAD::PatchVersion(void) throw() {
+    return BRLCAD_LIB_PATCH;
+}
 
 
 static int Logger
