@@ -32,6 +32,7 @@
 #include "raytrace.h"
 #include "rtgeom.h"
 
+#include <brlcad/Torus.h>
 #include <brlcad/Cone.h>
 #include <brlcad/Ellipsoid.h>
 #include <brlcad/Arb8.h>
@@ -87,7 +88,17 @@ bool Database::Add
             int   id         = ID_NULL;
             void* rtInternal = 0;
 
-            if (object.Type() == Cone::ClassName()) {
+            if (object.Type() == Torus::ClassName()) {
+                id = ID_TOR;
+
+                const Torus* torus = dynamic_cast<const Torus*>(&object);
+
+                assert(torus != 0);
+
+                BU_GETSTRUCT(rtInternal, rt_tor_internal);
+                memcpy(rtInternal, torus->Internal(), sizeof(rt_tor_internal));
+            }
+            else if (object.Type() == Cone::ClassName()) {
                 id = ID_TGC;
 
                 const Cone* cone = dynamic_cast<const Cone*>(&object);

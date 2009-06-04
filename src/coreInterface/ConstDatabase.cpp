@@ -33,6 +33,7 @@
 
 #include "raytrace.h"
 
+#include <brlcad/Torus.h>
 #include <brlcad/Cone.h>
 #include <brlcad/Ellipsoid.h>
 #include <brlcad/Arb8.h>
@@ -259,6 +260,10 @@ void ConstDatabase::Get
 
                     try {
                         switch(id) {
+                        case ID_TOR:
+                            callback(Torus(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
+
                         case ID_TGC:
                             callback(Cone(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
