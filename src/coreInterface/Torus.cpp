@@ -45,7 +45,7 @@ Torus::Torus(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Torus::Torus");
+        throw bad_alloc("BRLCAD::Torus::Torus");
     }
 
     BU_UNSETJUMP;
@@ -67,7 +67,7 @@ Torus::Torus
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Torus::Torus");
+        throw bad_alloc("BRLCAD::Torus::Torus");
     }
 
     BU_UNSETJUMP;
@@ -84,7 +84,7 @@ Torus::Torus
     }
     else {
         BU_UNSETJUMP;
-        throw std::bad_alloc("BRLCAD::Torus::Torus");
+        throw bad_alloc("BRLCAD::Torus::Torus");
     }
 
     BU_UNSETJUMP;
