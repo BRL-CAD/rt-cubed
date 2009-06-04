@@ -246,4 +246,27 @@ void Database::Get
 }
 
 
+void Database::Set
+(
+    const Object& object
+) throw(bad_alloc) {
+    class ObjectCallbackIntern : public ObjectCallback {
+    public:
+        ObjectCallbackIntern(const Object& object) : ObjectCallback(),
+                                                     m_object(object) {}
+
+        virtual ~ObjectCallbackIntern(void) throw() {}
+
+        virtual void operator()(Object& object) {
+            object = m_object;
+        }
+
+    private:
+        const Object& m_object;
+    } callbackIntern(object);
+
+    Get(object.Name(), callbackIntern);
+}
+
+
 Database::Database(void) throw(bad_alloc) : ConstDatabase(), m_wdbp(0) {}

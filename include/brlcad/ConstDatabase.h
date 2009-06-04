@@ -114,6 +114,10 @@ namespace BRLCAD {
         /// selects a single object and hand it over to an ObjectCallback (read only)
         void              Get(const char*     objectName,
                               ObjectCallback& callback) const;
+
+        /// overloaded member function, provided for convenience: selects a single object and and returns a copy of it
+        /** Do not forget to BRLCAD::Object::Destroy() the copy when you are finished with it! */
+        Object*           Get(const char* objectName) const;
         //@}
 
         /// @name Active set functions

@@ -56,6 +56,8 @@ namespace BRLCAD {
 
         /// @name Accessing objects
         //@{
+        using ConstDatabase::Get;
+
         class ObjectCallback {
         public:
             virtual ~ObjectCallback(void) throw() {}
@@ -72,6 +74,10 @@ namespace BRLCAD {
         /// selects a single object and hand it over to an ObjectCallback (for read and write)
         void         Get(const char*     objectName,
                          ObjectCallback& callback);
+
+        /// provided for convenience: selects a single object and sets it to \a object
+        /** The type of the object in the database and \a object must match. */
+        void         Set(const Object& object) throw(bad_alloc);
         //@}
 
     protected:

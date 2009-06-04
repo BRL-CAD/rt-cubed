@@ -304,6 +304,38 @@ void ConstDatabase::Get
 }
 
 
+Object* ConstDatabase::Get
+(
+    const char* objectName
+) const {
+    class ObjectCallbackIntern : public ObjectCallback {
+    public:
+        ObjectCallbackIntern(void) : ConstDatabase::ObjectCallback(),
+                                     m_object(0) {}
+
+        virtual ~ObjectCallbackIntern(void) throw() {}
+
+        virtual void operator()(const Object& object) {
+            try {
+                m_object = object.Clone();
+            }
+            catch(std::bad_alloc&) {}
+        }
+
+        Object*      GetObject(void) const throw() {
+            return m_object;
+        }
+
+    private:
+        Object* m_object;
+    } callbackIntern;
+
+    Get(objectName, callbackIntern);
+
+    return callbackIntern.GetObject();
+}
+
+
 void ConstDatabase::Select
 (
     const char* objectName
