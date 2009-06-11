@@ -13,8 +13,61 @@ endif(NOT PKGCONFIG_EXECUTABLE)
 #source_group("Source Files" FILES ${SOURCES})
 #source_group("Header Files" FILES ${HEADERS})
 set(PROGNAME "g3d")
-file(GLOB G3D_SOURCES *.cxx)
-file(GLOB G3D_HEADERS *.h)
+set(G3D_SOURCES
+  Application.cxx
+  CameraManager.cxx
+  CameraMode.cxx
+  CameraModeBlender.cxx
+  CameraModeMGED.cxx
+  CameraModeOrbital.cxx
+  Command.cxx
+  CommandInterpreter.cxx
+  GedCommand.cxx
+  GedData.cxx
+  GeometryConversion.cxx
+  GuiBaseWindow.cxx
+  GuiCamera.cxx
+  GuiCommandOverlay.cxx
+  GuiConsole.cxx
+  GuiWidgetRotation.cxx
+  GuiWindowManager.cxx
+  History.cxx
+  Logger.cxx
+  Observer.cxx
+  OgreGLWidget.cxx
+  main.cxx
+  )
+
+set(G3D_HEADERS
+  Application.h
+  CameraManager.h
+  CameraMode.h
+  CameraModeBlender.h
+  CameraModeMGED.h
+  CameraModeOrbital.h
+  Command.h
+  Commands.h
+  CommandInterpreter.h
+  GedCommand.h
+  GedCommands.h
+  GedData.h
+  GeometryConversion.h
+  GuiBaseWindow.h
+  GuiCamera.h
+  GuiCommandOverlay.h
+  GuiConsole.h
+  GuiWidgetRotation.h
+  GuiWindowManager.h
+  History.h
+  Logger.h
+  Observer.h
+  )
+
+# Qt stuff that needs preprocessing
+set(G3D_MOC_HEADERS
+  OgreGLWidget.h
+  )
+
 set(RBGUI_DIR "../../data/g3d/RBGui")
 add_definitions( -DDATA_DIR='"${CMAKE_INSTALL_PREFIX}/share/g3d/"' )
 
@@ -66,6 +119,9 @@ set(QT_USE_QTOPENGL 1)
 INCLUDE(${QT_USE_FILE})
 set(LIBS ${LIBS} ${QT_LIBRARIES})
 
+# Preprocess Qt stuff
+qt4_wrap_cpp(G3D_MOC_OUTFILES ${G3D_MOC_HEADERS})
+
 if(CANNOT_BUILD)
   message(FATAL_ERROR "Missing essential libraries, aborting")
 else(CANNOT_BUILD)
@@ -91,7 +147,7 @@ else(CANNOT_BUILD)
 
   #link_libraries( g3d ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Mocha_LIBRARIES} ${RBGui_LIBRARIES} )
   #add_definitions(${PC_CFLAGS} ${BRLCAD_CFLAGS})
-  add_executable( g3d ${G3D_SOURCES} ${G3D_HEADERS} )
+  add_executable( g3d ${G3D_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} )
   target_link_libraries( g3d ${LIBS} )
 
   # OGRE config files
