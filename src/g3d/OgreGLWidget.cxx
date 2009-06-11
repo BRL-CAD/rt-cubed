@@ -1,4 +1,4 @@
-/*                  A P P L I C A T I O N . C X X
+/*                  O G R E G L W I D G E T . C X X
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file Application.cxx
+/** @file OgreGLWidget.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
@@ -28,9 +28,12 @@
 
 #include "OgreGLWidget.h"
 
-#define OGRE_PLUGIN_FILE (DATA_DIR "ogreplugins.cfg")
-#define OGRE_CFG_FILE    (DATA_DIR "ogre.cfg")
-#define OGRE_LOG_FILE    (DATA_DIR "ogre.log")
+#include <OGRE/Ogre.h>
+
+#define OGRE_PLUGIN_FILE        (DATA_DIR "ogreplugins.cfg")
+#define OGRE_CFG_FILE           (DATA_DIR "ogre.cfg")
+#define OGRE_LOG_FILE           (DATA_DIR "ogre.log")
+#define OGRE_RESOURCES_CFG_FILE (DATA_DIR "resources.cfg")
 
 OgreGLWidget::OgreGLWidget(QWidget *parent) : QGLWidget(parent)
 {
@@ -55,6 +58,32 @@ void OgreGLWidget::initializeGL()
     params["currentGLContext"] = Ogre::String("True");
 
     _renderWindow = _root->createRenderWindow("MainRenderWindow", 640, 480, false, &params);
+
+    // Setup resource locations
+    {
+	Ogre::ConfigFile config;
+	config.load(OGRE_RESOURCES_CFG_FILE);
+
+	// Go through all sections & settings in the file
+	Ogre::ConfigFile::SectionIterator seci = config.getSectionIterator();
+	while (seci.hasMoreElements()) {
+	    const Ogre::String& secName = seci.peekNextKey();
+	    Ogre::ConfigFile::SettingsMultiMap* settings = seci.getNext();
+	    for (Ogre::ConfigFile::SettingsMultiMap::iterator i = settings->begin();
+		 i != settings->end(); ++i) {
+		const Ogre::String& typeName = i->first;
+		const Ogre::String& archName = i->second;
+
+		Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName,
+									       typeName,
+									       secName);
+	    }
+	}
+
+	// Initialize resource groups
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+    }
+
     _renderWindow->setVisible(true);
 }
 

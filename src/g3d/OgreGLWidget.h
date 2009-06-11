@@ -1,4 +1,4 @@
-/*                  A P P L I C A T I O N . C X X
+/*                  O G R E G L W I D G E T . H
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file Application.cxx
+/** @file OgreGLWidget.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
@@ -30,7 +30,9 @@
 #define __G3D_GLWIDGET_H__
 
 #include <QGLWidget>
-#include <OGRE/Ogre.h>
+
+#include <OGRE/OgreRoot.h>
+#include <OGRE/OgreRenderWindow.h>
 
 class OgreGLWidget : public QGLWidget
 {
