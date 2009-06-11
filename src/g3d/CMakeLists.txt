@@ -61,6 +61,10 @@ find_package(RBGui REQUIRED)
 include_directories(${RBGui_INCLUDE_DIRS})
 set(LIBS ${LIBS} ${RBGui_LIBRARIES})
 
+find_package(Qt4 REQUIRED)
+set(QT_USE_QTOPENGL 1)
+INCLUDE(${QT_USE_FILE})
+
 if(CANNOT_BUILD)
   message(FATAL_ERROR "Missing essential libraries, aborting")
 else(CANNOT_BUILD)
