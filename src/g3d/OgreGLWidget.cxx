@@ -28,6 +28,8 @@
 
 #include "OgreGLWidget.h"
 
+#include <exception>
+
 #include <OGRE/Ogre.h>
 
 #define OGRE_PLUGIN_FILE        (DATA_DIR "ogreplugins.cfg")
@@ -35,16 +37,22 @@
 #define OGRE_LOG_FILE           (DATA_DIR "ogre.log")
 #define OGRE_RESOURCES_CFG_FILE (DATA_DIR "resources.cfg")
 
-OgreGLWidget::OgreGLWidget(QWidget *parent) : QGLWidget(parent)
+OgreGLWidget::OgreGLWidget(QWidget *parent) :
+    QGLWidget(parent),
+    _root(0), _scene(0), _camera(0), _viewport(0), _renderWindow(0)
 {
 }
 
 OgreGLWidget::~OgreGLWidget() 
 {
-    _renderWindow->removeAllViewports();
-    _renderWindow->destroy();
+    if(_renderWindow) {
+	_renderWindow->removeAllViewports();
+	_renderWindow->destroy();
+    }
 
-    delete _root; _root = 0;
+    if(_root) {
+	delete _root;
+    }
 }
 
 
@@ -59,32 +67,48 @@ void OgreGLWidget::initializeGL()
 
     _renderWindow = _root->createRenderWindow("MainRenderWindow", 640, 480, false, &params);
 
-    // Setup resource locations
-    {
-	Ogre::ConfigFile config;
-	config.load(OGRE_RESOURCES_CFG_FILE);
-
-	// Go through all sections & settings in the file
-	Ogre::ConfigFile::SectionIterator seci = config.getSectionIterator();
-	while (seci.hasMoreElements()) {
-	    const Ogre::String& secName = seci.peekNextKey();
-	    Ogre::ConfigFile::SettingsMultiMap* settings = seci.getNext();
-	    for (Ogre::ConfigFile::SettingsMultiMap::iterator i = settings->begin();
-		 i != settings->end(); ++i) {
-		const Ogre::String& typeName = i->first;
-		const Ogre::String& archName = i->second;
-
-		Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName,
-									       typeName,
-									       secName);
-	    }
-	}
-
-	// Initialize resource groups
-	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+    if(!_renderWindow) {
+	throw std::exception("Unable to initialize OGRE!");
     }
 
+    loadResources();
+
+    // Create scene, camera, viewport
+    _scene = _root->createSceneManager("DefaultSceneManager", "g3d SceneManager");
+    _camera = _scene->createCamera("g3d Camera");
+    _viewport = _renderWindow->addViewport(_camera);
+    _viewport->setBackgroundColour(Ogre::ColourValue(0.6f, 0.6f, 0.6f, 1.0f));
+    _scene->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+    Ogre::Light* l = _scene->createLight("MainLight");
+    l->setPosition(0, 10, 0);
+    l->setDiffuseColour(Ogre::ColourValue(1.0, 0.5, 0.0));
+
     _renderWindow->setVisible(true);
+}
+
+void OgreGLWidget::loadResources() 
+{
+    Ogre::ConfigFile config;
+    config.load(OGRE_RESOURCES_CFG_FILE);
+
+    // Go through all sections & settings in the file
+    Ogre::ConfigFile::SectionIterator seci = config.getSectionIterator();
+    while (seci.hasMoreElements()) {
+	const Ogre::String& secName = seci.peekNextKey();
+	Ogre::ConfigFile::SettingsMultiMap* settings = seci.getNext();
+	for (Ogre::ConfigFile::SettingsMultiMap::iterator i = settings->begin();
+	     i != settings->end(); ++i) {
+	    const Ogre::String& typeName = i->first;
+	    const Ogre::String& archName = i->second;
+
+	    Ogre::ResourceGroupManager::getSingleton().addResourceLocation(archName,
+									   typeName,
+									   secName);
+	}
+    }
+
+    // Initialize resource groups
+    Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
 void OgreGLWidget::resizeGL(int width, int height)
@@ -96,7 +120,6 @@ void OgreGLWidget::paintGL()
 {
     _root->renderOneFrame();
 }
-
 
 
 /*

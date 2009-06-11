@@ -47,8 +47,13 @@ protected:
     void resizeGL( int, int );
     void paintGL();
 
+    void loadResources();
+
     Ogre::Root *_root;
     Ogre::RenderWindow *_renderWindow;
+    Ogre::Camera *_camera;
+    Ogre::Viewport *_viewport;
+    Ogre::SceneManager *_scene;
 };
 
 #endif
