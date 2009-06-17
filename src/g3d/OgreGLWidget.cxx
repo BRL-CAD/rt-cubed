@@ -59,6 +59,10 @@ OgreGLWidget::~OgreGLWidget()
 void OgreGLWidget::initializeGL() 
 {
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
+    
+    loadResources();
+
+    // TODO: Force use of OpenGL renderer for wrapping in Qt
     _root->restoreConfig();
     _root->initialise(false);
 
@@ -68,10 +72,9 @@ void OgreGLWidget::initializeGL()
     _renderWindow = _root->createRenderWindow("MainRenderWindow", 640, 480, false, &params);
 
     if(!_renderWindow) {
-	throw std::exception("Unable to initialize OGRE!");
+	// TODO: Real error handling
+	throw std::exception();
     }
-
-    loadResources();
 
     // Create scene, camera, viewport
     _scene = _root->createSceneManager("DefaultSceneManager", "g3d SceneManager");
@@ -121,6 +124,35 @@ void OgreGLWidget::paintGL()
     _root->renderOneFrame();
 }
 
+// RBGui->Qt Transitional use only
+Ogre::Root *OgreGLWidget::root() const
+{
+    return _root;
+}
+
+// RBGui->Qt Transitional use only
+Ogre::RenderWindow *OgreGLWidget::renderWindow() const
+{
+    return _renderWindow;
+}
+
+// RBGui->Qt Transitional use only
+Ogre::Camera *OgreGLWidget::camera() const
+{
+    return _camera;
+}
+
+// RBGui->Qt Transitional use only
+Ogre::Viewport *OgreGLWidget::viewport() const
+{
+    return _viewport;
+}
+
+// RBGui->Qt Transitional use only
+Ogre::SceneManager *OgreGLWidget::scene() const
+{
+    return _scene;
+}
 
 /*
  * Local Variables:

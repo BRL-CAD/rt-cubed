@@ -39,8 +39,15 @@ class OgreGLWidget : public QGLWidget
     Q_OBJECT
 
 public:
-    OgreGLWidget(QWidget *parent = 0);
+    OgreGLWidget(QWidget *parent = NULL);
     ~OgreGLWidget();
+
+    // RBGui->Qt Transitional use only
+    Ogre::Root *root() const;
+    Ogre::RenderWindow *renderWindow() const;
+    Ogre::Camera *camera() const;
+    Ogre::Viewport *viewport() const;
+    Ogre::SceneManager *scene() const;
 
 protected:
     void initializeGL();
