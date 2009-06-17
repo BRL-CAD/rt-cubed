@@ -39,8 +39,15 @@
 
 OgreGLWidget::OgreGLWidget(QWidget *parent) :
     QGLWidget(parent),
-    _root(0), _scene(0), _camera(0), _viewport(0), _renderWindow(0)
+    _scene(0), _camera(0), _viewport(0), _renderWindow(0)
 {
+    _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
+    
+    // TODO: Force use of OpenGL renderer for wrapping in Qt
+    _root->restoreConfig();
+    _root->initialise(false);
+    
+    loadResources();
 }
 
 OgreGLWidget::~OgreGLWidget() 
@@ -57,20 +64,11 @@ OgreGLWidget::~OgreGLWidget()
 
 
 void OgreGLWidget::initializeGL() 
-{
-    _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
-    
-    loadResources();
-
-    // TODO: Force use of OpenGL renderer for wrapping in Qt
-    _root->restoreConfig();
-    _root->initialise(false);
-
+{   
     Ogre::NameValuePairList params;
     params["currentGLContext"] = Ogre::String("True");
 
-    _renderWindow = _root->createRenderWindow("MainRenderWindow", 640, 480, false, &params);
-
+    _renderWindow = _root->createRenderWindow("MainRenderWindow", 640, 480, false, &params);    
     if(!_renderWindow) {
 	// TODO: Real error handling
 	throw std::exception();
@@ -110,7 +108,6 @@ void OgreGLWidget::loadResources()
 	}
     }
 
-    // Initialize resource groups
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
