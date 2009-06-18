@@ -34,11 +34,26 @@
 #include <OGRE/OgreRoot.h>
 #include <OGRE/OgreRenderWindow.h>
 
+// RBGui->Qt transitional
+#include <vector>
+#include <OIS/OIS.h>
+#include <Mocha/DataSection.h>
+#include <Mocha/Stream.h>
+#include <Mocha/Timer.h>
+#include <RBGui/Core.h>
+#include <RBGui/OgreSupport/OgreRenderQueueListener.h>
+
+// RBGui->Qt transitional
+class MouseListener;
+class KeyListener;
+class LostDeviceListener;
+class GuiBaseWindow;
+
 class OgreGLWidget : public QGLWidget
 {
     Q_OBJECT
 
-public:
+    public:
     OgreGLWidget(QWidget *parent = NULL);
     ~OgreGLWidget();
 
@@ -55,6 +70,20 @@ protected:
     void paintGL();
 
     void loadResources();
+
+    // RBGui->Qt Transitional use only
+    void initRBGui();
+    OIS::Mouse* _mouse;
+    OIS::Keyboard* _keyboard;
+    OIS::InputManager* _inputManager;
+    RBGui::Core* _guiCore;
+    RBGui::GuiManager* _guiManager;
+    MouseListener* _mouseListener;
+    KeyListener* _keyListener;
+    LostDeviceListener* _lostDeviceListener;
+    RBGui::OgreRenderQueueListener* _rbguiRenderListener;
+    Mocha::Timer* _timer;
+    std::vector<GuiBaseWindow*> _windowList;
 
     Ogre::Root *_root;
     Ogre::RenderWindow *_renderWindow;
