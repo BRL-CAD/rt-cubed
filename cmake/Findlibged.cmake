@@ -10,16 +10,26 @@ include(LibFindMacros)
 # Use pkg-config to get hints about paths
 libfind_pkg_check_modules(libged_PKGCONF libged)
 
+set(libged_LIB_PREFIX_GUESSES $ENV{BRLCAD_ROOT}/lib)
+set(libged_INC_PREFIX_GUESSES $ENV{BRLCAD_ROOT}/include)
+
+if (WIN32)
+  # TODO: Guess default install locations on windows
+elseif (UNIX)
+  set(libged_LIB_PREFIX_GUESSES ${libged_LIB_PREFIX_GUESSES} /usr/brlcad/lib /usr/local/brlcad/lib)
+  set(libged_INC_PREFIX_GUESSES ${libged_INC_PREFIX_GUESSES} /usr/brlcad/include /usr/local/brlcad/include)
+endif ()
+
 # Include dir
 find_path(libged_INCLUDE_DIR
   NAMES brlcad/ged.h
-  PATHS ${libged_PKGCONF_INCLUDEDIR}
+  PATHS ${libged_PKGCONF_INCLUDEDIR} ${libged_INC_PREFIX_GUESSES}
 )
 
 # Finally the library itself
 find_library(libged_LIBRARY
   NAMES ged
-  PATHS ${libged_PKGCONF_LIBDIR}
+  PATHS ${libged_PKGCONF_LIBDIR} ${libged_LIB_PREFIX_GUESSES}
 )
 
 # Set the include dir variables and the libraries and let libfind_process do the rest.
