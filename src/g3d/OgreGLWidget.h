@@ -49,11 +49,12 @@ class OgreGLWidget : public QGLWidget
     Ogre::SceneManager* scene();
 
 protected:
+    /** Loads Ogre resources specified in the resources.cfg */
+    void loadResources();
+
     void initializeGL();
     void resizeGL(int, int);
     void paintGL();
-
-    void loadResources();
 
     Ogre::Root *_root;
     Ogre::RenderWindow *_renderWindow;

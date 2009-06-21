@@ -29,9 +29,10 @@
 #include "OgreGLWidget.h"
 
 #include <exception>
-#include <cstdio>
 
 #include <OGRE/Ogre.h>
+
+#include "Logger.h"
 
 #define OGRE_PLUGIN_FILE        (DATA_DIR "ogreplugins.cfg")
 #define OGRE_CFG_FILE           (DATA_DIR "ogre.cfg")
@@ -48,11 +49,13 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     if (_root->restoreConfig() || _root->showConfigDialog()) {
 	_root->initialise(false);
     }
-    printf("Ogre initialized!\n");
+    Logger::logDEBUG("Ogre initialized!\n");
 }
 
 OgreGLWidget::~OgreGLWidget() 
 {
+    Logger::logDEBUG("Shutting down OGRE...");
+	
     if(_renderWindow) {
 	_renderWindow->removeAllViewports();
 	_renderWindow->destroy();
@@ -61,6 +64,8 @@ OgreGLWidget::~OgreGLWidget()
     if(_root) {
 	delete _root;
     }
+
+    Logger::logDEBUG("OGRE shutdown complete.");
 }
 
 
@@ -77,7 +82,6 @@ void OgreGLWidget::initializeGL()
     _renderWindow->setVisible(true);
 
     loadResources();
-    printf("Resources loaded!\n");
 
     // Create scene, camera, viewport
     _scene = _root->createSceneManager("DefaultSceneManager", "g3d SceneManager");
@@ -90,6 +94,8 @@ void OgreGLWidget::initializeGL()
     l->setDiffuseColour(Ogre::ColourValue(1.0, 0.5, 0.0));
 
     _renderWindow->setVisible(true);
+    
+    Logger::logDEBUG("Ogre ready to render.");
 }
 
 void OgreGLWidget::loadResources() 
