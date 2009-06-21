@@ -34,21 +34,6 @@
 #include <OGRE/OgreRoot.h>
 #include <OGRE/OgreRenderWindow.h>
 
-// RBGui->Qt transitional
-#include <vector>
-#include <OIS/OIS.h>
-#include <Mocha/DataSection.h>
-#include <Mocha/Stream.h>
-#include <Mocha/Timer.h>
-#include <RBGui/Core.h>
-#include <RBGui/OgreSupport/OgreRenderQueueListener.h>
-
-// RBGui->Qt transitional
-class MouseListener;
-class KeyListener;
-class LostDeviceListener;
-class GuiBaseWindow;
-
 class OgreGLWidget : public QGLWidget
 {
     Q_OBJECT
@@ -57,33 +42,18 @@ class OgreGLWidget : public QGLWidget
     OgreGLWidget(QWidget *parent = NULL);
     ~OgreGLWidget();
 
-    // RBGui->Qt Transitional use only
-    Ogre::Root *root() const;
-    Ogre::RenderWindow *renderWindow() const;
-    Ogre::Camera *camera() const;
-    Ogre::Viewport *viewport() const;
-    Ogre::SceneManager *scene() const;
+    Ogre::Root* root();
+    Ogre::RenderWindow* renderWindow();
+    Ogre::Camera* camera();
+    Ogre::Viewport* viewport();
+    Ogre::SceneManager* scene();
 
 protected:
     void initializeGL();
-    void resizeGL( int, int );
+    void resizeGL(int, int);
     void paintGL();
 
     void loadResources();
-
-    // RBGui->Qt Transitional use only
-    void initRBGui();
-    OIS::Mouse* _mouse;
-    OIS::Keyboard* _keyboard;
-    OIS::InputManager* _inputManager;
-    RBGui::Core* _guiCore;
-    RBGui::GuiManager* _guiManager;
-    MouseListener* _mouseListener;
-    KeyListener* _keyListener;
-    LostDeviceListener* _lostDeviceListener;
-    RBGui::OgreRenderQueueListener* _rbguiRenderListener;
-    Mocha::Timer* _timer;
-    std::vector<GuiBaseWindow*> _windowList;
 
     Ogre::Root *_root;
     Ogre::RenderWindow *_renderWindow;
