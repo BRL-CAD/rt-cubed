@@ -56,14 +56,7 @@ OgreGLWidget::~OgreGLWidget()
 {
     Logger::logDEBUG("Shutting down OGRE...");
 	
-    if(_renderWindow) {
-	_renderWindow->removeAllViewports();
-	_renderWindow->destroy();
-    }
-
-    if(_root) {
-	delete _root;
-    }
+    delete _root;
 
     Logger::logDEBUG("OGRE shutdown complete.");
 }
