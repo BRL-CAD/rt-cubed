@@ -1,4 +1,4 @@
-/*                  O G R E G L W I D G E T . C X X
+/*                  O G R E G L W I D G E T . H
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,17 +18,22 @@
  * information.
  */
 
-/** @file OgreGLWidget.h
+/** @file OgreScene.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
- * @brief
- *      Ogre Qt OpenGL widget
+ * @brief 
+ *	Ogre Qt Scene for use with a GraphicsView.  Requires a QGLWidget
+ *	(or similar) set as viewport.
  */
 
-#include "OgreGLWidget.h"
+
+#include "OgreScene.h"
 
 #include <exception>
+
+#include <QPainter>
+#include <QPaintEngine>
 
 #include <OGRE/Ogre.h>
 
@@ -39,8 +44,8 @@
 #define OGRE_LOG_FILE           (DATA_DIR "ogre.log")
 #define OGRE_RESOURCES_CFG_FILE (DATA_DIR "resources.cfg")
 
-OgreGLWidget::OgreGLWidget(QWidget *parent) :
-    QGLWidget(parent),
+OgreScene::OgreScene() :
+    _ogreReady(false),
     _scene(0), _camera(0), _viewport(0), _renderWindow(0)
 {
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
@@ -52,7 +57,7 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     Logger::logDEBUG("Ogre initialized!\n");
 }
 
-OgreGLWidget::~OgreGLWidget() 
+OgreScene::~OgreScene() 
 {
     Logger::logDEBUG("Shutting down OGRE...");
 	
@@ -62,8 +67,19 @@ OgreGLWidget::~OgreGLWidget()
 }
 
 
-void OgreGLWidget::initializeGL() 
-{   
+void OgreScene::drawBackground(QPainter *painter, const QRectF &rect)
+{
+    if(!_ogreReady) {
+	assert(painter->paintEngine()->type() == QPaintEngine::OpenGL);
+	initOgre();
+	_ogreReady = true;
+    }
+    
+    _root->renderOneFrame();
+}
+
+void OgreScene::initOgre() 
+{
     Ogre::NameValuePairList params;
     params["currentGLContext"] = Ogre::String("True");
 
@@ -80,18 +96,27 @@ void OgreGLWidget::initializeGL()
     _scene = _root->createSceneManager("DefaultSceneManager", "g3d SceneManager");
     _camera = _scene->createCamera("g3d Camera");
     _viewport = _renderWindow->addViewport(_camera);
-    _viewport->setBackgroundColour(Ogre::ColourValue(0.6f, 0.6f, 0.6f, 1.0f));
+    _viewport->setBackgroundColour(Ogre::ColourValue(0.1f, 0.1f, 0.1f, 1.0f));
     _scene->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
     Ogre::Light* l = _scene->createLight("MainLight");
     l->setPosition(0, 10, 0);
     l->setDiffuseColour(Ogre::ColourValue(1.0, 0.5, 0.0));
+
+    // Basic rendering test
+    Ogre::Entity *sphereEnt = _scene->createEntity("Sphere", "sphere.mesh");
+    Ogre::SceneNode *sphereNode = _scene->getRootSceneNode()->createChildSceneNode("SphereNode");
+    sphereNode->setVisible(true);
+    sphereNode->attachObject(sphereEnt);
+    sphereNode->setPosition(50, 0, 0);
+    _camera->setPosition(0, 0, 0);
+    _camera->lookAt(sphereNode->getPosition());
 
     _renderWindow->setVisible(true);
     
     Logger::logDEBUG("Ogre ready to render.");
 }
 
-void OgreGLWidget::loadResources() 
+void OgreScene::loadResources() 
 {
     Ogre::ConfigFile config;
     config.load(OGRE_RESOURCES_CFG_FILE);
@@ -115,41 +140,6 @@ void OgreGLWidget::loadResources()
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
-void OgreGLWidget::resizeGL(int width, int height)
-{
-    _renderWindow->windowMovedOrResized();
-}
-
-void OgreGLWidget::paintGL() 
-{
-    _root->renderOneFrame();
-}
-
-
-Ogre::Root *OgreGLWidget::root()
-{
-    return _root;
-}
-
-Ogre::RenderWindow *OgreGLWidget::renderWindow()
-{
-    return _renderWindow;
-}
-
-Ogre::Camera *OgreGLWidget::camera()
-{
-    return _camera;
-}
-
-Ogre::Viewport *OgreGLWidget::viewport()
-{
-    return _viewport;
-}
-
-Ogre::SceneManager *OgreGLWidget::scene()
-{
-    return _scene;
-}
 
 /*
  * Local Variables:

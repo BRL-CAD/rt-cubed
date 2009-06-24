@@ -18,43 +18,52 @@
  * information.
  */
 
-/** @file OgreGLWidget.h
+/** @file OgreScene.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
  * @brief 
- *	Ogre Qt OpenGL widget header
+ *	Ogre Qt Scene for use with a GraphicsView.  Requires a
+ *	QGLWidget (or similar) set as viewport.
  */
 
-#ifndef __G3D_GLWIDGET_H__
-#define __G3D_GLWIDGET_H__
+#ifndef __G3D_OGRESCENE_H__
+#define __G3D_OGRESCENE_H__
 
-#include <QGLWidget>
+#include <QGraphicsScene>
 
-#include <OGRE/OgreRoot.h>
-#include <OGRE/OgreRenderWindow.h>
+#include <OGRE/Ogre.h>
 
-class OgreGLWidget : public QGLWidget
+class OgreScene : public QGraphicsScene
 {
     Q_OBJECT
 
-    public:
-    OgreGLWidget(QWidget *parent = NULL);
-    ~OgreGLWidget();
-
-    Ogre::Root* root();
-    Ogre::RenderWindow* renderWindow();
-    Ogre::Camera* camera();
-    Ogre::Viewport* viewport();
-    Ogre::SceneManager* scene();
+public:
+    OgreScene();
+    ~OgreScene();
 
 protected:
-    /** Loads Ogre resources specified in the resources.cfg */
+    void drawBackground(QPainter *painter, const QRectF &rect);
+    
+    // Input
+    /* TODO
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void wheelEvent(QGraphicsSceneWheelEvent *event);
+    */
+
+private:
+    /** Prepare Ogre for rendering.  Must be called after the creation
+     *  of an OpenGL context. */
+    void initOgre();
+    /** Load resources. */
     void loadResources();
 
-    void initializeGL();
-    void resizeGL(int, int);
-    void paintGL();
+    /** Set to true when Ogre is prepared to render. */
+    bool _ogreReady;
 
     Ogre::Root *_root;
     Ogre::RenderWindow *_renderWindow;
