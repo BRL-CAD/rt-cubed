@@ -42,6 +42,9 @@ public:
     OgreScene();
     ~OgreScene();
 
+public slots:
+    void handleResize(const QRectF &rect);
+
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect);
     
@@ -61,9 +64,6 @@ private:
     void initOgre();
     /** Load resources. */
     void loadResources();
-
-    /** Set to true when Ogre is prepared to render. */
-    bool _ogreReady;
 
     Ogre::Root *_root;
     Ogre::RenderWindow *_renderWindow;

@@ -45,7 +45,6 @@
 #define OGRE_RESOURCES_CFG_FILE (DATA_DIR "resources.cfg")
 
 OgreScene::OgreScene() :
-    _ogreReady(false),
     _scene(0), _camera(0), _viewport(0), _renderWindow(0)
 {
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
@@ -55,6 +54,8 @@ OgreScene::OgreScene() :
 	_root->initialise(false);
     }
     Logger::logDEBUG("Ogre initialized!\n");
+
+    connect(this, SIGNAL(sceneRectChanged(const QRectF &)), this, SLOT(handleResize(const QRectF &)));
 }
 
 OgreScene::~OgreScene() 
@@ -69,13 +70,22 @@ OgreScene::~OgreScene()
 
 void OgreScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
-    if(!_ogreReady) {
+    if(!_renderWindow) {
 	assert(painter->paintEngine()->type() == QPaintEngine::OpenGL);
 	initOgre();
-	_ogreReady = true;
     }
     
     _root->renderOneFrame();
+}
+
+void OgreScene::handleResize(const QRectF &rect) 
+{
+    if(_renderWindow) {
+	_renderWindow->resize(rect.x(), rect.y());
+    
+	// Is this necessary?
+	_renderWindow->windowMovedOrResized();
+    }
 }
 
 void OgreScene::initOgre() 
