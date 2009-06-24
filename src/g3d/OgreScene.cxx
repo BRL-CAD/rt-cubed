@@ -32,8 +32,7 @@
 
 #include <exception>
 
-#include <QPainter>
-#include <QPaintEngine>
+#include <QtGui>
 
 #include <OGRE/Ogre.h>
 
@@ -45,7 +44,7 @@
 #define OGRE_RESOURCES_CFG_FILE (DATA_DIR "resources.cfg")
 
 OgreScene::OgreScene() :
-    _scene(0), _camera(0), _viewport(0), _renderWindow(0)
+    _camera(0), _scene(0), _renderWindow(0), _viewport(0)
 {
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
     
@@ -53,9 +52,26 @@ OgreScene::OgreScene() :
     if (_root->restoreConfig() || _root->showConfigDialog()) {
 	_root->initialise(false);
     }
-    Logger::logDEBUG("Ogre initialized!\n");
+    Logger::logDEBUG("Ogre initialized!");
 
     connect(this, SIGNAL(sceneRectChanged(const QRectF &)), this, SLOT(handleResize(const QRectF &)));
+
+    // Qt test
+    QDialog *hello = new QDialog();
+    hello->setWindowOpacity(0.8);
+    hello->setWindowTitle("Hello, world!");
+    hello->setLayout(new QVBoxLayout);
+
+    QLabel *label = new QLabel(QString("Hullo."));
+    hello->layout()->addWidget(label);
+
+    addWidget(hello);
+
+    foreach (QGraphicsItem *item, items()) {
+	item->setFlag(QGraphicsItem::ItemIsMovable);
+	item->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+	item->setPos(QPointF(0, 0));
+    }
 }
 
 OgreScene::~OgreScene() 
