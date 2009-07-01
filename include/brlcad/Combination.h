@@ -199,12 +199,12 @@ namespace BRLCAD {
         void                  SetLineOfSight(int value) throw();
         bool                  HasColor(void) const throw();
         void                  SetHasColor(bool value) throw();
-        unsigned char         Red(void) const throw();
-        void                  SetRed(unsigned char value) throw();
-        unsigned char         Green(void) const throw();
-        void                  SetGreen(unsigned char value) throw();
-        unsigned char         Blue(void) const throw();
-        void                  SetBlue(unsigned char value) throw();
+        double                Red(void) const throw();
+        void                  SetRed(double value) throw();
+        double                Green(void) const throw();
+        void                  SetGreen(double value) throw();
+        double                Blue(void) const throw();
+        void                  SetBlue(double value) throw();
         const char*           Shader(void) const throw();
         void                  SetShader(const char* value) throw(bad_alloc);
         bool                  Inherit(void) const throw(); ///< override lower nodes color and shader

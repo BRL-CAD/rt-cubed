@@ -417,39 +417,39 @@ public:
         assert(m_partition != 0);
    }
 
-    virtual const char*   Name(void) const throw() {
+    virtual const char* Name(void) const throw() {
         return m_partition->pt_regionp->reg_name;
     }
 
-    virtual double        DistanceIn(void) const throw() {
+    virtual double      DistanceIn(void) const throw() {
         return m_partition->pt_inhit->hit_dist;
     }
 
-    virtual double        DistanceOut(void) const throw() {
+    virtual double      DistanceOut(void) const throw() {
         return m_partition->pt_outhit->hit_dist;
     }
 
-    virtual Vector3D      PointIn(void) const throw() {
+    virtual Vector3D    PointIn(void) const throw() {
         ComputeInVectors();
         return m_partition->pt_inhit->hit_point;
     }
 
-    virtual Vector3D      PointOut(void) const throw() {
+    virtual Vector3D    PointOut(void) const throw() {
         ComputeOutVectors();
         return m_partition->pt_outhit->hit_point;
     }
 
-    virtual Vector3D      SurfaceNormaleIn(void) const throw() {
+    virtual Vector3D    SurfaceNormaleIn(void) const throw() {
         ComputeInVectors();
         return m_partition->pt_inhit->hit_normal;
     }
 
-    virtual Vector3D      SurfaceNormaleOut(void) const throw() {
+    virtual Vector3D    SurfaceNormaleOut(void) const throw() {
         ComputeOutVectors();
         return m_partition->pt_outhit->hit_normal;
     }
 
-    virtual Curvature3D   SurfaceCurvatureIn(void) const throw() {
+    virtual Curvature3D SurfaceCurvatureIn(void) const throw() {
         ComputeInVectors();
 
         curvature curv;
@@ -458,7 +458,7 @@ public:
         return Curvature3D(curv.crv_pdir, curv.crv_c1, curv.crv_c2);
     }
 
-    virtual Curvature3D   SurfaceCurvatureOut(void) const throw() {
+    virtual Curvature3D SurfaceCurvatureOut(void) const throw() {
         ComputeOutVectors();
 
         curvature curv;
@@ -467,34 +467,34 @@ public:
         return Curvature3D(curv.crv_pdir, curv.crv_c1, curv.crv_c2);
     }
 
-    virtual Mapping2D     Surface2DMappingIn(void) const throw() {
+    virtual Mapping2D   Surface2DMappingIn(void) const throw() {
         uvcoord uv;
         RT_HIT_UVCOORD(m_application, m_partition->pt_inseg->seg_stp, m_partition->pt_inhit, &uv);
 
         return Mapping2D(Vector2D(uv.uv_u, uv.uv_v), Vector2D(uv.uv_du, uv.uv_dv));
     }
 
-    virtual Mapping2D     Surface2DMappingOut(void) const throw() {
+    virtual Mapping2D   Surface2DMappingOut(void) const throw() {
         uvcoord uv;
         RT_HIT_UVCOORD(m_application, m_partition->pt_outseg->seg_stp, m_partition->pt_outhit, &uv);
 
         return Mapping2D(Vector2D(uv.uv_u, uv.uv_v), Vector2D(uv.uv_du, uv.uv_dv));
     }
 
-    virtual bool          HasColor(void) const throw() {
+    virtual bool        HasColor(void) const throw() {
         return (m_partition->pt_regionp->reg_mater.ma_color_valid != 0);
     }
 
-    virtual unsigned char Red(void) const throw() {
-        return static_cast<unsigned char>(floor(m_partition->pt_regionp->reg_mater.ma_color[0] * 255 + 0.5));
+    virtual double      Red(void) const throw() {
+        return m_partition->pt_regionp->reg_mater.ma_color[0];
     }
 
-    virtual unsigned char Green(void) const throw() {
-        return static_cast<unsigned char>(floor(m_partition->pt_regionp->reg_mater.ma_color[1] * 255 + 0.5));
+    virtual double      Green(void) const throw() {
+        return m_partition->pt_regionp->reg_mater.ma_color[1];
     }
 
-    virtual unsigned char Blue(void) const throw() {
-        return static_cast<unsigned char>(floor(m_partition->pt_regionp->reg_mater.ma_color[2] * 255 + 0.5));
+    virtual double      Blue(void) const throw() {
+        return m_partition->pt_regionp->reg_mater.ma_color[2];
     }
 
 private:

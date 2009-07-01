@@ -29,6 +29,7 @@
 
 #include <cstring>
 #include <cassert>
+#include <algorithm>
 
 #include "raytrace.h"
 
@@ -1002,42 +1003,48 @@ void Combination::SetHasColor
 }
 
 
-unsigned char Combination::Red(void) const throw() {
-    return Internal()->rgb[0];
+double Combination::Red(void) const throw() {
+    return Internal()->rgb[0] / 255.;
 }
 
 
 void Combination::SetRed
 (
-    unsigned char value
+    double value
 ) throw() {
-    Internal()->rgb[0] = value;
+    value = std::min(std::max(value, 0.), 1.);
+
+    Internal()->rgb[0] = static_cast<unsigned char>(floor(value * 255 + 0.5));
 }
 
 
-unsigned char Combination::Green(void) const throw() {
-    return Internal()->rgb[1];
+double Combination::Green(void) const throw() {
+    return Internal()->rgb[1] / 255.;
 }
 
 
 void Combination::SetGreen
 (
-    unsigned char value
+    double value
 ) throw() {
-    Internal()->rgb[1] = value;
+    value = std::min(std::max(value, 0.), 1.);
+
+    Internal()->rgb[1] = static_cast<unsigned char>(floor(value * 255 + 0.5));
 }
 
 
-unsigned char Combination::Blue(void) const throw() {
-    return Internal()->rgb[2];
+double Combination::Blue(void) const throw() {
+    return Internal()->rgb[2] / 255.;
 }
 
 
 void Combination::SetBlue
 (
-    unsigned char value
+    double value
 ) throw() {
-    Internal()->rgb[2] = value;
+    value = std::min(std::max(value, 0.), 1.);
+
+    Internal()->rgb[2] = static_cast<unsigned char>(floor(value * 255 + 0.5));
 }
 
 

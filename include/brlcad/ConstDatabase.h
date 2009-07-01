@@ -138,23 +138,23 @@ namespace BRLCAD {
         public:
             virtual ~Hit(void) throw() {}
 
-            virtual const char*   Name(void) const throw()                = 0;
-            virtual double        DistanceIn(void) const throw()          = 0;
-            virtual double        DistanceOut(void) const throw()         = 0;
-            virtual Vector3D      PointIn(void) const throw()             = 0;
-            virtual Vector3D      PointOut(void) const throw()            = 0;
-            virtual Vector3D      SurfaceNormaleIn(void) const throw()    = 0;
-            virtual Vector3D      SurfaceNormaleOut(void) const throw()   = 0;
-            virtual Curvature3D   SurfaceCurvatureIn(void) const throw()  = 0;
-            virtual Curvature3D   SurfaceCurvatureOut(void) const throw() = 0;
-            virtual Mapping2D     Surface2DMappingIn(void) const throw()  = 0;
-            virtual Mapping2D     Surface2DMappingOut(void) const throw() = 0;
+            virtual const char* Name(void) const throw()                = 0;
+            virtual double      DistanceIn(void) const throw()          = 0;
+            virtual double      DistanceOut(void) const throw()         = 0;
+            virtual Vector3D    PointIn(void) const throw()             = 0;
+            virtual Vector3D    PointOut(void) const throw()            = 0;
+            virtual Vector3D    SurfaceNormaleIn(void) const throw()    = 0;
+            virtual Vector3D    SurfaceNormaleOut(void) const throw()   = 0;
+            virtual Curvature3D SurfaceCurvatureIn(void) const throw()  = 0;
+            virtual Curvature3D SurfaceCurvatureOut(void) const throw() = 0;
+            virtual Mapping2D   Surface2DMappingIn(void) const throw()  = 0;
+            virtual Mapping2D   Surface2DMappingOut(void) const throw() = 0;
 
             /// some extracted data (originally from the region)
-            virtual bool          HasColor(void) const throw()            = 0;
-            virtual unsigned char Red(void) const throw()                 = 0;
-            virtual unsigned char Green(void) const throw()               = 0;
-            virtual unsigned char Blue(void) const throw()                = 0;
+            virtual bool        HasColor(void) const throw()            = 0;
+            virtual double      Red(void) const throw()                 = 0;
+            virtual double      Green(void) const throw()               = 0;
+            virtual double      Blue(void) const throw()                = 0;
 
         protected:
             Hit(void) throw() {}
