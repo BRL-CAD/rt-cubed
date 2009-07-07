@@ -1,34 +1,55 @@
-cmake_minimum_required(VERSION 2.2)
-project(mocha)
+MESSAGE(STATUS "\n\n")
+MESSAGE(STATUS "################################################")
+MESSAGE(STATUS "##             Configuring MOCHA              ##")
+MESSAGE(STATUS "################################################\n")
+
+CMAKE_MINIMUM_REQUIRED(VERSION 2.2)
+PROJECT(mocha)
+
+IF(COMMAND cmake_policy)
+	CMAKE_POLICY(SET CMP0003 NEW)
+ENDIF(COMMAND cmake_policy)
+
 
 # basic compiler flags
-add_definitions()
+ADD_DEFINITIONS()
 
 # detect OS
-set(SYSTEM "POSIX")
-if(WIN32)
-  set(SYSTEM "WIN32")
-endif(WIN32)
-if(APPLE)
-  set(SYSTEM "APPLE")
-endif(APPLE)
-add_definitions( -D${SYSTEM} )
-message(STATUS "Detected system name '${CMAKE_SYSTEM_NAME}', building for system '${SYSTEM}'")
-message(STATUS "Will use C++ compiler '${CMAKE_CXX_COMPILER}'")
+SET(SYSTEM "POSIX")
+
+IF(WIN32)
+  SET(SYSTEM "WIN32")
+ENDIF(WIN32)
+
+IF(APPLE)
+  SET(SYSTEM "APPLE")
+ENDIF(APPLE)
+
+ADD_DEFINITIONS( -D${SYSTEM} )
+MESSAGE(STATUS "Detected system name '${CMAKE_SYSTEM_NAME}', building for system '${SYSTEM}'")
+MESSAGE(STATUS "Will use C++ compiler '${CMAKE_CXX_COMPILER}'")
 
 # compilation
-file(GLOB MOCHA_SOURCES Source/*.cpp Lua/*.c)
-include_directories(Include/ Lua/)
-add_library(mocha SHARED ${MOCHA_SOURCES})
-set_target_properties(mocha PROPERTIES LINKER_LANGUAGE CXX)
-if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
-  target_link_libraries(mocha pthread)
-else(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
-  target_link_libraries(mocha pthread uuid)
-endif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+FILE(GLOB MOCHA_SOURCES Source/*.cpp Lua/*.c)
+
+SET(Mocha_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/Include ${PROJECT_SOURCE_DIR}/Lua)
+
+INCLUDE_DIRECTORIES( ${Mocha_INCLUDE_DIR})
+
+MESSAGE(STATUS "Include Directories: ${Mocha_INCLUDE_DIR}")
+
+
+ADD_LIBRARY(mocha SHARED ${MOCHA_SOURCES})
+SET_TARGET_PROPERTIES(mocha PROPERTIES LINKER_LANGUAGE CXX)
+
+IF(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+  TARGET_LINK_LIBRARIES(mocha pthread)
+ELSE(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+  TARGET_LINK_LIBRARIES(mocha pthread uuid)
+ENDIF(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
 
 # pkg-config file
-file(WRITE ${PROJECT_BINARY_DIR}/Mocha.pc "prefix=${CMAKE_INSTALL_PREFIX}
+FILE(WRITE ${PROJECT_BINARY_DIR}/Mocha.pc "prefix=${CMAKE_INSTALL_PREFIX}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
 includedir=\${prefix}/include
@@ -38,9 +59,9 @@ Description: Helper library for RBGui
 Version: 0.1.3
 Libs: -L\${libdir} -lmocha
 Cflags: -I\${includedir} -I\${includedir}/Mocha")
-set(PKGCONFIG_FILES ${PROJECT_BINARY_DIR}/Mocha.pc)
+SET(PKGCONFIG_FILES ${PROJECT_BINARY_DIR}/Mocha.pc)
 
 # installation
-install(TARGETS mocha LIBRARY DESTINATION lib)
-install(DIRECTORY Include/ DESTINATION include PATTERN ".svn" EXCLUDE)
-install(FILES ${PKGCONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/)
+INSTALL(TARGETS mocha LIBRARY DESTINATION lib)
+INSTALL(DIRECTORY Include/ DESTINATION include PATTERN ".svn" EXCLUDE)
+INSTALL(FILES ${PKGCONFIG_FILES} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/)

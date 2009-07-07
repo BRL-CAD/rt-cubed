@@ -1,14 +1,24 @@
+MESSAGE(STATUS "\n\n")
+MESSAGE(STATUS "################################################")
+MESSAGE(STATUS "##             Configuring rbgui              ##")
+MESSAGE(STATUS "################################################\n")
+
 cmake_minimum_required(VERSION 2.2)
 PROJECT(RBGUI)
 
 #Find the requirements
-SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
-FIND_PACKAGE(Freetype REQUIRED)
-FIND_PACKAGE(Mocha REQUIRED)
-FIND_PACKAGE(OGRE REQUIRED)
+MESSAGE(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
+
+#SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
+#FIND_PACKAGE(Freetype REQUIRED)
+#FIND_PACKAGE(Mocha REQUIRED)
+#FIND_PACKAGE(OGRE REQUIRED)
+
 
 #Set the include search directories
 INCLUDE_DIRECTORIES(${Mocha_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIR} ${OGRE_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/Include)
+
+MESSAGE(STATUS "Include Paths: ${Mocha_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIR} ${OGRE_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/Include")
 
 ADD_SUBDIRECTORY(OgreSupport) #Build the OgreSupport module
 ADD_SUBDIRECTORY(OgreSample) #Build the Ogre example

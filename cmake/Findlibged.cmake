@@ -16,8 +16,8 @@ set(libged_INC_PREFIX_GUESSES $ENV{BRLCAD_ROOT}/include)
 if (WIN32)
   # TODO: Guess default install locations on windows
 elseif (UNIX)
-  set(libged_LIB_PREFIX_GUESSES ${libged_LIB_PREFIX_GUESSES} /usr/brlcad/lib /usr/local/brlcad/lib)
-  set(libged_INC_PREFIX_GUESSES ${libged_INC_PREFIX_GUESSES} /usr/brlcad/include /usr/local/brlcad/include)
+  set(libged_LIB_PREFIX_GUESSES ${libged_LIB_PREFIX_GUESSES} /usr/brlcad/lib /usr/local/brlcad/lib ~/lib)
+  set(libged_INC_PREFIX_GUESSES ${libged_INC_PREFIX_GUESSES} /usr/brlcad/include /usr/local/brlcad/include ~/include)
 endif ()
 
 # Include dir
