@@ -31,13 +31,8 @@ MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "##        Configuring Core Interface          ##")
 MESSAGE(STATUS "################################################\n")
 
-INCLUDE (${CMAKE_MODULE_PATH}/Findlibbu.cmake REQUIRED)
-INCLUDE (${CMAKE_MODULE_PATH}/Findlibbu.cmake REQUIRED)
-
 #INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${RT3_INCLUDE_DIR}/brlcad)
 MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${RT3_INCLUDE_DIR}/brlcad")
-
-MESSAGE (STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
 set(COREINTERFACE_SOURCES
 	Arb8.cpp
@@ -73,3 +68,4 @@ set(COREINTERFACE_HEADERS
 )
 
 ADD_LIBRARY (CoreInterface SHARED ${COREINTERFACE_HEADERS} ${COREINTERFACE_SOURCES})
+TARGET_LINK_LIBRARIES(CoreInterface ${BRLCAD_LIBRARIES})
