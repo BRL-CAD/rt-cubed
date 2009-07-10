@@ -23,8 +23,8 @@
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
  * @brief 
- *	Ogre Qt Scene for use with a GraphicsView.  Requires a
- *	QGLWidget (or similar) set as viewport.
+ *	Performs Qt event handling/rendering immediately after
+ * 	Ogre renders.
  */
 
 #ifndef __G3D__QTRENDERLISTENER_H__
@@ -34,18 +34,22 @@
 
 #include <OGRE/OgreRenderQueueListener.h>
 
-class QtRenderListener : public RenderQueueListener 
+class QtRenderListener : public Ogre::RenderQueueListener 
 {
 public:
-    QtRenderListener(QApplication &qapp, const Ogre::Camera *camera, const Ogre::SceneManager *sceneMgr);
+    QtRenderListener(const QApplication *qapp, const Ogre::MovableObject *parentObj, const Ogre::Camera *camera, Ogre::SceneManager *sceneMgr);
     
-    virtual void renderQueueStarted(uint8 queueGroupId, const Ogre::String &invocation, bool &skipThisInvocation);
-    virtual void renderQueueEnded(uint8 queueGroupId, const Ogre::String &invocation, bool &repeatThisInvocation);
+    virtual void renderQueueStarted(Ogre::uint8 queueGroupId, const Ogre::String &invocation, bool &skipThisInvocation);
+    virtual void renderQueueEnded(Ogre::uint8 queueGroupId, const Ogre::String &invocation, bool &repeatThisInvocation);
 
 private:
-    QApplication *_qapp;
-    Ogre::Camera *_camera;
+    const QApplication *_qapp;
+    
+    const Ogre::Camera *_camera;
     Ogre::SceneManager *_sceneMgr;
+    const Ogre::MovableObject *_parentObj;
+
+    Ogre::Pass *_clearPass;
 };
 
 #endif
