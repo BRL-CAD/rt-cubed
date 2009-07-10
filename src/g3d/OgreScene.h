@@ -31,6 +31,7 @@
 #define __G3D_OGRESCENE_H__
 
 #include <QGraphicsScene>
+#include <QGLWidget>
 
 #include <OGRE/Ogre.h>
 

@@ -33,6 +33,7 @@
 #include <exception>
 
 #include <QtGui>
+#include <QtOpenGL>
 
 #include <OGRE/Ogre.h>
 
@@ -44,7 +45,7 @@
 #define OGRE_RESOURCES_CFG_FILE (DATA_DIR "resources.cfg")
 
 OgreScene::OgreScene() :
-    _camera(0), _scene(0), _renderWindow(0), _viewport(0)
+    _camera(0), _renderWindow(0), _scene(0), _viewport(0)
 {
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
     
@@ -84,14 +85,24 @@ OgreScene::~OgreScene()
 }
 
 
-void OgreScene::drawBackground(QPainter *painter, const QRectF &rect)
+void OgreScene::drawBackground(QPainter *painter, const QRectF &)
 {
     if(!_renderWindow) {
 	assert(painter->paintEngine()->type() == QPaintEngine::OpenGL);
 	initOgre();
     }
+    painter->save();
+
+    _root->_fireFrameStarted();
+    _root->_updateAllRenderTargets();
+    _renderWindow->update(false);
+    //_root->renderOneFrame();
+    _root->_fireFrameEnded();
+
+
+    //QTimer::singleShot(20, this, SLOT(update()));
     
-    _root->renderOneFrame();
+    painter->restore();
 }
 
 void OgreScene::handleResize(const QRectF &rect) 

@@ -34,8 +34,15 @@ set(G3D_SOURCES
   History.cxx
   Logger.cxx
   Observer.cxx
-  OgreGLWidget.cxx
+  OgreScene.cxx
   main.cxx
+  )
+
+set(OGRETEST_SOURCES
+  ogretest.cxx
+  Logger.cxx
+  Observer.cxx
+  OgreScene.cxx
   )
 
 set(G3D_HEADERS
@@ -65,7 +72,7 @@ set(G3D_HEADERS
 
 # Qt stuff that needs preprocessing
 set(G3D_MOC_HEADERS
-  OgreGLWidget.h
+  OgreScene.h
   )
 
 set(RBGUI_DIR "../../data/g3d/RBGui")
@@ -93,6 +100,7 @@ message(STATUS "Will use C++ compiler '${CMAKE_CXX_COMPILER}'")
 find_package(OGRE REQUIRED)
 include_directories(${OGRE_INCLUDE_DIRS})
 set(LIBS ${LIBS} ${OGRE_LIBRARIES})
+set(OTLIBS ${OTLIBS} ${OGRE_LIBRARIES})
 
 find_package(OIS REQUIRED)
 include_directories(${OIS_INCLUDE_DIRS})
@@ -117,7 +125,8 @@ set(LIBS ${LIBS} ${RBGui_LIBRARIES})
 find_package(Qt4 REQUIRED)
 set(QT_USE_QTOPENGL 1)
 INCLUDE(${QT_USE_FILE})
-set(LIBS ${LIBS} ${QT_LIBRARIES})
+#set(LIBS ${LIBS} ${QT_LIBRARIES})
+set(OTLIBS ${OTLIBS} ${QT_LIBRARIES})
 
 # Preprocess Qt stuff
 qt4_wrap_cpp(G3D_MOC_OUTFILES ${G3D_MOC_HEADERS})
@@ -148,7 +157,9 @@ else(CANNOT_BUILD)
   #link_libraries( g3d ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Mocha_LIBRARIES} ${RBGui_LIBRARIES} )
   #add_definitions(${PC_CFLAGS} ${BRLCAD_CFLAGS})
   add_executable( g3d ${G3D_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} )
+  add_executable( ogretest ${OGRETEST_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} )
   target_link_libraries( g3d ${LIBS} )
+  target_link_libraries( ogretest ${OTLIBS} )
 
   # OGRE config files
   file(WRITE ${PROJECT_BINARY_DIR}/resources.cfg "# Resource locations to be added to the default path
