@@ -31,6 +31,7 @@
 
 #include "iBME/iBMECommon.h"
 #include "GE/exception/IOException.h"
+#include <sys/types.h>
 #include <netinet/in.h>
 
 class DataStream {
