@@ -37,7 +37,10 @@ QtRenderListener::QtRenderListener(const QApplication *qapp, const Ogre::Movable
     _qapp(qapp),
     _camera(camera), _sceneMgr(sceneMgr), _parentObj(parentObj),
     _clearPass(NULL)
-{}
+{
+    assert(_sceneMgr->getDestinationRenderSystem()->getName() ==
+	   "OpenGL Rendering Subsystem");
+}
 
 
 void QtRenderListener::renderQueueStarted(Ogre::uint8 queueGroupId, const Ogre::String &invocation, bool &skipThisInvocation)
