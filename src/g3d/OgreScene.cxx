@@ -94,9 +94,7 @@ void OgreScene::drawBackground(QPainter *painter, const QRectF &)
     painter->save();
 
     _root->_fireFrameStarted();
-    _root->_updateAllRenderTargets();
-    _renderWindow->update(false);
-    //_root->renderOneFrame();
+    //_renderWindow->update(false);
     _root->_fireFrameEnded();
 
 
