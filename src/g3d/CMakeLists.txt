@@ -34,7 +34,6 @@ set(G3D_SOURCES
   History.cxx
   Logger.cxx
   Observer.cxx
-  OgreScene.cxx
   main.cxx
   )
 
@@ -42,7 +41,7 @@ set(OGRETEST_SOURCES
   ogretest.cxx
   Logger.cxx
   Observer.cxx
-  OgreScene.cxx
+  QtRenderListener.cxx
   )
 
 set(G3D_HEADERS
@@ -70,9 +69,14 @@ set(G3D_HEADERS
   Observer.h
   )
 
+set(OGRETEST_HEADERS
+  QtRenderListener.h
+  Logger.h
+  Observer.h
+  )
+
 # Qt stuff that needs preprocessing
 set(G3D_MOC_HEADERS
-  OgreScene.h
   )
 
 set(RBGUI_DIR "../../data/g3d/RBGui")
@@ -157,7 +161,7 @@ else(CANNOT_BUILD)
   #link_libraries( g3d ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Mocha_LIBRARIES} ${RBGui_LIBRARIES} )
   #add_definitions(${PC_CFLAGS} ${BRLCAD_CFLAGS})
   add_executable( g3d ${G3D_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} )
-  add_executable( ogretest ${OGRETEST_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} )
+  add_executable( ogretest ${OGRETEST_SOURCES} ${G3D_MOC_OUTFILES} ${OGRETEST_HEADERS} )
   target_link_libraries( g3d ${LIBS} )
   target_link_libraries( ogretest ${OTLIBS} )
 
