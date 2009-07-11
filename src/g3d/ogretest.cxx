@@ -72,6 +72,24 @@ int main(int argc, char** argv)
   DWORD res = SetThreadAffinityMask(id, 1);
 #endif
 
+  // Set up Qt
+  QApplication qapp(argc, argv);
+  
+  GraphicsView view("G3D");
+  QGraphicsScene qtScene;
+  
+  view.setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+  view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+  view.setScene(&qtScene);
+  view.show();
+
+  view.resize(1024, 768);
+
+  // Step Qt once to set everything up so Ogre has a context to render into
+  qapp.processEvents();
+
+  Logger::logDEBUG("Qt initialized.");
+
   // Set up Ogre
   Ogre::Root ogreRoot(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
   // TODO: Explicitly configure
@@ -138,34 +156,17 @@ int main(int argc, char** argv)
 
   renderWindow->setVisible(true);
 
-  Logger::logDEBUG("Ogre ready to render.");
-
-  // Set up Qt
-  QApplication qapp(argc, argv);
-
   // Configure and install the Qt render listener
   Ogre::ManualObject *guiObj = scene->createManualObject("GUI");
   scene->getRootSceneNode()->createChildSceneNode()->attachObject(guiObj);
   QtRenderListener *listener = new QtRenderListener(&qapp, guiObj, camera, scene);
   scene->addRenderQueueListener(listener);
-
-  GraphicsView view("G3D");
-  QGraphicsScene qtScene;
   
-  view.setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
-  view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-  view.setScene(&qtScene);
-  view.show();
+  Logger::logDEBUG("Ogre ready to render.");
 
-  view.resize(1024, 768);
-
-  // Step Qt once to set everything up so Ogre has a context to render into
-  qapp.processEvents();
 
   // Main loop
   // TODO: Clean exit support
-  // TODO: Manually step Qt until the OpenGL context is ready, and
-  // only then hand things off to Ogre
   while(true) {
     ogreRoot.renderOneFrame();
   }
