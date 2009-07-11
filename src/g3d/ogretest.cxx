@@ -77,6 +77,17 @@ int main(int argc, char** argv)
   
   GraphicsView view("G3D");
   QGraphicsScene qtScene;
+
+  // Test widgetry
+  QDialog *hello = new QDialog();
+  hello->setWindowOpacity(0.8);
+  hello->setWindowTitle("Hello, world!");
+  hello->setLayout(new QVBoxLayout);
+
+  QLabel *label = new QLabel(QString("Hullo."));
+  hello->layout()->addWidget(label);
+
+  qtScene.addWidget(hello);
   
   view.setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
   view.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);

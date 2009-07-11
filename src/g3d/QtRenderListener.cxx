@@ -80,6 +80,8 @@ void QtRenderListener::renderQueueEnded(Ogre::uint8 queueGroupId, const Ogre::St
     glPushAttrib(GL_ALL_ATTRIB_BITS);
 
     // Step Qt
+    // TODO: Detect when Qt thinks it's time to quit, and shut down
+    // Ogre properly.
     _qapp->processEvents();
 
     // Restore state
