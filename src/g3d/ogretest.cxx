@@ -166,10 +166,7 @@ int main(int argc, char** argv)
 
 
   // Main loop
-  // TODO: Clean exit support
-  while(true) {
-    ogreRoot.renderOneFrame();
-  }
+  ogreRoot.startRendering();
 
   scene->removeRenderQueueListener(listener);
   delete listener;
