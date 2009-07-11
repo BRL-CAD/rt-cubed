@@ -177,7 +177,9 @@ int main(int argc, char** argv)
 
 
   // Main loop
-  ogreRoot.startRendering();
+  while(true) {
+    renderWindow->update(false);
+  }
 
   scene->removeRenderQueueListener(listener);
   delete listener;
