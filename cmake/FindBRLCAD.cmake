@@ -98,15 +98,13 @@ FOREACH (lib
 	itcl34   itclstub34   itk34   
 	itkstub34
 )
-	FIND_LIBRARY( ${lib}_LIBRARY 
-		NAMES ${lib}  
-		PATHS ${LIB_SEARCH_PATHS}
-	)
-	SET(BRLCAD_LIBRARIES ${BRLCAD_LIBRARIES} ${lib}_LIBRARY )
+	FIND_LIBRARY( ${lib}_LIBRARY 	NAMES ${lib}	PATHS ${LIB_SEARCH_PATHS} )
+	
+	SET(BRLCAD_LIBRARIES ${BRLCAD_LIBRARIES} ${${lib}_LIBRARY} )
 	IF(NOT ${lib}_LIBRARY)
-		MESSAGE(STATUS "Could not find: ${lib}_LIBRARY ")
+		MESSAGE(STATUS "Could not find: lib${lib} ")
 	ELSE(NOT ${lib}_LIBRARY)
-		MESSAGE(STATUS "Found: ${lib}_LIBRARY \t${${lib}_LIBRARY}")
+		MESSAGE(STATUS "Found: lib${lib} \t${${lib}}")
 	ENDIF(NOT ${lib}_LIBRARY)
 
 
