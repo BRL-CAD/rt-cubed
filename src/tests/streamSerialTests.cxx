@@ -34,17 +34,17 @@ int main(int argc, char* argv[])
 
   bool boo = false;
 
-  unsigned char ub = 255;
-  char b =   127;
+  uint8_t ub = 0xff;
+  int8_t b =   0x7f;
 
-  unsigned short ush = 65535;
-  short sh =   32767;
+  uint16_t ush = 0xffff;
+  int16_t sh =   0x7fff;
 
-  unsigned int ui = 4294967295;
-  int i =   2147483647;
+  uint32_t ui = 0xffffffff;
+  int32_t i =   0x7fffffff;
 
-  unsigned long ul = 18446744073709551615;
-  long l =    9223372036854775807;
+  uint64_t ul = 0xffffffffffffffffLL;
+  int64_t l =   0x7fffffffffffffffLL;
 
   float f =  1234.567890123456789;
   double d = 1234.567890123456789;
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 
   dos->writeBoolean(boo);
   dos->writeUChar(ub);
-  dos->writeChar(b);
+  dos->writeChar((char)b);
   dos->writeUShort(ush);
   dos->writeShort(sh);
   dos->writeUInt(ui);
