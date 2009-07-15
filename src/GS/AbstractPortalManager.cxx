@@ -1,4 +1,4 @@
-/*       C O M M U N I C A T I O N S M A N A G E R . C X X
+/*       A B S T R A C T P O R T A L M A N A G E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 2009 United States Government as represented by
@@ -17,19 +17,19 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file CommunicationsManager.cxx
+/** @file AbstractPortalManager.cxx
  *
  * Brief description
  *
  */
 
-#include "GS/CommunicationsManager.h"
+#include "GS/AbstractPortalManager.h"
 
-CommunicationsManager::CommunicationsManager()
+AbstractPortalManager::AbstractPortalManager()
 {
 }
 
-CommunicationsManager::~CommunicationsManager()
+AbstractPortalManager::~AbstractPortalManager()
 {
 }
 

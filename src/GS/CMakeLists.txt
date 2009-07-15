@@ -35,15 +35,15 @@ MESSAGE(STATUS "")
 
 
 set(GS_SOURCES
-	AbstractDbObjectSource.cxx
+	IntraAppPortal.cxx
 	AbstractPortal.cxx
+	AbstractPortalManager.cxx
+	AbstractDbObjectSource.cxx
 	DbObjectCache.cxx
 	SourceDiskLink.cxx
 	SourceSvnLink.cxx
 	DbObjectManager.cxx
 	DbObjectManifest.cxx
-	CommunicationsManager.cxx
-	IntraAppPortal.cxx
 	Session.cxx
 	AccessManager.cxx
 	GeometryService.cxx

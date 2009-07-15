@@ -1,4 +1,4 @@
-/*         C O M M U N I C A T I O N S M A N A G E R . H
+/*         A B S T R A C T P O R T A L M A N A G E R . H
  * BRL-CAD
  *
  * Copyright (c) 2009 United States Government as represented by
@@ -17,14 +17,14 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file CommunicationsManager.h
+/** @file AbstractPortalManager.h
  *
  * Brief description
  *
  */
 
-#ifndef _COMMUNICATIONSMANAGER_H_
-#define _COMMUNICATIONSMANAGER_H_
+#ifndef _ABSTRACTPORTALMANAGER_H_
+#define _ABSTRACTPORTALMANAGER_H_
 
 #include <iostream>
 #include <list>
@@ -33,19 +33,16 @@
 #include "GS/AbstractPortal.h"
 #include "GS/netMsg/NetMsg.h"
 
-class CommunicationsManager
+class AbstractPortalManager
 {
 
 public:
-  CommunicationsManager();
-  virtual ~CommunicationsManager();
+  AbstractPortalManager();
+  virtual ~AbstractPortalManager();
 
   void startListening(unsigned int port);
 
 private:
-  std::list<NetMsg> inbox;
-  std::list<NetMsg> outbox;
-
   std::map<std::string, AbstractPortal> portals;
 };
 
