@@ -18,6 +18,11 @@
  * information.
  */
 /** @file SceneFactory.cxx
+ *
+ * Brief description
+ *
+ */
+
 // interface header
 #include "Geometry/SceneFactory.h"
 

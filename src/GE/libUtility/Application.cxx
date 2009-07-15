@@ -18,6 +18,11 @@
  * information.
  */
 /** @file Application.cxx
+ *
+ * Brief description
+ *
+ */
+
 // interface header
 #include "Utility/Application.h"
 

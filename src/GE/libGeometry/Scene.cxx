@@ -18,7 +18,12 @@
  * information.
  */
 /** @file Scene.cxx
-// interface header
+ *
+ * Brief description
+ *
+ */
+
+//interface header
 #include "Geometry/Scene.h"
 
 using namespace Geometry;

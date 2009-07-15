@@ -18,6 +18,11 @@
  * information.
  */
 /** @file PixelImage.cxx
+ *
+ * Brief description
+ *
+ */
+
 // interface header
 #include "Image/PixelImage.h"
 

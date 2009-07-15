@@ -18,6 +18,11 @@
  * information.
  */
 /** @file View.cxx
+ *
+ * Brief description
+ *
+ */
+
 // interface header
 #include "Geometry/View.h"
 

@@ -18,6 +18,11 @@
  * information.
  */
 /** @file Timer.cxx
+ *
+ * Brief description
+ *
+ */
+
 // interface header
 #include "Utility/Timer.h"
 
