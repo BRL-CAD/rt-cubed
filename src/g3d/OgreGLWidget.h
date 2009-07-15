@@ -57,6 +57,8 @@ protected:
     void resizeGL(int, int);
     void paintGL();
 
+    void moveEvent(QMoveEvent*);
+
     Ogre::Root *_root;
     Ogre::RenderWindow *_renderWindow;
     Ogre::Camera *_camera;

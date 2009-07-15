@@ -148,6 +148,14 @@ void OgreGLWidget::paintGL()
 }
 
 
+void OgreGLWidget::moveEvent(QMoveEvent* e) 
+{
+    if(_renderWindow) {
+	_renderWindow->windowMovedOrResized();
+    }
+}
+
+
 Ogre::Root *OgreGLWidget::root()
 {
     return _root;
