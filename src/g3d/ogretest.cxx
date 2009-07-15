@@ -56,13 +56,12 @@ int main(int argc, char** argv)
   OgreGLWidget* rootWidget = new OgreGLWidget();
 
   rootWidget->show();
-  rootWidget->resize(1024, 768);
 
   // Test widgetry
   QPushButton *hello = new QPushButton(rootWidget);
   hello->setText("Hello, world!");
 
-  //hello->show();
+  hello->show();
 
   Logger::logDEBUG("Qt initialized.");
 
