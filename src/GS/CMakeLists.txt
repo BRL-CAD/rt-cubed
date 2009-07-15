@@ -35,20 +35,21 @@ MESSAGE(STATUS "")
 
 
 set(GS_SOURCES
+	GeometryService.cxx
 	IntraAppPortal.cxx
 	AbstractPortal.cxx
 	AbstractPortalManager.cxx
+	NetSockPortal.cxx
+	NetSockPortalManager.cxx
 	AbstractDbObjectSource.cxx
-	DbObjectCache.cxx
 	SourceDiskLink.cxx
 	SourceSvnLink.cxx
+	DbObjectCache.cxx
 	DbObjectManager.cxx
 	DbObjectManifest.cxx
 	Session.cxx
-	AccessManager.cxx
-	GeometryService.cxx
-	NetSockPortal.cxx
 	SessionManager.cxx
+	AccessManager.cxx
 	NetMsgActionDefinitions/AbstractNetMsgActionDef.cxx
 	NetMsgActionDefinitions/NetMsgActionDefManager.cxx
 	NetMsgActionDefinitions/NewSessionNMAD.cxx

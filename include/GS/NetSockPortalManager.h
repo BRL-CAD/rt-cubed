@@ -1,4 +1,4 @@
-/*         A B S T R A C T P O R T A L M A N A G E R . H
+/*          N E T S O C K P O R T A L M A N A G E R . H
  * BRL-CAD
  *
  * Copyright (c) 2009 United States Government as represented by
@@ -17,39 +17,40 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file AbstractPortalManager.h
+/** @file NetSockPortalManager.h
  *
  * Brief description
  *
  */
+#ifndef _NETSOCKPORTALMANAGER_H_
+#define _NETSOCKPORTALMANAGER_H_
 
-#ifndef _ABSTRACTPORTALMANAGER_H_
-#define _ABSTRACTPORTALMANAGER_H_
+#include "GS/AbstractPortalManager.h"
 
-#include <iostream>
-#include <list>
-#include <map>
-
-#include "GS/AbstractPortal.h"
-#include "GS/netMsg/NetMsg.h"
-
-class AbstractPortalManager
+class NetSockPortalManager : public AbstractPortalManager
 {
 
 public:
-  AbstractPortalManager();
-  virtual ~AbstractPortalManager();
+    NetSockPortalManager();
+    ~NetSockPortalManager();
+
+protected:
+
 
 private:
-  std::map<std::string, AbstractPortal> portals;
+
+
 };
 
 #endif
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+
+/*
+ * Local Variables:
+ * tab-width: 8
+ * mode: C
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */
