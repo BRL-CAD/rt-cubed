@@ -1,7 +1,7 @@
-/*               N E W S E S S I O N N M A D . C X X 
+/*              N E W S E S S I O N N M A D . C X X
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -17,13 +17,9 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file NewSessionNMAD.cxx
  *
- *  Description -
- *      
- *
- *  Author - David Loman
+ * Brief description
  *
  */
 

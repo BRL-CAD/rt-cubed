@@ -1,7 +1,7 @@
-/*
+/*                          V I E W . H
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -19,15 +19,10 @@
  */
 /** @file View.h
  *
- *	Description:
- *
- *	$HeadURL: $
- *	$Date$
- *	$Revision$
- *	$Author$ 
+ * Brief description
  *
  */
- 
+
 #ifndef _VIEW_H_
 #define _VIEW_H_
 

@@ -1,7 +1,7 @@
-/*
+/*                      G E O M E T R Y . H
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -19,15 +19,10 @@
  */
 /** @file Geometry.h
  *
- *	Description:
- *
- *	$HeadURL: $
- *	$Date$
- *	$Revision$
- *	$Author$ 
+ * Brief description
  *
  */
- 
+
 #ifndef _GEOMETRY_H_
 #define _GEOMETRY_H_
 

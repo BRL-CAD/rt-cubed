@@ -1,7 +1,7 @@
-/*
+/*                     T H R O W A B L E . H
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -19,15 +19,10 @@
  */
 /** @file Throwable.h
  *
- *	Description:
- *
- *	$HeadURL: $
- *	$Date$
- *	$Revision: $
- *	$Author: $ 
+ * Brief description
  *
  */
- 
+
 #ifndef _THROWABLE_H_
 #define _THROWABLE_H_
 

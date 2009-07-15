@@ -1,7 +1,7 @@
-/*      A B S T R A C T N E T M S G A C T I O N D E F . C X X 
+/*     A B S T R A C T N E T M S G A C T I O N D E F . C X X
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -17,13 +17,9 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file AbstractNetMsgActionDef.cxx
  *
- *  Description -
- *      Base class to be extended from to implement all NetMsg to Job Conversions
- *
- *  Author - David Loman
+ * Brief description
  *
  */
 

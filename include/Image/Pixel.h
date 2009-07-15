@@ -1,7 +1,7 @@
-/*
+/*                         P I X E L . H
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -19,15 +19,10 @@
  */
 /** @file Pixel.h
  *
- *	Description:
- *
- *	$HeadURL: $
- *	$Date$
- *	$Revision$
- *	$Author$ 
+ * Brief description
  *
  */
- 
+
 #ifndef _PIXEL_H_
 #define _PIXEL_H_
 

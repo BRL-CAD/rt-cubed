@@ -1,7 +1,7 @@
-/*             F I L T E R O U T P U T S T R E A M . C X X
+/*          F I L T E R O U T P U T S T R E A M . C X X
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -17,13 +17,9 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file FilterOutputStream.cxx
  *
- *  Description -
- *      
- *
- *  Author - David Loman
+ * Brief description
  *
  */
 

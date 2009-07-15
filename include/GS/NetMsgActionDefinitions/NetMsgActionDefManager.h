@@ -1,7 +1,7 @@
-/*
+/*        N E T M S G A C T I O N D E F M A N A G E R . H
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -19,12 +19,7 @@
  */
 /** @file NetMsgActionDefManager.h
  *
- *	Description:
- *
- *	$HeadURL: $
- *	$Date: $
- *	$Revision: $
- *	$Author: $ 
+ * Brief description
  *
  */
 

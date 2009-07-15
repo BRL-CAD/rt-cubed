@@ -1,7 +1,7 @@
-/*           C L O N E N O T S U P P O R T E D E X C E P T I O N . C X X
+/*  C L O N E N O T S U P P O R T E D E X C E P T I O N . C X X
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -17,16 +17,11 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file CloneNotSupportedException.cxx
  *
- *  Description -
- *      
- *
- *  Author - David Loman
+ * Brief description
  *
  */
-
 
 #include "GE/exception/CloneNotSupportedException.h"
 

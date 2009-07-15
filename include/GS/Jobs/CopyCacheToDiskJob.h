@@ -1,7 +1,7 @@
-/*
+/*            C O P Y C A C H E T O D I S K J O B . H
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -17,14 +17,9 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file CopcyCacheToDiskJob.h
+/** @file CopyCacheToDiskJob.h
  *
- *	Description:
- *
- *	$HeadURL: $
- *	$Date: $
- *	$Revision: $
- *	$Author: $ 
+ * Brief description
  *
  */
 

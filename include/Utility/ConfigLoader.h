@@ -1,7 +1,7 @@
-/*
+/*                  C O N F I G L O A D E R . H
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -19,15 +19,9 @@
  */
 /** @file ConfigLoader.h
  *
- *	Description:
- *
- *	$HeadURL: $
- *	$Date: $
- *	$Revision: $
- *	$Author: $ 
+ * Brief description
  *
  */
-
 
 #ifndef _CONFIGLOADER_H_
 #define _CONFIGLOADER_H_

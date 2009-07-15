@@ -1,7 +1,7 @@
-/*
+/*          B Y T E A R R A Y I N P U T S T R E A M . H
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -19,12 +19,7 @@
  */
 /** @file ByteArrayInputStream.h
  *
- *	Description:
- *
- *	$HeadURL: $
- *	$Date$
- *	$Revision: $
- *	$Author: $ 
+ * Brief description
  *
  */
 

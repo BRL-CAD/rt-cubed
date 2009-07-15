@@ -1,8 +1,7 @@
-
-/*                T H R O W A B L E . C X X
+/*                   T H R O W A B L E . C X X
  * BRL-CAD
  *
- * Copyright (c) 1997-2009 United States Government as represented by
+ * Copyright (c) 2009 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
@@ -18,13 +17,9 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file Throwable.cxx
  *
- *  Description -
- *      
- *
- *  Author - David Loman
+ * Brief description
  *
  */
 
