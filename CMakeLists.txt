@@ -1,22 +1,22 @@
 #########################################################################
 #
-#	 BRL-CAD
+#	BRL-CAD
 #	
-#	 Copyright (c) 1997-2009 United States Government as represented by
-#	 the U.S. Army Research Laboratory.
+#	Copyright (c) 1997-2009 United States Government as represented by
+#	the U.S. Army Research Laboratory.
 #	
-#	 This library is free software; you can redistribute it and/or
-#	 modify it under the terms of the GNU Lesser General Public License
-#	 version 2.1 as published by the Free Software Foundation.
+#	This library is free software; you can redistribute it and/or
+#	modify it under the terms of the GNU Lesser General Public License
+#	version 2.1 as published by the Free Software Foundation.
 #	
-#	 This library is distributed in the hope that it will be useful, but
-#	 WITHOUT ANY WARRANTY; without even the implied warranty of
-#	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-#	 Lesser General Public License for more details.
+#	This library is distributed in the hope that it will be useful, but
+#	WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#	Lesser General Public License for more details.
 #	
-#	 You should have received a copy of the GNU Lesser General Public
-#	 License along with this file; see the file named COPYING for more
-#	 information.
+#	You should have received a copy of the GNU Lesser General Public
+#	License along with this file; see the file named COPYING for more
+#	information.
 #	
 #########################################################################
 #	@file /CMakeLists.txt
@@ -59,10 +59,13 @@ SET(LIB_SEARCH_PATHS
 FIND_PACKAGE ( BRLCAD REQUIRED )
 
 
-MESSAGE(STATUS "\n")
+MESSAGE(STATUS "")
+MESSAGE(STATUS "")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "##             Searching for QT4...           ##")
-MESSAGE(STATUS "################################################\n")
+MESSAGE(STATUS "################################################")
+MESSAGE(STATUS "")
+
 
 #Search for QT4
 FIND_PACKAGE ( Qt4 REQUIRED )

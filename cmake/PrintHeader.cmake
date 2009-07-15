@@ -28,8 +28,12 @@
 #
 #########################################################################
 
-MESSAGE(STATUS "\n")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##        rt^3 Pre-Build System (CMake)       ##")
-MESSAGE(STATUS "################################################\n")
-
+MESSAGE(STATUS "")
+MESSAGE(STATUS "")
+MESSAGE(STATUS "####################################################")
+MESSAGE(STATUS "####################################################")
+MESSAGE(STATUS "##           Configuring rt^3 via CMake           ##")
+MESSAGE(STATUS "####################################################")
+MESSAGE(STATUS "####################################################")
+MESSAGE(STATUS "")
+MESSAGE(STATUS "")

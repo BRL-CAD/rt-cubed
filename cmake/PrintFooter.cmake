@@ -30,8 +30,10 @@
 
 MESSAGE(STATUS "")
 MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##            Completed rt^3 CMake            ##")
-MESSAGE(STATUS "################################################")
+MESSAGE(STATUS "####################################################")
+MESSAGE(STATUS "####################################################")
+MESSAGE(STATUS "##            Completed rt^3 Configure            ##")
+MESSAGE(STATUS "####################################################")
+MESSAGE(STATUS "####################################################")
 MESSAGE(STATUS "")
 MESSAGE(STATUS "")

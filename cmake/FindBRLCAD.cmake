@@ -1,22 +1,22 @@
 #########################################################################
 #
-#	 BRL-CAD
+#	BRL-CAD
 #	
-#	 Copyright (c) 1997-2009 United States Government as represented by
-#	 the U.S. Army Research Laboratory.
+#	Copyright (c) 1997-2009 United States Government as represented by
+#	the U.S. Army Research Laboratory.
 #	
-#	 This library is free software; you can redistribute it and/or
-#	 modify it under the terms of the GNU Lesser General Public License
-#	 version 2.1 as published by the Free Software Foundation.
+#	This library is free software; you can redistribute it and/or
+#	modify it under the terms of the GNU Lesser General Public License
+#	version 2.1 as published by the Free Software Foundation.
 #	
-#	 This library is distributed in the hope that it will be useful, but
-#	 WITHOUT ANY WARRANTY; without even the implied warranty of
-#	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-#	 Lesser General Public License for more details.
+#	This library is distributed in the hope that it will be useful, but
+#	WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#	Lesser General Public License for more details.
 #	
-#	 You should have received a copy of the GNU Lesser General Public
-#	 License along with this file; see the file named COPYING for more
-#	 information.
+#	You should have received a copy of the GNU Lesser General Public
+#	License along with this file; see the file named COPYING for more
+#	information.
 #	
 #########################################################################
 #	@file /cmake/FindBRLCAD.cmake
@@ -27,7 +27,8 @@
 #  	BRLCAD_FOUND - system has BRLCAD
 #  	BRLCAD_INCLUDE_DIRS - the BRLCAD include directories
 #  	BRLCAD_LIBRARIES - link these to use the BRLCAD Libraries
-#	
+#
+#
 #	The following paths are also defined:
 #	bn_LIBRARY 
 #	bu_LIBRARY 
@@ -44,32 +45,30 @@
 #	tclcad_LIBRARY 
 #	utahrle_LIBRARY 
 #	wdb_LIBRARY 
-#
 #	opennurbs_LIBRARY 
-#
 #	tcl85_LIBRARY 
 #	tclstub85_LIBRARY 
 #	tk85_LIBRARY 
 #	tkimg_LIBRARY 
 #	tkstub85_LIBRARY 
-#
 #	BLT24_LIBRARY 
 #	itcl34_LIBRARY 
 #	itclstub34_LIBRARY 
 #	itk34_LIBRARY 
 #	itkstub34_LIBRARY 
 #
-#	
-#	
+#
 #	$Revision:  $
 #	$Author:  $
 #
 #########################################################################
 
-MESSAGE(STATUS "\n")
+MESSAGE(STATUS "")
+MESSAGE(STATUS "")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "##           Searching for BRLCAD...          ##")
-MESSAGE(STATUS "################################################\n")
+MESSAGE(STATUS "################################################")
+MESSAGE(STATUS "")
 
 
 
