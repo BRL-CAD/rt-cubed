@@ -33,6 +33,9 @@ MESSAGE(STATUS "##              Configuring iBME              ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
 
+IF(COMMAND cmake_policy)
+	CMAKE_POLICY(SET CMP0003 NEW)
+ENDIF(COMMAND cmake_policy)
 
 SET(IBME_INCLUDE_DIRS ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 
@@ -40,10 +43,6 @@ INCLUDE_DIRECTORIES (${IBME_INCLUDE_DIRS})
 MESSAGE(STATUS "Include Directories: ${IBME_INCLUDE_DIRS}")
 
 
-ADD_EXECUTABLE(gsph0 ../GS/gsph0.cxx)
-
-TARGET_LINK_LIBRARIES(gsph0 ge)
-TARGET_LINK_LIBRARIES(gsph0 gs)
 
 
 ADD_EXECUTABLE(streamSerialTests ../tests/streamSerialTests.cxx)
@@ -54,9 +53,8 @@ ADD_EXECUTABLE(dataStreamTest ../tests/DataStreamTest.cxx)
 TARGET_LINK_LIBRARIES(dataStreamTest ge)
 
 
-ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
-TARGET_LINK_LIBRARIES(netMsgSerialTest ge)
-TARGET_LINK_LIBRARIES(netMsgSerialTest gs)
+#ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
+#TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")

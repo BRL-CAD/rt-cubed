@@ -26,22 +26,24 @@
 #ifndef _ABSTRACTPORTALMANAGER_H_
 #define _ABSTRACTPORTALMANAGER_H_
 
-#include <iostream>
-#include <list>
-#include <map>
-
 #include "GS/AbstractPortal.h"
 #include "GS/netMsg/NetMsg.h"
 
-class AbstractPortalManager
+#include <QObject>
+
+class AbstractPortalManager : public QObject
 {
+
+  Q_OBJECT
 
 public:
   AbstractPortalManager();
   virtual ~AbstractPortalManager();
 
+private slots:
+
 private:
-  std::map<std::string, AbstractPortal> portals;
+
 };
 
 #endif

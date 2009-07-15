@@ -26,19 +26,34 @@
 #define _NETSOCKPORTALMANAGER_H_
 
 #include "GS/AbstractPortalManager.h"
+#include "GS/NetSockPortal.h"
+
+#include <QTcpServer>
+#include <QHostAddress>
+#include <QMap>
+#include <QUuid>
 
 class NetSockPortalManager : public AbstractPortalManager
 {
+    Q_OBJECT
 
 public:
     NetSockPortalManager();
     ~NetSockPortalManager();
 
+    bool listen(quint16 port);
+    bool listen(QHostAddress& host, quint16 port);
+    void stopListening();
+
 protected:
 
+private slots:
+    void handleNewConnection();
 
 private:
 
+    QMap<QString, NetSockPortal* > portalList;
+    QTcpServer* listenServer;
 
 };
 

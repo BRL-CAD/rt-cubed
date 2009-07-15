@@ -27,10 +27,17 @@
 
 AbstractPortal::AbstractPortal()
 {
+  this->portalId = QUuid::createUuid().toString();
 }
 
 AbstractPortal::~AbstractPortal()
 {
+
+}
+
+QString AbstractPortal::getPortalId()
+{
+  return this->portalId;
 }
 
 // Local Variables: ***

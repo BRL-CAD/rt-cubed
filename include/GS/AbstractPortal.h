@@ -29,18 +29,22 @@
 #include <iostream>
 #include <list>
 #include "iBME/iBMECommon.h"
+#include <QUuid>
+#include <QObject>
 
-class AbstractPortal
+class AbstractPortal : public QObject
 {
 
+  Q_OBJECT
+
 public:
-	AbstractPortal();
-	virtual ~AbstractPortal();
+  AbstractPortal();
+  virtual ~AbstractPortal();
+
+  QString getPortalId();
 
 private:
-	unsigned int connectionType;
-	std::string host;
-	std::list <std::string> proxy_hosts();
+  QString portalId;
 
 };
 

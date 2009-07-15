@@ -24,15 +24,79 @@
  */
 
 #include "GS/NetSockPortalManager.h"
+#include <QTcpSocket>
 
 NetSockPortalManager::NetSockPortalManager()
 {
-
+    this->listenServer = new QTcpServer();
 }
 
 NetSockPortalManager::~NetSockPortalManager()
 {
+    delete this->listenServer;
 }
+
+
+/******************************
+ * DELEGATES - QTcpServer
+ ******************************/
+
+/*
+ * Listen on 'port' using ALL network interfaces.
+ */
+bool NetSockPortalManager::listen(quint16 port)
+{
+    bool retVal = this->listenServer->listen(QHostAddress::Any, port);
+
+    QObject::connect(listenServer, SIGNAL( newConnection() ), this, SLOT( handleNewConnection() ));
+
+    return retVal;
+}
+
+/*
+ * Listen on 'port' using 'host' network interface.
+ */
+bool NetSockPortalManager::listen(QHostAddress& host, quint16 port)
+{
+    bool retVal = this->listenServer->listen(host,port);
+
+    QObject::connect(listenServer, SIGNAL( newConnection() ), this, SLOT( handleNewConnection() ));
+
+    return retVal;
+}
+
+/*
+ * Stop listening on all interfaces and all ports..
+ */
+void NetSockPortalManager::stopListening()
+{
+    this->listenServer->close();
+
+    QObject::disconnect(listenServer, SIGNAL( newConnection() ), this, SLOT( handleNewConnection() ));
+
+}
+
+
+/******************************
+ * SLOTS
+ ******************************/
+
+void NetSockPortalManager::handleNewConnection()
+{
+    if ( ! this->listenServer->hasPendingConnections()) {
+	return;
+    }
+
+    QTcpSocket* newSock = this->listenServer->nextPendingConnection();
+    NetSockPortal* nsp = new NetSockPortal(newSock);
+
+   //Initially, use the UUID to map the portal.
+   //Ultimately, the RemoteHost name will be used.
+
+    this->portalList.insert(nsp->getPortalId(), nsp);
+}
+
+
 
 
 // Local Variables:

@@ -26,6 +26,7 @@
 #
 ##########################################################################
 
+PROJECT(GeometryService)
 
 MESSAGE(STATUS "")
 MESSAGE(STATUS "################################################")
@@ -34,13 +35,17 @@ MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
 
 
-set(GS_SOURCES
+INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
+MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
+
+
+SET(GS_SOURCES
+	AbstractPortal.cxx
+	NetSockPortal.cxx
+	AbstractPortalManager.cxx
+	NetSockPortalManager.cxx
 	GeometryService.cxx
 	IntraAppPortal.cxx
-	AbstractPortal.cxx
-	AbstractPortalManager.cxx
-	NetSockPortal.cxx
-	NetSockPortalManager.cxx
 	AbstractDbObjectSource.cxx
 	SourceDiskLink.cxx
 	SourceSvnLink.cxx
@@ -69,10 +74,30 @@ set(GS_SOURCES
 	netMsg/RemHostNameSetMsg.cxx
 )
 
-INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
-MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR}")
+QT4_WRAP_CPP(GS_MOCCED_HEADERS
+	${RT3_INCLUDE_DIR}/GS/AbstractPortal.h
+	${RT3_INCLUDE_DIR}/GS/NetSockPortal.h
+	${RT3_INCLUDE_DIR}/GS/AbstractPortalManager.h
+	${RT3_INCLUDE_DIR}/GS/NetSockPortalManager.h
+)
 
-ADD_LIBRARY (gs SHARED ${GS_SOURCES})
+INCLUDE (${QT_USE_FILE})
+
+IF(COMMAND cmake_policy)
+	CMAKE_POLICY(SET CMP0003 NEW)
+ENDIF(COMMAND cmake_policy)
+
+## Make the GS Library
+ADD_LIBRARY (gs SHARED ${GS_SOURCES} ${GS_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(gs ${QT_LIBRARIES})
+
+
+## Make the GS phase 0 Executable.
+ADD_EXECUTABLE(gsph0 gsph0.cxx)
+TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
+
+
+
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")

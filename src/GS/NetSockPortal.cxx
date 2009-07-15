@@ -25,15 +25,38 @@
 
 #include "GS/NetSockPortal.h"
 
-NetSockPortal::NetSockPortal()
+NetSockPortal::NetSockPortal(QTcpSocket* socket)
 {
+  this->sock = socket;
+    QObject::connect(sock, SIGNAL( connected() ), this, SLOT( handleConnect() ));
+    QObject::connect(sock, SIGNAL( disconnected() ), this, SLOT( handleDisconnect() ));
+    QObject::connect(sock, SIGNAL( readRead() ), this, SLOT( handleReadyRead() ));
+
+
 }
 
 
 
 NetSockPortal::~NetSockPortal()
 {
+  //QUESTION:  Do we really want to destroy the socket here?
+  delete this->sock;
 }
+
+
+void NetSockPortal::handleReadyRead()
+{
+
+}
+void NetSockPortal::handleConnected()
+{
+
+}
+void NetSockPortal::handleDisconnected()
+{
+
+}
+
 
 // Local Variables: ***
 // mode: C++ ***

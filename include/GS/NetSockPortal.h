@@ -27,13 +27,34 @@
 #define _NETSOCKPORTAL_H_
 
 #include "GS/AbstractPortal.h"
+#include <QTcpSocket>
+#include <QString>
 
 class NetSockPortal : public AbstractPortal
 {
 
+  Q_OBJECT
+
 public:
-	NetSockPortal();
-	virtual ~NetSockPortal();
+  NetSockPortal(QTcpSocket* socket);
+  virtual ~NetSockPortal();
+
+   enum PortalStatus
+   {
+      Handshaking,
+      Ready,
+      Failed,
+   };
+
+
+private slots:
+  void handleReadyRead();
+  void handleConnected();
+  void handleDisconnected();
+
+private:
+  QString remoteHostName;
+  QTcpSocket* sock;
 
 };
 

@@ -27,10 +27,12 @@
 
 AbstractPortalManager::AbstractPortalManager()
 {
+
 }
 
 AbstractPortalManager::~AbstractPortalManager()
 {
+
 }
 
 // Local Variables: ***
