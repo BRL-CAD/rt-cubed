@@ -41,7 +41,7 @@ set(OGRETEST_SOURCES
   ogretest.cxx
   Logger.cxx
   Observer.cxx
-  QtRenderListener.cxx
+  OgreGLWidget.cxx
   )
 
 set(G3D_HEADERS
@@ -70,13 +70,13 @@ set(G3D_HEADERS
   )
 
 set(OGRETEST_HEADERS
-  QtRenderListener.h
   Logger.h
   Observer.h
   )
 
 # Qt stuff that needs preprocessing
 set(G3D_MOC_HEADERS
+  OgreGLWidget.h
   )
 
 set(RBGUI_DIR "../../data/g3d/RBGui")

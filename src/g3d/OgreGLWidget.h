@@ -1,4 +1,4 @@
-/*                  Q T R E N D E R L I S T E N E R . H
+/*                  O G R E G L W I D G E T . H
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,38 +18,50 @@
  * information.
  */
 
-/** @file OgreScene.h
+/** @file OgreGLWidget.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
  * @brief 
- *	Performs Qt event handling/rendering immediately after
- * 	Ogre renders.
+ *	Ogre Qt OpenGL widget header
  */
 
-#ifndef __G3D__QTRENDERLISTENER_H__
-#define __G3D__QTRENDERLISTENER_H__
+#ifndef __G3D_GLWIDGET_H__
+#define __G3D_GLWIDGET_H__
 
-#include <QtGui/QApplication>
+#include <QGLWidget>
 
-#include <OGRE/OgreRenderQueueListener.h>
+#include <OGRE/OgreRoot.h>
+#include <OGRE/OgreRenderWindow.h>
 
-class QtRenderListener : public Ogre::RenderQueueListener 
+class OgreGLWidget : public QGLWidget
 {
+    Q_OBJECT
+
 public:
-    QtRenderListener(const QApplication *qapp, const Ogre::MovableObject *parentObj, const Ogre::Camera *camera, Ogre::SceneManager *sceneMgr);
-    
-    virtual void renderQueueStarted(Ogre::uint8 queueGroupId, const Ogre::String &invocation, bool &skipThisInvocation);
-    virtual void renderQueueEnded(Ogre::uint8 queueGroupId, const Ogre::String &invocation, bool &repeatThisInvocation);
+    OgreGLWidget(QWidget *parent = NULL);
+    OgreGLWidget(QGLFormat f);
+    ~OgreGLWidget();
 
-private:
-    const QApplication *_qapp;
-    
-    const Ogre::Camera *_camera;
-    Ogre::SceneManager *_sceneMgr;
-    const Ogre::MovableObject *_parentObj;
+    Ogre::Root* root();
+    Ogre::RenderWindow* renderWindow();
+    Ogre::Camera* camera();
+    Ogre::Viewport* viewport();
+    Ogre::SceneManager* scene();
 
-    Ogre::Pass *_clearPass;
+protected:
+    /** Loads Ogre resources specified in the resources.cfg */
+    void loadResources();
+
+    void initializeGL();
+    void resizeGL(int, int);
+    void paintGL();
+
+    Ogre::Root *_root;
+    Ogre::RenderWindow *_renderWindow;
+    Ogre::Camera *_camera;
+    Ogre::Viewport *_viewport;
+    Ogre::SceneManager *_scene;
 };
 
 #endif
