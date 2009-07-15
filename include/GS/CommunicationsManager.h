@@ -1,4 +1,4 @@
-/*             C O M M U N I C A T I O N S M A N A G E R . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file CommunicationsManager.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_COMMUNICATIONSMANAGER_H_)
+#ifndef _COMMUNICATIONSMANAGER_H_
 #define _COMMUNICATIONSMANAGER_H_
 
 #include <iostream>
@@ -37,31 +38,23 @@
 #include "GS/AbstractPortal.h"
 #include "GS/netMsg/NetMsg.h"
 
-    /**
-     * CommMan performs the netMsg <-> Job conversion
-     */
-    class CommunicationsManager
-    {
+class CommunicationsManager
+{
 
-    public:
-      CommunicationsManager();
-      virtual ~CommunicationsManager();
+public:
+  CommunicationsManager();
+  virtual ~CommunicationsManager();
 
-      void startListening(unsigned int port);
+  void startListening(unsigned int port);
 
-    private:
-      std::list<NetMsg> inbox;
-      std::list<NetMsg> outbox;
-      /**
-       * Maps hostnames to AbstractPortals
-       *
-       * This MAY not be necessary if all outgoing Traffic is handled by the individual
-       * Session Objects
-       */
-      std::map<std::string, AbstractPortal> portals;
-    };
+private:
+  std::list<NetMsg> inbox;
+  std::list<NetMsg> outbox;
 
-#endif // !defined(_COMMUNICATIONSMANAGER_H_)
+  std::map<std::string, AbstractPortal> portals;
+};
+
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

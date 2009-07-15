@@ -1,5 +1,35 @@
-#ifndef __UTILITY_H__
-#define __UTILTIY_H__
+/*
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2009 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+/** @file Utility.h
+ *
+ *	Description:
+ *
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision$
+ *	$Author$ 
+ *
+ */
+
+#ifndef _UTILITY_H_
+#define _UTILTIY_H_
 
 namespace Utility {
   int init();
@@ -12,7 +42,7 @@ namespace Utility {
 #include "Utility/Timer.h"
 
 
-#endif  /* __UTILITY_H__ */
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

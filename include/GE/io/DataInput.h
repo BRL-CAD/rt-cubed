@@ -1,4 +1,4 @@
-/*                 D A T A I N P U T . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,16 +17,16 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file DataInput.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
-
 
 #ifndef _DATAINPUT_H_
 #define _DATAINPUT_H_

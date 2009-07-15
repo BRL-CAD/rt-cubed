@@ -1,4 +1,4 @@
-/*                 A C C E S S M A N A G E R . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file AccessManager.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_ACCESSMANAGER_H_)
+#ifndef _ACCESSMANAGER_H_
 #define _ACCESSMANAGER_H_
 
 class AccessManager
@@ -39,7 +40,7 @@ public:
 
 };
 
-#endif // !defined(_ACCESSMANAGER_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

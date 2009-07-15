@@ -1,4 +1,4 @@
-/*                 S O U R C E S V N L I N K . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file SourceSvnLink.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_SOURCESVNLINK_H_)
+#ifndef _SOURCESVNLINK_H_
 #define _SOURCESVNLINK_H_
 
 #include "iBME/iBMECommon.h"
@@ -46,7 +47,7 @@ public:
 
 };
 
-#endif // !defined(_SOURCESVNLINK_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

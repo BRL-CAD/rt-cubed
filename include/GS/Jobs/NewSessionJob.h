@@ -1,4 +1,4 @@
-/*                 N E W S E S S I O N J O B . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file NewSessionJob.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_NEWSESSIONJOB_H_)
+#ifndef _NEWSESSIONJOB_H_
 #define _NEWSESSIONJOB_H_
 
 #include "GS/Jobs/AbstractJob.h"
@@ -47,7 +48,7 @@ private:
 
 };
 
-#endif // !defined(_NEWSESSIONJOB_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

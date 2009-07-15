@@ -1,4 +1,4 @@
-/*                  J O B M A N A G E R . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file JobManager.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_JOBMANAGER_H_)
+#ifndef _JOBMANAGER_H_
 #define _JOBMANAGER_H_
 
 #include <list>
@@ -45,7 +46,7 @@ private:
 
 };
 
-#endif // !defined(_JOBMANAGER_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

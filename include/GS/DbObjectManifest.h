@@ -1,4 +1,4 @@
-/*                D B O B J E C T M A N I F E S T . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
-/** @file DbObjectManifest.h
+/** @file DBObjectManifest.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_DBOBJECTMANIFEST_H_)
+#ifndef _DBOBJECTMANIFEST_H_
 #define _DBOBJECTMANIFEST_H_
 
 #include <list>
@@ -48,7 +49,7 @@ private:
 
 };
 
-#endif // !defined(_DBOBJECTMANIFEST_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

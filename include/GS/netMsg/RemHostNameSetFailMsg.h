@@ -1,4 +1,4 @@
-/*         R E M H O S T N A M E S E T F A I L M S G . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file RemHostNameSetFailMsg.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_REMHOSTNAMESETFAILMSG_H_)
+#ifndef _REMHOSTNAMESETFAILMSG_H_
 #define _REMHOSTNAMESETFAILMSG_H_
 
 #include "iBME/iBMECommon.h"
@@ -68,7 +69,7 @@ class RemHostNameSetFailMsg : public NetMsg
 
     };
 
-#endif // !defined(_REMHOSTNAMESETFAILMSG_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

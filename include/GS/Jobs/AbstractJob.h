@@ -1,4 +1,4 @@
-/*                 A B S T R A C T J O B . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file AbstractJob.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_ABSTRACTJOB_H_)
+#ifndef _ABSTRACTJOB_H_
 #define _ABSTRACTJOB_H_
 
 #include "iBME/iBMECommon.h"
@@ -45,7 +46,7 @@ private:
 
 };
 
-#endif // !defined(_ABSTRACTJOB_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

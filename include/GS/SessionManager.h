@@ -1,4 +1,4 @@
-/*                 S E S S I O N M A N A G E R . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file SessionManager.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_SESSIONMANAGER_H_)
+#ifndef _SESSIONMANAGER_H_
 #define _SESSIONMANAGER_H_
 
 #include "GS/Session.h"
@@ -41,7 +42,7 @@ public:
 	Session *m_Session;
 };
 
-#endif // !defined(_SESSIONMANAGER_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

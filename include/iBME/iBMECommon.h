@@ -27,7 +27,7 @@
  *
  */
 
-#if !defined(_IBMECOMMON_H_)
+#ifndef _IBMECOMMON_H_
 #define _IBMECOMMON_H_
 
 #include <iostream>
@@ -90,7 +90,7 @@
 
 
 
-#endif // !defined(_IBMECOMMON_H_)
+#endif //ndef (_IBMECOMMON_H_)
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,5 +1,4 @@
-
-/*           C L O N E N O T S U P P O R T E D E X C E P T I O N . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -18,13 +17,14 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file CloneNotSupportedException.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 

@@ -1,4 +1,4 @@
-/*                      N E T M S G . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file NetMsg.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_NETMSG_H_)
+#ifndef _NETMSG_H_
 #define _NETMSG_H_
 
 #include "iBME/iBMECommon.h"
@@ -85,7 +86,7 @@ protected:
 
 };
 
-#endif // !defined(_NETMSG_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

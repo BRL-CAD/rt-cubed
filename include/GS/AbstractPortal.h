@@ -1,4 +1,4 @@
-/*                      A B S T R A C T P O R T A L . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,19 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file AbstractPortal.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_ABSTRACTPORTAL_H_)
+#ifndef _ABSTRACTPORTAL_H_
 #define _ABSTRACTPORTAL_H_
 
 #include <iostream>
@@ -48,7 +50,7 @@ private:
 
 };
 
-#endif // !defined(_ABSTRACTPORTAL_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

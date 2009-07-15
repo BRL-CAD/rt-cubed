@@ -1,4 +1,4 @@
-/*                 J O B S C H E D U L E R . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
-/** @file AccessManager.h
+/** @file JobScheduler.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_JOBSCHEDULER_H_)
+#ifndef _JOBSCHEDULER_H_
 #define _JOBSCHEDULER_H_
 
 class JobScheduler
@@ -38,7 +39,7 @@ public:
 	virtual ~JobScheduler();
 };
 
-#endif // !defined(_JOBSCHEDULER_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,4 @@
-/*                 D B O B J E C T M A N A G E R . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
-/** @file DbObjectManager.h
+/** @file AbstractPortal.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_DBOBJECTMANAGER_H_)
+#ifndef _DBOBJECTMANAGER_H_
 #define _DBOBJECTMANAGER_H_
 
 #include "iBME/iBMECommon.h"
@@ -49,7 +50,7 @@ private:
 
 };
 
-#endif // !defined(_DBOBJECTMANAGER_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,4 @@
-/*                 N E T M S G A C T I O N J O B . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file NetMsgActionJob.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_NETMSGACTIONJOB_H_)
+#ifndef _NETMSGACTIONJOB_H_
 #define _NETMSGACTIONJOB_H_
 
 #include "GS/Jobs/AbstractJob.h"
@@ -49,7 +50,7 @@ private:
 
 };
 
-#endif // !defined(_NETMSGACTIONJOB_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

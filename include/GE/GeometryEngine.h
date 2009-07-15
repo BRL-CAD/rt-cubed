@@ -1,4 +1,4 @@
-/*                 G E O M E T R Y E N G I N E . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file GeometryEngine.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_GEOMETRYENGINE_H_)
+#ifndef _GEOMETRYENGINE_H_
 #define _GEOMETRYENGINE_H_
 
 class GeometryEngine
@@ -39,7 +40,7 @@ public:
 
 };
 
-#endif // !defined(_GEOMETRYENGINE_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

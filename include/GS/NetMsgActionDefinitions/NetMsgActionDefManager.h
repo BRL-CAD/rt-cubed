@@ -1,4 +1,4 @@
-/*         N E T M S G A C T I O N D E F M A N A G E R. H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file NetMsgActionDefManager.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_NETMSGACTIONDEFMANAGER_H_)
+#ifndef _NETMSGACTIONDEFMANAGER_H_
 #define _NETMSGACTIONDEFMANAGER_H_
 
 #include "GS/NetMsgActionDefinitions/AbstractNetMsgActionDef.h"
@@ -51,7 +52,7 @@ private:
 
 };
 
-#endif // !defined(_NETMSGACTIONDEFMANAGER_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

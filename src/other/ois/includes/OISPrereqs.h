@@ -63,7 +63,7 @@ restrictions:
 #		if defined( OIS_DYNAMIC_LIB )
 #			undef _OISExport
 			//Ignorable Dll interface warning...
-#           if !defined(OIS_MINGW_COMPILER)
+#           ifndef (OIS_MINGW_COMPILER)
 #			    pragma warning (disable : 4251)
 #           endif
 #			if defined( OIS_NONCLIENT_BUILD )

@@ -1,4 +1,4 @@
-/*          G E O M E T R Y C H U N K M S G. H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file GeometryChunkMsg.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_GEOMETRYCHUNKMSG_H_)
+#ifndef _GEOMETRYCHUNKMSG_H_
 #define _GEOMETRYCHUCKMSG_H_
 
 #include "iBME/iBMECommon.h"
@@ -72,7 +73,7 @@ class GeometryChunkMsg : public NetMsg
 
     };
 
-#endif // !defined(_REMHOSTNAMESETMSG_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

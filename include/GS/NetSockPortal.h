@@ -1,4 +1,4 @@
-/*                 N E T S O C K P O R T A L . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file NetSockPortal.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_NETSOCKPORTAL_H_)
+#ifndef _NETSOCKPORTAL_H_
 #define _NETSOCKPORTAL_H_
 
 #include "GS/AbstractPortal.h"
@@ -41,7 +42,7 @@ public:
 
 };
 
-#endif // !defined(_NETSOCKPORTAL_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

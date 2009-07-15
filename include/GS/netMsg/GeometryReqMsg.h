@@ -1,4 +1,4 @@
-/*                  G E O M E T R Y R E Q M S G. H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,23 +17,23 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file GeometryReqMsg.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_GEOMETRYREQMSG_H_)
+#ifndef _GEOMETRYREQMSG_H_
 #define _GEOMETRYREQMSG_H_
 
 #include "iBME/iBMECommon.h"
 #include "GE/io/DataStream.h"
 #include "GS/netMsg/NetMsg.h"
-
 
 class GeometryReqMsg : public NetMsg
     {
@@ -70,7 +70,7 @@ class GeometryReqMsg : public NetMsg
 
     };
 
-#endif // !defined(_GEOMETRYREQMSG_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

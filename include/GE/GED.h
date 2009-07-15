@@ -1,4 +1,4 @@
-/*                         G E D . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,19 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file GED.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_GED_H_)
+
+#ifndef _GED_H_
 #define _GED_H_
 
 class GED {
@@ -38,7 +40,7 @@ public:
 
 };
 
-#endif // !defined(_GED_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

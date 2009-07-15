@@ -1,4 +1,4 @@
-/*                G E O M E T R Y S E R V I C E . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file GeometryService.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_GEOMETRYSERVICE_H_)
+#ifndef _GEOMETRYSERVICE_H_
 #define _GEOMETRYSERVICE_H_
 
 #include "GE/GeometryEngine.h"
@@ -42,7 +43,7 @@ class GeometryService
  
 };
 
-#endif // !defined(_GEOMETRYSERVICE_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

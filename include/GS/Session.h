@@ -1,4 +1,4 @@
-/*                S E S S I O N . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,18 +17,19 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file Session.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(__SESSION_H__)
-#define __SESSION_H__
+#ifndef _SESSION_H_
+#define _SESSION_H_
 
 #include <cstdlib>
 #include <iostream>
@@ -48,7 +49,7 @@ private:
 
 };
 
-#endif // !defined(__SESSION_H__)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

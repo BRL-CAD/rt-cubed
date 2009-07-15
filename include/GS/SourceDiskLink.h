@@ -1,4 +1,4 @@
-/*                 S O U R C E D I S K L I N K . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file SourceDiskLink.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_SOURCEDISKLINK_H_)
+#ifndef _SOURCEDISKLINK_H_
 #define _SOURCEDISKLINK_H_
 
 #include "iBME/iBMECommon.h"
@@ -48,7 +49,7 @@ public:
 
 };
 
-#endif // !defined(_SOURCEDISKLINK_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

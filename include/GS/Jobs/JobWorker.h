@@ -1,4 +1,4 @@
-/*                  J O B W O R K E R . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file JobWorker.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_JOBWORKER_H_)
+#ifndef _JOBWORKER_H_
 #define _JOBWORKER_H_
 
 #include "GS/Jobs/JobManager.h"
@@ -46,7 +47,7 @@ private:
 
 };
 
-#endif // !defined(_JOBWORKER_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,4 @@
-/*               N E W S E S S I O N N M A D . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file NewSessionNMAD.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_NEWSESSIONNMAD_H_)
+#ifndef _NEWSESSIONNMAD_H_
 #define _NEWSESSIONNMAD_H_
 
 #include "GS/NetMsgActionDefinitions/AbstractNetMsgActionDef.h"
@@ -42,7 +43,7 @@ public:
 	AbstractJob& convert(NetMsg& msg);
 };
 
-#endif // !defined(_NEWSESSIONNMAD_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

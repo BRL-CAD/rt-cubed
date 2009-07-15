@@ -1,12 +1,35 @@
-///////////////////////////////////////////////////////////
-//  Config.h
-//  Implementation of the Class Config
-//  Created on:      04-Dec-2008 8:26:37 AM
-//  Original author: Dave Loman
-///////////////////////////////////////////////////////////
+/*
+ * BRL-CAD
+ *
+ * Copyright (c) 1997-2009 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+/** @file Config.h
+ *
+ *	Description:
+ *
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
+ *
+ */
 
-#if !defined(__CONFIG_H__)
-#define __CONFIG_H__
+#ifndef _CONFIG_H_
+#define _CONFIG_H_
 
 /**
  * Singleton Class.
@@ -20,7 +43,7 @@ public:
 	virtual ~Config();
 
 };
-#endif // !defined(__CONFIG_H__)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

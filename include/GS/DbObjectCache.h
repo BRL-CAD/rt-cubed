@@ -1,4 +1,4 @@
-/*                 D B O B J E C T C A C H E . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
-/** @file DbObjectCache.h
+/** @file DBObjectCache.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_DBOBJECTCACHE_H_)
+#ifndef _DBOBJECTCACHE_H_
 #define _DBOBJECTCACHE_H_
 
 #include <set>
@@ -56,7 +57,7 @@ private:
 
 };
 
-#endif // !defined(_DBOBJECTCACHE_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

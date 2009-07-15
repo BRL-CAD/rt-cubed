@@ -1,4 +1,4 @@
-/*                T H R O W A B L E . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,16 +17,17 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file Throwable.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
-
+ 
 #ifndef _THROWABLE_H_
 #define _THROWABLE_H_
 

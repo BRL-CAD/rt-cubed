@@ -1,4 +1,4 @@
-/*                    O B J E C T . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,13 +17,14 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file Object.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 

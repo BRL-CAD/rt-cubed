@@ -1,4 +1,4 @@
-/*                 I N T R A A P P P O R T A L . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file IntraAppPortal.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_INTRAAPPPORTAL_H_)
+#ifndef _INTRAAPPPORTAL_H_
 #define _INTRAAPPPORTAL_H_
 
 #include "GS/AbstractPortal.h"
@@ -41,7 +42,7 @@ public:
 
 };
 
-#endif // !defined(_INTRAAPPPORTAL_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,4 @@
-/*                 C O P Y C A C H E T O D I S K J O B . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
-/** @file CopyCacheToDiskJob.h
+/** @file CopcyCacheToDiskJob.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_COPYCACHETODISKJOB_H_)
+#ifndef _COPYCACHETODISKJOB_H_
 #define _COPYCACHETODISKJOB_H_
 
 #include "GS/Jobs/AbstractJob.h"
@@ -47,7 +48,7 @@ private:
 
 };
 
-#endif // !defined(_COPYCACHETODISKJOB_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

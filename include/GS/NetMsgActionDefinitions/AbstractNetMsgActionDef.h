@@ -1,4 +1,4 @@
-/*      A B S T R A C T N E T M S G A C T I O N D E F . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file AbstractNetMsgActionDef.h
  *
- *  Description -
- *      Base class to be extended from to implement all NetMsg to Job Conversions
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date: $
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_ABSTRACTNETMSGACTIONDEF_H_)
+#ifndef _ABSTRACTNETMSGACTIONDEF_H_
 #define _ABSTRACTNETMSGACTIONDEF_H_
 
 #include "GS/netMsg/NetMsg.h"
@@ -47,7 +48,7 @@ class AbstractNetMsgActionDef
 
 };
 
-#endif // !defined(_ABSTRACTNETMSGACTIONDEF_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

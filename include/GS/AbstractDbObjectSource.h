@@ -1,4 +1,4 @@
-/*        A B S T R A C T D B O B J E C T S O U R C E . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file AbstractDbObjectSource.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_ABSTRACTDBOBJECTSOURCE_H_)
+#ifndef _ABSTRACTDBOBJECTSOURCE_H_
 #define _ABSTRACTDBOBJECTSOURCE_H_
 
 #include <string>
@@ -44,7 +45,7 @@ public:
 	bool putDbObject(std::string dbobj);
 };
 
-#endif // !defined(_ABSTRACTDBOBJECTSOURCE_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,4 @@
-/*                   D A T A S T R E A M . H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,15 +17,17 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file DataStream.h
  *
- *  Description - Combination of ByteBag, DataInputStream and DataOutputStream
+ *	Description:
  *
- *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
+
 #ifndef _DATASTREAM_H_
 #define _DATASTREAM_H_
 

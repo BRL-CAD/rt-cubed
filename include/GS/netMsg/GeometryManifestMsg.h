@@ -1,4 +1,4 @@
-/*                  G E O M E T R Y M A N I F E S T M S G. H
+/*
  * BRL-CAD
  *
  * Copyright (c) 1997-2009 United States Government as represented by
@@ -17,17 +17,18 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-
 /** @file GeometryManifestMsg.h
  *
- *  Description -
- *      
+ *	Description:
  *
- *  Author - David Loman
+ *	$HeadURL: $
+ *	$Date$
+ *	$Revision: $
+ *	$Author: $ 
  *
  */
 
-#if !defined(_GEOMETRYMANIFESTMSG_H_)
+#ifndef _GEOMETRYMANIFESTMSG_H_
 #define _GEOMETRYMANIFESTMSG_H_
 
 #include <vector>
@@ -69,7 +70,7 @@ private:
 
 };
 
-#endif // !defined(_GEOMETRYMANIFESTMSG_H_)
+#endif
 
 // Local Variables: ***
 // mode: C++ ***
