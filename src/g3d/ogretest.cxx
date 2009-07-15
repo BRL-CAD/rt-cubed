@@ -27,6 +27,7 @@
  */
 
 #include <QtGui>
+#include <QPushButton>
 
 #include <OGRE/Ogre.h>
 
@@ -58,15 +59,10 @@ int main(int argc, char** argv)
   rootWidget->resize(1024, 768);
 
   // Test widgetry
-  QDialog *hello = new QDialog(rootWidget);
-  hello->setWindowOpacity(0.8);
-  hello->setWindowTitle("Hello, world!");
-  hello->setLayout(new QVBoxLayout);
+  QPushButton *hello = new QPushButton(rootWidget);
+  hello->setText("Hello, world!");
 
-  QLabel *label = new QLabel(QString("Hullo."));
-  hello->layout()->addWidget(label);
-
-  hello->show();
+  //hello->show();
 
   Logger::logDEBUG("Qt initialized.");
 
