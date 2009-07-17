@@ -79,6 +79,10 @@ set(G3D_MOC_HEADERS
   OgreGLWidget.h
   )
 
+set(G3D_UIS
+  mainwindow.ui
+  )
+
 set(RBGUI_DIR "../../data/g3d/RBGui")
 add_definitions( -DDATA_DIR='"${CMAKE_INSTALL_PREFIX}/share/g3d/"' )
 
@@ -134,6 +138,7 @@ set(OTLIBS ${OTLIBS} ${QT_LIBRARIES})
 
 # Preprocess Qt stuff
 qt4_wrap_cpp(G3D_MOC_OUTFILES ${G3D_MOC_HEADERS})
+qt4_wrap_ui(G3D_UI_OUTFILES ${G3D_UIS})
 
 if(CANNOT_BUILD)
   message(FATAL_ERROR "Missing essential libraries, aborting")
@@ -160,8 +165,8 @@ else(CANNOT_BUILD)
 
   #link_libraries( g3d ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Mocha_LIBRARIES} ${RBGui_LIBRARIES} )
   #add_definitions(${PC_CFLAGS} ${BRLCAD_CFLAGS})
-  add_executable( g3d ${G3D_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} )
-  add_executable( ogretest ${OGRETEST_SOURCES} ${G3D_MOC_OUTFILES} ${OGRETEST_HEADERS} )
+  add_executable( g3d ${G3D_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} ${G3D_UI_OUTFILES})
+  add_executable( ogretest ${OGRETEST_SOURCES} ${G3D_MOC_OUTFILES} ${OGRETEST_HEADERS} ${G3D_UI_OUTFILES})
   target_link_libraries( g3d ${LIBS} )
   target_link_libraries( ogretest ${OTLIBS} )
 

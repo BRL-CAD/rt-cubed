@@ -33,7 +33,7 @@
 
 #include "Logger.h"
 
-#include "OgreGLWidget.h"
+#include "ui_mainwindow.h"
 
 int main(int argc, char** argv)
 {
@@ -53,19 +53,10 @@ int main(int argc, char** argv)
   // Set up Qt
   QApplication qapp(argc, argv);
   
-  OgreGLWidget* rootWidget = new OgreGLWidget();
-
-  // Test widgetry
-  QVBoxLayout *layout = new QVBoxLayout();
-  
-  QPushButton *hello = new QPushButton("Hello,", rootWidget);
-  layout->addWidget(hello);
-
-  QPushButton *world = new QPushButton("world!", rootWidget);
-  layout->addWidget(world);
-
-  rootWidget->setLayout(layout);
-  rootWidget->show();
+  QWidget *window = new QWidget();
+  Ui_Form ui;
+  ui.setupUi(window);
+  window->show();
 
   Logger::logDEBUG("Qt initialized.");
 
