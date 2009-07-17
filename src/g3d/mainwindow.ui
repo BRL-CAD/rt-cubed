@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>381</width>
-    <height>270</height>
+    <width>402</width>
+    <height>302</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>G3D</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="OgreGLWidget" name="widget" native="true"/>
    </item>
