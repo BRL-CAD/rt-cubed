@@ -54,7 +54,7 @@ int main(int argc, char** argv)
   QApplication qapp(argc, argv);
   
   QWidget *window = new QWidget();
-  Ui_Form ui;
+  Ui::Form ui;
   ui.setupUi(window);
   window->show();
 
