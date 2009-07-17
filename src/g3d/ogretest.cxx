@@ -54,14 +54,18 @@ int main(int argc, char** argv)
   QApplication qapp(argc, argv);
   
   OgreGLWidget* rootWidget = new OgreGLWidget();
-
+  rootWidget->setLayout(new QVBoxLayout());
   rootWidget->show();
 
   // Test widgetry
+  
   QPushButton *hello = new QPushButton(rootWidget);
-  hello->setText("Hello, world!");
-
+  hello->setText("Hello,");
   hello->show();
+
+  QPushButton *world = new QPushButton(rootWidget);
+  world->setText("world!");
+  world->show();
 
   Logger::logDEBUG("Qt initialized.");
 
