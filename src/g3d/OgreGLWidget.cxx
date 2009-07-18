@@ -30,6 +30,8 @@
 
 #include <exception>
 
+#include <QTimer>
+
 #include <OGRE/Ogre.h>
 
 #include "Logger.h"
@@ -38,6 +40,8 @@
 #define OGRE_CFG_FILE           (DATA_DIR "ogre.cfg")
 #define OGRE_LOG_FILE           (DATA_DIR "ogre.log")
 #define OGRE_RESOURCES_CFG_FILE (DATA_DIR "resources.cfg")
+
+#define FRAMEDELAY 10		// Milliseconds; 10ms == 100fps
 
 OgreGLWidget::OgreGLWidget(QWidget *parent) :
     QGLWidget(parent),
@@ -109,7 +113,9 @@ void OgreGLWidget::initializeGL()
     _camera->lookAt(sphereNode->getPosition());
 
     _renderWindow->setVisible(true);
-    
+
+    QTimer::singleShot(FRAMEDELAY, this, SLOT(update()));
+
     Logger::logDEBUG("Ogre ready to render.");
 }
 
@@ -145,6 +151,7 @@ void OgreGLWidget::resizeGL(int width, int height)
 void OgreGLWidget::paintGL() 
 {
     _root->renderOneFrame();
+    QTimer::singleShot(FRAMEDELAY, this, SLOT(update()));
 }
 
 
