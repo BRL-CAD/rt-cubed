@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>402</width>
-    <height>302</height>
+    <width>379</width>
+    <height>356</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,10 +40,17 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>210</height>
+          <height>247</height>
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="consoleOutput">
+        <property name="text">
+         <string>Console output goes here.</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLineEdit" name="consoleInput"/>
