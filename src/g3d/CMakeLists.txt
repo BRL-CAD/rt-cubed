@@ -43,6 +43,7 @@ set(OGRETEST_SOURCES
   Observer.cxx
   OgreGLWidget.cxx
   MainWindow.cxx
+  Console.cxx
   )
 
 set(G3D_HEADERS
@@ -79,6 +80,7 @@ set(OGRETEST_HEADERS
 set(G3D_MOC_HEADERS
   OgreGLWidget.h
   MainWindow.h
+  Console.h
   )
 
 set(G3D_UIS

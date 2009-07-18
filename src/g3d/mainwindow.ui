@@ -62,32 +62,13 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>247</height>
+          <height>275</height>
          </size>
         </property>
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="consoleOutput">
-        <property name="autoFillBackground">
-         <bool>true</bool>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
-        </property>
-        <property name="text">
-         <string>Console output goes here.</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::PlainText</enum>
-        </property>
-        <property name="textInteractionFlags">
-         <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="consoleInput"/>
+       <widget class="Console" name="widget" native="true"/>
       </item>
      </layout>
     </widget>
@@ -99,6 +80,12 @@
    <class>OgreGLWidget</class>
    <extends>QWidget</extends>
    <header>OgreGLWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Console</class>
+   <extends>QWidget</extends>
+   <header>Console.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
