@@ -30,7 +30,9 @@
 
 Console::Console(QWidget *parent) : QWidget(parent)
 {
-    layout = new QVBoxLayout;
+    layout = new QVBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
     
     output = new QLabel();
     output->setText("Console output goes here.");
@@ -44,8 +46,6 @@ Console::Console(QWidget *parent) : QWidget(parent)
     layout->addWidget(entry);
     
     installEventFilter(this);
-
-    setLayout(layout);
 }
 
 bool Console::eventFilter(QObject *, QEvent *event) 
