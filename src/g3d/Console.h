@@ -31,21 +31,6 @@
 
 #include <QtGui>
 
-class ConsoleLineEdit : public QLineEdit
-{
-    Q_OBJECT
-
-public:
-    ConsoleLineEdit(QLabel *output);
-    
-protected:
-    void enterEvent(QEvent *);
-    void leaveEvent(QEvent *);
-
-private:
-    QLabel *_output;
-};
-
 class Console : public QWidget
 {
     Q_OBJECT
@@ -53,10 +38,13 @@ class Console : public QWidget
 public:
     Console(QWidget *parent = NULL);
 
+protected:
+    bool eventFilter(QObject *, QEvent *event);
+
 private:
     QVBoxLayout *layout;
     
-    ConsoleLineEdit *entry;
+    QLineEdit *entry;
     QLabel *output;
 };
 
