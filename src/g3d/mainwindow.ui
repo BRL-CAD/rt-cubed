@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>MainWindow</class>
+ <widget class="QWidget" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -24,10 +24,32 @@
        <widget class="QWidget" name="widget_2" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QComboBox" name="cameraControlMode"/>
+          <widget class="QComboBox" name="cameraControlMode">
+           <item>
+            <property name="text">
+             <string>Blender camera</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>MGED camera</string>
+            </property>
+           </item>
+          </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="cameraViewMode"/>
+          <widget class="QComboBox" name="cameraViewMode">
+           <item>
+            <property name="text">
+             <string>Perspective</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Orthographic</string>
+            </property>
+           </item>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -47,8 +69,20 @@
       </item>
       <item>
        <widget class="QLabel" name="consoleOutput">
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
         <property name="text">
          <string>Console output goes here.</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::PlainText</enum>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
         </property>
        </widget>
       </item>

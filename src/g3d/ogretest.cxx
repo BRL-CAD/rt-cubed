@@ -33,7 +33,7 @@
 
 #include "Logger.h"
 
-#include "ui_mainwindow.h"
+#include "MainWindow.h"
 
 int main(int argc, char** argv)
 {
@@ -53,9 +53,7 @@ int main(int argc, char** argv)
   // Set up Qt
   QApplication qapp(argc, argv);
   
-  QWidget *window = new QWidget();
-  Ui::Form ui;
-  ui.setupUi(window);
+  MainWindow *window = new MainWindow();
   window->show();
 
   Logger::logDEBUG("Qt initialized.");

@@ -42,6 +42,7 @@ set(OGRETEST_SOURCES
   Logger.cxx
   Observer.cxx
   OgreGLWidget.cxx
+  MainWindow.cxx
   )
 
 set(G3D_HEADERS
@@ -77,6 +78,7 @@ set(OGRETEST_HEADERS
 # Qt stuff that needs preprocessing
 set(G3D_MOC_HEADERS
   OgreGLWidget.h
+  MainWindow.h
   )
 
 set(G3D_UIS
