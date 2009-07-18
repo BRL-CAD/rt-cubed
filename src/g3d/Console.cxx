@@ -37,6 +37,7 @@ Console::Console(QWidget *parent) : QWidget(parent)
     output = new QLabel();
     output->setText("Console output goes here.");
     output->setAutoFillBackground(true);
+    output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
     output->hide();
     installEventFilter(output);
     layout->addWidget(output);
