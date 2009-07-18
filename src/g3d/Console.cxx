@@ -28,6 +28,22 @@
 
 #include "Console.h"
 
+ConsoleLineEdit::ConsoleLineEdit(QLabel *output) : _output(output)
+{
+    _output->hide();
+}
+
+void ConsoleLineEdit::enterEvent(QEvent *)
+{
+    _output->show();
+}
+
+void ConsoleLineEdit::leaveEvent(QEvent *)
+{
+    _output->hide();
+}
+
+
 Console::Console(QWidget *parent) : QWidget(parent)
 {
     layout = new QVBoxLayout;
@@ -37,7 +53,7 @@ Console::Console(QWidget *parent) : QWidget(parent)
     output->setAutoFillBackground(true);
     layout->addWidget(output);
 
-    entry = new QLineEdit();
+    entry = new ConsoleLineEdit(output);
     layout->addWidget(entry);
 
     setLayout(layout);

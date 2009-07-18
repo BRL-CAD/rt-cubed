@@ -31,6 +31,21 @@
 
 #include <QtGui>
 
+class ConsoleLineEdit : public QLineEdit
+{
+    Q_OBJECT
+
+public:
+    ConsoleLineEdit(QLabel *output);
+    
+protected:
+    void enterEvent(QEvent *);
+    void leaveEvent(QEvent *);
+
+private:
+    QLabel *_output;
+};
+
 class Console : public QWidget
 {
     Q_OBJECT
@@ -41,7 +56,7 @@ public:
 private:
     QVBoxLayout *layout;
     
-    QLineEdit *entry;
+    ConsoleLineEdit *entry;
     QLabel *output;
 };
 
