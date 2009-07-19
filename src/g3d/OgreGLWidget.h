@@ -43,12 +43,6 @@ public:
     OgreGLWidget(QGLFormat f);
     ~OgreGLWidget();
 
-    Ogre::Root* root();
-    Ogre::RenderWindow* renderWindow();
-    Ogre::Camera* camera();
-    Ogre::Viewport* viewport();
-    Ogre::SceneManager* scene();
-
 public slots:
     void setProjection(Ogre::ProjectionType type);
 
