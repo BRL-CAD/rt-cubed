@@ -163,32 +163,6 @@ void OgreGLWidget::moveEvent(QMoveEvent* e)
 }
 
 
-Ogre::Root *OgreGLWidget::root()
-{
-    return _root;
-}
-
-Ogre::RenderWindow *OgreGLWidget::renderWindow()
-{
-    return _renderWindow;
-}
-
-Ogre::Camera *OgreGLWidget::camera()
-{
-    return _camera;
-}
-
-Ogre::Viewport *OgreGLWidget::viewport()
-{
-    return _viewport;
-}
-
-Ogre::SceneManager *OgreGLWidget::scene()
-{
-    return _scene;
-}
-
-
 void OgreGLWidget::setProjection(Ogre::ProjectionType type) 
 {
     _camera->setProjectionType(type);
