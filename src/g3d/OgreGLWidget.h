@@ -44,7 +44,7 @@ public:
     ~OgreGLWidget();
 
 public slots:
-    void setProjection(Ogre::ProjectionType type);
+    void setProjection(int type);
 
 protected:
     /** Loads Ogre resources specified in the resources.cfg */
