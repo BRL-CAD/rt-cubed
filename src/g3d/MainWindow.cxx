@@ -31,6 +31,9 @@
 MainWindow::MainWindow() 
 {
     setupUi(this);
+
+    QObject::connect(cameraProjection, SIGNAL(activated(int)),
+		     ogreView, SLOT(setProjection));
 }
 
 

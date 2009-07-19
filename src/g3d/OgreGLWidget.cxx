@@ -165,6 +165,7 @@ void OgreGLWidget::moveEvent(QMoveEvent* e)
 
 void OgreGLWidget::setProjection(Ogre::ProjectionType type) 
 {
+    Logger::logDEBUG("Setting projection type %d", type);
     _camera->setProjectionType(type);
 }
 
