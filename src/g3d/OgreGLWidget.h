@@ -49,6 +49,9 @@ public:
     Ogre::Viewport* viewport();
     Ogre::SceneManager* scene();
 
+public slots:
+    void setProjection(Ogre::ProjectionType type);
+
 protected:
     /** Loads Ogre resources specified in the resources.cfg */
     void loadResources();

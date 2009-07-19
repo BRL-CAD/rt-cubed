@@ -188,6 +188,12 @@ Ogre::SceneManager *OgreGLWidget::scene()
     return _scene;
 }
 
+
+void OgreGLWidget::setProjection(Ogre::ProjectionType type) 
+{
+    _camera->setProjectionType(type);
+}
+
 /*
  * Local Variables:
  * mode: C++
