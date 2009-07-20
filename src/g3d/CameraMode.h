@@ -157,20 +157,20 @@ public:
   static float getVarWithinLimits(float var, float min, float max);
 
   /** Inject input */
-  virtual bool injectKeyPressed(Qt::Key /* keyCode */)
+  virtual bool injectKeyPressed(QKeyEvent * /* keyEvent */)
     { return false; }
   /** Inject input */
-  virtual bool injectKeyReleased(Qt::Key /* keyCode */)
+  virtual bool injectKeyReleased(QKeyEvent * /* keyEvent */)
     { return false; }
   /** Inject input */
   virtual bool injectMouseMotion(int /* x */, int /* y */)
     { return false; }
   /** Inject input */
-  virtual bool injectMousePressed(Qt::ButtonState /* buttonId */,
+  virtual bool injectMousePressed(QMouseEvent * /* buttonId */,
 				  int /* x */, int /* y */)
     { return false; }
   /** Inject input */
-  virtual bool injectMouseReleased(Qt::ButtonState /* buttonId */,
+  virtual bool injectMouseReleased(QMouseEvent * /* buttonId */,
 				   int /* x */, int /* y */)
     { return false; }
   /** Inject input */
