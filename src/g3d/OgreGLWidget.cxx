@@ -141,6 +141,9 @@ void OgreGLWidget::loadResources()
     }
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+    
+    setProjection(0);	// Orthographic is default projection
+
 }
 
 void OgreGLWidget::resizeGL(int width, int height)
@@ -165,8 +168,12 @@ void OgreGLWidget::moveEvent(QMoveEvent* e)
 
 void OgreGLWidget::setProjection(int type) 
 {
-    Logger::logDEBUG("Setting projection type %d", type);
-    _camera->setProjectionType(static_cast<Ogre::ProjectionType>(type));
+    if(_camera) {
+	Logger::logDEBUG("Setting projection type %d", type);
+	_camera->setProjectionType(static_cast<Ogre::ProjectionType>(type));
+    } else {
+	Logger::logWARNING("Attempted to set projection mode with uninitialized Ogre!");
+    }
 }
 
 /*

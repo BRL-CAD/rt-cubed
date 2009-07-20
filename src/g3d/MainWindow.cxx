@@ -32,6 +32,9 @@ MainWindow::MainWindow()
 {
     setupUi(this);
 
+    // WARNING: The entries of the cameraProjection dropdown MUST be
+    // listed in the same order as the elements of
+    // Ogre::ProjectionType (found in OgreFrustrum.h)
     QObject::connect(cameraProjection, SIGNAL(activated(int)),
 		     ogreView, SLOT(setProjection(int)));
 }
