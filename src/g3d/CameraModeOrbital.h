@@ -49,9 +49,9 @@ public:
   CameraModeOrbital();
 
   /** @see CameraMode::injectKeyPressed */
-  virtual bool injectKeyPressed(OIS::KeyCode keyCode);
+  virtual bool injectKeyPressed(QKeyEvent *e);
   /** @see CameraMode::injectKeyReleased */
-  virtual bool injectKeyReleased(OIS::KeyCode keyCode);
+  virtual bool injectKeyReleased(QKeyEvent *e);
 
   /** @see CameraMode::cameraControlUpPressed */
   virtual void cameraControlUpPressed();

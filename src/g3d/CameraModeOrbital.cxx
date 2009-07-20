@@ -40,62 +40,66 @@ CameraModeOrbital::CameraModeOrbital() :
 {
 }
 
-bool CameraModeOrbital::injectKeyPressed(OIS::KeyCode keyCode)
+bool CameraModeOrbital::injectKeyPressed(QKeyEvent *e)
 {
-  switch (keyCode) {
-  case OIS::KC_NUMPAD5:
-    // reset to center
-    setResetToCenter(true);
-    return true;
-  case OIS::KC_ADD:
-    // zoom in
-    setZoom(CameraMode::POSITIVE);
-    return true;
-  case OIS::KC_SUBTRACT:
-    // zoom out
-    setZoom(CameraMode::NEGATIVE);
-    return true;
-  case OIS::KC_NUMPAD8:
-    // orbit up
-    setRotateX(CameraMode::POSITIVE);
-    return true;
-  case OIS::KC_NUMPAD2:
-    // orbit down
-    setRotateX(CameraMode::NEGATIVE);
-    return true;
-  case OIS::KC_NUMPAD4:
-    // orbit left
-    setRotateY(CameraMode::POSITIVE);
-    return true;
-  case OIS::KC_NUMPAD6:
-    // orbit right
-    setRotateY(CameraMode::NEGATIVE);
-    return true;
-  default:
-    return false;
+  if(e->modifiers() & Qt::KeypadModifier) {
+    switch (e->key()) {
+    case Qt::Key_5:
+      // reset to center
+      setResetToCenter(true);
+      return true;
+    case Qt::Key_Plus:
+      // zoom in
+      setZoom(CameraMode::POSITIVE);
+      return true;
+    case Qt::Key_Minus:
+      // zoom out
+      setZoom(CameraMode::NEGATIVE);
+      return true;
+    case Qt::Key_8:
+      // orbit up
+      setRotateX(CameraMode::POSITIVE);
+      return true;
+    case Qt::Key_2:
+      // orbit down
+      setRotateX(CameraMode::NEGATIVE);
+      return true;
+    case Qt::Key_4:
+      // orbit left
+      setRotateY(CameraMode::POSITIVE);
+      return true;
+    case Qt::Key_6:
+      // orbit right
+      setRotateY(CameraMode::NEGATIVE);
+      return true;
+    default:
+      return false;
+    }
   }
 }
 
 bool CameraModeOrbital::injectKeyReleased(OIS::KeyCode keyCode)
 {
-  switch (keyCode) {
-  case OIS::KC_ADD:
-  case OIS::KC_SUBTRACT:
-    // zoom
-    setZoom(CameraMode::NEUTRAL);
-    return true;
-  case OIS::KC_NUMPAD8:
-  case OIS::KC_NUMPAD2:
-    // orbit up/down
-    setRotateX(CameraMode::NEUTRAL);
-    return true;
-  case OIS::KC_NUMPAD4:
-  case OIS::KC_NUMPAD6:
-    // orbit left/right
-    setRotateY(CameraMode::NEUTRAL);
-    return true;
-  default:
-    return false;
+  if(e->modifiers() & Qt::KeypadModifier) {
+    switch (keyCode) {
+    case Qt::Key_Plus:
+    case Qt::Key_Minus:
+      // zoom
+      setZoom(CameraMode::NEUTRAL);
+      return true;
+    case Qt::Key_8:
+    case Qt::Key_2:
+      // orbit up/down
+      setRotateX(CameraMode::NEUTRAL);
+      return true;
+    case Qt::Key_4:
+    case Qt::Key_6:
+      // orbit left/right
+      setRotateY(CameraMode::NEUTRAL);
+      return true;
+    default:
+      return false;
+    }
   }
 }
 
