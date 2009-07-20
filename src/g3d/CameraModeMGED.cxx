@@ -40,7 +40,7 @@
 /*******************************************************************************
  * CameraModeMGED
  ******************************************************************************/
-const float CameraModeMGED::ROTATION_STEP = PI_NUMBER/12.0f; // 15 degrees, in radians
+const float CameraModeMGED::ROTATION_STEP = M_PI/12.0f; // 15 degrees, in radians
 const float CameraModeMGED::PAN_FRACTION = 20.0f; // m
 const float CameraModeMGED::ZOOM_STEP = 1.25f; // ratio
 const float CameraModeMGED::ZOOM_SCALE = 4.0f; // ratio
@@ -63,63 +63,75 @@ CameraModeMGED::CameraModeMGED() :
 {
 }
 
-bool CameraModeMGED::injectKeyPressed(OIS::KeyCode keyCode)
+bool CameraModeMGED::injectKeyPressed(QKeyEvent *e)
 {
-  switch (keyCode) {
-  case OIS::KC_NUMPAD5:
-    // reset to center
-    setResetToCenter(true);
-    return true;
-  case OIS::KC_LCONTROL:
-  case OIS::KC_RCONTROL:
-    _keyControlPressed = true;
-    setMode();
-    return true;
-  case OIS::KC_LMENU:
-  case OIS::KC_RMENU:
-    _keyAltPressed = true;
-    setMode();
-    return true;
-  case OIS::KC_LSHIFT:
-  case OIS::KC_RSHIFT:
-    _keyShiftPressed = true;
-    setMode();
-    return true;
-  default:
-    return false;
+  if(e->modifiers() & Qt::KeypadModifier) {
+    switch (e->key()) {
+    case Qt::Key_5:
+      // reset to center
+      setResetToCenter(true);
+      return true;
+      
+    default:
+      break;
+    }
+  } else {
+    switch(e->key()) {
+    case Qt::Key_Control:
+      _keyControlPressed = true;
+      setMode();
+      return true;
+      
+    case Qt::Key_Alt:
+      _keyAltPressed = true;
+      setMode();
+      return true;
+      
+    case Qt::Key_Shift:
+      _keyShiftPressed = true;
+      setMode();
+      return true;
+      
+    default:
+      break;
+    }
   }
+
+  return false;
 }
 
-bool CameraModeMGED::injectKeyReleased(OIS::KeyCode keyCode)
+bool CameraModeMGED::injectKeyReleased(QKeyEvent *e)
 {
-  switch (keyCode) {
-  case OIS::KC_LCONTROL:
-  case OIS::KC_RCONTROL:
+  switch (e->key()) {
+  case Qt::Key_Control:
     _keyControlPressed = false;
     setMode();
     return true;
-  case OIS::KC_LMENU:
-  case OIS::KC_RMENU:
+    
+  case Qt::Key_Alt:
     _keyAltPressed = false;
     setMode();
     return true;
-  case OIS::KC_LSHIFT:
-  case OIS::KC_RSHIFT:
+    
+  case Qt::Key_Shift:
     _keyShiftPressed = false;
     setMode();
     return true;
+    
   default:
-    return false;
+    break;
   }
+
+  return false;
 }
 
-bool CameraModeMGED::injectMouseMotion(int x, int y)
+bool CameraModeMGED::injectMouseMotion(QMouseEvent *e)
 {
   if (_scaleModeEnabled && _mouseButtonsPressed > 0) {
     // calculate the x position normalized between -1.0 and 1.0
     // w.r.t. screen coordinates (inside windows, if mouse goes
     // outside it depends on the windowing system)
-    float horizDiffNorm = (x - _dragOriginX)/static_cast<float>(_windowWidth/2.0f);
+    float horizDiffNorm = (e->x() - _dragOriginX)/static_cast<float>(_windowWidth/2.0f);
     float scale = pow(ZOOM_SCALE, horizDiffNorm);
     //Logger::logDEBUG("x diff: %g; scale: %g", horizDiffNorm, scale);
 
@@ -129,19 +141,19 @@ bool CameraModeMGED::injectMouseMotion(int x, int y)
     return true;
   } else if (_translateModeEnabled && _mouseButtonsPressed > 0) {
     // pan given amount of screen units
-    panScreenRelativeCoords(x - _dragOriginX, y - _dragOriginY);
+    panScreenRelativeCoords(e->x() - _dragOriginX, e->y() - _dragOriginY);
     return true;
   } else if (_rotateModeEnabled && _mouseButtonsPressed > 0) {
     // mafm: originally copied from blender mode
 
     // calculate the difference since last update, normalized between
     // -1.0 and 1.0 w.r.t. screen coordinates
-    float horizDiffNorm = -(x - _dragOriginX)/(_windowWidth/2.0f);
-    float vertDiffNorm = -(y - _dragOriginY)/(_windowHeight/2.0f);
+    float horizDiffNorm = -(e->x() - _dragOriginX)/(_windowWidth/2.0f);
+    float vertDiffNorm = -(e->y() - _dragOriginY)/(_windowHeight/2.0f);
     // Logger::logDEBUG("%.03f %.03f", horizDiffNorm, vertDiffNorm);
 
     // orbit freely, setting absolute position
-    _horizontalRot = _dragOriginalHorizontalRotation + horizDiffNorm*PI_NUMBER;
+    _horizontalRot = _dragOriginalHorizontalRotation + horizDiffNorm*M_PI;
     _verticalRot = _dragOriginalVerticalRotation + vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
 
     return true;
@@ -150,14 +162,14 @@ bool CameraModeMGED::injectMouseMotion(int x, int y)
   }
 }
 
-bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int y)
+bool CameraModeMGED::injectMousePressed(QMouseEvent *e)
 {
   // increase the count of mouse buttons pressed, for all purposes
   ++(_mouseButtonsPressed);
 
   if (_translateModeEnabled || _rotateModeEnabled || _scaleModeEnabled) {
-    switch (buttonId) {
-    case OIS::MB_Left:
+    switch (e->button()) {
+    case Qt::LeftButton:
       _constrainedToAxis = X;
       _dragOriginX = x;
       _dragOriginY = y;
@@ -166,7 +178,8 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
       _dragOriginalVerticalRotation = _verticalRot;
       _dragOriginalCenter = _center;
       break;
-    case OIS::MB_Middle:
+      
+    case Qt::MidButton:
       _constrainedToAxis = Y;
       _dragOriginX = x;
       _dragOriginY = y;
@@ -175,7 +188,8 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
       _dragOriginalVerticalRotation = _verticalRot;
       _dragOriginalCenter = _center;
       break;
-    case OIS::MB_Right:
+      
+    case Qt::RightButton:
       _constrainedToAxis = Z;
       _dragOriginX = x;
       _dragOriginY = y;
@@ -184,22 +198,26 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
       _dragOriginalVerticalRotation = _verticalRot;
       _dragOriginalCenter = _center;
       break;
+      
     default:
       // nothing
       break;
     }
   } else {
-    switch (buttonId) {
-    case OIS::MB_Left:
+    switch (e->button()) {
+    case Qt::LeftButton:
       doZoomOut();
       break;
-    case OIS::MB_Middle:
+      
+    case Qt::MidButton:
       /// \todo mafm: pan same distance as from point clicked to
       /// center, but in opposite direction
       break;
-    case OIS::MB_Right:
+      
+    case Qt::RightButton:
       doZoomIn();
       break;
+      
     default:
       // nothing
       break;
@@ -209,23 +227,26 @@ bool CameraModeMGED::injectMousePressed(OIS::MouseButtonID buttonId, int x, int 
   return true;
 }
 
-bool CameraModeMGED::injectMouseReleased(OIS::MouseButtonID buttonId, int /* x */, int /* y */)
+bool CameraModeMGED::injectMouseReleased(QMouseEvent *e)
 {
   // decrease the count of mouse buttons pressed, for all purposes
   --(_mouseButtonsPressed);
 
   if (_translateModeEnabled || _rotateModeEnabled) {
     _constrainedSubmodeEnabled = false;
-    switch (buttonId) {
-    case OIS::MB_Left:
+    switch (e->button()) {
+    case Qt::LeftButton:
       _constrainedToAxis = NOTSET;
       break;
-    case OIS::MB_Middle:
+      
+    case Qt::MidButton:
       _constrainedToAxis = NOTSET;
       break;
-    case OIS::MB_Right:
+      
+    case Qt::RightButton:
       _constrainedToAxis = NOTSET;
       break;
+      
     default:
       // nothing
       break;
