@@ -163,15 +163,13 @@ public:
   virtual bool injectKeyReleased(QKeyEvent * /* keyEvent */)
     { return false; }
   /** Inject input */
-  virtual bool injectMouseMotion(int /* x */, int /* y */)
+  virtual bool injectMouseMotion(QMouseEvent *)
     { return false; }
   /** Inject input */
-  virtual bool injectMousePressed(QMouseEvent * /* buttonId */,
-				  int /* x */, int /* y */)
+  virtual bool injectMousePressed(QMouseEvent * /* buttonId */)
     { return false; }
   /** Inject input */
-  virtual bool injectMouseReleased(QMouseEvent * /* buttonId */,
-				   int /* x */, int /* y */)
+  virtual bool injectMouseReleased(QMouseEvent * /* buttonId */)
     { return false; }
   /** Inject input */
   virtual bool injectMouseScrolled(Direction /* direction */)
