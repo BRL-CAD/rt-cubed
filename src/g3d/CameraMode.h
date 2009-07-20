@@ -30,9 +30,9 @@
 #ifndef __G3D_CAMERAMODE_H__
 #define __G3D_CAMERAMODE_H__
 
+#include <cmath>
 
-#include <OIS/OISKeyboard.h>
-#include <OIS/OISMouse.h>
+#include <Qt>
 
 
 namespace Ogre {
@@ -40,13 +40,10 @@ namespace Ogre {
 }
 
 
-/** Pi constant */
-#define PI_NUMBER 3.14159265358979323846
-
 /** Limit for vertical rotations */
-const float VERTICAL_ROTATION_MAX_LIMIT = (PI_NUMBER/2.0f)-0.01f;
+const float VERTICAL_ROTATION_MAX_LIMIT = (M_PI/2.0f)-0.01f;
 /** Limit for vertical rotations */
-const float VERTICAL_ROTATION_MIN_LIMIT = -(PI_NUMBER/2.0f)+0.01f;
+const float VERTICAL_ROTATION_MIN_LIMIT = -(M_PI/2.0f)+0.01f;
 
 
 /** @brief Base class for camera mode
@@ -160,20 +157,20 @@ public:
   static float getVarWithinLimits(float var, float min, float max);
 
   /** Inject input */
-  virtual bool injectKeyPressed(OIS::KeyCode /* keyCode */)
+  virtual bool injectKeyPressed(Qt::Key /* keyCode */)
     { return false; }
   /** Inject input */
-  virtual bool injectKeyReleased(OIS::KeyCode /* keyCode */)
+  virtual bool injectKeyReleased(Qt::Key /* keyCode */)
     { return false; }
   /** Inject input */
   virtual bool injectMouseMotion(int /* x */, int /* y */)
     { return false; }
   /** Inject input */
-  virtual bool injectMousePressed(OIS::MouseButtonID /* buttonId */,
+  virtual bool injectMousePressed(Qt::ButtonState /* buttonId */,
 				  int /* x */, int /* y */)
     { return false; }
   /** Inject input */
-  virtual bool injectMouseReleased(OIS::MouseButtonID /* buttonId */,
+  virtual bool injectMouseReleased(Qt::ButtonState /* buttonId */,
 				   int /* x */, int /* y */)
     { return false; }
   /** Inject input */
