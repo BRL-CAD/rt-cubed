@@ -48,15 +48,15 @@ public:
   CameraModeBlender();
 
   /** @see CameraMode::injectKeyPressed */
-  virtual bool injectKeyPressed(OIS::KeyCode keyCode);
+  virtual bool injectKeyPressed(QKeyEvent *e);
   /** @see CameraMode::injectKeyReleased */
-  virtual bool injectKeyReleased(OIS::KeyCode keyCode);
+  virtual bool injectKeyReleased(QKeyEvent *e);
   /** @see CameraMode::injectMouseMotion */
-  virtual bool injectMouseMotion(int x, int y);
+  virtual bool injectMouseMotion(QMouseEvent *e);
   /** @see CameraMode::injectMousePressed */
-  virtual bool injectMousePressed(OIS::MouseButtonID buttonId, int x, int y);
+  virtual bool injectMousePressed(QMouseEvent *e);
   /** @see CameraMode::injectMouseReleased */
-  virtual bool injectMouseReleased(OIS::MouseButtonID buttonId, int x, int y);
+  virtual bool injectMouseReleased(QMouseEvent *e);
   /** @see CameraMode::injectMouseScrolled */
   virtual bool injectMouseScrolled(Direction direction);
 

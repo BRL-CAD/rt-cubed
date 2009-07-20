@@ -50,76 +50,79 @@ CameraModeBlender::CameraModeBlender() :
 {
 }
 
-bool CameraModeBlender::injectKeyPressed(OIS::KeyCode keyCode)
+bool CameraModeBlender::injectKeyPressed(QKeyEvent *e)
 {
-  switch (keyCode) {
-  case OIS::KC_NUMPAD5:
-    // reset to center
-    setResetToCenter(true);
-    return true;
-  case OIS::KC_ADD:
-    // zoom in
-    doZoomIn();
-    return true;
-  case OIS::KC_SUBTRACT:
-    // zoom out
-    doZoomOut();
-    return true;
-  case OIS::KC_NUMPADENTER:
-    // reset zoom
-    _radius = RADIUS_DEFAULT_DISTANCE;
-    return true;
-  case OIS::KC_NUMPAD8:
-    if (_panModeEnabled) {
-      panUp();
-    } else {
-      // orbit up
-      decreaseVarWithLimit(_verticalRot,
-			   ROTATION_STEP,
-			   VERTICAL_ROTATION_MIN_LIMIT);
+  if(e->modifiers() & Qt::KeypadModifier) {
+    switch (e->key()) {
+    case Qt::Key_5:
+      // reset to center
+      setResetToCenter(true);
+      return true;
+    case Qt::Key_Plus:
+      // zoom in
+      doZoomIn();
+      return true;
+    case Qt::Key_Minus:
+      // zoom out
+      doZoomOut();
+      return true;
+    case Qt::Key_Enter:
+      // reset zoom
+      _radius = RADIUS_DEFAULT_DISTANCE;
+      return true;
+    case Qt::Key_8:
+      if (_panModeEnabled) {
+	panUp();
+      } else {
+	// orbit up
+	decreaseVarWithLimit(_verticalRot,
+			     ROTATION_STEP,
+			     VERTICAL_ROTATION_MIN_LIMIT);
+      }
+      return true;
+    case Qt::Key_2:
+      if (_panModeEnabled) {
+	panDown();
+      } else {
+	// orbit down
+	increaseVarWithLimit(_verticalRot,
+			     ROTATION_STEP,
+			     VERTICAL_ROTATION_MAX_LIMIT);
+      }
+      return true;
+    case Qt::Key_4:
+      if (_panModeEnabled) {
+	panLeft();
+      } else {
+	// orbit left
+	_horizontalRot -= ROTATION_STEP;
+      }
+      return true;
+    case Qt::Key_6:
+      if (_panModeEnabled) {
+	panRight();
+      } else {
+	// orbit right
+	_horizontalRot += ROTATION_STEP;
+      }
+      return true;
     }
-    return true;
-  case OIS::KC_NUMPAD2:
-    if (_panModeEnabled) {
-      panDown();
-    } else {
-      // orbit down
-      increaseVarWithLimit(_verticalRot,
-			   ROTATION_STEP,
-			   VERTICAL_ROTATION_MAX_LIMIT);
+  } else {
+    switch(e->key()) {
+    case Qt::Key_Control:
+      // enable pan mode
+      _panModeEnabled = true;
+      return true;
+    default:
+      return false;
     }
-    return true;
-  case OIS::KC_NUMPAD4:
-    if (_panModeEnabled) {
-      panLeft();
-    } else {
-      // orbit left
-      _horizontalRot -= ROTATION_STEP;
-    }
-    return true;
-  case OIS::KC_NUMPAD6:
-    if (_panModeEnabled) {
-      panRight();
-    } else {
-      // orbit right
-      _horizontalRot += ROTATION_STEP;
-    }
-    return true;
-  case OIS::KC_LCONTROL:
-  case OIS::KC_RCONTROL:
-    // enable pan mode
-    _panModeEnabled = true;
-    return true;
-  default:
-    return false;
   }
 }
 
-bool CameraModeBlender::injectKeyReleased(OIS::KeyCode keyCode)
+bool CameraModeBlender::injectKeyReleased(QKeyEvent *e)
 {
-  switch (keyCode) {
-  case OIS::KC_LCONTROL:
-  case OIS::KC_RCONTROL:
+  switch (e->key()) {
+  case Qt::Key_Control:
     // disable pan mode
     _panModeEnabled = false;
     return true;
@@ -128,13 +131,13 @@ bool CameraModeBlender::injectKeyReleased(OIS::KeyCode keyCode)
   }
 }
 
-bool CameraModeBlender::injectMouseMotion(int x, int y)
+bool CameraModeBlender::injectMouseMotion(QMouseEvent *e)
 {
   if (_dragModeEnabled) {
     // calculate the difference since last update, normalized between
     // -1.0 and 1.0 w.r.t. screen coordinates
-    float horizDiffNorm = -(x - _dragModeOriginX)/(_windowWidth/2.0f);
-    float vertDiffNorm = -(y - _dragModeOriginY)/(_windowHeight/2.0f);
+    float horizDiffNorm = -(e->x() - _dragModeOriginX)/(_windowWidth/2.0f);
+    float vertDiffNorm = -(e->y() - _dragModeOriginY)/(_windowHeight/2.0f);
     // Logger::logDEBUG("%.03f %.03f", horizDiffNorm, vertDiffNorm);
 
     // orbit freely, setting absolute position
@@ -147,9 +150,9 @@ bool CameraModeBlender::injectMouseMotion(int x, int y)
   }
 }
 
-bool CameraModeBlender::injectMousePressed(OIS::MouseButtonID buttonId, int x, int y)
+bool CameraModeBlender::injectMousePressed(QMouseEvent *e)
 {
-  if (buttonId == OIS::MB_Middle) {
+  if (e->button() == Qt::MidButton) {
     _dragModeEnabled = true;
     _dragModeOriginX = x;
     _dragModeOriginY = y;
@@ -162,9 +165,9 @@ bool CameraModeBlender::injectMousePressed(OIS::MouseButtonID buttonId, int x, i
   }
 }
 
-bool CameraModeBlender::injectMouseReleased(OIS::MouseButtonID buttonId, int /* x */, int /* y */)
+bool CameraModeBlender::injectMouseReleased(QMouseEvent *e)
 {
-  if (buttonId == OIS::MB_Middle) {
+  if (e->button() == Qt::MidButton) {
     _dragModeEnabled = false;
     return true;
   } else {
