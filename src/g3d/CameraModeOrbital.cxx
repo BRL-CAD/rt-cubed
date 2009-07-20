@@ -76,12 +76,13 @@ bool CameraModeOrbital::injectKeyPressed(QKeyEvent *e)
       return false;
     }
   }
+  return false;
 }
 
-bool CameraModeOrbital::injectKeyReleased(OIS::KeyCode keyCode)
+bool CameraModeOrbital::injectKeyReleased(QKeyEvent *e)
 {
   if(e->modifiers() & Qt::KeypadModifier) {
-    switch (keyCode) {
+    switch (e->key()) {
     case Qt::Key_Plus:
     case Qt::Key_Minus:
       // zoom
@@ -101,6 +102,7 @@ bool CameraModeOrbital::injectKeyReleased(OIS::KeyCode keyCode)
       return false;
     }
   }
+  return false;
 }
 
 void CameraModeOrbital::cameraControlUpPressed()

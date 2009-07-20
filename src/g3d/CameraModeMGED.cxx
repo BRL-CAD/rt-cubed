@@ -171,8 +171,8 @@ bool CameraModeMGED::injectMousePressed(QMouseEvent *e)
     switch (e->button()) {
     case Qt::LeftButton:
       _constrainedToAxis = X;
-      _dragOriginX = x;
-      _dragOriginY = y;
+      _dragOriginX = e->x();
+      _dragOriginY = e->y();
       _dragOriginalRadius = _radius;
       _dragOriginalHorizontalRotation = _horizontalRot;
       _dragOriginalVerticalRotation = _verticalRot;
@@ -181,8 +181,8 @@ bool CameraModeMGED::injectMousePressed(QMouseEvent *e)
       
     case Qt::MidButton:
       _constrainedToAxis = Y;
-      _dragOriginX = x;
-      _dragOriginY = y;
+      _dragOriginX = e->x();
+      _dragOriginY = e->y();
       _dragOriginalRadius = _radius;
       _dragOriginalHorizontalRotation = _horizontalRot;
       _dragOriginalVerticalRotation = _verticalRot;
@@ -191,8 +191,8 @@ bool CameraModeMGED::injectMousePressed(QMouseEvent *e)
       
     case Qt::RightButton:
       _constrainedToAxis = Z;
-      _dragOriginX = x;
-      _dragOriginY = y;
+      _dragOriginX = e->x();
+      _dragOriginY = e->y();
       _dragOriginalRadius = _radius;
       _dragOriginalHorizontalRotation = _horizontalRot;
       _dragOriginalVerticalRotation = _verticalRot;

@@ -39,7 +39,7 @@
 /*******************************************************************************
  * CameraMode
  ******************************************************************************/
-const float CameraMode::ROTATION_DEFAULT_SPEED = (2.0f*PI_NUMBER)/4.0f; // 4s for full revolution
+const float CameraMode::ROTATION_DEFAULT_SPEED = (2.0f*M_PI)/4.0f; // 4s for full revolution
 const float CameraMode::ZOOM_DEFAULT_SPEED_RATIO = 4.0f; // 4 times per second
 const float CameraMode::RADIUS_MAX_DISTANCE = 10000.0f; // m
 const float CameraMode::RADIUS_MIN_DISTANCE = 0.1f; // m
@@ -180,25 +180,25 @@ const char* CameraMode::getName() const
 float CameraMode::getXRotation() const
 {
   // vertical rotation is only half
-  float radians = getVarWithinLimits(2.0f*(_camera->getRealOrientation().getPitch().valueRadians() + PI_NUMBER/2.0f),
+  float radians = getVarWithinLimits(2.0f*(_camera->getRealOrientation().getPitch().valueRadians() + M_PI/2.0f),
 				     0.0f,
-				     2*PI_NUMBER);
+				     2*M_PI);
   return radians;
 }
 
 float CameraMode::getYRotation() const
 {
-  float radians = getVarWithinLimits(_camera->getRealOrientation().getYaw().valueRadians() + PI_NUMBER,
+  float radians = getVarWithinLimits(_camera->getRealOrientation().getYaw().valueRadians() + M_PI,
 				     0.0f,
-				     2*PI_NUMBER);
+				     2*M_PI);
   return radians;
 }
 
 float CameraMode::getZRotation() const
 {
-  float radians = getVarWithinLimits(_camera->getRealOrientation().getRoll().valueRadians() + PI_NUMBER,
+  float radians = getVarWithinLimits(_camera->getRealOrientation().getRoll().valueRadians() + M_PI,
 				     0.0f,
-				     2*PI_NUMBER);
+				     2*M_PI);
   return radians;
 }
 
@@ -269,7 +269,7 @@ void CameraMode::pan(float x, float y)
 
 float CameraMode::degreesToRadians(float degrees)
 {
-  return (degrees*PI_NUMBER)/180.0f;
+  return (degrees*M_PI)/180.0f;
 }
 
 void CameraMode::increaseVarWithLimit(float& var, float value, float limit)

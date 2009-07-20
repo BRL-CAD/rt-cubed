@@ -37,7 +37,7 @@
 /*******************************************************************************
  * CameraModeBlender
  ******************************************************************************/
-const float CameraModeBlender::ROTATION_STEP = PI_NUMBER/12.0f; // 15 degrees, in radians
+const float CameraModeBlender::ROTATION_STEP = M_PI/12.0f; // 15 degrees, in radians
 const float CameraModeBlender::PAN_FRACTION = 20.0f; // m
 const float CameraModeBlender::ZOOM_STEP = 1.25f; // ratio
 
@@ -117,6 +117,8 @@ bool CameraModeBlender::injectKeyPressed(QKeyEvent *e)
       return false;
     }
   }
+  
+  return false;
 }
 
 bool CameraModeBlender::injectKeyReleased(QKeyEvent *e)
@@ -141,7 +143,7 @@ bool CameraModeBlender::injectMouseMotion(QMouseEvent *e)
     // Logger::logDEBUG("%.03f %.03f", horizDiffNorm, vertDiffNorm);
 
     // orbit freely, setting absolute position
-    _horizontalRot = _dragOriginalHorizontalRotation + horizDiffNorm*PI_NUMBER;
+    _horizontalRot = _dragOriginalHorizontalRotation + horizDiffNorm*M_PI;
     _verticalRot = _dragOriginalVerticalRotation + vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
 
     return true;
@@ -154,8 +156,8 @@ bool CameraModeBlender::injectMousePressed(QMouseEvent *e)
 {
   if (e->button() == Qt::MidButton) {
     _dragModeEnabled = true;
-    _dragModeOriginX = x;
-    _dragModeOriginY = y;
+    _dragModeOriginX = e->x();
+    _dragModeOriginY = e->y();
     _dragOriginalHorizontalRotation = _horizontalRot;
     _dragOriginalVerticalRotation = _verticalRot;
 

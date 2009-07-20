@@ -32,7 +32,8 @@
 
 #include <cmath>
 
-#include <Qt>
+#include <QKeyEvent>
+#include <QMouseEvent>
 
 
 namespace Ogre {
