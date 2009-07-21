@@ -38,6 +38,8 @@ MainWindow::MainWindow()
     QObject::connect(cameraProjection, SIGNAL(activated(int)),
 		     ogreView, SLOT(setProjection(int)));
 
+    QObject::connect(cameraMode, SIGNAL(activated(int)),
+		     ogreView, SLOT(setCameraMode(int)));
 }
 
 

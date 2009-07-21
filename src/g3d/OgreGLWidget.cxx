@@ -122,6 +122,9 @@ void OgreGLWidget::initializeGL()
 
     QTimer::singleShot(FRAMEDELAY, this, SLOT(update()));
 
+    // Orthographic is the default projection mode
+    setProjection(0);
+    
     Logger::logDEBUG("Ogre ready to render.");
 }
 
@@ -147,9 +150,6 @@ void OgreGLWidget::loadResources()
     }
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-    
-    setProjection(0);	// Orthographic is default projection
-
 }
 
 void OgreGLWidget::resizeGL(int width, int height)

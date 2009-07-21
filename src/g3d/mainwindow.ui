@@ -27,7 +27,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QComboBox" name="cameraControlMode">
+          <widget class="QComboBox" name="cameraMode">
            <item>
             <property name="text">
              <string>Blender camera</string>
