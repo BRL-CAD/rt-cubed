@@ -44,6 +44,10 @@ set(OGRETEST_SOURCES
   OgreGLWidget.cxx
   MainWindow.cxx
   Console.cxx
+  CameraMode.cxx
+  CameraModeMGED.cxx
+  CameraModeBlender.cxx
+  CameraModeOrbital.cxx
   )
 
 set(G3D_HEADERS
@@ -74,6 +78,10 @@ set(G3D_HEADERS
 set(OGRETEST_HEADERS
   Logger.h
   Observer.h
+  CameraMode.h
+  CameraModeMGED.h
+  CameraModeBlender.h
+  CameraModeOrbital.h
   )
 
 # Qt stuff that needs preprocessing

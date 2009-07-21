@@ -29,10 +29,14 @@
 #ifndef __G3D_GLWIDGET_H__
 #define __G3D_GLWIDGET_H__
 
+#include <ctime>
+
 #include <QGLWidget>
 
 #include <OGRE/OgreRoot.h>
 #include <OGRE/OgreRenderWindow.h>
+
+#include "CameraMode.h"
 
 class OgreGLWidget : public QGLWidget
 {
@@ -45,6 +49,7 @@ public:
 
 public slots:
     void setProjection(int type);
+    void setCameraMode(int type);
 
 protected:
     /** Loads Ogre resources specified in the resources.cfg */
@@ -54,13 +59,23 @@ protected:
     void resizeGL(int, int);
     void paintGL();
 
-    void moveEvent(QMoveEvent*);
+    void moveEvent(QMoveEvent *);
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
+    void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+    void wheelEvent(QWheelEvent *e);
 
     Ogre::Root *_root;
     Ogre::RenderWindow *_renderWindow;
     Ogre::Camera *_camera;
     Ogre::Viewport *_viewport;
     Ogre::SceneManager *_scene;
+
+    CameraMode *_cameraCtl;
+
+    struct timespec _lastFrame;
 };
 
 #endif

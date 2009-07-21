@@ -28,7 +28,7 @@
 
 #include "MainWindow.h"
 
-MainWindow::MainWindow() 
+MainWindow::MainWindow()
 {
     setupUi(this);
 
@@ -37,6 +37,7 @@ MainWindow::MainWindow()
     // Ogre::ProjectionType (found in OgreFrustrum.h)
     QObject::connect(cameraProjection, SIGNAL(activated(int)),
 		     ogreView, SLOT(setProjection(int)));
+
 }
 
 

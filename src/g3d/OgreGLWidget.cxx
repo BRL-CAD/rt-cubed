@@ -35,6 +35,9 @@
 #include <OGRE/Ogre.h>
 
 #include "Logger.h"
+#include "CameraModeBlender.h"
+#include "CameraModeMGED.h"
+#include "CameraModeOrbital.h"
 
 #define OGRE_PLUGIN_FILE        (DATA_DIR "ogreplugins.cfg")
 #define OGRE_CFG_FILE           (DATA_DIR "ogre.cfg")
@@ -45,7 +48,8 @@
 
 OgreGLWidget::OgreGLWidget(QWidget *parent) :
     QGLWidget(parent),
-    _scene(0), _camera(0), _viewport(0), _renderWindow(0)
+    _scene(0), _camera(0), _viewport(0), _renderWindow(0),
+    _cameraCtl(new CameraModeBlender)
 {
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
     
@@ -54,6 +58,8 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
 	_root->initialise(false);
     }
     Logger::logDEBUG("Ogre initialized!\n");
+
+    clock_gettime(CLOCK_REALTIME, &_lastFrame);
 }
 
 OgreGLWidget::OgreGLWidget(QGLFormat f) :
@@ -153,7 +159,13 @@ void OgreGLWidget::resizeGL(int width, int height)
 
 void OgreGLWidget::paintGL() 
 {
+    struct timespec now;
+    clock_gettime(CLOCK_REALTIME, &now);
+    _cameraCtl->updateCamera(_camera, (now.tv_sec - _lastFrame.tv_sec) + 1e-9 * (now.tv_nsec - _lastFrame.tv_nsec));
+    _lastFrame = now;
+    
     _root->renderOneFrame();
+    
     QTimer::singleShot(FRAMEDELAY, this, SLOT(update()));
 }
 
@@ -165,6 +177,48 @@ void OgreGLWidget::moveEvent(QMoveEvent* e)
     }
 }
 
+void OgreGLWidget::keyPressEvent(QKeyEvent *e) 
+{
+    if(!_cameraCtl->injectKeyPressed(e)) {
+	e->ignore();
+    }
+}
+
+void OgreGLWidget::keyReleaseEvent(QKeyEvent *e) 
+{
+    if(!_cameraCtl->injectKeyReleased(e)) {
+	e->ignore();
+    }
+}
+
+void OgreGLWidget::mousePressEvent(QMouseEvent *e) 
+{
+    if(!_cameraCtl->injectMousePressed(e)) {
+	e->ignore();
+    }
+}
+
+void OgreGLWidget::mouseReleaseEvent(QMouseEvent *e) 
+{
+    if(!_cameraCtl->injectMouseReleased(e)) {
+	e->ignore();
+    }
+}
+
+void OgreGLWidget::mouseMoveEvent(QMouseEvent *e) 
+{
+    if(!_cameraCtl->injectMouseMotion(e)) {
+	e->ignore();
+    }
+}
+
+void OgreGLWidget::wheelEvent(QWheelEvent *e) 
+{
+    if(!_cameraCtl->injectMouseScrolled((e > 0) ? CameraMode::POSITIVE : CameraMode::NEGATIVE)) {
+	e->ignore();
+    }
+}
+
 
 void OgreGLWidget::setProjection(int type) 
 {
@@ -173,6 +227,33 @@ void OgreGLWidget::setProjection(int type)
 	_camera->setProjectionType(static_cast<Ogre::ProjectionType>(type));
     } else {
 	Logger::logWARNING("Attempted to set projection mode with uninitialized Ogre!");
+    }
+}
+
+void OgreGLWidget::setCameraMode(int type)
+{
+    if(_cameraCtl) {
+	delete _cameraCtl;
+    }
+    
+    // WARNING: The cases here MUST match up with the ordering of
+    // camera modes in the GUI's dropdown.
+    switch(type) {
+    case 0:
+	_cameraCtl = new CameraModeBlender();
+	break;
+
+    case 1:
+	_cameraCtl = new CameraModeMGED();
+	break;
+
+    case 2:
+	_cameraCtl = new CameraModeOrbital();
+	break;
+
+    default:
+	Logger::logWARNING("Attempted to set invalid camera mode!");
+	break;
     }
 }
 
