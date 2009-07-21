@@ -214,7 +214,7 @@ void OgreGLWidget::mouseMoveEvent(QMouseEvent *e)
 
 void OgreGLWidget::wheelEvent(QWheelEvent *e) 
 {
-    if(!_cameraCtl->injectMouseScrolled((e > 0) ? CameraMode::POSITIVE : CameraMode::NEGATIVE)) {
+    if(!_cameraCtl->injectMouseScrolled((e->delta() > 0) ? CameraMode::POSITIVE : CameraMode::NEGATIVE)) {
 	e->ignore();
     }
 }
