@@ -102,6 +102,7 @@ void OgreGLWidget::initializeGL()
     // Create scene, camera, viewport
     _scene = _root->createSceneManager("DefaultSceneManager", "g3d SceneManager");
     _camera = _scene->createCamera("g3d Camera");
+    _camera->setAutoAspectRatio(true);
     _viewport = _renderWindow->addViewport(_camera);
     _viewport->setBackgroundColour(Ogre::ColourValue(0.1f, 0.1f, 0.1f, 1.0f));
     _scene->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
