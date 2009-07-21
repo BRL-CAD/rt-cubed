@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _ABSTRACTJOB_H_
-#define _ABSTRACTJOB_H_
+#ifndef __ABSTRACTJOB_H__
+#define __ABSTRACTJOB_H__
 
 #include "iBME/iBMECommon.h"
 

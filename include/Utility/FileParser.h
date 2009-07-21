@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _FILEPARSER_H_
-#define _FILEPARSER_H_
+#ifndef __FILEPARSER_H__
+#define __FILEPARSER_H__
 
 #include <iostream>
 

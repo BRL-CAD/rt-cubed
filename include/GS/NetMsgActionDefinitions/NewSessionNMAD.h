@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _NEWSESSIONNMAD_H_
-#define _NEWSESSIONNMAD_H_
+#ifndef __NEWSESSIONNMAD_H__
+#define __NEWSESSIONNMAD_H__
 
 #include "GS/NetMsgActionDefinitions/AbstractNetMsgActionDef.h"
 

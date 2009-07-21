@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _SESSION_H_
-#define _SESSION_H_
+#ifndef __SESSION_H__
+#define __SESSION_H__
 
 #include <cstdlib>
 #include <iostream>

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _PIXELIMAGE_H_
-#define _PIXELIMAGE_H_
+#ifndef __PIXELIMAGE_H__
+#define __PIXELIMAGE_H__
 
 #include <string>
 

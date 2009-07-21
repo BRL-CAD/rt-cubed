@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _STRING_H_
-#define _STRING_H_
+#ifndef __STRING_H__
+#define __STRING_H__
 
 class  String
 {

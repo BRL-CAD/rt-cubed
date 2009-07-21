@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _PRIMITIVE_H_
-#define _PRIMITIVE_H_
+#ifndef __PRIMITIVE_H__
+#define __PRIMITIVE_H__
 
 #include <iostream>
 

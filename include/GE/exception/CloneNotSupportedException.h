@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _CLONENOTSUPPORTEDEXCEPTION_H_
-#define _CLONENOTSUPPORTEDEXCEPTION_H_
+#ifndef __CLONENOTSUPPORTEDEXCEPTION_H__
+#define __CLONENOTSUPPORTEDEXCEPTION_H__
 
 #include "GE/exception/Exception.h"
 

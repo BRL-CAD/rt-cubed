@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _SCENEFACTORY_H_
-#define _SCENEFACTORY_H_
+#ifndef __SCENEFACTORY_H__
+#define __SCENEFACTORY_H__
 
 // system headers
 #include <iostream>

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _CONFIGLOADER_H_
-#define _CONFIGLOADER_H_
+#ifndef __CONFIGLOADER_H__
+#define __CONFIGLOADER_H__
 
 class ConfigLoader
 {

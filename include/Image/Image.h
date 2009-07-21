@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _IMAGE_H_
-#define _IMAGE_H_
+#ifndef __IMAGE_H__
+#define __IMAGE_H__
 
 namespace Image {
   int init();

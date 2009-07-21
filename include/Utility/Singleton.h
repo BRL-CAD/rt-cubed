@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _SINGLETON_H_
-#define _SINGLETON_H_
+#ifndef __SINGLETON_H__
+#define __SINGLETON_H__
 
 /* system headers */
 #ifdef HAVE_ATEXIT

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _STREAMEMPTYEXCEPTION_H_
-#define _STREAMEMPTYEXCEPTION_H_
+#ifndef __STREAMEMPTYEXCEPTION_H__
+#define __STREAMEMPTYEXCEPTION_H__
 
 #include "GE/exception/Exception.h"
 

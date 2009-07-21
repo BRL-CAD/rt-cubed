@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _EXCEPTION_H_
-#define _EXCEPTION_H_
+#ifndef __EXCEPTION_H__
+#define __EXCEPTION_H__
 
 #include "GE/exception/Throwable.h"
 class  Exception : public Throwable

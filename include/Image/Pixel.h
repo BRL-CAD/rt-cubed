@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _PIXEL_H_
-#define _PIXEL_H_
+#ifndef __PIXEL_H__
+#define __PIXEL_H__
 
 namespace Image
 {

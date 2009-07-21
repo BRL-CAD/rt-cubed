@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _OBJECT_H_
-#define _OBJECT_H_
+#ifndef __OBJECT_H__
+#define __OBJECT_H__
 
 #include "GE/exception/CloneNotSupportedException.h"
 

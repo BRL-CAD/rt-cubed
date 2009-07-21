@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _BYTEARRAYOUTPUTSTREAM_H_
-#define _BYTEARRAYOUTPUTSTREAM_H_
+#ifndef __BYTEARRAYOUTPUTSTREAM_H__
+#define __BYTEARRAYOUTPUTSTREAM_H__
 
 #include "GE/io/OutputStream.h"
 

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _GEOMETRYREQMSG_H_
-#define _GEOMETRYREQMSG_H_
+#ifndef __GEOMETRYREQMSG_H__
+#define __GEOMETRYREQMSG_H__
 
 #include "iBME/iBMECommon.h"
 #include "GE/io/DataStream.h"

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _VIEW_H_
-#define _VIEW_H_
+#ifndef __VIEW_H__
+#define __VIEW_H__
 
 #include <iostream>
 #include <vector>

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _NETMSGACTIONDEFMANAGER_H_
-#define _NETMSGACTIONDEFMANAGER_H_
+#ifndef __NETMSGACTIONDEFMANAGER_H__
+#define __NETMSGACTIONDEFMANAGER_H__
 
 #include "GS/NetMsgActionDefinitions/AbstractNetMsgActionDef.h"
 #include "iBME/iBMECommon.h"

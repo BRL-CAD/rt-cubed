@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _ABSTRACTPORTAL_H_
-#define _ABSTRACTPORTAL_H_
+#ifndef __ABSTRACTPORTAL_H__
+#define __ABSTRACTPORTAL_H__
 
 #include <iostream>
 #include <list>

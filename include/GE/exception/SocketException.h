@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _SOCKETEXCEPTION_H_
-#define _SOCKETEXCEPTION_H_
+#ifndef __SOCKETEXCEPTION_H__
+#define __SOCKETEXCEPTION_H__
 
 #include "GE/exception/Exception.h"
 

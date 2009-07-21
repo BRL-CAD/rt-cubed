@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _APPLICATION_H_
-#define _APPLICATION_H_
+#ifndef __APPLICATION_H__
+#define __APPLICATION_H__
 
 // system headers
 #include <string>

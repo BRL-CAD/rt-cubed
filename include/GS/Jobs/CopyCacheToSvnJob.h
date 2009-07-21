@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _COPYCACHETOSVNJOB_H_
-#define _COPYCACHETOSVNJOB_H_
+#ifndef __COPYCACHETOSVNJOB_H__
+#define __COPYCACHETOSVNJOB_H__
 
 #include "GS/Jobs/AbstractJob.h"
 #include <string>

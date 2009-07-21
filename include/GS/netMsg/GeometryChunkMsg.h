@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _GEOMETRYCHUNKMSG_H_
-#define _GEOMETRYCHUCKMSG_H_
+#ifndef __GEOMETRYCHUNKMSG_H__
+#define __GEOMETRYCHUCKMSG_H__
 
 #include "iBME/iBMECommon.h"
 #include "GE/io/DataInputStream.h"

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _NEWSESSIONJOB_H_
-#define _NEWSESSIONJOB_H_
+#ifndef __NEWSESSIONJOB_H__
+#define __NEWSESSIONJOB_H__
 
 #include "GS/Jobs/AbstractJob.h"
 #include "GS/AbstractPortal.h"

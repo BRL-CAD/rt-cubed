@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _SESSIONMANAGER_H_
-#define _SESSIONMANAGER_H_
+#ifndef __SESSIONMANAGER_H__
+#define __SESSIONMANAGER_H__
 
 #include "GS/Session.h"
 

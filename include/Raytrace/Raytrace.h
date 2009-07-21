@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _RAYTRACE_H_
-#define _RAYTRACE_H_
+#ifndef __RAYTRACE_H__
+#define __RAYTRACE_H__
 
 namespace Raytrace {
   int init();

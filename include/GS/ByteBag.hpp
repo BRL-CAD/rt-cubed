@@ -31,8 +31,8 @@
 // might want to just insert data directly into the bag. primitive
 // data types, like short, char, long, double, should be supported.
 
-#ifndef _BYTEBAG_H_
-#define _BYTEBAG_H_
+#ifndef __BYTEBAG_H__
+#define __BYTEBAG_H__
 
 #include <iostream>
 #include <string>

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _INTRAAPPPORTAL_H_
-#define _INTRAAPPPORTAL_H_
+#ifndef __INTRAAPPPORTAL_H__
+#define __INTRAAPPPORTAL_H__
 
 #include "GS/AbstractPortal.h"
 

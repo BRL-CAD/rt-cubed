@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _UTILITY_H_
-#define _UTILTIY_H_
+#ifndef __UTILITY_H__
+#define __UTILTIY_H__
 
 namespace Utility {
   int init();

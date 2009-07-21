@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _NETSOCKPORTAL_H_
-#define _NETSOCKPORTAL_H_
+#ifndef __NETSOCKPORTAL_H__
+#define __NETSOCKPORTAL_H__
 
 #include "GS/AbstractPortal.h"
 #include <QTcpSocket>

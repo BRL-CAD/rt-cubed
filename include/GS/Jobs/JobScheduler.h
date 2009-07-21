@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _JOBSCHEDULER_H_
-#define _JOBSCHEDULER_H_
+#ifndef __JOBSCHEDULER_H__
+#define __JOBSCHEDULER_H__
 
 class JobScheduler
 {

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _GEOMETRYSERVICE_H_
-#define _GEOMETRYSERVICE_H_
+#ifndef __GEOMETRYSERVICE_H__
+#define __GEOMETRYSERVICE_H__
 
 #include "GE/GeometryEngine.h"
 #include "iBME/iBMECommon.h"

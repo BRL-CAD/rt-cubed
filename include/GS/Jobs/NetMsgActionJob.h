@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _NETMSGACTIONJOB_H_
-#define _NETMSGACTIONJOB_H_
+#ifndef __NETMSGACTIONJOB_H__
+#define __NETMSGACTIONJOB_H__
 
 #include "GS/Jobs/AbstractJob.h"
 #include "GS/netMsg/NetMsg.h"

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _DBOBJECTMANIFEST_H_
-#define _DBOBJECTMANIFEST_H_
+#ifndef __DBOBJECTMANIFEST_H__
+#define __DBOBJECTMANIFEST_H__
 
 #include <list>
 #include <map>

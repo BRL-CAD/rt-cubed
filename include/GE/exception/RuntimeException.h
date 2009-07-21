@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _RUNTIMEEXCEPTION_H_
-#define _RUNTIMEEXCEPTION_H_
+#ifndef __RUNTIMEEXCEPTION_H__
+#define __RUNTIMEEXCEPTION_H__
 
 #include "GE/exception/Exception.h"
 

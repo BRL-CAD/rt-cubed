@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _OUTPUTSTREAM_H_
-#define _OUTPUTSTREAM_H_
+#ifndef __OUTPUTSTREAM_H__
+#define __OUTPUTSTREAM_H__
 
 #include "common/array.h"
 #include "GE/exception/IOException.h"

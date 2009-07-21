@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _DBOBJECTCACHE_H_
-#define _DBOBJECTCACHE_H_
+#ifndef __DBOBJECTCACHE_H__
+#define __DBOBJECTCACHE_H__
 
 #include <set>
 #include <map>

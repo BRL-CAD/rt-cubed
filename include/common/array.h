@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _ARRAY_H_
-#define _ARRAY_H_
+#ifndef __ARRAY_H__
+#define __ARRAY_H__
 
 #include "iBME/iBMECommon.h"
 

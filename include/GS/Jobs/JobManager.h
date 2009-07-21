@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _JOBMANAGER_H_
-#define _JOBMANAGER_H_
+#ifndef __JOBMANAGER_H__
+#define __JOBMANAGER_H__
 
 #include <list>
 #include "GS/Jobs/AbstractJob.h"

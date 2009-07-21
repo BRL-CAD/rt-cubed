@@ -22,8 +22,8 @@
  * Brief description
  *
  */
-#ifndef _NETSOCKPORTALMANAGER_H_
-#define _NETSOCKPORTALMANAGER_H_
+#ifndef __NETSOCKPORTALMANAGER_H__
+#define __NETSOCKPORTALMANAGER_H__
 
 #include "GS/AbstractPortalManager.h"
 #include "GS/NetSockPortal.h"

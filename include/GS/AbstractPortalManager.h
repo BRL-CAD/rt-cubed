@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _ABSTRACTPORTALMANAGER_H_
-#define _ABSTRACTPORTALMANAGER_H_
+#ifndef __ABSTRACTPORTALMANAGER_H__
+#define __ABSTRACTPORTALMANAGER_H__
 
 #include "GS/AbstractPortal.h"
 #include "GS/netMsg/NetMsg.h"

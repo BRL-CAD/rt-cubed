@@ -5,10 +5,10 @@
 
 #ifdef _UUID_VERS_H_AS_HEADER_
 
-#ifndef _UUID_VERS_H_
-#define _UUID_VERS_H_
+#ifndef __UUID_VERS_H__
+#define __UUID_VERS_H__
 
-#define _UUID_VERSION 0x106202
+#define __UUID__VERSION 0x106202
 
 typedef struct {
     const int   v_hex;
@@ -27,7 +27,7 @@ extern _uuid_version_t _uuid_version;
 
 #else /* _UUID_VERS_H_AS_HEADER_ */
 
-#define _UUID_VERS_H_AS_HEADER_
+#define __UUID_VERS_H_AS_HEADER__
 #include "uuid_vers.h"
 #undef  _UUID_VERS_H_AS_HEADER_
 

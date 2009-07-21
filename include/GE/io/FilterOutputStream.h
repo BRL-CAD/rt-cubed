@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _CLASS_FILTEROUTPUTSTREAM_H
-#define _CLASS_FILTEROUTPUTSTREAM_H
+#ifndef __CLASS_FILTEROUTPUTSTREAM_H__
+#define __CLASS_FILTEROUTPUTSTREAM_H__
 
 #include "GE/io/OutputStream.h"
 

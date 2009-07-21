@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _THROWABLE_H_
-#define _THROWABLE_H_
+#ifndef __THROWABLE_H__
+#define __THROWABLE_H__
 
 #include "iBME/iBMECommon.h"
 

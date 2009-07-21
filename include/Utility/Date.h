@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _DATE_H_
-#define _DATE_H_
+#ifndef __DATE_H__
+#define __DATE_H__
 
 #include <string>
 

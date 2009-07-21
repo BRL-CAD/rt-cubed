@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _GEOMETRY_H_
-#define _GEOMETRY_H_
+#ifndef __GEOMETRY_H__
+#define __GEOMETRY_H__
 
 namespace Geometry {
   int init();

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _DATASTREAM_H_
-#define _DATASTREAM_H_
+#ifndef __DATASTREAM_H__
+#define __DATASTREAM_H__
 
 #include "iBME/iBMECommon.h"
 #include "GE/exception/IOException.h"

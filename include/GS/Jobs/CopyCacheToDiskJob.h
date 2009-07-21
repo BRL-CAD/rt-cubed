@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _COPYCACHETODISKJOB_H_
-#define _COPYCACHETODISKJOB_H_
+#ifndef __COPYCACHETODISKJOB_H__
+#define __COPYCACHETODISKJOB_H__
 
 #include "GS/Jobs/AbstractJob.h"
 #include <string>

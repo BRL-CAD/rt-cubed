@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _IOEXCEPTION_H_
-#define _IOEXCEPTION_H_
+#ifndef __IOEXCEPTION_H__
+#define __IOEXCEPTION_H__
 
 #include "GE/exception/Exception.h"
 

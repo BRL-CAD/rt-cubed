@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _DATAINPUT_H_
-#define _DATAINPUT_H_
+#ifndef __DATAINPUT_H__
+#define __DATAINPUT_H__
 
 #include "common/array.h"
 #include "GE/exception/IOException.h"

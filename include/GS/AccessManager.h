@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _ACCESSMANAGER_H_
-#define _ACCESSMANAGER_H_
+#ifndef __ACCESSMANAGER_H__
+#define __ACCESSMANAGER_H__
 
 class AccessManager
 {

@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _IBMECOMMON_H_
-#define _IBMECOMMON_H_
+#ifndef __IBMECOMMON_H__
+#define __IBMECOMMON_H__
 
 #include <iostream>
 

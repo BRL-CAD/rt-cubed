@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _ABSTRACTDBOBJECTSOURCE_H_
-#define _ABSTRACTDBOBJECTSOURCE_H_
+#ifndef __ABSTRACTDBOBJECTSOURCE_H__
+#define __ABSTRACTDBOBJECTSOURCE_H__
 
 #include <string>
 #include "iBME/iBMECommon.h"

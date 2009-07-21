@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _GEOMETRYENGINE_H_
-#define _GEOMETRYENGINE_H_
+#ifndef __GEOMETRYENGINE_H__
+#define __GEOMETRYENGINE_H__
 
 class GeometryEngine
 {

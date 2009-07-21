@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _REMHOSTNAMESETMSG_H_
-#define _REMHOSTNAMESETMSG_H_
+#ifndef __REMHOSTNAMESETMSG_H__
+#define __REMHOSTNAMESETMSG_H__
 
 #include "iBME/iBMECommon.h"
 #include "GE/io/DataInputStream.h"

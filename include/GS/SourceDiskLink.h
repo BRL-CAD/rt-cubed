@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _SOURCEDISKLINK_H_
-#define _SOURCEDISKLINK_H_
+#ifndef __SOURCEDISKLINK_H__
+#define __SOURCEDISKLINK_H__
 
 #include "iBME/iBMECommon.h"
 #include "GS/SourceDiskLink.h"

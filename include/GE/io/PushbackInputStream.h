@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _PUSHBACKINPUTSTREAM_H_
-#define _PUSHBACKINPUTSTREAM_H_
+#ifndef __PUSHBACKINPUTSTREAM_H__
+#define __PUSHBACKINPUTSTREAM_H__
 
 #include "GE/io/FilterInputStream.h"
 

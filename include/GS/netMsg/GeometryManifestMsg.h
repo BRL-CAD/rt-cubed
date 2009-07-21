@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _GEOMETRYMANIFESTMSG_H_
-#define _GEOMETRYMANIFESTMSG_H_
+#ifndef __GEOMETRYMANIFESTMSG_H__
+#define __GEOMETRYMANIFESTMSG_H__
 
 #include <vector>
 #include "iBME/iBMECommon.h"

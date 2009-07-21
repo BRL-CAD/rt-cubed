@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _DATAINPUTSTREAM_H_
-#define _DATAINPUTSTREAM_H_
+#ifndef __DATAINPUTSTREAM_H__
+#define __DATAINPUTSTREAM_H__
 
 #include "GE/io/DataInput.h"
 #include "GE/io/FilterInputStream.h"

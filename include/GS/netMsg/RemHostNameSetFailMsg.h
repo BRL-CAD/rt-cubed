@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _REMHOSTNAMESETFAILMSG_H_
-#define _REMHOSTNAMESETFAILMSG_H_
+#ifndef __REMHOSTNAMESETFAILMSG_H__
+#define __REMHOSTNAMESETFAILMSG_H__
 
 #include "iBME/iBMECommon.h"
 #include "GE/io/DataInputStream.h"

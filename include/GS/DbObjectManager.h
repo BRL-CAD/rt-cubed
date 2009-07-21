@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _DBOBJECTMANAGER_H_
-#define _DBOBJECTMANAGER_H_
+#ifndef __DBOBJECTMANAGER_H__
+#define __DBOBJECTMANAGER_H__
 
 #include "iBME/iBMECommon.h"
 #include "GS/AbstractDbObjectSource.h"

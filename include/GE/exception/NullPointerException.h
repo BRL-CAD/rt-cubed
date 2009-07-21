@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _NULLPOINTEREXCEPTION_H_
-#define _NULLPOINTEREXCEPTION_H_
+#ifndef __NULLPOINTEREXCEPTION_H__
+#define __NULLPOINTEREXCEPTION_H__
 
 #include "GE/exception/RuntimeException.h"
 

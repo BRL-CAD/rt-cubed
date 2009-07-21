@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _BYTEARRAYINPUTSTREAM_H_
-#define _BYTEARRAYINPUTSTREAM_H_
+#ifndef __BYTEARRAYINPUTSTREAM_H__
+#define __BYTEARRAYINPUTSTREAM_H__
 
 #include "common/array.h"
 #include "GE/io/InputStream.h"

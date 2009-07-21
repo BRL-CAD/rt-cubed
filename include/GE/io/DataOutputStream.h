@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _DATAOUTPUTSTREAM_H_
-#define _DATAOUTPUTSTREAM_H_
+#ifndef __DATAOUTPUTSTREAM_H__
+#define __DATAOUTPUTSTREAM_H__
 
 #include "GE/io/DataOutput.h"
 #include "GE/io/FilterOutputStream.h"

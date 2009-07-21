@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _SOURCESVNLINK_H_
-#define _SOURCESVNLINK_H_
+#ifndef __SOURCESVNLINK_H__
+#define __SOURCESVNLINK_H__
 
 #include "iBME/iBMECommon.h"
 #include "GS/AbstractDbObjectSource.h"

@@ -27,8 +27,8 @@
 **  uuid++.hh: library C++ API definition
 */
 
-#ifndef _UUIDXX_H_
-#define _UUIDXX_H_
+#ifndef __UUIDXX_H__
+#define __UUIDXX_H__
 
 /* required C API header */
 #include <stdlib.h>

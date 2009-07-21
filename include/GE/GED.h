@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _GED_H_
-#define _GED_H_
+#ifndef __GED_H__
+#define __GED_H__
 
 class GED {
 

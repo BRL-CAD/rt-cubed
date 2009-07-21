@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _FILTERINPUTSTREAM_H_
-#define _FILTERINPUTSTREAM_H_
+#ifndef __FILTERINPUTSTREAM_H__
+#define __FILTERINPUTSTREAM_H__
 
 #include "GE/io/InputStream.h"
 

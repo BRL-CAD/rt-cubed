@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _SCENE_H_
-#define _SCENE_H_
+#ifndef __SCENE_H__
+#define __SCENE_H__
 
 #include <iostream>
 #include <vector>

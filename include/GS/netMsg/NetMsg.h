@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef _NETMSG_H_
-#define _NETMSG_H_
+#ifndef __NETMSG_H__
+#define __NETMSG_H__
 
 #include "iBME/iBMECommon.h"
 #include "GE/io/DataStream.h"
