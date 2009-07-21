@@ -47,7 +47,7 @@
 #define FRAMEDELAY 10		// Milliseconds; 10ms == 100fps
 
 OgreGLWidget::OgreGLWidget(QWidget *parent) :
-    QGLWidget(parent),
+    QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
     _scene(0), _camera(0), _viewport(0), _renderWindow(0),
     _cameraCtl(new CameraModeBlender)
 {
@@ -60,19 +60,6 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     Logger::logDEBUG("Ogre initialized!\n");
 
     clock_gettime(CLOCK_REALTIME, &_lastFrame);
-}
-
-OgreGLWidget::OgreGLWidget(QGLFormat f) :
-    QGLWidget(f),
-    _scene(0), _camera(0), _viewport(0), _renderWindow(0)
-{
-    _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
-    
-    // TODO: Explicitly configure
-    if (_root->restoreConfig() || _root->showConfigDialog()) {
-	_root->initialise(false);
-    }
-    Logger::logDEBUG("Ogre initialized!\n");
 }
 
 OgreGLWidget::~OgreGLWidget() 

@@ -44,7 +44,6 @@ class OgreGLWidget : public QGLWidget
 
 public:
     OgreGLWidget(QWidget *parent = NULL);
-    OgreGLWidget(QGLFormat f);
     ~OgreGLWidget();
 
 public slots:
