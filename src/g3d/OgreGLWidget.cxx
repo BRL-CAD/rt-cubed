@@ -156,6 +156,8 @@ void OgreGLWidget::resizeGL(int width, int height)
 {
     // HACK.  May interfere with Ogre.
     glViewport(0, 0, width, height);
+    glScissor(0, 0, width, height);
+    
     _renderWindow->windowMovedOrResized();
 }
 
