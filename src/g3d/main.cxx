@@ -26,13 +26,40 @@
  *	Entry point of the 3D Geometry Editor (g3d).
  */
 
-#include "Application.h"
+#include <QtGui>
+#include <QPushButton>
 
-int main(int /* argc */, char** /*argv*/)
+#include <OGRE/Ogre.h>
+
+#include "Logger.h"
+
+#include "MainWindow.h"
+
+int main(int argc, char** argv)
 {
-  Application::instance().run();
+#if defined(WIN32)
+  // HACK!
+  // This is required on Windows XP because of a bug that causes
+  // timing to be wrong when more than one CPU is available.
+  // This issue has been fixed in Vista.
 
-  return 0;
+  HANDLE id = GetCurrentThread();
+  DWORD pmask;
+  DWORD psysmask;
+  GetProcessAffinityMask(id, &pmask, &psysmask);
+  DWORD res = SetThreadAffinityMask(id, 1);
+#endif
+
+  // Set up Qt
+  QApplication qapp(argc, argv);
+  
+  MainWindow *window = new MainWindow();
+  window->show();
+
+  Logger::logDEBUG("Qt initialized.");
+
+  // Main loop
+  return qapp.exec();
 }
 
 

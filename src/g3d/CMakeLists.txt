@@ -14,74 +14,57 @@ endif(NOT PKGCONFIG_EXECUTABLE)
 #source_group("Header Files" FILES ${HEADERS})
 set(PROGNAME "g3d")
 set(G3D_SOURCES
-  Application.cxx
-  CameraManager.cxx
+#  Application.cxx
+#  CameraManager.cxx
   CameraMode.cxx
   CameraModeBlender.cxx
   CameraModeMGED.cxx
   CameraModeOrbital.cxx
-  Command.cxx
-  CommandInterpreter.cxx
-  GedCommand.cxx
-  GedData.cxx
-  GeometryConversion.cxx
-  GuiBaseWindow.cxx
-  GuiCamera.cxx
-  GuiCommandOverlay.cxx
-  GuiConsole.cxx
-  GuiWidgetRotation.cxx
-  GuiWindowManager.cxx
-  History.cxx
+#  Command.cxx
+#  CommandInterpreter.cxx
+#  GedCommand.cxx
+#  GedData.cxx
+#  GeometryConversion.cxx
+#  GuiBaseWindow.cxx
+#  GuiCamera.cxx
+#  GuiCommandOverlay.cxx
+#  GuiConsole.cxx
+#  GuiWidgetRotation.cxx
+#  GuiWindowManager.cxx
+  Console.cxx
+  OgreGLWidget.cxx
+#  History.cxx
   Logger.cxx
   Observer.cxx
+  MainWindow.cxx
   main.cxx
   )
 
-set(OGRETEST_SOURCES
-  ogretest.cxx
-  Logger.cxx
-  Observer.cxx
-  OgreGLWidget.cxx
-  MainWindow.cxx
-  Console.cxx
-  CameraMode.cxx
-  CameraModeMGED.cxx
-  CameraModeBlender.cxx
-  CameraModeOrbital.cxx
-  )
-
 set(G3D_HEADERS
-  Application.h
-  CameraManager.h
+#  Application.h
+#  CameraManager.h
   CameraMode.h
   CameraModeBlender.h
   CameraModeMGED.h
   CameraModeOrbital.h
-  Command.h
-  Commands.h
-  CommandInterpreter.h
-  GedCommand.h
-  GedCommands.h
-  GedData.h
-  GeometryConversion.h
-  GuiBaseWindow.h
-  GuiCamera.h
-  GuiCommandOverlay.h
-  GuiConsole.h
-  GuiWidgetRotation.h
-  GuiWindowManager.h
-  History.h
+#  Command.h
+#  Commands.h
+#  CommandInterpreter.h
+#  GedCommand.h
+#  GedCommands.h
+#  GedData.h
+#  GeometryConversion.h
+#  GuiBaseWindow.h
+#  GuiCamera.h
+#  GuiCommandOverlay.h
+#  GuiConsole.h
+#  GuiWidgetRotation.h
+#  GuiWindowManager.h
+  Console.h
+#  History.h
   Logger.h
   Observer.h
-  )
-
-set(OGRETEST_HEADERS
-  Logger.h
-  Observer.h
-  CameraMode.h
-  CameraModeMGED.h
-  CameraModeBlender.h
-  CameraModeOrbital.h
+  MainWindow.h
   )
 
 # Qt stuff that needs preprocessing
@@ -120,11 +103,6 @@ message(STATUS "Will use C++ compiler '${CMAKE_CXX_COMPILER}'")
 find_package(OGRE REQUIRED)
 include_directories(${OGRE_INCLUDE_DIRS})
 set(LIBS ${LIBS} ${OGRE_LIBRARIES})
-set(OTLIBS ${OTLIBS} ${OGRE_LIBRARIES})
-
-find_package(OIS REQUIRED)
-include_directories(${OIS_INCLUDE_DIRS})
-set(LIBS ${LIBS} ${OIS_LIBRARIES})
 
 find_package(libged REQUIRED)
 include_directories(${libged_INCLUDE_DIRS})
@@ -134,19 +112,10 @@ find_package(libbu REQUIRED)
 include_directories(${libbu_INCLUDE_DIRS})
 set(LIBS ${LIBS} ${libbu_LIBRARIES})
 
-find_package(Mocha REQUIRED)
-include_directories(${Mocha_INCLUDE_DIRS})
-set(LIBS ${LIBS} ${Mocha_LIBRARIES})
-
-find_package(RBGui REQUIRED)
-include_directories(${RBGui_INCLUDE_DIRS})
-set(LIBS ${LIBS} ${RBGui_LIBRARIES})
-
 find_package(Qt4 REQUIRED)
 set(QT_USE_QTOPENGL 1)
 INCLUDE(${QT_USE_FILE})
-#set(LIBS ${LIBS} ${QT_LIBRARIES})
-set(OTLIBS ${OTLIBS} ${QT_LIBRARIES})
+set(LIBS ${LIBS} ${QT_LIBRARIES})
 
 # Preprocess Qt stuff
 qt4_wrap_cpp(G3D_MOC_OUTFILES ${G3D_MOC_HEADERS})
@@ -178,9 +147,7 @@ else(CANNOT_BUILD)
   #link_libraries( g3d ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Mocha_LIBRARIES} ${RBGui_LIBRARIES} )
   #add_definitions(${PC_CFLAGS} ${BRLCAD_CFLAGS})
   add_executable( g3d ${G3D_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} ${G3D_UI_OUTFILES})
-  add_executable( ogretest ${OGRETEST_SOURCES} ${G3D_MOC_OUTFILES} ${OGRETEST_HEADERS} ${G3D_UI_OUTFILES})
   target_link_libraries( g3d ${LIBS} )
-  target_link_libraries( ogretest ${OTLIBS} )
 
   # OGRE config files
   file(WRITE ${PROJECT_BINARY_DIR}/resources.cfg "# Resource locations to be added to the default path
