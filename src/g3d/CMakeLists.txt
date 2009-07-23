@@ -14,26 +14,26 @@ endif(NOT PKGCONFIG_EXECUTABLE)
 #source_group("Header Files" FILES ${HEADERS})
 set(PROGNAME "g3d")
 set(G3D_SOURCES
-#  Application.cxx
-#  CameraManager.cxx
+  #  Application.cxx
+  #  CameraManager.cxx
   CameraMode.cxx
   CameraModeBlender.cxx
   CameraModeMGED.cxx
   CameraModeOrbital.cxx
-#  Command.cxx
-#  CommandInterpreter.cxx
-#  GedCommand.cxx
-#  GedData.cxx
-#  GeometryConversion.cxx
-#  GuiBaseWindow.cxx
-#  GuiCamera.cxx
-#  GuiCommandOverlay.cxx
-#  GuiConsole.cxx
-#  GuiWidgetRotation.cxx
-#  GuiWindowManager.cxx
+  #  Command.cxx
+  #  CommandInterpreter.cxx
+  #  GedCommand.cxx
+  #  GedData.cxx
+  #  GeometryConversion.cxx
+  #  GuiBaseWindow.cxx
+  #  GuiCamera.cxx
+  #  GuiCommandOverlay.cxx
+  #  GuiConsole.cxx
+  #  GuiWidgetRotation.cxx
+  #  GuiWindowManager.cxx
   Console.cxx
   OgreGLWidget.cxx
-#  History.cxx
+  #  History.cxx
   Logger.cxx
   Observer.cxx
   MainWindow.cxx
@@ -41,27 +41,27 @@ set(G3D_SOURCES
   )
 
 set(G3D_HEADERS
-#  Application.h
-#  CameraManager.h
+  #  Application.h
+  #  CameraManager.h
   CameraMode.h
   CameraModeBlender.h
   CameraModeMGED.h
   CameraModeOrbital.h
-#  Command.h
-#  Commands.h
-#  CommandInterpreter.h
-#  GedCommand.h
-#  GedCommands.h
-#  GedData.h
-#  GeometryConversion.h
-#  GuiBaseWindow.h
-#  GuiCamera.h
-#  GuiCommandOverlay.h
-#  GuiConsole.h
-#  GuiWidgetRotation.h
-#  GuiWindowManager.h
+  #  Command.h
+  #  Commands.h
+  #  CommandInterpreter.h
+  #  GedCommand.h
+  #  GedCommands.h
+  #  GedData.h
+  #  GeometryConversion.h
+  #  GuiBaseWindow.h
+  #  GuiCamera.h
+  #  GuiCommandOverlay.h
+  #  GuiConsole.h
+  #  GuiWidgetRotation.h
+  #  GuiWindowManager.h
   Console.h
-#  History.h
+  #  History.h
   Logger.h
   Observer.h
   MainWindow.h
@@ -121,49 +121,20 @@ set(LIBS ${LIBS} ${QT_LIBRARIES})
 qt4_wrap_cpp(G3D_MOC_OUTFILES ${G3D_MOC_HEADERS})
 qt4_wrap_ui(G3D_UI_OUTFILES ${G3D_UIS})
 
-if(CANNOT_BUILD)
-  message(FATAL_ERROR "Missing essential libraries, aborting")
-else(CANNOT_BUILD)
-  #PKGCONFIG_WRAPPER("--cflags ${ESSENTIAL_LIBS}" PC_CFLAGS PC_EXIT_CODE)
-  #PKGCONFIG_WRAPPER("--libs ${ESSENTIAL_LIBS}" PC_LDFLAGS PC_EXIT_CODE)
-  #PKGCONFIG_WRAPPER("--variable=includedir ${ESSENTIAL_LIBS}" PC_INCLUDE_DIR PC_EXIT_CODE)
-  #PKGCONFIG_WRAPPER("--variable=libdir ${ESSENTIAL_LIBS}" PC_LIB_DIR PC_EXIT_CODE)
+add_executable( g3d ${G3D_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} ${G3D_UI_OUTFILES})
+target_link_libraries( g3d ${LIBS} )
 
-  #BRLCADCONFIG_WRAPPER("--cflags" BRLCAD_CFLAGS BRLCAD_EXIT_CODE)
-  #BRLCADCONFIG_WRAPPER("--libs ged" BRLCAD_LDFLAGS BRLCAD_EXIT_CODE)
-  #BRLCADCONFIG_WRAPPER("--includedir" BRLCAD_INCLUDE_DIR BRLCAD_EXIT_CODE)
-  #BRLCADCONFIG_WRAPPER("--libdir" BRLCAD_LIB_DIR BRLCAD_EXIT_CODE)
-
-  #link_directories(${PC_LIB_DIR} ${BRLCAD_LIB_DIR})
-
-  # Not necessary at the moment, maybe never
-  #if(TCL_INCLUDE)
-  #  include_directories(${TCL_INCLUDE})
-  #endif(TCL_INCLUDE)
-  #if(TCL_LIB)
-  #  link_directories(${TCL_LIB})
-  #endif(TCL_LIB)
-
-  #link_libraries( g3d ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Mocha_LIBRARIES} ${RBGui_LIBRARIES} )
-  #add_definitions(${PC_CFLAGS} ${BRLCAD_CFLAGS})
-  add_executable( g3d ${G3D_SOURCES} ${G3D_MOC_OUTFILES} ${G3D_HEADERS} ${G3D_UI_OUTFILES})
-  target_link_libraries( g3d ${LIBS} )
-
-  # OGRE config files
-  file(WRITE ${PROJECT_BINARY_DIR}/resources.cfg "# Resource locations to be added to the default path
+# OGRE config files
+file(WRITE ${PROJECT_BINARY_DIR}/resources.cfg "# Resource locations to be added to the default path
 [General]
-FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/RBGui/materials/programs
-FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/RBGui/materials/scripts
-FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/RBGui/fonts
-FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/RBGui/themes")
-  PKGCONFIG_WRAPPER("--variable=plugindir OGRE" PC_OGREPLUGIN_DIR PC_EXIT_CODE)
-  file(WRITE ${PROJECT_BINARY_DIR}/ogreplugins.cfg "# Defines plugins to load
-PluginFolder=${PC_OGREPLUGIN_DIR}
+FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/")
+PKGCONFIG_WRAPPER("--variable=plugindir OGRE" PC_OGREPLUGIN_DIR PC_EXIT_CODE)
+file(WRITE ${PROJECT_BINARY_DIR}/ogreplugins.cfg "# Defines plugins to load
+PluginFolder=${OGRE_PLUGIN_DIR_REL}
 Plugin=RenderSystem_GL
 Plugin=Plugin_OctreeSceneManager")
-  set(OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/resources.cfg ${PROJECT_BINARY_DIR}/ogreplugins.cfg)
+set(OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/resources.cfg ${PROJECT_BINARY_DIR}/ogreplugins.cfg)
 
-  install( TARGETS ${PROGNAME} DESTINATION bin )
-  install( FILES ${RBGUI_FILES} ${OGRE_CFG_FILES} DESTINATION share/g3d )
-  install( DIRECTORY ${RBGUI_DIR} DESTINATION share/g3d PATTERN ".svn" EXCLUDE)
-endif(CANNOT_BUILD)
+install( TARGETS ${PROGNAME} DESTINATION bin )
+install( FILES ${RBGUI_FILES} ${OGRE_CFG_FILES} DESTINATION share/g3d )
+install( DIRECTORY ${RBGUI_DIR} DESTINATION share/g3d PATTERN ".svn" EXCLUDE)
