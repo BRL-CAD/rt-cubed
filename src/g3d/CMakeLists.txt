@@ -128,13 +128,22 @@ target_link_libraries( g3d ${LIBS} )
 file(WRITE ${PROJECT_BINARY_DIR}/resources.cfg "# Resource locations to be added to the default path
 [General]
 FileSystem=${CMAKE_INSTALL_PREFIX}/share/g3d/")
-PKGCONFIG_WRAPPER("--variable=plugindir OGRE" PC_OGREPLUGIN_DIR PC_EXIT_CODE)
 file(WRITE ${PROJECT_BINARY_DIR}/ogreplugins.cfg "# Defines plugins to load
 PluginFolder=${OGRE_PLUGIN_DIR_REL}
 Plugin=RenderSystem_GL
 Plugin=Plugin_OctreeSceneManager")
-set(OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/resources.cfg ${PROJECT_BINARY_DIR}/ogreplugins.cfg)
+file(WRITE ${PROJECT_BINARY_DIR}/ogre.cfg "Render System=OpenGL Rendering Subsystem
+
+[OpenGL Rendering Subsystem]
+Display Frequency=54 MHz
+FSAA=0
+Full Screen=No
+RTT Preferred Mode=FBO
+VSync=No
+Video Mode=1024 x  768
+sRGB Gamma Conversion=No")
+set(OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/resources.cfg ${PROJECT_BINARY_DIR}/ogreplugins.cfg ${PROJECT_BINARY_DIR}/ogre.cfg)
 
 install( TARGETS ${PROGNAME} DESTINATION bin )
-install( FILES ${RBGUI_FILES} ${OGRE_CFG_FILES} DESTINATION share/g3d )
-install( DIRECTORY ${RBGUI_DIR} DESTINATION share/g3d PATTERN ".svn" EXCLUDE)
+install( FILES ${OGRE_CFG_FILES} DESTINATION share/g3d )
+install( DIRECTORY DESTINATION share/g3d PATTERN ".svn" EXCLUDE)
