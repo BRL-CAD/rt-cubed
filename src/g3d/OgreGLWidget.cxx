@@ -98,8 +98,8 @@ void OgreGLWidget::initializeGL()
     l->setDiffuseColour(Ogre::ColourValue(1.0, 0.5, 0.0));
 
     // Basic rendering test
-    Ogre::Entity *sphereEnt = _scene->createEntity("Sphere", "sphere.mesh");
-    Ogre::SceneNode *sphereNode = _scene->getRootSceneNode()->createChildSceneNode("SphereNode");
+    Ogre::Entity *sphereEnt = _scene->createEntity("Knot", "knot.mesh");
+    Ogre::SceneNode *sphereNode = _scene->getRootSceneNode()->createChildSceneNode("KnotNode");
     sphereNode->setVisible(true);
     sphereNode->attachObject(sphereEnt);
     sphereNode->setPosition(50, 0, 0);

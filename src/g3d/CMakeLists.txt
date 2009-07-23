@@ -146,4 +146,5 @@ set(OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/resources.cfg ${PROJECT_BINARY_DIR}/ogr
 
 install( TARGETS ${PROGNAME} DESTINATION bin )
 install( FILES ${OGRE_CFG_FILES} DESTINATION share/g3d )
+install( FILES knot.mesh DESTINATION share/g3d )
 install( DIRECTORY DESTINATION share/g3d PATTERN ".svn" EXCLUDE)
