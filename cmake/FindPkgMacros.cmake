@@ -1,3 +1,12 @@
+#-------------------------------------------------------------------
+# This file is part of the CMake build system for OGRE
+#     (Object-oriented Graphics Rendering Engine)
+# For the latest info, see http://www.ogre3d.org/
+#
+# The contents of this file are placed in the public domain. Feel
+# free to make use of it in any way you like.
+#-------------------------------------------------------------------
+
 ##################################################################
 # Provides some common functionality for the FindPackage modules
 ##################################################################
@@ -15,6 +24,15 @@ macro(pkg_message PREFIX)
     message(STATUS ${ARGN})
   endif ()
 endmacro(pkg_message)
+
+# Get environment variable, define it as ENV_$var and make sure backslashes are converted to forward slashes
+macro(getenv_path VAR)
+   set(ENV_${VAR} $ENV{${VAR}})
+   # replace won't work if var is blank
+   if (ENV_${VAR})
+     string( REGEX REPLACE "\\\\" "/" ENV_${VAR} ${ENV_${VAR}} )
+   endif ()
+endmacro(getenv_path)
 
 # Construct search paths for includes and libraries from a PREFIX_PATH
 macro(create_search_paths PREFIX)
