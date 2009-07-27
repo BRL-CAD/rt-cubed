@@ -34,8 +34,6 @@
 
 #include <string>
 
-#include "GeometryConversion.h"
-
 #if 0
 /** @brief Quit the application
  *
@@ -188,47 +186,6 @@ public:
       CameraManager::instance().cycleCameraMode();
     }
   }
-};
-
-
-/** @brief Create sample geometries.
- *
- * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- */
-class CommandCreateSampleGeometry : public Command
-{
-public:
-  CommandCreateSampleGeometry() :
-    Command("create",
-	    "Create a sample geometry",
-	    "Argument is [tetrahedron|cube] (initial chars are enough)"),
-    _sampleTetrahedron(50)
-    {
-      _argNames.push_back("shape");
-
-      // creating an initial shape, for convenience while in initial
-      // phases of development...
-      Application::instance().addGeometry("tetrahedron", "TetrahedronMesh");
-    }
-
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
-    if (args.size() != 1) {
-      output.appendLine(CommandMessages::ONE_ARGUMENT);
-      return;
-    } else {
-      if (args[0][0] == 't') {
-	Application::instance().addGeometry("tetrahedron", "TetrahedronMesh");
-      } else if (args[0][0] == 'c') {
-	output.appendLine("Shape not implemented yet");
-      } else {
-	output.appendLine("Shape not recognized");
-      }
-    }
-  }
-
-private:
-  /** Sample geometry */
-  SampleTetrahedron _sampleTetrahedron;
 };
 
 #endif // #if 0
