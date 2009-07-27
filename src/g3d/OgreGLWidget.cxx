@@ -162,13 +162,6 @@ void OgreGLWidget::paintGL()
 }
 
 
-void OgreGLWidget::moveEvent(QMoveEvent *)
-{
-    if(_renderWindow) {
-	_renderWindow->windowMovedOrResized();
-    }
-}
-
 void OgreGLWidget::keyPressEvent(QKeyEvent *e) 
 {
     if(!_cameraCtl->injectKeyPressed(e)) {
