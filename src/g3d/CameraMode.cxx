@@ -272,10 +272,10 @@ float CameraMode::degreesToRadians(float degrees)
 void CameraMode::circularIncrement(float& var, float value, float limit) 
 {
   var += value;
-  if(var >= limit) {
-    var -= limit;
+  if(var > limit) {
+    var -= 2*limit;
   } else if(var < -limit) {
-    var += limit;
+    var += 2*limit;
   }
 }
 
