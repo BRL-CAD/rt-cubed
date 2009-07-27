@@ -136,10 +136,10 @@ void Console::evalCmd()
 
 void Console::pushOutput(const QString &str) 
 {
-    outputLines.push_front(str);
+    outputLines.push_back(str);
 
     if(outputLines.size() > CONSOLE_OUTPUT_LINES) {
-	outputLines.pop_back();
+	outputLines.pop_front();
     }
 
     // Update widget
