@@ -51,6 +51,9 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     _scene(0), _camera(0), _viewport(0), _renderWindow(0),
     _cameraCtl(new CameraModeBlender)
 {
+    // Take keyboard focus after being clicked
+    setFocusPolicy(Qt::ClickFocus);
+    
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
     
     // TODO: Explicitly configure
@@ -182,8 +185,9 @@ void OgreGLWidget::keyReleaseEvent(QKeyEvent *e)
 
 void OgreGLWidget::mousePressEvent(QMouseEvent *e) 
 {
-    grabKeyboard();
-    _cameraCtl->injectMousePressed(e);
+    if(_cameraCtl->injectMousePressed(e)) {
+	e->ignore();
+    }
 }
 
 void OgreGLWidget::mouseReleaseEvent(QMouseEvent *e) 
