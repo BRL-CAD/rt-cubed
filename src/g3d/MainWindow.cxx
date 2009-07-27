@@ -37,9 +37,13 @@ MainWindow::MainWindow()
     // Ogre::ProjectionType (found in OgreFrustrum.h)
     QObject::connect(cameraProjection, SIGNAL(activated(int)),
 		     ogreView, SLOT(setProjection(int)));
+    QObject::connect(cameraProjection, SIGNAL(activated(int)),
+		     ogreView, SLOT(setFocus(void)));
 
     QObject::connect(cameraMode, SIGNAL(activated(int)),
 		     ogreView, SLOT(setCameraMode(int)));
+    QObject::connect(cameraMode, SIGNAL(activated(int)),
+		     ogreView, SLOT(setFocus(void)));
 
     // Give focus to the render area, and thus camera control.
     ogreView->setFocus(Qt::OtherFocusReason);
