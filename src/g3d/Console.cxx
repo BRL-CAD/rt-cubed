@@ -30,6 +30,7 @@
 
 #include "Command.h"
 #include "CommandInterpreter.h"
+#include "History.h"
 
 Console::Console(QWidget *parent) : QWidget(parent)
 {
@@ -55,7 +56,8 @@ Console::Console(QWidget *parent) : QWidget(parent)
 		     this, SLOT(evalCmd(void)));
 }
 
-bool Console::eventFilter(QObject *, QEvent *event) 
+// TODO: Should we be returning true for handled events?
+bool Console::eventFilter(QObject *obj, QEvent *event) 
 {
     switch(event->type())
     {
@@ -66,6 +68,25 @@ bool Console::eventFilter(QObject *, QEvent *event)
     case QEvent::Leave:
 	output->hide();
 	break;
+
+    case QEvent::KeyPress:
+    {
+	if(obj != entry) {
+	    break;
+	}
+	
+	switch(static_cast<QKeyEvent*>(event)->key()) {
+	case Qt::Key_Up:
+	    entry->setText(QString(History::instance().getPrev().c_str()));
+	    break;
+
+	case Qt::Key_Down:
+	    entry->setText(QString(History::instance().getNext().c_str()));
+	    break;
+	}
+	
+	break;
+    }
 
     default:
 	break;
@@ -79,6 +100,7 @@ void Console::evalCmd()
 {
     CommandOutput output;
     CommandInterpreter::instance().execute(entry->text().toStdString(), output);
+    History::instance().insert(entry->text().toStdString().c_str());
     entry->clear();
 }
 
