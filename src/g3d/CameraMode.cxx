@@ -274,7 +274,7 @@ void CameraMode::circularIncrement(float& var, float value, float limit)
   var += value;
   if(var >= limit) {
     var -= limit;
-  } else if(var < limit) {
+  } else if(var < -limit) {
     var += limit;
   }
 }
