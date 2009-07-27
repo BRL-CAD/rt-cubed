@@ -52,7 +52,7 @@ Console::Console(QWidget *parent) : QWidget(parent)
     installEventFilter(this);
 
     QObject::connect(entry, SIGNAL(returnPressed),
-		     this, SLOT(returnPressed));
+		     this, SLOT(evalCmd));
 }
 
 bool Console::eventFilter(QObject *, QEvent *event) 
@@ -74,7 +74,8 @@ bool Console::eventFilter(QObject *, QEvent *event)
     return false;
 }
 
-void Console::returnPressed() 
+// TODO: Doesn't appear to get signaled.
+void Console::evalCmd() 
 {
     CommandOutput output;
     CommandInterpreter::instance().execute(entry->text().toStdString(), output);
