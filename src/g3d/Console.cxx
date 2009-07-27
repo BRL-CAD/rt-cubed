@@ -51,8 +51,8 @@ Console::Console(QWidget *parent) : QWidget(parent)
     
     installEventFilter(this);
 
-    QObject::connect(entry, SIGNAL(returnPressed),
-		     this, SLOT(evalCmd));
+    QObject::connect(entry, SIGNAL(returnPressed(void)),
+		     this, SLOT(evalCmd(void)));
 }
 
 bool Console::eventFilter(QObject *, QEvent *event) 

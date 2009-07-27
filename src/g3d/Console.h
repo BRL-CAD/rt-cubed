@@ -38,11 +38,11 @@ class Console : public QWidget
 public:
     Console(QWidget *parent = NULL);
 
-public slots:
-    void evalCmd();
-
 protected:
     bool eventFilter(QObject *, QEvent *event);
+
+protected slots:
+    void evalCmd();
 
 private:
     QVBoxLayout *layout;
