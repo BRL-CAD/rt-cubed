@@ -32,6 +32,8 @@
 #include "CommandInterpreter.h"
 #include "History.h"
 
+#include "Logger.h"
+
 Console::Console(QWidget *parent) : QWidget(parent)
 {
     layout = new QVBoxLayout(this);
@@ -54,7 +56,34 @@ Console::Console(QWidget *parent) : QWidget(parent)
 
     QObject::connect(entry, SIGNAL(returnPressed(void)),
 		     this, SLOT(evalCmd(void)));
+
+    Logger::instance().attach(this);
 }
+
+Console::~Console() 
+{
+    Logger::instance().detach(this);
+}
+
+
+void Console::update(const ObserverEvent &event) 
+{
+    // logger events
+    {
+	const LoggerObserverEvent* e = dynamic_cast<const LoggerObserverEvent*>(&event);
+	if (e) {
+	    switch (e->_actionId) {
+	    case LoggerObserverEvent::ADDED_ENTRY:
+		pushOutput(QString(e->_content.c_str()));
+		break;
+	    default:
+		break;
+	    }
+	    return;
+	}
+    }
+}
+
 
 // TODO: Should we be returning true for handled events?
 bool Console::eventFilter(QObject *obj, QEvent *event) 
@@ -102,6 +131,26 @@ void Console::evalCmd()
     CommandInterpreter::instance().execute(entry->text().toStdString(), output);
     History::instance().insert(entry->text().toStdString().c_str());
     entry->clear();
+}
+
+
+void Console::pushOutput(const QString &str) 
+{
+    outputLines.push_front(str);
+
+    if(outputLines.size() > CONSOLE_OUTPUT_LINES) {
+	outputLines.pop_back();
+    }
+
+    // Update widget
+    QString combined;
+    for(std::deque<QString>::const_iterator i = outputLines.begin(); i != outputLines.end(); ++i) {
+	if(i != outputLines.begin()) {
+	    combined.append("\n");
+	}
+	combined.append(*i);
+    }
+    output->setText(combined);
 }
 
 

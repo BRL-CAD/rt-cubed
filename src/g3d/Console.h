@@ -29,26 +29,40 @@
 #ifndef __G3D_CONSOLE_H__
 #define __G3D_CONSOLE_H__
 
+#include <queue>
+
 #include <QtGui>
 
-class Console : public QWidget
+#include "Observer.h"
+
+/** Maximum number lines of output displayed. */
+#define CONSOLE_OUTPUT_LINES 8
+
+class Console : public QWidget, public Observer
 {
     Q_OBJECT
 
 public:
     Console(QWidget *parent = NULL);
+    ~Console();
+
+    void update(const ObserverEvent &event);
 
 protected:
-    bool eventFilter(QObject *, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 protected slots:
     void evalCmd();
+
+    void pushOutput(const QString &str);
 
 private:
     QVBoxLayout *layout;
     
     QLineEdit *entry;
     QLabel *output;
+
+    std::deque<QString> outputLines;
 };
 
 #endif

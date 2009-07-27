@@ -208,6 +208,7 @@ void OgreGLWidget::wheelEvent(QWheelEvent *e)
 void OgreGLWidget::setProjection(int type) 
 {
     if(_camera) {
+	Logger::logDEBUG("Setting projection %d", type);
 	_camera->setProjectionType(static_cast<Ogre::ProjectionType>(type));
     } else {
 	Logger::logWARNING("Attempted to set projection mode with uninitialized Ogre!");
@@ -216,6 +217,8 @@ void OgreGLWidget::setProjection(int type)
 
 void OgreGLWidget::setCameraMode(int type)
 {
+    Logger::logDEBUG("Setting camera mode %d", type);
+    
     if(_cameraCtl) {
 	delete _cameraCtl;
     }
