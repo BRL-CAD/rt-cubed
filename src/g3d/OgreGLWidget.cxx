@@ -182,9 +182,8 @@ void OgreGLWidget::keyReleaseEvent(QKeyEvent *e)
 
 void OgreGLWidget::mousePressEvent(QMouseEvent *e) 
 {
-    if(!_cameraCtl->injectMousePressed(e)) {
-	e->ignore();
-    }
+    grabKeyboard();
+    _cameraCtl->injectMousePressed(e);
 }
 
 void OgreGLWidget::mouseReleaseEvent(QMouseEvent *e) 
