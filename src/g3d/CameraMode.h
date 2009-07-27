@@ -30,6 +30,8 @@
 #ifndef __G3D_CAMERAMODE_H__
 #define __G3D_CAMERAMODE_H__
 
+#include <cmath>
+
 #include <QKeyEvent>
 #include <QMouseEvent>
 

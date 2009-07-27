@@ -154,7 +154,11 @@ bool CameraModeMGED::injectMouseMotion(QMouseEvent *e)
 
     // orbit freely, setting absolute position
     _horizontalRot = _dragOriginalHorizontalRotation + horizDiffNorm*M_PI;
-    _verticalRot = _dragOriginalVerticalRotation + vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
+    _verticalRot = _dragOriginalVerticalRotation + vertDiffNorm*M_PI;
+
+    // Protect against overflows without causing viewjumping.
+    circularIncrement(_horizontalRot, 0);
+    circularIncrement(_verticalRot, 0);
 
     return true;
   } else {

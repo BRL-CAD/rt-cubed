@@ -27,13 +27,11 @@
  *	Geometry Editor (g3d).
  */
 
-#include <cmath>
+#include "CameraMode.h"
 
 #include <OGRE/OgreCamera.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreViewport.h>
-
-#include "CameraMode.h"
 
 #include "Logger.h"
 
