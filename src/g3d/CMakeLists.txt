@@ -14,8 +14,6 @@ endif(NOT PKGCONFIG_EXECUTABLE)
 #source_group("Header Files" FILES ${HEADERS})
 set(PROGNAME "g3d")
 set(G3D_SOURCES
-  #  Application.cxx
-  #  CameraManager.cxx
   CameraMode.cxx
   CameraModeBlender.cxx
   CameraModeMGED.cxx
@@ -24,7 +22,6 @@ set(G3D_SOURCES
   CommandInterpreter.cxx
   GedCommand.cxx
   GedData.cxx
-  #  GeometryConversion.cxx
   #  GuiBaseWindow.cxx
   #  GuiCamera.cxx
   #  GuiCommandOverlay.cxx
@@ -41,8 +38,6 @@ set(G3D_SOURCES
   )
 
 set(G3D_HEADERS
-  #  Application.h
-  #  CameraManager.h
   CameraMode.h
   CameraModeBlender.h
   CameraModeMGED.h
@@ -53,7 +48,6 @@ set(G3D_HEADERS
   GedCommand.h
   GedCommands.h
   GedData.h
-  #  GeometryConversion.h
   #  GuiBaseWindow.h
   #  GuiCamera.h
   #  GuiCommandOverlay.h
