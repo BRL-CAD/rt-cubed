@@ -75,9 +75,7 @@ bool CameraModeBlender::injectKeyPressed(QKeyEvent *e)
 	panUp();
       } else {
 	// orbit up
-	decreaseVarWithLimit(_verticalRot,
-			     ROTATION_STEP,
-			     VERTICAL_ROTATION_MIN_LIMIT);
+	circularIncrement(_verticalRot, -ROTATION_STEP);
       }
       return true;
     case Qt::Key_2:
@@ -85,9 +83,7 @@ bool CameraModeBlender::injectKeyPressed(QKeyEvent *e)
 	panDown();
       } else {
 	// orbit down
-	increaseVarWithLimit(_verticalRot,
-			     ROTATION_STEP,
-			     VERTICAL_ROTATION_MAX_LIMIT);
+	circularIncrement(_verticalRot, ROTATION_STEP);
       }
       return true;
     case Qt::Key_4:
@@ -95,7 +91,7 @@ bool CameraModeBlender::injectKeyPressed(QKeyEvent *e)
 	panLeft();
       } else {
 	// orbit left
-	_horizontalRot -= ROTATION_STEP;
+	circularIncrement(_horizontalRot, -ROTATION_STEP);
       }
       return true;
     case Qt::Key_6:
@@ -103,7 +99,7 @@ bool CameraModeBlender::injectKeyPressed(QKeyEvent *e)
 	panRight();
       } else {
 	// orbit right
-	_horizontalRot += ROTATION_STEP;
+	circularIncrement(_horizontalRot, ROTATION_STEP);
       }
       return true;
     }
@@ -144,7 +140,11 @@ bool CameraModeBlender::injectMouseMotion(QMouseEvent *e)
 
     // orbit freely, setting absolute position
     _horizontalRot = _dragOriginalHorizontalRotation + horizDiffNorm*M_PI;
-    _verticalRot = _dragOriginalVerticalRotation + vertDiffNorm*VERTICAL_ROTATION_MAX_LIMIT;
+    // Keep values sanely small
+    circularIncrement(_horizontalRot, 0);
+    
+    _verticalRot = _dragOriginalVerticalRotation + vertDiffNorm*M_PI;
+    circularIncrement(_verticalRot, 0);
 
     return true;
   } else {
