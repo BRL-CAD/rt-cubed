@@ -176,25 +176,25 @@ const char* CameraMode::getName() const
 float CameraMode::getXRotation() const
 {
   // vertical rotation is only half
-  float radians = getVarWithinLimits(2.0f*(_camera->getRealOrientation().getPitch().valueRadians() + M_PI/2.0f),
-				     0.0f,
-				     2*M_PI);
+  float radians = getVarWithinLimits(_camera->getRealOrientation().getPitch().valueRadians(),
+				     -M_PI,
+				     M_PI);
   return radians;
 }
 
 float CameraMode::getYRotation() const
 {
-  float radians = getVarWithinLimits(_camera->getRealOrientation().getYaw().valueRadians() + M_PI,
-				     0.0f,
-				     2*M_PI);
+  float radians = getVarWithinLimits(_camera->getRealOrientation().getYaw().valueRadians(),
+				     -M_PI, 
+				     M_PI);
   return radians;
 }
 
 float CameraMode::getZRotation() const
 {
-  float radians = getVarWithinLimits(_camera->getRealOrientation().getRoll().valueRadians() + M_PI,
-				     0.0f,
-				     2*M_PI);
+  float radians = getVarWithinLimits(_camera->getRealOrientation().getRoll().valueRadians(),
+				     -M_PI,
+				     M_PI);
   return radians;
 }
 
