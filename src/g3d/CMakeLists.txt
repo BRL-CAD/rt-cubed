@@ -20,10 +20,10 @@ set(G3D_SOURCES
   CameraModeBlender.cxx
   CameraModeMGED.cxx
   CameraModeOrbital.cxx
-  #  Command.cxx
-  #  CommandInterpreter.cxx
-  #  GedCommand.cxx
-  #  GedData.cxx
+  Command.cxx
+  CommandInterpreter.cxx
+  GedCommand.cxx
+  GedData.cxx
   #  GeometryConversion.cxx
   #  GuiBaseWindow.cxx
   #  GuiCamera.cxx
@@ -33,7 +33,7 @@ set(G3D_SOURCES
   #  GuiWindowManager.cxx
   Console.cxx
   OgreGLWidget.cxx
-  #  History.cxx
+  History.cxx
   Logger.cxx
   Observer.cxx
   MainWindow.cxx
@@ -47,12 +47,12 @@ set(G3D_HEADERS
   CameraModeBlender.h
   CameraModeMGED.h
   CameraModeOrbital.h
-  #  Command.h
-  #  Commands.h
-  #  CommandInterpreter.h
-  #  GedCommand.h
-  #  GedCommands.h
-  #  GedData.h
+  Command.h
+  Commands.h
+  CommandInterpreter.h
+  GedCommand.h
+  GedCommands.h
+  GedData.h
   #  GeometryConversion.h
   #  GuiBaseWindow.h
   #  GuiCamera.h
@@ -61,7 +61,7 @@ set(G3D_HEADERS
   #  GuiWidgetRotation.h
   #  GuiWindowManager.h
   Console.h
-  #  History.h
+  History.h
   Logger.h
   Observer.h
   MainWindow.h

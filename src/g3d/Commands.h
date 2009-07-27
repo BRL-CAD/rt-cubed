@@ -34,11 +34,9 @@
 
 #include <string>
 
-#include "Application.h"
-#include "CameraManager.h"
 #include "GeometryConversion.h"
 
-
+#if 0
 /** @brief Quit the application
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -59,6 +57,7 @@ public:
     }
   }
 };
+#endif // #if 0
 
 
 /** @brief Set log message level.
@@ -101,6 +100,7 @@ public:
   }
 };
 
+#if 0
 
 /** @brief Set Polygon mode.
  *
@@ -230,6 +230,8 @@ private:
   /** Sample geometry */
   SampleTetrahedron _sampleTetrahedron;
 };
+
+#endif // #if 0
 
 #endif
 

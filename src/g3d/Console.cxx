@@ -28,6 +28,9 @@
 
 #include "Console.h"
 
+#include "Command.h"
+#include "CommandInterpreter.h"
+
 Console::Console(QWidget *parent) : QWidget(parent)
 {
     layout = new QVBoxLayout(this);
@@ -47,6 +50,9 @@ Console::Console(QWidget *parent) : QWidget(parent)
     layout->addWidget(entry);
     
     installEventFilter(this);
+
+    QObject::connect(entry, SIGNAL(returnPressed),
+		     this, SLOT(returnPressed));
 }
 
 bool Console::eventFilter(QObject *, QEvent *event) 
@@ -66,6 +72,13 @@ bool Console::eventFilter(QObject *, QEvent *event)
     }
 
     return false;
+}
+
+void Console::returnPressed() 
+{
+    CommandOutput output;
+    CommandInterpreter::instance().execute(entry->text().toStdString(), output);
+    entry->clear();
 }
 
 

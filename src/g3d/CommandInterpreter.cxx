@@ -45,12 +45,12 @@ template <> CommandInterpreter* Singleton<CommandInterpreter>::_instance = 0;
 
 CommandInterpreter::CommandInterpreter()
 {
-  addCommand(new CommandQuit());
+//  addCommand(new CommandQuit());
   addCommand(new CommandSetLogLevel());
-  addCommand(new CommandSetPolygonMode());
-  addCommand(new CommandSetCameraProjectionType());
-  addCommand(new CommandCycleCameraMode());
-  addCommand(new CommandCreateSampleGeometry());
+//  addCommand(new CommandSetPolygonMode());
+//  addCommand(new CommandSetCameraProjectionType());
+//  addCommand(new CommandCycleCameraMode());
+//  addCommand(new CommandCreateSampleGeometry());
   addCommand(new CommandGedDump());
   addCommand(new CommandGedSolidsOnRay());
   addCommand(new CommandGedSummary());

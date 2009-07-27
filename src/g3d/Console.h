@@ -41,6 +41,9 @@ public:
 protected:
     bool eventFilter(QObject *, QEvent *event);
 
+protected slots:
+    void returnPressed();
+
 private:
     QVBoxLayout *layout;
     
