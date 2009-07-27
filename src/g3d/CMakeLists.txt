@@ -5,13 +5,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../../cmake/")
 include(${CMAKE_MODULE_PATH}/UsePkgConfig.cmake)
 include(${CMAKE_MODULE_PATH}/UseBrlcadConfig.cmake)
 
-find_program(PKGCONFIG_EXECUTABLE NAMES pkg-config PATHS /usr/local/bin /usr/bin)
-if(NOT PKGCONFIG_EXECUTABLE)
-  message(FATAL_ERROR "Could not find 'pkg-config', necessary for configuration")
-endif(NOT PKGCONFIG_EXECUTABLE)
-
-#source_group("Source Files" FILES ${SOURCES})
-#source_group("Header Files" FILES ${HEADERS})
 set(PROGNAME "g3d")
 set(G3D_SOURCES
   CameraMode.cxx
@@ -22,12 +15,6 @@ set(G3D_SOURCES
   CommandInterpreter.cxx
   GedCommand.cxx
   GedData.cxx
-  #  GuiBaseWindow.cxx
-  #  GuiCamera.cxx
-  #  GuiCommandOverlay.cxx
-  #  GuiConsole.cxx
-  #  GuiWidgetRotation.cxx
-  #  GuiWindowManager.cxx
   Console.cxx
   OgreGLWidget.cxx
   History.cxx
@@ -48,12 +35,6 @@ set(G3D_HEADERS
   GedCommand.h
   GedCommands.h
   GedData.h
-  #  GuiBaseWindow.h
-  #  GuiCamera.h
-  #  GuiCommandOverlay.h
-  #  GuiConsole.h
-  #  GuiWidgetRotation.h
-  #  GuiWindowManager.h
   Console.h
   History.h
   Logger.h
@@ -75,23 +56,8 @@ set(G3D_UIS
 set(RBGUI_DIR "../../data/g3d/RBGui")
 add_definitions( -DDATA_DIR='"${CMAKE_INSTALL_PREFIX}/share/g3d/"' )
 
-#include(CMakePrintSystemInformation)
-#include(FindPkgConfig)
-
 # basic compiler flags
-add_definitions( -Wall -Wextra -g )
-
-# detect OS
-set(SYSTEM "POSIX")
-if(WIN32)
-  set(SYSTEM "WIN32")
-endif(WIN32)
-if(APPLE)
-  set(SYSTEM "APPLE")
-endif(APPLE)
-add_definitions( -D${SYSTEM} )
-message(STATUS "Detected system name '${CMAKE_SYSTEM_NAME}', building for system '${SYSTEM}'")
-message(STATUS "Will use C++ compiler '${CMAKE_CXX_COMPILER}'")
+add_definitions( -Wall -Wextra )
 
 # Needed libraries
 find_package(OGRE REQUIRED)
@@ -126,16 +92,7 @@ file(WRITE ${PROJECT_BINARY_DIR}/ogreplugins.cfg "# Defines plugins to load
 PluginFolder=${OGRE_PLUGIN_DIR_REL}
 Plugin=RenderSystem_GL
 Plugin=Plugin_OctreeSceneManager")
-file(WRITE ${PROJECT_BINARY_DIR}/ogre.cfg "Render System=OpenGL Rendering Subsystem
 
-[OpenGL Rendering Subsystem]
-Display Frequency=54 MHz
-FSAA=0
-Full Screen=No
-RTT Preferred Mode=FBO
-VSync=No
-Video Mode=1024 x  768
-sRGB Gamma Conversion=No")
 set(OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/resources.cfg ${PROJECT_BINARY_DIR}/ogreplugins.cfg ${PROJECT_BINARY_DIR}/ogre.cfg)
 
 install( TARGETS ${PROGNAME} DESTINATION bin )
