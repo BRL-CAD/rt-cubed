@@ -30,8 +30,6 @@
 #ifndef __G3D_CAMERAMODE_H__
 #define __G3D_CAMERAMODE_H__
 
-#include <cmath>
-
 #include <QKeyEvent>
 #include <QMouseEvent>
 
@@ -39,12 +37,6 @@
 namespace Ogre {
   class Camera;
 }
-
-
-/** Limit for vertical rotations */
-const float VERTICAL_ROTATION_MAX_LIMIT = (M_PI/2.0f)-0.01f;
-/** Limit for vertical rotations */
-const float VERTICAL_ROTATION_MIN_LIMIT = -(M_PI/2.0f)+0.01f;
 
 
 /** @brief Base class for camera mode
@@ -142,12 +134,11 @@ public:
 
   /** Convert from degrees to radians */
   static float degreesToRadians(float degrees);
-  /** Increase the variable by given value, but result not more than
-   * given limit */
-  static void increaseVarWithLimit(float& var, float value, float limit);
-  /** Decrease the variable by given value, but result not less than
-   * given limit */
-  static void decreaseVarWithLimit(float& var, float value, float limit);
+  
+  /** Add delta to var such that var is always within +/-limit,
+   * wrapping overflows. */
+  static void circularIncrement(float& var, float delta, float limit = M_PI);
+
   /** Multiply the variable by given value, but result not more than
    * given limit */
   static void multiplyVarWithLimit(float& var, float value, float limit);

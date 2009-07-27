@@ -27,6 +27,8 @@
  *	Geometry Editor (g3d).
  */
 
+#include <cmath>
+
 #include <OGRE/OgreCamera.h>
 #include <OGRE/OgreSceneNode.h>
 #include <OGRE/OgreViewport.h>
@@ -85,20 +87,16 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
   } else {
     // vertical rotation
     if (_actionRotateX == POSITIVE) {
-      increaseVarWithLimit(_verticalRot,
-			   _rotationSpeed * elapsedSeconds,
-			   VERTICAL_ROTATION_MAX_LIMIT);
+      circularIncrement(_verticalRot, _rotationSpeed * elapsedSeconds);
     } else if (_actionRotateX == NEGATIVE) {
-      decreaseVarWithLimit(_verticalRot,
-			   _rotationSpeed * elapsedSeconds,
-			   VERTICAL_ROTATION_MIN_LIMIT);
+      circularIncrement(_verticalRot, -_rotationSpeed * elapsedSeconds);
     }
 
     // horizontal rotation
     if (_actionRotateY == POSITIVE) {
-      _horizontalRot += _rotationSpeed * elapsedSeconds;
+      circularIncrement(_horizontalRot, _rotationSpeed * elapsedSeconds);
     } else if (_actionRotateY == NEGATIVE) {
-      _horizontalRot -= _rotationSpeed * elapsedSeconds;
+      circularIncrement(_horizontalRot, -_rotationSpeed * elapsedSeconds);
     }
   }
 
@@ -272,21 +270,17 @@ float CameraMode::degreesToRadians(float degrees)
   return (degrees*M_PI)/180.0f;
 }
 
-void CameraMode::increaseVarWithLimit(float& var, float value, float limit)
+
+void CameraMode::circularIncrement(float& var, float value, float limit) 
 {
   var += value;
-  if (var > limit) {
-    var = limit;
+  if(var >= limit) {
+    var -= limit;
+  } else if(var < limit) {
+    var += limit;
   }
 }
 
-void CameraMode::decreaseVarWithLimit(float& var, float value, float limit)
-{
-  var -= value;
-  if (var < limit) {
-    var = limit;
-  }
-}
 
 void CameraMode::multiplyVarWithLimit(float& var, float value, float limit)
 {
