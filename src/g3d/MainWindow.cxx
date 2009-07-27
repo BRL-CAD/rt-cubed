@@ -40,6 +40,9 @@ MainWindow::MainWindow()
 
     QObject::connect(cameraMode, SIGNAL(activated(int)),
 		     ogreView, SLOT(setCameraMode(int)));
+
+    // Give focus to the render area, and thus camera control.
+    ogreView->setFocus(Qt::OtherFocusReason);
 }
 
 
