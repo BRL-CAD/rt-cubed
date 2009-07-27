@@ -48,7 +48,7 @@
 
 OgreGLWidget::OgreGLWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-    _scene(0), _camera(0), _viewport(0), _renderWindow(0),
+    _renderWindow(0), _camera(0), _viewport(0), _scene(0),
     _cameraCtl(new CameraModeBlender)
 {
     // Take keyboard focus after being clicked
@@ -162,7 +162,7 @@ void OgreGLWidget::paintGL()
 }
 
 
-void OgreGLWidget::moveEvent(QMoveEvent* e) 
+void OgreGLWidget::moveEvent(QMoveEvent *)
 {
     if(_renderWindow) {
 	_renderWindow->windowMovedOrResized();
