@@ -40,54 +40,38 @@ const char* CommandMessages::ONE_ARGUMENT = "This command needs exactly one argu
 
 
 /*******************************************************************************
- * CommandOutput
- ******************************************************************************/
-void CommandOutput::appendLine(const std::string& line)
-{
-  if (!_output.empty())
-    _output.append("\n");
-  _output.append(line);
-}
-
-const std::string& CommandOutput::getOutput() const
-{
-  return _output;
-}
-
-
-/*******************************************************************************
  * Command
  ******************************************************************************/
-Command::Command(const std::string& name,
-		 const std::string& shortDescr,
-		 const std::string& extraDescr) :
+Command::Command(const QString& name,
+		 const QString& shortDescr,
+		 const QString& extraDescr) :
   _name(name), _shortDescription(shortDescr), _extraDescription(extraDescr)
 {
 }
 
-const std::string& Command::getName() const
+const QString& Command::getName() const
 {
   return _name;
 }
 
-const std::string& Command::getShortDescription() const
+const QString& Command::getShortDescription() const
 {
   return _shortDescription;
 }
 
-const std::string& Command::getExtraDescription() const
+const QString& Command::getExtraDescription() const
 {
   return _extraDescription;
 }
 
-const std::vector<std::string>& Command::getArgumentNames() const
+const std::vector<QString>& Command::getArgumentNames() const
 {
   return _argNames;
 }
 
-std::string Command::getSyntax() const
+QString Command::getSyntax() const
 {
-  std::string line = _name;
+  QString line = _name;
   for (size_t i = 0; i < _argNames.size(); ++i) {
     line += " <" + _argNames[i] + ">";
   }

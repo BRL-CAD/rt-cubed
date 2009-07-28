@@ -28,7 +28,9 @@
 
 #include "MainWindow.h"
 
-MainWindow::MainWindow()
+#include <QString>
+
+MainWindow::MainWindow() : cmdInterp(new CommandInterpreter())
 {
     setupUi(this);
 
@@ -45,8 +47,16 @@ MainWindow::MainWindow()
     QObject::connect(cameraMode, SIGNAL(activated(int)),
 		     ogreView, SLOT(setFocus(void)));
 
+    QObject::connect(console, SIGNAL(commandRan(QString)),
+		     cmdInterp, SLOT(execute(QString)));
+
     // Give focus to the render area, and thus camera control.
     ogreView->setFocus(Qt::OtherFocusReason);
+}
+
+MainWindow::~MainWindow() 
+{
+    delete cmdInterp;
 }
 
 

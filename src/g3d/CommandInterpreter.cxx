@@ -28,6 +28,7 @@
  */
 
 #include <vector>
+#include <string>
 
 #include "CommandInterpreter.h"
 
@@ -45,7 +46,7 @@ template <> CommandInterpreter* Singleton<CommandInterpreter>::_instance = 0;
 
 CommandInterpreter::CommandInterpreter()
 {
-  addCommand(new CommandQuit());
+//  addCommand(new CommandQuit());
   addCommand(new CommandSetLogLevel());
 //  addCommand(new CommandSetPolygonMode());
 //  addCommand(new CommandSetCameraProjectionType());
@@ -66,16 +67,16 @@ CommandInterpreter::~CommandInterpreter()
   }
 }
 
-std::string CommandInterpreter::getAutocompleteString(const std::string& input)
+QString CommandInterpreter::getAutocompleteString(const QString& input)
 {
   // collect candidates
-  std::vector<std::string> candidates;
-  for (std::map<std::string, Command*>::iterator it = _commands.begin();
+  std::vector<QString> candidates;
+  for (std::map<QString, Command*>::iterator it = _commands.begin();
        it != _commands.end();
        ++it) {
-    const std::string& commandName = it->first;
+    const QString& commandName = it->first;
     // push back all commands which match the input
-    int comparison = commandName.compare(0, input.length(), input);
+    int comparison = commandName.toStdString().compare(0, input.length(), input.toStdString());
     if (comparison == 0) {
       // Logger::logDEBUG(" - matches '%s'", input.c_str());
       candidates.push_back(commandName);
@@ -84,7 +85,7 @@ std::string CommandInterpreter::getAutocompleteString(const std::string& input)
     }
   }
 
-  std::string r;
+  QString r;
   if (candidates.size() == 0) {
     //Logger::logDEBUG("Autocompletion: no candidates");
     r = input;
@@ -99,12 +100,12 @@ std::string CommandInterpreter::getAutocompleteString(const std::string& input)
     while (true) {
       // check that matches in all candidates
       size_t pos = r.length();
-      char charMatch = candidates[0][pos];
+      QCharRef charMatch = candidates[0][pos];
       bool allOfThemMatch = true;
-      for (std::vector<std::string>::iterator it = candidates.begin();
+      for (std::vector<QString>::iterator it = candidates.begin();
 	   it != candidates.end();
 	   ++it) {
-	const std::string& commandName = (*it);
+	const QString& commandName = (*it);
 	//Logger::logDEBUG(" - '%s' at %u", commandName.c_str(), pos);
 	if (commandName[pos] != charMatch) {
 	  /* Logger::logDEBUG("    - char '%c' of '%s'[%u] doesn't match with previous candidates",
@@ -117,7 +118,7 @@ std::string CommandInterpreter::getAutocompleteString(const std::string& input)
       // add character if matches, finish if not
       if (allOfThemMatch) {
 	//Logger::logDEBUG(" - adding '%c'", charMatch);
-	r.append(1, charMatch);
+	r.append(charMatch);
 	++pos;
       } else {
 	//Logger::logDEBUG(" - not all of them match, stopping");
@@ -130,96 +131,100 @@ std::string CommandInterpreter::getAutocompleteString(const std::string& input)
   return r;
 }
 
-void CommandInterpreter::execute(const std::string& commandLine, CommandOutput& output)
+void CommandInterpreter::execute(QString commandLine)
 {
   // try to parse the command line into arguments
-  std::vector<std::string> args;
+  std::vector<QString> args;
   parseCommandLine(commandLine, args);
+  QString output;
   if (args.size() == 0) {
-    output.appendLine("Error: Cannot parse command line (too long?)");
+    output.append("Error: Cannot parse command line (too long?)");
     return;
   }
 
   // extract the command name
-  std::string commandName = args[0];
+  QString commandName = args[0];
   args.erase(args.begin());
 
   if (commandName == "help") {
     // help meta command
     if (args.size() == 0) {
       // general help
-      showHelp(output);
+      emit commandDone(help());
     } else {
       // specific command help
-      showHelp(args[0], output);
+      emit commandDone(help(commandName));
     }
   } else {
     // search for a "real" command
     Command* command = findCommand(commandName);
     if (!command) {
-      output.appendLine("No such command '" + commandName + "', type 'help' for a list.");
+      output.append("No such command '" + commandName + "', type 'help' for a list.");
     } else {
       // execute the command
-      command->execute(args, output);
+      emit commandDone(command->execute(args));
     }
   }
 }
 
 void CommandInterpreter::addCommand(Command* command)
 {
-  const std::string& commandName = command->getName();
+  const QString& commandName = command->getName();
   if (findCommand(commandName)) {
     Logger::logWARNING("CommandInterpreter: '%s' command already exists",
-		       commandName.c_str());
+		       commandName.toStdString().c_str());
   } else {
     _commands[commandName] = command;
   }
 }
 
-void CommandInterpreter::showHelp(CommandOutput& output)
+QString CommandInterpreter::help()
 {
+  QString output;
   // header
-  output.appendLine("Available commands:");
+  output.append("Available commands:\n");
 
   // list of commands with short description
-  for (std::map<std::string, Command*>::iterator it = _commands.begin();
+  for (std::map<QString, Command*>::iterator it = _commands.begin();
        it != _commands.end(); ++it) {
     // alias
     Command* command = (*it).second;
     // add syntax to output (name and arguments)
-    std::string line = "  " + command->getSyntax();
+    QString line = "  " + command->getSyntax();
     // "tab" to column 40 in a line
     while (line.length() < 40) {
       line += " ";
     }
     // add short description
     line += command->getShortDescription();
-    output.appendLine(line);
+    output.append(line).append("\n");
   }
 
   // footer
-  output.appendLine(std::string("Use 'help <command>' for specific info."));
+  output.append("Use 'help <command>' for specific info.");
+  return output;
 }
 
-void CommandInterpreter::showHelp(const std::string& commandName, CommandOutput& output)
+QString CommandInterpreter::help(const QString& commandName)
 {
+  QString output;
   // get the command
   Command* command = findCommand(commandName);
   if (!command) {
-    output.appendLine("No such command '" + commandName + "', type 'help' for a list.");
-    return;
+    output.append("No such command '" + commandName + "', type 'help' for a list.");
+    return output;
   }
 
   // add syntax to output (name and arguments)
-  std::string line = "  " + command->getShortDescription();
-  line += "\n  Syntax: " + command->getSyntax();
-  line += "\n  Extra description: " + command->getExtraDescription();
-  output.appendLine(line);
+  output = "  " + command->getShortDescription();
+  output += "\n  Syntax: " + command->getSyntax();
+  output += "\n  Extra description: " + command->getExtraDescription();
+  return output;
 }
 
-Command* CommandInterpreter::findCommand(const std::string& commandName) const
+Command* CommandInterpreter::findCommand(const QString& commandName) const
 {
-  std::map<std::string, Command*>::const_iterator it = _commands.find(commandName);
+  std::map<QString, Command*>::const_iterator it = _commands.find(commandName);
   if (it == _commands.end()) {
     return 0;
   } else {
@@ -227,9 +232,10 @@ Command* CommandInterpreter::findCommand(const std::string& commandName) const
   }
 }
 
-void CommandInterpreter::parseCommandLine(const std::string& cL, std::vector<std::string>& args)
+// TODO: Rewrite to not use std::string
+void CommandInterpreter::parseCommandLine(const QString& cL, std::vector<QString>& args)
 {
-  std::string commandLine(cL);
+  std::string commandLine(cL.toStdString());
   // trim tail
   {
     std::string::size_type pos = commandLine.find_last_not_of(' ');
@@ -255,14 +261,14 @@ void CommandInterpreter::parseCommandLine(const std::string& cL, std::vector<std
 
     std::string::size_type pos = commandLine.find_first_of(' ');
     if (pos != std::string::npos) {
-      const std::string& newArg = commandLine.substr(0, pos);
+      const QString& newArg = QString(commandLine.substr(0, pos).c_str());
       args.push_back(newArg);
       commandLine = commandLine.substr(pos+1, commandLine.length()-pos);
       // Logger::logDEBUG(" -arg recognized: '%s'", newArg.c_str());
       // Logger::logDEBUG(" -rest : '%s'", commandLine.c_str());
     } else {
       // no spaces left, last argument
-      args.push_back(commandLine);
+      args.push_back(QString(commandLine.c_str()));
       // Logger::logDEBUG(" -LAST arg recognized: '%s'", commandLine.c_str());
       commandLine.clear();
     }

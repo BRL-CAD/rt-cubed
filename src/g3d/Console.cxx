@@ -127,8 +127,8 @@ bool Console::eventFilter(QObject *obj, QEvent *event)
 // TODO: Doesn't appear to get signaled.
 void Console::evalCmd() 
 {
-    CommandOutput output;
-    CommandInterpreter::instance().execute(entry->text().toStdString(), output);
+    emit commandRan(entry->text());
+    // TODO: Replace History with a simple STL container
     History::instance().insert(entry->text().toStdString().c_str());
     entry->clear();
 }

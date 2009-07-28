@@ -42,23 +42,25 @@
  * specific functionality and factor code out needed for all this kind
  * of commands.
  */
+
+#include <QString>
+
 class GedCommand : public Command
 {
 public:
   /** Constructor with some basics needed when creating any
    * command. */
-  GedCommand(const std::string& name,
-	     const std::string& shortDescr,
-	     const std::string& extraDescr);
+  GedCommand(const QString& name,
+	     const QString& shortDescr,
+	     const QString& extraDescr);
   /** Default destructor */
   virtual ~GedCommand() { }
 
 protected:
   /** Helper method to treat result from GED library (and eventually
    * append output or log messages) */
-  void treatGEDResult(int resultCode,
-		      CommandOutput& output,
-		      const std::string& text) const;
+  QString treatGEDResult(int resultCode,
+			 const QString& text) const;
 
 };
 

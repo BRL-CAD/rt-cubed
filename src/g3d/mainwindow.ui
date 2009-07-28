@@ -76,7 +76,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="Console" name="widget" native="true"/>
+       <widget class="Console" name="console" native="true"/>
       </item>
      </layout>
     </widget>

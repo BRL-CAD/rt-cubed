@@ -32,10 +32,9 @@
 
 #include "Command.h"
 
-#include <string>
+#include <QString>
 
-#include "globals.h"
-
+#if 0
 /** @brief Quit the application
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -47,15 +46,16 @@ public:
     Command("quit", "Quit the application", "")
     { }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     if (args.size() > 0) {
-      output.appendLine(CommandMessages::NO_ARGUMENTS);
-      return;
+      return CommandMessages::NO_ARGUMENTS;
     } else {
-      qapp->exit(0);
+      // TODO
     }
+    return "";
   }
 };
+#endif
 
 
 /** @brief Set log message level.
@@ -73,14 +73,13 @@ public:
       _argNames.push_back("level");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     if (args.size() != 1) {
-      output.appendLine(CommandMessages::ONE_ARGUMENT);
-      return;
+      return CommandMessages::ONE_ARGUMENT;
     } else {
 
       Logger::Level l = static_cast<Logger::Level>(0); // invalid level
-      char firstChar = args[0][0];
+      QCharRef firstChar = args[0][0];
       if (firstChar == 'D') {
 	l = Logger::DEBUG;
       } else if (firstChar == 'I') {
@@ -95,6 +94,7 @@ public:
 
       Logger::instance().setLevelFilter(l);
     }
+    return "";
   }
 };
 
@@ -118,9 +118,9 @@ public:
       Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     if (args.size() != 1) {
-      output.appendLine(CommandMessages::ONE_ARGUMENT);
+      return CommandMessages::ONE_ARGUMENT;
       return;
     } else {
       if (args[0][0] == 's') {
@@ -130,8 +130,9 @@ public:
       } else if (args[0][0] == 'p') {
 	Application::instance().setPolygonMode(Ogre::PM_POINTS);
       } else {
-	output.appendLine("Mode not recognized");
+	return "Mode not recognized";
       }
+      return "";
     }
   }
 };
@@ -152,7 +153,7 @@ public:
       _argNames.push_back("type");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     if (args.size() != 1) {
       output.appendLine(CommandMessages::ONE_ARGUMENT);
       return;
@@ -163,6 +164,7 @@ public:
       } else {
 	CameraManager::instance().setProjectionOrthogonal(false);
       }
+      return "";
     }
   }
 };
@@ -179,12 +181,13 @@ public:
     Command("cyclecam", "Cycle the camera mode", "")
     { }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     if (args.size() > 0) {
       output.appendLine(CommandMessages::NO_ARGUMENTS);
     } else {
       CameraManager::instance().cycleCameraMode();
     }
+    return ""
   }
 };
 

@@ -31,7 +31,6 @@ set(G3D_HEADERS
   CameraModeOrbital.h
   Command.h
   Commands.h
-  CommandInterpreter.h
   GedCommand.h
   GedCommands.h
   GedData.h
@@ -40,11 +39,11 @@ set(G3D_HEADERS
   Logger.h
   Observer.h
   MainWindow.h
-  globals.h
   )
 
 # Qt stuff that needs preprocessing
 set(G3D_MOC_HEADERS
+  CommandInterpreter.h
   OgreGLWidget.h
   MainWindow.h
   Console.h

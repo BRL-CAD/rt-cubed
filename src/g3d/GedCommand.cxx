@@ -27,10 +27,6 @@
  */
 
 #include <brlcad/ged.h>
-/** \note mafm: Undefining too-common names to not clash with names
- * elsewhere (in example, Ogre uses some of them) */
-#undef X
-#undef Y
 
 #include "GedCommand.h"
 
@@ -40,21 +36,21 @@
 /*******************************************************************************
  * GedCommand
  ******************************************************************************/
-GedCommand::GedCommand(const std::string& name,
-		       const std::string& shortDescr,
-		       const std::string& extraDescr) :
+GedCommand::GedCommand(const QString& name,
+		       const QString& shortDescr,
+		       const QString& extraDescr) :
   Command(name, shortDescr, extraDescr)
 {
 }
 
-void GedCommand::treatGEDResult(int resultCode,
-				CommandOutput& output,
-				const std::string& text) const
+QString GedCommand::treatGEDResult(int resultCode,
+				const QString& text) const
 {
   if (resultCode == BRLCAD_OK) {
-    output.appendLine(text);
+    return text;
   } else {
-    Logger::logERROR(text.c_str());
+    Logger::logERROR(text.toStdString().c_str());
+    return "";
   }
 }
 

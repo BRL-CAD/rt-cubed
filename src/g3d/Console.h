@@ -48,13 +48,15 @@ public:
 
     void update(const ObserverEvent &event);
 
+signals:
+    void commandRan(QString command);
+
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
+    void pushOutput(const QString &str);
 
 protected slots:
     void evalCmd();
-
-    void pushOutput(const QString &str);
 
 private:
     QVBoxLayout *layout;

@@ -33,12 +33,18 @@
 
 #include "ui_mainwindow.h"
 
+#include "CommandInterpreter.h"
+
 class MainWindow : public QWidget, private Ui::MainWindow 
 {
     Q_OBJECT
 
 public:
     MainWindow();
+    ~MainWindow();
+
+private:
+    CommandInterpreter *cmdInterp;
 };
 
 #endif

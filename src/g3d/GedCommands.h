@@ -32,7 +32,7 @@
 
 #include "GedCommand.h"
 
-#include <string>
+#include <QString>
 
 #include "GedData.h"
 
@@ -52,19 +52,18 @@ public:
       _argNames.push_back("filename");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() != 1) {
-      output.appendLine(CommandMessages::ONE_ARGUMENT);
-      return;
+      return CommandMessages::ONE_ARGUMENT;
     } else {
-      const char* argv[] = { _name.c_str(), args[1].c_str() };
+      const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
       int argc = sizeof(argv)/sizeof(const char*);
       result = ged_dump(g, argc, argv);
 
-      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
+      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -84,19 +83,18 @@ public:
     {
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() != 0) {
-      output.appendLine(CommandMessages::NO_ARGUMENTS);
-      return;
+      return CommandMessages::NO_ARGUMENTS;
     } else {
-      const char* argv[] = { _name.c_str() };
+      const char* argv[] = { _name.toStdString().c_str() };
       int argc = sizeof(argv)/sizeof(const char*);
       result = ged_solids_on_ray(g, argc, argv);
 
-      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
+      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -117,16 +115,15 @@ public:
       _argNames.push_back("type");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() > 1) {
-      output.appendLine(CommandMessages::ZERO_OR_ONE_ARGUMENTS);
-      return;
+      return CommandMessages::ZERO_OR_ONE_ARGUMENTS;
     } else {
       if (args.size() == 1) {
-	std::string type;
+	QString type;
 	if (args[0][0] == 'p') {
 	  type = "p";
 	} else if (args[0][0] == 'r') {
@@ -134,20 +131,19 @@ public:
 	} else if (args[0][0] == 'g') {
 	  type = "g";
 	} else {
-	  output.appendLine("Summary type not recognized");
-	  return;
+	  return "Summary type not recognized";
 	}
 
-	const char* argv[] = { _name.c_str(), type.c_str() };
+	const char* argv[] = { _name.toStdString().c_str(), type.toStdString().c_str() };
 	int argc = sizeof(argv)/sizeof(const char*);
 	result = ged_summary(g, argc, argv);
       } else {
-	const char* argv[] = { _name.c_str() };
+	const char* argv[] = { _name.toStdString().c_str() };
 	int argc = sizeof(argv)/sizeof(const char*);
 	result = ged_summary(g, argc, argv);
       }
 
-      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
+      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -168,25 +164,24 @@ public:
       _argNames.push_back("title");
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() > 1) {
-      output.appendLine(CommandMessages::ZERO_OR_ONE_ARGUMENTS);
-      return;
+      return CommandMessages::ZERO_OR_ONE_ARGUMENTS;
     } else {
       if (args.size() == 1) {
-	const char* argv[] = { _name.c_str(), args[1].c_str() };
+	const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
 	int argc = sizeof(argv)/sizeof(const char*);
 	result = ged_title(g, argc, argv);
       } else {
-	const char* argv[] = { _name.c_str() };
+	const char* argv[] = { _name.toStdString().c_str() };
 	int argc = sizeof(argv)/sizeof(const char*);
 	result = ged_title(g, argc, argv);
       }
 
-      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
+      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -206,17 +201,16 @@ public:
     {
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     if (args.size() != 0) {
-      output.appendLine(CommandMessages::NO_ARGUMENTS);
-      return;
+      return CommandMessages::NO_ARGUMENTS;
     } else {
       ged* g = GedData::instance().getGED();
-      const char* argv[] = { _name.c_str() };
+      const char* argv[] = { _name.toStdString().c_str() };
       int argc = sizeof(argv)/sizeof(const char*);
       int result = ged_version(g, argc, argv);
 
-      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
+      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -236,15 +230,14 @@ public:
     {
     }
 
-  virtual void execute(std::vector<std::string>& args, CommandOutput& output) {
+  virtual QString execute(std::vector<QString>& args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
     if (args.size() != 0) {
-      output.appendLine(CommandMessages::NO_ARGUMENTS);
-      return;
+      return CommandMessages::NO_ARGUMENTS;
     } else {
-      treatGEDResult(result, output, bu_vls_addr(&g->ged_result_str));
+      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
     }
   }
 };

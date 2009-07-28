@@ -29,9 +29,11 @@
 #ifndef __G3D_COMMANDINTERPRETER_H__
 #define __G3D_COMMANDINTERPRETER_H__
 
-
-#include <string>
+#include <vector>
 #include <map>
+
+#include <QObject>
+#include <QString>
 
 #include "../../include/Utility/Singleton.h"
 
@@ -57,9 +59,16 @@ class CommandOutput;
  * as "pm target ...", indicating that you have to especify the target
  * player and then whatever you want to tell her/him).
  */
-class CommandInterpreter : public Singleton<CommandInterpreter>
+class CommandInterpreter : public QObject
 {
+  Q_OBJECT
+  
 public:
+  /** Default constructor */
+  CommandInterpreter();
+  /** Destructor */
+  ~CommandInterpreter();
+  
   /** Get Autocomplete string
    *
    * @param input The input to use as base for completion (the content
@@ -68,40 +77,35 @@ public:
    * \returns String with text to be used instead, advancing so much
    * in the autocompletion as possible
    */
-  std::string getAutocompleteString(const std::string& input);
+  QString getAutocompleteString(const QString& input);
 
+public slots:
   /** Execute the given command line, and add the result to the given
    * output. */
-  void execute(const std::string& commandLine, CommandOutput& output);
+  void execute(QString commandLine);
+
+signals:
+  void commandDone(QString output);
 
 private:
-  /** Friend access for the Singleton */
-  friend class Singleton<CommandInterpreter>;
-
   /** The set of commands registered */
-  std::map<std::string, Command*> _commands;
-
-
-  /** Default constructor */
-  CommandInterpreter();
-  /** Destructor */
-  ~CommandInterpreter();
+  std::map<QString, Command*> _commands;
 
   /** Add a command (accesed by the registerCommands method) */
   void addCommand(Command* command);
 
   /** Show global help */
-  void showHelp(CommandOutput& output);
+  QString help();
   /** Show help about the given command */
-  void showHelp(const std::string& commandName, CommandOutput& output);
+  QString help(const QString &command);
 
   /** Find a command by name
    *
    * \returns 0 if not found */
-  Command* findCommand(const std::string& commandName) const;
+  Command* findCommand(const QString& commandName) const;
   /** Parse command line, putting each piece into the list of
    * arguments */
-  void parseCommandLine(const std::string& cL, std::vector<std::string>& args);
+  void parseCommandLine(const QString& cL, std::vector<QString>& args);
 };
 
 #endif
