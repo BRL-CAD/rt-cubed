@@ -30,8 +30,7 @@
 #define __G3D_COMMAND_H__
 
 
-#include <QString>
-#include <vector>
+#include <QStringList>
 
 
 /**
@@ -81,7 +80,7 @@ public:
   virtual ~Command() { }
 
   /** Execute the command (to be implemented by the real commands) */
-  virtual QString execute(std::vector<QString>& args) = 0;
+  virtual QString execute(QStringList& args) = 0;
 
   /** The name of the command */
   const QString& getName() const;
@@ -90,7 +89,7 @@ public:
   /** Get a extra description of the command */
   const QString& getExtraDescription() const;
   /** Get the name of the arguments */
-  const std::vector<QString>& getArgumentNames() const;
+  const QStringList getArgumentNames() const;
   /** Get the syntax */
   QString getSyntax() const;
 
@@ -102,7 +101,7 @@ protected:
   /** Extra description */
   QString _extraDescription;
   /** The names of the arguments */
-  std::vector<QString> _argNames;
+  QStringList _argNames;
 };
 
 #endif

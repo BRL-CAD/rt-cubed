@@ -26,7 +26,7 @@
  *	Implementation of Command base class.
  */
 
-#include <vector>
+#include <QStringList>
 
 #include "Command.h"
 
@@ -64,7 +64,7 @@ const QString& Command::getExtraDescription() const
   return _extraDescription;
 }
 
-const std::vector<QString>& Command::getArgumentNames() const
+const QStringList Command::getArgumentNames() const
 {
   return _argNames;
 }

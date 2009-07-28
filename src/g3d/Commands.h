@@ -46,8 +46,8 @@ public:
     Command("quit", "Quit the application", "")
     { }
 
-  virtual QString execute(std::vector<QString>& args) {
-    if (args.size() > 0) {
+  virtual QString execute(QStringList &args) {
+    if (args.length() > 0) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
       // TODO
@@ -73,8 +73,8 @@ public:
       _argNames.push_back("level");
     }
 
-  virtual QString execute(std::vector<QString>& args) {
-    if (args.size() != 1) {
+  virtual QString execute(QStringList &args) {
+    if (args.length() != 1) {
       return CommandMessages::ONE_ARGUMENT;
     } else {
 
@@ -112,14 +112,14 @@ public:
 	    "Set the polygon mode",
 	    "Argument is [solid|wireframe|points] (initial chars are enough)")
     {
-      _argNames.push_back("mode");
+      _argNames += ("mode");
 
       // setting wireframe by default
       Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
     }
 
-  virtual QString execute(std::vector<QString>& args) {
-    if (args.size() != 1) {
+  virtual QString execute(QStringList &args) {
+    if (args.length() != 1) {
       return CommandMessages::ONE_ARGUMENT;
       return;
     } else {
@@ -153,8 +153,8 @@ public:
       _argNames.push_back("type");
     }
 
-  virtual QString execute(std::vector<QString>& args) {
-    if (args.size() != 1) {
+  virtual QString execute(QStringList &args) {
+    if (args.length() != 1) {
       output.appendLine(CommandMessages::ONE_ARGUMENT);
       return;
     } else {
@@ -181,13 +181,13 @@ public:
     Command("cyclecam", "Cycle the camera mode", "")
     { }
 
-  virtual QString execute(std::vector<QString>& args) {
-    if (args.size() > 0) {
-      output.appendLine(CommandMessages::NO_ARGUMENTS);
+  virtual QString execute(QStringList &args) {
+    if (!args.empty()) {
+      return CommandMessages::NO_ARGUMENTS;
     } else {
       CameraManager::instance().cycleCameraMode();
     }
-    return ""
+    return "";
   }
 };
 

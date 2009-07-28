@@ -52,11 +52,11 @@ public:
       _argNames.push_back("filename");
     }
 
-  virtual QString execute(std::vector<QString>& args) {
+  virtual QString execute(QStringList &args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.size() != 1) {
+    if (args.length() != 1) {
       return CommandMessages::ONE_ARGUMENT;
     } else {
       const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
@@ -83,11 +83,11 @@ public:
     {
     }
 
-  virtual QString execute(std::vector<QString>& args) {
+  virtual QString execute(QStringList &args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.size() != 0) {
+    if (args.length() != 0) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
       const char* argv[] = { _name.toStdString().c_str() };
@@ -115,14 +115,14 @@ public:
       _argNames.push_back("type");
     }
 
-  virtual QString execute(std::vector<QString>& args) {
+  virtual QString execute(QStringList &args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.size() > 1) {
+    if (args.length() > 1) {
       return CommandMessages::ZERO_OR_ONE_ARGUMENTS;
     } else {
-      if (args.size() == 1) {
+      if (args.length() == 1) {
 	QString type;
 	if (args[0][0] == 'p') {
 	  type = "p";
@@ -164,14 +164,14 @@ public:
       _argNames.push_back("title");
     }
 
-  virtual QString execute(std::vector<QString>& args) {
+  virtual QString execute(QStringList &args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.size() > 1) {
+    if (args.length() > 1) {
       return CommandMessages::ZERO_OR_ONE_ARGUMENTS;
     } else {
-      if (args.size() == 1) {
+      if (args.length() == 1) {
 	const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
 	int argc = sizeof(argv)/sizeof(const char*);
 	result = ged_title(g, argc, argv);
@@ -201,8 +201,8 @@ public:
     {
     }
 
-  virtual QString execute(std::vector<QString>& args) {
-    if (args.size() != 0) {
+  virtual QString execute(QStringList &args) {
+    if (args.length() != 0) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
       ged* g = GedData::instance().getGED();
@@ -230,11 +230,11 @@ public:
     {
     }
 
-  virtual QString execute(std::vector<QString>& args) {
+  virtual QString execute(QStringList &args) {
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.size() != 0) {
+    if (args.length() != 0) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
       return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));

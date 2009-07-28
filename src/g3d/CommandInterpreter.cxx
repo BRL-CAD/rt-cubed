@@ -28,7 +28,8 @@
  */
 
 #include <vector>
-#include <string>
+
+#include <QStringList>
 
 #include "CommandInterpreter.h"
 
@@ -76,8 +77,7 @@ QString CommandInterpreter::getAutocompleteString(const QString& input)
        ++it) {
     const QString& commandName = it->first;
     // push back all commands which match the input
-    int comparison = commandName.toStdString().compare(0, input.length(), input.toStdString());
-    if (comparison == 0) {
+    if (commandName.startsWith(input)) {
       // Logger::logDEBUG(" - matches '%s'", input.c_str());
       candidates.push_back(commandName);
     } else {
@@ -134,21 +134,16 @@ QString CommandInterpreter::getAutocompleteString(const QString& input)
 void CommandInterpreter::execute(QString commandLine)
 {
   // try to parse the command line into arguments
-  std::vector<QString> args;
-  parseCommandLine(commandLine, args);
+  QStringList args = parseCommandLine(commandLine);
   QString output;
-  if (args.size() == 0) {
-    output.append("Error: Cannot parse command line (too long?)");
-    return;
-  }
 
   // extract the command name
   QString commandName = args[0];
-  args.erase(args.begin());
+  args.removeAt(0);
 
   if (commandName == "help") {
     // help meta command
-    if (args.size() == 0) {
+    if (args.empty()) {
       // general help
       emit commandDone(help());
     } else {
@@ -232,47 +227,9 @@ Command* CommandInterpreter::findCommand(const QString& commandName) const
   }
 }
 
-// TODO: Rewrite to not use std::string
-void CommandInterpreter::parseCommandLine(const QString& cL, std::vector<QString>& args)
+QStringList CommandInterpreter::parseCommandLine(const QString& cL)
 {
-  std::string commandLine(cL.toStdString());
-  // trim tail
-  {
-    std::string::size_type pos = commandLine.find_last_not_of(' ');
-    if (pos != std::string::npos) {
-      // Logger::logDEBUG("trimming tail of: '%s'", commandLine.c_str());
-      commandLine = commandLine.substr(0, pos+1);
-      // Logger::logDEBUG("  - result: '%s'", commandLine.c_str());
-    }
-  }
-
-  // tokenize the string into arguments
-  while (commandLine.length() > 0) {
-    // trim front
-    if (commandLine[0] == ' ') {
-      std::string::size_type pos = commandLine.find_first_not_of(' ');
-      if (pos != std::string::npos) {
-	// Logger::logDEBUG("trimming front of: '%s'", commandLine.c_str());
-	commandLine = commandLine.substr(pos);
-	// Logger::logDEBUG("  - result: '%s'", commandLine.c_str());
-      }
-    }
-    // Logger::logDEBUG("commandLine: '%s'", commandLine.c_str());
-
-    std::string::size_type pos = commandLine.find_first_of(' ');
-    if (pos != std::string::npos) {
-      const QString& newArg = QString(commandLine.substr(0, pos).c_str());
-      args.push_back(newArg);
-      commandLine = commandLine.substr(pos+1, commandLine.length()-pos);
-      // Logger::logDEBUG(" -arg recognized: '%s'", newArg.c_str());
-      // Logger::logDEBUG(" -rest : '%s'", commandLine.c_str());
-    } else {
-      // no spaces left, last argument
-      args.push_back(QString(commandLine.c_str()));
-      // Logger::logDEBUG(" -LAST arg recognized: '%s'", commandLine.c_str());
-      commandLine.clear();
-    }
-  }
+  return cL.trimmed().split(" ", QString::SkipEmptyParts);
 }
 
 

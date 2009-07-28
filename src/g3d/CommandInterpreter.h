@@ -105,7 +105,7 @@ private:
   Command* findCommand(const QString& commandName) const;
   /** Parse command line, putting each piece into the list of
    * arguments */
-  void parseCommandLine(const QString& cL, std::vector<QString>& args);
+  QStringList parseCommandLine(const QString& cL);
 };
 
 #endif
