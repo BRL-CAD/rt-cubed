@@ -45,7 +45,7 @@ Console::Console(QWidget *parent) : QWidget(parent)
     output->setAutoFillBackground(true);
     output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
     // Prevent lag first time the output is shown.
-    output->show();
+    output->ensurePolished();
     output->hide();
     installEventFilter(output);
     layout->addWidget(output);
