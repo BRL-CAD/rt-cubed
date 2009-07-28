@@ -27,13 +27,14 @@
  */
 
 #include <QtGui>
-#include <QPushButton>
 
-#include <OGRE/Ogre.h>
+#include "globals.h"
 
 #include "Logger.h"
 
 #include "MainWindow.h"
+
+QApplication *qapp;
 
 int main(int argc, char** argv)
 {
@@ -51,7 +52,7 @@ int main(int argc, char** argv)
 #endif
 
   // Set up Qt
-  QApplication qapp(argc, argv);
+  qapp = new QApplication(argc, argv);
   
   MainWindow *window = new MainWindow();
   window->show();
@@ -59,7 +60,7 @@ int main(int argc, char** argv)
   Logger::logDEBUG("Qt initialized.");
 
   // Main loop
-  return qapp.exec();
+  return qapp->exec();
 }
 
 

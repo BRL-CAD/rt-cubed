@@ -34,7 +34,8 @@
 
 #include <string>
 
-#if 0
+#include "globals.h"
+
 /** @brief Quit the application
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -51,11 +52,10 @@ public:
       output.appendLine(CommandMessages::NO_ARGUMENTS);
       return;
     } else {
-      Application::instance().quit();
+      qapp->exit(0);
     }
   }
 };
-#endif // #if 0
 
 
 /** @brief Set log message level.

@@ -40,6 +40,7 @@ set(G3D_HEADERS
   Logger.h
   Observer.h
   MainWindow.h
+  globals.h
   )
 
 # Qt stuff that needs preprocessing
