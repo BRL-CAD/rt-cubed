@@ -49,6 +49,8 @@ MainWindow::MainWindow() : cmdInterp(new CommandInterpreter())
 
     QObject::connect(console, SIGNAL(commandRan(QString)),
 		     cmdInterp, SLOT(execute(QString)));
+    QObject::connect(cmdInterp, SIGNAL(commandDone(QString)),
+		     console, SLOT(pushOutput(QString)));
 
     // Give focus to the render area, and thus camera control.
     ogreView->setFocus(Qt::OtherFocusReason);

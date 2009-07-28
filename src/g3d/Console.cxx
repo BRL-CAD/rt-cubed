@@ -134,8 +134,12 @@ void Console::evalCmd()
 }
 
 
-void Console::pushOutput(const QString &str) 
+void Console::pushOutput(QString str) 
 {
+    if(str.length() == 0) {
+	return;
+    }
+    
     outputLines.push_back(str);
 
     if(outputLines.size() > CONSOLE_OUTPUT_LINES) {

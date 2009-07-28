@@ -48,12 +48,14 @@ public:
 
     void update(const ObserverEvent &event);
 
+public slots:
+    void pushOutput(QString str);
+
 signals:
     void commandRan(QString command);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
-    void pushOutput(const QString &str);
 
 protected slots:
     void evalCmd();
