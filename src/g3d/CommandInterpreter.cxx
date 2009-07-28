@@ -221,7 +221,7 @@ Command* CommandInterpreter::findCommand(const QString& commandName) const
 {
   std::map<QString, Command*>::const_iterator it = _commands.find(commandName);
   if (it == _commands.end()) {
-    return 0;
+    return NULL;
   } else {
     return (*it).second;
   }

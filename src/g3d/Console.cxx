@@ -44,6 +44,8 @@ Console::Console(QWidget *parent) : QWidget(parent)
     output->setText("Console output goes here.");
     output->setAutoFillBackground(true);
     output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
+    // Prevent lag first time the output is shown.
+    output->show();
     output->hide();
     installEventFilter(output);
     layout->addWidget(output);
@@ -57,6 +59,7 @@ Console::Console(QWidget *parent) : QWidget(parent)
     QObject::connect(entry, SIGNAL(returnPressed(void)),
 		     this, SLOT(evalCmd(void)));
 
+    // TODO: Replace this with signal/slot
     Logger::instance().attach(this);
 }
 
