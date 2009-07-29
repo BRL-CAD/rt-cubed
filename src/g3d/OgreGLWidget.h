@@ -43,6 +43,9 @@
 #ifdef Q_WS_X11
 #include "qmetatype.h"
 #include <GL/glx.h>
+// X defines these, breaking Qt's event type enum
+#undef KeyPress
+#undef KeyRelease
 #else
 #error OgreGLWidget is currently only implemented for GLX
 #endif
