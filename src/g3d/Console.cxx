@@ -87,18 +87,17 @@ void Console::update(const ObserverEvent &event)
 }
 
 
-// TODO: Should we be returning true for handled events?
 bool Console::eventFilter(QObject *obj, QEvent *event) 
 {
     switch(event->type())
     {
     case QEvent::Enter:
 	output->show();
-	break;
+	return true;
 	
     case QEvent::Leave:
 	output->hide();
-	break;
+	return true;
 
     case QEvent::KeyPress:
     {
@@ -116,7 +115,7 @@ bool Console::eventFilter(QObject *obj, QEvent *event)
 	    break;
 	}
 	
-	break;
+	return true;
     }
 
     default:
