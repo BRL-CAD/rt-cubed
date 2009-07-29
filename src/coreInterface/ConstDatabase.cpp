@@ -439,12 +439,12 @@ public:
         return m_partition->pt_outhit->hit_point;
     }
 
-    virtual Vector3D    SurfaceNormaleIn(void) const throw() {
+    virtual Vector3D    SurfaceNormalIn(void) const throw() {
         ComputeInVectors();
         return m_partition->pt_inhit->hit_normal;
     }
 
-    virtual Vector3D    SurfaceNormaleOut(void) const throw() {
+    virtual Vector3D    SurfaceNormalOut(void) const throw() {
         ComputeOutVectors();
         return m_partition->pt_outhit->hit_normal;
     }
