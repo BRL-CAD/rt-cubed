@@ -46,15 +46,13 @@ Console::Console(QWidget *parent) : QWidget(parent)
     // Prevent lag first time the output is shown.
     output->ensurePolished();
     output->hide();
-    installEventFilter(output);
+    output->installEventFilter(this);
     layout->addWidget(output);
 
     entry = new QLineEdit();
-    installEventFilter(entry);
+    entry->installEventFilter(this);
     layout->addWidget(entry);
     
-    installEventFilter(this);
-
     QObject::connect(entry, SIGNAL(returnPressed(void)),
 		     this, SLOT(evalCmd(void)));
 
