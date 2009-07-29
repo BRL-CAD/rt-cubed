@@ -30,9 +30,17 @@
 
 #include <exception>
 
+#ifdef Q_WS_X11
+#include <Qt/qx11info_x11.h>
+#include <X11/Xlib.h>
+#else
+#error OgreGLWidget is currently only implemented for GLX
+#endif
+
 #include <QTimer>
 
 #include <OGRE/Ogre.h>
+#include <OGRE/OgreLogManager.h>
 
 #include "Logger.h"
 #include "CameraModeBlender.h"
@@ -48,9 +56,11 @@
 
 OgreGLWidget::OgreGLWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-    _renderWindow(0), _camera(0), _viewport(0), _scene(0),
+    _ogreContext(0), _renderWindow(0), _camera(0), _viewport(0), _scene(0),
     _cameraCtl(new CameraModeBlender)
 {
+    setAutoBufferSwap(false);
+    
     // Take keyboard focus after being clicked
     setFocusPolicy(Qt::ClickFocus);
     
@@ -78,9 +88,41 @@ OgreGLWidget::~OgreGLWidget()
 void OgreGLWidget::initializeGL() 
 {   
     Ogre::NameValuePairList params;
-    params["currentGLContext"] = Ogre::String("True");
 
-    _renderWindow = _root->createRenderWindow("MainRenderWindow", 640, 480, false, &params);
+    WId win_id = winId();
+
+#ifdef Q_WS_X11
+    _display = x11Info().display();
+    XWindowAttributes window_attributes;
+    Status get_attrib_status = XGetWindowAttributes(_display, win_id, &window_attributes);
+    OgreAssert(get_attrib_status, "Couldn't determine attributes of render window.");
+    XVisualInfo xvis_template;
+    xvis_template.visualid = XVisualIDFromVisual(window_attributes.visual);
+
+    int items;
+
+    XVisualInfo *xvisinfo = XGetVisualInfo(_display, VisualIDMask, &xvis_template, &items);
+    OgreAssert(items > 0, "Couldn't determine the XVisualInfo for the render window.");
+    if (items > 1)
+	Ogre::LogManager::getSingleton().logMessage(
+	    "More than one visual structure found for visualID " +
+	    Ogre::StringConverter::toString(xvis_template.visualid) +
+	    " - Expect BadMatches.", Ogre::LML_CRITICAL);
+
+    params["externalWindowHandle"] =
+	Ogre::StringConverter::toString((unsigned long)_display) +
+	":" + Ogre::StringConverter::toString((unsigned int)x11Info().screen()) +
+	":" + Ogre::StringConverter::toString((unsigned long)win_id) +
+	":" + Ogre::StringConverter::toString((unsigned long)xvisinfo);
+
+    _renderWindow = _root->createRenderWindow(metaObject()->className() + Ogre::StringConverter::toString((unsigned long)this), width(), height(), false, &params);
+
+    XFree(xvisinfo);
+    _ogreContext = glXGetCurrentContext();
+#else
+#error OgreGLWidget is currently only implemented for GLX
+#endif
+
     if(!_renderWindow) {
 	// TODO: Real error handling
 	throw std::exception();
@@ -145,20 +187,32 @@ void OgreGLWidget::loadResources()
 
 void OgreGLWidget::resizeGL(int width, int height)
 {
-    _renderWindow->resize(width, height);
-    _renderWindow->windowMovedOrResized();
+    if(_renderWindow) {
+	makeOgreCurrent();
+	_renderWindow->resize(width, height);
+	_renderWindow->windowMovedOrResized();
+	makeCurrent();
+    }
+    QGLWidget::resizeGL(width, height);
 }
 
 void OgreGLWidget::paintGL() 
 {
+    makeOgreCurrent();
+    
     struct timespec now;
     clock_gettime(CLOCK_REALTIME, &now);
     _cameraCtl->updateCamera(_camera, (now.tv_sec - _lastFrame.tv_sec) + 1e-9 * (now.tv_nsec - _lastFrame.tv_nsec));
     _lastFrame = now;
-    
-    _root->renderOneFrame();
+
+    if(_root->_fireFrameStarted()) {
+	_renderWindow->update(false);
+	_root->_fireFrameEnded();
+    }
     
     QTimer::singleShot(FRAMEDELAY, this, SLOT(update()));
+
+    makeCurrent();
 }
 
 
@@ -242,6 +296,17 @@ void OgreGLWidget::setCameraMode(int type)
 	Logger::logWARNING("Attempted to set invalid camera mode!");
 	break;
     }
+}
+
+void OgreGLWidget::makeOgreCurrent() 
+{
+#ifdef Q_WS_X11
+    if(_display) {
+	glXMakeCurrent(_display, winId(), _ogreContext);
+    }
+#else
+#error OgreGLWidget is currently only implemented for GLX
+#endif
 }
 
 /*

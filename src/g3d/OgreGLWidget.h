@@ -36,12 +36,22 @@
 #include <OGRE/OgreRoot.h>
 #include <OGRE/OgreRenderWindow.h>
 
+#include "OgreGraphicsView.h"
+
 #include "CameraMode.h"
+
+#ifdef Q_WS_X11
+#include "qmetatype.h"
+#include <GL/glx.h>
+#else
+#error OgreGLWidget is currently only implemented for GLX
+#endif
 
 class OgreGLWidget : public QGLWidget
 {
     Q_OBJECT
 
+    friend class OgreGraphicsView;
 public:
     OgreGLWidget(QWidget *parent = NULL);
     ~OgreGLWidget();
@@ -64,6 +74,15 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
     void wheelEvent(QWheelEvent *e);
+
+    void makeOgreCurrent();
+
+#ifdef Q_WS_X11
+    GLXContext _ogreContext;
+    Display *_display;
+#else
+#error OgreGLWidget is currently only implemented for GLX
+#endif
 
     Ogre::Root *_root;
     Ogre::RenderWindow *_renderWindow;

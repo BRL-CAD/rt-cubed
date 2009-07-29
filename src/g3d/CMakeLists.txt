@@ -22,6 +22,7 @@ set(G3D_SOURCES
   Observer.cxx
   MainWindow.cxx
   main.cxx
+  OgreGraphicsView.cxx
   )
 
 set(G3D_HEADERS
@@ -47,6 +48,7 @@ set(G3D_MOC_HEADERS
   OgreGLWidget.h
   MainWindow.h
   Console.h
+  OgreGraphicsView.h
   )
 
 set(G3D_UIS
