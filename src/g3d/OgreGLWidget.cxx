@@ -57,9 +57,9 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
     
     // TODO: Explicitly configure
-    if (_root->restoreConfig() || _root->showConfigDialog()) {
-	_root->initialise(false);
-    }
+    _root->loadPlugin("RenderSystem_GL");
+    _root->setRenderSystem(*(_root->getAvailableRenderers().begin()));
+    _root->initialise(false);
     Logger::logDEBUG("Ogre initialized!\n");
 
     clock_gettime(CLOCK_REALTIME, &_lastFrame);

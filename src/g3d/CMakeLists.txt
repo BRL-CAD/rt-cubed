@@ -93,7 +93,7 @@ PluginFolder=${OGRE_PLUGIN_DIR_REL}
 Plugin=RenderSystem_GL
 Plugin=Plugin_OctreeSceneManager")
 
-set(OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/resources.cfg ${PROJECT_BINARY_DIR}/ogreplugins.cfg ${PROJECT_BINARY_DIR}/ogre.cfg)
+set(OGRE_CFG_FILES ${PROJECT_BINARY_DIR}/resources.cfg ${PROJECT_BINARY_DIR}/ogreplugins.cfg)
 
 install( TARGETS ${PROGNAME} DESTINATION bin )
 install( FILES ${OGRE_CFG_FILES} DESTINATION share/g3d )
