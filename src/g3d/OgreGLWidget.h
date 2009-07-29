@@ -55,10 +55,11 @@ class OgreGLWidget : public QGLWidget
     Q_OBJECT
 
     friend class OgreGraphicsView;
-
 public:
     OgreGLWidget(QWidget *parent = NULL);
     ~OgreGLWidget();
+
+    CameraMode& getCameraMode() const;
 
 public slots:
     void setProjection(int type);
@@ -73,13 +74,6 @@ protected:
     void initializeGL();
     void resizeGL(int, int);
     void paintGL();
-
-    void keyPressEvent(QKeyEvent *e);
-    void keyReleaseEvent(QKeyEvent *e);
-    void mousePressEvent(QMouseEvent *e);
-    void mouseReleaseEvent(QMouseEvent *e);
-    void mouseMoveEvent(QMouseEvent *e);
-    void wheelEvent(QWheelEvent *e);
 
     void makeOgreCurrent();
 

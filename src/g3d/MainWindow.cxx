@@ -29,11 +29,13 @@
 #include "MainWindow.h"
 
 #include <QString>
+#include <QApplication>
+    
 
-MainWindow::MainWindow() : window(new QWidget()),
-			   ogreView(new OgreGLWidget()),
+MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 			   scene(new QGraphicsScene()),
-			   cmdInterp(new CommandInterpreter())
+			   cmdInterp(new CommandInterpreter()),
+			   window(new CameraInputLayer(*ogreView))
 {
     setViewport(ogreView);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
@@ -45,6 +47,7 @@ MainWindow::MainWindow() : window(new QWidget()),
 
     scene->addWidget(window);
     window->move(0, 0);
+    window->setFocusPolicy(Qt::ClickFocus);
 
     // WARNING: The entries of the cameraProjection dropdown MUST be
     // listed in the same order as the elements of
@@ -52,12 +55,12 @@ MainWindow::MainWindow() : window(new QWidget()),
     QObject::connect(cameraProjection, SIGNAL(activated(int)),
 		     ogreView, SLOT(setProjection(int)));
     QObject::connect(cameraProjection, SIGNAL(activated(int)),
-		     ogreView, SLOT(setFocus(void)));
+		     window, SLOT(setFocus(void)));
 
     QObject::connect(cameraMode, SIGNAL(activated(int)),
 		     ogreView, SLOT(setCameraMode(int)));
     QObject::connect(cameraMode, SIGNAL(activated(int)),
-		     ogreView, SLOT(setFocus(void)));
+		     window, SLOT(setFocus(void)));
 
     QObject::connect(console, SIGNAL(commandRan(QString)),
 		     cmdInterp, SLOT(execute(QString)));
@@ -65,7 +68,7 @@ MainWindow::MainWindow() : window(new QWidget()),
 		     console, SLOT(pushOutput(QString)));
 
     // Give focus to the render area, and thus camera control.
-    ogreView->setFocus(Qt::OtherFocusReason);
+    window->setFocus(Qt::OtherFocusReason);
 }
 
 MainWindow::~MainWindow() 
@@ -76,6 +79,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent(QResizeEvent *event) 
 {
+    // Just large enough not to cause scrollbars to appear.
     window->resize(event->size() - QSize(1, 1));
     OgreGraphicsView::resizeEvent(event);
 }

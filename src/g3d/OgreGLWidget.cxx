@@ -59,7 +59,9 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     _ogreContext(0), _renderWindow(0), _camera(0), _viewport(0), _scene(0),
     _cameraCtl(new CameraModeBlender)
 {
+    // We need to swap carefully to prevent flicker.
     setAutoBufferSwap(false);
+    
     // Take keyboard focus after being clicked
     setFocusPolicy(Qt::ClickFocus);
     
@@ -81,6 +83,12 @@ OgreGLWidget::~OgreGLWidget()
     delete _root;
 
     Logger::logDEBUG("OGRE shutdown complete.");
+}
+
+
+CameraMode& OgreGLWidget::getCameraMode() const
+{
+    return *_cameraCtl;
 }
 
 
@@ -212,49 +220,6 @@ void OgreGLWidget::paintGL()
     makeCurrent();
 
     QTimer::singleShot(FRAMEDELAY, this, SLOT(update()));
-}
-
-
-void OgreGLWidget::keyPressEvent(QKeyEvent *e) 
-{
-    if(!_cameraCtl->injectKeyPressed(e)) {
-	e->ignore();
-    }
-}
-
-void OgreGLWidget::keyReleaseEvent(QKeyEvent *e) 
-{
-    if(!_cameraCtl->injectKeyReleased(e)) {
-	e->ignore();
-    }
-}
-
-void OgreGLWidget::mousePressEvent(QMouseEvent *e) 
-{
-    if(_cameraCtl->injectMousePressed(e)) {
-	e->ignore();
-    }
-}
-
-void OgreGLWidget::mouseReleaseEvent(QMouseEvent *e) 
-{
-    if(!_cameraCtl->injectMouseReleased(e)) {
-	e->ignore();
-    }
-}
-
-void OgreGLWidget::mouseMoveEvent(QMouseEvent *e) 
-{
-    if(!_cameraCtl->injectMouseMotion(e)) {
-	e->ignore();
-    }
-}
-
-void OgreGLWidget::wheelEvent(QWheelEvent *e) 
-{
-    if(!_cameraCtl->injectMouseScrolled((e->delta() > 0) ? CameraMode::POSITIVE : CameraMode::NEGATIVE)) {
-	e->ignore();
-    }
 }
 
 

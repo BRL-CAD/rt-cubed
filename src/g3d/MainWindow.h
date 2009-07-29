@@ -36,10 +36,11 @@
 
 #include "OgreGraphicsView.h"
 #include "OgreGLWidget.h"
+#include "CameraInputLayer.h"
 
 #include "CommandInterpreter.h"
 
-class MainWindow : public OgreGraphicsView, private Ui::MainWindow 
+class MainWindow : public OgreGraphicsView, private Ui::MainWindow
 {
     Q_OBJECT
 
@@ -50,11 +51,11 @@ public:
     void resizeEvent(QResizeEvent *event);
 
 private:
-    QWidget *window;
-
     OgreGLWidget *ogreView;
     QGraphicsScene *scene;
     CommandInterpreter *cmdInterp;
+    
+    CameraInputLayer *window;
 };
 
 #endif

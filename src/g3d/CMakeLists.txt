@@ -23,6 +23,7 @@ set(G3D_SOURCES
   MainWindow.cxx
   main.cxx
   OgreGraphicsView.cxx
+  CameraInputLayer.cxx
   )
 
 set(G3D_HEADERS
@@ -49,6 +50,7 @@ set(G3D_MOC_HEADERS
   MainWindow.h
   Console.h
   OgreGraphicsView.h
+  CameraInputLayer.h
   )
 
 set(G3D_UIS
