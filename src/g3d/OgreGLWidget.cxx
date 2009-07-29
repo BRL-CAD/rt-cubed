@@ -37,8 +37,6 @@
 #error OgreGLWidget is currently only implemented for GLX
 #endif
 
-#include <QTimer>
-
 #include <OGRE/Ogre.h>
 #include <OGRE/OgreLogManager.h>
 
@@ -59,8 +57,6 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     _ogreContext(0), _renderWindow(0), _camera(0), _viewport(0), _scene(0),
     _cameraCtl(new CameraModeBlender)
 {
-    setAutoBufferSwap(false);
-    
     // Take keyboard focus after being clicked
     setFocusPolicy(Qt::ClickFocus);
     
@@ -153,8 +149,6 @@ void OgreGLWidget::initializeGL()
 
     _renderWindow->setVisible(true);
 
-    QTimer::singleShot(FRAMEDELAY, this, SLOT(update()));
-
     // Orthographic is the default projection mode
     setProjection(0);
     
@@ -210,8 +204,6 @@ void OgreGLWidget::paintGL()
 	_root->_fireFrameEnded();
     }
     
-    QTimer::singleShot(FRAMEDELAY, this, SLOT(update()));
-
     makeCurrent();
 }
 
