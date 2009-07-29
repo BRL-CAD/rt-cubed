@@ -61,7 +61,7 @@ public slots:
     void setProjection(int type);
     void setCameraMode(int type);
 
-    //void update();
+    void update();
 
 protected:
     /** Loads Ogre resources specified in the resources.cfg */
