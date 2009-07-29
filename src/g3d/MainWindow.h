@@ -30,12 +30,16 @@
 #define __G3D_MAINWINDOW_H__
 
 #include <QWidget>
+#include <QGraphicsScene>
 
 #include "ui_mainwindow.h"
 
+#include "OgreGraphicsView.h"
+#include "OgreGLWidget.h"
+
 #include "CommandInterpreter.h"
 
-class MainWindow : public QWidget, private Ui::MainWindow 
+class MainWindow : public OgreGraphicsView, private Ui::MainWindow 
 {
     Q_OBJECT
 
@@ -44,6 +48,10 @@ public:
     ~MainWindow();
 
 private:
+    QWidget *window;
+
+    OgreGLWidget *ogreView;
+    QGraphicsScene *scene;
     CommandInterpreter *cmdInterp;
 };
 

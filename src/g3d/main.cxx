@@ -31,7 +31,6 @@
 #include "Logger.h"
 
 #include "MainWindow.h"
-#include "OgreGraphicsView.h"
 
 int main(int argc, char** argv)
 {
@@ -51,17 +50,8 @@ int main(int argc, char** argv)
   // Set up Qt
   QApplication qapp(argc, argv);
   
-  //MainWindow *window = new MainWindow();
-  //window->show();
-
-  QGraphicsScene *scene = new QGraphicsScene();
-
-  QPushButton *whee = new QPushButton("Whee!");
-  scene->addWidget(whee);
-
-  OgreGraphicsView *view = new OgreGraphicsView(scene);
-  view->show();
-  
+  MainWindow *window = new MainWindow();
+  window->show();
 
   Logger::logDEBUG("Qt initialized.");
 

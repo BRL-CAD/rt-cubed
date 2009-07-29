@@ -52,6 +52,7 @@ class OgreGLWidget : public QGLWidget
     Q_OBJECT
 
     friend class OgreGraphicsView;
+
 public:
     OgreGLWidget(QWidget *parent = NULL);
     ~OgreGLWidget();
@@ -59,6 +60,8 @@ public:
 public slots:
     void setProjection(int type);
     void setCameraMode(int type);
+
+    //void update();
 
 protected:
     /** Loads Ogre resources specified in the resources.cfg */

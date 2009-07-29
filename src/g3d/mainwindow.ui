@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QWidget" name="MainWindow">
+ <widget class="QWidget" name="mainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,81 +15,69 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="margin">
-    <number>0</number>
+    <number>9</number>
    </property>
    <item>
-    <widget class="OgreGLWidget" name="ogreView" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+    <widget class="QWidget" name="widget_2" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="margin">
+       <number>0</number>
+      </property>
       <item>
-       <widget class="QWidget" name="widget_2" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="margin">
-          <number>0</number>
+       <widget class="QComboBox" name="cameraMode">
+        <item>
+         <property name="text">
+          <string>Blender camera</string>
          </property>
-         <item>
-          <widget class="QComboBox" name="cameraMode">
-           <item>
-            <property name="text">
-             <string>Blender camera</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>MGED camera</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Orbital camera</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="cameraProjection">
-           <item>
-            <property name="text">
-             <string>Orthographic</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Perspective</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
+        </item>
+        <item>
+         <property name="text">
+          <string>MGED camera</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Orbital camera</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>293</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="Console" name="console" native="true"/>
+       <widget class="QComboBox" name="cameraProjection">
+        <item>
+         <property name="text">
+          <string>Orthographic</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Perspective</string>
+         </property>
+        </item>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>293</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="Console" name="console" native="true"/>
+   </item>
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>OgreGLWidget</class>
-   <extends>QWidget</extends>
-   <header>OgreGLWidget.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>Console</class>
    <extends>QWidget</extends>

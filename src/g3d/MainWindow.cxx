@@ -30,9 +30,20 @@
 
 #include <QString>
 
-MainWindow::MainWindow() : cmdInterp(new CommandInterpreter())
+MainWindow::MainWindow() : window(new QWidget()),
+			   ogreView(new OgreGLWidget()),
+			   scene(new QGraphicsScene()),
+			   cmdInterp(new CommandInterpreter())
 {
-    setupUi(this);
+    setViewport(ogreView);
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    setScene(scene);
+    
+    setupUi(window);
+
+    window->setStyleSheet("background: transparent");
+
+    scene->addWidget(window);
 
     // WARNING: The entries of the cameraProjection dropdown MUST be
     // listed in the same order as the elements of
