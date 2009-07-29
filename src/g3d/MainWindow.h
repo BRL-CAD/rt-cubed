@@ -47,6 +47,8 @@ public:
     MainWindow();
     ~MainWindow();
 
+    void resizeEvent(QResizeEvent *event);
+
 private:
     QWidget *window;
 

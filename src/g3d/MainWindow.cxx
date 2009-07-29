@@ -44,6 +44,7 @@ MainWindow::MainWindow() : window(new QWidget()),
     window->setStyleSheet("background: transparent");
 
     scene->addWidget(window);
+    window->move(0, 0);
 
     // WARNING: The entries of the cameraProjection dropdown MUST be
     // listed in the same order as the elements of
@@ -72,6 +73,12 @@ MainWindow::~MainWindow()
     delete cmdInterp;
 }
 
+
+void MainWindow::resizeEvent(QResizeEvent *event) 
+{
+    window->resize(event->size() - QSize(1, 1));
+    OgreGraphicsView::resizeEvent(event);
+}
 
 /*
  * Local Variables:
