@@ -271,7 +271,7 @@ void OgreGLWidget::update()
 void OgreGLWidget::makeOgreCurrent() 
 {
 #ifdef Q_WS_X11
-    if(_display) {
+    if(_ogreContext != glXGetCurrentContext() && _display) {
 	glXMakeCurrent(_display, winId(), _ogreContext);
     }
 #else
