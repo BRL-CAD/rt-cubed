@@ -37,8 +37,6 @@
 #error OgreGLWidget is currently only implemented for GLX
 #endif
 
-#include <QTimer>
-
 #include <OGRE/Ogre.h>
 #include <OGRE/OgreLogManager.h>
 
