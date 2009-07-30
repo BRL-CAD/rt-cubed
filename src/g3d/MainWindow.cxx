@@ -45,7 +45,8 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 
     window->setStyleSheet("background: transparent");
 
-    scene->addWidget(window);
+    QGraphicsProxyWidget *windowProxy = scene->addWidget(window);
+    windowProxy->setAcceptHoverEvents(true);
     window->move(0, 0);
     window->setFocusPolicy(Qt::ClickFocus);
 
@@ -74,6 +75,7 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 MainWindow::~MainWindow() 
 {
     delete cmdInterp;
+    delete window;
 }
 
 
