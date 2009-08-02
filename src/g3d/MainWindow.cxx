@@ -43,8 +43,6 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
     
     setupUi(window);
 
-    window->setStyleSheet("background: transparent");
-
     QGraphicsProxyWidget *windowProxy = scene->addWidget(window);
     windowProxy->setAcceptHoverEvents(true);
     window->move(0, 0);

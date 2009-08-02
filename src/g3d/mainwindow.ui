@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>G3D</string>
   </property>
+  <property name="styleSheet">
+   <string>background: transparent</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="margin">
     <number>9</number>
@@ -25,6 +28,9 @@
       </property>
       <item>
        <widget class="QComboBox" name="cameraMode">
+        <property name="styleSheet">
+         <string>background: rgba(255, 255, 255, 64)</string>
+        </property>
         <item>
          <property name="text">
           <string>Blender camera</string>
@@ -44,6 +50,9 @@
       </item>
       <item>
        <widget class="QComboBox" name="cameraProjection">
+        <property name="styleSheet">
+         <string>background: rgba(255, 255, 255, 64)</string>
+        </property>
         <item>
          <property name="text">
           <string>Orthographic</string>
@@ -73,7 +82,11 @@
     </spacer>
    </item>
    <item>
-    <widget class="Console" name="console" native="true"/>
+    <widget class="Console" name="console" native="true">
+     <property name="styleSheet">
+      <string>background: rgba(255, 255, 255, 64)</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
