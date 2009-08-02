@@ -31,11 +31,10 @@
 #include <QString>
 #include <QApplication>
     
-
 MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 			   scene(new QGraphicsScene()),
 			   cmdInterp(new CommandInterpreter()),
-			   window(new CameraInputLayer(*ogreView))
+			   window(new SceneInputLayer(ogreView))
 {
     setViewport(ogreView);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);

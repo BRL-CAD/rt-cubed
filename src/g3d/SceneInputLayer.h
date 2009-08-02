@@ -1,4 +1,4 @@
-/*                  M A I N W I N D O W . H
+/*                  S C E N E I N P U T L A Y E R . H
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,44 +18,40 @@
  * information.
  */
 
-/** @file OgreGLWidget.h
+/** @file SceneInputLayer.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
  * @brief 
- *	Header for the main GUI
+ *	A widget to receive input for the 3D scene.
  */
 
-#ifndef __G3D_MAINWINDOW_H__
-#define __G3D_MAINWINDOW_H__
+#ifndef __G3D_CAMERAINPUTLAYER_H__
+#define __G3D_CAMERAINPUTLAYER_H__
 
 #include <QWidget>
-#include <QGraphicsScene>
 
-#include "ui_mainwindow.h"
-
-#include "OgreGraphicsView.h"
 #include "OgreGLWidget.h"
-#include "SceneInputLayer.h"
 
-#include "CommandInterpreter.h"
-
-class MainWindow : public OgreGraphicsView, private Ui::MainWindow
+class SceneInputLayer : public QWidget 
 {
     Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow();
+    SceneInputLayer(OgreGLWidget *target);
 
-    void resizeEvent(QResizeEvent *event);
+protected:
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
+    void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+    void wheelEvent(QWheelEvent *e);
 
 private:
-    OgreGLWidget *ogreView;
-    QGraphicsScene *scene;
-    CommandInterpreter *cmdInterp;
-    
-    SceneInputLayer *window;
+    Ogre::Camera *_camera;
+
+    OgreGLWidget *oglwidget;
 };
 
 #endif
