@@ -58,7 +58,7 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     _cameraCtl(new CameraModeBlender)
 {
     // We need to swap carefully to prevent flicker.
-    //setAutoBufferSwap(false);
+    setAutoBufferSwap(false);
     
     // Take keyboard focus after being clicked
     setFocusPolicy(Qt::ClickFocus);
