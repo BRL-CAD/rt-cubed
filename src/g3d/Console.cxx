@@ -34,14 +34,15 @@
 
 #include "Logger.h"
 
-Console::Console(QWidget *parent) : QWidget(parent)
+Console::Console(QWidget *parent) : QWidget(parent),
+				    layout(new QVBoxLayout(this)),
+				    entry(new QLineEdit()), output(new QLabel())
 {
-    layout = new QVBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(0);
     
-    output = new QLabel();
     output->setText("Console output goes here.");
+    output->setStyleSheet("border-radius: 9px");
     output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
     // Prevent lag first time the output is shown.
     output->ensurePolished();
@@ -49,7 +50,6 @@ Console::Console(QWidget *parent) : QWidget(parent)
     output->installEventFilter(this);
     layout->addWidget(output);
 
-    entry = new QLineEdit();
     entry->installEventFilter(this);
     layout->addWidget(entry);
     
