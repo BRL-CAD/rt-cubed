@@ -111,6 +111,9 @@ bool Console::eventFilter(QObject *obj, QEvent *event)
 	case Qt::Key_Down:
 	    entry->setText(QString(History::instance().getNext().c_str()));
 	    break;
+
+	default:
+	    return false;
 	}
 	
 	return true;
