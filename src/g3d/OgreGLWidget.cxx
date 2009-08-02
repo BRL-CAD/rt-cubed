@@ -50,8 +50,6 @@
 #define OGRE_LOG_FILE           (DATA_DIR "ogre.log")
 #define OGRE_RESOURCES_CFG_FILE (DATA_DIR "resources.cfg")
 
-#define FRAMEDELAY 10		// Milliseconds; 10ms == 100fps
-
 OgreGLWidget::OgreGLWidget(QWidget *parent) :
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
     _ogreContext(0), _renderWindow(0), _camera(0), _viewport(0), _scene(0),
