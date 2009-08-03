@@ -143,6 +143,7 @@ void Console::evalCmd()
     emit commandRan(entry->text());
     history.push_front(entry->text());
     historyIdx = 0;
+    history[0].clear();
     entry->clear();
 }
 
