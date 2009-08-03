@@ -1,4 +1,4 @@
-/*                  S C E N E I N P U T L A Y E R . H
+/*                  S C E N E I N P U T F I L T E R . H
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,37 +18,35 @@
  * information.
  */
 
-/** @file SceneInputLayer.h
+/** @file SceneInputFilter.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
  * @brief 
- *	A widget to receive input for the 3D scene.
+ *	A filter to handle input for the 3D scene.
  */
 
-#ifndef __G3D_CAMERAINPUTLAYER_H__
-#define __G3D_CAMERAINPUTLAYER_H__
+#ifndef __G3D_SCENEINPUTFILTER_H__
+#define __G3D_SCENEINPUTFILTER_H__
 
-#include <QWidget>
+#include <QObject>
+#include <QEvent>
 
 #include "OgreGLWidget.h"
 
-class SceneInputLayer : public QWidget 
+class SceneInputFilter : public QObject
 {
     Q_OBJECT
 
 public:
-    SceneInputLayer(OgreGLWidget *target);
+    SceneInputFilter(OgreGLWidget *target);
 
 protected:
-    void keyPressEvent(QKeyEvent *e);
-    void keyReleaseEvent(QKeyEvent *e);
-    void mousePressEvent(QMouseEvent *e);
-    void mouseReleaseEvent(QMouseEvent *e);
-    void mouseMoveEvent(QMouseEvent *e);
-    void wheelEvent(QWheelEvent *e);
-
+    bool eventFilter(QObject *, QEvent *event);
+    
 private:
+    bool maybeUpdate(bool value);
+
     Ogre::Camera *_camera;
 
     OgreGLWidget *oglwidget;

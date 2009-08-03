@@ -46,6 +46,7 @@
 // X defines these, breaking Qt's event type enum
 #undef KeyPress
 #undef KeyRelease
+#undef None
 #else
 #error OgreGLWidget is currently only implemented for GLX
 #endif

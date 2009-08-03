@@ -23,7 +23,7 @@ set(G3D_SOURCES
   MainWindow.cxx
   main.cxx
   OgreGraphicsView.cxx
-  SceneInputLayer.cxx
+  SceneInputFilter.cxx
   )
 
 set(G3D_HEADERS
@@ -50,7 +50,7 @@ set(G3D_MOC_HEADERS
   MainWindow.h
   Console.h
   OgreGraphicsView.h
-  SceneInputLayer.h
+  SceneInputFilter.h
   )
 
 set(G3D_UIS

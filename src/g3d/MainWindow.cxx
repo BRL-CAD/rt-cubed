@@ -29,12 +29,13 @@
 #include "MainWindow.h"
 
 #include <QString>
-#include <QApplication>
-    
+#include <QGraphicsProxyWidget>
+
 MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 			   scene(new QGraphicsScene()),
 			   cmdInterp(new CommandInterpreter()),
-			   window(new SceneInputLayer(ogreView))
+			   window(new QWidget()),
+			   inputFilter(new SceneInputFilter(ogreView))
 {
     setViewport(ogreView);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
@@ -46,6 +47,7 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
     windowProxy->setAcceptHoverEvents(true);
     window->move(0, 0);
     window->setFocusPolicy(Qt::ClickFocus);
+    window->installEventFilter(inputFilter);
 
     // WARNING: The entries of the cameraProjection dropdown MUST be
     // listed in the same order as the elements of

@@ -36,7 +36,7 @@
 
 #include "OgreGraphicsView.h"
 #include "OgreGLWidget.h"
-#include "SceneInputLayer.h"
+#include "SceneInputFilter.h"
 
 #include "CommandInterpreter.h"
 
@@ -54,8 +54,10 @@ private:
     OgreGLWidget *ogreView;
     QGraphicsScene *scene;
     CommandInterpreter *cmdInterp;
-    
-    SceneInputLayer *window;
+
+    QWidget *window;
+
+    SceneInputFilter *inputFilter;
 };
 
 #endif
