@@ -137,10 +137,13 @@ bool Console::eventFilter(QObject *obj, QEvent *event)
 
 void Console::evalCmd() 
 {
+    if(entry->text().isEmpty()) {
+	return;
+    }
+    // TODO: Debug strange behavior when executing historical commands.
     emit commandRan(entry->text());
     history.push_front(entry->text());
     entry->clear();
-    history[0].clear();
 }
 
 void Console::updateCurrentHist() 
