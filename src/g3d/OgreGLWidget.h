@@ -43,7 +43,7 @@
 #ifdef Q_WS_X11
 #include "qmetatype.h"
 #include <GL/glx.h>
-// X defines these, breaking Qt's event type enum
+// X defines these, breaking a variety of Qt bits
 #undef KeyPress
 #undef KeyRelease
 #undef None

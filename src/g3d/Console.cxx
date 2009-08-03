@@ -30,13 +30,13 @@
 
 #include "Command.h"
 #include "CommandInterpreter.h"
-#include "History.h"
 
 #include "Logger.h"
 
 Console::Console(QWidget *parent) : QWidget(parent),
 				    layout(new QVBoxLayout(this)),
-				    entry(new QLineEdit()), output(new QLabel())
+				    entry(new QLineEdit()), output(new QLabel()),
+				    history(1), historyIdx(0)
 {
     layout->setMargin(0);
     layout->setSpacing(0);
@@ -56,8 +56,13 @@ Console::Console(QWidget *parent) : QWidget(parent),
     QObject::connect(entry, SIGNAL(returnPressed(void)),
 		     this, SLOT(evalCmd(void)));
 
+    QObject::connect(entry, SIGNAL(textEdited(QString)),
+		     this, SLOT(updateCurrentHist(void)));
+
     // TODO: Replace this with signal/slot
     Logger::instance().attach(this);
+
+    history[0] = "";
 }
 
 Console::~Console() 
@@ -105,11 +110,15 @@ bool Console::eventFilter(QObject *obj, QEvent *event)
 	
 	switch(static_cast<QKeyEvent*>(event)->key()) {
 	case Qt::Key_Up:
-	    entry->setText(QString(History::instance().getPrev().c_str()));
+	    if(historyIdx < (history.size() - 1)) {
+		entry->setText(history[++historyIdx]);
+	    }
 	    break;
 
 	case Qt::Key_Down:
-	    entry->setText(QString(History::instance().getNext().c_str()));
+	    if(historyIdx > 0) {
+		entry->setText(history[--historyIdx]);
+	    }
 	    break;
 
 	default:
@@ -126,13 +135,17 @@ bool Console::eventFilter(QObject *obj, QEvent *event)
     return false;
 }
 
-// TODO: Doesn't appear to get signaled.
 void Console::evalCmd() 
 {
     emit commandRan(entry->text());
-    // TODO: Replace History with a simple STL container
-    History::instance().insert(entry->text().toStdString().c_str());
+    history.push_front(entry->text());
     entry->clear();
+    history[0].clear();
+}
+
+void Console::updateCurrentHist() 
+{
+    history[0] = entry->text();
 }
 
 

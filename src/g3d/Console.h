@@ -30,6 +30,7 @@
 #define __G3D_CONSOLE_H__
 
 #include <queue>
+#include <vector>
 
 #include <QtGui>
 
@@ -59,6 +60,7 @@ protected:
 
 protected slots:
     void evalCmd();
+    void updateCurrentHist();
 
 private:
     QVBoxLayout *layout;
@@ -67,6 +69,8 @@ private:
     QLabel *output;
 
     std::deque<QString> outputLines;
+    std::deque<QString> history;
+    unsigned historyIdx;
 };
 
 #endif
