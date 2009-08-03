@@ -30,8 +30,9 @@
 
 CommandDialog::CommandDialog() 
 {
-    setupUi(this);
+    setWindowFlags(Qt::FramelessWindowHint);
 
+    setupUi(this);
     QObject::connect(runButton, SIGNAL(clicked(void)),
 		     entry, SLOT(entryComplete(void)));
 }

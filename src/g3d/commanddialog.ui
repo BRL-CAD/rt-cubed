@@ -11,14 +11,25 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Command</string>
+  </property>
+  <property name="styleSheet">
+   <string>border-radius: 2px;
+background: rgba(255, 255, 255, 64);</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="HistoryLineEdit" name="entry"/>
+    <widget class="HistoryLineEdit" name="entry">
+     <property name="styleSheet">
+      <string>border-radius: 0px</string>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QPushButton" name="runButton">
+     <property name="styleSheet">
+      <string>border-radius: 0px</string>
+     </property>
      <property name="text">
       <string>Run</string>
      </property>
