@@ -140,9 +140,9 @@ void Console::evalCmd()
     if(entry->text().isEmpty()) {
 	return;
     }
-    // TODO: Debug strange behavior when executing historical commands.
     emit commandRan(entry->text());
     history.push_front(entry->text());
+    historyIdx = 0;
     entry->clear();
 }
 
