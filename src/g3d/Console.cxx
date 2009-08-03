@@ -61,8 +61,6 @@ Console::Console(QWidget *parent) : QWidget(parent),
 
     // TODO: Replace this with signal/slot
     Logger::instance().attach(this);
-
-    history[0] = "";
 }
 
 Console::~Console() 
@@ -141,9 +139,8 @@ void Console::evalCmd()
 	return;
     }
     emit commandRan(entry->text());
-    history.push_front(entry->text());
+    history.push_front(QString());
     historyIdx = 0;
-    history[0].clear();
     entry->clear();
 }
 
