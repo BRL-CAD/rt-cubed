@@ -1,4 +1,4 @@
-/*                  M A I N W I N D O W . H
+/*                  C O N S O L E . C X X
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file OgreGLWidget.h
+/** @file Console.cxx
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
