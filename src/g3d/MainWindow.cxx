@@ -38,6 +38,8 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 			   inputFilter(new SceneInputFilter(ogreView)),
 			   cmdDialog(new CommandDialog())
 {
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setViewport(ogreView);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     setScene(scene);
