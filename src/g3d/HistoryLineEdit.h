@@ -1,4 +1,4 @@
-/*                  C O N S O L E . H
+/*                  M A I N W I N D O W . H
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,56 +18,37 @@
  * information.
  */
 
-/** @file Console.h
+/** @file OgreGLWidget.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
  * @brief 
- *	Header for the Console widget
+ *	QLineEdit with input history
  */
 
-#ifndef __G3D_CONSOLE_H__
-#define __G3D_CONSOLE_H__
+#ifndef __G3D_HISTORYLINEEDIT_H__
+#define __G3D_HISTORYLINEEDIT_H__
 
 #include <queue>
 
-#include <QtGui>
+#include <QLineEdit>
 
-#include "HistoryLineEdit.h"
-#include "Observer.h"
-
-/** Maximum number lines of output displayed. */
-#define CONSOLE_OUTPUT_LINES 8
-
-class Console : public QWidget, public Observer
+class HistoryLineEdit : public QLineEdit
 {
     Q_OBJECT
 
 public:
-    Console(QWidget *parent = NULL);
-    ~Console();
-
-    void update(const ObserverEvent &event);
-
+    HistoryLineEdit(QWidget *parent = NULL);
+    
 public slots:
-    void pushOutput(QString str);
-
-signals:
-    void commandRan(QString command);
+    void entryComplete();
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
-
-protected slots:
-    void evalCmd();
-
+    void keyPressEvent(QKeyEvent *event);
+	
 private:
-    QVBoxLayout *layout;
-    
-    HistoryLineEdit *entry;
-    QLabel *output;
-
-    std::deque<QString> outputLines;
+    std::deque<QString> history;
+    unsigned historyIdx;
 };
 
 #endif

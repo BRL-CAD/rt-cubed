@@ -35,8 +35,7 @@
 
 Console::Console(QWidget *parent) : QWidget(parent),
 				    layout(new QVBoxLayout(this)),
-				    entry(new QLineEdit()), output(new QLabel()),
-				    history(1), historyIdx(0)
+				    entry(new HistoryLineEdit()), output(new QLabel())
 {
     layout->setMargin(0);
     layout->setSpacing(0);
@@ -55,9 +54,6 @@ Console::Console(QWidget *parent) : QWidget(parent),
     
     QObject::connect(entry, SIGNAL(returnPressed(void)),
 		     this, SLOT(evalCmd(void)));
-
-    QObject::connect(entry, SIGNAL(textEdited(QString)),
-		     this, SLOT(updateCurrentHist(void)));
 
     // TODO: Replace this with signal/slot
     Logger::instance().attach(this);
@@ -88,7 +84,7 @@ void Console::update(const ObserverEvent &event)
 }
 
 
-bool Console::eventFilter(QObject *obj, QEvent *event) 
+bool Console::eventFilter(QObject *, QEvent *event) 
 {
     switch(event->type())
     {
@@ -99,32 +95,6 @@ bool Console::eventFilter(QObject *obj, QEvent *event)
     case QEvent::Leave:
 	output->hide();
 	return true;
-
-    case QEvent::KeyPress:
-    {
-	if(obj != entry) {
-	    break;
-	}
-	
-	switch(static_cast<QKeyEvent*>(event)->key()) {
-	case Qt::Key_Up:
-	    if(historyIdx < (history.size() - 1)) {
-		entry->setText(history[++historyIdx]);
-	    }
-	    break;
-
-	case Qt::Key_Down:
-	    if(historyIdx > 0) {
-		entry->setText(history[--historyIdx]);
-	    }
-	    break;
-
-	default:
-	    return false;
-	}
-	
-	return true;
-    }
 
     default:
 	break;
@@ -138,16 +108,8 @@ void Console::evalCmd()
     if(entry->text().isEmpty()) {
 	return;
     }
-    updateCurrentHist();
     emit commandRan(entry->text());
-    history.push_front("");
-    historyIdx = 0;
-    entry->clear();
-}
-
-void Console::updateCurrentHist() 
-{
-    history[0] = entry->text();
+    entry->entryComplete();
 }
 
 

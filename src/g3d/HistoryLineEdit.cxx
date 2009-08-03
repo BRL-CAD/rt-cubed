@@ -1,4 +1,4 @@
-/*                  C O N S O L E . H
+/*                  M A I N W I N D O W . H
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,59 +18,56 @@
  * information.
  */
 
-/** @file Console.h
+/** @file OgreGLWidget.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
  * @brief 
- *	Header for the Console widget
+ *	Implementation for the Console widget
  */
 
-#ifndef __G3D_CONSOLE_H__
-#define __G3D_CONSOLE_H__
-
-#include <queue>
-
-#include <QtGui>
-
 #include "HistoryLineEdit.h"
-#include "Observer.h"
 
-/** Maximum number lines of output displayed. */
-#define CONSOLE_OUTPUT_LINES 8
+#include <QKeyEvent>
 
-class Console : public QWidget, public Observer
+HistoryLineEdit::HistoryLineEdit(QWidget *parent) : QLineEdit(parent),
+						    history(1), historyIdx(0)
 {
-    Q_OBJECT
+}
 
-public:
-    Console(QWidget *parent = NULL);
-    ~Console();
+void HistoryLineEdit::keyPressEvent(QKeyEvent *event)
+{
+    switch(event->key()) {
+    case Qt::Key_Up:
+	if(historyIdx < (history.size() - 1)) {
+	    setText(history[++historyIdx]);
+	}
+	break;
 
-    void update(const ObserverEvent &event);
+    case Qt::Key_Down:
+	if(historyIdx > 0) {
+	    setText(history[--historyIdx]);
+	}
+	break;
 
-public slots:
-    void pushOutput(QString str);
+    default:
+	QLineEdit::keyPressEvent(event);
+	history[0] = text();
+	break;
+    }
+}
 
-signals:
-    void commandRan(QString command);
+void HistoryLineEdit::entryComplete() 
+{
+    if(text().isEmpty()) {
+	return;
+    }
+    history[0] = text();
+    history.push_front("");
+    historyIdx = 0;
+    clear();
+}
 
-protected:
-    bool eventFilter(QObject *obj, QEvent *event);
-
-protected slots:
-    void evalCmd();
-
-private:
-    QVBoxLayout *layout;
-    
-    HistoryLineEdit *entry;
-    QLabel *output;
-
-    std::deque<QString> outputLines;
-};
-
-#endif
 
 /*
  * Local Variables:

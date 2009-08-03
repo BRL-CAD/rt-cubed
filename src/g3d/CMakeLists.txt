@@ -23,6 +23,7 @@ set(G3D_SOURCES
   main.cxx
   OgreGraphicsView.cxx
   SceneInputFilter.cxx
+  HistoryLineEdit.cxx
   )
 
 set(G3D_HEADERS
@@ -49,6 +50,7 @@ set(G3D_MOC_HEADERS
   Console.h
   OgreGraphicsView.h
   SceneInputFilter.h
+  HistoryLineEdit.h
   )
 
 set(G3D_UIS
