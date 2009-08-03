@@ -1,4 +1,4 @@
-/*                  M A I N W I N D O W . H
+/*                  C O M M A N D D I A L O G . C X X 
  * BRL-CAD
  *
  * Copyright (c) 2008-2009 United States Government as represented by the
@@ -18,52 +18,23 @@
  * information.
  */
 
-/** @file MainWindow.h
+/** @file CommandDialog.cxx
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
  * @brief 
- *	Header for the main GUI
+ *	Implementation for the command popup
  */
 
-#ifndef __G3D_MAINWINDOW_H__
-#define __G3D_MAINWINDOW_H__
-
-#include <QWidget>
-#include <QGraphicsScene>
-
-#include "ui_mainwindow.h"
-
-#include "OgreGraphicsView.h"
-#include "OgreGLWidget.h"
 #include "CommandDialog.h"
-#include "SceneInputFilter.h"
 
-#include "CommandInterpreter.h"
-
-class MainWindow : public OgreGraphicsView, private Ui::MainWindow
+CommandDialog::CommandDialog() 
 {
-    Q_OBJECT
+    setupUi(this);
 
-public:
-    MainWindow();
-    ~MainWindow();
-
-    void resizeEvent(QResizeEvent *event);
-
-private:
-    OgreGLWidget *ogreView;
-    QGraphicsScene *scene;
-    CommandInterpreter *cmdInterp;
-
-    QWidget *window;
-
-    SceneInputFilter *inputFilter;
-
-    CommandDialog *cmdDialog;
-};
-
-#endif
+    QObject::connect(runButton, SIGNAL(clicked(void)),
+		     entry, SLOT(entryComplete(void)));
+}
 
 /*
  * Local Variables:

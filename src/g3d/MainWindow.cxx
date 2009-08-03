@@ -18,7 +18,7 @@
  * information.
  */
 
-/** @file OgreGLWidget.h
+/** @file MainWindow.h
  *
  * @author Benjamin Saunders <ralith@users.sourceforge.net>
  *
@@ -35,7 +35,8 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 			   scene(new QGraphicsScene()),
 			   cmdInterp(new CommandInterpreter()),
 			   window(new QWidget()),
-			   inputFilter(new SceneInputFilter(ogreView))
+			   inputFilter(new SceneInputFilter(ogreView)),
+			   cmdDialog(new CommandDialog())
 {
     setViewport(ogreView);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
@@ -48,6 +49,10 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
     window->move(0, 0);
     window->setFocusPolicy(Qt::ClickFocus);
     window->installEventFilter(inputFilter);
+
+    cmdDialog->move(100, 100);
+    scene->addWidget(cmdDialog);
+    cmdDialog->hide();
 
     // WARNING: The entries of the cameraProjection dropdown MUST be
     // listed in the same order as the elements of
@@ -66,6 +71,9 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 		     cmdInterp, SLOT(execute(QString)));
     QObject::connect(cmdInterp, SIGNAL(commandDone(QString)),
 		     console, SLOT(pushOutput(QString)));
+
+    QObject::connect(commandButton, SIGNAL(clicked(void)),
+		     cmdDialog, SLOT(show(void)));
 
     // Give focus to the render area, and thus camera control.
     window->setFocus(Qt::OtherFocusReason);

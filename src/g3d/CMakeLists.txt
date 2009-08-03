@@ -24,6 +24,7 @@ set(G3D_SOURCES
   OgreGraphicsView.cxx
   SceneInputFilter.cxx
   HistoryLineEdit.cxx
+  CommandDialog.cxx
   )
 
 set(G3D_HEADERS
@@ -51,10 +52,12 @@ set(G3D_MOC_HEADERS
   OgreGraphicsView.h
   SceneInputFilter.h
   HistoryLineEdit.h
+  CommandDialog.h
   )
 
 set(G3D_UIS
   mainwindow.ui
+  commanddialog.ui
   )
 
 set(RBGUI_DIR "../../data/g3d/RBGui")
