@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>Command</class>
  <widget class="QDialog" name="Command">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,21 +17,19 @@
    <string>Command</string>
   </property>
   <property name="styleSheet">
-   <string>border-radius: 2px;
-background: rgba(255, 255, 255, 64);</string>
+   <string>background: rgba(255, 255, 255, 32);</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="HistoryLineEdit" name="entry">
-     <property name="styleSheet">
-      <string>border-radius: 0px</string>
-     </property>
-    </widget>
+    <widget class="HistoryLineEdit" name="entry"/>
    </item>
    <item>
     <widget class="QPushButton" name="runButton">
-     <property name="styleSheet">
-      <string>border-radius: 0px</string>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
      <property name="text">
       <string>Run</string>
