@@ -39,6 +39,9 @@ class CommandDialog : public QDialog, private Ui::Command
 
 public:
     CommandDialog();
+
+protected:
+    void focusInEvent(QFocusEvent *);
 };
 
 #endif

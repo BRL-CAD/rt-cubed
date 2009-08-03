@@ -76,6 +76,8 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 
     QObject::connect(commandButton, SIGNAL(clicked(void)),
 		     cmdDialog, SLOT(show(void)));
+    QObject::connect(commandButton, SIGNAL(clicked(void)),
+		     cmdDialog, SLOT(setFocus(void)));
 
     // Give focus to the render area, and thus camera control.
     window->setFocus(Qt::OtherFocusReason);

@@ -37,6 +37,11 @@ CommandDialog::CommandDialog()
 		     entry, SLOT(entryComplete(void)));
 }
 
+void CommandDialog::focusInEvent(QFocusEvent *) 
+{
+    entry->setFocus();
+}
+
 /*
  * Local Variables:
  * mode: C++
