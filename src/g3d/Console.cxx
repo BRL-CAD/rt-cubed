@@ -138,8 +138,9 @@ void Console::evalCmd()
     if(entry->text().isEmpty()) {
 	return;
     }
+    updateCurrentHist();
     emit commandRan(entry->text());
-    history.push_front(QString());
+    history.push_front("");
     historyIdx = 0;
     entry->clear();
 }
