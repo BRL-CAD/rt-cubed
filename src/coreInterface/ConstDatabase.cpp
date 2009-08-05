@@ -38,6 +38,7 @@
 #include <brlcad/Ellipsoid.h>
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
+#include <brlcad/Particle.h>
 #include <brlcad/Combination.h>
 #include <brlcad/Unknown.h>
 #include <brlcad/ConstDatabase.h>
@@ -260,27 +261,31 @@ void ConstDatabase::Get
 
                     try {
                         switch(id) {
-                        case ID_TOR:
+                        case ID_TOR: // 1
                             callback(Torus(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
-                        case ID_TGC:
+                        case ID_TGC: // 2
                             callback(Cone(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
-                        case ID_ELL:
+                        case ID_ELL: // 3
                             callback(Ellipsoid(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
-                        case ID_ARB8:
+                        case ID_ARB8: // 4
                             callback(Arb8(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
-                        case ID_HALF:
+                        case ID_HALF: // 6
                             callback(Halfspace(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
-                        case ID_COMBINATION:
+                        case ID_PARTICLE: // 16
+                            callback(Particle(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
+
+                        case ID_COMBINATION: // 31
                             callback(Combination(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
