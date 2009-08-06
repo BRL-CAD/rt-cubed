@@ -55,32 +55,8 @@ Console::Console(QWidget *parent) : QWidget(parent),
     QObject::connect(entry, SIGNAL(returnPressed(void)),
 		     this, SLOT(evalCmd(void)));
 
-    // TODO: Replace this with signal/slot
-    Logger::instance().attach(this);
-}
-
-Console::~Console() 
-{
-    Logger::instance().detach(this);
-}
-
-
-void Console::update(const ObserverEvent &event) 
-{
-    // logger events
-    {
-	const LoggerObserverEvent* e = dynamic_cast<const LoggerObserverEvent*>(&event);
-	if (e) {
-	    switch (e->_actionId) {
-	    case LoggerObserverEvent::ADDED_ENTRY:
-		pushOutput(QString(e->_content.c_str()));
-		break;
-	    default:
-		break;
-	    }
-	    return;
-	}
-    }
+    QObject::connect(&(Logger::instance()), SIGNAL(messageLogged(QString)),
+		     this, SLOT(pushOutput(QString)));
 }
 
 

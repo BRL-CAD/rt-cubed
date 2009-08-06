@@ -115,8 +115,7 @@ void Logger::log(Level level, const char* msg)
     fprintf(stderr, fullMsg);
     fprintf(stderr, "\n");
 
-    // notify observers
-    notify(LoggerObserverEvent(LoggerObserverEvent::ADDED_ENTRY, fullMsg));
+    emit messageLogged(QString(fullMsg));
   }
 }
 

@@ -34,20 +34,16 @@
 #include <QtGui>
 
 #include "HistoryLineEdit.h"
-#include "Observer.h"
 
 /** Maximum number lines of output displayed. */
 #define CONSOLE_OUTPUT_LINES 8
 
-class Console : public QWidget, public Observer
+class Console : public QWidget
 {
     Q_OBJECT
 
 public:
     Console(QWidget *parent = NULL);
-    ~Console();
-
-    void update(const ObserverEvent &event);
 
 public slots:
     void pushOutput(QString str);

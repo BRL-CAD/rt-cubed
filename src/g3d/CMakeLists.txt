@@ -18,7 +18,6 @@ set(G3D_SOURCES
   Console.cxx
   OgreGLWidget.cxx
   Logger.cxx
-  Observer.cxx
   MainWindow.cxx
   main.cxx
   OgreGraphicsView.cxx
@@ -38,8 +37,6 @@ set(G3D_HEADERS
   GedCommands.h
   GedData.h
   Console.h
-  Logger.h
-  Observer.h
   MainWindow.h
   )
 
@@ -53,6 +50,7 @@ set(G3D_MOC_HEADERS
   SceneInputFilter.h
   HistoryLineEdit.h
   CommandDialog.h
+  Logger.h
   )
 
 set(G3D_UIS

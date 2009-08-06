@@ -58,32 +58,10 @@
 #include <string>
 #include <vector>
 
+#include <QObject>
+#include <QString>
+
 #include "../../include/Utility/Singleton.h"
-
-#include "Observer.h"
-
-
-/**
- * @brief ObserverEvent for Logger
- *
- * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
- */
-class LoggerObserverEvent: public ObserverEvent
-{
-public:
-  /** Action Identifier enumerator */
-  enum ActionId { ADDED_ENTRY = 1 };
-
-  /** Action Identifier */
-  const ActionId _actionId;
-  /** Content of the event */
-  const std::string _content;
-
-
-  /** Default constructor */
-  LoggerObserverEvent(ActionId id, const std::string& content) :
-    ObserverEvent("LoggerObserverEvent"), _actionId(id), _content(content) { }
-};
 
 
 /** @brief Class implementing logging facilities
@@ -91,8 +69,9 @@ public:
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
  *
  */
-class Logger : public ObserverSubject, public Singleton<Logger>
+class Logger : public QObject, public Singleton<Logger>
 {
+  Q_OBJECT
 public:
   /** Encodes priority levels and names */
   enum Level {
@@ -127,6 +106,9 @@ public:
   static void logINFO(const char* msg, ...) __attribute__((format(printf, 1, 2)));
   /** Log a DEBUG message */
   static void logDEBUG(const char* msg, ...) __attribute__((format(printf, 1, 2)));
+
+signals:
+  void messageLogged(QString);
 
 private:
   /** Friend access for the Singleton */
