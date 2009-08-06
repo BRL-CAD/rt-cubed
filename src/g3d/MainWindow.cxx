@@ -53,7 +53,8 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
     window->installEventFilter(inputFilter);
 
     cmdDialog->move(100, 100);
-    scene->addWidget(cmdDialog);
+    QGraphicsProxyWidget *cmdDialogProxy = scene->addWidget(cmdDialog);
+    cmdDialogProxy->setFlag(QGraphicsItem::ItemIsMovable);
     cmdDialog->hide();
 
     // WARNING: The entries of the cameraProjection dropdown MUST be
