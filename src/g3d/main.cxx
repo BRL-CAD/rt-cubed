@@ -56,7 +56,11 @@ int main(int argc, char** argv)
   Logger::logDEBUG("Qt initialized.");
 
   // Main loop
-  return qapp.exec();
+  int ret = qapp.exec();
+
+  delete window;
+
+  return ret;
 }
 
 
