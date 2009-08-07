@@ -86,8 +86,12 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 
 MainWindow::~MainWindow() 
 {
-    delete cmdInterp;
+    delete cmdDialog;
+    delete inputFilter;
     delete window;
+    delete cmdInterp;
+    delete scene;
+    delete ogreView;
 }
 
 
