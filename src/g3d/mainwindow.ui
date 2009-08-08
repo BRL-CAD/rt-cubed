@@ -62,6 +62,9 @@
         <property name="text">
          <string>Command Dialog</string>
         </property>
+        <property name="shortcut">
+         <string>C</string>
+        </property>
        </widget>
       </item>
       <item>
