@@ -8,7 +8,7 @@
 #ifndef _UUID_VERS_H_
 #define _UUID_VERS_H_
 
-#define _UUID__VERSION 0x106202
+#define _UUID_VERSION 0x106202
 
 typedef struct {
     const int   v_hex;
