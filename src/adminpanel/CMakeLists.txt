@@ -26,26 +26,32 @@
 #
 ##########################################################################
 
-
 MESSAGE(STATUS "")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "##      Configuring AdminControlPanel         ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
 
+PROJECT(acp)
+
+IF(COMMAND cmake_policy)
+	cmake_policy(SET CMP0003 NEW)
+ENDIF(COMMAND cmake_policy)
+
+
+INCLUDE (${QT_USE_FILE})
+SET (QT_USE_QTNETWORK TRUE)
 
 set(ACP_SOURCES
+	acpMain.cxx
 	AdminControlPanel.cxx
 )
 
 INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR}")
 
-ADD_LIBRARY (acp SHARED ${ACP_SOURCES})
+ADD_EXECUTABLE (acp ${ACP_SOURCES})
+TARGET_LINK_LIBRARIES(acp ${QT_LIBRARIES})
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")
-
-
-
-

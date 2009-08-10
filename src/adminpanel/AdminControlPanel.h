@@ -26,14 +26,20 @@
 #ifndef __ADMINCONTROLPANEL_H__
 #define __ADMINCONTROLPANEL_H__
 
+#include <QTcpSocket>
+#include <QString>
 
 class AdminControlPanel
 {
 
+public:
+  AdminControlPanel();
+  virtual ~AdminControlPanel();
 
-    public:
-      AdminControlPanel();
-      virtual ~AdminControlPanel();
+  void connectToHost(const QString& hostName, quint16 port);
+
+private:
+  QTcpSocket sock;
  
 };
 

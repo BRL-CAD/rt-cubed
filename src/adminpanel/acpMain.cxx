@@ -1,4 +1,4 @@
-/*           A D M I N C O N T R O L P A N E L . C X X
+/*                     A C P M A I N . C X X
  * BRL-CAD
  *
  * Copyright (c) 2009 United States Government as represented by
@@ -17,34 +17,32 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file AdminControlPanel.cxx
+/** @file acpMain.cxx
  *
- * Brief description
+ * Administration Control Panel application entry point
  *
  */
 
+#include <iostream>
 #include "AdminControlPanel.h"
 
-AdminControlPanel::AdminControlPanel()
+
+int main(int argc, char* argv[])
 {
 
-}
-AdminControlPanel::~AdminControlPanel()
-{
 
-}
+  std::cout << "Hello World!!! Brought to you by ACP.";
 
-void AdminControlPanel::connectToHost(const QString& hostName, quint16 port)
-{
-  this->sock.connectToHost(hostName, port);
+  return 0;
 }
 
 
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+// Local Variables:
+// tab-width: 8
+// mode: C++
+// c-basic-offset: 4
+// indent-tabs-mode: t
+// c-file-style: "stroustrup"
+// End:
+// ex: shiftwidth=4 tabstop=8
