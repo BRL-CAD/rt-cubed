@@ -40,12 +40,9 @@ MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
 
 
 SET(GS_SOURCES
-	AbstractPortal.cxx
 	NetSockPortal.cxx
-	AbstractPortalManager.cxx
 	NetSockPortalManager.cxx
 	GeometryService.cxx
-	IntraAppPortal.cxx
 	AbstractDbObjectSource.cxx
 	SourceDiskLink.cxx
 	SourceSvnLink.cxx
@@ -75,9 +72,7 @@ SET(GS_SOURCES
 )
 
 QT4_WRAP_CPP(GS_MOCCED_HEADERS
-	${RT3_INCLUDE_DIR}/GS/AbstractPortal.h
 	${RT3_INCLUDE_DIR}/GS/NetSockPortal.h
-	${RT3_INCLUDE_DIR}/GS/AbstractPortalManager.h
 	${RT3_INCLUDE_DIR}/GS/NetSockPortalManager.h
 )
 

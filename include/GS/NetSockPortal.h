@@ -26,35 +26,36 @@
 #ifndef __NETSOCKPORTAL_H__
 #define __NETSOCKPORTAL_H__
 
-#include "GS/AbstractPortal.h"
 #include <QTcpSocket>
 #include <QString>
 
-class NetSockPortal : public AbstractPortal
+class NetSockPortal : public QTcpSocket
 {
-
   Q_OBJECT
 
+  friend class NetSockPortalManager;
+
 public:
-  NetSockPortal(QTcpSocket* socket);
+  NetSockPortal(QObject* parent = 0);
   virtual ~NetSockPortal();
 
-   enum PortalStatus
-   {
-      Handshaking,
-      Ready,
-      Failed,
-   };
-
-
-private slots:
-  void handleReadyRead();
-  void handleConnected();
-  void handleDisconnected();
+  enum {
+    Handshaking_HostNameLen = 0,
+    Handshaking_HostName = 5,
+    Handshaking_VersionLen = 10,
+    Handshaking_Version = 15,
+    Ready = 100,
+    Failed = 105,
+  };
 
 private:
-  QString remoteHostName;
-  QTcpSocket* sock;
+  quint32 remHostNameLen;
+  QString remHostName;
+  quint32 remVersionLen;
+  QString remVersion;
+
+  int portStatus;
+
 
 };
 

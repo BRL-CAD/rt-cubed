@@ -19,7 +19,7 @@
  */
 /** @file AdminControlPanel.h
  *
- * Brief description
+ * All the functionality for the Admin Control Panel app.
  *
  */
 

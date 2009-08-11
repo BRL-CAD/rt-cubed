@@ -43,8 +43,6 @@ INCLUDE_DIRECTORIES (${IBME_INCLUDE_DIRS})
 MESSAGE(STATUS "Include Directories: ${IBME_INCLUDE_DIRS}")
 
 
-
-
 ADD_EXECUTABLE(streamSerialTests ../tests/streamSerialTests.cxx)
 TARGET_LINK_LIBRARIES(streamSerialTests ge)
 

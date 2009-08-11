@@ -25,35 +25,46 @@
 #ifndef __NETSOCKPORTALMANAGER_H__
 #define __NETSOCKPORTALMANAGER_H__
 
-#include "GS/AbstractPortalManager.h"
 #include "GS/NetSockPortal.h"
 
 #include <QTcpServer>
 #include <QHostAddress>
 #include <QMap>
 #include <QUuid>
+#include <QList>
+#include <QByteArray>
 
-class NetSockPortalManager : public AbstractPortalManager
+class NetSockPortalManager : public QTcpServer
 {
     Q_OBJECT
 
 public:
-    NetSockPortalManager();
+    NetSockPortalManager(QString hostName, QString version, QObject* parent = 0);
     ~NetSockPortalManager();
 
-    bool listen(quint16 port);
-    bool listen(QHostAddress& host, quint16 port);
-    void stopListening();
+    NetSockPortal nextPendingPortal();
+    bool hasPendingPortal();
+
+    NetSockPortal* connectTo(QHostAddress addy, quint16 port);
 
 protected:
+    void incomingConnection(int socketDescriptor);
+    NetSockPortal* prepareNewPortal(QTcpSocket* sock);
 
-private slots:
-    void handleNewConnection();
+protected slots:
+    void handlePortalHandshake();
+    void sendHostVersionOnConnect();
 
 private:
+    static const quint16 MaxRemoteHostNameLen = 512;
+
+    QString localHostName;
+    QString localVersion;
 
     QMap<QString, NetSockPortal* > portalList;
-    QTcpServer* listenServer;
+
+    QList<NetSockPortal* > pendingConns;
+    QList<NetSockPortal* > handshakingConns;
 
 };
 

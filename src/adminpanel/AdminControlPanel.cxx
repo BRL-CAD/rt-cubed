@@ -19,13 +19,14 @@
  */
 /** @file AdminControlPanel.cxx
  *
- * Brief description
+ * All the functionality for the Admin Control Panel app.
  *
  */
 
 #include "AdminControlPanel.h"
-#include <QHostAddress>
 
+#include <QHostAddress>
+#include <QByteArray>
 
 AdminControlPanel::AdminControlPanel(int& argc, char* argv[]) : QCoreApplication(argc, argv)
 {
@@ -79,6 +80,18 @@ bool AdminControlPanel::handleCommand(QStringList* cmdStack)
       this->sock->disconnectFromHost();
     }
 
+  } else if (cmdl == "sendtext" ) {
+    if (cmdStack->size() <= 1) {
+      std::cout << "\tUsage:  sendtext text to send." << std::endl;
+      retVal = false;
+    } else {
+      QStringList temp(*cmdStack);
+      temp.removeFirst();
+      QString text = temp.join(" ");
+      QByteArray ba = text.toUtf8();
+
+      this->sock->write(ba);
+    }
 
   } else {
     std::cout << "\tUnknown Command: " << cmd.toStdString() << std::endl;
@@ -87,18 +100,6 @@ bool AdminControlPanel::handleCommand(QStringList* cmdStack)
 
   delete cmdStack;
   return retVal;
-}
-
-void AdminControlPanel::printSplash()
-{
-  std::cout << "\n";
-  std::cout << "****************************************" << "\n";
-  std::cout << "****************************************" << "\n";
-  std::cout << "**   GeometryService Administration   **" << "\n";
-  std::cout << "**        Control Panel  v 0.1        **" << "\n";
-  std::cout << "****************************************" << "\n";
-  std::cout << "****************************************" << "\n";
-  std::cout << "\n";
 }
 
 void AdminControlPanel::shutdown()
@@ -164,6 +165,21 @@ void AdminControlPanel::handleSockStateChanged ( QAbstractSocket::SocketState so
   std::cout << "\t\tLookup value at: http://qt.nokia.com/doc/4.5/qabstractsocket.html#SocketState-enum\n";
 }
 
+
+/*
+ * Utils fns
+ */
+void AdminControlPanel::printSplash()
+{
+  std::cout << "\n";
+  std::cout << "****************************************" << "\n";
+  std::cout << "****************************************" << "\n";
+  std::cout << "**   GeometryService Administration   **" << "\n";
+  std::cout << "**        Control Panel  v 0.1        **" << "\n";
+  std::cout << "****************************************" << "\n";
+  std::cout << "****************************************" << "\n";
+  std::cout << "\n";
+}
 
 
 // Local Variables: ***
