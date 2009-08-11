@@ -28,27 +28,52 @@
 
 #include <QTcpSocket>
 #include <QString>
+#include <QStringList>
+#include <QCoreApplication>
 
-class AdminControlPanel
+#include <iostream>
+
+#include "CommandParser.h"
+#include "ICommandable.h"
+
+class AdminControlPanel : public QCoreApplication, public ICommandable
 {
+  Q_OBJECT
 
 public:
-  AdminControlPanel();
+  AdminControlPanel(int& argc, char* argv[]);
+
   virtual ~AdminControlPanel();
 
+  void connectToHost(const char* hostName, char* port);
+  void connectToHost(const QString strHostName, const QString strPort);
   void connectToHost(const QString& hostName, quint16 port);
 
+  int exec();
+
+  void printSplash();
+
+  bool handleCommand(QStringList* cmdStack);
+
+public slots:
+  void shutdown();
+
+  void handleSockConnected();
+  void handleSockDisconnected();
+  void handleSockError(QAbstractSocket::SocketError socketError );
+  void handleSockHostFound();
+  void handleSockStateChanged(QAbstractSocket::SocketState socketState );
+
 private:
-  QTcpSocket sock;
- 
+  QTcpSocket* sock;
 };
 
 #endif
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
+// Local Variables:
+// mode: C++ 
+// tab-width: 8
+// c-basic-offset: 2
+// indent-tabs-mode: t
+// End:
 // ex: shiftwidth=2 tabstop=8

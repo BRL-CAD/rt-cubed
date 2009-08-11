@@ -1,4 +1,4 @@
-/*                     A C P M A I N . C X X
+/*                  I C O M M A N D A B L E . H
  * BRL-CAD
  *
  * Copyright (c) 2009 United States Government as represented by
@@ -17,27 +17,30 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file acpMain.cxx
+/** @file ICommandable.h
  *
- * Administration Control Panel application entry point
+ * Brief description
  *
  */
 
-#include <iostream>
-#include "AdminControlPanel.h"
+#ifndef __ICOMMANDABLE_H__
+#define __ICOMMANDABLE_H__
 
-int main(int argc, char* argv[])
-{
-    AdminControlPanel acp(argc, argv);
-    acp.printSplash();
+#include <QStringList>
 
-    return acp.exec();
-}
+class ICommandable {
+public:
+    virtual bool handleCommand(QStringList* cmdStack) = 0;
+};
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+#endif
+
+/*
+ * Local Variables:
+ * tab-width: 8
+ * mode: C++
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */
