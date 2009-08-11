@@ -7,6 +7,7 @@ rt_3_SOURCES = \
 	main.cxx \
 	main.h
 
+AM_CPPFLAGS = -I${top_srcdir}/include
 LDADD = \
 	../GE/libUtility/libUtility.a \
 	../GE/libGeometry/libGeometry.a \

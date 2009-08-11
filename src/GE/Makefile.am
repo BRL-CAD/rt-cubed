@@ -5,6 +5,8 @@ SUBDIRS = \
         libRaytrace \
         libUtility 
 
+AM_CPPFLAGS=-I${top_srcdir}/include
+
 lib_LTLIBRARIES = libge.la
 
 libge_la_SOURCES = \

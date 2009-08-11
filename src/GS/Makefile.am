@@ -1,5 +1,7 @@
 lib_LTLIBRARIES = libgs.la
 
+AM_CPPFLAGS=-I${top_srcdir}/include
+
 libgs_la_SOURCES = \
 	AbstractDbObjectSource.cxx \
 	AbstractPortal.cxx \

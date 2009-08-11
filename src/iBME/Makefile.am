@@ -1,6 +1,6 @@
 bin_PROGRAMS = gsph0 streamSerialTests netMsgSerialTest DataStreamTest
 
-
+AM_CPPFLAGS=-I${top_srcdir}/include
 
 streamSerialTests_SOURCES = \
 	../tests/streamSerialTests.cxx
