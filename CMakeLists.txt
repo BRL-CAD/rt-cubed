@@ -44,6 +44,7 @@ SET(INCLUDE_SEARCH_PATHS
 	${INCLUDE_SEARCH_PATHS}
 	/usr/brlcad/include 
 	/usr/local/brlcad/include 
+	/usr/local/include
 	~/include
 )
 
@@ -51,6 +52,7 @@ SET(LIB_SEARCH_PATHS
 	${LIB_SEARCH_PATHS}
 	/usr/brlcad/lib 
 	/usr/local/brlcad/lib 
+	/usr/local/lib
 	~/lib
 	./src/other/mocha/
 )
