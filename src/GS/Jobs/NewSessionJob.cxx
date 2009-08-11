@@ -33,7 +33,7 @@ NewSessionJob::~NewSessionJob()
 {
 }
 
-NewSessionJob::NewSessionJob(AbstractPortal& portal)
+NewSessionJob::NewSessionJob(NetSockPortal& portal)
 {
 }
 

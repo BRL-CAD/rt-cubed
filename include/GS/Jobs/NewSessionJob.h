@@ -27,7 +27,7 @@
 #define __NEWSESSIONJOB_H__
 
 #include "GS/Jobs/AbstractJob.h"
-#include "GS/AbstractPortal.h"
+#include "GS/NetSockPortal.h"
 
 class NewSessionJob : public AbstractJob
 {
@@ -35,7 +35,7 @@ class NewSessionJob : public AbstractJob
 public:
 
   virtual ~NewSessionJob();
-  NewSessionJob(AbstractPortal& portal);
+  NewSessionJob(NetSockPortal& portal);
   virtual bool doJob();
 
 private:
