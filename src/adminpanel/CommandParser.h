@@ -44,12 +44,10 @@ public:
 
     bool stopCmd;
     
-
-    bool checkLocalCommand(QStringList* cmdStack);
-
-    CommandParser(const CommandParser& cp){} //disable copy constructor.
 private:
     ICommandable* objToCommand;
+    CommandParser(const CommandParser& cp){} //disable copy constructor.
+    bool checkLocalCommand(QStringList* cmdStack);
 
 };
 
