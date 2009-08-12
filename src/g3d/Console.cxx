@@ -40,7 +40,6 @@ Console::Console(QWidget *parent) : QWidget(parent),
     layout->setMargin(0);
     layout->setSpacing(0);
     
-    output->setText("Console output goes here.");
     output->setStyleSheet("border-radius: 2px");
     output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
     // Prevent lag first time the output is shown.
