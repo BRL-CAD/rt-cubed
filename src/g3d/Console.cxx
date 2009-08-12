@@ -37,7 +37,7 @@ Console::Console(QWidget *parent) : QWidget(parent),
 				    layout(new QVBoxLayout(this)),
 				    entryContainer(new QWidget()), entryLayout(new QHBoxLayout(entryContainer)),
 				    entry(new HistoryLineEdit()), output(new QLabel()),
-				    prompt(new QLabel("> "))
+				    prompt(new QLabel(">"))
 {
     layout->setMargin(0);
     layout->setSpacing(0);
