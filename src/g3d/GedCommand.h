@@ -57,11 +57,6 @@ public:
   virtual ~GedCommand() { }
 
 protected:
-  /** Helper method to treat result from GED library (and eventually
-   * append output or log messages) */
-  QString treatGEDResult(int resultCode,
-			 const QString& text) const;
-
 };
 
 #endif

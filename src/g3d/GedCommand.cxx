@@ -43,17 +43,6 @@ GedCommand::GedCommand(const QString& name,
 {
 }
 
-QString GedCommand::treatGEDResult(int resultCode,
-				const QString& text) const
-{
-  if (resultCode == BRLCAD_OK) {
-    return text;
-  } else {
-    Logger::logERROR(text.toStdString().c_str());
-    return "";
-  }
-}
-
 
 // Local Variables: ***
 // mode: C++ ***

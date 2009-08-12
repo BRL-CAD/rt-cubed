@@ -63,7 +63,7 @@ public:
       int argc = sizeof(argv)/sizeof(const char*);
       result = ged_dump(g, argc, argv);
 
-      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
+      return QString(bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -94,7 +94,7 @@ public:
       int argc = sizeof(argv)/sizeof(const char*);
       result = ged_solids_on_ray(g, argc, argv);
 
-      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
+      return QString(bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -143,7 +143,7 @@ public:
 	result = ged_summary(g, argc, argv);
       }
 
-      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
+      return QString(bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -181,7 +181,7 @@ public:
 	result = ged_title(g, argc, argv);
       }
 
-      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
+      return QString(bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -210,7 +210,7 @@ public:
       int argc = sizeof(argv)/sizeof(const char*);
       int result = ged_version(g, argc, argv);
 
-      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
+      return QString(bu_vls_addr(&g->ged_result_str));
     }
   }
 };
@@ -237,7 +237,7 @@ public:
     if (args.length() != 0) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
-      return treatGEDResult(result, bu_vls_addr(&g->ged_result_str));
+      return QString(bu_vls_addr(&g->ged_result_str));
     }
   }
 };
