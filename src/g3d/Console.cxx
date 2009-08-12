@@ -35,10 +35,14 @@
 
 Console::Console(QWidget *parent) : QWidget(parent),
 				    layout(new QVBoxLayout(this)),
-				    entry(new HistoryLineEdit()), output(new QLabel())
+				    entryContainer(new QWidget()), entryLayout(new QHBoxLayout(entryContainer)),
+				    entry(new HistoryLineEdit()), output(new QLabel()),
+				    prompt(new QLabel("> "))
 {
     layout->setMargin(0);
     layout->setSpacing(0);
+    entryLayout->setMargin(0);
+    entryLayout->setSpacing(0);
     
     output->setStyleSheet("border-radius: 2px");
     output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
@@ -49,7 +53,10 @@ Console::Console(QWidget *parent) : QWidget(parent),
     layout->addWidget(output);
 
     entry->installEventFilter(this);
-    layout->addWidget(entry);
+    
+    entryLayout->addWidget(prompt);
+    entryLayout->addWidget(entry);
+    layout->addWidget(entryContainer);
     
     QObject::connect(entry, SIGNAL(returnPressed(void)),
 		     this, SLOT(evalCmd(void)));

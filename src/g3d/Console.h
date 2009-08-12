@@ -59,9 +59,11 @@ protected slots:
 
 private:
     QVBoxLayout *layout;
+    QWidget *entryContainer;
+    QHBoxLayout *entryLayout;
     
     HistoryLineEdit *entry;
-    QLabel *output;
+    QLabel *output, *prompt;
 
     std::deque<QString> outputLines;
 };
