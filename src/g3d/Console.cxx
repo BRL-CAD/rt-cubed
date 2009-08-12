@@ -84,6 +84,7 @@ void Console::evalCmd()
     if(entry->text().isEmpty()) {
 	return;
     }
+    pushOutput("> " + entry->text());
     emit commandRan(entry->text());
     entry->entryComplete();
 }
