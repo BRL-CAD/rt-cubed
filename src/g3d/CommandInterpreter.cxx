@@ -52,6 +52,7 @@ CommandInterpreter::CommandInterpreter()
 //  addCommand(new CommandSetPolygonMode());
 //  addCommand(new CommandSetCameraProjectionType());
 //  addCommand(new CommandCycleCameraMode());
+  addCommand(new CommandGedOpen());
   addCommand(new CommandGedDump());
   addCommand(new CommandGedSolidsOnRay());
   addCommand(new CommandGedSummary());
@@ -139,7 +140,6 @@ void CommandInterpreter::execute(QString commandLine)
 
   // extract the command name
   QString commandName = args[0];
-  args.removeAt(0);
 
   if (commandName == "help") {
     // help meta command
@@ -157,8 +157,9 @@ void CommandInterpreter::execute(QString commandLine)
       output.append("No such command '" + commandName + "', type 'help' for a list.");
     } else {
       // execute the command
-      emit commandDone(command->execute(args));
+      output = command->execute(args);
     }
+    emit commandDone(output.size() ? output : "<no output>");
   }
 }
 

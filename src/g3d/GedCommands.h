@@ -56,7 +56,7 @@ public:
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.length() != 1) {
+    if (args.length() != 2) {
       return CommandMessages::ONE_ARGUMENT;
     } else {
       const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
@@ -86,7 +86,7 @@ public:
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.length() != 1) {
+    if (args.length() != 2) {
       return CommandMessages::ONE_ARGUMENT;
     } else {
       const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
@@ -149,7 +149,7 @@ public:
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.length() > 1) {
+    if (args.length() > 2) {
       return CommandMessages::ZERO_OR_ONE_ARGUMENTS;
     } else {
       if (args.length() == 1) {
@@ -198,7 +198,7 @@ public:
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.length() > 1) {
+    if (args.length() > 2) {
       return CommandMessages::ZERO_OR_ONE_ARGUMENTS;
     } else {
       if (args.length() == 1) {
