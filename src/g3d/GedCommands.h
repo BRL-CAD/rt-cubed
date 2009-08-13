@@ -45,7 +45,7 @@ class CommandGedDump : public GedCommand
 {
 public:
   CommandGedDump() :
-    GedCommand("ged_dump",
+    GedCommand("dump",
 	       "Dump a full copy of the database",
 	       "Argument is filename ('.g' not added automatically)")
     {
@@ -107,7 +107,7 @@ class CommandGedSolidsOnRay : public GedCommand
 {
 public:
   CommandGedSolidsOnRay() :
-    GedCommand("ged_solids_on_ray",
+    GedCommand("solids_on_ray",
 	       "Solids on ray",
 	       "")
     {
@@ -138,7 +138,7 @@ class CommandGedSummary : public GedCommand
 {
 public:
   CommandGedSummary() :
-    GedCommand("ged_summary",
+    GedCommand("summary",
 	       "Get libged database file summary",
 	       "Argument is either empty, or one of [primitives|regions|groups] (initial chars are enough)")
     {
@@ -187,7 +187,7 @@ class CommandGedTitle : public GedCommand
 {
 public:
   CommandGedTitle() :
-    GedCommand("ged_title",
+    GedCommand("title",
 	       "Get/Set libged database title",
 	       "Argument is title (empty to get)")
     {
@@ -225,7 +225,7 @@ class CommandGedVersion : public GedCommand
 {
 public:
   CommandGedVersion() :
-    GedCommand("ged_version",
+    GedCommand("version",
 	       "Get libged database file version",
 	       "")
     {
@@ -254,7 +254,7 @@ class CommandGedZap : public GedCommand
 {
 public:
   CommandGedZap() :
-    GedCommand("ged_zap",
+    GedCommand("zap",
 	       "Erase all currently displayed geometry",
 	       "")
     {
