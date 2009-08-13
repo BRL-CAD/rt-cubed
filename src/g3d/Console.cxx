@@ -101,10 +101,13 @@ void Console::pushOutput(QString str)
     if(str.length() == 0) {
 	return;
     }
-    
-    outputLines.push_back(str);
 
-    if(outputLines.size() > CONSOLE_OUTPUT_LINES) {
+    QStringList lines = str.split("\n");
+    for(int i = 0; i < lines.size(); i++) {
+	outputLines.push_back(lines[i]);
+    }
+
+    while(outputLines.size() > CONSOLE_OUTPUT_LINES) {
 	outputLines.pop_front();
     }
 
