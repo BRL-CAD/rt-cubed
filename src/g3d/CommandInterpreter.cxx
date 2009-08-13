@@ -52,7 +52,7 @@ CommandInterpreter::CommandInterpreter()
 //  addCommand(new CommandSetPolygonMode());
 //  addCommand(new CommandSetCameraProjectionType());
 //  addCommand(new CommandCycleCameraMode());
-  addCommand(new CommandGedOpen());
+  addCommand(new CommandGedOpenDB());
   addCommand(new CommandGedDump());
   addCommand(new CommandGedSolidsOnRay());
   addCommand(new CommandGedSummary());
@@ -138,23 +138,20 @@ void CommandInterpreter::execute(QString commandLine)
   QStringList args = parseCommandLine(commandLine);
   QString output;
 
-  // extract the command name
-  QString commandName = args[0];
-
-  if (commandName == "help") {
+  if (args[0] == "help") {
     // help meta command
-    if (args.empty()) {
+    if (args.size() < 2) {
       // general help
       emit commandDone(help());
     } else {
       // specific command help
-      emit commandDone(help(commandName));
+      emit commandDone(help(args[0]));
     }
   } else {
     // search for a "real" command
-    Command* command = findCommand(commandName);
+    Command* command = findCommand(args[0]);
     if (!command) {
-      output.append("No such command '" + commandName + "', type 'help' for a list.");
+      output.append("No such command '" + args[0] + "', type 'help' for a list.");
     } else {
       // execute the command
       output = command->execute(args);

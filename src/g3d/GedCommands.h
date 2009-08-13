@@ -71,11 +71,11 @@ public:
 
 /** @brief Open a database for editing
  */
-class CommandGedOpen : public GedCommand
+class CommandGedOpenDB : public GedCommand
 {
 public:
-  CommandGedOpen() :
-    GedCommand("open",
+  CommandGedOpenDB() :
+    GedCommand("opendb",
 	       "Open a database for editing.",
 	       "Takes the filename to open")
     {
@@ -117,7 +117,7 @@ public:
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.length() != 0) {
+    if (args.length() != 1) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
       const char* argv[] = { _name.toStdString().c_str() };
@@ -232,7 +232,7 @@ public:
     }
 
   virtual QString execute(QStringList &args) {
-    if (args.length() != 0) {
+    if (args.length() != 1) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
       ged* g = GedData::instance().getGED();
@@ -264,7 +264,7 @@ public:
     ged* g = GedData::instance().getGED();
     int result = 0;
 
-    if (args.length() != 0) {
+    if (args.length() != 1) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
       return QString(bu_vls_addr(&g->ged_result_str));
