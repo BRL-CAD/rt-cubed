@@ -32,10 +32,6 @@
 
 
 #include <brlcad/ged.h>
-/** \note mafm: Undefining too-common names to not clash with names
- * elsewhere (in example, Ogre uses some of them) */
-#undef X
-#undef Y
 
 #include "../../include/Utility/Singleton.h"
 
