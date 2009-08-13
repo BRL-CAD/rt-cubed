@@ -69,6 +69,36 @@ public:
 };
 
 
+/** @brief Open a database for editing
+ */
+class CommandGedOpen : public GedCommand
+{
+public:
+  CommandGedOpen() :
+    GedCommand("open",
+	       "Open a database for editing.",
+	       "Takes the filename to open")
+    {
+      _argNames.push_back("filename");
+    }
+
+  virtual QString execute(QStringList &args) {
+    ged* g = GedData::instance().getGED();
+    int result = 0;
+
+    if (args.length() != 1) {
+      return CommandMessages::ONE_ARGUMENT;
+    } else {
+      const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
+      int argc = sizeof(argv)/sizeof(const char*);
+      result = ged_reopen(g, argc, argv);
+
+      return QString(bu_vls_addr(&g->ged_result_str));
+    }
+  }
+};
+
+
 /** @brief Solids on ray
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
