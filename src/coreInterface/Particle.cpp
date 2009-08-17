@@ -292,7 +292,7 @@ rt_part_internal* Particle::Internal(void) throw() {
 }
 
 
-const rt_part_internal* Particle::Internal(void) const {
+const rt_part_internal* Particle::Internal(void) const throw() {
     const rt_part_internal* ret;
 
     if (m_ip != 0)
