@@ -141,8 +141,6 @@ private:
   /** Common functionality for all places needing it */
   void doZoomOut();
   /** Common functionality for all places needing it */
-  void panScreenRelativeCoords(int x, int y);
-  /** Common functionality for all places needing it */
   void panUp();
   /** Common functionality for all places needing it */
   void panDown();

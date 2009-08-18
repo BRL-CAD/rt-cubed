@@ -141,7 +141,9 @@ bool CameraModeMGED::injectMouseMotion(QMouseEvent *e)
     return true;
   } else if (_translateModeEnabled && _mouseButtonsPressed > 0) {
     // pan given amount of screen units
-    panScreenRelativeCoords(e->x() - _dragOriginX, e->y() - _dragOriginY);
+    pan(e->x() - _dragOriginX, e->y() - _dragOriginY);
+    _dragOriginX = e->x();
+    _dragOriginY = e->y();
     return true;
   } else if (_rotateModeEnabled && _mouseButtonsPressed > 0) {
     // mafm: originally copied from blender mode
@@ -401,13 +403,6 @@ void CameraModeMGED::doZoomIn()
 void CameraModeMGED::doZoomOut()
 {
   multiplyVarWithLimit(_radius, ZOOM_STEP, RADIUS_MAX_DISTANCE);
-}
-
-void CameraModeMGED::panScreenRelativeCoords(int x, int y)
-{
-  float panWidth = _camera->getOrthoWindowWidth() * (x/static_cast<float>(_windowWidth));
-  float panHeight = _camera->getOrthoWindowHeight() * (y/static_cast<float>(_windowHeight));
-  pan(panWidth, panHeight, _dragOriginalCenter);
 }
 
 void CameraModeMGED::panUp()
