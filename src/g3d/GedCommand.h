@@ -62,6 +62,7 @@ public:
 
 protected:
   static void callGed(GedFunc func, const QStringList& args);
+  static const QString lastResult();
 };
 
 #endif

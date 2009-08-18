@@ -51,7 +51,13 @@ void GedCommand::callGed(GedFunc func, const QStringList& args)
   }
   
   func(GedData::instance().getGED(), args.size(), argv);
+
   delete argv;
+}
+
+const QString GedCommand::lastResult() 
+{
+  return QString(bu_vls_addr(&(GedData::instance().getGED())->ged_result_str));
 }
 
 // Local Variables: ***
