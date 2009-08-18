@@ -33,8 +33,11 @@ CommandDialog::CommandDialog()
     setWindowFlags(Qt::FramelessWindowHint);
 
     setupUi(this);
-    QObject::connect(runButton, SIGNAL(clicked(void)),
-		     entry, SLOT(entryComplete(void)));
+    QObject::connect(runButton, SIGNAL(clicked()),
+		     entry, SLOT(entryComplete()));
+
+    QObject::connect(runButton, SIGNAL(clicked()),
+		     this, SLOT(hide()));
 }
 
 void CommandDialog::focusInEvent(QFocusEvent *) 

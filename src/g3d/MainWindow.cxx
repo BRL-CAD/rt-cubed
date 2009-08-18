@@ -63,22 +63,22 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
     QObject::connect(cameraProjection, SIGNAL(activated(int)),
 		     ogreView, SLOT(setProjection(int)));
     QObject::connect(cameraProjection, SIGNAL(activated(int)),
-		     window, SLOT(setFocus(void)));
+		     window, SLOT(setFocus()));
 
     QObject::connect(cameraMode, SIGNAL(activated(int)),
 		     ogreView, SLOT(setCameraMode(int)));
     QObject::connect(cameraMode, SIGNAL(activated(int)),
-		     window, SLOT(setFocus(void)));
+		     window, SLOT(setFocus()));
 
     QObject::connect(console, SIGNAL(commandRan(QString)),
 		     cmdInterp, SLOT(execute(QString)));
     QObject::connect(cmdInterp, SIGNAL(commandDone(QString)),
 		     console, SLOT(pushOutput(QString)));
 
-    QObject::connect(commandButton, SIGNAL(clicked(void)),
-		     cmdDialog, SLOT(show(void)));
-    QObject::connect(commandButton, SIGNAL(clicked(void)),
-		     cmdDialog, SLOT(setFocus(void)));
+    QObject::connect(commandButton, SIGNAL(clicked()),
+		     cmdDialog, SLOT(show()));
+    QObject::connect(commandButton, SIGNAL(clicked()),
+		     cmdDialog, SLOT(setFocus()));
 
     // Give focus to the render area, and thus camera control.
     window->setFocus(Qt::OtherFocusReason);
