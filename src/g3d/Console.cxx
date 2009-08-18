@@ -43,8 +43,10 @@ Console::Console(QWidget *parent) : QWidget(parent),
     layout->setSpacing(0);
     entryLayout->setMargin(0);
     entryLayout->setSpacing(0);
-    
+
+    output->setAlignment(Qt::AlignBottom | Qt::AlignLeft);
     output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
+    
     outputArea->setWidget(output);
     outputArea->setWidgetResizable(true);
     outputArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
