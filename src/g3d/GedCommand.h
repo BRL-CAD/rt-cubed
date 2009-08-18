@@ -45,6 +45,10 @@
 
 #include <QString>
 
+#include "GedData.h"
+
+typedef int (*GedFunc)(ged *, int, const char **);
+
 class GedCommand : public Command
 {
 public:
@@ -57,7 +61,7 @@ public:
   virtual ~GedCommand() { }
 
 protected:
-  static char** getArgv(const QStringList &list);
+  static void callGed(GedFunc func, const QStringList& args);
 };
 
 #endif

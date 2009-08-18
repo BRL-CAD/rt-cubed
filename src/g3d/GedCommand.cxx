@@ -43,14 +43,15 @@ GedCommand::GedCommand(const QString& name,
 {
 }
 
-char** getArgv(const QStringList &list)
+void GedCommand::callGed(GedFunc func, const QStringList& args)
 {
-  char **ret = new char*[list.size()];
-  for(int i = 0; i < list.size(); ++i) {
-    ret[i] = list[i].toLocal8Bit().data();
+  const char **argv = new const char*[args.size()];
+  for(int i = 0; i < args.size(); ++i) {
+    argv[i] = args[i].toLocal8Bit().data();
   }
-
-  return ret;
+  
+  func(GedData::instance().getGED(), args.size(), argv);
+  delete argv;
 }
 
 // Local Variables: ***
