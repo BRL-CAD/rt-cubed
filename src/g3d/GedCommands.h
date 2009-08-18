@@ -45,18 +45,13 @@ class CommandGedDump : public GedCommand
 {
 public:
   CommandGedDump() :
-    GedCommand("dump",
+    GedCommand(&ged_dump,
+	       "dump",
 	       "Dump a full copy of the database",
 	       "Argument is filename ('.g' not added automatically)")
     {
       _argNames.push_back("filename");
     }
-
-  virtual QString execute(QStringList &args) {
-    callGed(&ged_dump, args);
-
-    return lastResult();
-  }
 };
 
 
@@ -66,18 +61,13 @@ class CommandGedOpenDB : public GedCommand
 {
 public:
   CommandGedOpenDB() :
-    GedCommand("opendb",
+    GedCommand(&ged_reopen,
+	       "opendb",
 	       "Open a database for editing.",
 	       "Takes the filename to open")
     {
       _argNames.push_back("filename");
     }
-
-  virtual QString execute(QStringList &args) {
-    callGed(&ged_reopen, args);
-
-    return lastResult();
-  }
 };
 
 
@@ -89,17 +79,12 @@ class CommandGedSolidsOnRay : public GedCommand
 {
 public:
   CommandGedSolidsOnRay() :
-    GedCommand("solids_on_ray",
+    GedCommand(&ged_solids_on_ray,
+	       "solids_on_ray",
 	       "Solids on ray",
 	       "")
     {
     }
-
-  virtual QString execute(QStringList &args) {
-    callGed(&ged_solids_on_ray, args);
-
-    return lastResult();
-  }
 };
 
 
@@ -111,18 +96,13 @@ class CommandGedSummary : public GedCommand
 {
 public:
   CommandGedSummary() :
-    GedCommand("summary",
+    GedCommand(&ged_summary,
+	       "summary",
 	       "Get libged database file summary",
 	       "Argument is either empty, or one of [primitives|regions|groups] (initial chars are enough)")
     {
       _argNames.push_back("type");
     }
-
-  virtual QString execute(QStringList &args) {
-    callGed(&ged_summary, args);
-
-    return lastResult();
-  }
 };
 
 
@@ -134,18 +114,13 @@ class CommandGedTitle : public GedCommand
 {
 public:
   CommandGedTitle() :
-    GedCommand("title",
+    GedCommand(&ged_title,
+	       "title",
 	       "Get/Set libged database title",
 	       "Argument is title (empty to get)")
     {
       _argNames.push_back("title");
     }
-
-  virtual QString execute(QStringList &args) {
-    callGed(&ged_title, args);
-    
-    return lastResult();
-  }
 };
 
 
@@ -157,17 +132,12 @@ class CommandGedVersion : public GedCommand
 {
 public:
   CommandGedVersion() :
-    GedCommand("version",
+    GedCommand(&ged_version,
+	       "version",
 	       "Get libged database file version",
 	       "")
     {
     }
-
-  virtual QString execute(QStringList &args) {
-    callGed(&ged_version, args);
-
-    return lastResult();
-  }
 };
 
 
@@ -179,17 +149,12 @@ class CommandGedZap : public GedCommand
 {
 public:
   CommandGedZap() :
-    GedCommand("zap",
+    GedCommand(&ged_zap,
+	       "zap",
 	       "Erase all currently displayed geometry",
 	       "")
     {
     }
-
-  virtual QString execute(QStringList &args) {
-    callGed(&ged_zap, args);
-
-    return lastResult();
-  }
 };
 
 #endif

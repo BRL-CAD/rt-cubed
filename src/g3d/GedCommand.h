@@ -54,15 +54,17 @@ class GedCommand : public Command
 public:
   /** Constructor with some basics needed when creating any
    * command. */
-  GedCommand(const QString& name,
+  GedCommand(const GedFunc func,
+	     const QString& name,
 	     const QString& shortDescr,
 	     const QString& extraDescr);
   /** Default destructor */
   virtual ~GedCommand() { }
 
-protected:
-  static int callGed(GedFunc func, const QStringList& args);
-  static const QString lastResult();
+  virtual QString execute(QStringList& args);
+
+private:
+  const GedFunc _gedFunc;
 };
 
 #endif

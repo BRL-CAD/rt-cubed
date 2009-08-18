@@ -36,28 +36,25 @@
 /*******************************************************************************
  * GedCommand
  ******************************************************************************/
-GedCommand::GedCommand(const QString& name,
+GedCommand::GedCommand(const GedFunc func,
+		       const QString& name,
 		       const QString& shortDescr,
 		       const QString& extraDescr) :
-  Command(name, shortDescr, extraDescr)
+  Command(name, shortDescr, extraDescr), _gedFunc(func)
 {
 }
 
-int GedCommand::callGed(GedFunc func, const QStringList& args)
+
+QString GedCommand::execute(QStringList& args) 
 {
   const char **argv = new const char*[args.size()];
   for(int i = 0; i < args.size(); ++i) {
     argv[i] = args[i].toLocal8Bit().data();
   }
   
-  int result = func(GedData::instance().getGED(), args.size(), argv);
+  _gedFunc(GedData::instance().getGED(), args.size(), argv);
 
   delete argv;
-  return result;
-}
-
-const QString GedCommand::lastResult() 
-{
   return QString(bu_vls_addr(&(GedData::instance().getGED())->ged_result_str));
 }
 
