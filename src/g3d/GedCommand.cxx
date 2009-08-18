@@ -45,7 +45,7 @@ GedCommand::GedCommand(const GedFunc func,
 }
 
 
-QString GedCommand::execute(QStringList& args) 
+QString GedCommand::execute(const QStringList& args) 
 {
   const char **argv = new const char*[args.size()];
   for(int i = 0; i < args.size(); ++i) {

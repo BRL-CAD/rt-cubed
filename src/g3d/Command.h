@@ -80,7 +80,7 @@ public:
   virtual ~Command() { }
 
   /** Execute the command (to be implemented by the real commands) */
-  virtual QString execute(QStringList& args) = 0;
+  virtual QString execute(const QStringList& args) = 0;
 
   /** The name of the command */
   const QString& getName() const;

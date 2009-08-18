@@ -61,7 +61,7 @@ public:
   /** Default destructor */
   virtual ~GedCommand() { }
 
-  virtual QString execute(QStringList& args);
+  virtual QString execute(const QStringList& args);
 
 private:
   const GedFunc _gedFunc;

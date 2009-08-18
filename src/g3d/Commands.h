@@ -46,7 +46,7 @@ public:
     Command("quit", "Quit the application", "")
     { }
 
-  virtual QString execute(QStringList &args) {
+  virtual QString execute(const QStringList &args) {
     if (args.length() > 0) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
@@ -73,13 +73,13 @@ public:
       _argNames.push_back("level");
     }
 
-  virtual QString execute(QStringList &args) {
+  virtual QString execute(const QStringList &args) {
     if (args.length() != 1) {
       return CommandMessages::ONE_ARGUMENT;
     } else {
 
       Logger::Level l = static_cast<Logger::Level>(0); // invalid level
-      QCharRef firstChar = args[0][0];
+      const QChar firstChar = args[0][0];
       if (firstChar == 'D') {
 	l = Logger::DEBUG;
       } else if (firstChar == 'I') {
@@ -118,7 +118,7 @@ public:
       Application::instance().setPolygonMode(Ogre::PM_WIREFRAME);
     }
 
-  virtual QString execute(QStringList &args) {
+  virtual QString execute(const QStringList &args) {
     if (args.length() != 1) {
       return CommandMessages::ONE_ARGUMENT;
       return;
@@ -153,7 +153,7 @@ public:
       _argNames.push_back("type");
     }
 
-  virtual QString execute(QStringList &args) {
+  virtual QString execute(const QStringList &args) {
     if (args.length() != 1) {
       output.appendLine(CommandMessages::ONE_ARGUMENT);
       return;
@@ -181,7 +181,7 @@ public:
     Command("cyclecam", "Cycle the camera mode", "")
     { }
 
-  virtual QString execute(QStringList &args) {
+  virtual QString execute(const QStringList &args) {
     if (!args.empty()) {
       return CommandMessages::NO_ARGUMENTS;
     } else {
