@@ -32,6 +32,8 @@
 
 #include <cmath>
 
+#include <brlcad/vmath.h>
+
 #include <QKeyEvent>
 #include <QMouseEvent>
 
@@ -59,29 +61,6 @@ public:
     NEGATIVE = -1,
     NEUTRAL = 0,
     POSITIVE = 1
-  };
-
-  /** Axis: X/Y/Z */
-  enum Axis {
-    NOTSET = 0,
-    X = 1,
-    Y = 2,
-    Z = 3
-  };
-
-  /** Simple vector class, only to hold three coordinates together
-   *
-   * \todo mafm: probably should use something similar from other
-   * BRL-CAD sources
-   */
-  class SimpleVector3
-  {
-  public:
-    float x, y, z;
-    SimpleVector3(float xx, float yy, float zz) : x(xx), y(yy), z(zz) { }
-    bool operator!=(const SimpleVector3& other) {
-      return !(x == other.x && y == other.y && z == other.z);
-    }
   };
 
   /** Default constructor */
@@ -129,7 +108,7 @@ public:
 
   /** Translate camera position and center position by given amount
    * (screen coordinates) relative to original center */
-  void pan(float screenX, float screenY, SimpleVector3 originalCenter);
+  void pan(float screenX, float screenY, vect_t originalCenter);
   /** Translate camera position and center position by given amount
    * (screen coordinates) relative to current center */
   void pan(float screenX, float screenY);
@@ -238,7 +217,7 @@ protected:
   /** Flag for camera action */
   Direction _actionZoom;
   /** Flag for camera action */
-  SimpleVector3 _actionPan;
+  vect_t _actionPan;
 
   /** Flag for camera action */
   bool _actionResetToCenter;
@@ -256,7 +235,7 @@ protected:
   /** Current vertical rotation */
   float _verticalRot;
   /** Coordinates to take as center */
-  SimpleVector3 _center;
+  vect_t _center;
 };
 
 

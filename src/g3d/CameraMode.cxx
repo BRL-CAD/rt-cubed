@@ -52,14 +52,14 @@ CameraMode::CameraMode(const char* name) :
   _orthoWindowDefaultWidth(0.0f), _orthoWindowDefaultHeight(0.0f),
   _actionRotateX(NEUTRAL), _actionRotateY(NEUTRAL), _actionRotateZ(NEUTRAL),
   _actionZoom(NEUTRAL),
-  _actionPan(0, 0, 0),
   _actionResetToCenter(false),
   _rotationSpeed(ROTATION_DEFAULT_SPEED),
   _zoomSpeedRatio(ZOOM_DEFAULT_SPEED_RATIO),
   _radius(RADIUS_DEFAULT_DISTANCE), _previousRadius(_radius),
-  _horizontalRot(0.0f), _verticalRot(0.0f),
-  _center(0, 0, 0)
+  _horizontalRot(0.0f), _verticalRot(0.0f)
 {
+  VSETALL(_actionPan, 0);
+  VSETALL(_center, 0);
 }
 
 void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
@@ -77,7 +77,7 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
     // center (reset rotation) when requested
     _horizontalRot = 0.0f;
     _verticalRot = 0.0f;
-    _center = SimpleVector3(0.0f, 0.0f, 0.0f);
+    VSETALL(_center, 0);
     _radius = RADIUS_DEFAULT_DISTANCE;
     _previousRadius = _radius;
     _camera->setOrthoWindowWidth(_orthoWindowDefaultWidth);
@@ -110,31 +110,35 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
   }
 
   // set the resulting position to the camera
-  if (_actionPan != SimpleVector3(0, 0, 0)) {
+  if (!(_actionPan[X] == 0.0f &&
+	_actionPan[Y] == 0.0f &&
+	_actionPan[Z] == 0.0f)) {
     //Logger::logDEBUG("panning: %g %g %g", _actionPan.x, _actionPan.y, _actionPan.z);
 
     // get center relative to camera
     Ogre::Vector3 cameraPos = camera->getPosition();
-    Ogre::Vector3 difference(_center.x, _center.y, _center.z);
+    Ogre::Vector3 difference(_center[X], _center[Y], _center[Z]);
     difference -= cameraPos;
     // pan camera (relative to its position)
-    camera->moveRelative(Ogre::Vector3(-_actionPan.x, _actionPan.y, 0));
+    camera->moveRelative(Ogre::Vector3(-_actionPan[X], _actionPan[Y], 0));
     cameraPos = camera->getPosition();
     //Logger::logDEBUG(" - pos: %g %g %g", cameraPos.x, cameraPos.y, cameraPos.z);
     // restore center
-    _center.x = cameraPos.x + difference.x;
-    _center.y = cameraPos.y + difference.y;
-    _center.z = cameraPos.z + difference.z;
+    VSET(_center,
+	 cameraPos.x + difference.x,
+	 cameraPos.y + difference.y,
+	 cameraPos.z + difference.z);
+
     //Logger::logDEBUG(" - center: %g %g %g", _center.x, _center.y, _center.z);
-    camera->lookAt(_center.x, _center.y, _center.z);
+    camera->lookAt(_center[X], _center[Y], _center[Z]);
 
     // stop panning
-    _actionPan = SimpleVector3(0, 0, 0);
+    VSETALL(_actionPan, 0);
   } else {
     Ogre::SceneNode tmpNode(0);
 
     // set initial center
-    Ogre::Vector3 centerTranslation(_center.x, _center.y, _center.z);
+    Ogre::Vector3 centerTranslation(_center[X], _center[Y], _center[Z]);
     tmpNode.translate(centerTranslation, Ogre::SceneNode::TS_LOCAL);
 
     // rotations
@@ -149,7 +153,7 @@ void CameraMode::updateCamera(Ogre::Camera* camera, double elapsedSeconds)
       //Logger::logDEBUG("Camera position (%0.1f, %0.1f, %0.1f)", pos.x, pos.y, pos.z);
 
       camera->setPosition(tmpNode.getPosition());
-      camera->lookAt(_center.x, _center.y, _center.z);
+      camera->lookAt(_center[X], _center[Y], _center[Z]);
     }
 
     // zoom for orthogonal mode
@@ -241,15 +245,15 @@ void CameraMode::stop()
   _actionZoom = NEUTRAL;
 }
 
-void CameraMode::pan(float x, float y, SimpleVector3 originalCenter)
+void CameraMode::pan(float x, float y, vect_t originalCenter)
 {
-  _actionPan = SimpleVector3(x, y, 0);
-  _center = originalCenter;
+  VSET(_actionPan, x, y, 0);
+  VMOVE(_center, originalCenter);
 }
 
 void CameraMode::pan(float x, float y)
 {
-  _actionPan = SimpleVector3(x, y, 0);
+  VSET(_actionPan, x, y, 0);
   //Logger::logDEBUG("panning: %g %g", _actionPan.x, _actionPan.y);
 }
 

@@ -115,7 +115,7 @@ private:
   /** Submode */
   bool _constrainedSubmodeEnabled;
   /** Mode helper */
-  Axis _constrainedToAxis;
+  bn_vector_component _constrainedToAxis;
   /** Mode helper */
   int _mouseButtonsPressed;
   /** Mode helper */
@@ -129,7 +129,7 @@ private:
   /** Mode helper */
   float _dragOriginalVerticalRotation;
   /** Mode helper */
-  SimpleVector3 _dragOriginalCenter;
+  vect_t _dragOriginalCenter;
   
 
   /** Common functionality for all places needing it */

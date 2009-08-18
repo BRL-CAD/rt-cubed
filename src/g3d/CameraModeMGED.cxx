@@ -54,13 +54,12 @@ CameraModeMGED::CameraModeMGED() :
   _rotateModeEnabled(false),
   _scaleModeEnabled(false),
   _constrainedSubmodeEnabled(false),
-  _constrainedToAxis(NOTSET),
   _mouseButtonsPressed(0),
   _dragOriginX(0), _dragOriginY(0),
   _dragOriginalRadius(0.0f),
-  _dragOriginalHorizontalRotation(0.0f), _dragOriginalVerticalRotation(0.0f),
-  _dragOriginalCenter(0.0f, 0.0f, 0.0f)
+  _dragOriginalHorizontalRotation(0.0f), _dragOriginalVerticalRotation(0.0f)
 {
+  VSETALL(_dragOriginalCenter, 0);
 }
 
 bool CameraModeMGED::injectKeyPressed(QKeyEvent *e)
@@ -182,7 +181,7 @@ bool CameraModeMGED::injectMousePressed(QMouseEvent *e)
       _dragOriginalRadius = _radius;
       _dragOriginalHorizontalRotation = _horizontalRot;
       _dragOriginalVerticalRotation = _verticalRot;
-      _dragOriginalCenter = _center;
+      VMOVE(_dragOriginalCenter, _center);
       break;
       
     case Qt::MidButton:
@@ -192,7 +191,7 @@ bool CameraModeMGED::injectMousePressed(QMouseEvent *e)
       _dragOriginalRadius = _radius;
       _dragOriginalHorizontalRotation = _horizontalRot;
       _dragOriginalVerticalRotation = _verticalRot;
-      _dragOriginalCenter = _center;
+      VMOVE(_dragOriginalCenter, _center);
       break;
       
     case Qt::RightButton:
@@ -202,7 +201,7 @@ bool CameraModeMGED::injectMousePressed(QMouseEvent *e)
       _dragOriginalRadius = _radius;
       _dragOriginalHorizontalRotation = _horizontalRot;
       _dragOriginalVerticalRotation = _verticalRot;
-      _dragOriginalCenter = _center;
+      VMOVE(_dragOriginalCenter, _center);
       break;
       
     default:
@@ -240,23 +239,6 @@ bool CameraModeMGED::injectMouseReleased(QMouseEvent *e)
 
   if (_translateModeEnabled || _rotateModeEnabled) {
     _constrainedSubmodeEnabled = false;
-    switch (e->button()) {
-    case Qt::LeftButton:
-      _constrainedToAxis = NOTSET;
-      break;
-      
-    case Qt::MidButton:
-      _constrainedToAxis = NOTSET;
-      break;
-      
-    case Qt::RightButton:
-      _constrainedToAxis = NOTSET;
-      break;
-      
-    default:
-      // nothing
-      break;
-    }
   }
 
   return true;
