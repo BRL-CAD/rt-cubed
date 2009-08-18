@@ -26,6 +26,9 @@
  *      Ogre Qt OpenGL widget
  */
 
+// TODO: This would probably be better implemented by creating a Qt
+// render backend for Ogre, much as (and perhaps based on what) the Qt
+// devs have done for OpenGL
 #include "OgreGLWidget.h"
 
 #include <exception>

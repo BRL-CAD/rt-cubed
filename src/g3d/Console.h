@@ -35,9 +35,6 @@
 
 #include "HistoryLineEdit.h"
 
-/** Maximum number lines of output displayed. */
-#define CONSOLE_OUTPUT_LINES 8
-
 class Console : public QWidget
 {
     Q_OBJECT
@@ -63,9 +60,10 @@ private:
     QHBoxLayout *entryLayout;
     
     HistoryLineEdit *entry;
+    QScrollArea *outputArea;
     QLabel *output, *prompt;
 
-    std::deque<QString> outputLines;
+    QString outputText;
 };
 
 #endif

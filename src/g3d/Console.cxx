@@ -35,8 +35,8 @@
 
 Console::Console(QWidget *parent) : QWidget(parent),
 				    layout(new QVBoxLayout(this)),
-				    entryContainer(new QWidget()), entryLayout(new QHBoxLayout(entryContainer)),
-				    entry(new HistoryLineEdit()), output(new QLabel()),
+				    entryContainer(new QWidget()), entryLayout(new QHBoxLayout(entryContainer)), entry(new HistoryLineEdit()),
+				    outputArea(new QScrollArea()), output(new QLabel()),
 				    prompt(new QLabel(">"))
 {
     layout->setMargin(0);
@@ -44,20 +44,22 @@ Console::Console(QWidget *parent) : QWidget(parent),
     entryLayout->setMargin(0);
     entryLayout->setSpacing(0);
     
-    output->setStyleSheet("border-radius: 2px");
     output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
-    // Prevent lag first time the output is shown.
-    output->ensurePolished();
-    output->hide();
-    output->installEventFilter(this);
-    layout->addWidget(output);
-
-    entry->installEventFilter(this);
+    outputArea->setWidget(output);
+    outputArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    outputArea->setStyleSheet("border-radius: 2px");
+    outputArea->hide();
+    layout->addWidget(outputArea);
     
     entryLayout->addWidget(prompt);
     entryLayout->addWidget(entry);
     layout->addWidget(entryContainer);
-    
+
+    outputArea->installEventFilter(this);
+    entry->installEventFilter(this);
+    prompt->installEventFilter(this);
+
+
     QObject::connect(entry, SIGNAL(returnPressed(void)),
 		     this, SLOT(evalCmd(void)));
 
@@ -71,11 +73,11 @@ bool Console::eventFilter(QObject *, QEvent *event)
     switch(event->type())
     {
     case QEvent::Enter:
-	output->show();
+	outputArea->show();
 	return true;
 	
     case QEvent::Leave:
-	output->hide();
+	outputArea->hide();
 	return true;
 
     default:
@@ -98,28 +100,8 @@ void Console::evalCmd()
 
 void Console::pushOutput(QString str) 
 {
-    if(str.length() == 0) {
-	return;
-    }
-
-    QStringList lines = str.split("\n");
-    for(int i = 0; i < lines.size(); i++) {
-	outputLines.push_back(lines[i]);
-    }
-
-    while(outputLines.size() > CONSOLE_OUTPUT_LINES) {
-	outputLines.pop_front();
-    }
-
-    // Update widget
-    QString combined;
-    for(std::deque<QString>::const_iterator i = outputLines.begin(); i != outputLines.end(); ++i) {
-	if(i != outputLines.begin()) {
-	    combined.append("\n");
-	}
-	combined.append(*i);
-    }
-    output->setText(combined);
+    outputText += str;
+    output->setText(outputText);
 }
 
 
