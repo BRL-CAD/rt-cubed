@@ -64,11 +64,14 @@ Console::Console(QWidget *parent) : QWidget(parent),
     prompt->installEventFilter(this);
 
 
-    QObject::connect(entry, SIGNAL(returnPressed(void)),
-		     this, SLOT(evalCmd(void)));
+    QObject::connect(entry, SIGNAL(returnPressed()),
+		     this, SLOT(evalCmd()));
 
     QObject::connect(&(Logger::instance()), SIGNAL(messageLogged(QString)),
 		     this, SLOT(pushOutput(QString)));
+
+    QObject::connect(outputArea->verticalScrollBar(), SIGNAL(rangeChanged(int,int)),
+		     this, SLOT(homeOutput()));
 }
 
 
@@ -109,9 +112,13 @@ void Console::pushOutput(const QString &str)
     }
     outputText += str;
     output->setText(outputText);
-    outputArea->verticalScrollBar()->triggerAction(QAbstractSlider::SliderToMaximum);
 }
 
+void Console::homeOutput() 
+{
+    printf("Whee!\n");
+    outputArea->verticalScrollBar()->triggerAction(QAbstractSlider::SliderToMaximum);
+}
 
 /*
  * Local Variables:

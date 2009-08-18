@@ -44,6 +44,7 @@ public:
 
 public slots:
     void pushOutput(const QString &str);
+    void homeOutput();
 
 signals:
     void commandRan(QString command);
