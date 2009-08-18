@@ -53,18 +53,9 @@ public:
     }
 
   virtual QString execute(QStringList &args) {
-    ged* g = GedData::instance().getGED();
-    int result = 0;
+    callGed(&ged_dump, args);
 
-    if (args.length() != 2) {
-      return CommandMessages::ONE_ARGUMENT;
-    } else {
-      const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
-      int argc = sizeof(argv)/sizeof(const char*);
-      result = ged_dump(g, argc, argv);
-
-      return QString(bu_vls_addr(&g->ged_result_str));
-    }
+    return lastResult();
   }
 };
 
@@ -83,18 +74,9 @@ public:
     }
 
   virtual QString execute(QStringList &args) {
-    ged* g = GedData::instance().getGED();
-    int result = 0;
+    callGed(&ged_reopen, args);
 
-    if (args.length() != 2) {
-      return CommandMessages::ONE_ARGUMENT;
-    } else {
-      const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
-      int argc = sizeof(argv)/sizeof(const char*);
-      result = ged_reopen(g, argc, argv);
-
-      return QString(bu_vls_addr(&g->ged_result_str));
-    }
+    return lastResult();
   }
 };
 
@@ -114,18 +96,9 @@ public:
     }
 
   virtual QString execute(QStringList &args) {
-    ged* g = GedData::instance().getGED();
-    int result = 0;
+    callGed(&ged_solids_on_ray, args);
 
-    if (args.length() != 1) {
-      return CommandMessages::NO_ARGUMENTS;
-    } else {
-      const char* argv[] = { _name.toStdString().c_str() };
-      int argc = sizeof(argv)/sizeof(const char*);
-      result = ged_solids_on_ray(g, argc, argv);
-
-      return QString(bu_vls_addr(&g->ged_result_str));
-    }
+    return lastResult();
   }
 };
 
@@ -146,35 +119,9 @@ public:
     }
 
   virtual QString execute(QStringList &args) {
-    ged* g = GedData::instance().getGED();
-    int result = 0;
+    callGed(&ged_summary, args);
 
-    if (args.length() > 2) {
-      return CommandMessages::ZERO_OR_ONE_ARGUMENTS;
-    } else {
-      if (args.length() == 1) {
-	QString type;
-	if (args[0][0] == 'p') {
-	  type = "p";
-	} else if (args[0][0] == 'r') {
-	  type = "r";
-	} else if (args[0][0] == 'g') {
-	  type = "g";
-	} else {
-	  return "Summary type not recognized";
-	}
-
-	const char* argv[] = { _name.toStdString().c_str(), type.toStdString().c_str() };
-	int argc = sizeof(argv)/sizeof(const char*);
-	result = ged_summary(g, argc, argv);
-      } else {
-	const char* argv[] = { _name.toStdString().c_str() };
-	int argc = sizeof(argv)/sizeof(const char*);
-	result = ged_summary(g, argc, argv);
-      }
-
-      return QString(bu_vls_addr(&g->ged_result_str));
-    }
+    return lastResult();
   }
 };
 
@@ -195,24 +142,9 @@ public:
     }
 
   virtual QString execute(QStringList &args) {
-    ged* g = GedData::instance().getGED();
-    int result = 0;
-
-    if (args.length() > 2) {
-      return CommandMessages::ZERO_OR_ONE_ARGUMENTS;
-    } else {
-      if (args.length() == 1) {
-	const char* argv[] = { _name.toStdString().c_str(), args[1].toStdString().c_str() };
-	int argc = sizeof(argv)/sizeof(const char*);
-	result = ged_title(g, argc, argv);
-      } else {
-	const char* argv[] = { _name.toStdString().c_str() };
-	int argc = sizeof(argv)/sizeof(const char*);
-	result = ged_title(g, argc, argv);
-      }
-
-      return QString(bu_vls_addr(&g->ged_result_str));
-    }
+    callGed(&ged_title, args);
+    
+    return lastResult();
   }
 };
 
@@ -232,16 +164,9 @@ public:
     }
 
   virtual QString execute(QStringList &args) {
-    if (args.length() != 1) {
-      return CommandMessages::NO_ARGUMENTS;
-    } else {
-      ged* g = GedData::instance().getGED();
-      const char* argv[] = { _name.toStdString().c_str() };
-      int argc = sizeof(argv)/sizeof(const char*);
-      int result = ged_version(g, argc, argv);
+    callGed(&ged_version, args);
 
-      return QString(bu_vls_addr(&g->ged_result_str));
-    }
+    return lastResult();
   }
 };
 
@@ -261,14 +186,9 @@ public:
     }
 
   virtual QString execute(QStringList &args) {
-    ged* g = GedData::instance().getGED();
-    int result = 0;
+    callGed(&ged_zap, args);
 
-    if (args.length() != 1) {
-      return CommandMessages::NO_ARGUMENTS;
-    } else {
-      return QString(bu_vls_addr(&g->ged_result_str));
-    }
+    return lastResult();
   }
 };
 
