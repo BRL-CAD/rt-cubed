@@ -46,6 +46,7 @@ Console::Console(QWidget *parent) : QWidget(parent),
     
     output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
     outputArea->setWidget(output);
+    outputArea->setWidgetResizable(true);
     outputArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     outputArea->setStyleSheet("border-radius: 2px");
     outputArea->hide();
