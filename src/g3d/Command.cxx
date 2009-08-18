@@ -64,7 +64,7 @@ const QString& Command::getExtraDescription() const
   return _extraDescription;
 }
 
-const QStringList Command::getArgumentNames() const
+const QStringList& Command::getArgumentNames() const
 {
   return _argNames;
 }

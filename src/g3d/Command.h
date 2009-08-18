@@ -89,7 +89,7 @@ public:
   /** Get a extra description of the command */
   const QString& getExtraDescription() const;
   /** Get the name of the arguments */
-  const QStringList getArgumentNames() const;
+  const QStringList& getArgumentNames() const;
   /** Get the syntax */
   QString getSyntax() const;
 
