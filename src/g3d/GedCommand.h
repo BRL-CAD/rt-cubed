@@ -61,7 +61,7 @@ public:
   virtual ~GedCommand() { }
 
 protected:
-  static void callGed(GedFunc func, const QStringList& args);
+  static int callGed(GedFunc func, const QStringList& args);
   static const QString lastResult();
 };
 
