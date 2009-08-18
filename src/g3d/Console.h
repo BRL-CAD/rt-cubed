@@ -43,7 +43,7 @@ public:
     Console(QWidget *parent = NULL);
 
 public slots:
-    void pushOutput(QString str);
+    void pushOutput(const QString &str);
 
 signals:
     void commandRan(QString command);

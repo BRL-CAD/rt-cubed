@@ -46,7 +46,8 @@ Console::Console(QWidget *parent) : QWidget(parent),
 
     output->setAlignment(Qt::AlignBottom | Qt::AlignLeft);
     output->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::LinksAccessibleByMouse);
-    
+
+    outputArea->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     outputArea->setWidget(output);
     outputArea->setWidgetResizable(true);
     outputArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -101,7 +102,7 @@ void Console::evalCmd()
 }
 
 
-void Console::pushOutput(QString str) 
+void Console::pushOutput(const QString &str) 
 {
     if(outputText.size()) {
 	outputText += "\n";
