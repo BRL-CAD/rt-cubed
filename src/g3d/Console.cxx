@@ -108,7 +108,7 @@ void Console::pushOutput(QString str)
     }
     outputText += str;
     output->setText(outputText);
-    outputArea->ensureVisible(output->x(), output->y() + output->size().height(), 0, 0);
+    outputArea->verticalScrollBar()->triggerAction(QAbstractSlider::SliderToMaximum);
 }
 
 
