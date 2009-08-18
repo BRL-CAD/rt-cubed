@@ -43,6 +43,15 @@ GedCommand::GedCommand(const QString& name,
 {
 }
 
+char** getArgv(const QStringList &list)
+{
+  char **ret = new char*[list.size()];
+  for(int i = 0; i < list.size(); ++i) {
+    ret[i] = list[i].toLocal8Bit().data();
+  }
+
+  return ret;
+}
 
 // Local Variables: ***
 // mode: C++ ***

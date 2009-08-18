@@ -57,6 +57,7 @@ public:
   virtual ~GedCommand() { }
 
 protected:
+  static char** getArgv(const QStringList &list);
 };
 
 #endif
