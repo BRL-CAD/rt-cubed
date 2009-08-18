@@ -76,11 +76,13 @@ protected:
 
     void makeOgreCurrent();
 
-#ifdef Q_WS_X11
+#if defined(Q_WS_X11)
     GLXContext _ogreContext;
     Display *_display;
+#elif defined(Q_WS_WIN)
+    HWND _winDC;
 #else
-#error OgreGLWidget is currently only implemented for GLX
+#error OgreGLWidget is not currently supported on your OpenGL implementation.
 #endif
 
     Ogre::Root *_root;

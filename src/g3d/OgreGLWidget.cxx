@@ -30,11 +30,14 @@
 
 #include <exception>
 
-#ifdef Q_WS_X11
+#if defined(Q_WS_X11)
 #include <Qt/qx11info_x11.h>
 #include <X11/Xlib.h>
+#elif defined(Q_WS_WIN)
+#include <windows.h>
+#include <QColormap>
 #else
-#error OgreGLWidget is currently only implemented for GLX
+#error OgreGLWidget is not currently supported on your OpenGL implementation.
 #endif
 
 #include <OGRE/Ogre.h>
@@ -55,7 +58,8 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     _ogreContext(0), _renderWindow(0), _camera(0), _viewport(0), _scene(0),
     _cameraCtl(new CameraModeBlender)
 {
-    // We need to swap carefully to prevent flicker.
+    // Manual buffer swapping executed in OgreGraphicsView to prevent
+    // flickering Qt widgets.
     setAutoBufferSwap(false);
     
     // Take keyboard focus after being clicked
@@ -63,12 +67,11 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
     
-    // TODO: Explicitly configure
     _root->loadPlugin("RenderSystem_GL");
     _root->setRenderSystem(*(_root->getAvailableRenderers().begin()));
     _root->initialise(false);
-    Logger::logDEBUG("Ogre initialized!\n");
 
+    // Initialize frame time tracking for smooth camera movement
     clock_gettime(CLOCK_REALTIME, &_lastFrame);
 }
 
@@ -94,7 +97,7 @@ void OgreGLWidget::initializeGL()
 
     WId win_id = winId();
 
-#ifdef Q_WS_X11
+#if defined(Q_WS_X11)
     _display = x11Info().display();
     XWindowAttributes window_attributes;
     Status get_attrib_status = XGetWindowAttributes(_display, win_id, &window_attributes);
@@ -122,8 +125,12 @@ void OgreGLWidget::initializeGL()
 
     XFree(xvisinfo);
     _ogreContext = glXGetCurrentContext();
+#elif defined(Q_WS_WIN)
+    _winDC = winId();
+    params["externalWindowHandle"] = Ogre::StringConverter::toString(_winDC);
+    _renderWindow = _root->createRenderWindow(metaObject()->className() + Ogre::StringConverter::toString((unsigned long)this), width(), height(), false, &params);
 #else
-#error OgreGLWidget is currently only implemented for GLX
+#error OgreGLWidget is not currently supported on your OpenGL implementation.
 #endif
 
     if(!_renderWindow) {
@@ -256,10 +263,20 @@ void OgreGLWidget::setCameraMode(int type)
 
 void OgreGLWidget::makeOgreCurrent() 
 {
-#ifdef Q_WS_X11
-    if(_ogreContext != glXGetCurrentContext() && _display) {
+#if defined(Q_WS_X11)
+    if(_ogreContext != glXGetCurrentContext() && _renderWindow) {
 	glXMakeCurrent(_display, winId(), _ogreContext);
     }
+#elif defined(Q_WS_WIN)
+    HPALETTE hpal = QColormap::hPal();
+    if(hpal) {
+	SelectPalette(_winDC, hpal, FALSE);
+	RealizePalette(_winDC);
+    }
+    if(_ogreContext != wglGetCurrentContext() && _renderWindow)
+    {
+	wglMakeCurrent(_winDC, _ogreContext);
+    }      
 #else
 #error OgreGLWidget is currently only implemented for GLX
 #endif
