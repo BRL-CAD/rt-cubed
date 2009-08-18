@@ -103,6 +103,9 @@ void Console::evalCmd()
 
 void Console::pushOutput(QString str) 
 {
+    if(outputText.size()) {
+	outputText += "\n";
+    }
     outputText += str;
     output->setText(outputText);
 }
