@@ -39,17 +39,22 @@ class SceneInputFilter : public QObject
     Q_OBJECT
 
 public:
-    SceneInputFilter(OgreGLWidget *target);
+    /** Constructs a SceneInputFilter
+     * @param target The widget containing the Ogre scene to handle input for.
+     * @param recipient The widget within the Ogre scene which receives input; NULL if all input.
+     */
+    SceneInputFilter(OgreGLWidget *target, QWidget *recipient = NULL);
 
 protected:
-    bool eventFilter(QObject *, QEvent *event);
+    bool eventFilter(QObject *object, QEvent *event);
     
 private:
     bool maybeUpdate(bool value);
 
     Ogre::Camera *_camera;
 
-    OgreGLWidget *oglwidget;
+    OgreGLWidget *_oglwidget;
+    QWidget *_recipient;
 };
 
 #endif

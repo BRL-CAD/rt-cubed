@@ -30,58 +30,62 @@
 
 #include <QGraphicsSceneWheelEvent>
 
-SceneInputFilter::SceneInputFilter(OgreGLWidget *target) : oglwidget(target)
+SceneInputFilter::SceneInputFilter(OgreGLWidget *target, QWidget *recipient) : _oglwidget(target), _recipient(recipient)
 {
 }
 
 bool SceneInputFilter::maybeUpdate(bool value) 
 {
     if(value) {
-	oglwidget->update();
+	_oglwidget->update();
     }
     return value;
 }
 
-bool SceneInputFilter::eventFilter(QObject *, QEvent *event) 
+bool SceneInputFilter::eventFilter(QObject *object, QEvent *event) 
 {
+    if(_recipient && _recipient != object) {
+	return false;
+    }
+    
     switch(event->type()) {
     case QEvent::KeyPress:
-	return maybeUpdate(oglwidget->getCameraMode().injectKeyPressed(static_cast<QKeyEvent*>(event)));
+	return maybeUpdate(_oglwidget->getCameraMode().injectKeyPressed(static_cast<QKeyEvent*>(event)));
 	
     case QEvent::KeyRelease:
-	return maybeUpdate(oglwidget->getCameraMode().injectKeyReleased(static_cast<QKeyEvent*>(event)));
+	return maybeUpdate(_oglwidget->getCameraMode().injectKeyReleased(static_cast<QKeyEvent*>(event)));
 	
     case QEvent::MouseButtonPress:
-	return maybeUpdate(oglwidget->getCameraMode().injectMousePressed(static_cast<QMouseEvent*>(event)));
+	return maybeUpdate(_oglwidget->getCameraMode().injectMousePressed(static_cast<QMouseEvent*>(event)));
     case QEvent::GraphicsSceneMousePress:
     {
 	QGraphicsSceneMouseEvent *mouse = static_cast<QGraphicsSceneMouseEvent*>(event);
 	QMouseEvent wrap(QEvent::MouseButtonPress, mouse->screenPos(), mouse->button(), mouse->buttons(), mouse->modifiers());
-	return maybeUpdate(oglwidget->getCameraMode().injectMousePressed(&wrap));
+	return maybeUpdate(_oglwidget->getCameraMode().injectMousePressed(&wrap));
     }
 
     case QEvent::MouseButtonRelease:
-	return maybeUpdate(oglwidget->getCameraMode().injectMouseReleased(static_cast<QMouseEvent*>(event)));
+	return maybeUpdate(_oglwidget->getCameraMode().injectMouseReleased(static_cast<QMouseEvent*>(event)));
     case QEvent::GraphicsSceneMouseRelease:
     {
 	QGraphicsSceneMouseEvent *mouse = static_cast<QGraphicsSceneMouseEvent*>(event);
 	QMouseEvent wrap(QEvent::MouseButtonRelease, mouse->screenPos(), mouse->button(), mouse->buttons(), mouse->modifiers());
-	return maybeUpdate(oglwidget->getCameraMode().injectMouseReleased(&wrap));
+	return maybeUpdate(_oglwidget->getCameraMode().injectMouseReleased(&wrap));
     }
 
     case QEvent::MouseMove:
-	return maybeUpdate(oglwidget->getCameraMode().injectMouseMotion(static_cast<QMouseEvent*>(event)));
+	return maybeUpdate(_oglwidget->getCameraMode().injectMouseMotion(static_cast<QMouseEvent*>(event)));
     case QEvent::GraphicsSceneMove:
     {
 	QGraphicsSceneMouseEvent *mouse = static_cast<QGraphicsSceneMouseEvent*>(event);
 	QMouseEvent wrap(QEvent::MouseMove, mouse->screenPos(), mouse->button(), mouse->buttons(), mouse->modifiers());
-	return maybeUpdate(oglwidget->getCameraMode().injectMouseMotion(&wrap));
+	return maybeUpdate(_oglwidget->getCameraMode().injectMouseMotion(&wrap));
     }
 
     case QEvent::Wheel:
-	return maybeUpdate(oglwidget->getCameraMode().injectMouseScrolled((static_cast<QWheelEvent*>(event)->delta() > 0) ? CameraMode::POSITIVE : CameraMode::NEGATIVE));
+	return maybeUpdate(_oglwidget->getCameraMode().injectMouseScrolled((static_cast<QWheelEvent*>(event)->delta() > 0) ? CameraMode::POSITIVE : CameraMode::NEGATIVE));
     case QEvent::GraphicsSceneWheel:
-	return maybeUpdate(oglwidget->getCameraMode().injectMouseScrolled((static_cast<QGraphicsSceneWheelEvent*>(event)->delta() > 0) ? CameraMode::POSITIVE : CameraMode::NEGATIVE));
+	return maybeUpdate(_oglwidget->getCameraMode().injectMouseScrolled((static_cast<QGraphicsSceneWheelEvent*>(event)->delta() > 0) ? CameraMode::POSITIVE : CameraMode::NEGATIVE));
 
     default:
 	break;
