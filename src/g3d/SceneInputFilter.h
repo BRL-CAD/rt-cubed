@@ -41,9 +41,8 @@ class SceneInputFilter : public QObject
 public:
     /** Constructs a SceneInputFilter
      * @param target The widget containing the Ogre scene to handle input for.
-     * @param recipient The widget within the Ogre scene which receives input; NULL if all input.
      */
-    SceneInputFilter(OgreGLWidget *target, QObject *recipient = NULL);
+    SceneInputFilter(OgreGLWidget *target);
 
 protected:
     bool eventFilter(QObject *object, QEvent *event);
@@ -54,7 +53,6 @@ private:
     Ogre::Camera *_camera;
 
     OgreGLWidget *_oglwidget;
-    QObject *_recipient;
 };
 
 #endif

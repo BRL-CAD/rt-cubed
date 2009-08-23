@@ -30,7 +30,7 @@
 
 #include <QGraphicsSceneWheelEvent>
 
-SceneInputFilter::SceneInputFilter(OgreGLWidget *target, QObject *recipient) : _oglwidget(target), _recipient(recipient)
+SceneInputFilter::SceneInputFilter(OgreGLWidget *target) : _oglwidget(target)
 {
 }
 
@@ -42,12 +42,8 @@ bool SceneInputFilter::maybeUpdate(bool value)
     return value;
 }
 
-bool SceneInputFilter::eventFilter(QObject *object, QEvent *event) 
+bool SceneInputFilter::eventFilter(QObject *, QEvent *event) 
 {
-    if(_recipient && object != _recipient) {
-	return false;
-    }
-    
     switch(event->type()) {
     case QEvent::KeyPress:
 	return maybeUpdate(_oglwidget->getCameraMode().injectKeyPressed(static_cast<QKeyEvent*>(event)));
