@@ -35,7 +35,7 @@ MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 			   scene(new QGraphicsScene()),
 			   cmdInterp(new CommandInterpreter()),
 			   window(new QWidget()),
-			   inputFilter(new SceneInputFilter(ogreView, window)),
+			   inputFilter(new SceneInputFilter(ogreView)),
 			   cmdDialog(new CommandDialog())
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
