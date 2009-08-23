@@ -43,7 +43,7 @@ public:
      * @param target The widget containing the Ogre scene to handle input for.
      * @param recipient The widget within the Ogre scene which receives input; NULL if all input.
      */
-    SceneInputFilter(OgreGLWidget *target, QWidget *recipient = NULL);
+    SceneInputFilter(OgreGLWidget *target, QObject *recipient = NULL);
 
 protected:
     bool eventFilter(QObject *object, QEvent *event);
@@ -54,7 +54,7 @@ private:
     Ogre::Camera *_camera;
 
     OgreGLWidget *_oglwidget;
-    QWidget *_recipient;
+    QObject *_recipient;
 };
 
 #endif

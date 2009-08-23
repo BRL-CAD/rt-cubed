@@ -30,7 +30,7 @@
 
 #include <QGraphicsSceneWheelEvent>
 
-SceneInputFilter::SceneInputFilter(OgreGLWidget *target, QWidget *recipient) : _oglwidget(target), _recipient(recipient)
+SceneInputFilter::SceneInputFilter(OgreGLWidget *target, QObject *recipient) : _oglwidget(target), _recipient(recipient)
 {
 }
 
@@ -44,7 +44,7 @@ bool SceneInputFilter::maybeUpdate(bool value)
 
 bool SceneInputFilter::eventFilter(QObject *object, QEvent *event) 
 {
-    if(_recipient && _recipient != object) {
+    if(_recipient && object != _recipient) {
 	return false;
     }
     
