@@ -31,6 +31,8 @@
 #include "GS/netMsg/GenericMultiByteMsg.h"
 
 #include "GS/netMsg/FailureMsg.h"
+#include "GS/netMsg/SuccessMsg.h"
+
 #include "GS/netMsg/RemHostNameSetMsg.h"
 #include "GS/netMsg/NewHostOnNetMsg.h"
 
@@ -339,7 +341,6 @@ testGenericMultiByteMsg()
       std::cout << "\n";
 }
 
-
 void
 testFailureMsg()
 {
@@ -364,6 +365,48 @@ testFailureMsg()
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
   FailureMsg* m4 = new FailureMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+void
+testSuccessMsg()
+{
+  std::cout << "SuccessMsg:\n";
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  SuccessMsg* m1 = new SuccessMsg(123);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  SuccessMsg* m2 = new SuccessMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+
+  SuccessMsg* m3 = new SuccessMsg(m2, 123);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  SuccessMsg* m4 = new SuccessMsg(qds);
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -649,6 +692,8 @@ int main(int argc, char* argv[])
   testGenericMultiByteMsg();
 
   testFailureMsg();
+  testSuccessMsg();
+ 
   testRemHostNameSetMsg();
 
   testNewHostOnNetMsg();

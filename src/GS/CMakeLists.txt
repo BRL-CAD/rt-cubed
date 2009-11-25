@@ -70,6 +70,7 @@ SET(GS_SOURCES
 	netMsg/GenericFourBytesMsg.cxx
 	netMsg/GenericMultiByteMsg.cxx
 	netMsg/FailureMsg.cxx
+	netMsg/SuccessMsg.cxx
 	netMsg/RemHostNameSetMsg.cxx
 	netMsg/NewHostOnNetMsg.cxx
 	netMsg/GeometryReqMsg.cxx
