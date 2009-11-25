@@ -24,78 +24,68 @@
  */
 
 #include "GS/netMsg/GeometryReqMsg.h"
-#include <sstream>
 
-//HeaderOnly Constructor
-GeometryReqMsg::GeometryReqMsg(unsigned int mType, UUID mUUID, UUID rUUID, unsigned char v, std::string d):
-  NetMsg(mType, mUUID, rUUID), reqType(v), data(d)
+//Only Constructor
+GeometryReqMsg::GeometryReqMsg(quint8 requestType, QString data):
+  GenericOneStringMsg(GEOMETRYREQ, data), reqType(requestType)
 {
 }
 
-//Deserializing Constructors
-GeometryReqMsg::GeometryReqMsg(DataStream* ds)
+//Reply Constructor
+GeometryReqMsg::GeometryReqMsg(NetMsg* msg, quint8 requestType, QString data):
+  GenericOneStringMsg(GEOMETRYREQ, msg, data), reqType(requestType)
 {
-  this->deserialize(ds);
 }
-GeometryReqMsg::GeometryReqMsg(unsigned char data[], unsigned int len)
+
+//Deserializing Constructor
+GeometryReqMsg::GeometryReqMsg(QDataStream* ds):
+  GenericOneStringMsg(ds)
 {
-  DataStream ds;
-  for (int i = 0; i < len; i++)
-    {
-      ds << data[i];
-    }
-  this->deserialize(&ds);
+  *ds >> this->reqType;
 }
 
 //Destructor
 GeometryReqMsg::~GeometryReqMsg()
+{}
+
+bool GeometryReqMsg::_serialize(QDataStream* ds)
 {
-}
+   //Call the super
+   GenericOneStringMsg::_serialize(ds);
 
-
-bool GeometryReqMsg::_deserialize(DataStream* ds)
-{
-  *ds >> this->reqType;
-  *ds >> this->data;
-
-  return true;
-}
-
-bool GeometryReqMsg::_serialize(DataStream* ds)
-{
   *ds << this->reqType;
-  *ds << this->data;
-  return true;
+   return true;
 }
 
-std::string GeometryReqMsg::toString() 
+QString GeometryReqMsg::toString() 
 {
-  std::stringstream Num;
-  Num << "msgType: " << this->msgType << " \t";   
-  Num << "msgUUID: " << this->msgUUID << " \t";
-  Num << "reUUID: " << this->reUUID << " \t";
-  Num << "ReqType: " << static_cast<unsigned int>(this->reqType) << " \t";
-  Num << "LenOfData: " << this->data.size() << " \t";
-  Num << "Data: " << this->data;
-  Num << "\n";
-  return Num.str();
+  QString out;
+
+  out.append(GenericOneStringMsg::toString());
+  out.append("' requestType: '");
+  out.append(QString::number(this->reqType));
+  out.append("'");
+  
+  return out;
+}
+
+
+bool
+GeometryReqMsg::_equals(NetMsg& msg) 
+{
+  GeometryReqMsg& gmsg = (GeometryReqMsg&) msg;
+   
+  if (this->getRequestType() != gmsg.getRequestType()) {
+    return false;
+  }
+
+  return true;
 }
 
 /*
  *Getters n Setters
  */
-unsigned char GeometryReqMsg::getReqType() {return this->reqType;}
-void GeometryReqMsg::setReqType(unsigned char v)
-{
-  this->reqType = v;
-}
-
-std::string GeometryReqMsg::getData() {return this->data;}
-void GeometryReqMsg::setData(std::string v)
-{
-  this->data = v;
-}
-
+quint8 GeometryReqMsg::getRequestType() {return this->reqType;}
 
 // Local Variables: ***
 // mode: C++ ***

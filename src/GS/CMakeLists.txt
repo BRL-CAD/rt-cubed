@@ -63,12 +63,19 @@ SET(GS_SOURCES
 	Jobs/JobManager.cxx
 	Jobs/JobWorker.cxx
 	Jobs/NetMsgActionJob.cxx
+	netMsg/NetMsg.cxx
+	netMsg/GenericOneStringMsg.cxx
+	netMsg/GenericOneByteMsg.cxx
+	netMsg/GenericTwoBytesMsg.cxx
+	netMsg/GenericFourBytesMsg.cxx
+	netMsg/GenericMultiByteMsg.cxx
+	netMsg/FailureMsg.cxx
+	netMsg/RemHostNameSetMsg.cxx
+	netMsg/NewHostOnNetMsg.cxx
+	netMsg/GeometryReqMsg.cxx
 	netMsg/GeometryManifestMsg.cxx
 	netMsg/GeometryChunkMsg.cxx
-	netMsg/GeometryReqMsg.cxx
-	netMsg/NetMsg.cxx
-	netMsg/RemHostNameSetFailMsg.cxx
-	netMsg/RemHostNameSetMsg.cxx
+	../utility/Utils.cxx
 )
 
 QT4_WRAP_CPP(GS_MOCCED_HEADERS
@@ -88,8 +95,12 @@ TARGET_LINK_LIBRARIES(gs ${QT_LIBRARIES})
 
 
 ## Make the GS phase 0 Executable.
-ADD_EXECUTABLE(gsph0 gsph0.cxx)
-TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
+#ADD_EXECUTABLE(gsph0 gsph0.cxx)
+#TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
+
+## Make the Test Apps.
+ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
+TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
 
 
 

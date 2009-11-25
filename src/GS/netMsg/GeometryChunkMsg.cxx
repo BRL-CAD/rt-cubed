@@ -26,82 +26,24 @@
 #include "GS/netMsg/GeometryChunkMsg.h"
 #include <sstream>
 
-//HeaderOnly Constructor
-GeometryChunkMsg::GeometryChunkMsg(unsigned int mType, UUID mUUID, UUID  rUUID, unsigned char* ba, unsigned int  len):
-  NetMsg(mType, mUUID, rUUID)
-{
-  this->setData(ba, len);
 
+//Normal Constructor
+GeometryChunkMsg::GeometryChunkMsg(char* dataIn, quint32 dataInLen):
+  GenericMultiByteMsg(GEOMETRYCHUNK, dataIn, dataInLen)
+{
 }
 
-//Deserializing Constructors
-GeometryChunkMsg::GeometryChunkMsg(DataStream* ds)
+  //Reply Constructor
+GeometryChunkMsg::GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen ):
+  GenericMultiByteMsg(GEOMETRYCHUNK, msg, dataIn, dataInLen)
 {
-  this->deserialize(ds);
 }
 
-//Destructor
-GeometryChunkMsg::~GeometryChunkMsg()
+  //Deserializing Constructor
+GeometryChunkMsg::GeometryChunkMsg(QDataStream* ds ):
+  GenericMultiByteMsg(ds)
 {
-  delete data;
 }
-
-
-bool GeometryChunkMsg::_deserialize(DataStream* ds)
-{
-  this->dataLen = ds->readUInt();
-  this->data = new unsigned char[this->dataLen];
-
-  unsigned int actualRead = ds->readUCharArray(this->data, this->dataLen);
-
-  if (actualRead != this->dataLen) {
-    std::cerr << "There was an error in GeometryChunkMsg.setData()\n";
-  }
-
-  return true;
-}
-
-bool GeometryChunkMsg::_serialize(DataStream* ds)
-{
-  ds->writeUInt(this->dataLen);
-  ds->writeUCharArray(this->data, this->dataLen);
-  return true;
-}
-
-std::string GeometryChunkMsg::toString() 
-{
-  std::stringstream Num;
-  Num << "msgType: " << this->msgType << " \t";   
-  Num << "msgUUID: " << this->msgUUID << " \t";
-  Num << "reUUID: " << this->reUUID << " \t";
-  Num << "dataLen: " << this->dataLen << " \t";
-  Num << "data: " << this->data ;
-  Num << "\n";
-  return Num.str();
-}
-
- /*
- *Getters n Setters
- */
-unsigned char* GeometryChunkMsg::getData() {return this->data;}
-unsigned int GeometryChunkMsg::getDataLen(){return this->dataLen;}
-
-void GeometryChunkMsg::setData(const unsigned char* v, const unsigned int vLen)
-{
-  unsigned char* pv = (unsigned char*)v;
-
-  this->data = new unsigned char[vLen];
-  this->dataLen = vLen;
-  
-  for (int i = 0; i < this->dataLen; ++i)
-    {
-      this->data[i] = *pv;
-      pv++;
-    }
-}
-
-
-
 
 // Local Variables: ***
 // mode: C++ ***

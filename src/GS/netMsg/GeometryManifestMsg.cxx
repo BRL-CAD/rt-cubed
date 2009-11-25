@@ -24,86 +24,84 @@
  */
 
 #include "GS/netMsg/GeometryManifestMsg.h"
-#include <sstream>
 
-//HeaderOnly Constructor
-GeometryManifestMsg::GeometryManifestMsg(unsigned int mType, UUID  mUUID, UUID  rUUID):
-  NetMsg(mType, mUUID, rUUID)
+//Normal Constructor
+GeometryManifestMsg::GeometryManifestMsg(QList<QString>& items):
+NetMsg(GEOMETRYMANIFEST)
 {
-  this->itemData = new std::vector<std::string>();
+  this->itemData = new QList<QString>();
+  this->itemData->append(items);
+}
+
+//Reply Constructor
+GeometryManifestMsg::GeometryManifestMsg(NetMsg* msg, QList<QString>& items):
+NetMsg(GEOMETRYMANIFEST, msg)
+{
+  this->itemData = new QList<QString>();
+  this->itemData->append(items);
 }
 
 //Deserializing Constructors
-GeometryManifestMsg::GeometryManifestMsg(DataStream* ds)
+GeometryManifestMsg::GeometryManifestMsg(QDataStream* ds):
+NetMsg(ds)
 {
-  this->deserialize(ds);
-}
-GeometryManifestMsg::GeometryManifestMsg(unsigned char* data, unsigned int len)
-{
-  DataStream ds;
-  for (int i = 0; i < len; i++)
+  this->itemData = new QList<QString>();
+
+  quint32 numOfItems;
+  *ds >> numOfItems;
+
+  for (quint32 i = 0; i < numOfItems; ++i)
     {
-      ds << data[i];
+      QString* tString = Utils::getString(ds);
+      QString newStr;
+      newStr.append(*tString);
+      this->itemData->push_back(newStr);
     }
-  this->deserialize(&ds);
 }
 
 //Destructor
 GeometryManifestMsg::~GeometryManifestMsg()
 {
+	delete this->itemData;
 }
 
-
-bool GeometryManifestMsg::_deserialize(DataStream* ds)
+bool GeometryManifestMsg::_serialize(QDataStream* ds)
 {
-  unsigned int numOfItems = ds->readUInt();
-  std::string s;
+  *ds << this->itemData->size();
 
-  for (int i = 0; i < numOfItems; ++i)
-    {
-      s = ds->readString();
-      this->itemData->push_back(s);
-    }
+  for (quint32 i = 0; i < this->itemData->size(); ++i) {
+    Utils::putString(ds, this->itemData->at(i));
+  }
+
   return true;
 }
 
-bool GeometryManifestMsg::_serialize(DataStream* ds)
+QString GeometryManifestMsg::toString() 
 {
-  ds->writeUInt(static_cast<unsigned int>(this->itemData->size()));
+  QString out;
 
-  std::vector<std::string>::const_iterator cii;
-  for(cii=this->itemData->begin(); cii!=this->itemData->end(); cii++)
-    {
-      ds->writeString(*cii);
-    }
-  return true;
-}
+  out.append(NetMsg::toString());
+  out.append(" numberofItems: ");
+  out.append(QString::number(this->itemData->size()));
+    
+  for (quint32 i = 0; i < this->itemData->size(); ++i) {
+    out.append("\n\t '");
+    out.append(this->itemData->at(i));
+    out.append("'");
+  }
+  
+ out.append("\n");
+    
+  return out;
 
-std::string GeometryManifestMsg::toString() 
-{
-  std::stringstream Num;
-  Num << "msgType: " << this->msgType << " \t";   
-  Num << "msgUUID: " << this->msgUUID << " \t";
-  Num << "reUUID: " << this->reUUID << " \t\n";
-  Num << "\t\titemData.size(): " << this->itemData->size();
-  Num << "\n";
-
-  std::vector<std::string>::const_iterator cii;
-  for(cii=this->itemData->begin(); cii!=this->itemData->end(); cii++)
-    {
-      Num  << "\t\t" << *cii << "\n";
-    }
-  Num << "\n";
-
-  return Num.str();
 }
 
 /*
  *Getters n Setters
  */
-unsigned int GeometryManifestMsg::getNumOfItems() {return this->itemData->size();}
+quint32 GeometryManifestMsg::getNumOfItems() {return this->itemData->size();}
 
-std::vector<std::string>* GeometryManifestMsg::getItemData() {return this->itemData;}
+QList<QString>* GeometryManifestMsg::getItemData() {return this->itemData;}
 
 // Local Variables: ***
 // mode: C++ ***

@@ -96,7 +96,6 @@ class DataStream {
   void writeString(const std::string s);
 
 
-
   friend DataStream& operator>>(DataStream &b, char &c);
   friend DataStream& operator>>(DataStream &b, unsigned char &c);
   friend DataStream& operator>>(DataStream &b, short &s);

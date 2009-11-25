@@ -24,182 +24,645 @@
  */
 
 #include "GS/netMsg/NetMsg.h"
+#include "GS/netMsg/GenericOneStringMsg.h"
+#include "GS/netMsg/GenericOneByteMsg.h"
+#include "GS/netMsg/GenericTwoBytesMsg.h"
+#include "GS/netMsg/GenericFourBytesMsg.h"
+#include "GS/netMsg/GenericMultiByteMsg.h"
+
+#include "GS/netMsg/FailureMsg.h"
 #include "GS/netMsg/RemHostNameSetMsg.h"
-#include "GS/netMsg/RemHostNameSetFailMsg.h"
+#include "GS/netMsg/NewHostOnNetMsg.h"
+
 #include "GS/netMsg/GeometryReqMsg.h"
 #include "GS/netMsg/GeometryManifestMsg.h"
-#include "GE/io/DataStream.h"
+#include "GS/netMsg/GeometryChunkMsg.h"
 
+void
+testEquals(NetMsg* msg01, NetMsg* msg02, bool desiredResult,  bool showInfo)
+{
+
+  if (msg01->equals(*msg02) == desiredResult) {
+      std::cout << "\tPASSED.\n";
+  } else {
+      std::cout << "\tFAILED.\n";
+      showInfo = true;
+  }
+
+  if (showInfo) {
+      std::cout << "\tmsg01: " << msg01->toStdString() << "\n";
+      std::cout << "\tmsg02: " << msg02->toStdString() << "\n";
+      std::cout << "\n";
+  }
+}
+
+
+
+void
+testStringSerialDeserial(QString in)
+{
+  std::cout << "Basic String Serial/Deserial Test: ";
+
+  QByteArray ba;
+  QDataStream* dsw = new QDataStream(&ba, QIODevice::WriteOnly);
+
+  Utils::putString(dsw, in);
+
+  // Utils::printQByteArray(&ba);
+
+  QDataStream* dsr = new QDataStream(&ba, QIODevice::ReadOnly);
+  QString* out = Utils::getString(dsr);
+
+  delete dsw;
+  delete dsr;
+
+  if (in == out) {
+      std::cout << "\tPASSED.\n\n";
+  } else {
+      std::cout << "\tFAILED.\n";
+      std::cout << "in: " << in.toStdString() << "\n";
+      std::cout << "out: " << out->toStdString() << "\n";
+      std::cout << "\n";
+  }
+}
+
+void
+testNetMsg()
+{
+  std::cout << "NetMsg:\n";
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  NetMsg* m1 = new NetMsg(1200340056);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  NetMsg* m2 = new NetMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+  NetMsg* m3 = new NetMsg(8675309, m2);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  NetMsg* m4 = new NetMsg(qds);
+  delete qds;
+
+  testEquals(m3,m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+void
+testGenericOneStringMsg(QString str)
+{
+  std::cout << "GenericOneStringMsg:\n";
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  GenericOneStringMsg* m1 = new GenericOneStringMsg(1200340056, str);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericOneStringMsg* m2 = new GenericOneStringMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+  GenericOneStringMsg* m3 = new GenericOneStringMsg(8675309, m2, str);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericOneStringMsg* m4 = new GenericOneStringMsg(qds);
+  delete qds;
+
+  testEquals(m3,m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+void
+testGenericOneByteMsg()
+{
+  std::cout << "GenericOneByteMsg:\n";
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  GenericOneByteMsg* m1 = new GenericOneByteMsg(1200340056, 123);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericOneByteMsg* m2 = new GenericOneByteMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+
+  GenericOneByteMsg* m3 = new GenericOneByteMsg(1200340056, m2, 123);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericOneByteMsg* m4 = new GenericOneByteMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+void
+testGenericTwoBytesMsg()
+{
+  std::cout << "GenericTwoBytesMsg:\n";
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  GenericTwoBytesMsg* m1 = new GenericTwoBytesMsg(1200340056, 12345);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericTwoBytesMsg* m2 = new GenericTwoBytesMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+
+  GenericTwoBytesMsg* m3 = new GenericTwoBytesMsg(1200340056, m2, 12345);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericTwoBytesMsg* m4 = new GenericTwoBytesMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+void
+testGenericFourBytesMsg()
+{
+  std::cout << "GenericFourBytesMsg:\n";
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  GenericFourBytesMsg* m1 = new GenericFourBytesMsg(1200340056, 987654321);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericFourBytesMsg* m2 = new GenericFourBytesMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+
+  GenericFourBytesMsg* m3 = new GenericFourBytesMsg(1200340056, m2, 987654321);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericFourBytesMsg* m4 = new GenericFourBytesMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+
+void
+testGenericMultiByteMsg()
+{
+  std::cout << "GenericMultiByteMsg:\n";
+
+  char data[] = {12,34,56,78,90,98,76,65,54,43,32,10};
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  GenericMultiByteMsg* m1 = new GenericMultiByteMsg(1200340056, data, 12);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericMultiByteMsg* m2 = new GenericMultiByteMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+
+  GenericMultiByteMsg* m3 = new GenericMultiByteMsg(1200340056, m2, data, 12);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GenericMultiByteMsg* m4 = new GenericMultiByteMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+
+void
+testFailureMsg()
+{
+  std::cout << "FailureMsg:\n";
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  FailureMsg* m1 = new FailureMsg(123);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  FailureMsg* m2 = new FailureMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+
+  FailureMsg* m3 = new FailureMsg(m2, 123);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  FailureMsg* m4 = new FailureMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+void
+testRemHostNameSetMsg()
+{
+  std::cout << "RemHostNameSetMsg Test:\n";
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  RemHostNameSetMsg* m1 = new RemHostNameSetMsg("Gomer Pyle");
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  RemHostNameSetMsg* m2 = new RemHostNameSetMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID):\t";
+
+  RemHostNameSetMsg* m3 = new RemHostNameSetMsg(m2, "Kiaser Sose");
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  RemHostNameSetMsg* m4 = new RemHostNameSetMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+void
+testNewHostOnNetMsg()
+{
+  std::cout << "NewHostOnNetMsg:\n";
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  NewHostOnNetMsg* m1 = new NewHostOnNetMsg("Gomer Pyle");
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  NewHostOnNetMsg* m2 = new NewHostOnNetMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID):\t";
+
+  NewHostOnNetMsg* m3 = new NewHostOnNetMsg(m2, "Kiaser Sose");
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  NewHostOnNetMsg* m4 = new NewHostOnNetMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+void
+testGeometryReqMsg(QString uuid01, QString uuid02)
+{
+  std::cout << "GeometryReqMsg:\n";
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  GeometryReqMsg* m1 = new GeometryReqMsg(ReqByUUID, uuid01);
+  m1->serialize(networkSim);
+
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GeometryReqMsg* m2 = new GeometryReqMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID):\t";
+
+  GeometryReqMsg* m3 = new GeometryReqMsg(m2, ReqByUUID, uuid02);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GeometryReqMsg* m4 = new GeometryReqMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+
+void
+testGeometryChunkMsg()
+{
+  std::cout << "GeometryChunkMsg:\n";
+
+  char data[] = {12,34,56,78,90,98,76,65,54,43,32,10};
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  GeometryChunkMsg* m1 = new GeometryChunkMsg(data, 12);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GeometryChunkMsg* m2 = new GeometryChunkMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+
+  GeometryChunkMsg* m3 = new GeometryChunkMsg( m2, data, 12);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GeometryChunkMsg* m4 = new GeometryChunkMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+      std::cout << "\n";
+}
+
+
+
+void
+testGeometryManifestMsg(QList<QString>* items)
+{
+  std::cout << "GeometryManifestMsg:\n";
+
+  QList<QString> items01;
+  items01.append(*items);
+  //items01.append(*items);
+
+  QList<QString> items02;
+  items02.append(*items);
+
+  QDataStream* qds;
+  QByteArray* networkSim = new QByteArray();
+  std::cout << "\t Equality (without RegardingUUID): ";
+
+  GeometryManifestMsg* m1 = new GeometryManifestMsg(items01);
+  m1->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GeometryManifestMsg* m2 = new GeometryManifestMsg(qds);
+  delete qds;
+
+  testEquals(m1, m2, true, false);
+  networkSim->clear();
+
+  std::cout << "\t Equality (with RegardingUUID): ";
+
+  GeometryManifestMsg* m3 = new GeometryManifestMsg( m2, items02);
+  m3->serialize(networkSim);
+  qds = new QDataStream(networkSim, QIODevice::ReadOnly);
+  GeometryManifestMsg* m4 = new GeometryManifestMsg(qds);
+  delete qds;
+
+  testEquals(m3, m4, true, false);
+
+  std::cout << "\t Diff Fail Test:\t\t";
+  testEquals(m1, m1, true, false);
+
+  std::cout << "\t Diff Succeed Test:\t\t";
+  testEquals(m1, m3, false, false);
+
+  delete m1;
+  delete m2;
+  delete m3;
+  delete m4;
+  delete networkSim;
+   
+std::cout << "\n";
+}
+
+
+//TODO make the intentional Diff failing fn calls work.
+
+/* 
+ * =====================
+ *
+ *        Main
+ *
+ * =====================
+*/
 
 int main(int argc, char* argv[])
 {
+  //Setup common values to use
+  QString uuid01("{60a03846-c39b-42e6-865f-394056a4fa04}");
+  QString uuid02("{90645abd-3109-4538-a425-07810542cc2d}");
+  QString uuid03("{732986e8-5ef9-4329-b457-bc83df959e1f}");
+  QString uuid04("{84d05702-41c4-449d-947b-3c18a8f93cd9}");
+  QString uuid05("{b2dd5d49-1654-49f4-83b2-512b9e2fc4dc}");
+  QString uuid06("{ada2005b-02e1-4431-b7e8-432def490632}");
 
-  unsigned int dsLen;
-  DataStream* pds;
+  QList<QString>* items = new QList<QString>();
+  items->push_back(uuid01);
+  items->push_back(uuid02);
+  items->push_back(uuid03);
+  items->push_back(uuid04);
+  items->push_back(uuid05);
+  items->push_back(uuid06);
 
 
-  std::cout << "\n\n\n*******************\n";
-  std::cout << "Testing NetMsg.cxx:\n";
-  std::cout << "*******************\n";
+  std::cout << "\n\n";
+  
+  testStringSerialDeserial(uuid01);
+  testNetMsg();
+  testGenericOneStringMsg(uuid02);
 
-  NetMsg* n1 = new NetMsg(100, "60a03846-c39b-42e6-865f-394056a4fa04", "90645abd-3109-4538-a425-07810542cc2d");
+  testGenericOneByteMsg();
+  testGenericTwoBytesMsg();
+  testGenericFourBytesMsg();
+  testGenericMultiByteMsg();
 
-  std::cout << "\nOriginal Data: \n";
-  n1->printMe();
+  testFailureMsg();
+  testRemHostNameSetMsg();
 
-  pds = n1->serialize();
+  testNewHostOnNetMsg();
 
-  *pds >> dsLen;
-  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
-  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
+  testGeometryReqMsg(uuid03, uuid04);
+  testGeometryChunkMsg();
+  
 
-  NetMsg* n2 = new NetMsg(pds);
+  testGeometryManifestMsg(items);
 
-  std::cout << "\nResultant Data: \n";
-  n2->printMe();
-  std::cout << "\n";
 
-  delete pds;
-  delete n1;
-  delete n2;
- 
+  std::cout << "\n\n";
 
-
-
-
-  std::cout << "\n\n\n*******************\n";
-  std::cout << "Testing RemHostNameSetMsg.cxx:\n";
-  std::cout << "*******************\n";
-
-  RemHostNameSetMsg* n3 = new RemHostNameSetMsg(100, "60a03846-c39b-42e6-865f-394056a4fa04", "90645abd-3109-4538-a425-07810542cc2d", "shota");
-
-  std::cout << "\nOriginal Data: \n";
-  n3->printMe();
-
-  pds = n3->serialize();
-
-  *pds >> dsLen;
-  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
-  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
-
-  RemHostNameSetMsg* n4 = new RemHostNameSetMsg(pds);
-
-  std::cout << "\nResultant Data: \n";
-  n4->printMe();
-  std::cout << "\n";
-
-  delete pds;
-  delete n3;
-  delete n4;
-
-
-
-
-
-
- 
-
-  std::cout << "\n\n\n*******************\n";
-  std::cout << "Testing RemHostNameSetFailMsg.cxx:\n";
-  std::cout << "*******************\n";
-
-  RemHostNameSetFailMsg* n5 = new RemHostNameSetFailMsg(100, "60a03846-c39b-42e6-865f-394056a4fa04", "90645abd-3109-4538-a425-07810542cc2d", 150);
-
-  std::cout << "\nOriginal Data: \n";
-  n5->printMe();
-
-  pds = n5->serialize();
-
-  *pds >> dsLen;
-  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
-  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
-
-  RemHostNameSetFailMsg* n6 = new RemHostNameSetFailMsg(pds);
-
-  std::cout << "\nResultant Data: \n";
-  n6->printMe();
-  std::cout << "\n";
-
-  delete pds;
-  delete n5;
-  delete n6;
-
-
-
-
-
-
- 
-
-  std::cout << "\n\n\n*******************\n";
-  std::cout << "Testing GeometryReqMsg.cxx:\n";
-  std::cout << "*******************\n";
-
-  GeometryReqMsg* n7 = new GeometryReqMsg(100, "60a03846-c39b-42e6-865f-394056a4fa04", "90645abd-3109-4538-a425-07810542cc2d", 160, "50a03846-c39b-42e6-865f-394056a4f99" );
-
-  std::cout << "\nOriginal Data: \n";
-  n7->printMe();
-
-  pds = n7->serialize();
-
-  *pds >> dsLen;
-  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
-  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
-
-  GeometryReqMsg* n8 = new GeometryReqMsg(pds);
-
-  std::cout << "\nResultant Data: \n";
-  n8->printMe();
-  std::cout << "\n";
-
-  delete pds;
-  delete n7;
-  delete n8;
-
-
-
-
-
-
- 
-
-  std::cout << "\n\n\n*******************\n";
-  std::cout << "Testing GeometryManifestMsg.cxx:\n";
-  std::cout << "*******************\n";
-
-  GeometryManifestMsg* n9 = new GeometryManifestMsg(100, "60a03846-c39b-42e6-865f-394056a4fa04", "90645abd-3109-4538-a425-07810542cc2d");
-
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a0000");
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a1111");
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a2222");
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a3333");
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a4444");
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a5555");
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a6666");
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a7777");
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a8888");
-  n9->getItemData()->push_back("50a03846-c39b-42e6-865f-394056a9999");
-
-  std::cout << "\nOriginal Data: \n";
-  n9->printMe();
-
-  pds = n9->serialize();
-
-  *pds >> dsLen;
-  std::cout << "\nDataStream Data: " << pds->getBytesFilled() << " bytes filled, " << pds->getBytesRead() << " bytes read. ";
-  std::cout << "DataStream remaining Len is: " << dsLen << "\n";
-
-  GeometryManifestMsg* n10 = new GeometryManifestMsg(pds);
-
-  std::cout << "\nResultant Data: \n";
-  n10->printMe();
-  std::cout << "\n";
- 
-  delete pds;
-  delete n9;
-  delete n10;
-
-
+  delete items;
 
   return 0;
 }

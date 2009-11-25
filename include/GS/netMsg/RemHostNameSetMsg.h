@@ -27,43 +27,27 @@
 #define __REMHOSTNAMESETMSG_H__
 
 #include "iBME/iBMECommon.h"
-#include "GE/io/DataInputStream.h"
-#include "GE/io/DataOutputStream.h"
-#include "GE/io/ByteArrayOutputStream.h"
-#include "GE/io/ByteArrayInputStream.h"
-#include "GS/netMsg/NetMsg.h"
+#include "GS/netMsg/GenericOneStringMsg.h"
 
+class RemHostNameSetMsg : public GenericOneStringMsg
+{
 
-class RemHostNameSetMsg : public NetMsg
-    {
+public:
 
-    public:
+  //Normal Constructor
+  RemHostNameSetMsg(QString s);
 
-      //Only Constructor
-      RemHostNameSetMsg(unsigned int mType, UUID mUUID, UUID rUUID, std::string v);
+  //Reply Constructor
+  RemHostNameSetMsg(RemHostNameSetMsg* msg, QString s);
 
-      //Deserializing Constructors
-      RemHostNameSetMsg(unsigned char data[], unsigned int len);
-      RemHostNameSetMsg(DataStream* ds);
+  //Deserializing Constructors
+  RemHostNameSetMsg(QDataStream* ds);
 
-      //Destructor
-      virtual ~RemHostNameSetMsg();
-  
-      virtual std::string toString();
+  //Destructor
+  virtual ~RemHostNameSetMsg();
 
-      /*
-       *Getters n Setters
-       */
-	std::string getHostName();
-	void setHostName(std::string v);
-
-
-    private:
-      std::string hostname;
-      virtual bool _deserialize(DataStream* ds);
-      virtual bool _serialize(DataStream* ds);
-
-    };
+  QString getRemoteHostName();
+};
 
 #endif
 

@@ -27,46 +27,23 @@
 #define __GEOMETRYCHUCKMSG_H__
 
 #include "iBME/iBMECommon.h"
-#include "GE/io/DataInputStream.h"
-#include "GE/io/DataOutputStream.h"
-#include "GE/io/ByteArrayOutputStream.h"
-#include "GE/io/ByteArrayInputStream.h"
-#include "GS/netMsg/NetMsg.h"
+#include "GS/netMsg/GenericMultiByteMsg.h"
 
-
-class GeometryChunkMsg : public NetMsg
-    {
-
-    public:
-
-      //Only Constructor
-      GeometryChunkMsg(unsigned int mType, UUID mUUID, UUID rUUID, unsigned char* ba, unsigned int len);
-
-      //Deserializing Constructors
-      GeometryChunkMsg(DataStream* ds);
-
-      //Destructor
-      virtual ~GeometryChunkMsg();
+class GeometryChunkMsg : public GenericMultiByteMsg
+{
   
-      virtual std::string toString();
+public:
 
-      /*
-       *Getters n Setters
-       */
-      unsigned char* getData();
-      void setData(const unsigned char* v, const unsigned int vLen);
+  //Normal Constructor
+  GeometryChunkMsg(char* dataIn, quint32 dataInLen);
 
-      unsigned int getDataLen();
+  //Reply Constructor
+  GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen);
 
-
-    private:
-      unsigned char* data;
-      unsigned int dataLen;
-
-      virtual bool _deserialize(DataStream* ds);
-      virtual bool _serialize(DataStream* ds);
-
-    };
+  //Deserializing Constructors
+  GeometryChunkMsg(QDataStream* ds);
+  
+ };
 
 #endif
 

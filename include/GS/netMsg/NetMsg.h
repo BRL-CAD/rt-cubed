@@ -28,56 +28,63 @@
 
 #include "iBME/iBMECommon.h"
 #include "GE/io/DataStream.h"
+#include "Utility/Utils.h"
+#include <QDataStream>
+#include <QByteArray>
+#include <QUuid>
+#include <sstream>
 
 class NetMsg
 {
 
 public:
 
-  //Default Constructor
-  NetMsg();
+  //Normal Constructor
+  NetMsg(quint32 mType);
 
-  //HeaderOnly Constructor
-  NetMsg(unsigned int mType, UUID mUUID, UUID rUUID);
+  //Reply Constructor
+  NetMsg(quint32 mType, NetMsg* msg);
 
   //Deserializing Constructors
-  NetMsg(unsigned char data[], unsigned int len);
-  NetMsg(DataStream* ds);
+  NetMsg(QDataStream* ds);
 
   //Destructor
   virtual ~NetMsg();
   
 
   //Serializers
-  DataStream* serialize();
-  void serialize(DataStream* ds);
+  QByteArray* serialize();
+  void serialize(QByteArray* ba);
 
   /*
    *Getters n Setters
    */
-  unsigned int getMsgLen();
-  unsigned int getMsgType();
-  UUID getMsgUUID();
-  UUID getReUUID();
+  quint32 getMsgLen();
+  quint32 getMsgType();
+  QUuid getMsgUUID();
+  bool msgHasReUUID();
+  QUuid getReUUID();
 
-  void setMsgLen(unsigned int v);
-  void setMsgType(unsigned int v);
-  void setMsgUUID(UUID v);
-  void setReUUID(UUID v);
-
-  virtual std::string toString();
+  /*
+   * Utilities
+   */
+  virtual QString toString();
+  virtual std::string toStdString();
+  virtual bool equals(NetMsg& msg);
   void printMe();
 
 protected:
-  unsigned int msgLen;
-  unsigned int msgType;
-  UUID msgUUID;
-  UUID reUUID;
+  quint32 msgLen;
+  quint32 msgType;
+  QUuid msgUUID;
+  bool hasReUUID;
+  QUuid reUUID;
 
-  void deserialize(DataStream* ds);
+  virtual bool _serialize(QDataStream* ds);
+  virtual bool _equals(NetMsg& msg);
 
-  virtual bool _deserialize(DataStream* ds);
-  virtual bool _serialize(DataStream* ds);
+  //Disable Default Constructor
+  NetMsg(){}
 
 };
 

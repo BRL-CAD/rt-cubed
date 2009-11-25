@@ -55,28 +55,28 @@
 
 /*  NetMsg Types */
 
-#define RemHostNameSET 		0
-#define	RemHostNameSETFAIL 	5
-#define	RemHostNameSETOK 	10
+#define	FAILURE          	0
 
-#define	DisconnectREQ 		15
-#define NewHostOnNetINFO 	20
+#define REMHOSTNAMESET 		5
+#define	REMHOSTNAMESETOK 	10
 
-#define FullHostListREQ		25
-#define FullHostListREQFAIL	30
-#define FullHostListREQOK	35
+#define	DISCONNECTREQ 		15
+#define NEWHOSTONNET     	20
 
-#define NewSessionREQ		40
-#define NewSessionREQFAIL	45
-#define NewSessionREQOK		50
+#define FULLHOSTLISTREQ		25
+#define FULLHOSTLISTREQFAIL	30
+#define FULLHOSTLISTREQOK	35
 
+#define NEWSESSIONREQ		40
+#define NEWSESSIONREQFAIL	45
+#define NEWSESSIONREQOK		50
 
-#define	GeometryREQ		100
-   #define ReqByUUID         0
-   #define ReqByFilePath     1
-#define	GeometryREQFAIL		105
-#define GeometryMANIFEST	110
-#define GeometryCHUNK		115
+#define	GEOMETRYREQ		100
+   #define ReqByUUID         10
+   #define ReqByFilePath     11
+#define	GEOMETRYREQFAIL		105
+#define GEOMETRYMANIFEST	110
+#define GEOMETRYCHUNK		115
 
 
 /*  Failure Codes */

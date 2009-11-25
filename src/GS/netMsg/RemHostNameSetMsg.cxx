@@ -1,4 +1,4 @@
-/*           R E M H O S T N A M E S E T M S G . C X X
+/*             R E M H O S T N A M E S E T M S G . C X X
  * BRL-CAD
  *
  * Copyright (c) 2009 United States Government as represented by
@@ -26,25 +26,22 @@
 #include "GS/netMsg/RemHostNameSetMsg.h"
 #include <sstream>
 
-//HeaderOnly Constructor
-RemHostNameSetMsg::RemHostNameSetMsg(unsigned int mType, UUID mUUID, UUID rUUID, std::string v):
-  NetMsg(mType, mUUID, rUUID), hostname(v)
+//Normal Constructor
+RemHostNameSetMsg::RemHostNameSetMsg(QString hostname):
+  GenericOneStringMsg(REMHOSTNAMESET, hostname)
 {
 }
 
-//Deserializing Constructors
-RemHostNameSetMsg::RemHostNameSetMsg(DataStream* ds)
+  //Reply Constructor
+RemHostNameSetMsg::RemHostNameSetMsg(RemHostNameSetMsg* msg, QString hostname):
+  GenericOneStringMsg(REMHOSTNAMESET, msg, hostname)
 {
-  this->deserialize(ds);
 }
-RemHostNameSetMsg::RemHostNameSetMsg(unsigned char data[], unsigned int len)
+
+//Deserializing Constructor
+RemHostNameSetMsg::RemHostNameSetMsg(QDataStream* ds):
+  GenericOneStringMsg(ds)
 {
-  DataStream ds;
-  for (int i = 0; i < len; i++)
-    {
-      ds << data[i];
-    }
-  this->deserialize(&ds);
 }
 
 //Destructor
@@ -52,38 +49,10 @@ RemHostNameSetMsg::~RemHostNameSetMsg()
 {
 }
 
-
-bool RemHostNameSetMsg::_deserialize(DataStream* ds)
-{
-  *ds >> this->hostname;
-  return true;
-}
-
-bool RemHostNameSetMsg::_serialize(DataStream* ds)
-{
-  *ds << this->hostname;
-  return true;
-}
-
-std::string RemHostNameSetMsg::toString() 
-{
-  std::stringstream Num;
-  Num << "msgType: " << this->msgType << " \t";   
-  Num << "msgUUID: " << this->msgUUID << " \t";
-  Num << "reUUID: " << this->reUUID << " \t";
-  Num << "hostname: " << this->hostname;
-  Num << "\n";
-  return Num.str();
-}
-
  /*
  *Getters n Setters
  */
-std::string RemHostNameSetMsg::getHostName() {return this->hostname;}
-void RemHostNameSetMsg::setHostName(std::string v)
-{
-  this->hostname = v;
-}
+QString RemHostNameSetMsg::getRemoteHostName() {return this->strData;}
 
 // Local Variables: ***
 // mode: C++ ***

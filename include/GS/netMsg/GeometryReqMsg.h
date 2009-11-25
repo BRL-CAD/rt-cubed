@@ -27,43 +27,41 @@
 #define __GEOMETRYREQMSG_H__
 
 #include "iBME/iBMECommon.h"
-#include "GE/io/DataStream.h"
-#include "GS/netMsg/NetMsg.h"
+#include "GS/netMsg/GenericOneStringMsg.h"
 
-class GeometryReqMsg : public NetMsg
-    {
+class GeometryReqMsg : public GenericOneStringMsg
+{
 
-    public:
+public:
 
-      //Only Constructor
-      GeometryReqMsg(unsigned int mType, UUID mUUID, UUID rUUID, unsigned char v, std::string d);
+  //Only Constructor
+  GeometryReqMsg(quint8 requestType, QString data);
 
-      //Deserializing Constructors
-      GeometryReqMsg(unsigned char data[], unsigned int len);
-      GeometryReqMsg(DataStream* ds);
+  //Reply Constructor
+  GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
 
-      //Destructor
-      virtual ~GeometryReqMsg();
+  //Deserializing Constructors
+  GeometryReqMsg(QDataStream* ds);
+
+  //Destructor
+  virtual ~GeometryReqMsg();
   
-      virtual std::string toString();
+  virtual QString toString();
 
-      /*
-       *Getters n Setters
-       */
-	unsigned char getReqType();
-	void setReqType(unsigned char v);
+  /*
+   *Getters n Setters
+   */
+  quint8 getRequestType();
+  
+  QString getData();
+  
+private:
+  quint8 reqType;
 
-	std::string getData();
-	void setData(std::string v);
+  bool _serialize(QDataStream* ds);
+  bool _equals(NetMsg& msg);
 
-
-    private:
-      unsigned char reqType;
-      std::string data;
-      virtual bool _deserialize(DataStream* ds);
-      virtual bool _serialize(DataStream* ds);
-
-    };
+};
 
 #endif
 
