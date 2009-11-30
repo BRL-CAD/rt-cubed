@@ -35,7 +35,6 @@
 
 #include "CommandParser.h"
 #include "ICommandable.h"
-#include "ACPCommand.h"
 
 class AdminControlPanel : public QCoreApplication, public ICommandable
 {
