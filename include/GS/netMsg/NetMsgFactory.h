@@ -1,4 +1,4 @@
-/*                 N E T S O C K P O R T A L . H
+/*                        N E T M S G F A C T O R Y. H
  * BRL-CAD
  *
  * Copyright (c) 2009 United States Government as represented by
@@ -17,45 +17,37 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NetSockPortal.h
+/** @file NetMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __NETSOCKPORTAL_H__
-#define __NETSOCKPORTAL_H__
+#ifndef __NETMSGFACTORY_H__
+#define __NETMSGFACTORY_H__
 
-#include <QTcpSocket>
-#include <QString>
+#include "iBME/iBMECommon.h"
+#include <QByteArray>
+#include <QQueue>
+#include "GS/netMsg/NetMsg.h"
 
-class NetSockPortal : public QTcpSocket
+
+class NetMsgFactory
 {
-  Q_OBJECT
-
-  friend class NetSockPortalManager;
 
 public:
-  NetSockPortal(QObject* parent = 0);
-  virtual ~NetSockPortal();
 
-  enum {
-    Handshaking_HostNameLen = 2,
-    Handshaking_HostName = 4,
-    Handshaking_VersionLen = 6,
-    Handshaking_Version = 8,
-    Ready = 10,
-    Failed = 12,
-  };
+  NetMsgFactory();
+
+  void addData(QByteArray data);
+  bool hasMsgsAvailable();
+  NetMsg* getNextMsg();
 
 private:
-  quint32 remHostNameLen;
-  QString remHostName;
-  quint32 remVersionLen;
-  QString remVersion;
 
-  int portStatus;
+  QQueue<NetMsg*>* outbox;
 
+  QByteArray intBuffer;
 
 };
 

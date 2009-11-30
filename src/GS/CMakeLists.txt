@@ -61,6 +61,7 @@ SET(GS_SOURCES
 	Jobs/JobManager.cxx
 	Jobs/JobWorker.cxx
 	Jobs/NetMsgActionJob.cxx
+	netMsg/NetMsgFactory.cxx
 	netMsg/NetMsg.cxx
 	netMsg/GenericOneStringMsg.cxx
 	netMsg/GenericOneByteMsg.cxx
