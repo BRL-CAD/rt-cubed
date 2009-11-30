@@ -41,17 +41,20 @@ AdminControlPanel::~AdminControlPanel()
 
 int AdminControlPanel::exec() 
 {
-  CommandParser cp((ICommandable*)this); //I shouldn't have to cast this... what's going on?!?
 
-  QObject::connect(&cp, SIGNAL(finished()), this, SLOT(shutdown()) );
-  QObject::connect(&cp, SIGNAL(terminated()), this, SLOT(shutdown()) );
+  this->cp = new CommandParser((ICommandable*)this); //I shouldn't have to cast this... what's going on?!?
 
-  cp.start();
+  QObject::connect(cp, SIGNAL(finished()), this, SLOT(shutdown()) );
+  QObject::connect(cp, SIGNAL(terminated()), this, SLOT(shutdown()) );
+
+  this->cp->start();
+
+  std::cout << "Starting Thread\n";
 
   int retVal = QCoreApplication::exec();
 
-  QObject::disconnect(&cp, SIGNAL(finished()), this, SLOT(shutdown()) );
-  QObject::disconnect(&cp, SIGNAL(terminated()), this, SLOT(shutdown()) );
+  QObject::disconnect(cp, SIGNAL(finished()), this, SLOT(shutdown()) );
+  QObject::disconnect(cp, SIGNAL(terminated()), this, SLOT(shutdown()) );
 
   return retVal;
 }
