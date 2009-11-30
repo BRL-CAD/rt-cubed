@@ -94,18 +94,6 @@ ENDIF(COMMAND cmake_policy)
 ADD_LIBRARY (gs SHARED ${GS_SOURCES} ${GS_MOCCED_HEADERS})
 TARGET_LINK_LIBRARIES(gs ${QT_LIBRARIES})
 
-
-## Make the GS phase 0 Executable.
-#ADD_EXECUTABLE(gsph0 gsph0.cxx)
-#TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
-
-## Make the Test Apps.
-ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
-TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
-
-
-
-
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")
 

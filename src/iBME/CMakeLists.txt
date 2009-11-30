@@ -51,8 +51,55 @@ ADD_EXECUTABLE(dataStreamTest ../tests/DataStreamTest.cxx)
 TARGET_LINK_LIBRARIES(dataStreamTest ge)
 
 
-#ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
-#TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
+## Make the GS phase 0 Executable.
+#ADD_EXECUTABLE(gsph0 gsph0.cxx)
+#TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
+
+
+## Make the Test Apps.
+ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
+TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
+
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")
+
+
+
+MESSAGE(STATUS "")
+MESSAGE(STATUS "################################################")
+MESSAGE(STATUS "##      Configuring AdminControlPanel         ##")
+MESSAGE(STATUS "################################################")
+MESSAGE(STATUS "")
+
+PROJECT(acp)
+
+INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
+MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR}")
+
+INCLUDE (${QT_USE_FILE})
+SET (QT_USE_QTNETWORK TRUE)
+
+set(ACP_SOURCES
+	../adminpanel/acpMain.cxx
+	../adminpanel/AdminControlPanel.cxx
+	../adminpanel/CommandParser.cxx
+)
+
+set(ACP_HEADERS
+	../adminpanel/ICommandable.h
+)
+
+set(ACP_PREMOC_HEADERS
+	../adminpanel/AdminControlPanel.h
+	../adminpanel/CommandParser.h
+)
+
+qt4_wrap_cpp(ACP_POSTMOC_HEADERS ${ACP_PREMOC_HEADERS})
+
+ADD_EXECUTABLE (acp ${ACP_HEADERS} ${ACP_POSTMOC_HEADERS} ${ACP_SOURCES})
+TARGET_LINK_LIBRARIES(acp ${QT_LIBRARIES})
+
+MESSAGE(STATUS "Configuring Complete.")
+MESSAGE(STATUS "")
+
