@@ -34,10 +34,8 @@ MESSAGE(STATUS "##        Configuring GeometryService         ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
 
-
 INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
-
 
 SET(GS_SOURCES
 	NetSockPortal.cxx
@@ -96,4 +94,3 @@ TARGET_LINK_LIBRARIES(gs ${QT_LIBRARIES})
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")
-
