@@ -92,7 +92,7 @@ QByteArray* NetMsg::serialize()
 {
   QByteArray* ba = new QByteArray();
 
-  this->serialize(ba); 
+  this->serialize(ba);
 
   return ba;
 }
@@ -155,7 +155,7 @@ QUuid NetMsg::getReUUID() {return this->reUUID;}
  * Utilities
  */
 bool
-NetMsg::equals(NetMsg& msg) 
+NetMsg::equals(NetMsg& msg)
 {
   if (this->getMsgType() != msg.getMsgType()) {
     return false;
@@ -185,7 +185,7 @@ NetMsg::_equals(NetMsg& msg)
 }
 
 QString
-NetMsg::toString() 
+NetMsg::toString()
 {
   QString out;
 

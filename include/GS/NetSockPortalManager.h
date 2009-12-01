@@ -34,42 +34,45 @@
 #include <QList>
 #include <QByteArray>
 
-class NetSockPortalManager : public QTcpServer
+class NetSockPortalManager: public QTcpServer
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
-    NetSockPortalManager(QString hostName, QString version, QObject* parent = 0);
-    ~NetSockPortalManager();
+			NetSockPortalManager(QString hostName, QString version,
+					QObject* parent = 0);
+	~NetSockPortalManager();
 
-    NetSockPortal nextPendingPortal();
-    bool hasPendingPortal();
+	NetSockPortal nextPendingPortal();
+	bool hasPendingPortal();
 
-    NetSockPortal* connectTo(QHostAddress addy, quint16 port);
+	NetSockPortal* connectTo(QHostAddress addy, quint16 port);
 
 protected:
-    void incomingConnection(int socketDescriptor);
-    NetSockPortal* prepareNewPortal(QTcpSocket* sock);
+	void incomingConnection(int socketDescriptor);
+	NetSockPortal* prepareNewPortal(QTcpSocket* sock);
 
 protected slots:
-    void handlePortalHandshake();
-    void sendHostVersionOnConnect();
+	void handlePortalHandshake();
+	void sendHostVersionOnConnect();
 
 private:
-    static const quint16 MaxRemoteHostNameLen = 512;
+	static const quint16 MaxRemoteHostNameLen = 512;
 
-    QString localHostName;
-    QString localVersion;
+	QString localHostName;
+	QString localVersion;
 
-    QMap<QString, NetSockPortal* > portalList;
+	QMap<QString, NetSockPortal*> portalList;
 
-    QList<NetSockPortal* > pendingConns;
-    QList<NetSockPortal* > handshakingConns;
+	/*
+	 * A Pending connection is a Portal that hasn't completed its Handshake with the other side yet.
+	 */
+	QList<NetSockPortal*> pendingConns;
+	QList<NetSockPortal*> handshakingConns;
 
 };
 
 #endif
-
 
 /*
  * Local Variables:

@@ -29,33 +29,33 @@
 #include <QTcpSocket>
 #include <QString>
 
-class NetSockPortal : public QTcpSocket
+class NetSockPortal: public QTcpSocket
 {
-  Q_OBJECT
+	Q_OBJECT
 
-  friend class NetSockPortalManager;
+	friend class NetSockPortalManager;
 
 public:
-  NetSockPortal(QObject* parent = 0);
-  virtual ~NetSockPortal();
+	NetSockPortal(QObject* parent = 0);
+	virtual ~NetSockPortal();
 
-  enum {
-    Handshaking_HostNameLen = 2,
-    Handshaking_HostName = 4,
-    Handshaking_VersionLen = 6,
-    Handshaking_Version = 8,
-    Ready = 10,
-    Failed = 12,
-  };
+	enum
+	{
+		Handshaking_HostNameLen = 2,
+		Handshaking_HostName = 4,
+		Handshaking_VersionLen = 6,
+		Handshaking_Version = 8,
+		Ready = 10,
+		Failed = 12,
+	};
 
 private:
-  quint32 remHostNameLen;
-  QString remHostName;
-  quint32 remVersionLen;
-  QString remVersion;
+	quint32 remHostNameLen;
+	QString remHostName;
+	quint32 remVersionLen;
+	QString remVersion;
 
-  int portStatus;
-
+	int portStatus;
 
 };
 

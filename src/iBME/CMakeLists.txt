@@ -43,22 +43,23 @@ INCLUDE_DIRECTORIES (${IBME_INCLUDE_DIRS})
 MESSAGE(STATUS "Include Directories: ${IBME_INCLUDE_DIRS}")
 
 
-ADD_EXECUTABLE(streamSerialTests ../tests/streamSerialTests.cxx)
-TARGET_LINK_LIBRARIES(streamSerialTests ge)
-
-
-ADD_EXECUTABLE(dataStreamTest ../tests/DataStreamTest.cxx)
-TARGET_LINK_LIBRARIES(dataStreamTest ge)
-
-
 ## Make the GS phase 0 Executable.
 #ADD_EXECUTABLE(gsph0 gsph0.cxx)
 #TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
 
 
 ## Make the Test Apps.
+ADD_EXECUTABLE(streamSerialTests ../tests/streamSerialTests.cxx)
+TARGET_LINK_LIBRARIES(streamSerialTests ge)
+
+ADD_EXECUTABLE(dataStreamTest ../tests/DataStreamTest.cxx)
+TARGET_LINK_LIBRARIES(dataStreamTest ge)
+
 ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
 TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
+
+ADD_EXECUTABLE(netMsgFactoryTest ../tests/netMsgFactoryTest)
+TARGET_LINK_LIBRARIES(netMsgFactoryTest ge gs ${QT_LIBRARIES})
 
 
 MESSAGE(STATUS "Configuring Complete.")

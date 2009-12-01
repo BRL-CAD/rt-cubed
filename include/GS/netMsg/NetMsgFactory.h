@@ -27,28 +27,38 @@
 #define __NETMSGFACTORY_H__
 
 #include "iBME/iBMECommon.h"
-#include <QByteArray>
-#include <QQueue>
 #include "GS/netMsg/NetMsg.h"
 
+#include <QByteArray>
+#include <QQueue>
+#include <QBuffer>
+#include <QMutex>
 
 class NetMsgFactory
 {
 
 public:
 
-  NetMsgFactory();
+	NetMsgFactory();
+	virtual ~NetMsgFactory();
 
-  void addData(QByteArray data);
-  bool hasMsgsAvailable();
-  NetMsg* getNextMsg();
+	bool addData(QByteArray& data);
+	bool hasMsgsAvailable();
+	NetMsg* getNextMsg();
+	bool attemptToMakeMsg();
 
 private:
 
-  QQueue<NetMsg*>* outbox;
+	QMutex* lock;
 
-  QByteArray intBuffer;
+	QQueue<NetMsg*>* outbox;
 
+	QBuffer* intBuffer;
+	quint64 limit;
+
+	void compactBuffer();
+	void printBufferStatus();
+	static NetMsg* buildMsgByType(quint32 type, QDataStream* qds);
 };
 
 #endif
