@@ -47,6 +47,10 @@ MESSAGE(STATUS "Include Directories: ${IBME_INCLUDE_DIRS}")
 #ADD_EXECUTABLE(gsph0 gsph0.cxx)
 #TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
 
+## Make the GS Executable.
+ADD_EXECUTABLE(geoserv ../GS/gsmain.cxx)
+TARGET_LINK_LIBRARIES(geoserv ge gs ${QT_LIBRARIES})
+
 
 ## Make the Test Apps.
 ADD_EXECUTABLE(streamSerialTests ../tests/streamSerialTests.cxx)
