@@ -75,6 +75,7 @@ void NetSockPortalManager::incomingConnection(int socketDescriptor)
 	//Send the localhostName to the Remote machine.
 	this->sendLocalHostName(nsp);
 
+	emit newIncomingConnection(nsp);
 }
 
 void NetSockPortalManager::handleOutgoingConnect()
@@ -86,6 +87,8 @@ void NetSockPortalManager::handleOutgoingConnect()
 
 	QObject::disconnect(nsp, SIGNAL(connected()), this, SLOT(
 			handleOutgoingConnect(nsp)));
+
+	emit newOutgoingConnection(nsp);
 }
 
 void NetSockPortalManager::handlePortalHandshakeCompleted()

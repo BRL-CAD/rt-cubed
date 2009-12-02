@@ -53,6 +53,10 @@ protected slots:
 	void handlePortalHandshakeCompleted();
 	void handlePortalDisconnect();
 
+signals:
+void newIncomingConnection(NetSockPortal* nsp);
+void newOutgoingConnection(NetSockPortal* nsp);
+
 private:
 	QString localHostName;
 
