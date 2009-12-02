@@ -1,4 +1,4 @@
-/*            N E T M S G S E R I A L T E S T . C X X
+/*            N E T M S G F A C T O R Y T E S T . C X X
  * BRL-CAD
  *
  * Copyright (c) 2009 United States Government as represented by
@@ -17,7 +17,7 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file netMsgSerialTest.cxx
+/** @file netMsgFactoryTest.cxx
  *
  * Brief description
  *
