@@ -31,6 +31,7 @@
 NetSockPortalManager::NetSockPortalManager(QString hostName, QObject* parent) :
 	QTcpServer(parent), localHostName(hostName)
 {
+	this->log = Logger::getInstance();
 	this->portalList = new QMap<QString, NetSockPortal*> ();
 }
 
@@ -40,6 +41,10 @@ NetSockPortalManager::~NetSockPortalManager()
 
 NetSockPortal* NetSockPortalManager::connectTo(QHostAddress addy, quint16 port)
 {
+	QString msg;
+	msg += "Attempting to connect to: " + addy.toString() + ":" + port + "\n";
+	this->log->log(Logger::INFO, msg);
+
 	NetSockPortal* nsp = this->preparePortal();
 	nsp->portStatus = NetSockPortal::NotConnected;
 
@@ -82,6 +87,10 @@ void NetSockPortalManager::handleOutgoingConnect()
 {
 	NetSockPortal* nsp = (NetSockPortal*) sender();
 
+	QString msg;
+	msg += "Accepted new connection from: " + nsp->peerAddress().toString() + ":" + nsp->peerPort() + "\n";
+	this->log->log(Logger::INFO, msg);
+
 	//Send the localhostName to the Remote machine.
 	this->sendLocalHostName(nsp);
 
@@ -100,6 +109,10 @@ void NetSockPortalManager::handlePortalHandshakeCompleted()
 
 	QObject::disconnect(nsp, SIGNAL(portalHandshakeComplete()), this, SLOT(
 			handlePortalHandshakeCompleted()));
+
+	QString msg;
+	msg += "Handshake with " + nsp->getRemoteHostName() + " completed.\n";
+	this->log->log(Logger::INFO, msg);
 }
 
 void NetSockPortalManager::handlePortalDisconnect()

@@ -29,6 +29,7 @@
 #include <QTcpSocket>
 #include <QString>
 
+#include "GE/Logger.h"
 #include "GS/netMsg/NetMsgFactory.h"
 
 class NetSockPortal: public QTcpSocket
@@ -63,6 +64,7 @@ protected slots:
 
 private:
 	QString remHostName;
+	Logger* log;
 
 	NetMsgFactory* factory;
 

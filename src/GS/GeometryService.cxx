@@ -28,6 +28,9 @@
 GeometryService::GeometryService(int& argc, char* argv[], QString hostname) :
 	QCoreApplication(argc, argv), localHostname(hostname)
 {
+
+	this->log = Logger::getInstance();
+
 	this->portalMan = new NetSockPortalManager(hostname);
 
 	//

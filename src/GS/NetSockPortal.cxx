@@ -28,9 +28,13 @@
 #include "GS/netMsg/NetMsg.h"
 #include "GS/netMsg/RemHostNameSetMsg.h"
 
+#include <QHostAddress>
+
 NetSockPortal::NetSockPortal(QObject* parent) :
 	QTcpSocket(parent)
 {
+	this->log = Logger::getInstance();
+
 	QObject::connect(this, SIGNAL(readyRead()), this, SLOT(
 			moveDataFromSocketBuffer()));
 
@@ -49,6 +53,12 @@ void NetSockPortal::moveDataFromSocketBuffer()
 	//put into factory buffer & attempt a msg build.
 	this->factory->addData(data);
 	this->factory->attemptToMakeMsgs();
+
+	QString msg;
+	msg += "New data from: " + this->peerAddress().toString() + ". ";
+	msg += this->factory->getInboxSize() + " Msgs in factory inbox.\n";
+
+	this->log->log(Logger::INFO, msg);
 
 	if (this->hasMsg())
 	{
@@ -102,8 +112,13 @@ void NetSockPortal::moveDataFromSocketBuffer()
 void NetSockPortal::send(NetMsg& msg)
 {
 	QByteArray ba;
-
 	msg.serialize(&ba);
+
+	QString str;
+	str += "Sending msg of type: " + msg.getMsgType();
+	str += ", id: " + msg.getMsgUUID();
+	str += ", length: " + QString::number(ba.size()) + "\n";
+	this->log->log(Logger::INFO, str);
 
 	quint64 totalToSend = ba.size();
 	quint64 thisSend = 0;
@@ -138,7 +153,12 @@ void NetSockPortal::send(NetMsg& msg)
 
 void NetSockPortal::disconnect(quint8 reason)
 {
-	//TODO finish Implementing this.
+	QString msg;
+	msg += "Disconnected from: " + this->peerAddress().toString() + " ("
+			+ this->remHostName + "). Reason code: " + reason + "\n";
+	this->log->log(Logger::INFO, msg);
+
+	this->disconnectFromHost();
 }
 
 bool NetSockPortal::hasMsg()
@@ -150,7 +170,6 @@ NetMsg* NetSockPortal::getNextMsg()
 {
 	return this->factory->getNextMsg();
 }
-
 
 QString NetSockPortal::getRemoteHostName()
 {

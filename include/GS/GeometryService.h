@@ -49,7 +49,7 @@ protected slots:
 private:
 	QString localHostname;
 	NetSockPortalManager* portalMan;
-
+	Logger* log;
 };
 
 #endif

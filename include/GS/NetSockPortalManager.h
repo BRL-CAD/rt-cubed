@@ -26,6 +26,7 @@
 #define __NETSOCKPORTALMANAGER_H__
 
 #include "GS/NetSockPortal.h"
+#include "GE/Logger.h"
 
 #include <QTcpServer>
 #include <QHostAddress>
@@ -59,11 +60,13 @@ void newOutgoingConnection(NetSockPortal* nsp);
 
 private:
 	QString localHostName;
+	Logger* log;
 
 	QMap<QString, NetSockPortal*>* portalList;
 
 	void sendLocalHostName(NetSockPortal* nsp);
 	NetSockPortal* preparePortal();
+
 };
 
 #endif
