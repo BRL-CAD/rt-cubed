@@ -50,11 +50,13 @@ public:
 	bool attemptToMakeMsg();
 	void printBufferStatus(bool extended);
 
+	quint32 getInboxSize();
+
 private:
 
 	QMutex* lock;
 
-	QQueue<NetMsg*>* outbox;
+	QQueue<NetMsg*>* inbox;
 
 	QBuffer* intBuffer;
 	quint64 limit;

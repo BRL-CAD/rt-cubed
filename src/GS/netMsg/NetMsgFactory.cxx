@@ -42,7 +42,7 @@ NetMsgFactory::NetMsgFactory()
 	this->limit = 0;
 
 	this->lock = new QMutex();
-	this->outbox = new QQueue<NetMsg*> ();
+	this->inbox = new QQueue<NetMsg*> ();
 }
 
 NetMsgFactory::~NetMsgFactory()
@@ -130,7 +130,7 @@ bool NetMsgFactory::attemptToMakeMsg()
 	}
 	else
 	{
-		this->outbox->append(msg);
+		this->inbox->append(msg);
 
 		this->compactBuffer();
 
@@ -143,7 +143,7 @@ void NetMsgFactory::printBufferStatus(bool extended)
 	std::cout << "Buffer pos: " << this->intBuffer->pos() << "\n";
 	std::cout << "Buffer limit: " << this->limit << "\n";
 	std::cout << "Buffer size: " << this->intBuffer->size() << "\n";
-	std::cout << "MsgQueue size: " << this->outbox->size() << "\n";
+	std::cout << "MsgQueue size: " << this->inbox->size() << "\n";
 
 	if (extended)
 	{
@@ -243,21 +243,26 @@ NetMsg* NetMsgFactory::buildMsgByType(quint32 type, QDataStream* qds)
 
 bool NetMsgFactory::hasMsgsAvailable()
 {
-	return (this->outbox->size() > 0);
+	return (this->inbox->size() > 0);
 }
 
 NetMsg*
 NetMsgFactory::getNextMsg()
 {
-	if (this->outbox->isEmpty())
+	if (this->inbox->isEmpty())
 	{
 		std::cout << "Factory.getNextMsg() is returning NULL\n";
 		return NULL;
 	}
 
-	NetMsg* out = this->outbox->takeFirst();
+	NetMsg* out = this->inbox->takeFirst();
 
 	return out;
+}
+
+quint32 NetMsgFactory::getInboxSize()
+{
+	return this->inbox->size();
 }
 
 // Local Variables: ***
