@@ -25,12 +25,31 @@
 
 #include "GS/GeometryService.h"
 
-GeometryService::GeometryService()
+GeometryService::GeometryService(int& argc, char* argv[], QString hostname) :
+	QCoreApplication(argc, argv), localHostname(hostname)
 {
+	this->portalMan = new NetSockPortalManager(hostname);
+
+	//
+QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetSockPortal*)),
+		this, SLOT(handleEventsFromPortal(NetSockPortal*)));
 }
+
 GeometryService::~GeometryService()
 {
+	delete this->portalMan;
 }
+
+void GeometryService::startListening(const QHostAddress& addy, quint16 port)
+{
+	this->portalMan->listen(addy, port);
+}
+
+void GeometryService::handleEventsFromPortal(NetSockPortal* nsp)
+{
+
+}
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

@@ -26,16 +26,30 @@
 #ifndef __GEOMETRYSERVICE_H__
 #define __GEOMETRYSERVICE_H__
 
+#include <QTcpSocket>
+#include <QString>
+#include <QStringList>
+#include <QCoreApplication>
+
 #include "GE/GeometryEngine.h"
 #include "iBME/iBMECommon.h"
+#include "GS/NetSockPortalManager.h"
 
-class GeometryService
+class GeometryService: public QCoreApplication
 {
 
-    public:
-      GeometryService();
-      virtual ~GeometryService();
- 
+public:
+	GeometryService(int& argc, char* argv[], QString hostname);
+	virtual ~GeometryService();
+	void startListening(const QHostAddress& addy, quint16 port);
+
+protected slots:
+	void handleEventsFromPortal(NetSockPortal* nsp);
+
+private:
+	QString localHostname;
+	NetSockPortalManager* portalMan;
+
 };
 
 #endif
