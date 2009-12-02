@@ -24,195 +24,98 @@
  */
 
 #include "GS/NetSockPortalManager.h"
+#include "GS/netMsg/RemHostNameSetMsg.h"
 #include <QTcpSocket>
 #include <iostream>
 
-NetSockPortalManager::NetSockPortalManager(QString hostName, QString version,
-		QObject* parent) :
-	QTcpServer(parent), localHostName(hostName), localVersion(version)
+NetSockPortalManager::NetSockPortalManager(QString hostName, QObject* parent) :
+	QTcpServer(parent), localHostName(hostName)
 {
-
+	this->portalList = new QMap<QString, NetSockPortal*> ();
 }
 
 NetSockPortalManager::~NetSockPortalManager()
 {
 }
 
-bool NetSockPortalManager::hasPendingPortal()
-{
-	return !this->pendingConns.empty();
-}
-
 NetSockPortal* NetSockPortalManager::connectTo(QHostAddress addy, quint16 port)
 {
-	QTcpSocket* sock = new QTcpSocket(this);
-	NetSockPortal* nsp = this->prepareNewPortal(sock);
+	NetSockPortal* nsp = this->preparePortal();
+	nsp->portStatus = NetSockPortal::NotConnected;
 
 	//Wire up a signal to send the handshake info on connect
-	QObject::connect(sock, SIGNAL(connected()), this, SLOT(
-			sendHostVersionOnConnect()));
+	QObject::connect(nsp, SIGNAL(connected()), this, SLOT(
+			handleOutgoingConnect()));
 
-	sock->connectToHost(addy, port);
+	nsp->connectToHost(addy, port);
 
 	return nsp;
+}
+
+NetSockPortal* NetSockPortalManager::preparePortal()
+{
+	//Create new NSP and setup signals
+	NetSockPortal* nsp = new NetSockPortal();
+
+	//Set up signal prior to initializing the NSP with a socket Descriptor
+	QObject::connect(nsp, SIGNAL(portalHandshakeComplete()), this, SLOT(
+			handlePortalHandshakeCompleted()));
+
+	QObject::connect(nsp, SIGNAL(disconnect()), this, SLOT(
+			handlePortalDisconnect()));
 }
 
 void NetSockPortalManager::incomingConnection(int socketDescriptor)
 {
-	QTcpSocket* sock = new QTcpSocket();
-	sock->setSocketDescriptor(socketDescriptor);
+	NetSockPortal* nsp = this->preparePortal();
 
-	this->prepareNewPortal(sock);
+	nsp->setSocketDescriptor(socketDescriptor);
+	nsp->portStatus = NetSockPortal::Handshaking;
+
+	//Send the localhostName to the Remote machine.
+	this->sendLocalHostName(nsp);
+
 }
 
-NetSockPortal* NetSockPortalManager::prepareNewPortal(QTcpSocket* sock)
-{
-	NetSockPortal* nsp = new NetSockPortal(sock);
-	nsp->portStatus = NetSockPortal::Handshaking_HostNameLen;
-
-	//Add to handshaking list
-	this->handshakingConns.append(nsp);
-
-	QObject::connect(nsp, SIGNAL(readyRead()), this, SLOT(
-			handlePortalHandshake()));
-
-	return nsp;
-}
-
-void NetSockPortalManager::handlePortalHandshake()
+void NetSockPortalManager::handleOutgoingConnect()
 {
 	NetSockPortal* nsp = (NetSockPortal*) sender();
 
-	// Do some ID-10-T checks.
-	if (nsp == 0)
-	{
-		return;
-	}
-	if (nsp->bytesAvailable() == 0)
-	{
-		return;
-	}
+	//Send the localhostName to the Remote machine.
+	this->sendLocalHostName(nsp);
 
-	//HostNameLen
-	if (nsp->portStatus == NetSockPortal::Handshaking_HostNameLen
-			&& nsp->bytesAvailable() >= 4)
-	{
-
-		QByteArray ba = nsp->read(4);
-		bool ok;
-		quint32 len = ba.toUInt(&ok);
-
-		if (len > NetSockPortalManager::MaxRemoteHostNameLen)
-		{
-			std::cerr << "RemoteHostName's Len exceeded Maximum.\n";
-			nsp->disconnectFromHost();
-			return;
-		}
-
-		if (ok)
-		{
-			nsp->remHostNameLen = len;
-			nsp->portStatus = NetSockPortal::Handshaking_HostName;
-		}
-		else
-		{
-			std::cerr << "Bytes to uint conversion failure.\n";
-			nsp->disconnectFromHost();
-			return;
-		}
-	}
-
-	//HostName
-	if (nsp->portStatus == NetSockPortal::Handshaking_HostName
-			&& nsp->bytesAvailable() >= nsp->remHostNameLen)
-	{
-
-		QByteArray ba = nsp->read(nsp->remHostNameLen);
-		nsp->remHostName = "";
-		nsp->remHostName.append(ba);
-		nsp->portStatus = NetSockPortal::Handshaking_VersionLen;
-	}
-
-	//VersionLen
-	if (nsp->portStatus == NetSockPortal::Handshaking_VersionLen
-			&& nsp->bytesAvailable() >= 4)
-	{
-
-		QByteArray ba = nsp->read(4);
-		bool ok;
-		quint32 len = ba.toUInt(&ok);
-
-		if (len != this->localVersion.length())
-		{
-			std::cerr << "RemoteVersion's Len is not the same as local's.\n";
-			nsp->disconnectFromHost();
-			return;
-		}
-
-		if (ok)
-		{
-			nsp->remVersionLen = len;
-			nsp->portStatus = NetSockPortal::Handshaking_Version;
-		}
-		else
-		{
-			std::cerr << "Bytes to uint conversion failure.\n";
-			nsp->disconnectFromHost();
-			return;
-		}
-	}
-
-	//Version
-	if (nsp->portStatus == NetSockPortal::Handshaking_Version
-			&& nsp->bytesAvailable() >= nsp->remVersionLen)
-	{
-
-		QByteArray ba = nsp->read(nsp->remVersionLen);
-		nsp->remVersion = "";
-		nsp->remVersion.append(ba);
-
-		if (nsp->remVersion != this->localVersion)
-		{
-			std::cerr << "RemoteVersion is not the same as local's.\n";
-			nsp->disconnectFromHost();
-			return;
-		}
-
-		nsp->portStatus = NetSockPortal::Ready;
-
-		this->handshakingConns.removeAll(nsp);
-		this->pendingConns.append(nsp);
-
-		//No longer need to recieve this signal
-		QObject::disconnect(nsp, SIGNAL(readyRead()), this, SLOT(
-				handlePortalHandshake()));
-		emit newConnection();
-	}
-
+	QObject::disconnect(nsp, SIGNAL(connected()), this, SLOT(
+			handleOutgoingConnect(nsp)));
 }
 
-void NetSockPortalManager::sendHostVersionOnConnect()
+void NetSockPortalManager::handlePortalHandshakeCompleted()
 {
-	QTcpSocket* sock = (QTcpSocket*) sender();
+	NetSockPortal* nsp = (NetSockPortal*) sender();
 
-	if (sock == 0)
-	{
-		return;
-	}
+	//Map the NSP
+	this->portalList->insert(nsp->getRemoteHostName(), nsp);
 
-	QByteArray toSend;
+	QObject::disconnect(nsp, SIGNAL(portalHandshakeComplete()), this, SLOT(
+			handlePortalHandshakeCompleted()));
+}
 
-	toSend.append(QByteArray::number(this->localHostName.length()));
-	toSend.append(this->localHostName.toAscii());
+void NetSockPortalManager::handlePortalDisconnect()
+{
+	NetSockPortal* nsp = (NetSockPortal*) sender();
 
-	toSend.append(QByteArray::number(this->localVersion.length()));
-	toSend.append(this->localVersion.toAscii());
+	//Map the NSP
+	this->portalList->remove(nsp->getRemoteHostName());
+}
 
-	sock->write(toSend);
+void NetSockPortalManager::sendLocalHostName(NetSockPortal* nsp)
+{
+	RemHostNameSetMsg msg(this->localHostName);
+	nsp->send(msg);
+}
 
-	QObject::disconnect(sock, SIGNAL(connected()), this, SLOT(
-			sendHostVersionOnConnect()));
-
+NetSockPortal* NetSockPortalManager::getPortalByRemHostname(QString remHostName)
+{
+	return this->portalList->value(remHostName, NULL);
 }
 
 // Local Variables:

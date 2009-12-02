@@ -29,6 +29,8 @@
 #include <QTcpSocket>
 #include <QString>
 
+#include "GS/netMsg/NetMsgFactory.h"
+
 class NetSockPortal: public QTcpSocket
 {
 	Q_OBJECT
@@ -39,21 +41,30 @@ public:
 	NetSockPortal(QObject* parent = 0);
 	virtual ~NetSockPortal();
 
+	bool hasMsg();
+	NetMsg* getNextMsg();
+	void disconnect(quint8 reason);
+
+	void send(NetMsg& msg);
+
+	QString getRemoteHostName();
+
 	enum
 	{
-		Handshaking_HostNameLen = 2,
-		Handshaking_HostName = 4,
-		Handshaking_VersionLen = 6,
-		Handshaking_Version = 8,
-		Ready = 10,
-		Failed = 12,
+		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
 	};
 
+signals:
+	void msgReady();
+	void portalHandshakeComplete();
+
+protected slots:
+	void moveDataFromSocketBuffer();
+
 private:
-	quint32 remHostNameLen;
 	QString remHostName;
-	quint32 remVersionLen;
-	QString remVersion;
+
+	NetMsgFactory* factory;
 
 	int portStatus;
 

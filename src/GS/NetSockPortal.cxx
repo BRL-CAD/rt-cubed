@@ -24,15 +24,137 @@
  */
 
 #include "GS/NetSockPortal.h"
+#include "iBME/iBMECommon.h"
+#include "GS/netMsg/NetMsg.h"
+#include "GS/netMsg/RemHostNameSetMsg.h"
 
-NetSockPortal::NetSockPortal(QObject* parent) : QTcpSocket(parent)
+NetSockPortal::NetSockPortal(QObject* parent) :
+	QTcpSocket(parent)
 {
+	QObject::connect(this, SIGNAL(readyRead()), this, SLOT(
+			moveDataFromSocketBuffer()));
 
 }
 
 NetSockPortal::~NetSockPortal()
 {
 
+}
+
+void NetSockPortal::moveDataFromSocketBuffer()
+{
+	//get data off socket
+	QByteArray data = this->readAll();
+
+	//put into factory buffer & attempt a msg build.
+	this->factory->addData(data);
+	this->factory->attemptToMakeMsgs();
+
+	if (this->hasMsg())
+	{
+
+		//Route the message according to the port status.
+		if (this->portStatus == NetSockPortal::Ready)
+		{
+			//Normally, just emit a signal.
+			emit msgReady();
+		}
+		else if (this->portStatus == NetSockPortal::NotConnected
+				|| this->portStatus == NetSockPortal::Handshaking)
+		{
+			this->portStatus = NetSockPortal::Handshaking;
+			NetMsg* msg = this->getNextMsg();
+
+			if (msg->getMsgType() != REMHOSTNAMESET)
+			{
+				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+				return;
+			}
+
+			RemHostNameSetMsg* rhnsm = (RemHostNameSetMsg*) msg;
+
+			QString remoteHostname = rhnsm->getRemoteHostName();
+
+			//TODO add a way to check for duplicate hosts
+
+			if (remoteHostname.isEmpty())
+			{
+				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+				return;
+			}
+
+			this->remHostName = remoteHostname;
+			this->portStatus = NetSockPortal::Ready;
+			emit portalHandshakeComplete();
+		}
+		else
+		{
+			//Should be failed
+			this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+			return;
+		}
+	}
+}
+
+/**
+ * This function blocks until all data is sent.
+ */
+void NetSockPortal::send(NetMsg& msg)
+{
+	QByteArray ba;
+
+	msg.serialize(&ba);
+
+	quint64 totalToSend = ba.size();
+	quint64 thisSend = 0;
+	quint64 totalSent = 0;
+
+	//TODO needs to be a better way to do this
+	while (totalSent < totalToSend)
+	{
+		thisSend = this->write(ba);
+
+		//Check for socket failure
+		if (thisSend == -1)
+		{
+			this->disconnect(PORTAL_WRITE_FAILURE);
+			return;
+		}
+
+		//Check for Zero bytes sent
+		if (thisSend == 0)
+		{
+			if (totalSent != totalToSend)
+			{
+				std::cerr << "Did not send all data from Msg to host: "
+						<< this->remHostName.toStdString() << "\n";
+			}
+			return;
+		}
+		totalSent += thisSend;
+	}
+
+}
+
+void NetSockPortal::disconnect(quint8 reason)
+{
+	//TODO finish Implementing this.
+}
+
+bool NetSockPortal::hasMsg()
+{
+	return this->factory->hasMsgsAvailable();
+}
+
+NetMsg* NetSockPortal::getNextMsg()
+{
+	return this->factory->getNextMsg();
+}
+
+
+QString NetSockPortal::getRemoteHostName()
+{
+	return this->remHostName;
 }
 
 // Local Variables: ***
