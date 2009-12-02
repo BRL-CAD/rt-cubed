@@ -36,6 +36,7 @@ MESSAGE(STATUS "")
 
 set(GE_SOURCES
 	GeometryEngine.cxx
+	Logger.cxx
 	../iBME/Object.cxx
 	io/DataStream.cxx
 	io/ByteArrayInputStream.cxx
@@ -61,6 +62,7 @@ INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR}")
 
 ADD_LIBRARY (ge SHARED ${GE_SOURCES})
+TARGET_LINK_LIBRARIES(ge ${QT_LIBRARIES})
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")
