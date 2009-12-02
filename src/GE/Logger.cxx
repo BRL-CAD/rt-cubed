@@ -24,22 +24,68 @@
  */
 
 #include "GE/Logger.h"
+#include <QTime>
 
-
+Logger::Logger()
+{
+	this->verbose = true; //Default to true
+}
 Logger* Logger::getInstance()
 {
 	static Logger* instance;
 	return instance;
 }
 
+void Logger::log(quint32 logLevel, QString string)
+{
+	this->lock.lock();
+
+	QString out("");
+
+	out += QTime::currentTime().toString();
+	out += ": ";
+
+	switch (logLevel)
+	{
+	case (Logger::FATAL):
+		out += "(FATAL) ";
+		break;
+	case (Logger::ERROR):
+		out += "(ERROR) ";
+		break;
+	case (Logger::WARNING):
+		out += "(WARNING) ";
+		break;
+	case (Logger::INFO):
+	default:
+		out += "(INFO) ";
+		break;
+	}
+
+	out += string;
+
+	//TODO add file logging
+
+	if (this->verbose)
+	{
+		std::cout << out.toStdString();
+	}
+
+	this->lock.unlock();
+}
+
 void Logger::writeStdOut(QString string)
 {
+	this->lock.lock();
 	std::cout << string.toStdString();
+	this->lock.unlock();
 }
 
 void Logger::writeStdErr(QString string)
 {
+	this->lock.lock();
 	std::cerr << string.toStdString();
+	this->lock.unlock();
 }
 
 // Local Variables: ***

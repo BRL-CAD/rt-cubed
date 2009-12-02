@@ -27,6 +27,7 @@
 #define __LOGGER_H__
 
 #include <QString>
+#include <QMutex>
 #include "iBME/iBMECommon.h"
 
 class Logger
@@ -37,24 +38,24 @@ public:
 	static Logger* getInstance();
 	void writeStdOut(QString string);
 	void writeStdErr(QString string);
+	void log(quint32 logLevel, QString string);
+	void enableVerbose(){this->verbose = true;}
+	void disableVerbose(){this->verbose = false;}
+
+	enum
+	{
+		INFO, WARNING, ERROR, FATAL
+	};
 
 private:
-	Logger()
-	{
-	}
-	;
-	Logger(const Logger& logger)
-	{
-	}
-	;
-	Logger& operator=(const Logger& log)
-	{
-	}
-	;
-	~Logger()
-	{
-	}
-	;
+	bool verbose;
+	QMutex lock;
+
+	Logger();
+	Logger(const Logger& logger){};
+	Logger& operator=(const Logger& log){};
+	~Logger(){};
+
 
 };
 
