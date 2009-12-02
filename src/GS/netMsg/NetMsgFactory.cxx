@@ -71,14 +71,27 @@ bool NetMsgFactory::addData(QByteArray& data)
 	}
 }
 
+void NetMsgFactory::attemptToMakeMsgs()
+{
+	quint32 failSafe = 0;
+	while (this->attemptToMakeMsg())
+	{
+		++failSafe;
+		if (failSafe > 10)
+		{
+			return;
+		}
+	}
+}
+
 bool NetMsgFactory::attemptToMakeMsg()
 {
 	QMutexLocker(this->lock);
 
-	if (this->intBuffer->size() < 8)
+	if (this->limit < 8)
 	{
 		//dont have enough data in the buffer
-		std::cout << "Factory failed: InitialSize < 8\n";
+		//std::cout << "Factory failed: InitialSize < 8\n";
 		return false;
 	}
 
@@ -95,10 +108,10 @@ bool NetMsgFactory::attemptToMakeMsg()
 	quint32 msgType;
 	qdsLen >> msgType;
 
-	if (this->intBuffer->size() < (len + 4))
+	if (this->limit < (len + 4))
 	{
 		//dont have enough data in the buffer
-		std::cout << "Factory failed: Size < LEN + 4 (" << (len + 4) << "\n";
+		//std::cout << "Factory failed: Size < LEN + 4 (" << (len + 4) << "\n";
 		return false;
 	}
 
@@ -124,12 +137,16 @@ bool NetMsgFactory::attemptToMakeMsg()
 		return true;
 	}
 }
-void NetMsgFactory::printBufferStatus()
+void NetMsgFactory::printBufferStatus(bool extended)
 {
-		std::cout << "Buffer pos: " << this->intBuffer->pos() << "\n";
-		std::cout << "Buffer limit: " << this->limit << "\n";
-		std::cout << "Buffer size: " << this->intBuffer->size() << "\n";
+	std::cout << "\n";
+	std::cout << "Buffer pos: " << this->intBuffer->pos() << "\n";
+	std::cout << "Buffer limit: " << this->limit << "\n";
+	std::cout << "Buffer size: " << this->intBuffer->size() << "\n";
+	std::cout << "MsgQueue size: " << this->outbox->size() << "\n";
 
+	if (extended)
+	{
 		quint64 pos = this->intBuffer->pos();
 		this->intBuffer->reset();
 		QByteArray tData = intBuffer->readAll();
@@ -138,14 +155,19 @@ void NetMsgFactory::printBufferStatus()
 		{
 			std::cout << tData[i] << ", ";
 		}
-		std::cout << "\n";
 		this->intBuffer->seek(pos);
+		std::cout << "\n";
+	}
+	std::cout << "\n";
 }
 
 void NetMsgFactory::compactBuffer()
 {
 	//Keep only the data between buffer.pos() and LIMIT;
 	//if we have used ALL of the buffer up:
+
+	//this->printBufferStatus();
+
 	if (this->intBuffer->atEnd())
 	{
 		this->intBuffer->reset();
@@ -178,6 +200,9 @@ void NetMsgFactory::compactBuffer()
 	this->intBuffer->reset();
 	this->intBuffer->write(tempData);
 	this->limit = tempData.size();
+
+	//this->printBufferStatus();
+
 
 }
 

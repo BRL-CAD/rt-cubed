@@ -45,7 +45,10 @@ public:
 	bool addData(QByteArray& data);
 	bool hasMsgsAvailable();
 	NetMsg* getNextMsg();
+	void attemptToMakeMsgs();
+
 	bool attemptToMakeMsg();
+	void printBufferStatus(bool extended);
 
 private:
 
@@ -56,8 +59,8 @@ private:
 	QBuffer* intBuffer;
 	quint64 limit;
 
+
 	void compactBuffer();
-	void printBufferStatus();
 	static NetMsg* buildMsgByType(quint32 type, QDataStream* qds);
 };
 

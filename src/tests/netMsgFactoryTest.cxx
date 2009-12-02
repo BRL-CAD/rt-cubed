@@ -70,11 +70,7 @@ bool testFactoryCommon(NetMsgFactory* factory, QByteArray& data)
 		return false;
 	}
 
-	if (!factory->attemptToMakeMsg())
-	{
-		std::cout << "Factory failure: attemptToMakeMsg()\n";
-		return false;
-	}
+	factory->attemptToMakeMsgs();
 
 	if (!factory->hasMsgsAvailable())
 	{
@@ -354,11 +350,45 @@ int main(int argc, char* argv[])
 
 	testGeometryManifestMsg(factory, items);
 
-	std::cout << "\n\n";
+	/*
+	 *
+	 */
+	std::cout << "\n\nMultipleMsgTest: \n\n";
 
+	QByteArray networkSim;
+
+	GeometryReqMsg m1(ReqByUUID, uuid01);
+	m1.serialize(&networkSim);
+
+	GeometryManifestMsg m2(*items);
+	m2.serialize(&networkSim);
+	m2.serialize(&networkSim);
+
+	char data[] =
+	{ 12, 34, 56, 78, 90, 98, 76, 65, 54, 43, 32, 10 };
+	GeometryChunkMsg m3(data, 12);
+	m3.serialize(&networkSim);
+	m3.serialize(&networkSim);
+	m3.serialize(&networkSim);
+
+	factory->addData(networkSim);
+
+	//Make msgs.
+	factory->attemptToMakeMsgs();
+
+
+	//print the messages
+	while (factory->hasMsgsAvailable())
+	{
+		NetMsg* msg = factory->getNextMsg();
+		std::cout << "MsgType: " << msg->getMsgType() << "\n";
+	}
+
+	/*
+	 *
+	 */
 	delete items;
 	delete factory;
-
 	return 0;
 }
 
