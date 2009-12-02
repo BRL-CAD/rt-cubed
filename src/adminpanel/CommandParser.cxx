@@ -29,64 +29,64 @@
 
 CommandParser::CommandParser(ICommandable* iCmd)
 {
-    this->objToCommand = iCmd;
-    this->stopCmd = false;
+	this->objToCommand = iCmd;
+	this->stopCmd = false;
 }
 
 void CommandParser::run()
 {
-    char* input = (char* )malloc(256);
-    bool retVal;
-    
-    while (! this->stopCmd) 
-    {
-	//print cmd prompt:
-	this->printCmdPrompt();
+	char* input = (char*) malloc(256);
+	bool retVal;
 
-	
-	//get input
-	std::cin.getline(input,256);
+	while (!this->stopCmd)
+	{
+		//print cmd prompt:
+		this->printCmdPrompt();
 
-	//build command stack:
-	QString qinput(input);
-	QStringList* cmdStack = new QStringList(qinput.split(" ", QString::SkipEmptyParts));
+		//get input
+		std::cin.getline(input, 256);
 
-	if (cmdStack->size() == 0) {
-	    continue;
+		//build command stack:
+		QString qinput(input);
+		QStringList* cmdStack = new QStringList(qinput.split(" ",
+				QString::SkipEmptyParts));
+
+		if (cmdStack->size() == 0)
+		{
+			continue;
+		}
+
+		//Check for local command:
+		if (this->checkLocalCommand(cmdStack))
+		{
+			//QString cmd = cmdStack->first();
+			//std::cout << "\tRecognized Command: " << cmd.toStdString() << std::endl;
+			continue;
+		}
+
+		//Route
+		bool commandSuccess = this->objToCommand->handleCommand(cmdStack);
 	}
-
-	//Check for local command:
-	if (this->checkLocalCommand(cmdStack)) {
-	    //QString cmd = cmdStack->first();
-	    //std::cout << "\tRecognized Command: " << cmd.toStdString() << std::endl;
-	    continue;
-	}
-
-        //Route
-	bool commandSuccess = this->objToCommand->handleCommand(cmdStack);
-    }
-    free(input);
+	free(input);
 }
-
 
 void CommandParser::printCmdPrompt()
 {
-    std::cout << "\nACP> ";
+	std::cout << "\nACP> ";
 }
-
 
 bool CommandParser::checkLocalCommand(QStringList* cmdStack)
 {
-    QString cmd = cmdStack->first().toLower();
+	QString cmd = cmdStack->first().toLower();
 
-    if (cmd == "exit" || cmd == "quit") {
-	this->stopCmd = true;
-	return true;
-    }
+	if (cmd == "exit" || cmd == "quit")
+	{
+		this->stopCmd = true;
+		return true;
+	}
 
-    return false;
+	return false;
 }
-
 
 // Local Variables:
 // tab-width: 8

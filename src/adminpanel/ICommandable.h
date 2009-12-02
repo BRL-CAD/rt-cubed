@@ -28,9 +28,10 @@
 
 #include <QStringList>
 
-class ICommandable {
+class ICommandable
+{
 public:
-    virtual bool handleCommand(QStringList* cmdStack) = 0;
+	virtual bool handleCommand(QStringList* cmdStack) = 0;
 };
 
 #endif

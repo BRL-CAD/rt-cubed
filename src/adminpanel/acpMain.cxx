@@ -28,10 +28,10 @@
 
 int main(int argc, char* argv[])
 {
-    AdminControlPanel acp(argc, argv);
-    acp.printSplash();
+	AdminControlPanel acp(argc, argv);
+	acp.printSplash();
 
-    return acp.exec();
+	return acp.exec();
 }
 
 // Local Variables: ***

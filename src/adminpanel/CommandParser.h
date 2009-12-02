@@ -32,22 +32,24 @@
 
 #include "ICommandable.h"
 
-class CommandParser : public QThread
+class CommandParser: public QThread
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
-    CommandParser(ICommandable* iCmd);
-    
-    void run();
-    void printCmdPrompt();
+	CommandParser(ICommandable* iCmd);
 
-    bool stopCmd;
-    
+	void run();
+	void printCmdPrompt();
+
+	bool stopCmd;
+
 private:
-    ICommandable* objToCommand;
-    CommandParser(const CommandParser& cp){} //disable copy constructor.
-    bool checkLocalCommand(QStringList* cmdStack);
+	ICommandable* objToCommand;
+	CommandParser(const CommandParser& cp)
+	{
+	} //disable copy constructor.
+	bool checkLocalCommand(QStringList* cmdStack);
 
 };
 

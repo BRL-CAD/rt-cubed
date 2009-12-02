@@ -36,37 +36,37 @@
 #include "CommandParser.h"
 #include "ICommandable.h"
 
-class AdminControlPanel : public QCoreApplication, public ICommandable
+class AdminControlPanel: public QCoreApplication, public ICommandable
 {
-  Q_OBJECT
+Q_OBJECT
 
 public:
-  AdminControlPanel(int& argc, char* argv[]);
+	AdminControlPanel(int& argc, char* argv[]);
 
-  virtual ~AdminControlPanel();
+	virtual ~AdminControlPanel();
 
-  void connectToHost(const char* hostName, char* port);
-  void connectToHost(const QString strHostName, const QString strPort);
-  void connectToHost(const QString& hostName, quint16 port);
+	void connectToHost(const char* hostName, char* port);
+	void connectToHost(const QString strHostName, const QString strPort);
+	void connectToHost(const QString& hostName, quint16 port);
 
-  int exec();
+	int exec();
 
-  void printSplash();
+	void printSplash();
 
-  bool handleCommand(QStringList* cmdStack);
+	bool handleCommand(QStringList* cmdStack);
 
 public slots:
-  void shutdown();
+	void shutdown();
 
-  void handleSockConnected();
-  void handleSockDisconnected();
-  void handleSockError(QAbstractSocket::SocketError socketError );
-  void handleSockHostFound();
-  void handleSockStateChanged(QAbstractSocket::SocketState socketState );
+	void handleSockConnected();
+	void handleSockDisconnected();
+	void handleSockError(QAbstractSocket::SocketError socketError);
+	void handleSockHostFound();
+	void handleSockStateChanged(QAbstractSocket::SocketState socketState);
 
 private:
-  QTcpSocket* sock;
-  CommandParser* cp;
+	QTcpSocket* sock;
+	CommandParser* cp;
 };
 
 #endif
