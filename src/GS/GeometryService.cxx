@@ -53,6 +53,14 @@ void GeometryService::handleEventsFromPortal(NetSockPortal* nsp)
 
 }
 
+int GeometryService::exec()
+{
+	//Startup prior to exec()
+
+
+	return QCoreApplication::exec();
+}
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***
