@@ -342,6 +342,22 @@ main(int ac, char *av[])
     REQUIREMENT("One client reading from and writing attributes");
 
 
+    /*****************************************/
+    /* CAN GET .g REPRESENTATION OF GEOMETRY */
+    /*****************************************/
+
+    Connect(gc);
+    // gc->addObject();
+    // gc->getRepresentation();
+    // write();
+    // rt_dirbuild();
+    // rt_prep();
+    // rt_shootray();
+    Disconnect(gc);
+
+    REQUIREMENT("Retrievable .g representation for client-side ray tracing");
+
+
     /***************************************/
     /* CAN READ A WIREFRAME REPRESENTATION */
     /***************************************/
@@ -371,9 +387,38 @@ main(int ac, char *av[])
     // gc2->updateObject();
     // gc2->setAttribute();
     // gc->eventsReceived();
-    Disconnect(gc);
+    Disconnect(gc, gc2);
 
     REQUIREMENT("Client event notification");
+
+
+    /*********************************/
+    /* CAN PERSIST GEOMETRY VERSIONS */
+    /*********************************/
+
+    Connect(gc, gc2);
+    // gc->addObject();
+    // gc2->getObject();
+    // gc->updateObject();
+    // gc2->updateObject();
+    // gc2->getObject();
+    Disconnect(gc, gc2);
+
+    REQUIREMENT("Multiple versions of geometry are persisteed and retrievable");
+
+
+    /******************************/
+    /* CAN SHOOT RAYS AT GEOMETRY */
+    /******************************/
+
+    Connect(gc);
+    // gc->addObject();
+    // gc->subscribeEvent();
+    // gc->shootRay();
+    // gc->eventsReceived();
+    Disconnect(gc);
+
+    REQUIREMENT("Server-side ray tracing");
 
 
     /* cleanup */
