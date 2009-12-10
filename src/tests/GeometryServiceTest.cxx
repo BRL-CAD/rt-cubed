@@ -151,14 +151,19 @@ main(int ac, char *av[])
     REQUIREMENT("Initialization of server and client");
 
 
-    /* make sure a client can connect to a server */
+    /**********************************************/
+    /* MAKE SURE A CLIENT CAN CONNECT TO A SERVER */
+    /**********************************************/
 
     Connect(gc);
     Disconnect(gc);
 
     REQUIREMENT("One client connecting (no action)");
 
-    /* make sure two clients can connect to a server */
+
+    /*************************************************/
+    /* MAKE SURE TWO CLIENTS CAN CONNECT TO A SERVER */
+    /*************************************************/
 
     GeometryClient *gc2 = new GeometryClient();
     GAS(gc2 != NULL, "Starting up a second geometry client");
@@ -169,7 +174,9 @@ main(int ac, char *av[])
     REQUIREMENT("Two client simultaneously connecting (no action)");
 
 
-    /* make sure one client can read */
+    /*********************************/
+    /* MAKE SURE ONE CLIENT CAN READ */
+    /*********************************/
 
     Connect(gc);
     // gc->getDirectory();
@@ -178,7 +185,9 @@ main(int ac, char *av[])
     REQUIREMENT("One client reading");
 
 
-    /* make sure one client can read and write */
+    /*******************************************/
+    /* MAKE SURE ONE CLIENT CAN READ AND WRITE */
+    /*******************************************/
 
     Connect(gc);
     // gc->getDirectory();
@@ -188,7 +197,9 @@ main(int ac, char *av[])
     REQUIREMENT("One client reading from and writing");
 
 
-    /* make sure two clients can read */
+    /**********************************/
+    /* MAKE SURE TWO CLIENTS CAN READ */
+    /**********************************/
 
     Connect(gc, gc2);
     // gc->getDirectory();
@@ -198,7 +209,9 @@ main(int ac, char *av[])
     REQUIREMENT("Two clients reading");
 
 
-    /* make sure one client can write, another can read */
+    /****************************************************/
+    /* MAKE SURE ONE CLIENT CAN WRITE, ANOTHER CAN READ */
+    /****************************************************/
 
     Connect(gc, gc2);
     // gc->getDirectory();
@@ -211,7 +224,9 @@ main(int ac, char *av[])
     REQUIREMENT("One client writing, one client reading");
 
 
-    /* make sure one client can write, another two can read */
+    /********************************************************/
+    /* MAKE SURE ONE CLIENT CAN WRITE, ANOTHER TWO CAN READ */
+    /********************************************************/
 
     GeometryClient *gc3 = new GeometryClient();
     GAS(gc3 != NULL, "Starting up a third geometry client");
@@ -232,7 +247,9 @@ main(int ac, char *av[])
     REQUIREMENT("Three clients connecting, only one writing");
 
 
-    /* can read/write attributes */
+    /*****************************/
+    /* CAN READ/WRITE ATTRIBUTES */
+    /*****************************/
 
     Connect(gc);
     // gc->getDirectory();
@@ -244,7 +261,9 @@ main(int ac, char *av[])
     REQUIREMENT("One client reading from and writing attributes");
 
 
-    /* can read a wireframe representation */
+    /***************************************/
+    /* CAN READ A WIREFRAME REPRESENTATION */
+    /***************************************/
 
     Connect(gc);
     // gc->getDirectory();
@@ -254,6 +273,26 @@ main(int ac, char *av[])
     Disconnect(gc);
 
     REQUIREMENT("One client reading from and writing wireframe representation");
+
+
+    /*******************************/
+    /* CAN GET EVENT NOTIFICATIONS */
+    /*******************************/
+
+    Connect(gc, gc2);
+    // gc->subscribeEvent();
+    // gc2->addObject();
+    // gc2->updateObject();
+    // gc2->setAttribute();
+    // gc->eventsReceived();
+    // gc->unsubscribeEvent();
+    // gc2->addObject();
+    // gc2->updateObject();
+    // gc2->setAttribute();
+    // gc->eventsReceived();
+    Disconnect(gc);
+
+    REQUIREMENT("Client event notification");
 
 
     /* cleanup */
