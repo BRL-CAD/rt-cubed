@@ -44,16 +44,24 @@ private:
     int port_;
 
 public:
-    GeometryServer(int port = DEFAULT_PORT) :
-	port_(port)
+    GeometryServer(int port = DEFAULT_PORT)
     {
+	if (port > 0)
+	    start(port);
     }
     ~GeometryServer()
     {
     }
-    bool stillRunning()
+    bool stillRunning() const
     {
 	return false;
+    }
+    void start(int port = DEFAULT_PORT)
+    {
+	port_ = port;
+    }
+    void stop() const
+    {
     }
 };
 
@@ -209,6 +217,19 @@ main(int ac, char *av[])
     GAS(gc != NULL, "Starting up a geometry client");
 
     REQUIREMENT("Initialization of server and client");
+
+
+    /*****************************************/
+    /* MAKE SURE THE SERVER CAN BE RESTARTED */
+    /*****************************************/
+
+    gs->stop();
+    GAS(!gs->stillRunning(), "Server shutting down");
+    gc->connect("localhost", DEFAULT_PORT);
+    GAS(!gc->connected(), "Client prevented from connected");
+    gs->start();
+
+    REQUIREMENT("Server restarts");
 
 
     /**********************************************/
