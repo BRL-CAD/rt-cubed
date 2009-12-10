@@ -32,6 +32,12 @@
 static const int DEFAULT_PORT = 7777;
 
 
+
+/**
+ * wrapper server class for staring up an object that instantiates and
+ * represents a geometry service instance.  this should simply stub
+ * into GS API calls or exec a GS process.
+ */
 class GeometryServer
 {
 private:
@@ -45,9 +51,18 @@ public:
     ~GeometryServer()
     {
     }
+    bool stillRunning()
+    {
+	return false;
+    }
 };
 
 
+/**
+ * wrapper client class for staring up an object that can connect to
+ * and communicate with a geometry server.  this should simply stub
+ * into GS API calls or direct raw network protocol.
+ */
 class GeometryClient
 {
 private:
@@ -69,16 +84,36 @@ public:
     void disconnect() const
     {
     }
-    bool connected(void) const
+    bool connected() const
     {
 	return false;
     }
 };
 
 
-int failures = 0; /* used for tracking failures */
-#define REQUIREMENT(m) if (failures == 0) { std::string msg = "[ OK ] "; msg += m; Report(msg, true); std::cout << std::endl; } else { std::string msg = "[FAIL] "; msg += m; Report(msg, true); std::cout << std::endl; } failures = 0;
-#define GAS(cond, m) if (cond) { std::string msg = "    [ SUCCESS ] "; msg += m; Report(msg); } else { std::string msg = "    [ FAILURE ] "; msg += m; Report(msg); failures++; }
+/*******************************************/
+/* basic scaffolding for reporting results */
+/*******************************************/
+
+/* used for keeping track of failures */
+int failures = 0;
+
+
+/* assert that a specific test condition is true */
+#define GAS(cond, m) \
+    if (cond) { \
+	std::string msg = "    [ SUCCESS ] "; \
+	msg += m; \
+	Report(msg); \
+    } else { \
+	std::string msg = "    [ FAILURE ] "; \
+	msg += m; \
+	Report(msg); \
+	failures++; \
+    }
+
+
+/* helper function to report each section while keeping count */
 static void
 Report(const std::string msg, bool showTitle = false)
 {
@@ -88,6 +123,27 @@ Report(const std::string msg, bool showTitle = false)
     std::cout << msg << std::endl;
 }
 
+
+/* basic end-of-section sanity testing with summary reporting */
+#define REQUIREMENT(m) \
+    GAS(gs != NULL && gs->stillRunning(), "Server is still running"); \
+    if (failures == 0) { \
+	std::string msg = "[ OK ] "; \
+	msg += m; \
+	Report(msg, true); \
+	std::cout << std::endl; \
+    } else { \
+	std::string msg = "[FAIL] "; \
+	msg += m; \
+	Report(msg, true); \
+	std::cout << std::endl; \
+    } \
+    failures = 0;
+
+
+/**********************************************************/
+/* convenience wrappers to simplify the repetive patterns */
+/**********************************************************/
 
 static void
 Connect(GeometryClient *gc, GeometryClient *gc2 = NULL, GeometryClient *gc3 = NULL)
@@ -130,6 +186,10 @@ Disconnect(GeometryClient *gc, GeometryClient *gc2 = NULL, GeometryClient *gc3 =
     }
 }
 
+
+/************/
+/* THE BOSS */
+/************/
 
 int
 main(int ac, char *av[])
