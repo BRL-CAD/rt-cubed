@@ -281,7 +281,7 @@ main(int ac, char *av[])
     GAS(gcdir.size() != 0, "Client getting a directory");
     Disconnect(gc);
 
-    REQUIREMENT("One client reading");
+    REQUIREMENT("Client reading from server");
 
 
     /*******************************************/
@@ -294,7 +294,7 @@ main(int ac, char *av[])
     GAS(gc->addObject("object_1"), "Client adding object");
     Disconnect(gc);
 
-    REQUIREMENT("One client reading from and writing");
+    REQUIREMENT("Client reading and writing objects");
 
 
     /**********************************/
@@ -357,7 +357,7 @@ main(int ac, char *av[])
     // gc3->getObject();
     Disconnect(gc, gc2, gc3);
 
-    REQUIREMENT("Three clients connecting, only one writing");
+    REQUIREMENT("One client writing, two clients reading");
 
 
     /*****************************/
@@ -372,7 +372,7 @@ main(int ac, char *av[])
     // gc->getAttribute();
     Disconnect(gc);
 
-    REQUIREMENT("One client reading from and writing attributes");
+    REQUIREMENT("Client reading and writing attributes");
 
 
     /*****************************************/
@@ -382,7 +382,10 @@ main(int ac, char *av[])
     Connect(gc);
     GAS(gc->addObject("object_5"), "Client adding object5");
     // gc->getRepresentation();
-    // write();
+    // gc->updateObject();
+    // gc->getRepresentation();
+    // GAS different representations
+    // write(inmem);
     // rt_dirbuild();
     // rt_prep();
     // rt_shootray();
@@ -399,11 +402,12 @@ main(int ac, char *av[])
     gcdir = gc->getDirectory();
     GAS(gcdir.size() != 0, "Client getting a directory");
     // gc->getRepresentation();
-    // gc->setRepresentation();
+    // gc->updateObject();
     // gc->getRepresentation();
+    // GAS different representations
     Disconnect(gc);
 
-    REQUIREMENT("One client reading from and writing wireframe representation");
+    REQUIREMENT("Client reading wireframe representation");
 
 
     /*******************************/
@@ -423,7 +427,7 @@ main(int ac, char *av[])
     // gc->eventsReceived();
     Disconnect(gc, gc2);
 
-    REQUIREMENT("Client event notification");
+    REQUIREMENT("Client event notifications");
 
 
     /*********************************/
@@ -438,7 +442,7 @@ main(int ac, char *av[])
     // gc2->getObject();
     Disconnect(gc, gc2);
 
-    REQUIREMENT("Multiple versions of geometry are persisteed and retrievable");
+    REQUIREMENT("Multiple versions of geometry are persisted and retrievable");
 
 
     /******************************/
@@ -453,6 +457,38 @@ main(int ac, char *av[])
     Disconnect(gc);
 
     REQUIREMENT("Server-side ray tracing");
+
+
+    /***************************************/
+    /* CAN READ A POLYGONAL REPRESENTATION */
+    /***************************************/
+
+    Connect(gc);
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
+    // gc->getRepresentation();
+    // gc->updateObject();
+    // gc->getRepresentation();
+    // GAS different representations
+    Disconnect(gc);
+
+    REQUIREMENT("Client retrieving polygonal representation");
+
+
+    /*****************************************/
+    /* CAN READ A POINT-CLOUD REPRESENTATION */
+    /*****************************************/
+
+    Connect(gc);
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
+    // gc->getRepresentation();
+    // gc->subscribeEvent();
+    // gc->evaluateRepresentation();
+    // gc->eventsReceived();
+    Disconnect(gc);
+
+    REQUIREMENT("Client retrieving point-cloud representation");
 
 
     /* cleanup */
