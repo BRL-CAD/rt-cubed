@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#include <vector>
 
 
 static const int DEFAULT_PORT = 7777;
@@ -96,6 +97,20 @@ public:
     {
 	return false;
     }
+    std::vector<std::string> getDirectory() const
+    {
+	std::vector<std::string> v;
+	return v;
+    }
+    bool addObject(std::string name) const
+    {
+	if (name.size() == 0)
+	    return false;
+
+	
+	return false;
+    }
+
 };
 
 
@@ -202,6 +217,8 @@ Disconnect(GeometryClient *gc, GeometryClient *gc2 = NULL, GeometryClient *gc3 =
 int
 main(int ac, char *av[])
 {
+    std::vector<std::string> gcdir, gc2dir, gc3dir;
+
     /* don't need no params just yet */
     if (ac > 1) {
 	for (int i = 1; i < ac; i++) {
@@ -260,7 +277,8 @@ main(int ac, char *av[])
     /*********************************/
 
     Connect(gc);
-    // gc->getDirectory();
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
     Disconnect(gc);
 
     REQUIREMENT("One client reading");
@@ -271,8 +289,9 @@ main(int ac, char *av[])
     /*******************************************/
 
     Connect(gc);
-    // gc->getDirectory();
-    // gc->addObject();
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
+    GAS(gc->addObject("object_1"), "Client adding object");
     Disconnect(gc);
 
     REQUIREMENT("One client reading from and writing");
@@ -283,8 +302,10 @@ main(int ac, char *av[])
     /**********************************/
 
     Connect(gc, gc2);
-    // gc->getDirectory();
-    // gc2->getDirectory();
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
+    gc2dir = gc2->getDirectory();
+    GAS(gc2dir.size() != 0, "Second client getting a directory");
     Disconnect(gc, gc2);
 
     REQUIREMENT("Two clients reading");
@@ -295,11 +316,20 @@ main(int ac, char *av[])
     /****************************************************/
 
     Connect(gc, gc2);
-    // gc->getDirectory();
-    // gc->addObject();
-    // gc2->getDirectory();
-    // gc2->getObject();
-    // gc2->addObject(); /* should fail */
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
+    GAS(gc->addObject("object_2"), "Client adding object2");
+    gc2dir = gc2->getDirectory();
+    GAS(gc2dir.size() != 0, "Second client getting a directory");
+    GAS(gcdir.size() != gc2dir.size(), "Comparing two directory sizes"); // should compare contents
+    // GAS gc2->getObject("object_2");
+    GAS(gc->addObject("object_3"), "Client adding object3");
+    GAS(!gc2->addObject("object_2"), "Second client prevented from adding object2");
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
+    gc2dir = gc2->getDirectory();
+    GAS(gc2dir.size() != 0, "Second client getting a directory");
+    // GAS gcdir == gc2dir
     Disconnect(gc, gc2);
 
     REQUIREMENT("One client writing, one client reading");
@@ -313,10 +343,12 @@ main(int ac, char *av[])
     GAS(gc3 != NULL, "Starting up a third geometry client");
 
     Connect(gc, gc2, gc3);
-    // gc->getDirectory();
-    // gc2->getDirectory();
-    // gc->addObject();
-    // gc3->getDirectory();
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
+    gc2dir = gc2->getDirectory();
+    GAS(gc2dir.size() != 0, "Second client getting a directory");
+    GAS(gc->addObject("object_4"), "Client adding object4");
+    gc3dir = gc3->getDirectory();
     // gc2->getObject();
     // gc2->updateObject();
     // gc2->getObject();
@@ -333,7 +365,8 @@ main(int ac, char *av[])
     /*****************************/
 
     Connect(gc);
-    // gc->getDirectory();
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
     // gc->getAttribute();
     // gc->setAttribute();
     // gc->getAttribute();
@@ -347,7 +380,7 @@ main(int ac, char *av[])
     /*****************************************/
 
     Connect(gc);
-    // gc->addObject();
+    GAS(gc->addObject("object_5"), "Client adding object5");
     // gc->getRepresentation();
     // write();
     // rt_dirbuild();
@@ -363,7 +396,8 @@ main(int ac, char *av[])
     /***************************************/
 
     Connect(gc);
-    // gc->getDirectory();
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() != 0, "Client getting a directory");
     // gc->getRepresentation();
     // gc->setRepresentation();
     // gc->getRepresentation();
@@ -378,12 +412,12 @@ main(int ac, char *av[])
 
     Connect(gc, gc2);
     // gc->subscribeEvent();
-    // gc2->addObject();
+    GAS(gc2->addObject("object_6"), "Client adding object6");
     // gc2->updateObject();
     // gc2->setAttribute();
     // gc->eventsReceived();
     // gc->unsubscribeEvent();
-    // gc2->addObject();
+    GAS(gc2->addObject("object_7"), "Client adding object7");
     // gc2->updateObject();
     // gc2->setAttribute();
     // gc->eventsReceived();
@@ -397,7 +431,7 @@ main(int ac, char *av[])
     /*********************************/
 
     Connect(gc, gc2);
-    // gc->addObject();
+    GAS(gc->addObject("object_8"), "Client adding object8");
     // gc2->getObject();
     // gc->updateObject();
     // gc2->updateObject();
@@ -412,7 +446,7 @@ main(int ac, char *av[])
     /******************************/
 
     Connect(gc);
-    // gc->addObject();
+    GAS(gc->addObject("object_9"), "Client adding object9");
     // gc->subscribeEvent();
     // gc->shootRay();
     // gc->eventsReceived();
