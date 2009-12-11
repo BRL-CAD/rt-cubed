@@ -28,6 +28,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 
 static const int DEFAULT_PORT = 7777;
@@ -125,11 +126,11 @@ int failures = 0;
 /* assert that a specific test condition is true */
 #define GAS(cond, m) \
     if (cond) { \
-	std::string msg = "    [ SUCCESS ] "; \
+	std::string msg = "      [ SUCCESS ] "; \
 	msg += m; \
 	Report(msg); \
     } else { \
-	std::string msg = "    [ FAILURE ] "; \
+	std::string msg = "      [ FAILURE ] "; \
 	msg += m; \
 	Report(msg); \
 	failures++; \
@@ -142,26 +143,28 @@ Report(const std::string msg, bool showTitle = false)
 {
     static int steps = 0;
     if (showTitle)
-	std::cout << steps++ << ": ";
+	std::cout << std::setw(2) << std::setfill(' ') << steps++ << ": ";
     std::cout << msg << std::endl;
 }
 
 
 /* basic end-of-section sanity testing with summary reporting */
-#define REQUIREMENT(m) \
+#define RESULT() \
     GAS(gs != NULL && gs->stillRunning(), "Server is still running"); \
     if (failures == 0) { \
-	std::string msg = "[ OK ] "; \
-	msg += m; \
+	std::string msg = "OK :)"; \
 	Report(msg, true); \
 	std::cout << std::endl; \
     } else { \
-	std::string msg = "[FAIL] "; \
-	msg += m; \
-	Report(msg, true); \
+	std::string msg = "NO !!"; \
+	Report(msg, true);   \
 	std::cout << std::endl; \
     } \
     failures = 0;
+
+/* basic beginning of section marker */
+#define REQUIREMENT(m) \
+    std::cout << std::setw(74) << std::setfill('=') << std::string(" ") + m + std::string(" ") << std::setw(4) << "=" << std::endl;
 
 
 /**********************************************************/
@@ -227,18 +230,22 @@ main(int ac, char *av[])
 	exit(1);
     }
 
+    REQUIREMENT("Initialization of server and client");
+
     GeometryServer *gs = new GeometryServer();
     GAS(gs != NULL, "Starting up a geometry server");
 
     GeometryClient *gc = new GeometryClient();
     GAS(gc != NULL, "Starting up a geometry client");
 
-    REQUIREMENT("Initialization of server and client");
+    RESULT();
 
 
     /*****************************************/
     /* MAKE SURE THE SERVER CAN BE RESTARTED */
     /*****************************************/
+
+    REQUIREMENT("Server restarts");
 
     gs->stop();
     GAS(!gs->stillRunning(), "Server shutting down");
@@ -246,22 +253,26 @@ main(int ac, char *av[])
     GAS(!gc->connected(), "Client prevented from connected");
     gs->start();
 
-    REQUIREMENT("Server restarts");
+    RESULT();
 
 
     /**********************************************/
     /* MAKE SURE A CLIENT CAN CONNECT TO A SERVER */
     /**********************************************/
 
+    REQUIREMENT("One client connecting (no action)");
+
     Connect(gc);
     Disconnect(gc);
 
-    REQUIREMENT("One client connecting (no action)");
+    RESULT();
 
 
     /*************************************************/
     /* MAKE SURE TWO CLIENTS CAN CONNECT TO A SERVER */
     /*************************************************/
+
+    REQUIREMENT("Two client simultaneously connecting (no action)");
 
     GeometryClient *gc2 = new GeometryClient();
     GAS(gc2 != NULL, "Starting up a second geometry client");
@@ -269,24 +280,28 @@ main(int ac, char *av[])
     Connect(gc, gc2);
     Disconnect(gc, gc2);
 
-    REQUIREMENT("Two client simultaneously connecting (no action)");
+    RESULT();
 
 
     /*********************************/
     /* MAKE SURE ONE CLIENT CAN READ */
     /*********************************/
 
+    REQUIREMENT("Client reading from server");
+
     Connect(gc);
     gcdir = gc->getDirectory();
     GAS(gcdir.size() != 0, "Client getting a directory");
     Disconnect(gc);
 
-    REQUIREMENT("Client reading from server");
+    RESULT();
 
 
     /*******************************************/
     /* MAKE SURE ONE CLIENT CAN READ AND WRITE */
     /*******************************************/
+
+    REQUIREMENT("Client reading and writing objects");
 
     Connect(gc);
     gcdir = gc->getDirectory();
@@ -294,12 +309,14 @@ main(int ac, char *av[])
     GAS(gc->addObject("object_1"), "Client adding object");
     Disconnect(gc);
 
-    REQUIREMENT("Client reading and writing objects");
+    RESULT();
 
 
     /**********************************/
     /* MAKE SURE TWO CLIENTS CAN READ */
     /**********************************/
+
+    REQUIREMENT("Two clients reading");
 
     Connect(gc, gc2);
     gcdir = gc->getDirectory();
@@ -308,12 +325,14 @@ main(int ac, char *av[])
     GAS(gc2dir.size() != 0, "Second client getting a directory");
     Disconnect(gc, gc2);
 
-    REQUIREMENT("Two clients reading");
+    RESULT();
 
 
     /****************************************************/
     /* MAKE SURE ONE CLIENT CAN WRITE, ANOTHER CAN READ */
     /****************************************************/
+
+    REQUIREMENT("One client writing, one client reading");
 
     Connect(gc, gc2);
     gcdir = gc->getDirectory();
@@ -332,12 +351,14 @@ main(int ac, char *av[])
     GAS(gcdir.size() == gc2dir.size(), "Comparing two directory sizes for equal"); // should compare contents
     Disconnect(gc, gc2);
 
-    REQUIREMENT("One client writing, one client reading");
+    RESULT();
 
 
     /********************************************************/
     /* MAKE SURE ONE CLIENT CAN WRITE, ANOTHER TWO CAN READ */
     /********************************************************/
+
+    REQUIREMENT("One client writing, two clients reading");
 
     GeometryClient *gc3 = new GeometryClient();
     GAS(gc3 != NULL, "Starting up a third geometry client");
@@ -357,12 +378,14 @@ main(int ac, char *av[])
     // gc3->getObject();
     Disconnect(gc, gc2, gc3);
 
-    REQUIREMENT("One client writing, two clients reading");
+    RESULT();
 
 
     /*****************************/
     /* CAN READ/WRITE ATTRIBUTES */
     /*****************************/
+
+    REQUIREMENT("Client reading and writing attributes");
 
     Connect(gc);
     gcdir = gc->getDirectory();
@@ -372,12 +395,14 @@ main(int ac, char *av[])
     // gc->getAttribute();
     Disconnect(gc);
 
-    REQUIREMENT("Client reading and writing attributes");
+    RESULT();
 
 
     /*****************************************/
     /* CAN GET .g REPRESENTATION OF GEOMETRY */
     /*****************************************/
+
+    REQUIREMENT("Retrievable .g representation for client-side ray tracing");
 
     Connect(gc);
     GAS(gc->addObject("object_5"), "Client adding object5");
@@ -391,12 +416,14 @@ main(int ac, char *av[])
     // rt_shootray();
     Disconnect(gc);
 
-    REQUIREMENT("Retrievable .g representation for client-side ray tracing");
+    RESULT();
 
 
     /***************************************/
     /* CAN READ A WIREFRAME REPRESENTATION */
     /***************************************/
+
+    REQUIREMENT("Client reading wireframe representation");
 
     Connect(gc);
     gcdir = gc->getDirectory();
@@ -407,12 +434,14 @@ main(int ac, char *av[])
     // GAS different representations
     Disconnect(gc);
 
-    REQUIREMENT("Client reading wireframe representation");
+    RESULT();
 
 
     /*******************************/
     /* CAN GET EVENT NOTIFICATIONS */
     /*******************************/
+
+    REQUIREMENT("Client event notifications");
 
     Connect(gc, gc2);
     // gc->subscribeEvent();
@@ -427,12 +456,14 @@ main(int ac, char *av[])
     // gc->eventsReceived();
     Disconnect(gc, gc2);
 
-    REQUIREMENT("Client event notifications");
+    RESULT();
 
 
     /*********************************/
     /* CAN PERSIST GEOMETRY VERSIONS */
     /*********************************/
+
+    REQUIREMENT("Multiple versions of geometry are persisted and retrievable");
 
     Connect(gc, gc2);
     GAS(gc->addObject("object_8"), "Client adding object8");
@@ -442,12 +473,14 @@ main(int ac, char *av[])
     // gc2->getObject();
     Disconnect(gc, gc2);
 
-    REQUIREMENT("Multiple versions of geometry are persisted and retrievable");
+    RESULT();
 
 
     /******************************/
     /* CAN SHOOT RAYS AT GEOMETRY */
     /******************************/
+
+    REQUIREMENT("Server-side ray tracing");
 
     Connect(gc);
     GAS(gc->addObject("object_9"), "Client adding object9");
@@ -456,12 +489,14 @@ main(int ac, char *av[])
     // gc->eventsReceived();
     Disconnect(gc);
 
-    REQUIREMENT("Server-side ray tracing");
+    RESULT();
 
 
     /***************************************/
     /* CAN READ A POLYGONAL REPRESENTATION */
     /***************************************/
+
+    REQUIREMENT("Client retrieving polygonal representation");
 
     Connect(gc);
     gcdir = gc->getDirectory();
@@ -472,12 +507,14 @@ main(int ac, char *av[])
     // GAS different representations
     Disconnect(gc);
 
-    REQUIREMENT("Client retrieving polygonal representation");
+    RESULT();
 
 
     /*****************************************/
     /* CAN READ A POINT-CLOUD REPRESENTATION */
     /*****************************************/
+
+    REQUIREMENT("Client retrieving point-cloud representation");
 
     Connect(gc);
     gcdir = gc->getDirectory();
@@ -488,7 +525,7 @@ main(int ac, char *av[])
     // gc->eventsReceived();
     Disconnect(gc);
 
-    REQUIREMENT("Client retrieving point-cloud representation");
+    RESULT();
 
 
     /* cleanup */
