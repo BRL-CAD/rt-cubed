@@ -321,7 +321,7 @@ main(int ac, char *av[])
     GAS(gc->addObject("object_2"), "Client adding object2");
     gc2dir = gc2->getDirectory();
     GAS(gc2dir.size() != 0, "Second client getting a directory");
-    GAS(gcdir.size() != gc2dir.size(), "Comparing two directory sizes"); // should compare contents
+    GAS(gcdir.size() != gc2dir.size(), "Comparing two directory sizes for not equal"); // should compare contents
     // GAS gc2->getObject("object_2");
     GAS(gc->addObject("object_3"), "Client adding object3");
     GAS(!gc2->addObject("object_2"), "Second client prevented from adding object2");
@@ -329,7 +329,7 @@ main(int ac, char *av[])
     GAS(gcdir.size() != 0, "Client getting a directory");
     gc2dir = gc2->getDirectory();
     GAS(gc2dir.size() != 0, "Second client getting a directory");
-    // GAS gcdir == gc2dir
+    GAS(gcdir.size() == gc2dir.size(), "Comparing two directory sizes for equal"); // should compare contents
     Disconnect(gc, gc2);
 
     REQUIREMENT("One client writing, one client reading");
