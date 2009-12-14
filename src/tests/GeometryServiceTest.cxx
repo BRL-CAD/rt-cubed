@@ -76,6 +76,15 @@ public:
 class GeometryClient
 {
 private:
+    bool exists(std::string object) const
+    {
+	if (object.size() == 0)
+	    return false;
+
+	// ask server if object exists
+
+	return false;
+    }
 public:
     GeometryClient()
     {
@@ -103,12 +112,71 @@ public:
 	std::vector<std::string> v;
 	return v;
     }
-    bool addObject(std::string name) const
+    std::string getObject(const std::string object) const
     {
-	if (name.size() == 0)
+	std::string encoding = "";
+
+	// get encoding from server
+
+	return encoding;
+    }
+    bool putObject(const std::string encoding) const
+    {
+	if (encoding.size() == 0)
 	    return false;
 
+	// write object encoding to server
+
+	return false;
+    }
+    bool addObject(const std::string object) const
+    {
+	if (exists(object))
+	    return false;
+
+	// encode object for put
+	std::string encoding = object;
+
+	return putObject(encoding);
+    }
+    bool updateObject(const std::string object) const
+    {
+	if (!exists(object))
+	    return false;
+
+	std::string encoding = getObject(object);
+	if (encoding.size() == 0)
+	    return false;
+
+	// modify the encoding
+
+	return putObject(object);
+    }
+    bool deleteObject(const std::string object) const
+    {
+	if (!exists(object))
+	    return false;
+
+	// remove it, return true
+
+	return false;
+    }
+    bool getAttribute(const std::string object, const std::string name, std::string &value) const
+    {
+	if (!exists(object))
+	    return false;
+
+	// see if object has a name attribute, set value, return true
 	
+	return false;
+    }
+    bool setAttribute(const std::string object, const std::string name, std::string value) const
+    {
+	if (!exists(object))
+	    return false;
+
+	// set name=value on object, return true
+
 	return false;
     }
 
@@ -272,7 +340,7 @@ main(int ac, char *av[])
     /* MAKE SURE TWO CLIENTS CAN CONNECT TO A SERVER */
     /*************************************************/
 
-    REQUIREMENT("Two client simultaneously connecting (no action)");
+    REQUIREMENT("Two clients simultaneously connecting (no action)");
 
     GeometryClient *gc2 = new GeometryClient();
     GAS(gc2 != NULL, "Starting up a second geometry client");
@@ -341,9 +409,12 @@ main(int ac, char *av[])
     gc2dir = gc2->getDirectory();
     GAS(gc2dir.size() != 0, "Second client getting a directory");
     GAS(gcdir.size() != gc2dir.size(), "Comparing two directory sizes for not equal"); // should compare contents
-    // GAS gc2->getObject("object_2");
-    GAS(gc->addObject("object_3"), "Client adding object3");
-    GAS(!gc2->addObject("object_2"), "Second client prevented from adding object2");
+    gcdir = gc->getDirectory();
+    GAS(gcdir.size() == gc2dir.size(), "Comparing two directory sizes for equal"); // should compare contents
+
+    GAS(gc2->getObject("object_2").size() != 0, "Second client verifying object_2 exists");
+    GAS(gc->addObject("object_3"), "Client adding object_3");
+    GAS(!gc2->addObject("object_2"), "Second client prevented from adding object_2");
     gcdir = gc->getDirectory();
     GAS(gcdir.size() != 0, "Client getting a directory");
     gc2dir = gc2->getDirectory();
@@ -368,14 +439,24 @@ main(int ac, char *av[])
     GAS(gcdir.size() != 0, "Client getting a directory");
     gc2dir = gc2->getDirectory();
     GAS(gc2dir.size() != 0, "Second client getting a directory");
-    GAS(gc->addObject("object_4"), "Client adding object4");
+    GAS(gc->addObject("object_4"), "Client adding object_4");
+    std::string obj4 = gc2->getObject("object_4");
+    GAS(obj4.size() != 0, "Client one verifying object_4 created");
     gc3dir = gc3->getDirectory();
-    // gc2->getObject();
-    // gc2->updateObject();
-    // gc2->getObject();
-    // gc3->getObject();
-    // gc3->deleteObject();
-    // gc3->getObject();
+    GAS(gc3dir.size() != 0, "Third client getting a directory");
+    std::string obj4_1 = gc2->getObject("object_4");
+    GAS(obj4_1.size() != 0, "Client two reading object_4");
+    GAS(gc2->updateObject("object_4"), "Client two attempting to modify object_4");
+    std::string obj4_2 = gc2->getObject("object_4");
+    GAS(obj4_2.size() != 0, "Client two re-reading object_4");
+    GAS(obj4.size() > 0 && obj4_1.size() > 0 && obj4 != obj4_1, "Comparing second object_4 to original for not equal");
+    GAS(obj4.size() > 0 && obj4_2.size() > 0 && obj4 != obj4_2, "Comparing third object_4 to original for not equal");
+    GAS(obj4_1.size() > 0 && obj4_2.size() > 0 && obj4_1 == obj4_2, "Comparing second object_4 to third for equal");
+    GAS(gc3->getObject("object_4").size() != 0, "Client three reading object_4");
+    GAS(gc3->deleteObject("object_4"), "Client three deleting object_4");
+    GAS(gc3->getObject("object_4").size() == 0, "Client three verifying object_4 deleted");
+    GAS(gc2->getObject("object_4").size() == 0, "Client two verifying object_4 deleted");
+    GAS(gc->getObject("object_4").size() == 0, "Client one verifying object_4 deleted");
     Disconnect(gc, gc2, gc3);
 
     RESULT();
@@ -390,9 +471,17 @@ main(int ac, char *av[])
     Connect(gc);
     gcdir = gc->getDirectory();
     GAS(gcdir.size() != 0, "Client getting a directory");
-    // gc->getAttribute();
-    // gc->setAttribute();
-    // gc->getAttribute();
+    if (gcdir.size() > 0) {
+	std::string attr;
+	gc->getAttribute(gcdir[0], "foo", attr);
+	GAS(attr.size() == 0, "Client ensuring attribute does not already exist");
+	GAS(gc->setAttribute(gcdir[0], "foo", "bar"), "Client setting attribute");
+	attr.clear();
+	gc->getAttribute(gcdir[0], "foo", attr);
+	GAS(attr.size() == 0, "Client ensuring attribute now exists");
+    } else {
+	GAS(false, "Unable to test attributes");
+    }
     Disconnect(gc);
 
     RESULT();
