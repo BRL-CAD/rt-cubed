@@ -112,13 +112,22 @@ public:
 	std::vector<std::string> v;
 	return v;
     }
-    std::string getObject(const std::string object) const
+    std::string getObject(const std::string object, const std::string version = std::string("")) const
     {
 	std::string encoding = "";
 
-	// get encoding from server
+	// get encoding from server for a given object version ("" is current)
 
 	return encoding;
+    }
+    std::string getVersion(const std::string object) const
+    {
+	if (exists(object))
+	    return std::string("");
+
+	// get the version from server, return as string
+
+	return std::string("");
     }
     bool putObject(const std::string encoding) const
     {
@@ -180,6 +189,85 @@ public:
 	return false;
     }
 
+    typedef enum _representation_t {
+	WIREFRAME,
+	TRIANGLES,
+	POINTS,
+	NURBS,
+	CAD
+    } representation_t;
+
+    std::string getRepresentation(const std::string object, representation_t representation, bool blocking = true) const
+    {
+	if (!blocking) {
+	    // get unevaluated representation handle, return it
+
+	    return std::string("");
+	}
+
+	switch (representation) {
+	    case WIREFRAME: {
+		
+		// get wireframe representation from server, return true
+
+		break;
+	    }
+	    case TRIANGLES: {
+		
+		// get triangle mesh representation from server, return true
+
+		break;
+	    }
+	    case POINTS: {
+		
+		// get point-cloud representation from server, return true
+
+		break;
+	    }
+	    case NURBS: {
+		
+		// get NURBS representation from server, return true
+
+		break;
+	    }
+	    case CAD: {
+		
+		// get .g representation from server, return true
+
+		break;
+	    }
+	}
+	return std::string("");
+    }
+    void evaluateRepresentation(const std::string representation) const
+    {
+	// tell server to begin evaluating the non-blocking representation handle
+    }
+    bool subscribeEvent() const
+    {
+	// subscribe to all events on server, return true
+	
+	return false;
+    }
+    bool unsubscribeEvent() const
+    {
+	// unsubscribe to all events on server, return true
+	
+	return false;
+    }
+    int eventsReceived() const
+    {
+	// retrieved any events buffered on server, return count
+
+	return 0;
+    }
+
+    bool shootRay(const double point[3], const double direction[3], const std::string object) const
+    {
+	// tell server to fire ray at object, return true
+
+	return false;
+    }
 };
 
 
@@ -263,17 +351,32 @@ static void
 Disconnect(GeometryClient *gc, GeometryClient *gc2 = NULL, GeometryClient *gc3 = NULL)
 {
     if (gc && !gc2 && !gc3) {
-	gc->disconnect();
-	GAS(!gc->connected(), "Disconnecting client");
+	if (gc->connected()) {
+	    gc->disconnect();
+	    GAS(!gc->connected(), "Disconnecting client");
+	} else {
+	    GAS(gc->connected(), "Disconnecting client");
+	}
     } else if (gc && gc2 && !gc3) {
-	gc->disconnect();
-	gc2->disconnect();
-	GAS(!gc->connected() && !gc2->connected(), "Disconnecting two clients");
+	if (gc->connected() || gc2->connected()) {
+	    gc->disconnect();
+	    gc2->disconnect();
+	    GAS(!gc->connected() || !gc2->connected(), "Disconnecting two clients");
+	} else {
+	    GAS(gc->connected(), "Disconnecting client one");
+	    GAS(gc2->connected(), "Disconnecting client two");
+	}
     } else if (gc && gc2 && gc3) {
-	gc->disconnect();
-	gc2->disconnect();
-	gc3->disconnect();
-	GAS(!gc->connected() || !gc2->connected() || !gc3->connected(), "Disconnecting three clients");
+	if (gc->connected() || gc2->connected() || gc3->connected()) {
+	    gc->disconnect();
+	    gc2->disconnect();
+	    gc3->disconnect();
+	    GAS(!gc->connected() || !gc2->connected() || !gc3->connected(), "Disconnecting three clients");
+	} else {
+	    GAS(gc->connected(), "Disconnecting client one");
+	    GAS(gc2->connected(), "Disconnecting client two");
+	    GAS(gc3->connected(), "Disconnecting client three");
+	}
     } else {
 	std::cerr << "Unexpected test harness state" << std::endl;
 	exit(1);
@@ -289,6 +392,7 @@ int
 main(int ac, char *av[])
 {
     std::vector<std::string> gcdir, gc2dir, gc3dir;
+    std::string rep, rep2;
 
     /* don't need no params just yet */
     if (ac > 1) {
@@ -318,7 +422,7 @@ main(int ac, char *av[])
     gs->stop();
     GAS(!gs->stillRunning(), "Server shutting down");
     gc->connect("localhost", DEFAULT_PORT);
-    GAS(!gc->connected(), "Client prevented from connected");
+    GAS(!gc->connected(), "Client prevented from connecting");
     gs->start();
 
     RESULT();
@@ -373,7 +477,7 @@ main(int ac, char *av[])
 
     Connect(gc);
     gcdir = gc->getDirectory();
-    GAS(gcdir.size() != 0, "Client getting a directory");
+    GAS(gcdir.size() > 0, "Client getting a directory");
     GAS(gc->addObject("object_1"), "Client adding object");
     Disconnect(gc);
 
@@ -408,9 +512,9 @@ main(int ac, char *av[])
     GAS(gc->addObject("object_2"), "Client adding object2");
     gc2dir = gc2->getDirectory();
     GAS(gc2dir.size() != 0, "Second client getting a directory");
-    GAS(gcdir.size() != gc2dir.size(), "Comparing two directory sizes for not equal"); // should compare contents
+    GAS(gcdir.size() > 0 && gc2dir.size() > 0 && gcdir.size() != gc2dir.size(), "Comparing two directory sizes for not equal"); // should compare contents
     gcdir = gc->getDirectory();
-    GAS(gcdir.size() == gc2dir.size(), "Comparing two directory sizes for equal"); // should compare contents
+    GAS(gcdir.size() > 0 && gc2dir.size() > 0 && gcdir.size() == gc2dir.size(), "Comparing two directory sizes for equal"); // should compare contents
 
     GAS(gc2->getObject("object_2").size() != 0, "Second client verifying object_2 exists");
     GAS(gc->addObject("object_3"), "Client adding object_3");
@@ -419,7 +523,7 @@ main(int ac, char *av[])
     GAS(gcdir.size() != 0, "Client getting a directory");
     gc2dir = gc2->getDirectory();
     GAS(gc2dir.size() != 0, "Second client getting a directory");
-    GAS(gcdir.size() == gc2dir.size(), "Comparing two directory sizes for equal"); // should compare contents
+    GAS(gcdir.size() > 0 && gc2dir.size() > 0 && gcdir.size() == gc2dir.size(), "Comparing two directory sizes for equal"); // should compare contents
     Disconnect(gc, gc2);
 
     RESULT();
@@ -444,14 +548,14 @@ main(int ac, char *av[])
     GAS(obj4.size() != 0, "Client one verifying object_4 created");
     gc3dir = gc3->getDirectory();
     GAS(gc3dir.size() != 0, "Third client getting a directory");
-    std::string obj4_1 = gc2->getObject("object_4");
-    GAS(obj4_1.size() != 0, "Client two reading object_4");
-    GAS(gc2->updateObject("object_4"), "Client two attempting to modify object_4");
     std::string obj4_2 = gc2->getObject("object_4");
-    GAS(obj4_2.size() != 0, "Client two re-reading object_4");
-    GAS(obj4.size() > 0 && obj4_1.size() > 0 && obj4 != obj4_1, "Comparing second object_4 to original for not equal");
-    GAS(obj4.size() > 0 && obj4_2.size() > 0 && obj4 != obj4_2, "Comparing third object_4 to original for not equal");
-    GAS(obj4_1.size() > 0 && obj4_2.size() > 0 && obj4_1 == obj4_2, "Comparing second object_4 to third for equal");
+    GAS(obj4_2.size() != 0, "Client two reading object_4");
+    GAS(gc2->updateObject("object_4"), "Client two attempting to modify object_4");
+    std::string obj4_3 = gc2->getObject("object_4");
+    GAS(obj4_3.size() != 0, "Client two re-reading object_4");
+    GAS(obj4.size() > 0 && obj4_2.size() > 0 && obj4 != obj4_2, "Comparing second object_4 to original for not equal");
+    GAS(obj4.size() > 0 && obj4_3.size() > 0 && obj4 != obj4_3, "Comparing third object_4 to original for not equal");
+    GAS(obj4_2.size() > 0 && obj4_3.size() > 0 && obj4_2 == obj4_3, "Comparing second object_4 to third for equal");
     GAS(gc3->getObject("object_4").size() != 0, "Client three reading object_4");
     GAS(gc3->deleteObject("object_4"), "Client three deleting object_4");
     GAS(gc3->getObject("object_4").size() == 0, "Client three verifying object_4 deleted");
@@ -495,10 +599,12 @@ main(int ac, char *av[])
 
     Connect(gc);
     GAS(gc->addObject("object_5"), "Client adding object5");
-    // gc->getRepresentation();
-    // gc->updateObject();
-    // gc->getRepresentation();
-    // GAS different representations
+    rep = gc->getRepresentation("object_5", GeometryClient::CAD);
+    GAS(rep.size() != 0, "Getting .g representation");
+    GAS(gc->updateObject("object_5"), "Client attempting to modify object_5");
+    rep2 = gc->getRepresentation("object_5", GeometryClient::CAD);
+    GAS(rep2.size() != 0, "Getting new .g representation");
+    GAS(rep.size() > 0 && rep2.size() > 0 && rep != rep2, "Ensuring representations are different");
     // write(inmem);
     // rt_dirbuild();
     // rt_prep();
@@ -517,10 +623,12 @@ main(int ac, char *av[])
     Connect(gc);
     gcdir = gc->getDirectory();
     GAS(gcdir.size() != 0, "Client getting a directory");
-    // gc->getRepresentation();
-    // gc->updateObject();
-    // gc->getRepresentation();
-    // GAS different representations
+    rep = gc->getRepresentation("object_5", GeometryClient::WIREFRAME);
+    GAS(rep.size() != 0, "Getting a wireframe representation");
+    GAS(gc->updateObject("object_5"), "Client attempting to modify object_5");
+    rep2 = gc->getRepresentation("object_5", GeometryClient::WIREFRAME);
+    GAS(rep2.size() != 0, "Getting a wireframe representation");
+    GAS(rep.size() > 0 && rep2.size() > 0 && rep != rep2, "Ensuring representations are different");
     Disconnect(gc);
 
     RESULT();
@@ -533,16 +641,16 @@ main(int ac, char *av[])
     REQUIREMENT("Client event notifications");
 
     Connect(gc, gc2);
-    // gc->subscribeEvent();
-    GAS(gc2->addObject("object_6"), "Client adding object6");
-    // gc2->updateObject();
-    // gc2->setAttribute();
-    // gc->eventsReceived();
-    // gc->unsubscribeEvent();
-    GAS(gc2->addObject("object_7"), "Client adding object7");
-    // gc2->updateObject();
-    // gc2->setAttribute();
-    // gc->eventsReceived();
+    GAS(gc->subscribeEvent(), "Client subscribing to events");
+    GAS(gc2->addObject("object_6"), "Client two adding object_6");
+    GAS(gc2->updateObject("object_6"), "Client two modifing object_6");
+    GAS(gc2->setAttribute("object_6", "foo", "bar"), "Client two setting foo attribute on object_6");
+    GAS(gc->eventsReceived() >= 3, "Client receiving events");
+    GAS(gc->unsubscribeEvent(), "Client unsubscribing to events");
+    GAS(gc2->addObject("object_7"), "Client adding object_7");
+    GAS(gc2->updateObject("object_6"), "Client two modifing object_6 (again)");
+    GAS(gc2->setAttribute("object_6", "bar", "foo"), "Client two setting bar attribute on object_6");
+    GAS(gc->eventsReceived() == 0, "Client not receiving events");
     Disconnect(gc, gc2);
 
     RESULT();
@@ -556,10 +664,20 @@ main(int ac, char *av[])
 
     Connect(gc, gc2);
     GAS(gc->addObject("object_8"), "Client adding object8");
-    // gc2->getObject();
-    // gc->updateObject();
-    // gc2->updateObject();
-    // gc2->getObject();
+    std::string obj8_ver = gc->getVersion("object_8");
+    std::string obj8 = gc2->getObject("object_8");
+    GAS(obj8.size() != 0, "Second client verifying object_8 added");
+    GAS(gc->updateObject("object_8"), "Client modifing object_8");
+    GAS(gc2->updateObject("object_8"), "Client two modifing object_8");
+    std::string obj8_2 = gc2->getObject("object_8");
+    GAS(obj8_2.size() != 0, "Second client verifying object_8 updated");
+    GAS(obj8.size() > 0 && obj8_2.size() > 0 && obj8 != obj8_2, "Verifying object_8 different");
+    std::string obj8_2_ver = gc->getVersion("object_8");
+    GAS(obj8_ver.size() > 0 && obj8_2_ver.size() > 0 && obj8_ver != obj8_2_ver, "Verifying versions are different");
+    std::string obj8_3 = gc2->getObject("object_8", obj8_ver);
+    GAS(obj8_3.size() != 0, "Second client getting original object_8");
+    GAS(obj8.size() > 0 && obj8_3.size() > 0 && obj8 == obj8_3, "Verifying object_8 same as original");
+    
     Disconnect(gc, gc2);
 
     RESULT();
@@ -573,9 +691,11 @@ main(int ac, char *av[])
 
     Connect(gc);
     GAS(gc->addObject("object_9"), "Client adding object9");
-    // gc->subscribeEvent();
-    // gc->shootRay();
-    // gc->eventsReceived();
+    GAS(gc->subscribeEvent(), "Client subscribing to events");
+    double pnt[3] = {0.0, 0.0, -10000.0};
+    double dir[3] = {0.0, 0.0, 1.0};
+    GAS(gc->shootRay(pnt, dir, "object_9"), "Server shot ray");
+    GAS(gc->eventsReceived() > 0, "Client receiving events");
     Disconnect(gc);
 
     RESULT();
@@ -590,10 +710,16 @@ main(int ac, char *av[])
     Connect(gc);
     gcdir = gc->getDirectory();
     GAS(gcdir.size() != 0, "Client getting a directory");
-    // gc->getRepresentation();
-    // gc->updateObject();
-    // gc->getRepresentation();
-    // GAS different representations
+    if (gcdir.size() > 0) {
+	rep = gc->getRepresentation(gcdir[0], GeometryClient::TRIANGLES);
+	GAS(rep.size() != 0, "Getting mesh representation of object");
+	GAS(gc->updateObject(gcdir[0]), "Client modifing object");
+	rep2 = gc->getRepresentation(gcdir[0], GeometryClient::TRIANGLES);
+	GAS(rep2.size() != 0, "Getting updated mesh representation of object");
+	GAS(rep.size() > 0 && rep2.size() > 0 && rep != rep2, "Ensuring representations are different");
+    } else {
+	GAS(false, "Unable to test getting mesh representations");
+    }
     Disconnect(gc);
 
     RESULT();
@@ -608,10 +734,20 @@ main(int ac, char *av[])
     Connect(gc);
     gcdir = gc->getDirectory();
     GAS(gcdir.size() != 0, "Client getting a directory");
-    // gc->getRepresentation();
-    // gc->subscribeEvent();
-    // gc->evaluateRepresentation();
-    // gc->eventsReceived();
+    if (gcdir.size() > 0) {
+	rep = gc->getRepresentation(gcdir[0], GeometryClient::POINTS);
+	GAS(rep.size() != 0, "Getting point cloud representation of object");
+	rep2 = gc->getRepresentation(gcdir[0], GeometryClient::POINTS, false);
+	GAS(rep2.size() != 0, "Getting updated mesh representation of object");
+	GAS(rep.size() > 0 && rep2.size() > 0 && rep != rep2, "Ensuring representations are different");
+	GAS(gc->subscribeEvent(), "Client subscribing to events");
+	gc->evaluateRepresentation(rep2);
+	sleep(1); // give server time to process
+	GAS(gc->eventsReceived() > 0, "Client received representation events");
+    } else {
+	GAS(false, "Unable to test getting point cloud representations");
+    }
+
     Disconnect(gc);
 
     RESULT();
