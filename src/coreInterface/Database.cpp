@@ -38,6 +38,7 @@
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
 #include <brlcad/Particle.h>
+#include <brlcad/EllipticalTorus.h>
 #include <brlcad/Combination.h>
 #include <brlcad/Database.h>
 
@@ -148,6 +149,16 @@ bool Database::Add
 
                 BU_GETSTRUCT(rtInternal, rt_part_internal);
                 memcpy(rtInternal, particle->Internal(), sizeof(rt_part_internal));
+            }
+            else if (object.Type() == EllipticalTorus::ClassName()) {
+                id = ID_ETO; // 21
+
+                const EllipticalTorus* ellipticalTorus = dynamic_cast<const EllipticalTorus*>(&object);
+
+                assert(ellipticalTorus != 0);
+
+                BU_GETSTRUCT(rtInternal, rt_eto_internal);
+                memcpy(rtInternal, ellipticalTorus->Internal(), sizeof(rt_eto_internal));
             }
             else if (object.Type() == Combination::ClassName()) {
                 id = ID_COMBINATION;  // 31
