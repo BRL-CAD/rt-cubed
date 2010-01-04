@@ -27,6 +27,8 @@
  *      IABG mbH (Germany)
  */
 
+#include <cassert>
+
 #include "raytrace.h"
 #include "rtgeom.h"
 
