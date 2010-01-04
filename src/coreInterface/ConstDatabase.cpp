@@ -300,11 +300,11 @@ void ConstDatabase::Get
                     }
                     catch(...) {
                         BU_UNSETJUMP;
-                        rt_db_free_internal(&intern, m_resp);
+                        rt_db_free_internal(&intern);
                         throw;
                     }
 
-                    rt_db_free_internal(&intern, m_resp);
+                    rt_db_free_internal(&intern);
                 }
             }
         }
