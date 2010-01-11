@@ -26,7 +26,22 @@
 #ifndef __GSCOMMON_H__
 #define __GSCOMMON_H__
 
+//JobManager stuff
 #define MAX_JOBWORKERS 5
+
+
+enum JobWorkerStatus
+{
+	WORKER_NOTREADY, WORKER_READY, WORKER_RUNNING
+};
+enum JobStatus
+{
+	JOB_NOTSTARTED, JOB_RUNNING, JOB_FINISHED
+};
+enum JobResult
+{
+	JOB_COMPLETED_NO_ERRORS, JOB_COMPLETED_WITH_ERRORS, JOB_FAILED
+};
 
 #endif
 

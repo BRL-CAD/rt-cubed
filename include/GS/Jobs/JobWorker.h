@@ -26,20 +26,24 @@
 #ifndef __JOBWORKER_H__
 #define __JOBWORKER_H__
 
-#include "GS/Jobs/JobManager.h"
+#include "GS/GSCommon.h"
 #include "GS/Jobs/AbstractJob.h"
+#include <QThread>
 
-class JobWorker
+class JobWorker: public QThread
 {
 
 public:
-  JobWorker();
-  virtual ~JobWorker();
+	JobWorker();
+	virtual ~JobWorker();
 
+	void run();
+
+	JobWorkerStatus getStatus();
+	void shutdown();
 private:
-  AbstractJob& job();
-  unsigned int status;
-
+	JobWorkerStatus status;
+	bool runCmd;
 };
 
 #endif

@@ -26,19 +26,35 @@
 #ifndef __JOBMANAGER_H__
 #define __JOBMANAGER_H__
 
-#include <list>
 #include "GS/Jobs/AbstractJob.h"
+#include "GS/Jobs/JobWorker.h"
+#include "GS/GSCommon.h"
+#include <QList>
+#include <QMutex>
+
 
 class JobManager
 {
 
 public:
-	JobManager();
+	static JobManager* getInstance();
+	void submitJob(AbstractJob* aj);
+
 	virtual ~JobManager();
 
-private:
-	std::list <AbstractJob> jobQueue;
+	AbstractJob* getNextJob();
+	bool hasJobsToWork();
 
+private:
+	static JobManager* pInstance;
+	JobManager();
+
+	JobManager(JobManager const&){};
+	JobManager& operator=(JobManager const&){};
+
+	QList<JobWorker*>* jobWorkers;
+	QList<AbstractJob*>* jobQueue;
+	QMutex* queueLock;
 };
 
 #endif

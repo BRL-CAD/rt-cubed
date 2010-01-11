@@ -27,18 +27,20 @@
 #define __ABSTRACTJOB_H__
 
 #include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 
 class AbstractJob {
 
 public:
-  virtual ~AbstractJob();
+	AbstractJob();
+	virtual ~AbstractJob();
 
-  AbstractJob();
-  virtual bool doJob();
+	JobResult doJob();
 
 private:
-  unsigned int jobID;
+	unsigned int jobID;
 
+	virtual JobResult _doJob();
 };
 
 #endif
