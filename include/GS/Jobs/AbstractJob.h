@@ -36,9 +36,12 @@ public:
 	virtual ~AbstractJob();
 
 	JobResult doJob();
+	JobStatus getStatus();
 
 private:
 	unsigned int jobID;
+
+	JobStatus status;
 
 	virtual JobResult _doJob();
 };

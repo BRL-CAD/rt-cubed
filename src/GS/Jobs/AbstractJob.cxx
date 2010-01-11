@@ -27,15 +27,24 @@
 
 AbstractJob::AbstractJob()
 {
+	this->status = JOB_NOTSTARTED;
 }
 
 AbstractJob::~AbstractJob()
 {
 }
 
-bool AbstractJob::doJob()
+JobResult AbstractJob::doJob()
 {
-  return false;
+	this->status = JOB_RUNNING;
+	JobResult retVal = this->_doJob();
+	this->status = JOB_FINISHED;
+	return retVal;
+}
+
+JobStatus AbstractJob::getStatus()
+{
+	return this->status;
 }
 
 // Local Variables: ***

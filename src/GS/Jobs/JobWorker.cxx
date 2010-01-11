@@ -24,15 +24,57 @@
  */
 
 #include "GS/Jobs/JobWorker.h"
+#include "GS/Jobs/JobManager.h"
 
 JobWorker::JobWorker()
 {
+	this->status = WORKER_NOTREADY;
+	this->runCmd = true;
 }
 
 JobWorker::~JobWorker()
 {
 }
 
+void JobWorker::run()
+{
+	JobManager* jm = JobManager::getInstance();
+
+	this->status = WORKER_READY;
+
+	while (this->runCmd)
+	{
+		if (!jm->hasJobsToWork())
+		{
+			this->msleep(100);
+		}
+		else
+		{
+			AbstractJob* job = jm->getNextJob();
+
+			if (job == NULL)
+			{
+				continue;
+			}
+
+			JobResult result = job->doJob();
+
+			//TODO log the result?
+
+		}
+	}
+	this->status = WORKER_NOTREADY;
+}
+
+JobWorkerStatus JobWorker::getStatus()
+{
+	return this->status;
+}
+
+void JobWorker::shutdown()
+{
+	this->runCmd = false;
+}
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***
