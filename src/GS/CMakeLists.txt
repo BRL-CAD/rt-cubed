@@ -55,13 +55,9 @@ SET(GS_SOURCES
 	NetMsgActionDefinitions/NetMsgActionDefManager.cxx
 	NetMsgActionDefinitions/NewSessionNMAD.cxx
 	Jobs/AbstractJob.cxx
-	Jobs/CopyCacheToSvnJob.cxx
 	Jobs/JobScheduler.cxx
-	Jobs/NewSessionJob.cxx
-	Jobs/CopyCacheToDiskJob.cxx
 	Jobs/JobManager.cxx
 	Jobs/JobWorker.cxx
-	Jobs/NetMsgActionJob.cxx
 	netMsg/NetMsgFactory.cxx
 	netMsg/NetMsg.cxx
 	netMsg/GenericOneStringMsg.cxx
