@@ -28,9 +28,8 @@
 
 #include "GE/io/array.h"
 #include "GE/exception/IOException.h"
-#include "iBME/Object.h"
 
-class OutputStream : public Object
+class OutputStream
 {
 public:
   virtual ~OutputStream() {};
