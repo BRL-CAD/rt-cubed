@@ -27,7 +27,6 @@
 #define __DBOBJECTMANAGER_H__
 
 #include "iBME/iBMECommon.h"
-#include "GS/AbstractDbObjectSource.h"
 #include <string>
 #include <list>
 
@@ -41,7 +40,6 @@ public:
 	std::string getDbObjectByUUID(UUID& uuid);
 
 private:
-	std::list <AbstractDbObjectSource> DbObjectSources;
 
 };
 

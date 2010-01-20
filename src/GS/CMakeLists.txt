@@ -42,10 +42,6 @@ SET(GS_SOURCES
 	NetSockPortal.cxx
 	NetSockPortalManager.cxx
 	GeometryService.cxx
-	AbstractDbObjectSource.cxx
-	SourceDiskLink.cxx
-	SourceSvnLink.cxx
-	DbObjectCache.cxx
 	DbObjectManager.cxx
 	DbObjectManifest.cxx
 	Session.cxx
