@@ -65,7 +65,6 @@ SET(GS_SOURCES
 	netMsg/GeometryReqMsg.cxx
 	netMsg/GeometryManifestMsg.cxx
 	netMsg/GeometryChunkMsg.cxx
-	../utility/Utils.cxx
 )
 
 QT4_WRAP_CPP(GS_MOCCED_HEADERS
