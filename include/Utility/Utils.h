@@ -26,10 +26,11 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include <QString>
 #include <QDataStream>
 #include <QUuid>
+#include <iostream>
 
 class Utils
 {

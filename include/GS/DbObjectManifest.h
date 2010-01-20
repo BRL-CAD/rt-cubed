@@ -29,7 +29,8 @@
 #include <list>
 #include <map>
 #include <string>
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
+#include <QUuid>
 
 class DbObjectManifest
 {
@@ -39,8 +40,8 @@ public:
 	virtual ~DbObjectManifest();
 
 private:
-	std::list<UUID> DbObjectList;
-	std::map<UUID, std::string > DbObjectMap;
+	std::list<QUuid> DbObjectList;
+	std::map<QUuid, std::string > DbObjectMap;
 
 };
 

@@ -26,7 +26,7 @@
 #ifndef __GENERICTWOBYTESMSG_H__
 #define __GENERICTWOBYTESMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/NetMsg.h"
 
 class GenericTwoBytesMsg : public NetMsg

@@ -26,7 +26,7 @@
 #ifndef __REMHOSTNAMESETMSG_H__
 #define __REMHOSTNAMESETMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/GenericOneStringMsg.h"
 
 class RemHostNameSetMsg : public GenericOneStringMsg

@@ -26,9 +26,10 @@
 #ifndef __DBOBJECTMANAGER_H__
 #define __DBOBJECTMANAGER_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include <string>
 #include <list>
+#include <QUuid>
 
 class DbObjectManager {
 
@@ -37,7 +38,7 @@ public:
 	virtual ~DbObjectManager();
 
 	std::string getDbObjectByURL(std::string url);
-	std::string getDbObjectByUUID(UUID& uuid);
+	std::string getDbObjectByUUID(QUuid& uuid);
 
 private:
 

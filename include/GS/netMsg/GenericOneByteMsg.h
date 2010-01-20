@@ -26,7 +26,7 @@
 #ifndef __GENERICONEBYTEMSG_H__
 #define __GENERICONEBYTEMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/NetMsg.h"
 
 class GenericOneByteMsg : public NetMsg

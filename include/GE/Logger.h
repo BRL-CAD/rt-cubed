@@ -27,8 +27,9 @@
 #define __LOGGER_H__
 
 #include <QString>
+#include <iostream>
 #include <QMutex>
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 
 class Logger
 {

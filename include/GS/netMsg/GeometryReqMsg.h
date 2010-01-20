@@ -26,7 +26,7 @@
 #ifndef __GEOMETRYREQMSG_H__
 #define __GEOMETRYREQMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/GenericOneStringMsg.h"
 
 class GeometryReqMsg : public GenericOneStringMsg

@@ -26,7 +26,7 @@
 #ifndef __FAILUREMSG_H__
 #define __FAILUREMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/GenericOneByteMsg.h"
 
 

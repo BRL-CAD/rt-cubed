@@ -26,7 +26,7 @@
 #ifndef __NETMSG_H__
 #define __NETMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GE/io/DataStream.h"
 #include "Utility/Utils.h"
 #include <QDataStream>

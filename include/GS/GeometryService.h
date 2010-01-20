@@ -32,7 +32,7 @@
 #include <QCoreApplication>
 
 #include "GE/GeometryEngine.h"
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/NetSockPortalManager.h"
 
 class GeometryService: public QCoreApplication

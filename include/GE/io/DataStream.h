@@ -26,10 +26,11 @@
 #ifndef __DATASTREAM_H__
 #define __DATASTREAM_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GE/exception/IOException.h"
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <iostream>
 
 class DataStream {
  private:

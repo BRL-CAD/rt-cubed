@@ -26,7 +26,7 @@
 #ifndef __GENERICONESTRINGMSG_H__
 #define __GENERICONESTRINGMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/NetMsg.h"
 
 class GenericOneStringMsg : public NetMsg

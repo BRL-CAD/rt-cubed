@@ -26,7 +26,7 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GE/Logger.h"
 #include <QMap>
 #include <QString>

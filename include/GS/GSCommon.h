@@ -29,7 +29,6 @@
 //JobManager stuff
 #define MAX_JOBWORKERS 5
 
-
 enum JobWorkerStatus
 {
 	WORKER_NOTREADY, WORKER_READY, WORKER_RUNNING
@@ -42,6 +41,38 @@ enum JobResult
 {
 	JOB_COMPLETED_NO_ERRORS, JOB_COMPLETED_WITH_ERRORS, JOB_FAILED
 };
+
+/*  NetMsg Types */
+
+#define	FAILURE          	0
+#define	SUCCESS          	5
+
+#define REMHOSTNAMESET 		100
+
+#define	DISCONNECTREQ 		150
+
+#define NEWHOSTONNET     	200
+
+#define FULLHOSTLISTREQ		250
+#define FULLHOSTLIST		255
+
+#define NEWSESSIONREQ		300
+#define NEWSESSION			305
+
+#define	GEOMETRYREQ			400
+#define ReqByUUID         10
+#define ReqByFilePath     11
+#define GEOMETRYMANIFEST	405
+#define GEOMETRYCHUNK		410
+
+/*  Failure Codes */
+#define UUIDNotFoundFailure      0
+#define FileNotFoundFailure      1
+
+#define PORTAL_HANDSHAKE_FAILURE    2
+#define UNKNOWN_PORTAL_FAILURE		3
+#define PORTAL_WRITE_FAILURE		4
+#define PORTAL_READ_FAILURE			5
 
 #endif
 

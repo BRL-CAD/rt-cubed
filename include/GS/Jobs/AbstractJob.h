@@ -26,7 +26,6 @@
 #ifndef __ABSTRACTJOB_H__
 #define __ABSTRACTJOB_H__
 
-#include "iBME/iBMECommon.h"
 #include "GS/GSCommon.h"
 
 class AbstractJob {

@@ -37,7 +37,7 @@ std::string DbObjectManager::getDbObjectByURL(std::string url)
 {
 }
 
-std::string DbObjectManager::getDbObjectByUUID(UUID& uuid) 
+std::string DbObjectManager::getDbObjectByUUID(QUuid& uuid)
 {
 }
 

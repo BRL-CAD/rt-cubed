@@ -26,7 +26,7 @@
 #ifndef __NEWHOSTONNETMSG_H__
 #define __NEWHOSTONNETMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/GenericOneStringMsg.h"
 
 class NewHostOnNetMsg : public GenericOneStringMsg

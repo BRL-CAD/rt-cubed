@@ -23,6 +23,7 @@
  *
  */
 
+
 #include "GS/netMsg/FailureMsg.h"
 #include <sstream>
 

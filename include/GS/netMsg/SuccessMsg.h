@@ -26,7 +26,7 @@
 #ifndef __SUCCESSMSG_H__
 #define __SUCCESSMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/GenericOneByteMsg.h"
 
 

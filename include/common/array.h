@@ -26,7 +26,8 @@
 #ifndef __ARRAY_H__
 #define __ARRAY_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
+#include <iostream>
 
 #include <new>
 

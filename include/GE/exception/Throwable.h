@@ -26,9 +26,11 @@
 #ifndef __THROWABLE_H__
 #define __THROWABLE_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
+#include <string>
 
-class  Throwable
+
+class Throwable
 {
 private:
   std::string _msg;

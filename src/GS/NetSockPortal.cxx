@@ -24,7 +24,7 @@
  */
 
 #include "GS/NetSockPortal.h"
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/NetMsg.h"
 #include "GS/netMsg/RemHostNameSetMsg.h"
 

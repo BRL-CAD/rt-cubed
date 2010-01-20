@@ -27,7 +27,7 @@
 #define __GEOMETRYMANIFESTMSG_H__
 
 #include <vector>
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GE/io/DataStream.h"
 #include "GS/netMsg/NetMsg.h"
 

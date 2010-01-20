@@ -23,6 +23,7 @@
  *
  */
 
+#include "GS/GSCommon.h"
 #include "GS/netMsg/NetMsgFactory.h"
 #include "GS/netMsg/GenericOneStringMsg.h"
 #include "GS/netMsg/GenericOneByteMsg.h"

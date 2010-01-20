@@ -26,7 +26,7 @@
 #ifndef __GEOMETRYCHUNKMSG_H__
 #define __GEOMETRYCHUCKMSG_H__
 
-#include "iBME/iBMECommon.h"
+#include "GS/GSCommon.h"
 #include "GS/netMsg/GenericMultiByteMsg.h"
 
 class GeometryChunkMsg : public GenericMultiByteMsg

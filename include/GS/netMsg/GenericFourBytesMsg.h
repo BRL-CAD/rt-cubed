@@ -26,7 +26,6 @@
 #ifndef __GENERICFOURBYTESMSG_H__
 #define __GENERICFOURBYTESMSG_H__
 
-#include "iBME/iBMECommon.h"
 #include "GS/netMsg/NetMsg.h"
 
 class GenericFourBytesMsg : public NetMsg
