@@ -40,6 +40,7 @@ set(LIBUTILITY_SOURCES
 	Date.cxx
 	Time.cxx
 	Timer.cxx
+	Utils.cxx
 )
 
 ADD_LIBRARY (Utility SHARED ${LIBUTILITY_SOURCES})
