@@ -53,9 +53,6 @@ TARGET_LINK_LIBRARIES(geoserv ge gs ${QT_LIBRARIES})
 
 
 ## Make the Test Apps.
-ADD_EXECUTABLE(streamSerialTests ../tests/streamSerialTests.cxx)
-TARGET_LINK_LIBRARIES(streamSerialTests ge)
-
 ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
 TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
 

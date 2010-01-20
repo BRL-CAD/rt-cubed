@@ -33,19 +33,13 @@ MESSAGE(STATUS "##        Configuring GeometryEngine          ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
 
-
+if(COMMAND cmake_policy)
+   cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+    
 set(GE_SOURCES
 	GeometryEngine.cxx
 	Logger.cxx
-	io/ByteArrayInputStream.cxx
-	io/ByteArrayOutputStream.cxx
-	io/DataInputStream.cxx
-	io/DataOutputStream.cxx
-	io/FilterInputStream.cxx
-	io/FilterOutputStream.cxx
-	io/InputStream.cxx
-	io/OutputStream.cxx
-	io/PushbackInputStream.cxx
 	exception/CloneNotSupportedException.cxx
 	exception/Exception.cxx
 	exception/NullPointerException.cxx
