@@ -51,9 +51,6 @@ SET(GS_SOURCES
 	Session.cxx
 	SessionManager.cxx
 	AccessManager.cxx
-	NetMsgActionDefinitions/AbstractNetMsgActionDef.cxx
-	NetMsgActionDefinitions/NetMsgActionDefManager.cxx
-	NetMsgActionDefinitions/NewSessionNMAD.cxx
 	Jobs/AbstractJob.cxx
 	Jobs/JobScheduler.cxx
 	Jobs/JobManager.cxx
