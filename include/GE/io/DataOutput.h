@@ -26,7 +26,7 @@
 #ifndef __DATAOUTPUT_H__
 #define __DATAOUTPUT_H__
 
-#include "common/array.h"
+#include "GE/io/array.h"
 #include "GE/exception/IOException.h"
 
     class DataOutput

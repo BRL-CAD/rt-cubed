@@ -26,7 +26,7 @@
 #ifndef __INPUTSTREAM_H__
 #define __INPUTSTREAM_H__
 
-#include "common/array.h"
+#include "GE/io/array.h"
 #include "GE/exception/IOException.h"
 #include "iBME/Object.h"
 

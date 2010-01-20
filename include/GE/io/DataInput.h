@@ -26,7 +26,7 @@
 #ifndef __DATAINPUT_H__
 #define __DATAINPUT_H__
 
-#include "common/array.h"
+#include "GE/io/array.h"
 #include "GE/exception/IOException.h"
 
     class DataInput

@@ -30,7 +30,7 @@
 #include "GE/io/DataOutputStream.h"
 #include "GE/io/ByteArrayInputStream.h"
 #include "GE/io/DataInputStream.h"
-#include "common/array.h"
+#include "GE/io/array.h"
 
 int main(int argc, char* argv[])
 {

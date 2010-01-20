@@ -26,7 +26,7 @@
 #ifndef __BYTEARRAYINPUTSTREAM_H__
 #define __BYTEARRAYINPUTSTREAM_H__
 
-#include "common/array.h"
+#include "GE/io/array.h"
 #include "GE/io/InputStream.h"
 
 class ByteArrayInputStream : public InputStream
