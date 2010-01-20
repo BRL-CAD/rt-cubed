@@ -28,7 +28,6 @@
 
 #include <vector>
 #include "GS/GSCommon.h"
-#include "GE/io/DataStream.h"
 #include "GS/netMsg/NetMsg.h"
 
 

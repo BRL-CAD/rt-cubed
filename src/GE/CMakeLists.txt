@@ -37,7 +37,6 @@ MESSAGE(STATUS "")
 set(GE_SOURCES
 	GeometryEngine.cxx
 	Logger.cxx
-	io/DataStream.cxx
 	io/ByteArrayInputStream.cxx
 	io/ByteArrayOutputStream.cxx
 	io/DataInputStream.cxx

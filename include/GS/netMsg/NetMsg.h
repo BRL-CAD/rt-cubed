@@ -27,7 +27,7 @@
 #define __NETMSG_H__
 
 #include "GS/GSCommon.h"
-#include "GE/io/DataStream.h"
+#include "GE/exception/IOException.h"
 #include "Utility/Utils.h"
 #include <QDataStream>
 #include <QByteArray>
