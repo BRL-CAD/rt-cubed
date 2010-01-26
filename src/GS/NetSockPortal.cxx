@@ -85,13 +85,21 @@ void NetSockPortal::moveDataFromSocketBuffer()
 
 			QString remoteHostname = rhnsm->getRemoteHostName();
 
-			//TODO add a way to check for duplicate hosts
+			delete rhnsm;
 
+			//Zero length check
 			if (remoteHostname.isEmpty())
 			{
 				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
 				return;
 			}
+
+//			//If the nspm returns a NetSockPortal object, then this host is already on the network!
+//			if (this->nspm->getPortalByRemHostname(remoteHostname) != NULL)
+//			{
+//				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+//				return;
+//			}
 
 			this->remHostName = remoteHostname;
 			this->portStatus = NetSockPortal::Ready;
