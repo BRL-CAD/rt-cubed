@@ -35,6 +35,7 @@
 #include <QList>
 #include <QByteArray>
 
+
 class NetSockPortalManager: public QTcpServer
 {
 Q_OBJECT

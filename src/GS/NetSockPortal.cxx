@@ -27,13 +27,15 @@
 #include "GS/GSCommon.h"
 #include "GS/netMsg/NetMsg.h"
 #include "GS/netMsg/RemHostNameSetMsg.h"
+#include "GS/NetSockPortalManager.h"
 
 #include <QHostAddress>
 
-NetSockPortal::NetSockPortal(QObject* parent) :
-	QTcpSocket(parent)
+NetSockPortal::NetSockPortal(NetSockPortalManager* nspm) :
+	QTcpSocket()
 {
 	this->log = Logger::getInstance();
+	this->nspm = nspm;
 
 	QObject::connect(this, SIGNAL(readyRead()), this, SLOT(
 			moveDataFromSocketBuffer()));
@@ -94,12 +96,13 @@ void NetSockPortal::moveDataFromSocketBuffer()
 				return;
 			}
 
-//			//If the nspm returns a NetSockPortal object, then this host is already on the network!
-//			if (this->nspm->getPortalByRemHostname(remoteHostname) != NULL)
-//			{
-//				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
-//				return;
-//			}
+			//If the nspm returns a NetSockPortal object, then this host is already on the network!
+			if (this->nspm->getPortalByRemHostname(remoteHostname)
+					!= NULL)
+			{
+				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+				return;
+			}
 
 			this->remHostName = remoteHostname;
 			this->portStatus = NetSockPortal::Ready;

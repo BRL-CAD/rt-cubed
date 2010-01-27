@@ -26,20 +26,23 @@
 #ifndef __NETSOCKPORTAL_H__
 #define __NETSOCKPORTAL_H__
 
+#include <QTcpServer>
 #include <QTcpSocket>
 #include <QString>
 
 #include "GE/Logger.h"
 #include "GS/netMsg/NetMsgFactory.h"
 
+class NetSockPortalManager;
+
 class NetSockPortal: public QTcpSocket
 {
-	Q_OBJECT
+Q_OBJECT
 
-	friend class NetSockPortalManager;
+friend class NetSockPortalManager;
 
 public:
-	NetSockPortal(QObject* parent = 0);
+	NetSockPortal(NetSockPortalManager* parent);
 	virtual ~NetSockPortal();
 
 	bool hasMsg();
@@ -55,12 +58,12 @@ public:
 		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
 	};
 
-signals:
+	signals:
 	void msgReady();
 	void portalHandshakeComplete();
 
 protected slots:
-	void moveDataFromSocketBuffer();
+void moveDataFromSocketBuffer();
 
 private:
 	QString remHostName;
@@ -69,6 +72,8 @@ private:
 	NetMsgFactory* factory;
 
 	int portStatus;
+
+	NetSockPortalManager* nspm;
 
 };
 

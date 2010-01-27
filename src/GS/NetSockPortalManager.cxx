@@ -60,7 +60,7 @@ NetSockPortal* NetSockPortalManager::connectTo(QHostAddress addy, quint16 port)
 NetSockPortal* NetSockPortalManager::preparePortal()
 {
 	//Create new NSP and setup signals
-	NetSockPortal* nsp = new NetSockPortal();
+	NetSockPortal* nsp = new NetSockPortal(this);
 
 	//Set up signal prior to initializing the NSP with a socket Descriptor
 	QObject::connect(nsp, SIGNAL(portalHandshakeComplete()), this, SLOT(
@@ -105,7 +105,7 @@ void NetSockPortalManager::handlePortalHandshakeCompleted()
 	NetSockPortal* nsp = (NetSockPortal*) sender();
 
 	//Map the NSP
-	this->portalList->insert(nsp->getRemoteHostName(), nsp);
+	NetSockPortalManager::portalList->insert(nsp->getRemoteHostName(), nsp);
 
 	QObject::disconnect(nsp, SIGNAL(portalHandshakeComplete()), this, SLOT(
 			handlePortalHandshakeCompleted()));
@@ -120,7 +120,7 @@ void NetSockPortalManager::handlePortalDisconnect()
 	NetSockPortal* nsp = (NetSockPortal*) sender();
 
 	//Map the NSP
-	this->portalList->remove(nsp->getRemoteHostName());
+	NetSockPortalManager::portalList->remove(nsp->getRemoteHostName());
 }
 
 void NetSockPortalManager::sendLocalHostName(NetSockPortal* nsp)
@@ -131,7 +131,7 @@ void NetSockPortalManager::sendLocalHostName(NetSockPortal* nsp)
 
 NetSockPortal* NetSockPortalManager::getPortalByRemHostname(QString remHostName)
 {
-	return this->portalList->value(remHostName, NULL);
+	return NetSockPortalManager::portalList->value(remHostName, NULL);
 }
 
 // Local Variables:
