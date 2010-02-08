@@ -26,11 +26,16 @@
 #ifndef __COMMANDFACTORY_H__
 #define __COMMANDFACTORY_H__
 
+#include "GS/Jobs/AbstractJob.h"
+
+#include <QString>
+#include <QStringList>
+
 class CommandFactory
 {
 public:
-	AbstractNetMsg* parseCommand(QString cmdLine);
-	AbstractNetMsg* parseCommand(QStringList cmdList);
+	AbstractJob* parseCommand(QString cmdLine);
+	AbstractJob* parseCommand(QStringList cmdList);
 
 private:
 	CommandFactory();

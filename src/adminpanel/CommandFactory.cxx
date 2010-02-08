@@ -33,13 +33,18 @@ CommandFactory::~CommandFactory()
 {
 }
 
-AbstractNetMsg* CommandFactory::parseCommand(QString cmdLine)
+AbstractJob* CommandFactory::parseCommand(QString cmdLine)
 {
-
+	QStringList cmdList = cmdLine.replace("  ", " ").split(" ", QString::SkipEmptyParts);
 }
 
-AbstractNetMsg* CommandFactory::parseCommand(QStringList cmdList)
+AbstractJob* CommandFactory::parseCommand(QStringList cmdList)
 {
+	if (cmdList.size() == 0) {
+		return NULL;
+	}
+
+
 
 }
 
