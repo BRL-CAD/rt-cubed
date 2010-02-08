@@ -24,17 +24,19 @@
  */
 #include "UnknownCommand.h"
 
-UnknownCommand::UnknownCommand()
+UnknownCommand::UnknownCommand(ACPChatterBox* box, QString cmd) :
+	AbstractCommand(box, cmd)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 UnknownCommand::~UnknownCommand()
 {
-	// TODO Auto-generated destructor stub
 }
 
+JobResult UnknownCommand::_doJob()
+{
+
+}
 
 // Local Variables:
 // mode: C++

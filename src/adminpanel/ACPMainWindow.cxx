@@ -27,13 +27,10 @@
 
 ACPMainWindow::ACPMainWindow()
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 ACPMainWindow::~ACPMainWindow()
 {
-	// TODO Auto-generated destructor stub
 }
 
 // Local Variables:

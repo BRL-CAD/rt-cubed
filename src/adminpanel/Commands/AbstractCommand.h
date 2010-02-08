@@ -1,4 +1,4 @@
-/*                 U N K N O W N C O M M A N D . H
+/*                 A B S T R A C T C O M M A N D . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,31 +17,33 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file UnknownCommand.h
+/** @file AbstractCommand.h
  *
  * Brief description
  *
  */
 
-#ifndef UNKNOWNCOMMAND_H_
-#define UNKNOWNCOMMAND_H_
+#ifndef __ABSTRACTCOMMAND_H__
+#define __ABSTRACTCOMMAND_H__
 
-#include "AbstractCommand.h"
 #include "GS/Jobs/AbstractJob.h"
+#include "../ACPChatterBox.h"
 
 #include <QString>
 
-class UnknownCommand : public AbstractCommand
+class AbstractCommand: public AbstractJob
 {
 public:
-	UnknownCommand(ACPChatterBox* box, QString cmd);
-	virtual ~UnknownCommand();
+	AbstractCommand(ACPChatterBox* box, QString cmd);
+	virtual ~AbstractCommand();
 
-	virtual JobResult _doJob();
+	virtual JobResult _doJob(){};
 private:
+	QString cmd;
+	ACPChatterBox* box;
 };
 
-#endif /* UNKNOWNCOMMAND_H_ */
+#endif /* __ABSTRACTCOMMAND_H__ */
 
 // Local Variables:
 // mode: C++
