@@ -26,7 +26,8 @@
 #ifndef __COMMANDFACTORY_H__
 #define __COMMANDFACTORY_H__
 
-#include "GS/Jobs/AbstractJob.h"
+#include "Commands/AbstractCommand.h"
+#include "ACPChatterBox.h"
 
 #include <QString>
 #include <QStringList>
@@ -34,12 +35,13 @@
 class CommandFactory
 {
 public:
-	AbstractJob* parseCommand(QString cmdLine);
-	AbstractJob* parseCommand(QStringList cmdList);
+	CommandFactory(ACPChatterBox* box);
+	AbstractCommand* parseCommand(QString cmdLine);
+	AbstractCommand* parseCommand(QStringList cmdList);
 
 private:
-	CommandFactory();
 	virtual ~CommandFactory();
+	ACPChatterBox* box;
 };
 
 #endif /* __COMMANDFACTORY_H__ */

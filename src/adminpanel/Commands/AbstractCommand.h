@@ -38,7 +38,7 @@ public:
 	virtual ~AbstractCommand();
 
 	virtual JobResult _doJob(){};
-private:
+protected:
 	QString cmd;
 	ACPChatterBox* box;
 };

@@ -24,27 +24,35 @@
  */
 
 #include "CommandFactory.h"
+#include "Commands/UnknownCommand.h"
 
-CommandFactory::CommandFactory()
+CommandFactory::CommandFactory(ACPChatterBox* box)
 {
+	this->box = box;
 }
 
 CommandFactory::~CommandFactory()
 {
 }
 
-AbstractJob* CommandFactory::parseCommand(QString cmdLine)
+AbstractCommand* CommandFactory::parseCommand(QString cmdLine)
 {
 	QStringList cmdList = cmdLine.replace("  ", " ").split(" ", QString::SkipEmptyParts);
 }
 
-AbstractJob* CommandFactory::parseCommand(QStringList cmdList)
+AbstractCommand* CommandFactory::parseCommand(QStringList cmdList)
 {
 	if (cmdList.size() == 0) {
 		return NULL;
 	}
 
+	QString cmd = cmdList[0];
 
+	if (cmd == "connect") {
+
+	} else {
+		return new UnknownCommand(this->box, cmd);
+	}
 
 }
 
