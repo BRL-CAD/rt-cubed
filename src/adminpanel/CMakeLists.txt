@@ -19,7 +19,7 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/src/iBME/CMakeLists.txt
+#	@file rt^3/src/GE/CMakeLists.txt
 #
 #	$Revision:  $
 #	$Author:  $
@@ -29,35 +29,46 @@
 
 MESSAGE(STATUS "")
 MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##              Configuring iBME              ##")
+MESSAGE(STATUS "##       Configuring AdminControlPanel        ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
 
-IF(COMMAND cmake_policy)
-	CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND cmake_policy)
+if(COMMAND cmake_policy)
+   cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+     
+PROJECT(acp)
 
-SET(IBME_INCLUDE_DIRS ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
+MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR}")
 
-INCLUDE_DIRECTORIES (${IBME_INCLUDE_DIRS})
-MESSAGE(STATUS "Include Directories: ${IBME_INCLUDE_DIRS}")
+INCLUDE (${QT_USE_FILE})
+SET (QT_USE_QTNETWORK TRUE)
 
+set(ACP_SOURCES
+	acpMain.cxx
+	ACPMainWindow.cxx
+	ACPChatterBox.cxx
+	AdminControlPanel.cxx
+	CommandParser.cxx
+)
 
-## Make the GS phase 0 Executable.
-#ADD_EXECUTABLE(gsph0 gsph0.cxx)
-#TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
+set(ACP_HEADERS
+	ICommandable.h
+	ACPChatterBox.h
+)
 
-## Make the GS Executable.
-ADD_EXECUTABLE(geoserv ../GS/gsmain.cxx)
-TARGET_LINK_LIBRARIES(geoserv ge gs ${QT_LIBRARIES})
+set(ACP_PREMOC_HEADERS
+	AdminControlPanel.h
+	CommandParser.h
+	ACPMainWindow.h
 
+)
 
-## Make the Test Apps.
-ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
-TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
+qt4_wrap_cpp(ACP_POSTMOC_HEADERS ${ACP_PREMOC_HEADERS})
 
-ADD_EXECUTABLE(netMsgFactoryTest ../tests/netMsgFactoryTest)
-TARGET_LINK_LIBRARIES(netMsgFactoryTest ge gs ${QT_LIBRARIES})
+ADD_EXECUTABLE (acp ${ACP_HEADERS} ${ACP_POSTMOC_HEADERS} ${ACP_SOURCES})
+TARGET_LINK_LIBRARIES(acp ${QT_LIBRARIES})
 
 
 MESSAGE(STATUS "Configuring Complete.")

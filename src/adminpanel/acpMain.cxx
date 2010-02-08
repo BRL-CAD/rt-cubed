@@ -24,16 +24,19 @@
  */
 
 #include <iostream>
+
 #include "AdminControlPanel.h"
+
+#include <QApplication>
 
 int main(int argc, char* argv[])
 {
-	AdminControlPanel acp(argc, argv);
-	acp.printSplash();
+	QApplication app(argc, argv);
 
-	return acp.exec();
+	AdminControlPanel acp;
+
+	return app.exec();
 }
-
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

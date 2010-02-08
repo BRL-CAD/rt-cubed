@@ -26,47 +26,26 @@
 #ifndef __ADMINCONTROLPANEL_H__
 #define __ADMINCONTROLPANEL_H__
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
+#include "ACPMainWindow.h"
+#include "ACPChatterBox.h"
 
-#include <iostream>
+#include <QLineEdit>
 
-#include "CommandParser.h"
-#include "ICommandable.h"
-
-class AdminControlPanel: public QCoreApplication, public ICommandable
+class AdminControlPanel: public QObject
 {
 Q_OBJECT
 
 public:
-	AdminControlPanel(int& argc, char* argv[]);
-
+	AdminControlPanel();
 	virtual ~AdminControlPanel();
 
-	void connectToHost(const char* hostName, char* port);
-	void connectToHost(const QString strHostName, const QString strPort);
-	void connectToHost(const QString& hostName, quint16 port);
-
-	int exec();
-
-	void printSplash();
-
-	bool handleCommand(QStringList* cmdStack);
-
-public slots:
-	void shutdown();
-
-	void handleSockConnected();
-	void handleSockDisconnected();
-	void handleSockError(QAbstractSocket::SocketError socketError);
-	void handleSockHostFound();
-	void handleSockStateChanged(QAbstractSocket::SocketState socketState);
+protected slots:
+void addNew();
 
 private:
-	QTcpSocket* sock;
-	CommandParser* cp;
+	ACPMainWindow* acpMainWindow;
+	QLineEdit *cmdLineLineEdit;
+	ACPChatterBox *chatter;
 };
 
 #endif
