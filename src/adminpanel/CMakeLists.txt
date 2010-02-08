@@ -50,11 +50,16 @@ set(ACP_SOURCES
 	ACPMainWindow.cxx
 	ACPChatterBox.cxx
 	AdminControlPanel.cxx
+	CommandFactory.cxx
+	Commands/UnknownCommand.cxx
 )
 
 set(ACP_HEADERS
-	ACPChatterBox.h
 	ACPMainWindow.h
+	ACPChatterBox.h
+	CommandFactory.h
+	Commands/UnknownCommand.h
+
 )
 
 set(ACP_PREMOC_HEADERS
@@ -64,7 +69,7 @@ set(ACP_PREMOC_HEADERS
 qt4_wrap_cpp(ACP_POSTMOC_HEADERS ${ACP_PREMOC_HEADERS})
 
 ADD_EXECUTABLE (acp ${ACP_HEADERS} ${ACP_POSTMOC_HEADERS} ${ACP_SOURCES})
-TARGET_LINK_LIBRARIES(acp ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(acp ${QT_LIBRARIES} gs ge)
 
 
 MESSAGE(STATUS "Configuring Complete.")
