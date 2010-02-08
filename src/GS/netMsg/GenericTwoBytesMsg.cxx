@@ -1,7 +1,7 @@
 /*             G E N E R I C T W O B Y T E S M S G . C X X
  * BRL-CAD
  *
- * Copyright (c) 2009 United States Government as represented by
+ * Copyright (c) 2010 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or

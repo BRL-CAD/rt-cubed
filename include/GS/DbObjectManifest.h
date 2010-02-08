@@ -1,7 +1,7 @@
 /*              D B O B J E C T M A N I F E S T . H
  * BRL-CAD
  *
- * Copyright (c) 2009 United States Government as represented by
+ * Copyright (c) 2010 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
