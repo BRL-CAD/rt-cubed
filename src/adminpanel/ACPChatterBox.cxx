@@ -34,8 +34,8 @@ ACPChatterBox::ACPChatterBox()
 {
 	QStandardItemModel* model = new QStandardItemModel(0, 4, this);
 	model->setHorizontalHeaderLabels(QStringList() << QApplication::translate(
-			"TimeStamp", "TimeStamp")<< QApplication::translate(
-					"MsgType", "MsgType") << QApplication::translate("Dir", "Dir")
+			"TimeStamp", "TimeStamp") << QApplication::translate("MsgType",
+			"MsgType") << QApplication::translate("Dir", "Dir")
 			<< QApplication::translate("Data", "Data"));
 
 	this->internalModel = model;
@@ -43,7 +43,7 @@ ACPChatterBox::ACPChatterBox()
 	this->setModel(this->internalModel);
 	this->verticalHeader()->hide();
 	this->horizontalHeader()->setStretchLastSection(true);
-	this->setColumnWidth(0,175);
+	this->setColumnWidth(0, 175);
 }
 
 ACPChatterBox::~ACPChatterBox()
@@ -64,7 +64,6 @@ void ACPChatterBox::addCommon(QString type, QString dir, QString data)
 {
 	QList<QStandardItem*> item;
 
-
 	QDateTime qdt = QDateTime::currentDateTime();
 	QString strDateTime = qdt.toString("dd MMM yy hh:mm:ss.zzz").toUpper();
 
@@ -72,7 +71,6 @@ void ACPChatterBox::addCommon(QString type, QString dir, QString data)
 	qsi00->setTextAlignment(Qt::AlignCenter);
 
 	item.append(qsi00);
-
 
 	QStandardItem* qsi01 = new QStandardItem(type);
 	qsi01->setTextAlignment(Qt::AlignCenter);
@@ -86,7 +84,13 @@ void ACPChatterBox::addCommon(QString type, QString dir, QString data)
 	//qsi03->setTextAlignment(Qt::AlignCenter);
 	item.append(qsi03);
 
-
 	this->internalModel->insertRow(0, item);
 
 }
+// Local Variables:
+// mode: C++
+// tab-width: 8
+// c-basic-offset: 2
+// indent-tabs-mode: t
+// End:
+// ex: shiftwidth=2 tabstop=8
