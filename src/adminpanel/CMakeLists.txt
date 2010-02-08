@@ -50,19 +50,15 @@ set(ACP_SOURCES
 	ACPMainWindow.cxx
 	ACPChatterBox.cxx
 	AdminControlPanel.cxx
-	CommandParser.cxx
 )
 
 set(ACP_HEADERS
-	ICommandable.h
 	ACPChatterBox.h
+	ACPMainWindow.h
 )
 
 set(ACP_PREMOC_HEADERS
 	AdminControlPanel.h
-	CommandParser.h
-	ACPMainWindow.h
-
 )
 
 qt4_wrap_cpp(ACP_POSTMOC_HEADERS ${ACP_PREMOC_HEADERS})
