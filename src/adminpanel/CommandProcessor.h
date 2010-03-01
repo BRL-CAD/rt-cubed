@@ -1,4 +1,4 @@
-/*             C O M M A N D F A C T O R Y . C X X
+/*             C O M M A N D P R O C E S S O R . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,44 +17,32 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file CommandFactory.cxx
+/** @file CommandProcessor.h
  *
  * Brief description
  *
  */
 
-#include "CommandFactory.h"
-#include "Commands/UnknownCommand.h"
+#ifndef __COMMANDPROCESSOR_H__
+#define __COMMANDPROCESSOR_H__
 
-CommandFactory::CommandFactory(QObject* parent) : QObject(parent)
+#include "GS/netMsg/NetMsg.h"
+
+#include <QString>
+#include <QStringList>
+
+class CommandProcessor
 {
+public:
+	static NetMsg* parseCommand(QString cmdLine);
+	static NetMsg* parseCommand(QStringList cmdList);
 
-}
+private:
+	CommandProcessor(){};
+	virtual ~CommandProcessor(){};
+};
 
-CommandFactory::~CommandFactory()
-{
-}
-
-AbstractCommand* CommandFactory::parseCommand(QString cmdLine)
-{
-	QStringList cmdList = cmdLine.replace("  ", " ").split(" ", QString::SkipEmptyParts);
-}
-
-AbstractCommand* CommandFactory::parseCommand(QStringList cmdList)
-{
-	if (cmdList.size() == 0) {
-		return NULL;
-	}
-
-	QString cmd = cmdList[0];
-
-	if (cmd == "connect") {
-
-	} else {
-		//return new UnknownCommand(this->box, cmd);
-	}
-
-}
+#endif /* __COMMANDPROCESSOR_H__ */
 
 // Local Variables:
 // mode: C++

@@ -49,12 +49,12 @@ set(ACP_SOURCES
 	acpMain.cxx
 	ACPChatterBox.cxx
 	AdminControlPanel.cxx
-	CommandFactory.cxx
+	CommandProcessor.cxx
 )
 
 set(ACP_HEADERS
 	ACPChatterBox.h
-	CommandFactory.h
+	CommandProcessor.h
 )
 
 set(ACP_PREMOC_HEADERS
