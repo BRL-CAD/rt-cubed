@@ -25,7 +25,7 @@
 
 #include "AbstractCommand.h"
 
-AbstractCommand::AbstractCommand(ACPChatterBox* box, QString cmd)
+AbstractCommand::AbstractCommand()
 {
 }
 

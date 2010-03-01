@@ -34,7 +34,7 @@
 class UnknownCommand : public AbstractCommand
 {
 public:
-	UnknownCommand(ACPChatterBox* box, QString cmd);
+	UnknownCommand();
 	virtual ~UnknownCommand();
 
 	virtual JobResult _doJob();

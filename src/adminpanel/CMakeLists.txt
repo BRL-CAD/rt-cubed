@@ -58,12 +58,12 @@ set(ACP_SOURCES
 set(ACP_HEADERS
 	ACPMainWindow.h
 	ACPChatterBox.h
-	CommandFactory.h
 	Commands/AbstractCommand.h
 	Commands/UnknownCommand.h
 )
 
 set(ACP_PREMOC_HEADERS
+	CommandFactory.h
 	AdminControlPanel.h
 )
 

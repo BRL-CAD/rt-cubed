@@ -22,10 +22,11 @@
  * Brief description
  *
  */
+
 #include "UnknownCommand.h"
 
-UnknownCommand::UnknownCommand(ACPChatterBox* box, QString cmd) :
-	AbstractCommand(box, cmd)
+UnknownCommand::UnknownCommand() :
+	AbstractCommand()
 {
 }
 
@@ -35,7 +36,7 @@ UnknownCommand::~UnknownCommand()
 
 JobResult UnknownCommand::_doJob()
 {
-	this->box->addC2S("Error", this->cmd + " is an unknown command.");
+//	this->box->addC2S("Error", this->cmd + " is an unknown command.");
 }
 
 // Local Variables:

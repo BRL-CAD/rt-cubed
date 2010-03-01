@@ -19,7 +19,7 @@
  */
 /** @file CommandFactory.h
  *
- *
+ * Brief description
  *
  */
 
@@ -27,21 +27,25 @@
 #define __COMMANDFACTORY_H__
 
 #include "Commands/AbstractCommand.h"
-#include "ACPChatterBox.h"
 
 #include <QString>
 #include <QStringList>
 
-class CommandFactory
+class CommandFactory : public QObject
 {
+	Q_OBJECT
 public:
-	CommandFactory(ACPChatterBox* box);
+	CommandFactory(QObject* parent = 0);
 	AbstractCommand* parseCommand(QString cmdLine);
 	AbstractCommand* parseCommand(QStringList cmdList);
 
+signals:
+	void hasCommand();
+
+
+
 private:
 	virtual ~CommandFactory();
-	ACPChatterBox* box;
 };
 
 #endif /* __COMMANDFACTORY_H__ */

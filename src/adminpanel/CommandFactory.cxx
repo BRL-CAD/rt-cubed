@@ -19,16 +19,16 @@
  */
 /** @file CommandFactory.cxx
  *
- *
+ * Brief description
  *
  */
 
 #include "CommandFactory.h"
 #include "Commands/UnknownCommand.h"
 
-CommandFactory::CommandFactory(ACPChatterBox* box)
+CommandFactory::CommandFactory(QObject* parent) : QObject(parent)
 {
-	this->box = box;
+
 }
 
 CommandFactory::~CommandFactory()
@@ -51,7 +51,7 @@ AbstractCommand* CommandFactory::parseCommand(QStringList cmdList)
 	if (cmd == "connect") {
 
 	} else {
-		return new UnknownCommand(this->box, cmd);
+		//return new UnknownCommand(this->box, cmd);
 	}
 
 }

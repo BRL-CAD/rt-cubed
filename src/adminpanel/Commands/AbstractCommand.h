@@ -34,7 +34,7 @@
 class AbstractCommand: public AbstractJob
 {
 public:
-	AbstractCommand(ACPChatterBox* box, QString cmd);
+	AbstractCommand();
 	virtual ~AbstractCommand();
 
 	virtual JobResult _doJob(){};
