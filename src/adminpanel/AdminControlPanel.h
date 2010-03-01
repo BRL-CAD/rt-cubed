@@ -26,10 +26,10 @@
 #ifndef __ADMINCONTROLPANEL_H__
 #define __ADMINCONTROLPANEL_H__
 
-#include "ACPMainWindow.h"
 #include "ACPChatterBox.h"
 
 #include <QLineEdit>
+#include <QWidget>
 
 class AdminControlPanel: public QObject
 {
@@ -40,10 +40,10 @@ public:
 	virtual ~AdminControlPanel();
 
 protected slots:
-void addNew();
+	void addNew();
 
 private:
-	ACPMainWindow* acpMainWindow;
+	QWidget* mainWidget;
 	QLineEdit *cmdLineLineEdit;
 	ACPChatterBox *chatter;
 };

@@ -36,7 +36,7 @@
 
 AdminControlPanel::AdminControlPanel()
 {
-	this->acpMainWindow = new ACPMainWindow();
+	this->mainWidget = new QWidget();
 
 	QLabel *cmdLineLabel = new QLabel(QApplication::translate("cmdLineLayout",
 			"cmd:"));
@@ -52,12 +52,12 @@ AdminControlPanel::AdminControlPanel()
 	mainLayout->addWidget(this->chatter);
 	mainLayout->addLayout(cmdLineLayout);
 
-	this->acpMainWindow->setLayout(mainLayout);
+	this->mainWidget->setLayout(mainLayout);
 
-	this->acpMainWindow->setWindowTitle(QApplication::translate("windowlayout",
+	this->mainWidget->setWindowTitle(QApplication::translate("windowlayout",
 			"ACP v0.0.1"));
 
-	this->acpMainWindow->resize(800, 600);
+	this->mainWidget->resize(800, 600);
 
 	/*
 	 * Signals
@@ -67,7 +67,7 @@ AdminControlPanel::AdminControlPanel()
 			addNew()));
 
 	//finally show window.
-	this->acpMainWindow->show();
+	this->mainWidget->show();
 }
 
 AdminControlPanel::~AdminControlPanel()

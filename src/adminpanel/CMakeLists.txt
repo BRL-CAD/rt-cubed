@@ -47,7 +47,6 @@ SET (QT_USE_QTNETWORK TRUE)
 
 set(ACP_SOURCES
 	acpMain.cxx
-	ACPMainWindow.cxx
 	ACPChatterBox.cxx
 	AdminControlPanel.cxx
 	CommandFactory.cxx
@@ -56,7 +55,6 @@ set(ACP_SOURCES
 )
 
 set(ACP_HEADERS
-	ACPMainWindow.h
 	ACPChatterBox.h
 	Commands/AbstractCommand.h
 	Commands/UnknownCommand.h
