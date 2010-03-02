@@ -31,11 +31,11 @@ GeometryService::GeometryService(int& argc, char* argv[], QString hostname) :
 
 	this->log = Logger::getInstance();
 
-	this->portalMan = new NetSockPortalManager(hostname);
+	this->portalMan = new NetPortalManager(hostname);
 
 	//
-QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetSockPortal*)),
-		this, SLOT(handleEventsFromPortal(NetSockPortal*)));
+QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)),
+		this, SLOT(handleEventsFromPortal(NetPortal*)));
 }
 
 GeometryService::~GeometryService()
@@ -48,7 +48,7 @@ void GeometryService::startListening(const QHostAddress& addy, quint16 port)
 	this->portalMan->listen(addy, port);
 }
 
-void GeometryService::handleEventsFromPortal(NetSockPortal* nsp)
+void GeometryService::handleEventsFromPortal(NetPortal* nsp)
 {
 
 }
