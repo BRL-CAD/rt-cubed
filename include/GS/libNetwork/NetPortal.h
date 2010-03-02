@@ -46,7 +46,7 @@ public:
 
 	void connectToHost(QString hostname, quint16 port);
 	void connectToHost(QHostAddress address, quint16 port);
-	void disconnect(quint8 reason);
+	void disconnectFromHost(quint8 reason);
 
 	void attemptToBuildMsg();
 
@@ -71,9 +71,11 @@ public:
 	void portalDisconnected();
 	void socketError(QAbstractSocket::SocketError err);
 
+public slots:
+	void sendLocalHostnameToRemHost();
+
 protected slots:
 	void moveDataFromSocketBuffer();
-
 	void relaySockConnected();
 	void relaySockDisconnected();
 	void relaySockError(QAbstractSocket::SocketError err);

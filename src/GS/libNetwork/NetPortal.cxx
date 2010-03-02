@@ -78,7 +78,7 @@ void NetPortal::connectToHost(QHostAddress address, quint16 port)
 {
 	this->sock->connectToHost(address, port);
 }
-void NetPortal::disconnect(quint8 reason)
+void NetPortal::disconnectFromHost(quint8 reason)
 {
 	QString msg;
 	msg += "Disconnected from: " + this->sock->peerAddress().toString() + " ("
@@ -117,6 +117,11 @@ void NetPortal::updateHandshakeStatus(HandshakeStatus newStatus)
 		this->handshakeStatus = newStatus;
 		emit handshakeStatusUpdate(newStatus, oldStatus);
 	}
+}
+void NetPortal::sendLocalHostnameToRemHost()
+{
+	RemHostNameSetMsg msg(this->nspm->getLocalHostName());
+	this->send(msg);
 }
 
 /*****************/
@@ -159,7 +164,7 @@ void NetPortal::attemptToBuildMsg()
 
 			if (msg->getMsgType() != REMHOSTNAMESET)
 			{
-				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+				this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
 				delete msg;
 				break;
 			}
@@ -172,14 +177,14 @@ void NetPortal::attemptToBuildMsg()
 			//Zero length check
 			if (remoteHostname.isEmpty())
 			{
-				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+				this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
 				break;
 			}
 
 			//If the nspm returns a NetPortal object, then this host is already on the network!
 			if (this->nspm->getPortalByRemHostname(remoteHostname) != NULL)
 			{
-				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+				this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
 				break;
 			}
 
@@ -191,7 +196,7 @@ void NetPortal::attemptToBuildMsg()
 		}
 		default:
 			//Should be failed
-			this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+			this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
 			break;
 		}
 
@@ -224,7 +229,7 @@ void NetPortal::send(NetMsg& msg)
 		//Check for socket failure
 		if (thisSend == -1)
 		{
-			this->disconnect(PORTAL_WRITE_FAILURE);
+			this->disconnectFromHost(PORTAL_WRITE_FAILURE);
 			return;
 		}
 

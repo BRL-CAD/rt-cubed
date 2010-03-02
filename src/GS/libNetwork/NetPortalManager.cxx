@@ -56,10 +56,10 @@ NetPortal* NetPortalManager::getNewPortal(int socketDescriptor)
 
 	this->registerPortal(portal);
 
-	QObject::connect(portal, SIGNAL(disconnect()), this, SLOT(
+	QObject::connect(portal, SIGNAL(disconnectFromHost()), this, SLOT(
 			handlePortalDisconnect()));
 
-QObject::connect(portal, SIGNAL(portalHandshakeComplete(QString, NetPortal*)), this, SLOT(mapPortalToHostname(QString, NetPortal*)));
+	QObject::connect(portal, SIGNAL(portalHandshakeComplete(QString, NetPortal*)), this, SLOT(mapPortalToHostname(QString, NetPortal*)));
 }
 
 void NetPortalManager::registerPortal(NetPortal* portal)
@@ -72,15 +72,22 @@ void NetPortalManager::mapPortalToHostname(QString hostname, NetPortal* portal)
 	this->hostnameToPortalMap->insert(hostname, portal);
 }
 
+void NetPortalManager::unregisterPortal(NetPortal* portal)
+{
+	this->portalList->removeAll(portal);
+}
+
+void NetPortalManager::unmapPortalToHostname(QString hostname)
+{
+	this->hostnameToPortalMap->remove(hostname);
+}
+
 void NetPortalManager::incomingConnection(int socketDescriptor)
 {
-	NetPortal* nsp = this->getNewPortal();
-
-	//	nsp->setSocketDescriptor(socketDescriptor);
-	//	nsp->handshakeStatus = NetPortal::HandshakeStatus::Handshaking;
+	NetPortal* nsp = this->getNewPortal(socketDescriptor);
 
 	//Send the localhostName to the Remote machine.
-	this->sendLocalHostName(nsp);
+	nsp->sendLocalHostnameToRemHost();
 
 	emit newIncomingConnection(nsp);
 }
@@ -89,19 +96,20 @@ void NetPortalManager::handlePortalDisconnect()
 {
 	NetPortal* nsp = (NetPortal*) sender();
 
-	//Map the NSP
-	NetPortalManager::hostnameToPortalMap->remove(nsp->getRemoteHostName());
-}
+	//UnMap the NSP
+	this->unregisterPortal(nsp);
+	this->unmapPortalToHostname(nsp->getRemoteHostName());
 
-void NetPortalManager::sendLocalHostName(NetPortal* nsp)
-{
-	RemHostNameSetMsg msg(this->localHostName);
-	nsp->send(msg);
 }
 
 NetPortal* NetPortalManager::getPortalByRemHostname(QString remHostName)
 {
 	return NetPortalManager::hostnameToPortalMap->value(remHostName, NULL);
+}
+
+QString NetPortalManager::getLocalHostName()
+{
+	return this->localHostName;
 }
 
 // Local Variables:
