@@ -1,4 +1,4 @@
-/*               G E O M E T R Y S E R V I C E . H
+/*             G E N E R I C M U L T I B Y T E M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,49 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file GenericMultiByteMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYSERVICE_H__
-#define __GEOMETRYSERVICE_H__
+#ifndef __GENERICMULTIBYTEMSG_H__
+#define __GENERICMULTIBYTEMSG_H__
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
+#include "GS/libNetwork/NetMsg.h"
 
-#include "GE/GeometryEngine.h"
-#include "GS/GSCommon.h"
-#include "GS/libNetwork/NetPortalManager.h"
-
-class GeometryService: public QCoreApplication
+class GenericMultiByteMsg : public NetMsg
 {
 
 public:
-	GeometryService(int& argc, char* argv[], QString hostname);
-	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
 
-protected slots:
-	void handleEventsFromPortal(NetPortal* nsp);
+  //Normal Constructor
+  GenericMultiByteMsg(quint32 type, char* dataIn, quint32 dataInLen);
 
-private:
-	QString localHostname;
-	NetPortalManager* portalMan;
-	Logger* log;
+  //Reply Constructor
+  GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn, quint32 dataInLen);
+
+  //Deserializing Constructors
+  GenericMultiByteMsg(QDataStream* ds);
+
+  //Destructor
+  virtual ~GenericMultiByteMsg();
+
+  /*
+   * Utilities
+   */
+  virtual QString toString();
+
+protected:
+  quint32 getDataLen();
+  char* getData();
+
+  quint32 dataLen;
+  char* data;
+
+  virtual bool _serialize(QDataStream* ds);
+  virtual bool _equals(NetMsg& msg);
+
 };
 
 #endif

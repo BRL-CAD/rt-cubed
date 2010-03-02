@@ -1,4 +1,4 @@
-/*               G E O M E T R Y S E R V I C E . H
+/*             R E M H O S T N A M E S E T M S G . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,43 +17,42 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file RemHostNameSetMsg.cxx
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYSERVICE_H__
-#define __GEOMETRYSERVICE_H__
+#include "GS/libNetwork/RemHostNameSetMsg.h"
+#include <sstream>
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
-
-#include "GE/GeometryEngine.h"
-#include "GS/GSCommon.h"
-#include "GS/libNetwork/NetPortalManager.h"
-
-class GeometryService: public QCoreApplication
+//Normal Constructor
+RemHostNameSetMsg::RemHostNameSetMsg(QString hostname):
+  GenericOneStringMsg(REMHOSTNAMESET, hostname)
 {
+}
 
-public:
-	GeometryService(int& argc, char* argv[], QString hostname);
-	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
+  //Reply Constructor
+RemHostNameSetMsg::RemHostNameSetMsg(RemHostNameSetMsg* msg, QString hostname):
+  GenericOneStringMsg(REMHOSTNAMESET, msg, hostname)
+{
+}
 
-protected slots:
-	void handleEventsFromPortal(NetPortal* nsp);
+//Deserializing Constructor
+RemHostNameSetMsg::RemHostNameSetMsg(QDataStream* ds):
+  GenericOneStringMsg(ds)
+{
+}
 
-private:
-	QString localHostname;
-	NetPortalManager* portalMan;
-	Logger* log;
-};
+//Destructor
+RemHostNameSetMsg::~RemHostNameSetMsg()
+{
+}
 
-#endif
+ /*
+ *Getters n Setters
+ */
+QString RemHostNameSetMsg::getRemoteHostName() {return this->strData;}
 
 // Local Variables: ***
 // mode: C++ ***

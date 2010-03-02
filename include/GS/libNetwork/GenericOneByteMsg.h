@@ -1,4 +1,4 @@
-/*               G E O M E T R Y S E R V I C E . H
+/*             G E N E R I C O N E B Y T E M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,46 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file GenericOneByteMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYSERVICE_H__
-#define __GEOMETRYSERVICE_H__
+#ifndef __GENERICONEBYTEMSG_H__
+#define __GENERICONEBYTEMSG_H__
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
-
-#include "GE/GeometryEngine.h"
 #include "GS/GSCommon.h"
-#include "GS/libNetwork/NetPortalManager.h"
+#include "GS/libNetwork/NetMsg.h"
 
-class GeometryService: public QCoreApplication
+class GenericOneByteMsg : public NetMsg
 {
 
 public:
-	GeometryService(int& argc, char* argv[], QString hostname);
-	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
 
-protected slots:
-	void handleEventsFromPortal(NetPortal* nsp);
+  //Normal Constructor
+  GenericOneByteMsg(quint32 type, quint8 b);
 
-private:
-	QString localHostname;
-	NetPortalManager* portalMan;
-	Logger* log;
+  //Reply Constructor
+  GenericOneByteMsg(quint32 type, NetMsg* msg, quint8 b);
+
+  //Deserializing Constructors
+  GenericOneByteMsg(QDataStream* ds);
+
+  //Destructor
+  virtual ~GenericOneByteMsg();
+
+  /*
+   * Utilities
+   */
+  virtual QString toString();
+
+protected:
+  quint8 getData();
+  quint8 data;
+
+  virtual bool _serialize(QDataStream* ds);
+  virtual bool _equals(NetMsg& msg);
 };
 
 #endif

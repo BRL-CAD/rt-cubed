@@ -27,7 +27,7 @@
 #ifndef __BUILDNETMSGJOB_H__
 #define __BUILDNETMSGJOB_H__
 
-#include "GS/netMsg/NetMsg.h"
+#include "GS/libNetwork/NetMsg.h"
 #include "GS/Jobs/AbstractJob.h"
 
 #include <QString>

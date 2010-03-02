@@ -1,4 +1,4 @@
-/*               G E O M E T R Y S E R V I C E . H
+/*             N E W H O S T O N N E T M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,36 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file NewHostOnNetMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYSERVICE_H__
-#define __GEOMETRYSERVICE_H__
+#ifndef __NEWHOSTONNETMSG_H__
+#define __NEWHOSTONNETMSG_H__
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
-
-#include "GE/GeometryEngine.h"
 #include "GS/GSCommon.h"
-#include "GS/libNetwork/NetPortalManager.h"
+#include "GS/libNetwork/GenericOneStringMsg.h"
 
-class GeometryService: public QCoreApplication
+class NewHostOnNetMsg : public GenericOneStringMsg
 {
 
 public:
-	GeometryService(int& argc, char* argv[], QString hostname);
-	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
 
-protected slots:
-	void handleEventsFromPortal(NetPortal* nsp);
+  //Normal Constructor
+  NewHostOnNetMsg(QString s);
 
-private:
-	QString localHostname;
-	NetPortalManager* portalMan;
-	Logger* log;
+  //Reply Constructor
+  NewHostOnNetMsg(NewHostOnNetMsg* msg, QString s);
+
+  //Deserializing Constructors
+  NewHostOnNetMsg(QDataStream* ds);
+
+  //Destructor
+  virtual ~NewHostOnNetMsg();
+
+  QString getNewHostName();
 };
 
 #endif

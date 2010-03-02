@@ -1,4 +1,4 @@
-/*               G E O M E T R Y S E R V I C E . H
+/*                G E O M E T R Y R E Q M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,50 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file GeometryReqMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYSERVICE_H__
-#define __GEOMETRYSERVICE_H__
+#ifndef __GEOMETRYREQMSG_H__
+#define __GEOMETRYREQMSG_H__
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
-
-#include "GE/GeometryEngine.h"
 #include "GS/GSCommon.h"
-#include "GS/libNetwork/NetPortalManager.h"
+#include "GS/libNetwork/GenericOneStringMsg.h"
 
-class GeometryService: public QCoreApplication
+class GeometryReqMsg : public GenericOneStringMsg
 {
 
 public:
-	GeometryService(int& argc, char* argv[], QString hostname);
-	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
 
-protected slots:
-	void handleEventsFromPortal(NetPortal* nsp);
+  //Only Constructor
+  GeometryReqMsg(quint8 requestType, QString data);
 
+  //Reply Constructor
+  GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
+
+  //Deserializing Constructors
+  GeometryReqMsg(QDataStream* ds);
+
+  //Destructor
+  virtual ~GeometryReqMsg();
+  
+  virtual QString toString();
+
+  /*
+   *Getters n Setters
+   */
+  quint8 getRequestType();
+  
+  QString getData();
+  
 private:
-	QString localHostname;
-	NetPortalManager* portalMan;
-	Logger* log;
+  quint8 reqType;
+
+  bool _serialize(QDataStream* ds);
+  bool _equals(NetMsg& msg);
+
 };
 
 #endif

@@ -28,9 +28,9 @@ libgs_la_SOURCES = \
 	Jobs/JobManager.cxx \
 	Jobs/JobWorker.cxx \
 	Jobs/NetMsgActionJob.cxx \
-	netMsg/GeometryManifestMsg.cxx \
-	netMsg/GeometryChunkMsg.cxx \
-	netMsg/GeometryReqMsg.cxx \
-	netMsg/NetMsg.cxx \
-	netMsg/RemHostNameSetFailMsg.cxx \
-	netMsg/RemHostNameSetMsg.cxx
+	libNetwork/GeometryManifestMsg.cxx \
+	libNetwork/GeometryChunkMsg.cxx \
+	libNetwork/GeometryReqMsg.cxx \
+	libNetwork/NetMsg.cxx \
+	libNetwork/RemHostNameSetFailMsg.cxx \
+	libNetwork/RemHostNameSetMsg.cxx

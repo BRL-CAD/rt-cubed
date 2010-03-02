@@ -26,9 +26,9 @@
 #ifndef __CONNECTJOB_H__
 #define __CONNECTJOB_H__
 
-#include "GS/netMsg/NetMsg.h"
+#include "GS/libNetwork/NetMsg.h"
 #include "GS/Jobs/AbstractJob.h"
-#include "GS/NetPortalManager.h"
+#include "GS/libNetwork/NetPortalManager.h"
 
 #include <QString>
 #include <QStringList>

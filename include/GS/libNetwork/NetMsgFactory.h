@@ -1,4 +1,4 @@
-/*               G E O M E T R Y S E R V I C E . H
+/*                        N E T M S G F A C T O R Y. H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,53 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file NetMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYSERVICE_H__
-#define __GEOMETRYSERVICE_H__
+#ifndef __NETMSGFACTORY_H__
+#define __NETMSGFACTORY_H__
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
-
-#include "GE/GeometryEngine.h"
 #include "GS/GSCommon.h"
-#include "GS/libNetwork/NetPortalManager.h"
+#include "GS/libNetwork/NetMsg.h"
 
-class GeometryService: public QCoreApplication
+#include <QByteArray>
+#include <QQueue>
+#include <QBuffer>
+#include <QMutex>
+
+class NetMsgFactory
 {
 
 public:
-	GeometryService(int& argc, char* argv[], QString hostname);
-	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
 
-protected slots:
-	void handleEventsFromPortal(NetPortal* nsp);
+	NetMsgFactory();
+	virtual ~NetMsgFactory();
+
+	bool addData(QByteArray& data);
+	bool hasMsgsAvailable();
+	NetMsg* getNextMsg();
+	void attemptToMakeMsgs();
+
+	bool attemptToMakeMsg();
+	void printBufferStatus(bool extended);
+
+	quint32 getInboxSize();
 
 private:
-	QString localHostname;
-	NetPortalManager* portalMan;
-	Logger* log;
+
+	QMutex* lock;
+
+	QQueue<NetMsg*>* inbox;
+
+	QBuffer* intBuffer;
+	quint64 limit;
+
+
+	void compactBuffer();
+	static NetMsg* buildMsgByType(quint32 type, QDataStream* qds);
 };
 
 #endif

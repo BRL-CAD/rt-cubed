@@ -40,25 +40,25 @@ MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
 SET(LIBNET_SOURCES
 	NetPortal.cxx
 	NetPortalManager.cxx
-	netMsg/NetMsgFactory.cxx
-	netMsg/NetMsg.cxx
-	netMsg/GenericOneStringMsg.cxx
-	netMsg/GenericOneByteMsg.cxx
-	netMsg/GenericTwoBytesMsg.cxx
-	netMsg/GenericFourBytesMsg.cxx
-	netMsg/GenericMultiByteMsg.cxx
-	netMsg/FailureMsg.cxx
-	netMsg/SuccessMsg.cxx
-	netMsg/RemHostNameSetMsg.cxx
-	netMsg/NewHostOnNetMsg.cxx
-	netMsg/GeometryReqMsg.cxx
-	netMsg/GeometryManifestMsg.cxx
-	netMsg/GeometryChunkMsg.cxx
+	NetMsgFactory.cxx
+	NetMsg.cxx
+	GenericOneStringMsg.cxx
+	GenericOneByteMsg.cxx
+	GenericTwoBytesMsg.cxx
+	GenericFourBytesMsg.cxx
+	GenericMultiByteMsg.cxx
+	FailureMsg.cxx
+	SuccessMsg.cxx
+	RemHostNameSetMsg.cxx
+	NewHostOnNetMsg.cxx
+	GeometryReqMsg.cxx
+	GeometryManifestMsg.cxx
+	GeometryChunkMsg.cxx
 )
 
 QT4_WRAP_CPP(LIBNET_MOCCED_HEADERS
-	${RT3_INCLUDE_DIR}/libNetwork/NetPortal.h
-	${RT3_INCLUDE_DIR}/libNetwork/NetPortalManager.h
+	${RT3_INCLUDE_DIR}/GS/libNetwork/NetPortal.h
+	${RT3_INCLUDE_DIR}/GS/libNetwork/NetPortalManager.h
 )
 
 INCLUDE (${QT_USE_FILE})

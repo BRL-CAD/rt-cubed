@@ -26,7 +26,7 @@
 #ifndef __COMMANDPROCESSOR_H__
 #define __COMMANDPROCESSOR_H__
 
-#include "GS/netMsg/NetMsg.h"
+#include "GS/libNetwork/NetMsg.h"
 
 #include <QString>
 #include <QStringList>

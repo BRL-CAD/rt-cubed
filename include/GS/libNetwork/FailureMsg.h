@@ -1,4 +1,4 @@
-/*               G E O M E T R Y S E R V I C E . H
+/*         F A I L U R E M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,38 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file FailureMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYSERVICE_H__
-#define __GEOMETRYSERVICE_H__
+#ifndef __FAILUREMSG_H__
+#define __FAILUREMSG_H__
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
-
-#include "GE/GeometryEngine.h"
 #include "GS/GSCommon.h"
-#include "GS/libNetwork/NetPortalManager.h"
+#include "GS/libNetwork/GenericOneByteMsg.h"
 
-class GeometryService: public QCoreApplication
+
+class FailureMsg : public GenericOneByteMsg
 {
 
 public:
-	GeometryService(int& argc, char* argv[], QString hostname);
-	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
 
-protected slots:
-	void handleEventsFromPortal(NetPortal* nsp);
+  //Normal Constructor
+  FailureMsg(quint8 failureCode);
 
-private:
-	QString localHostname;
-	NetPortalManager* portalMan;
-	Logger* log;
+  //Reply Constructor
+  FailureMsg(NetMsg* msg, quint8 failureCode);
+
+  //Deserializing Constructors
+  FailureMsg(QDataStream* ds);
+  
+  /*
+   *Getters n Setters
+   */
+  quint8 getFailureCode();
+
 };
 
 #endif

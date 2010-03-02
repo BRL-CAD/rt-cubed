@@ -26,6 +26,9 @@
 #
 ##########################################################################
 
+ADD_SUBDIRECTORY(./libNetwork)
+
+
 PROJECT(GeometryService)
 
 MESSAGE(STATUS "")
@@ -39,8 +42,6 @@ MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
 
 SET(GS_SOURCES
 	Config.cxx
-	NetPortal.cxx
-	NetPortalManager.cxx
 	GeometryService.cxx
 	DbObjectManager.cxx
 	DbObjectManifest.cxx
@@ -50,25 +51,10 @@ SET(GS_SOURCES
 	Jobs/AbstractJob.cxx
 	Jobs/JobManager.cxx
 	Jobs/JobWorker.cxx
-	netMsg/NetMsgFactory.cxx
-	netMsg/NetMsg.cxx
-	netMsg/GenericOneStringMsg.cxx
-	netMsg/GenericOneByteMsg.cxx
-	netMsg/GenericTwoBytesMsg.cxx
-	netMsg/GenericFourBytesMsg.cxx
-	netMsg/GenericMultiByteMsg.cxx
-	netMsg/FailureMsg.cxx
-	netMsg/SuccessMsg.cxx
-	netMsg/RemHostNameSetMsg.cxx
-	netMsg/NewHostOnNetMsg.cxx
-	netMsg/GeometryReqMsg.cxx
-	netMsg/GeometryManifestMsg.cxx
-	netMsg/GeometryChunkMsg.cxx
 )
 
 QT4_WRAP_CPP(GS_MOCCED_HEADERS
-	${RT3_INCLUDE_DIR}/GS/NetPortal.h
-	${RT3_INCLUDE_DIR}/GS/NetPortalManager.h
+
 )
 
 INCLUDE (${QT_USE_FILE})
@@ -79,7 +65,7 @@ ENDIF(COMMAND cmake_policy)
 
 ## Make the GS Library
 ADD_LIBRARY (gs SHARED ${GS_SOURCES} ${GS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(gs Utility ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(gs libNetwork Utility ${QT_LIBRARIES})
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")
