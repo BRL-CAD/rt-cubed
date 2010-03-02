@@ -39,8 +39,8 @@ MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
 
 SET(GS_SOURCES
 	Config.cxx
-	NetSockPortal.cxx
-	NetSockPortalManager.cxx
+	NetPortal.cxx
+	NetPortalManager.cxx
 	GeometryService.cxx
 	DbObjectManager.cxx
 	DbObjectManifest.cxx
@@ -67,8 +67,8 @@ SET(GS_SOURCES
 )
 
 QT4_WRAP_CPP(GS_MOCCED_HEADERS
-	${RT3_INCLUDE_DIR}/GS/NetSockPortal.h
-	${RT3_INCLUDE_DIR}/GS/NetSockPortalManager.h
+	${RT3_INCLUDE_DIR}/GS/NetPortal.h
+	${RT3_INCLUDE_DIR}/GS/NetPortalManager.h
 )
 
 INCLUDE (${QT_USE_FILE})

@@ -15,7 +15,7 @@ libgs_la_SOURCES = \
 	Session.cxx \
 	AccessManager.cxx \
 	GeometryService.cxx \
-	NetSockPortal.cxx \
+	NetPortal.cxx \
 	SessionManager.cxx \
 	NetMsgActionDefinitions/AbstractNetMsgActionDef.cxx \
 	NetMsgActionDefinitions/NetMsgActionDefManager.cxx \
