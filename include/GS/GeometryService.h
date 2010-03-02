@@ -33,7 +33,7 @@
 
 #include "GE/GeometryEngine.h"
 #include "GS/GSCommon.h"
-#include "GS/NetSockPortalManager.h"
+#include "GS/NetPortalManager.h"
 
 class GeometryService: public QCoreApplication
 {
@@ -45,11 +45,11 @@ public:
 	int exec();
 
 protected slots:
-	void handleEventsFromPortal(NetSockPortal* nsp);
+	void handleEventsFromPortal(NetPortal* nsp);
 
 private:
 	QString localHostname;
-	NetSockPortalManager* portalMan;
+	NetPortalManager* portalMan;
 	Logger* log;
 };
 
