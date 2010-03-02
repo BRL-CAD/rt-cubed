@@ -37,12 +37,13 @@ public:
 	JobResult doJob();
 	JobStatus getStatus();
 
+protected:
+	virtual JobResult _doJob();
+
 private:
 	unsigned int jobID;
-
 	JobStatus status;
 
-	virtual JobResult _doJob();
 };
 
 #endif
