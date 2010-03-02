@@ -24,9 +24,13 @@
  */
 
 #include "ConnectJob.h"
+#include "GS/GSCommon.h"
 
-ConnectJob::ConnectJob()
+ConnectJob::ConnectJob(NetPortalManager* portMan, QHostAddress address, quint16 port)
 {
+	this->portMan = portMan;
+	this->address = address;
+	this->port = port;
 }
 ConnectJob::~ConnectJob()
 {
@@ -34,7 +38,10 @@ ConnectJob::~ConnectJob()
 
 JobResult ConnectJob::_doJob()
 {
+	NetPortal* portal = this->portMan->getNewPortal();
+	portal->connectToHost(this->address, this->port);
 
+	return JOB_COMPLETED_NO_ERRORS;
 }
 
 // Local Variables:

@@ -28,18 +28,25 @@
 
 #include "GS/netMsg/NetMsg.h"
 #include "GS/Jobs/AbstractJob.h"
+#include "GS/NetPortalManager.h"
 
 #include <QString>
 #include <QStringList>
+#include <QHostAddress>
 
 class ConnectJob : public AbstractJob
 {
 public:
-	ConnectJob();
+	ConnectJob(NetPortalManager* portMan, QHostAddress address, quint16 port);
 	virtual ~ConnectJob();
 
 protected:
 	virtual JobResult _doJob();
+
+private:
+	NetPortalManager* portMan;
+	QHostAddress address;
+	quint16 port;
 };
 
 #endif

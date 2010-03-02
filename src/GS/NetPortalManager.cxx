@@ -32,29 +32,39 @@ NetPortalManager::NetPortalManager(QString hostName, QObject* parent) :
 	QTcpServer(parent), localHostName(hostName)
 {
 	this->log = Logger::getInstance();
-	this->portalList = new QMap<QString, NetPortal*> ();
+	this->hostnameToPortalMap = new QMap<QString, NetPortal*> ();
+	this->portalList = new QList<NetPortal*>();
 }
 
 NetPortalManager::~NetPortalManager()
 {
+	//TODO delete map and list?
 }
 
-NetPortal* NetPortalManager::connectTo(QHostAddress addy, quint16 port)
+
+NetPortal* NetPortalManager::getNewPortal()
 {
-	QString msg;
-	msg += "Attempting to connect to: " + addy.toString() + ":" + port + "\n";
-	this->log->log(Logger::INFO, msg);
+	//Create new NSP and setup signals
+	NetPortal* portal = new NetPortal(this);
 
-	NetPortal* nsp = this->preparePortal();
-	nsp->portStatus = NetPortal::NotConnected;
+	this->registerPortal(portal);
 
-	//Wire up a signal to send the handshake info on connect
-	QObject::connect(nsp, SIGNAL(connected()), this, SLOT(
-			handleOutgoingConnect()));
+	//Set up signal prior to initializing the NSP with a socket Descriptor
+	QObject::connect(portal, SIGNAL(portalHandshakeComplete()), this, SLOT(
+			handlePortalHandshakeCompleted()));
 
-	nsp->connectToHost(addy, port);
+	QObject::connect(portal, SIGNAL(disconnect()), this, SLOT(
+			handlePortalDisconnect()));
+}
 
-	return nsp;
+void NetPortalManager::registerPortal(NetPortal* portal)
+{
+	this->portalList->append(portal);
+}
+
+void NetPortalManager::mapPortalToHostname(QString hostname, NetPortal* portal)
+{
+	this->hostnameToPortalMap->insert(hostname, portal);
 }
 
 NetPortal* NetPortalManager::preparePortal()
@@ -74,8 +84,8 @@ void NetPortalManager::incomingConnection(int socketDescriptor)
 {
 	NetPortal* nsp = this->preparePortal();
 
-	nsp->setSocketDescriptor(socketDescriptor);
-	nsp->portStatus = NetPortal::Handshaking;
+//	nsp->setSocketDescriptor(socketDescriptor);
+//	nsp->handshakeStatus = NetPortal::HandshakeStatus::Handshaking;
 
 	//Send the localhostName to the Remote machine.
 	this->sendLocalHostName(nsp);
@@ -87,9 +97,9 @@ void NetPortalManager::handleOutgoingConnect()
 {
 	NetPortal* nsp = (NetPortal*) sender();
 
-	QString msg;
-	msg += "Accepted new connection from: " + nsp->peerAddress().toString() + ":" + nsp->peerPort() + "\n";
-	this->log->log(Logger::INFO, msg);
+//	QString msg;
+//	msg += "Accepted new connection from: " + nsp->peerAddress().toString() + ":" + nsp->peerPort() + "\n";
+//	this->log->log(Logger::INFO, msg);
 
 	//Send the localhostName to the Remote machine.
 	this->sendLocalHostName(nsp);
@@ -105,7 +115,7 @@ void NetPortalManager::handlePortalHandshakeCompleted()
 	NetPortal* nsp = (NetPortal*) sender();
 
 	//Map the NSP
-	NetPortalManager::portalList->insert(nsp->getRemoteHostName(), nsp);
+	NetPortalManager::hostnameToPortalMap->insert(nsp->getRemoteHostName(), nsp);
 
 	QObject::disconnect(nsp, SIGNAL(portalHandshakeComplete()), this, SLOT(
 			handlePortalHandshakeCompleted()));
@@ -120,7 +130,7 @@ void NetPortalManager::handlePortalDisconnect()
 	NetPortal* nsp = (NetPortal*) sender();
 
 	//Map the NSP
-	NetPortalManager::portalList->remove(nsp->getRemoteHostName());
+	NetPortalManager::hostnameToPortalMap->remove(nsp->getRemoteHostName());
 }
 
 void NetPortalManager::sendLocalHostName(NetPortal* nsp)
@@ -131,7 +141,7 @@ void NetPortalManager::sendLocalHostName(NetPortal* nsp)
 
 NetPortal* NetPortalManager::getPortalByRemHostname(QString remHostName)
 {
-	return NetPortalManager::portalList->value(remHostName, NULL);
+	return NetPortalManager::hostnameToPortalMap->value(remHostName, NULL);
 }
 
 // Local Variables:

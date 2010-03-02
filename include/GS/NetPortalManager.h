@@ -46,6 +46,9 @@ public:
 	NetPortalManager(QString hostName, QObject* parent = 0);
 	~NetPortalManager();
 
+
+	NetPortal* getNewPortal();
+
 	NetPortal* connectTo(QHostAddress addy, quint16 port);
 	NetPortal* getPortalByRemHostname(QString remHostName);
 
@@ -62,14 +65,19 @@ void newIncomingConnection(NetPortal* nsp);
 void newOutgoingConnection(NetPortal* nsp);
 
 private:
+
+	void registerPortal(NetPortal* portal);
+	void mapPortalToHostname(QString hostname, NetPortal* portal);
+
+
 	QString localHostName;
 	Logger* log;
 
-	QMap<QString, NetPortal*>* portalList;
+	QMap<QString, NetPortal*>* hostnameToPortalMap;
+	QList<NetPortal*>* portalList;
 
 	void sendLocalHostName(NetPortal* nsp);
 	NetPortal* preparePortal();
-
 };
 
 #endif

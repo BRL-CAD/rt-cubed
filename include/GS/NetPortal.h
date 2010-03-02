@@ -35,50 +35,60 @@
 
 class NetPortalManager;
 
-class NetPortal: public QTcpSocket
+class NetPortal : public QObject
 {
 Q_OBJECT
-
-friend class NetPortalManager;
-
+//friend class NetPortalManager;
 public:
 	NetPortal(NetPortalManager* parent);
 	virtual ~NetPortal();
 
+	void connectToHost(QString hostname, quint16 port);
+	void connectToHost(QHostAddress address, quint16 port);
+	void disconnect(quint8 reason);
+
+	void attemptToBuildMsg();
+
 	bool hasMsg();
 	NetMsg* getNextMsg();
-	void disconnect(quint8 reason);
 
 	void send(NetMsg& msg);
 
 	QString getRemoteHostName();
 
-	enum
+	enum HandshakeStatus
 	{
 		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
 	};
 
-	signals:
+signals:
 	void msgReady();
+	void handshakeStatusUpdate(HandshakeStatus current, HandshakeStatus old);
 	void portalHandshakeComplete();
 
+	void portalConnected();
+	void portalDisconnected();
+	void socketError(QAbstractSocket::SocketError err);
+
 protected slots:
-void moveDataFromSocketBuffer();
+	void moveDataFromSocketBuffer();
+
+	void relaySockConnected();
+	void relaySockDisconnected();
+	void relaySockError(QAbstractSocket::SocketError err);
 
 private:
+	QTcpSocket* sock;
+	NetPortalManager* nspm;
 	QString remHostName;
+	NetMsgFactory* factory;
+	HandshakeStatus handshakeStatus;
 	Logger* log;
 
-	NetMsgFactory* factory;
-
-	int portStatus;
-
-	NetPortalManager* nspm;
-
+	void updateHandshakeStatus(HandshakeStatus newStatus);
 };
 
 #endif
-
 
 /*
  * Local Variables:
