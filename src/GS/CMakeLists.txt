@@ -48,7 +48,6 @@ SET(GS_SOURCES
 	SessionManager.cxx
 	AccessManager.cxx
 	Jobs/AbstractJob.cxx
-	Jobs/JobScheduler.cxx
 	Jobs/JobManager.cxx
 	Jobs/JobWorker.cxx
 	netMsg/NetMsgFactory.cxx
