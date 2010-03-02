@@ -52,13 +52,11 @@ protected:
 	void incomingConnection(int socketDescriptor);
 
 protected slots:
-	void handleOutgoingConnect();
 	void handlePortalDisconnect();
 	void mapPortalToHostname(QString hostname, NetPortal* portal);
 
 signals:
 	void newIncomingConnection(NetPortal* nsp);
-	void newOutgoingConnection(NetPortal* nsp);
 
 private:
 

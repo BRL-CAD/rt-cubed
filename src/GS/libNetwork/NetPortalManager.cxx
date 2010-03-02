@@ -59,7 +59,7 @@ NetPortal* NetPortalManager::getNewPortal(int socketDescriptor)
 	QObject::connect(portal, SIGNAL(disconnect()), this, SLOT(
 			handlePortalDisconnect()));
 
-	QObject::connect(portal, SIGNAL(portalHandshakeComplete(QString, NetPortal*)), this, SLOT(mapPortalToHostname(QString, NetPortal*)));
+QObject::connect(portal, SIGNAL(portalHandshakeComplete(QString, NetPortal*)), this, SLOT(mapPortalToHostname(QString, NetPortal*)));
 }
 
 void NetPortalManager::registerPortal(NetPortal* portal)
@@ -83,23 +83,6 @@ void NetPortalManager::incomingConnection(int socketDescriptor)
 	this->sendLocalHostName(nsp);
 
 	emit newIncomingConnection(nsp);
-}
-
-void NetPortalManager::handleOutgoingConnect()
-{
-	NetPortal* nsp = (NetPortal*) sender();
-
-	//	QString msg;
-	//	msg += "Accepted new connection from: " + nsp->peerAddress().toString() + ":" + nsp->peerPort() + "\n";
-	//	this->log->log(Logger::INFO, msg);
-
-	//Send the localhostName to the Remote machine.
-	this->sendLocalHostName(nsp);
-
-	QObject::disconnect(nsp, SIGNAL(connected()), this, SLOT(
-			handleOutgoingConnect(nsp)));
-
-	emit newOutgoingConnection(nsp);
 }
 
 void NetPortalManager::handlePortalDisconnect()

@@ -49,6 +49,7 @@ void NetPortal::constructorCommon(NetPortalManager* nspm)
 	this->log = Logger::getInstance();
 	this->nspm = nspm;
 	this->sock = new QTcpSocket();
+
 	QObject::connect(sock, SIGNAL(connected()), this,
 			SLOT(relaySockConnected()));
 	QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(
@@ -58,7 +59,6 @@ void NetPortal::constructorCommon(NetPortalManager* nspm)
 
 	QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(
 			moveDataFromSocketBuffer()));
-
 }
 
 NetPortal::~NetPortal()
@@ -160,15 +160,14 @@ void NetPortal::attemptToBuildMsg()
 			if (msg->getMsgType() != REMHOSTNAMESET)
 			{
 				this->disconnect(PORTAL_HANDSHAKE_FAILURE);
+				delete msg;
 				break;
 			}
-
-			RemHostNameSetMsg* rhnsm = (RemHostNameSetMsg*) msg;
 
 			QString remoteHostname =
 					((RemHostNameSetMsg*) msg)->getRemoteHostName();
 
-			delete rhnsm;
+			delete msg;
 
 			//Zero length check
 			if (remoteHostname.isEmpty())
