@@ -56,9 +56,10 @@ TARGET_LINK_LIBRARIES(geoserv ge gs ${QT_LIBRARIES})
 ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
 TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
 
-ADD_EXECUTABLE(netMsgFactoryTest ../tests/netMsgFactoryTest)
+ADD_EXECUTABLE(netMsgFactoryTest ../tests/netMsgFactoryTest.cxx)
 TARGET_LINK_LIBRARIES(netMsgFactoryTest ge gs ${QT_LIBRARIES})
 
-
+ADD_EXECUTABLE(GeometryServiceTest ../tests/GeometryServiceTest.cxx)
+T
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")
