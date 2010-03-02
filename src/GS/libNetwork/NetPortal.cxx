@@ -33,10 +33,22 @@
 
 NetPortal::NetPortal(NetPortalManager* nspm)
 {
+	this->constructorCommon(nspm);
+	this->handshakeStatus = NotConnected;
+}
+
+NetPortal::NetPortal(NetPortalManager* nspm, int socketDescriptor)
+{
+	this->constructorCommon(nspm);
+	this->handshakeStatus = Handshaking;
+	this->sock->setSocketDescriptor(socketDescriptor);
+}
+
+void NetPortal::constructorCommon(NetPortalManager* nspm)
+{
 	this->log = Logger::getInstance();
 	this->nspm = nspm;
-	this->handshakeStatus = NotConnected;
-
+	this->sock = new QTcpSocket();
 	QObject::connect(sock, SIGNAL(connected()), this,
 			SLOT(relaySockConnected()));
 	QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(
@@ -121,7 +133,8 @@ void NetPortal::moveDataFromSocketBuffer()
 	this->attemptToBuildMsg();
 }
 
-void NetPortal::attemptToBuildMsg(){
+void NetPortal::attemptToBuildMsg()
+{
 	this->factory->attemptToMakeMsgs();
 
 	QString msg;
@@ -173,7 +186,7 @@ void NetPortal::attemptToBuildMsg(){
 
 			this->remHostName = remoteHostname;
 			this->updateHandshakeStatus(NetPortal::Ready);
-			emit portalHandshakeComplete();
+			emit portalHandshakeComplete(this->remHostName, this);
 
 			break;
 		}

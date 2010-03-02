@@ -35,12 +35,13 @@
 
 class NetPortalManager;
 
-class NetPortal : public QObject
+class NetPortal: public QObject
 {
 Q_OBJECT
 //friend class NetPortalManager;
 public:
 	NetPortal(NetPortalManager* parent);
+	NetPortal(NetPortalManager* parent, int socketDescriptor);
 	virtual ~NetPortal();
 
 	void connectToHost(QString hostname, quint16 port);
@@ -61,10 +62,10 @@ public:
 		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
 	};
 
-signals:
+	signals:
 	void msgReady();
 	void handshakeStatusUpdate(HandshakeStatus current, HandshakeStatus old);
-	void portalHandshakeComplete();
+	void portalHandshakeComplete(QString hostname, NetPortal* portal);
 
 	void portalConnected();
 	void portalDisconnected();
@@ -85,6 +86,7 @@ private:
 	HandshakeStatus handshakeStatus;
 	Logger* log;
 
+	void constructorCommon(NetPortalManager* nspm);
 	void updateHandshakeStatus(HandshakeStatus newStatus);
 };
 

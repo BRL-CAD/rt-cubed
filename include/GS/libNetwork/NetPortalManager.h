@@ -44,9 +44,8 @@ public:
 	NetPortalManager(QString hostName, QObject* parent = 0);
 	~NetPortalManager();
 
-	NetPortal* getNewPortal();
+	NetPortal* getNewPortal(int socketDescriptor = 0);
 
-	NetPortal* connectTo(QHostAddress addy, quint16 port);
 	NetPortal* getPortalByRemHostname(QString remHostName);
 
 protected:
@@ -54,8 +53,8 @@ protected:
 
 protected slots:
 	void handleOutgoingConnect();
-	void handlePortalHandshakeCompleted();
 	void handlePortalDisconnect();
+	void mapPortalToHostname(QString hostname, NetPortal* portal);
 
 signals:
 	void newIncomingConnection(NetPortal* nsp);
@@ -64,7 +63,6 @@ signals:
 private:
 
 	void registerPortal(NetPortal* portal);
-	void mapPortalToHostname(QString hostname, NetPortal* portal);
 
 	QString localHostName;
 	Logger* log;
