@@ -1,4 +1,4 @@
-/*                  C O N N E C T J O B . C X X
+/*                 D I S C O N N E C T J O B . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,31 +17,39 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file ConnectJob.cxx
+/** @file DisconnectJob.h
  *
  * Brief description
  *
  */
 
-#include "ConnectJob.h"
+#ifndef __DISCONNECTJOB_H__
+#define __DISCONNECTJOB_H__
 
-ConnectJob::ConnectJob()
+#include "GS/netMsg/NetMsg.h"
+#include "GS/Jobs/AbstractJob.h"
+
+#include <QString>
+#include <QStringList>
+
+class DisconnectJob : public AbstractJob
 {
-}
-ConnectJob::~ConnectJob()
-{
-}
+public:
+	DisconnectJob();
+	virtual ~DisconnectJob();
 
-JobResult ConnectJob::_doJob()
-{
+protected:
+	virtual JobResult _doJob();
+};
 
-}
+#endif
 
-// Local Variables:
-// tab-width: 8
-// mode: C++
-// c-basic-offset: 4
-// indent-tabs-mode: t
-// c-file-style: "stroustrup"
-// End:
-// ex: shiftwidth=4 tabstop=8
+/*
+ * Local Variables:
+ * tab-width: 8
+ * mode: C
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

@@ -1,4 +1,4 @@
-/*                  C O N N E C T J O B . C X X
+/*              B U I L D N E T M S G J O B . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,22 +17,23 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file ConnectJob.cxx
+/** @file BuildNetMsgJob.cxx
  *
  * Brief description
  *
  */
 
-#include "ConnectJob.h"
+#include "BuildNetMsgJob.h"
 
-ConnectJob::ConnectJob()
-{
-}
-ConnectJob::~ConnectJob()
+BuildNetMsgJob::BuildNetMsgJob()
 {
 }
 
-JobResult ConnectJob::_doJob()
+BuildNetMsgJob::~BuildNetMsgJob()
+{
+}
+
+JobResult BuildNetMsgJob::_doJob()
 {
 
 }

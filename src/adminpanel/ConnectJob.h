@@ -27,15 +27,19 @@
 #define __CONNECTJOB_H__
 
 #include "GS/netMsg/NetMsg.h"
+#include "GS/Jobs/AbstractJob.h"
 
 #include <QString>
 #include <QStringList>
 
-class ConnectJob
+class ConnectJob : public AbstractJob
 {
 public:
 	ConnectJob();
 	virtual ~ConnectJob();
+
+protected:
+	virtual JobResult _doJob();
 };
 
 #endif

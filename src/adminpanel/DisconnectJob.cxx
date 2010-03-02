@@ -1,4 +1,4 @@
-/*                  C O N N E C T J O B . C X X
+/*               D I S C O N N E C T J O B . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,22 +17,22 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file ConnectJob.cxx
+/** @file DisconnectJob.cxx
  *
  * Brief description
  *
  */
 
-#include "ConnectJob.h"
+#include "DisconnectJob.h"
 
-ConnectJob::ConnectJob()
+DisconnectJob::DisconnectJob()
 {
 }
-ConnectJob::~ConnectJob()
+DisconnectJob::~DisconnectJob()
 {
 }
 
-JobResult ConnectJob::_doJob()
+JobResult DisconnectJob::_doJob()
 {
 
 }

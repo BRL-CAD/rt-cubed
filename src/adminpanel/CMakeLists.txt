@@ -50,11 +50,17 @@ set(ACP_SOURCES
 	ACPChatterBox.cxx
 	AdminControlPanel.cxx
 	CommandProcessor.cxx
+	ConnectJob.cxx
+	DisconnectJob.cxx
+	BuildNetMsgJob.cxx
 )
 
 set(ACP_HEADERS
 	ACPChatterBox.h
 	CommandProcessor.h
+	ConnectJob.h
+	DisconnectJob.h
+	BuildNetMsgJob.h
 )
 
 set(ACP_PREMOC_HEADERS
