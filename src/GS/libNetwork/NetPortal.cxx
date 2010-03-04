@@ -192,7 +192,7 @@ void NetPortal::attemptToBuildMsg()
 
 			this->remHostName = remoteHostname;
 			this->updateHandshakeStatus(NetPortal::Ready);
-			emit portalHandshakeComplete(this->remHostName, this);
+			emit portalHandshakeComplete(this);
 
 			break;
 		}

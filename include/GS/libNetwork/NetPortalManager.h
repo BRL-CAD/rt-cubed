@@ -55,7 +55,7 @@ protected:
 protected slots:
 
 	void handlePortalDisconnect();
-	void mapPortalToHostname(QString hostname, NetPortal* portal);
+	void mapPortalToHostname(NetPortal* portal);
 	void unmapPortalToHostname(QString hostname);
 
 signals:

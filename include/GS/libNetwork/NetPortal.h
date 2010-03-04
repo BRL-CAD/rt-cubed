@@ -65,7 +65,7 @@ public:
 	signals:
 	void msgReady();
 	void handshakeStatusUpdate(HandshakeStatus current, HandshakeStatus old);
-	void portalHandshakeComplete(QString hostname, NetPortal* portal);
+	void portalHandshakeComplete(NetPortal* portal);
 
 	void portalConnected();
 	void portalDisconnected();

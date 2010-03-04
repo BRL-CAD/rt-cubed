@@ -69,9 +69,9 @@ void NetPortalManager::registerPortal(NetPortal* portal)
 	this->portalList->append(portal);
 }
 
-void NetPortalManager::mapPortalToHostname(QString hostname, NetPortal* portal)
+void NetPortalManager::mapPortalToHostname(NetPortal* portal)
 {
-	this->hostnameToPortalMap->insert(hostname, portal);
+	this->hostnameToPortalMap->insert(portal->getRemoteHostName(), portal);
 }
 
 void NetPortalManager::unregisterPortal(NetPortal* portal)
