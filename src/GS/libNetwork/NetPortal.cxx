@@ -1,4 +1,4 @@
-/*               N E T S O C K P O R T A L . C X X
+/*               N E T P O R T A L . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -93,6 +93,8 @@ void NetPortal::disconnectFromHost(quint8 reason)
 /***************************/
 void NetPortal::relaySockConnected()
 {
+	this->sendLocalHostnameToRemHost();
+	this->updateHandshakeStatus(NetPortal::Handshaking);
 	emit portalConnected();
 }
 void NetPortal::relaySockDisconnected()

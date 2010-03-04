@@ -1,4 +1,4 @@
-/*        N E T S O C K P O R T A L M A N A G E R . C X X
+/*        N E T P O R T A L M A N A G E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -43,8 +43,8 @@ NetPortalManager::~NetPortalManager()
 
 NetPortal* NetPortalManager::getNewPortal(int socketDescriptor)
 {
-	NetPortal* portal;
 	//Create new NSP
+	NetPortal* portal;
 	if (socketDescriptor == 0)
 	{
 		portal = new NetPortal(this);
@@ -60,6 +60,8 @@ NetPortal* NetPortalManager::getNewPortal(int socketDescriptor)
 			handlePortalDisconnect()));
 
 	QObject::connect(portal, SIGNAL(portalHandshakeComplete(QString, NetPortal*)), this, SLOT(mapPortalToHostname(QString, NetPortal*)));
+
+	return portal;
 }
 
 void NetPortalManager::registerPortal(NetPortal* portal)
