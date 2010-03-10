@@ -260,6 +260,19 @@ NetMsgFactory::getNextMsg()
 
 	return out;
 }
+NetMsg*
+NetMsgFactory::peekNextMsg()
+{
+	if (this->inbox->isEmpty())
+	{
+		std::cout << "Factory.peekNextMsg() is returning NULL\n";
+		return NULL;
+	}
+
+	NetMsg* out = this->inbox->first();
+
+	return out;
+}
 
 quint32 NetMsgFactory::getInboxSize()
 {
