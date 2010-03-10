@@ -54,6 +54,7 @@ public:
 	NetMsg* getNextMsg();
 
 	void send(NetMsg& msg);
+	void quickSend(quint32 opcode);
 
 	QString getRemoteHostName();
 

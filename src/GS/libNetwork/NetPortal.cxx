@@ -206,6 +206,14 @@ void NetPortal::attemptToBuildMsg()
 }
 
 /**
+ * This function is used to send an 'opcode only' style message.
+ */
+void NetPortal::quickSend(quint32 opcode) {
+	NetMsg msg(opcode);
+	this->send(msg);
+}
+
+/**
  * This function blocks until all data is sent.
  */
 void NetPortal::send(NetMsg& msg)
