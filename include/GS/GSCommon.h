@@ -73,6 +73,7 @@ enum JobResult
 #define UNKNOWN_PORTAL_FAILURE		3
 #define PORTAL_WRITE_FAILURE		4
 #define PORTAL_READ_FAILURE			5
+#define REM_HOST_DISCONNECT			6
 
 #endif
 

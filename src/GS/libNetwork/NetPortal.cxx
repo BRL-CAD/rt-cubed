@@ -155,9 +155,20 @@ void NetPortal::attemptToBuildMsg()
 		switch (this->handshakeStatus)
 		{
 		case (NetPortal::Ready):
+		{
+			//Check to see if the Msg recieved is Portal Control
+			NetMsg* msg = this->getNextMsg();
+			if (msg != 0) {
+				quint32 type = msg->getMsgType();
+				if (type == DISCONNECTREQ) {
+					this->disconnectFromHost(REM_HOST_DISCONNECT);
+				}
+			}
+
 			//Normally, just emit a signal.
 			emit msgReady();
 			break;
+		}
 		case (NetPortal::NotConnected):
 		case (NetPortal::Handshaking):
 		{
@@ -208,7 +219,8 @@ void NetPortal::attemptToBuildMsg()
 /**
  * This function is used to send an 'opcode only' style message.
  */
-void NetPortal::quickSend(quint32 opcode) {
+void NetPortal::quickSend(quint32 opcode)
+{
 	NetMsg msg(opcode);
 	this->send(msg);
 }

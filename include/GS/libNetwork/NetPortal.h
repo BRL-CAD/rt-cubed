@@ -30,6 +30,7 @@
 #include <QTcpSocket>
 #include <QString>
 
+#include "GS/GSCommon.h"
 #include "GE/Logger.h"
 #include "GS/libNetwork/NetMsgFactory.h"
 
