@@ -103,9 +103,6 @@ dnl *** package information ***
 dnl ***************************
 
 RT3_VERSION=RT3___VERSION
-AC_SUBST(MAJOR_VERSION)
-AC_SUBST(MINOR_VERSION)
-AC_SUBST(PATCH_VERSION)
 AC_SUBST(RT3_VERSION)
 
 dnl just in case
