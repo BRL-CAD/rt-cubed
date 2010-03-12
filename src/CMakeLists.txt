@@ -30,6 +30,7 @@
 #Build 'others' first
 ADD_SUBDIRECTORY(./other/)
 
+ADD_SUBDIRECTORY(./coreInterface)
 ADD_SUBDIRECTORY(./date)
 ADD_SUBDIRECTORY(./GE)
 ADD_SUBDIRECTORY(./GS)
