@@ -59,6 +59,9 @@ TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
 ADD_EXECUTABLE(netMsgFactoryTest ../tests/netMsgFactoryTest.cxx)
 TARGET_LINK_LIBRARIES(netMsgFactoryTest ge gs ${QT_LIBRARIES})
 
+ADD_EXECUTABLE(netPortalManagerTest ../tests/netPortalManagerTest.cxx)
+TARGET_LINK_LIBRARIES(netPortalManagerTest ge gs ${QT_LIBRARIES})
+
 ADD_EXECUTABLE(GeometryServiceTest ../tests/GeometryServiceTest.cxx)
 
 MESSAGE(STATUS "Configuring Complete.")
