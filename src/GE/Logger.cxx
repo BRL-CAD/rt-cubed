@@ -45,9 +45,33 @@ Logger* Logger::getInstance()
     return Logger::instance;
 }
 
+void Logger::logDEBUG(QString string)
+{
+    this->log(Logger::DEBUG, string);
+}
+
+void Logger::logINFO(QString string)
+{
+    this->log(Logger::INFO, string);
+}
+
+void Logger::logWARNING(QString string)
+{
+    this->log(Logger::INFO, string);
+}
+
+void Logger::logERROR(QString string)
+{
+    this->log(Logger::INFO, string);
+}
+
+void Logger::logFATAL(QString string)
+{
+    this->log(Logger::INFO, string);
+}
+
 void Logger::log(quint32 logLevel, QString string)
 {
-
     QString out("");
 
     out += QTime::currentTime().toString();
@@ -64,8 +88,11 @@ void Logger::log(quint32 logLevel, QString string)
 	out += "(WARNING) ";
 	break;
     case (Logger::INFO):
-    default:
 	out += "(INFO) ";
+	break;
+    case (Logger::DEBUG):
+    default:
+	out += "(DEBUG) ";
 	break;
     }
 
@@ -78,20 +105,6 @@ void Logger::log(quint32 logLevel, QString string)
     if (this->verbose) {
 	std::cout << out.toStdString() << std::endl;
     }
-
-}
-
-void Logger::writeStdOut(QString string)
-{
-    QMutexLocker locker(Logger::lock);
-    std::cout << string.toStdString();
-
-}
-
-void Logger::writeStdErr(QString string)
-{
-    QMutexLocker locker(Logger::lock);
-    std::cerr << string.toStdString();
 
 }
 

@@ -26,11 +26,15 @@
 #ifndef __LOGGER_H__
 #define __LOGGER_H__
 
+#include "GS/GSCommon.h"
+
+#include <QThread>
 #include <QString>
-#include <iostream>
 #include <QMutex>
 #include <QMutexLocker>
-#include "GS/GSCommon.h"
+
+#include <iostream>
+
 
 class Logger
 {
@@ -38,15 +42,18 @@ class Logger
 public:
 	static Logger* getInstance();
 
-	void writeStdOut(QString string);
-	void writeStdErr(QString string);
-	void log(quint32 logLevel, QString string);
 	void enableVerbose(){this->verbose = true;}
 	void disableVerbose(){this->verbose = false;}
 
+	void logDEBUG(QString string);
+	void logINFO(QString string);
+	void logWARNING(QString string);
+	void logERROR(QString string);
+	void logFATAL(QString string);
+
 	enum
 	{
-		INFO, WARNING, ERROR, FATAL
+		INFO, WARNING, ERROR, FATAL, DEBUG
 	};
 
 protected:
@@ -59,6 +66,7 @@ protected:
 	Logger& operator=(const Logger& log){};
 	~Logger(){};
 
+	void log(quint32 logLevel, QString string);
 };
 
 #endif
