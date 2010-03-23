@@ -84,7 +84,7 @@ void NetPortal::disconnectFromHost(quint8 reason)
     QString msg;
     msg += "Disconnected from: " + this->sock->peerAddress().toString() + " ("
 	    + this->remHostName + "). Reason code: " + reason + "\n";
-    this->log->log(Logger::INFO, msg);
+    this->log->logINFO(msg);
 
     this->sock->disconnectFromHost();
 }

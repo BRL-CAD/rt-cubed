@@ -29,65 +29,61 @@
 
 Config::Config()
 {
-	this->configMap = new QMap<QString, QString> ();
-	this->log = Logger::getInstance();
+    this->configMap = new QMap<QString, QString> ();
+    this->log = Logger::getInstance();
 }
 
 Config::~Config()
 {
-	delete this->configMap;
+    delete this->configMap;
 }
 
 bool Config::loadFile(QString pathAndFileName)
 {
-	QString msg;
-	msg = "Attemping to load config from: " + pathAndFileName + ".\n";
-	this->log->log(Logger::INFO, msg);
+    QString msg;
+    msg = "Attemping to load config from: " + pathAndFileName + ".\n";
+    this->log->logINFO(msg);
 
-	//init file object
-	QFile f(pathAndFileName);
+    //init file object
+    QFile f(pathAndFileName);
 
-	//verify & open
-	if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
-	{
-		msg = "Loading config from: " + pathAndFileName + " FAILED.\n";
-		this->log->log(Logger::FATAL, msg);
-		return false;
+    //verify & open
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
+	msg = "Loading config from: " + pathAndFileName + " FAILED.\n";
+	this->log->logFATAL(msg);
+	return false;
+    }
+
+    while (!f.atEnd()) {
+	QByteArray line = f.readLine();
+
+	if (!line[0] == '#') {
+	    this->processLine(line);
 	}
-
-	while (!f.atEnd())
-	{
-		QByteArray line = f.readLine();
-
-		if (!line[0] == '#')
-		{
-			this->processLine(line);
-		}
-	}
+    }
 
 }
 
 void Config::processLine(QByteArray inLine)
 {
-	//Process the string, clean it up.
-	QString line(inLine);
+    //Process the string, clean it up.
+    QString line(inLine);
 
-	while (line.contains("\t")) {
-		line = line.replace("\t", " ");
-	}
+    while (line.contains("\t")) {
+	line = line.replace("\t", " ");
+    }
 
-	while (line.contains("  ")) {
-		line = line.replace("  ", " ");
-	}
+    while (line.contains("  ")) {
+	line = line.replace("  ", " ");
+    }
 
-	QStringList list = line.split(" ");
-
+    QStringList list = line.split(" ");
 
 }
 
 QString Config::getConfigValue(QString key)
 {
-	return this->configMap->value(key, "");
+    return this->configMap->value(key, "");
 }
 
 // Local Variables: ***
