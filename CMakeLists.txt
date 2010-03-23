@@ -89,6 +89,9 @@ ADD_DEFINITIONS( ${QT_DEFINITIONS} )
 #Decend into the source tree.
 ADD_SUBDIRECTORY(./src)
 
+#Decend into the test tree.
+ADD_SUBDIRECTORY(./tests)
+
 #################################
 INCLUDE (./cmake/PrintFooter.cmake)
 #################################
