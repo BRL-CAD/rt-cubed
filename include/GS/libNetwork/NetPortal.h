@@ -64,9 +64,9 @@ public:
 		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
 	};
 
-	signals:
+signals:
 	void msgReady();
-	void handshakeStatusUpdate(HandshakeStatus current, HandshakeStatus old);
+	void handshakeStatusUpdate(quint32 current, quint32 old);
 	void portalHandshakeComplete(NetPortal* portal);
 
 	void portalConnected();
@@ -96,12 +96,11 @@ private:
 
 #endif
 
-/*
- * Local Variables:
- * tab-width: 8
- * mode: C
- * indent-tabs-mode: t
- * c-file-style: "stroustrup"
- * End:
- * ex: shiftwidth=4 tabstop=8
- */
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8
+

@@ -84,14 +84,12 @@ void NetPortalManager::unmapPortalToHostname(QString hostname)
 
 void NetPortalManager::incomingConnection(int socketDescriptor)
 {
-    this->localLog("Begin incomingConnection");
     NetPortal* nsp = this->getNewPortal(socketDescriptor);
 
     //Send the localhostName to the Remote machine.
     nsp->sendLocalHostnameToRemHost();
 
     emit newIncomingConnection(nsp);
-    this->localLog("End incomingConnection");
 }
 
 void NetPortalManager::handlePortalDisconnect()

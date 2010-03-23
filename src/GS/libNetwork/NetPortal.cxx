@@ -94,24 +94,18 @@ void NetPortal::disconnectFromHost(quint8 reason)
 /***************************/
 void NetPortal::relaySockConnected()
 {
-    this->nspm->localLog("Begin relaySockConnected");
     this->sendLocalHostnameToRemHost();
     this->updateHandshakeStatus(NetPortal::Handshaking);
     emit portalConnected();
-    this->nspm->localLog("End relaySockConnected");
 }
 void NetPortal::relaySockDisconnected()
 {
-    this->nspm->localLog("Begin relaySockDisconnected");
     this->updateHandshakeStatus(NetPortal::NotConnected);
     emit portalDisconnected();
-    this->nspm->localLog("End relaySockDisconnected");
 }
 void NetPortal::relaySockError(QAbstractSocket::SocketError err)
 {
-    this->nspm->localLog("Begin relaySockError");
     emit socketError(err);
-    this->nspm->localLog("End relaySockError");
 }
 
 /***************/
@@ -123,23 +117,15 @@ void NetPortal::updateHandshakeStatus(HandshakeStatus newStatus)
     if (this->handshakeStatus != newStatus) {
 	HandshakeStatus oldStatus = this->handshakeStatus;
 	this->handshakeStatus = newStatus;
-
-	this->nspm->localLog("Handshake status update: " + QString::number(
-		oldStatus) + "->" + QString::number(newStatus));
-
 	emit handshakeStatusUpdate(newStatus, oldStatus);
     }
 }
 void NetPortal::sendLocalHostnameToRemHost()
 {
-    this->nspm->localLog("Begin sendLocalHostnameToRemHost");
-
     NetPortalManager* portMan = this->nspm;
     QString name = portMan->getLocalHostName();
     RemHostNameSetMsg msg(name);
     this->send(msg);
-
-    this->nspm->localLog("End sendLocalHostnameToRemHost");
 }
 
 /*****************/
@@ -148,30 +134,20 @@ void NetPortal::sendLocalHostnameToRemHost()
 
 void NetPortal::moveDataFromSocketBuffer()
 {
-    this->nspm->localLog("Begin moveDataFromSocketBuffer");
-
     //get data off socket
     QByteArray data = this->sock->readAll();
-    this->nspm->localLog("moveDataFromSocketBuffer01");
-
     //put into factory buffer & attempt a msg build.
     this->factory->addData(data);
-
-    this->nspm->localLog("moveDataFromSocketBuffer02");
-
     this->attemptToBuildMsg();
-
-    this->nspm->localLog("End moveDataFromSocketBuffer");
 }
 
 void NetPortal::attemptToBuildMsg()
 {
-    this->nspm->localLog("Begin attemptToBuildMsg");
     this->factory->attemptToMakeMsgs();
 
-    this->nspm->localLog("New data from: " + this->remHostName);
-    this->nspm->localLog(QString::number(this->factory->getInboxSize())
-	    + " Msgs in factory inbox.");
+//    this->nspm->localLog("New data from: " + this->remHostName);
+//    this->nspm->localLog(QString::number(this->factory->getInboxSize())
+//	    + " Msgs in factory inbox.");
 
     if (this->hasMsg()) {
 
@@ -233,10 +209,8 @@ void NetPortal::attemptToBuildMsg()
 	}
 
     }
-    this->nspm->localLog(QString::number(this->factory->getInboxSize())
-	    + " Msgs in factory inbox.");
-
-    this->nspm->localLog("End attemptToBuildMsg");
+    //    this->nspm->localLog(QString::number(this->factory->getInboxSize())
+    //	    + " Msgs in factory inbox.");
 }
 
 /**
@@ -253,14 +227,12 @@ void NetPortal::quickSend(quint32 opcode)
  */
 void NetPortal::send(NetMsg& msg)
 {
-    this->nspm->localLog("Begin send");
-
     QByteArray ba;
     msg.serialize(&ba);
 
     QString str = "Sending msg of type: " + QString::number(msg.getMsgType())
 	    + ", id: " + msg.getMsgUUID() + ", length: " + QString::number(
-	    ba.size()) + "\n";
+	    ba.size());
     this->nspm->localLog(str);
 
     quint64 totalToSend = ba.size();
@@ -287,8 +259,6 @@ void NetPortal::send(NetMsg& msg)
 	}
 	totalSent += thisSend;
     }
-    this->nspm->localLog("End Send");
-
 }
 
 bool NetPortal::hasMsg()
