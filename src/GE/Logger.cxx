@@ -47,7 +47,6 @@ Logger* Logger::getInstance()
 
 void Logger::log(quint32 logLevel, QString string)
 {
-    QMutexLocker locker(Logger::lock);
 
     QString out("");
 
@@ -72,10 +71,12 @@ void Logger::log(quint32 logLevel, QString string)
 
     out += string;
 
+    QMutexLocker locker(Logger::lock);
+
     //TODO add file logging
 
     if (this->verbose) {
-	std::cout << out.toStdString();
+	std::cout << out.toStdString() << std::endl;
     }
 
 }
