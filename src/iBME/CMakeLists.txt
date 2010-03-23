@@ -42,7 +42,6 @@ SET(IBME_INCLUDE_DIRS ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 INCLUDE_DIRECTORIES (${IBME_INCLUDE_DIRS})
 MESSAGE(STATUS "Include Directories: ${IBME_INCLUDE_DIRS}")
 
-
 ## Make the GS phase 0 Executable.
 #ADD_EXECUTABLE(gsph0 gsph0.cxx)
 #TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
@@ -50,19 +49,6 @@ MESSAGE(STATUS "Include Directories: ${IBME_INCLUDE_DIRS}")
 ## Make the GS Executable.
 ADD_EXECUTABLE(geoserv ../GS/gsmain.cxx)
 TARGET_LINK_LIBRARIES(geoserv ge gs ${QT_LIBRARIES})
-
-
-## Make the Test Apps.
-ADD_EXECUTABLE(netMsgSerialTest ../tests/netMsgSerialTest.cxx)
-TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
-
-ADD_EXECUTABLE(netMsgFactoryTest ../tests/netMsgFactoryTest.cxx)
-TARGET_LINK_LIBRARIES(netMsgFactoryTest ge gs ${QT_LIBRARIES})
-
-ADD_EXECUTABLE(netPortalManagerTest ../tests/netPortalManagerTest.cxx)
-TARGET_LINK_LIBRARIES(netPortalManagerTest ge gs ${QT_LIBRARIES})
-
-ADD_EXECUTABLE(GeometryServiceTest ../tests/GeometryServiceTest.cxx)
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")
