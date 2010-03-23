@@ -41,12 +41,27 @@ SET(LIBNETWORKTESTS_INCLUDE_DIRS ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 INCLUDE_DIRECTORIES (${LIBNETWORKTESTS_INCLUDE_DIRS})
 MESSAGE(STATUS "Include Directories: ${LIBNETWORKTESTS_INCLUDE_DIRS}")
 
+SET(LIBNETWORKTESTS_SOURCES
+	NetPortalManagerTester.cxx
+)
+
+QT4_WRAP_CPP(LIBNETWORKTESTS_MOCCED_HEADERS
+    NetPortalManagerTester.h
+)
+
+ADD_LIBRARY (libNetworkTests SHARED ${LIBNETWORKTESTS_SOURCES} ${LIBNETWORKTESTS_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(libNetworkTests libNetwork Utility ${QT_LIBRARIES})
+
+
 ## Make the Test Apps.
-ADD_EXECUTABLE(netMsgSerialTest ./netMsgSerialTest.cxx)
-TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES})
+ADD_EXECUTABLE(netMsgSerialTest ./netMsgSerialTest.cxx )
+TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES} libNetworkTests)
 
 ADD_EXECUTABLE(netMsgFactoryTest ./netMsgFactoryTest.cxx)
-TARGET_LINK_LIBRARIES(netMsgFactoryTest ge gs ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(netMsgFactoryTest ge gs ${QT_LIBRARIES} libNetworkTests)
+
+
+
 
 ADD_EXECUTABLE(netPortalManagerTest ./netPortalManagerTest.cxx)
-TARGET_LINK_LIBRARIES(netPortalManagerTest ge gs ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(netPortalManagerTest ge gs ${QT_LIBRARIES} libNetworkTests)
