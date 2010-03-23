@@ -29,14 +29,15 @@
 #include <QString>
 #include <iostream>
 #include <QMutex>
+#include <QMutexLocker>
 #include "GS/GSCommon.h"
 
 class Logger
 {
 
 public:
-
 	static Logger* getInstance();
+
 	void writeStdOut(QString string);
 	void writeStdErr(QString string);
 	void log(quint32 logLevel, QString string);
@@ -48,15 +49,15 @@ public:
 		INFO, WARNING, ERROR, FATAL
 	};
 
-private:
+protected:
+	static Logger* instance;
+	static QMutex* lock;
 	bool verbose;
-	QMutex lock;
 
 	Logger();
 	Logger(const Logger& logger){};
 	Logger& operator=(const Logger& log){};
 	~Logger(){};
-
 
 };
 

@@ -26,66 +26,72 @@
 #include "GE/Logger.h"
 #include <QTime>
 
+//Statics instantiation
+Logger* Logger::instance;
+QMutex* Logger::lock = new QMutex();
+
 Logger::Logger()
 {
-	this->verbose = true; //Default to true
+    this->verbose = true; //Default to true
 }
 Logger* Logger::getInstance()
 {
-	static Logger* instance;
-	return instance;
+    QMutexLocker locker(Logger::lock);
+
+    if (Logger::instance == NULL) {
+	Logger::instance = new Logger();
+    }
+
+    return Logger::instance;
 }
 
 void Logger::log(quint32 logLevel, QString string)
 {
-	this->lock.lock();
+    QMutexLocker locker(Logger::lock);
 
-	QString out("");
+    QString out("");
 
-	out += QTime::currentTime().toString();
-	out += ": ";
+    out += QTime::currentTime().toString();
+    out += ": ";
 
-	switch (logLevel)
-	{
-	case (Logger::FATAL):
-		out += "(FATAL) ";
-		break;
-	case (Logger::ERROR):
-		out += "(ERROR) ";
-		break;
-	case (Logger::WARNING):
-		out += "(WARNING) ";
-		break;
-	case (Logger::INFO):
-	default:
-		out += "(INFO) ";
-		break;
-	}
+    switch (logLevel) {
+    case (Logger::FATAL):
+	out += "(FATAL) ";
+	break;
+    case (Logger::ERROR):
+	out += "(ERROR) ";
+	break;
+    case (Logger::WARNING):
+	out += "(WARNING) ";
+	break;
+    case (Logger::INFO):
+    default:
+	out += "(INFO) ";
+	break;
+    }
 
-	out += string;
+    out += string;
 
-	//TODO add file logging
+    //TODO add file logging
 
-	if (this->verbose)
-	{
-		std::cout << out.toStdString();
-	}
+    if (this->verbose) {
+	std::cout << out.toStdString();
+    }
 
-	this->lock.unlock();
 }
 
 void Logger::writeStdOut(QString string)
 {
-	this->lock.lock();
-	std::cout << string.toStdString();
-	this->lock.unlock();
+    QMutexLocker locker(Logger::lock);
+    std::cout << string.toStdString();
+
 }
 
 void Logger::writeStdErr(QString string)
 {
-	this->lock.lock();
-	std::cerr << string.toStdString();
-	this->lock.unlock();
+    QMutexLocker locker(Logger::lock);
+    std::cerr << string.toStdString();
+
 }
 
 // Local Variables: ***
