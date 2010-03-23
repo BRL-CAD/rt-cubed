@@ -26,8 +26,8 @@
 #ifndef __NETPORTAL_H__
 #define __NETPORTAL_H__
 
-#include <QTcpServer>
-#include <QTcpSocket>
+#include <QtNetwork/QTcpServer>
+#include <QtNetwork/QTcpSocket>
 #include <QString>
 
 #include "GS/GSCommon.h"

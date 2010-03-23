@@ -26,11 +26,12 @@
 #ifndef __NETPORTALMANAGER_H__
 #define __NETPORTALMANAGER_H__
 
-#include "GS/libNetwork/NetPortal.h"
 #include "GE/Logger.h"
 
-#include <QTcpServer>
-#include <QHostAddress>
+#include "GS/libNetwork/NetPortal.h"
+
+#include <QtNetwork/QTcpServer>
+#include <QtNetwork/QHostAddress>
 #include <QMap>
 #include <QUuid>
 #include <QList>
@@ -41,37 +42,38 @@ class NetPortalManager: public QTcpServer
 Q_OBJECT
 
 public:
-	NetPortalManager(QString hostName, QObject* parent = 0);
-	~NetPortalManager();
+    NetPortalManager(QString hostName, QObject* parent = 0);
+    ~NetPortalManager();
 
-	QString getLocalHostName();
-	NetPortal* getNewPortal(int socketDescriptor = 0);
+    QString getLocalHostName();
+    NetPortal* getNewPortal(int socketDescriptor = 0);
 
-	NetPortal* getPortalByRemHostname(QString remHostName);
+    NetPortal* getPortalByRemHostname(QString remHostName);
 
+    void localLog(QString str);
 protected:
-	void incomingConnection(int socketDescriptor);
+    void incomingConnection(int socketDescriptor);
 
 protected slots:
 
-	void handlePortalDisconnect();
-	void mapPortalToHostname(NetPortal* portal);
-	void unmapPortalToHostname(QString hostname);
+    void handlePortalDisconnect();
+    void mapPortalToHostname(NetPortal* portal);
+    void unmapPortalToHostname(QString hostname);
 
 signals:
-	void newIncomingConnection(NetPortal* nsp);
+void newIncomingConnection(NetPortal* nsp);
 
 private:
-	void registerPortal(NetPortal* portal);
-	void unregisterPortal(NetPortal* portal);
+    void registerPortal(NetPortal* portal);
+    void unregisterPortal(NetPortal* portal);
 
-	QString localHostName;
-	Logger* log;
+    QString localHostName;
+    Logger* log;
 
-	QMap<QString, NetPortal*>* hostnameToPortalMap;
-	QList<NetPortal*>* portalList;
+    QMap<QString, NetPortal*>* hostnameToPortalMap;
+    QList<NetPortal*>* portalList;
 
-	NetPortal* preparePortal();
+    NetPortal* preparePortal();
 };
 
 #endif

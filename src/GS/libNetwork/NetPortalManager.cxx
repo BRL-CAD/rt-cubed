@@ -29,91 +29,96 @@
 #include <iostream>
 
 NetPortalManager::NetPortalManager(QString hostName, QObject* parent) :
-	QTcpServer(parent), localHostName(hostName)
+    QTcpServer(parent), localHostName(hostName)
 {
-	this->log = Logger::getInstance();
-	this->hostnameToPortalMap = new QMap<QString, NetPortal*> ();
-	this->portalList = new QList<NetPortal*> ();
+    this->log = Logger::getInstance();
+    this->hostnameToPortalMap = new QMap<QString, NetPortal*> ();
+    this->portalList = new QList<NetPortal*> ();
 }
 
 NetPortalManager::~NetPortalManager()
 {
-	//TODO delete map and list?
+    //TODO delete map and list?
 }
 
 NetPortal* NetPortalManager::getNewPortal(int socketDescriptor)
 {
-	//Create new NSP
-	NetPortal* portal;
-	if (socketDescriptor == 0)
-	{
-		portal = new NetPortal(this);
-	}
-	else
-	{
-		portal = new NetPortal(this, socketDescriptor);
-	}
+    //Create new NSP
+    NetPortal* portal;
+    if (socketDescriptor == 0) {
+	portal = new NetPortal(this);
+    }
+    else {
+	portal = new NetPortal(this, socketDescriptor);
+    }
 
-	this->registerPortal(portal);
+    this->registerPortal(portal);
 
-	QObject::connect(portal, SIGNAL(disconnectFromHost()), this, SLOT(
-			handlePortalDisconnect()));
+    QObject::connect(portal, SIGNAL(portalDisconnected()), this, SLOT(
+	    handlePortalDisconnect()));
 
-	QObject::connect(portal, SIGNAL(portalHandshakeComplete(QString, NetPortal*)), this, SLOT(mapPortalToHostname(QString, NetPortal*)));
+    QObject::connect(portal, SIGNAL(portalHandshakeComplete(NetPortal*)), this, SLOT(mapPortalToHostname(NetPortal*)));
 
-	return portal;
+    return portal;
 }
 
 void NetPortalManager::registerPortal(NetPortal* portal)
 {
-	this->portalList->append(portal);
+    this->portalList->append(portal);
 }
 
 void NetPortalManager::mapPortalToHostname(NetPortal* portal)
 {
-	this->hostnameToPortalMap->insert(portal->getRemoteHostName(), portal);
+    this->hostnameToPortalMap->insert(portal->getRemoteHostName(), portal);
 }
 
 void NetPortalManager::unregisterPortal(NetPortal* portal)
 {
-	this->portalList->removeAll(portal);
+    this->portalList->removeAll(portal);
 }
 
 void NetPortalManager::unmapPortalToHostname(QString hostname)
 {
-	this->hostnameToPortalMap->remove(hostname);
+    this->hostnameToPortalMap->remove(hostname);
 }
 
 void NetPortalManager::incomingConnection(int socketDescriptor)
 {
-	NetPortal* nsp = this->getNewPortal(socketDescriptor);
+    this->localLog("Begin incomingConnection");
+    NetPortal* nsp = this->getNewPortal(socketDescriptor);
 
-	//Send the localhostName to the Remote machine.
-	nsp->sendLocalHostnameToRemHost();
+    //Send the localhostName to the Remote machine.
+    nsp->sendLocalHostnameToRemHost();
 
-	emit newIncomingConnection(nsp);
+    emit newIncomingConnection(nsp);
+    this->localLog("End incomingConnection");
 }
 
 void NetPortalManager::handlePortalDisconnect()
 {
-	NetPortal* nsp = (NetPortal*) sender();
+    NetPortal* nsp = (NetPortal*) sender();
 
-	//UnMap the NSP
-	this->unregisterPortal(nsp);
-	this->unmapPortalToHostname(nsp->getRemoteHostName());
+    //UnMap the NSP
+    this->unregisterPortal(nsp);
+    this->unmapPortalToHostname(nsp->getRemoteHostName());
 
 }
 
 NetPortal* NetPortalManager::getPortalByRemHostname(QString remHostName)
 {
-	return NetPortalManager::hostnameToPortalMap->value(remHostName, NULL);
+    return NetPortalManager::hostnameToPortalMap->value(remHostName, NULL);
 }
 
 QString NetPortalManager::getLocalHostName()
 {
-	return this->localHostName;
+    return this->localHostName;
 }
 
+void NetPortalManager::localLog(QString str)
+{
+    QString nStr = "[" + this->localHostName + "] "+ str;
+    this->log->log(Logger::INFO, nStr);
+}
 // Local Variables:
 // tab-width: 8
 // mode: C++

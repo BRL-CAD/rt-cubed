@@ -33,32 +33,33 @@
 
 NetPortal::NetPortal(NetPortalManager* nspm)
 {
-	this->constructorCommon(nspm);
-	this->handshakeStatus = NotConnected;
+    this->constructorCommon(nspm);
+    this->handshakeStatus = NotConnected;
 }
 
 NetPortal::NetPortal(NetPortalManager* nspm, int socketDescriptor)
 {
-	this->constructorCommon(nspm);
-	this->handshakeStatus = Handshaking;
-	this->sock->setSocketDescriptor(socketDescriptor);
+    this->constructorCommon(nspm);
+    this->handshakeStatus = Handshaking;
+    this->sock->setSocketDescriptor(socketDescriptor);
 }
 
 void NetPortal::constructorCommon(NetPortalManager* nspm)
 {
-	this->log = Logger::getInstance();
-	this->nspm = nspm;
-	this->sock = new QTcpSocket();
+    this->log = Logger::getInstance();
+    this->nspm = nspm;
+    this->sock = new QTcpSocket();
+    this->factory = new NetMsgFactory();
 
-	QObject::connect(sock, SIGNAL(connected()), this,
-			SLOT(relaySockConnected()));
-	QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(
-			relaySockDisconnected()));
-	QObject::connect(sock, SIGNAL(error(QAbstractSocket::SocketError)), this,
-			SLOT(relaySockError(QAbstractSocket::SocketError)));
+    QObject::connect(sock, SIGNAL(connected()), this,
+	    SLOT(relaySockConnected()));
+    QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(
+	    relaySockDisconnected()));
+    QObject::connect(sock, SIGNAL(error(QAbstractSocket::SocketError)), this,
+	    SLOT(relaySockError(QAbstractSocket::SocketError)));
 
-	QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(
-			moveDataFromSocketBuffer()));
+    QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(
+	    moveDataFromSocketBuffer()));
 }
 
 NetPortal::~NetPortal()
@@ -72,20 +73,20 @@ NetPortal::~NetPortal()
 
 void NetPortal::connectToHost(QString hostname, quint16 port)
 {
-	this->sock->connectToHost(hostname, port);
+    this->sock->connectToHost(hostname, port);
 }
 void NetPortal::connectToHost(QHostAddress address, quint16 port)
 {
-	this->sock->connectToHost(address, port);
+    this->sock->connectToHost(address, port);
 }
 void NetPortal::disconnectFromHost(quint8 reason)
 {
-	QString msg;
-	msg += "Disconnected from: " + this->sock->peerAddress().toString() + " ("
-			+ this->remHostName + "). Reason code: " + reason + "\n";
-	this->log->log(Logger::INFO, msg);
+    QString msg;
+    msg += "Disconnected from: " + this->sock->peerAddress().toString() + " ("
+	    + this->remHostName + "). Reason code: " + reason + "\n";
+    this->log->log(Logger::INFO, msg);
 
-	this->sock->disconnectFromHost();
+    this->sock->disconnectFromHost();
 }
 
 /***************************/
@@ -93,18 +94,24 @@ void NetPortal::disconnectFromHost(quint8 reason)
 /***************************/
 void NetPortal::relaySockConnected()
 {
-	this->sendLocalHostnameToRemHost();
-	this->updateHandshakeStatus(NetPortal::Handshaking);
-	emit portalConnected();
+    this->nspm->localLog("Begin relaySockConnected");
+    this->sendLocalHostnameToRemHost();
+    this->updateHandshakeStatus(NetPortal::Handshaking);
+    emit portalConnected();
+    this->nspm->localLog("End relaySockConnected");
 }
 void NetPortal::relaySockDisconnected()
 {
-	this->updateHandshakeStatus(NetPortal::NotConnected);
-	emit portalDisconnected();
+    this->nspm->localLog("Begin relaySockDisconnected");
+    this->updateHandshakeStatus(NetPortal::NotConnected);
+    emit portalDisconnected();
+    this->nspm->localLog("End relaySockDisconnected");
 }
 void NetPortal::relaySockError(QAbstractSocket::SocketError err)
 {
-	emit socketError(err);
+    this->nspm->localLog("Begin relaySockError");
+    emit socketError(err);
+    this->nspm->localLog("End relaySockError");
 }
 
 /***************/
@@ -113,17 +120,26 @@ void NetPortal::relaySockError(QAbstractSocket::SocketError err)
 
 void NetPortal::updateHandshakeStatus(HandshakeStatus newStatus)
 {
-	if (this->handshakeStatus != newStatus)
-	{
-		HandshakeStatus oldStatus = this->handshakeStatus;
-		this->handshakeStatus = newStatus;
-		emit handshakeStatusUpdate(newStatus, oldStatus);
-	}
+    if (this->handshakeStatus != newStatus) {
+	HandshakeStatus oldStatus = this->handshakeStatus;
+	this->handshakeStatus = newStatus;
+
+	this->nspm->localLog("Handshake status update: " + QString::number(
+		oldStatus) + "->" + QString::number(newStatus));
+
+	emit handshakeStatusUpdate(newStatus, oldStatus);
+    }
 }
 void NetPortal::sendLocalHostnameToRemHost()
 {
-	RemHostNameSetMsg msg(this->nspm->getLocalHostName());
-	this->send(msg);
+    this->nspm->localLog("Begin sendLocalHostnameToRemHost");
+
+    NetPortalManager* portMan = this->nspm;
+    QString name = portMan->getLocalHostName();
+    RemHostNameSetMsg msg(name);
+    this->send(msg);
+
+    this->nspm->localLog("End sendLocalHostnameToRemHost");
 }
 
 /*****************/
@@ -132,88 +148,95 @@ void NetPortal::sendLocalHostnameToRemHost()
 
 void NetPortal::moveDataFromSocketBuffer()
 {
-	//get data off socket
-	QByteArray data = this->sock->readAll();
+    this->nspm->localLog("Begin moveDataFromSocketBuffer");
 
-	//put into factory buffer & attempt a msg build.
-	this->factory->addData(data);
-	this->attemptToBuildMsg();
+    //get data off socket
+    QByteArray data = this->sock->readAll();
+    this->nspm->localLog("moveDataFromSocketBuffer01");
+
+    //put into factory buffer & attempt a msg build.
+    this->factory->addData(data);
+
+    this->nspm->localLog("moveDataFromSocketBuffer02");
+
+    this->attemptToBuildMsg();
+
+    this->nspm->localLog("End moveDataFromSocketBuffer");
 }
 
 void NetPortal::attemptToBuildMsg()
 {
-	this->factory->attemptToMakeMsgs();
+    this->nspm->localLog("Begin attemptToBuildMsg");
+    this->factory->attemptToMakeMsgs();
 
-	QString msg;
-	msg += "New data from: " + this->sock->peerAddress().toString() + ". ";
-	msg += this->factory->getInboxSize() + " Msgs in factory inbox.\n";
-	this->log->log(Logger::INFO, msg);
+    this->nspm->localLog("New data from: " + this->remHostName);
+    this->nspm->localLog(QString::number(this->factory->getInboxSize())
+	    + " Msgs in factory inbox.");
 
-	if (this->hasMsg())
-	{
+    if (this->hasMsg()) {
 
-		switch (this->handshakeStatus)
-		{
-		case (NetPortal::Ready):
-		{
-			//Check to see if the Msg recieved is Portal Control
-			NetMsg* msg = this->getNextMsg();
-			if (msg != 0) {
-				quint32 type = msg->getMsgType();
-				if (type == DISCONNECTREQ) {
-					this->disconnectFromHost(REM_HOST_DISCONNECT);
-				}
-			}
-
-			//Normally, just emit a signal.
-			emit msgReady();
-			break;
-		}
-		case (NetPortal::NotConnected):
-		case (NetPortal::Handshaking):
-		{
-			this->updateHandshakeStatus(NetPortal::Handshaking);
-			NetMsg* msg = this->getNextMsg();
-
-			if (msg->getMsgType() != REMHOSTNAMESET)
-			{
-				this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
-				delete msg;
-				break;
-			}
-
-			QString remoteHostname =
-					((RemHostNameSetMsg*) msg)->getRemoteHostName();
-
-			delete msg;
-
-			//Zero length check
-			if (remoteHostname.isEmpty())
-			{
-				this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
-				break;
-			}
-
-			//If the nspm returns a NetPortal object, then this host is already on the network!
-			if (this->nspm->getPortalByRemHostname(remoteHostname) != NULL)
-			{
-				this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
-				break;
-			}
-
-			this->remHostName = remoteHostname;
-			this->updateHandshakeStatus(NetPortal::Ready);
-			emit portalHandshakeComplete(this);
-
-			break;
-		}
-		default:
-			//Should be failed
-			this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
-			break;
+	switch (this->handshakeStatus) {
+	case (NetPortal::Ready):
+	    {
+		//Check to see if the Msg received is Portal Control
+		NetMsg* msg = this->getNextMsg();
+		if (msg != 0) {
+		    quint32 type = msg->getMsgType();
+		    if (type == DISCONNECTREQ) {
+			this->disconnectFromHost(REM_HOST_DISCONNECT);
+		    }
 		}
 
+		//Normally, just emit a signal.
+		emit msgReady();
+		break;
+	    }
+	case (NetPortal::NotConnected):
+	case (NetPortal::Handshaking):
+	    {
+		this->updateHandshakeStatus(NetPortal::Handshaking);
+		NetMsg* msg = this->getNextMsg();
+
+		if (msg->getMsgType() != REMHOSTNAMESET) {
+		    this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
+		    delete msg;
+		    break;
+		}
+
+		QString remoteHostname =
+			((RemHostNameSetMsg*) msg)->getRemoteHostName();
+
+		delete msg;
+
+		//Zero length check
+		if (remoteHostname.isEmpty()) {
+		    this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
+		    break;
+		}
+
+		//If the nspm returns a NetPortal object, then this host is already on the network!
+		if (this->nspm->getPortalByRemHostname(remoteHostname) != NULL) {
+		    this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
+		    break;
+		}
+
+		this->remHostName = remoteHostname;
+		this->updateHandshakeStatus(NetPortal::Ready);
+		emit portalHandshakeComplete(this);
+
+		break;
+	    }
+	default:
+	    //Should be failed
+	    this->disconnectFromHost(PORTAL_HANDSHAKE_FAILURE);
+	    break;
 	}
+
+    }
+    this->nspm->localLog(QString::number(this->factory->getInboxSize())
+	    + " Msgs in factory inbox.");
+
+    this->nspm->localLog("End attemptToBuildMsg");
 }
 
 /**
@@ -221,8 +244,8 @@ void NetPortal::attemptToBuildMsg()
  */
 void NetPortal::quickSend(quint32 opcode)
 {
-	NetMsg msg(opcode);
-	this->send(msg);
+    NetMsg msg(opcode);
+    this->send(msg);
 }
 
 /**
@@ -230,59 +253,57 @@ void NetPortal::quickSend(quint32 opcode)
  */
 void NetPortal::send(NetMsg& msg)
 {
-	QByteArray ba;
-	msg.serialize(&ba);
+    this->nspm->localLog("Begin send");
 
-	QString str;
-	str += "Sending msg of type: " + msg.getMsgType();
-	str += ", id: " + msg.getMsgUUID();
-	str += ", length: " + QString::number(ba.size()) + "\n";
-	this->log->log(Logger::INFO, str);
+    QByteArray ba;
+    msg.serialize(&ba);
 
-	quint64 totalToSend = ba.size();
-	quint64 thisSend = 0;
-	quint64 totalSent = 0;
+    QString str = "Sending msg of type: " + QString::number(msg.getMsgType())
+	    + ", id: " + msg.getMsgUUID() + ", length: " + QString::number(
+	    ba.size()) + "\n";
+    this->nspm->localLog(str);
 
-	//TODO needs to be a better way to do this
-	while (totalSent < totalToSend)
-	{
-		thisSend = this->sock->write(ba);
+    quint64 totalToSend = ba.size();
+    quint64 thisSend = 0;
+    quint64 totalSent = 0;
 
-		//Check for socket failure
-		if (thisSend == -1)
-		{
-			this->disconnectFromHost(PORTAL_WRITE_FAILURE);
-			return;
-		}
+    //TODO needs to be a better way to do this
+    while (totalSent < totalToSend) {
+	thisSend = this->sock->write(ba);
 
-		//Check for Zero bytes sent
-		if (thisSend == 0)
-		{
-			if (totalSent != totalToSend)
-			{
-				std::cerr << "Did not send all data from Msg to host: "
-						<< this->remHostName.toStdString() << "\n";
-			}
-			return;
-		}
-		totalSent += thisSend;
+	//Check for socket failure
+	if (thisSend == -1) {
+	    this->disconnectFromHost(PORTAL_WRITE_FAILURE);
+	    return;
 	}
+
+	//Check for Zero bytes sent
+	if (thisSend == 0) {
+	    if (totalSent != totalToSend) {
+		std::cerr << "Did not send all data from Msg to host: "
+			<< this->remHostName.toStdString() << "\n";
+	    }
+	    return;
+	}
+	totalSent += thisSend;
+    }
+    this->nspm->localLog("End Send");
 
 }
 
 bool NetPortal::hasMsg()
 {
-	return this->factory->hasMsgsAvailable();
+    return this->factory->hasMsgsAvailable();
 }
 
 NetMsg* NetPortal::getNextMsg()
 {
-	return this->factory->getNextMsg();
+    return this->factory->getNextMsg();
 }
 
 QString NetPortal::getRemoteHostName()
 {
-	return this->remHostName;
+    return this->remHostName;
 }
 
 // Local Variables: ***

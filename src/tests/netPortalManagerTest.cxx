@@ -1,5 +1,4 @@
 
-
 #include "GS/libNetwork/NetMsg.h"
 #include "GS/libNetwork/NetMsgFactory.h"
 #include "GS/libNetwork/GenericOneStringMsg.h"
@@ -32,20 +31,24 @@
 
 int main(int argc, char* argv[])
 {
-	QCoreApplication coreApp(argc, argv);
+    QCoreApplication coreApp(argc, argv);
 
-	NetPortalManager netMan01("Gomer");
-	NetPortalManager netMan02("Kiaser");
+    NetPortalManager netMan01("Gomer");
+    NetPortalManager netMan02("Kiaser");
 
-	quint16 netMan01Port = 6000;
-	quint16 netMan02Port = 7000;
+    QHostAddress netMan01Addy = QHostAddress::LocalHost;
+    quint16 netMan01Port = 6000;
 
-	netMan01.listen(QHostAddress::LocalHost, netMan01Port);
-	netMan02.listen(QHostAddress::LocalHost, netMan02Port);
+    QHostAddress netMan02Addy = QHostAddress::LocalHost;
+    quint16 netMan02Port = 7000;
 
-	//Connect to netMan02
-	NetPortal* nsp01 = netMan01.connectTo(QHostAddress::LocalHost, netMan02Port);
+    netMan01.listen(netMan01Addy, netMan01Port);
+    netMan02.listen(netMan02Addy, netMan02Port);
 
-	return coreApp.exec();
+    //Connect to netMan02
+    NetPortal* np01 = netMan01.getNewPortal();
+    np01->connectToHost(netMan02Addy, netMan02Port);
+
+    return coreApp.exec();
 }
 
