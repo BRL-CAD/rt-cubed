@@ -28,10 +28,8 @@
 #  	CPPUNIT_INCLUDE_DIRS - the CPPUNIT include directories
 #  	CPPUNIT_LIBRARIES - link these to use the CPPUNIT Libraries
 #
-#
 #	The following paths are also defined:
 #	cppunit_LIBRARY 
-#
 #
 #	$Revision:  $
 #	$Author:  $
@@ -44,8 +42,6 @@ MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "##           Searching for CPPUNIT...         ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
-
-
 
 SET(CPPUNIT_ROOT $ENV{CPPUNIT_ROOT})
 
@@ -84,7 +80,4 @@ FOREACH (lib cppunit )
 	ELSE(NOT ${lib}_LIBRARY)
 		MESSAGE(STATUS "Found: lib${lib} \t${${lib}}")
 	ENDIF(NOT ${lib}_LIBRARY)
-
-
 ENDFOREACH (lib)
-
