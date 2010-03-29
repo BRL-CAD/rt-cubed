@@ -26,7 +26,7 @@
 #
 ##########################################################################
 
-ADD_SUBDIRECTORY(./mocha)
+#ADD_SUBDIRECTORY(./mocha)
 #ADD_SUBDIRECTORY(./ois)
 
 #ADD_SUBDIRECTORY(./rbgui/Gui/)
