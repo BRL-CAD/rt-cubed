@@ -19,7 +19,7 @@
  */
 /** @file SessionManager.cxx
  *
- * Brief description
+ * Provides management functions for active Sessions.
  *
  */
 

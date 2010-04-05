@@ -19,7 +19,7 @@
  */
 /** @file SessionManager.h
  *
- * Brief description
+ * Provides management functions for active Sessions.
  *
  */
 
