@@ -41,6 +41,8 @@ SET(LIBNET_SOURCES
 	NetPortal.cxx
 	NetPortalManager.cxx
 	NetMsgFactory.cxx
+	NetMsgSubscriberRegistry.cxx
+	INetMsgHandler.cxx
 	NetMsg.cxx
 	GenericOneStringMsg.cxx
 	GenericOneByteMsg.cxx
