@@ -43,13 +43,14 @@ MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
 SET(GS_SOURCES
 	Config.cxx
 	GeometryService.cxx
-	DbObjectManager.cxx
+	DataManager.cxx
 	DbObjectManifest.cxx
 	Session.cxx
 	SessionManager.cxx
 	AccessManager.cxx
 	Jobs/AbstractJob.cxx
 	Jobs/JobManager.cxx
+	Jobs/JobScheduler.cxx
 	Jobs/JobWorker.cxx
 )
 

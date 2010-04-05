@@ -1,4 +1,4 @@
-/*               D B O B J E C T M A N A G E R . H
+/*             D A T A M A N A G E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,34 +17,30 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file DbObjectManager.h
+/** @file DataManager.cxx
  *
- * Brief description
+ * Single point of access for all Database
+ * object IO from SVN, Cache and Disk
  *
  */
 
-#ifndef __DBOBJECTMANAGER_H__
-#define __DBOBJECTMANAGER_H__
+#include "GS/DataManager.h"
 
-#include "GS/GSCommon.h"
-#include <string>
-#include <list>
-#include <QUuid>
+DataManager::DataManager()
+{
+}
 
-class DbObjectManager {
+DataManager::~DataManager()
+{
+}
 
-public:
-	DbObjectManager();
-	virtual ~DbObjectManager();
+QString DataManager::getDbObjectByURL(QString url)
+{
+}
 
-	std::string getDbObjectByURL(std::string url);
-	std::string getDbObjectByUUID(QUuid& uuid);
-
-private:
-
-};
-
-#endif
+QString DataManager::getDbObjectByUUID(QUuid& uuid)
+{
+}
 
 // Local Variables: ***
 // mode: C++ ***
