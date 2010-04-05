@@ -46,6 +46,7 @@ SET(GS_SOURCES
 	DataManager.cxx
 	DbObjectManifest.cxx
 	Session.cxx
+	GeometryProcessor.cxx
 	SessionManager.cxx
 	AccessManager.cxx
 	Jobs/AbstractJob.cxx
