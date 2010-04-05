@@ -39,7 +39,7 @@ SET(RT3_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 MESSAGE(STATUS "RT3_INCLUDE_DIR: ${CMAKE_SOURCE_DIR}/include")
 
 #Setup unit testing compilation flag
-SET (COMPILE_UNIT_TESTS ON CACHE BOOL "Compile the Unit test suite? (Requires CPPUNIT)")
+SET (COMPILE_UNIT_TESTS OFF CACHE BOOL "Compile the Unit test suite? (Requires CPPUNIT)")
 
 #Setup search paths
 SET(INCLUDE_SEARCH_PATHS 
