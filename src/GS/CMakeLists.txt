@@ -45,10 +45,11 @@ SET(GS_SOURCES
 	GeometryService.cxx
 	DataManager.cxx
 	DbObjectManifest.cxx
-	Session.cxx
 	GeometryProcessor.cxx
+	Session.cxx
 	SessionManager.cxx
-	AccessManager.cxx
+	Account.cxx
+	AccountManager.cxx
 	Jobs/AbstractJob.cxx
 	Jobs/JobManager.cxx
 	Jobs/JobScheduler.cxx

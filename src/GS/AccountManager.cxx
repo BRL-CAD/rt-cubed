@@ -1,4 +1,4 @@
-/*               A C C E S S M A N A G E R . C X X
+/*               A C C O U N T M A N A G E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,21 +17,19 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file AccessManager.cxx
+/** @file AccountManager.cxx
  *
- * Brief description
+ * Interface to the SVN user system.
  *
  */
 
-#include "GS/AccessManager.h"
+#include "GS/AccountManager.h"
 
-AccessManager::AccessManager()
+AccountManager::AccountManager()
 {
 }
 
-
-
-AccessManager::~AccessManager()
+AccountManager::~AccountManager()
 {
 }
 

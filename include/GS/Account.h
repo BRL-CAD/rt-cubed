@@ -1,4 +1,4 @@
-/*                 A C C E S S M A N A G E R . H
+/*                     A C C O U N T . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,25 +17,27 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file AccessManager.h
+/** @file Account.cxx
  *
- * Brief description
+ * Class that represents a user's account information.
  *
  */
 
-#ifndef __ACCESSMANAGER_H__
-#define __ACCESSMANAGER_H__
+#ifndef __ACCOUNT_H__
+#define __ACCOUNT_H__
 
-class AccessManager
+class Account
 {
 
 public:
-	AccessManager();
-	virtual ~AccessManager();
+  Account();
+  virtual ~Account();
+  
+private:
 
 };
 
-#endif
+#endif /* __ACCOUNT_H__ */
 
 // Local Variables: ***
 // mode: C++ ***
