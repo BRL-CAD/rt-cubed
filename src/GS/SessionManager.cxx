@@ -24,16 +24,27 @@
  */
 
 #include "GS/SessionManager.h"
+#include <QMutexLocker>
+
+SessionManager* SessionManager::pInstance = NULL;
 
 SessionManager::SessionManager()
 {
 }
 
-
-
 SessionManager::~SessionManager()
 {
 }
+
+SessionManager* SessionManager::getInstance()
+{
+	if (!SessionManager::pInstance)
+	{
+		pInstance = new SessionManager();
+	}
+	return SessionManager::pInstance;
+}
+
 
 // Local Variables: ***
 // mode: C++ ***

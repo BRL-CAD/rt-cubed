@@ -30,11 +30,14 @@
 
 class SessionManager
 {
-
 public:
-	SessionManager();
+	static SessionManager* getInstance();
 	virtual ~SessionManager();
-	Session *m_Session;
+
+private:
+	static SessionManager* pInstance;
+
+	SessionManager();
 };
 
 #endif
