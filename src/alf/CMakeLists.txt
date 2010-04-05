@@ -19,7 +19,7 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/src/CMakeLists.txt
+#	@file rt^3/src/alf/CMakeLists.txt
 #
 #	$Revision:  $
 #	$Author:  $
@@ -27,13 +27,41 @@
 ##########################################################################
 
 
-#Build 'others' first
-ADD_SUBDIRECTORY(./other/)
-ADD_SUBDIRECTORY(./coreInterface)
-ADD_SUBDIRECTORY(./date)
-ADD_SUBDIRECTORY(./GE)
-ADD_SUBDIRECTORY(./GS)
-ADD_SUBDIRECTORY(./iBME)
-ADD_SUBDIRECTORY(./alf)
-ADD_SUBDIRECTORY(./adminpanel)
+MESSAGE(STATUS "")
+MESSAGE(STATUS "################################################")
+MESSAGE(STATUS "##  Configuring Application Launch Framework  ##")
+MESSAGE(STATUS "################################################")
+MESSAGE(STATUS "")
 
+if(COMMAND cmake_policy)
+   cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+     
+PROJECT(alf)
+
+INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
+MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR}")
+
+INCLUDE (${QT_USE_FILE})
+SET (QT_USE_QTNETWORK TRUE)
+
+set(ALF_SOURCES
+    AppLauncher.cxx
+)
+
+set(ALF_HEADERS
+
+)
+
+set(ALF_PREMOC_HEADERS
+
+)
+
+qt4_wrap_cpp(ALF_POSTMOC_HEADERS ${ALF_PREMOC_HEADERS})
+
+ADD_LIBRARY (alf ${ALF_HEADERS} ${ALF_POSTMOC_HEADERS} ${ALF_SOURCES})
+TARGET_LINK_LIBRARIES(alf ${QT_LIBRARIES} )
+
+
+MESSAGE(STATUS "Configuring Complete.")
+MESSAGE(STATUS "")
