@@ -39,7 +39,6 @@ endif(COMMAND cmake_policy)
     
 set(GE_SOURCES
 	GeometryEngine.cxx
-	Logger.cxx
 	exception/CloneNotSupportedException.cxx
 	exception/Exception.cxx
 	exception/NullPointerException.cxx
@@ -64,4 +63,3 @@ ADD_SUBDIRECTORY(./libGeometry)
 ADD_SUBDIRECTORY(./libImage)
 ADD_SUBDIRECTORY(./libNumeric)
 ADD_SUBDIRECTORY(./libRaytrace)
-ADD_SUBDIRECTORY(./libUtility)
