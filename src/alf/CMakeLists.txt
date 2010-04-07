@@ -47,6 +47,7 @@ SET (QT_USE_QTNETWORK TRUE)
 
 set(ALF_SOURCES
     AppLauncher.cxx
+    BaseApp.cxx
 )
 
 set(ALF_HEADERS
