@@ -6,7 +6,7 @@ rt_3d_SOURCES = \
 	main.h
 
 AM_CPPFLAGS=-I${top_srcdir}/include
-LDADD = ../GE/libUtility/libUtility.a
+LDADD = ../GE/libutility/libUtility.a
 
 rt_3d_LDFLAGS = ../date/buildStamp.o
 

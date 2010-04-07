@@ -68,7 +68,7 @@ ENDIF(COMMAND cmake_policy)
 
 ## Make the GS Library
 ADD_LIBRARY (gs SHARED ${GS_SOURCES} ${GS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(gs Network Utility ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(gs alf Network Utility ${QT_LIBRARIES})
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")

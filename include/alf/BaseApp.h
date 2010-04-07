@@ -23,16 +23,20 @@
  *
  */
 
-
-
 #ifndef __BASEAPP_H__
 #define __BASEAPP_H__
 
-class BaseApp
+#include <QCoreApplication>
+#include "utility/Logger.h"
+
+class BaseApp: public QCoreApplication
 {
 public:
-    BaseApp();
+    BaseApp(int& argc, char* argv[]);
     virtual ~BaseApp();
+
+protected:
+    Logger* log;
 };
 
 #endif /* __BASEAPP_H__ */

@@ -28,7 +28,7 @@
 
 #include "GS/GSCommon.h"
 #include "GE/exception/IOException.h"
-#include "Utility/Utils.h"
+#include "utility/Utils.h"
 #include <QDataStream>
 #include <QByteArray>
 #include <QUuid>

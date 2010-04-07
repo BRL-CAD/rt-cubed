@@ -6,7 +6,7 @@ scratch_SOURCES = \
 	main.h
 
 AM_CPPFLAGS=-I${top_srcdir}/include
-LDADD = ../GE/libUtility/libUtility.a
+LDADD = ../GE/libutility/libUtility.a
 
 scratch_LDFLAGS = ../date/buildStamp.o
 

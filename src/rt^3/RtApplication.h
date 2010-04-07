@@ -1,7 +1,7 @@
 #ifndef __RTAPPLICATION_H__
 #define __RTAPPLICATION_H__
 
-#include "Utility/Application.h"
+#include "utility/Application.h"
 
 class RtApplication : public Utility::Application
 {

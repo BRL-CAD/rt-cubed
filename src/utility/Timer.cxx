@@ -24,7 +24,7 @@
  */
 
 // interface header
-#include "Utility/Timer.h"
+#include "utility/Timer.h"
 
 // XXX temp
 #include <iostream>

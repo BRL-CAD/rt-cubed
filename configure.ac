@@ -735,7 +735,7 @@ AC_CONFIG_FILES([
 	include/Makefile
 	include/conf/Makefile
 	include/Image/Makefile
-	include/Utility/Makefile
+	include/utility/Makefile
 	include/Raytrace/Makefile
 	m4/Makefile
 	misc/Makefile
@@ -747,7 +747,7 @@ AC_CONFIG_FILES([
 	src/GE/libImage/Makefile
 	src/GE/libNumeric/Makefile
 	src/GE/libRaytrace/Makefile
-	src/GE/libUtility/Makefile
+	src/GE/libutility/Makefile
 	src/GS/Makefile
 	src/libNetwork/Makefile
 	src/rt^3/Makefile

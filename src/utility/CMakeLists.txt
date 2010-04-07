@@ -19,20 +19,18 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/src/GE/libUtility/CMakeLists.txt
+#	@file rt^3/src/GE/utility/CMakeLists.txt
 #
 #	$Revision:  $
 #	$Author:  $
 #
 ##########################################################################
 
-
 MESSAGE(STATUS "")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "##           Configuring libUtility           ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
-
 
 set(LIBUTILITY_SOURCES
 	init.cxx
@@ -41,7 +39,10 @@ set(LIBUTILITY_SOURCES
 	Time.cxx
 	Timer.cxx
 	Utils.cxx
+	Logger.cxx
 )
+
+INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 
 ADD_LIBRARY (Utility SHARED ${LIBUTILITY_SOURCES})
 TARGET_LINK_LIBRARIES(Utility tds ${QT_LIBRARIES})

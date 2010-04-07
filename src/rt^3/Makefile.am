@@ -9,7 +9,7 @@ rt_3_SOURCES = \
 
 AM_CPPFLAGS = -I${top_srcdir}/include
 LDADD = \
-	../GE/libUtility/libUtility.a \
+	../GE/libutility/libUtility.a \
 	../GE/libGeometry/libGeometry.a \
 	../GE/libImage/libImage.a \
 	../GE/libRaytrace/libRaytrace.a

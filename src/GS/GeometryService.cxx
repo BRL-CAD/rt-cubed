@@ -26,26 +26,25 @@
 #include "GS/GeometryService.h"
 
 GeometryService::GeometryService(int& argc, char* argv[], QString hostname) :
-	QCoreApplication(argc, argv), localHostname(hostname)
+    BaseApp(argc, argv), localHostname(hostname)
 {
+    this->log = Logger::getInstance();
 
-	this->log = Logger::getInstance();
+    this->portalMan = new NetPortalManager(hostname);
 
-	this->portalMan = new NetPortalManager(hostname);
-
-	//
+    //
 QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)),
-		this, SLOT(handleEventsFromPortal(NetPortal*)));
+	this, SLOT(handleEventsFromPortal(NetPortal*)));
 }
 
 GeometryService::~GeometryService()
 {
-	delete this->portalMan;
+    delete this->portalMan;
 }
 
 void GeometryService::startListening(const QHostAddress& addy, quint16 port)
 {
-	this->portalMan->listen(addy, port);
+    this->portalMan->listen(addy, port);
 }
 
 void GeometryService::handleEventsFromPortal(NetPortal* nsp)
@@ -55,10 +54,10 @@ void GeometryService::handleEventsFromPortal(NetPortal* nsp)
 
 int GeometryService::exec()
 {
-	//Startup prior to exec()
+    //Startup prior to exec()
 
 
-	return QCoreApplication::exec();
+    return QCoreApplication::exec();
 }
 
 // Local Variables: ***

@@ -30,11 +30,11 @@ namespace Utility {
   int init();
 }
 
-#include "Utility/Application.h"
-#include "Utility/Date.h"
-#include "Utility/FileParser.h"
-#include "Utility/Time.h"
-#include "Utility/Timer.h"
+#include "utility/Application.h"
+#include "utility/Date.h"
+#include "utility/FileParser.h"
+#include "utility/Time.h"
+#include "utility/Timer.h"
 
 
 #endif

@@ -24,7 +24,7 @@
  */
 
 // interface header
-#include "Utility/Time.h"
+#include "utility/Time.h"
 
 // implementation system headers
 #include <time.h>

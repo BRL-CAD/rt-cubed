@@ -31,11 +31,13 @@
 #include <QStringList>
 #include <QCoreApplication>
 
+#include "alf/BaseApp.h"
+
 #include "GE/GeometryEngine.h"
 #include "GS/GSCommon.h"
 #include "GS/libNetwork/NetPortalManager.h"
 
-class GeometryService: public QCoreApplication
+class GeometryService : public BaseApp
 {
 
 public:
@@ -50,7 +52,7 @@ protected slots:
 private:
 	QString localHostname;
 	NetPortalManager* portalMan;
-	Logger* log;
+
 };
 
 #endif

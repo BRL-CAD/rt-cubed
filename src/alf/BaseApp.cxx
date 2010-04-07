@@ -25,9 +25,12 @@
 
 #include "alf/BaseApp.h"
 
-BaseApp::BaseApp()
+
+BaseApp::BaseApp(int& argc, char* argv[]) :
+    QCoreApplication(argc, argv)
 {
-    // TODO Auto-generated constructor stub
+    //Make sure the logger is initialized
+    this->log = Logger::getInstance();
 
 }
 

@@ -24,14 +24,14 @@
  */
 
 // interface header
-#include "Utility/Application.h"
+#include "utility/Application.h"
 
 // implementation system headers
 #include <time.h>
 #include <algorithm>
 
 // implementation headers
-#include "../../date/buildStamp.h"
+#include "../date/buildStamp.h"
 
 using namespace Utility;
 

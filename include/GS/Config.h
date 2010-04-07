@@ -27,7 +27,7 @@
 #define __CONFIG_H__
 
 #include "GS/GSCommon.h"
-#include "GE/Logger.h"
+#include "utility/Logger.h"
 #include <QMap>
 #include <QString>
 

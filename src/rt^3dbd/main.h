@@ -2,7 +2,7 @@
 #define __MAIN_H__
 
 #include <iostream>
-#include "Utility/Utility.h"
+#include "utility/Utility.h"
 #include "../date/buildStamp.h"
 
 #endif
