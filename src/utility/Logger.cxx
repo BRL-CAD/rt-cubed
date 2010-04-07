@@ -57,54 +57,59 @@ void Logger::logINFO(QString string)
 
 void Logger::logWARNING(QString string)
 {
-    this->log(Logger::INFO, string);
+    this->log(Logger::WARNING, string);
 }
 
 void Logger::logERROR(QString string)
 {
-    this->log(Logger::INFO, string);
+    this->log(Logger::ERROR, string);
 }
 
 void Logger::logFATAL(QString string)
 {
-    this->log(Logger::INFO, string);
+    this->log(Logger::FATAL, string);
 }
 
 void Logger::log(quint32 logLevel, QString string)
 {
-    QString out("");
+    QString time("");
 
-    out += QTime::currentTime().toString();
-    out += ": ";
+    QString type("");
+
+    time += QTime::currentTime().toString();
+    time += ": ";
 
     switch (logLevel) {
     case (Logger::FATAL):
-	out += "(FATAL) ";
+	type += "(FATAL) ";
 	break;
     case (Logger::ERROR):
-	out += "(ERROR) ";
+	type += "(ERROR) ";
 	break;
     case (Logger::WARNING):
-	out += "(WARNING) ";
+	type += "(WARNING) ";
 	break;
     case (Logger::INFO):
-	out += "(INFO) ";
+	type += "(INFO) ";
 	break;
     case (Logger::DEBUG):
     default:
-	out += "(DEBUG) ";
+	type += "(DEBUG) ";
 	break;
     }
-
-    out += string;
 
     QMutexLocker locker(Logger::lock);
 
     //TODO add file logging
 
+    std::cout << time.toStdString() << "   " << type.toStdString() << " \t "
+	    << string.toStdString();
+
     if (this->verbose) {
-	std::cout << out.toStdString() << std::endl;
+	std::cout << " \t\t " << "STACK TRACE GOES HERE";
     }
+
+    std::cout << std::endl;
 
 }
 
