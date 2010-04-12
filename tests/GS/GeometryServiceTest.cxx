@@ -743,7 +743,7 @@ int main(int ac, char *av[])
 	GAS(rep.size() > 0 && rep2.size() > 0 && rep != rep2, "Ensuring representations are different");
 	GAS(gc->subscribeEvent(), "Client subscribing to events");
 	gc->evaluateRepresentation(rep2);
-	sleep(1); // give server time to process
+	//sleep(1); // give server time to process
 	GAS(gc->eventsReceived() > 0, "Client received representation events");
     } else {
 	GAS(false, "Unable to test getting point cloud representations");

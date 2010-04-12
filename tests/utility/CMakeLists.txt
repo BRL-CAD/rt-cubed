@@ -43,6 +43,6 @@ INCLUDE_DIRECTORIES (${UTILITYTESTS_INCLUDE_DIRS})
 
 ## Make the Test Apps.
 ADD_EXECUTABLE(loggerTest ./loggerTest.cxx )
-TARGET_LINK_LIBRARIES(loggerTest Utility )
+TARGET_LINK_LIBRARIES(loggerTest utility )
 
 
