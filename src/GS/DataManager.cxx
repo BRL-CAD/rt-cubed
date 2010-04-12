@@ -26,6 +26,8 @@
 
 #include "GS/DataManager.h"
 
+DataManager* DataManager::pInstance = NULL;
+
 DataManager::DataManager()
 {
 }
@@ -40,6 +42,15 @@ QString DataManager::getDbObjectByURL(QString url)
 
 QString DataManager::getDbObjectByUUID(QUuid& uuid)
 {
+}
+
+DataManager* DataManager::getInstance()
+{
+	if (!DataManager::pInstance)
+	{
+		DataManager::pInstance = new DataManager();
+	}
+	return DataManager::pInstance;
 }
 
 // Local Variables: ***

@@ -30,8 +30,12 @@ class AccountManager
 {
 
 public:
-	AccountManager();
 	virtual ~AccountManager();
+	static AccountManager* getInstance();
+
+private:
+	static AccountManager* pInstance;
+	AccountManager();
 
 };
 

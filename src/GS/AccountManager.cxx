@@ -24,6 +24,9 @@
  */
 
 #include "GS/AccountManager.h"
+#include <cstdlib>
+
+AccountManager* AccountManager::pInstance = NULL;
 
 AccountManager::AccountManager()
 {
@@ -31,6 +34,15 @@ AccountManager::AccountManager()
 
 AccountManager::~AccountManager()
 {
+}
+
+AccountManager* AccountManager::getInstance()
+{
+	if (!AccountManager::pInstance)
+	{
+		pInstance = new AccountManager();
+	}
+	return AccountManager::pInstance;
 }
 
 // Local Variables: ***

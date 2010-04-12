@@ -26,14 +26,28 @@
  */
 
 #include "GS/libNetwork/NetMsgSubscriberRegistry.h"
+#include <cstdlib>
 
-NetMsgSubscriberRegistry::NetMsgSubscriberRegistry() {
+NetMsgSubscriberRegistry* NetMsgSubscriberRegistry::pInstance = NULL;
+
+NetMsgSubscriberRegistry::NetMsgSubscriberRegistry()
+{
 	// TODO Auto-generated constructor stub
 
 }
 
-NetMsgSubscriberRegistry::~NetMsgSubscriberRegistry() {
+NetMsgSubscriberRegistry::~NetMsgSubscriberRegistry()
+{
 	// TODO Auto-generated destructor stub
+}
+
+NetMsgSubscriberRegistry* NetMsgSubscriberRegistry::getInstance()
+{
+	if (!NetMsgSubscriberRegistry::pInstance)
+	{
+		NetMsgSubscriberRegistry::pInstance = new NetMsgSubscriberRegistry();
+	}
+	return NetMsgSubscriberRegistry::pInstance;
 }
 
 // Local Variables: ***

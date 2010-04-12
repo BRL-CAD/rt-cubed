@@ -34,13 +34,15 @@
 class DataManager {
 
 public:
-	DataManager();
+	static DataManager* getInstance();
 	virtual ~DataManager();
 
 	QString getDbObjectByURL(QString url);
 	QString getDbObjectByUUID(QUuid& uuid);
 
 private:
+	static DataManager* pInstance;
+	DataManager();
 
 };
 

@@ -30,8 +30,13 @@
 
 class NetMsgSubscriberRegistry {
 public:
-	NetMsgSubscriberRegistry();
+	NetMsgSubscriberRegistry* getInstance();
 	virtual ~NetMsgSubscriberRegistry();
+private:
+	static NetMsgSubscriberRegistry* pInstance;
+	NetMsgSubscriberRegistry();
+
+
 };
 
 #endif /* __NETMSGSUBSCRIBERREGISTRY_H__ */
