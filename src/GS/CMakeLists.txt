@@ -47,11 +47,6 @@ SET(GS_SOURCES
 	SessionManager.cxx
 	Account.cxx
 	AccountManager.cxx
-	Jobs/AbstractJob.cxx
-	Jobs/JobManager.cxx
-	Jobs/JobScheduler.cxx
-	Jobs/JobWorker.cxx
-	Jobs/PrintToStdOutJob.cxx
 )
 
 QT4_WRAP_CPP(GS_MOCCED_HEADERS

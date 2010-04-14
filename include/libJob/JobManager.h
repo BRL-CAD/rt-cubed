@@ -1,4 +1,4 @@
-/*                 A B S T R A C T J O B . C X X
+/*                    J O B M A N A G E R . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,41 +17,47 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file AbstractJob.cxx
+/** @file JobManager.h
  *
  * Brief description
  *
  */
 
-#include "GS/Jobs/AbstractJob.h"
+#ifndef __JOBMANAGER_H__
+#define __JOBMANAGER_H__
 
-AbstractJob::AbstractJob()
-{
-    this->status = JOB_NOTSTARTED;
-}
+#include "libJob/AbstractJob.h"
+#include "libJob/JobWorker.h"
+#include "GS/GSCommon.h"
+#include <QList>
+#include <QMutex>
 
-AbstractJob::~AbstractJob()
-{
-}
 
-JobResult AbstractJob::doJob()
+class JobManager
 {
-    this->status = JOB_RUNNING;
-    JobResult retVal = this->_doJob();
-    this->status = JOB_FINISHED;
-    return retVal;
-}
 
-JobStatus AbstractJob::getStatus()
-{
-    return this->status;
-}
+public:
+	static JobManager* getInstance();
+	void submitJob(AbstractJob* aj);
 
-JobResult AbstractJob::_doJob()
-{
-    //Give a default function.
-    return JOB_COMPLETED_NO_ERRORS;
-}
+	virtual ~JobManager();
+
+	AbstractJob* getNextJob();
+	bool hasJobsToWork();
+
+private:
+	static JobManager* pInstance;
+	JobManager();
+
+	JobManager(JobManager const&){};
+	JobManager& operator=(JobManager const&){};
+
+	QList<JobWorker*>* jobWorkers;
+	QList<AbstractJob*>* jobQueue;
+	QMutex* queueLock;
+};
+
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

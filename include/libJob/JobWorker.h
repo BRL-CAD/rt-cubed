@@ -1,4 +1,4 @@
-/*                    J O B M A N A G E R . H
+/*                     J O B W O R K E R . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,44 +17,33 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file JobManager.h
+/** @file JobWorker.h
  *
  * Brief description
  *
  */
 
-#ifndef __JOBMANAGER_H__
-#define __JOBMANAGER_H__
+#ifndef __JOBWORKER_H__
+#define __JOBWORKER_H__
 
-#include "GS/Jobs/AbstractJob.h"
-#include "GS/Jobs/JobWorker.h"
 #include "GS/GSCommon.h"
-#include <QList>
-#include <QMutex>
+#include "libJob/AbstractJob.h"
+#include <QThread>
 
-
-class JobManager
+class JobWorker: public QThread
 {
 
 public:
-	static JobManager* getInstance();
-	void submitJob(AbstractJob* aj);
+	JobWorker();
+	virtual ~JobWorker();
 
-	virtual ~JobManager();
+	void run();
 
-	AbstractJob* getNextJob();
-	bool hasJobsToWork();
-
+	JobWorkerStatus getStatus();
+	void shutdown();
 private:
-	static JobManager* pInstance;
-	JobManager();
-
-	JobManager(JobManager const&){};
-	JobManager& operator=(JobManager const&){};
-
-	QList<JobWorker*>* jobWorkers;
-	QList<AbstractJob*>* jobQueue;
-	QMutex* queueLock;
+	JobWorkerStatus status;
+	bool runCmd;
 };
 
 #endif

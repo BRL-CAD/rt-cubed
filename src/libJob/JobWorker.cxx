@@ -1,4 +1,4 @@
-/*                 J O B S C H E D U L E R . C X X
+/*                   J O B W O R K E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,36 +17,64 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file JobScheduler.cxx
+/** @file JobWorker.cxx
  *
- * Utility for scheduling delayed one-shot,
- * repetitive, and delayed repetitive jobs.
+ * Brief description
  *
  */
 
-#include "GS/Jobs/JobScheduler.h"
+#include "libJob/JobWorker.h"
+#include "libJob/JobManager.h"
 
-JobScheduler* JobScheduler::pInstance = NULL;
+JobWorker::JobWorker()
+{
+	this->status = WORKER_NOTREADY;
+	this->runCmd = true;
+}
 
-JobScheduler::JobScheduler()
+JobWorker::~JobWorker()
 {
 }
 
-JobScheduler::~JobScheduler()
+void JobWorker::run()
 {
-}
+	JobManager* jm = JobManager::getInstance();
 
-JobScheduler* JobScheduler::getInstance()
-{
-	if (!JobScheduler::pInstance)
+	this->status = WORKER_READY;
+
+	while (this->runCmd)
 	{
-		pInstance = new JobScheduler();
+		if (!jm->hasJobsToWork())
+		{
+			this->msleep(100);
+		}
+		else
+		{
+			AbstractJob* job = jm->getNextJob();
+
+			if (job == NULL)
+			{
+				continue;
+			}
+
+			JobResult result = job->doJob();
+
+			//TODO log the result?
+
+		}
 	}
-	return JobScheduler::pInstance;
+	this->status = WORKER_NOTREADY;
 }
 
+JobWorkerStatus JobWorker::getStatus()
+{
+	return this->status;
+}
 
-
+void JobWorker::shutdown()
+{
+	this->runCmd = false;
+}
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

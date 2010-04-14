@@ -1,5 +1,5 @@
-/*                     J O B W O R K E R . H
- * BRL-CAD
+/*            P R I N T T O S T D O U T J O B . C X X
+ * ./src/libJob/PrintToStdOutJob.h
  *
  * Copyright (c) 2010 United States Government as represented by
  * the U.S. Army Research Laboratory.
@@ -17,41 +17,38 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file JobWorker.h
- *
- * Brief description
+/** @file PrintToStdOutJob.cxx
  *
  */
 
-#ifndef __JOBWORKER_H__
-#define __JOBWORKER_H__
+#include "libJob/PrintToStdOutJob.h"
+#include <iostream>
 
-#include "GS/GSCommon.h"
-#include "GS/Jobs/AbstractJob.h"
-#include <QThread>
-
-class JobWorker: public QThread
+PrintToStdOutJob::PrintToStdOutJob(QString text)
 {
+    this->text = text;
+    this->streamLock = new QMutex();
+}
 
-public:
-	JobWorker();
-	virtual ~JobWorker();
+PrintToStdOutJob::~PrintToStdOutJob()
+{
+    delete this->streamLock;
+}
 
-	void run();
+JobResult PrintToStdOutJob::_doJob()
+{
+    QMutexLocker(this->streamLock);
 
-	JobWorkerStatus getStatus();
-	void shutdown();
-private:
-	JobWorkerStatus status;
-	bool runCmd;
-};
+    std::cout << text.toStdString();
 
-#endif
+    return JOB_COMPLETED_NO_ERRORS;
+}
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+// Local Variables:
+// tab-width: 8
+// mode: C++
+// c-basic-offset: 4
+// indent-tabs-mode: t
+// c-file-style: "stroustrup"
+// End:
+// ex: shiftwidth=4 tabstop=8

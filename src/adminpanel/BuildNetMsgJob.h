@@ -28,7 +28,7 @@
 #define __BUILDNETMSGJOB_H__
 
 #include "libNetwork/NetMsg.h"
-#include "GS/Jobs/AbstractJob.h"
+#include "libJob/AbstractJob.h"
 
 #include <QString>
 #include <QStringList>

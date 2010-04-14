@@ -1,4 +1,4 @@
-/*                   J O B W O R K E R . C X X
+/*                 A B S T R A C T J O B . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,64 +17,42 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file JobWorker.cxx
+/** @file AbstractJob.cxx
  *
  * Brief description
  *
  */
 
-#include "GS/Jobs/JobWorker.h"
-#include "GS/Jobs/JobManager.h"
+#include "libJob/AbstractJob.h"
 
-JobWorker::JobWorker()
+AbstractJob::AbstractJob()
 {
-	this->status = WORKER_NOTREADY;
-	this->runCmd = true;
+    this->status = JOB_NOTSTARTED;
 }
 
-JobWorker::~JobWorker()
+AbstractJob::~AbstractJob()
 {
 }
 
-void JobWorker::run()
+JobResult AbstractJob::doJob()
 {
-	JobManager* jm = JobManager::getInstance();
-
-	this->status = WORKER_READY;
-
-	while (this->runCmd)
-	{
-		if (!jm->hasJobsToWork())
-		{
-			this->msleep(100);
-		}
-		else
-		{
-			AbstractJob* job = jm->getNextJob();
-
-			if (job == NULL)
-			{
-				continue;
-			}
-
-			JobResult result = job->doJob();
-
-			//TODO log the result?
-
-		}
-	}
-	this->status = WORKER_NOTREADY;
+    this->status = JOB_RUNNING;
+    JobResult retVal = this->_doJob();
+    this->status = JOB_FINISHED;
+    return retVal;
 }
 
-JobWorkerStatus JobWorker::getStatus()
+JobStatus AbstractJob::getStatus()
 {
-	return this->status;
+    return this->status;
 }
 
-void JobWorker::shutdown()
+JobResult AbstractJob::_doJob()
 {
-	this->runCmd = false;
+    //Give a default function.
+    return JOB_COMPLETED_NO_ERRORS;
 }
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

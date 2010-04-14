@@ -19,48 +19,33 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/src/libNetwork/CMakeLists.txt
+#	@file rt^3/src/libJob/CMakeLists.txt
 #
 #	$Revision:  $
 #	$Author:  $
 #
 ##########################################################################
 
-PROJECT(libNetwork)
+PROJECT(libJob)
 
 MESSAGE(STATUS "")
 MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##           Configuring libNetwork           ##")
+MESSAGE(STATUS "##             Configuring libJob             ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
 
 INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
 
-SET(LIBNET_SOURCES
-	NetPortal.cxx
-	NetPortalManager.cxx
-	NetMsgFactory.cxx
-	NetMsgSubscriberRegistry.cxx
-	INetMsgHandler.cxx
-	NetMsg.cxx
-	GenericOneStringMsg.cxx
-	GenericOneByteMsg.cxx
-	GenericTwoBytesMsg.cxx
-	GenericFourBytesMsg.cxx
-	GenericMultiByteMsg.cxx
-	FailureMsg.cxx
-	SuccessMsg.cxx
-	RemHostNameSetMsg.cxx
-	NewHostOnNetMsg.cxx
-	GeometryReqMsg.cxx
-	GeometryManifestMsg.cxx
-	GeometryChunkMsg.cxx
+SET(LIBJOB_SOURCES
+	AbstractJob.cxx
+	JobManager.cxx
+	JobScheduler.cxx
+	JobWorker.cxx
+	PrintToStdOutJob.cxx
 )
 
-QT4_WRAP_CPP(LIBNET_MOCCED_HEADERS
-	${RT3_INCLUDE_DIR}/libNetwork/NetPortal.h
-	${RT3_INCLUDE_DIR}/libNetwork/NetPortalManager.h
+QT4_WRAP_CPP(LIBJOB_MOCCED_HEADERS
 )
 
 INCLUDE (${QT_USE_FILE})
@@ -69,9 +54,9 @@ IF(COMMAND cmake_policy)
 	CMAKE_POLICY(SET CMP0003 NEW)
 ENDIF(COMMAND cmake_policy)
 
-## Make the GS Library
-ADD_LIBRARY (network SHARED ${LIBNET_SOURCES} ${LIBNET_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(network ge job utility ${QT_LIBRARIES})
+## Make the job Library
+ADD_LIBRARY (job SHARED ${LIBJOB_SOURCES} ${LIBJOB_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(job ${QT_LIBRARIES})
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")

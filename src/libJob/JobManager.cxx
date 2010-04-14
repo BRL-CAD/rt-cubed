@@ -23,7 +23,7 @@
  *
  */
 
-#include "GS/Jobs/JobManager.h"
+#include "libJob/JobManager.h"
 #include <QMutexLocker>
 
 JobManager* JobManager::pInstance = NULL;

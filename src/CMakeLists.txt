@@ -38,4 +38,6 @@ ADD_SUBDIRECTORY(./alf)
 ADD_SUBDIRECTORY(./utility)
 ADD_SUBDIRECTORY(./adminpanel)
 ADD_SUBDIRECTORY(./libNetwork)
+ADD_SUBDIRECTORY(./libJob
+)
 

@@ -1,5 +1,5 @@
-/*            P R I N T T O S T D O U T J O B . C X X
- * ./src/GS/Jobs/PrintToStdOutJob.h
+/*                 J O B S C H E D U L E R . C X X
+ * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
  * the U.S. Army Research Laboratory.
@@ -17,38 +17,40 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file PrintToStdOutJob.cxx
+/** @file JobScheduler.cxx
+ *
+ * Utility for scheduling delayed one-shot,
+ * repetitive, and delayed repetitive jobs.
  *
  */
 
-#include "GS/Jobs/PrintToStdOutJob.h"
-#include <iostream>
+#include "libJob/JobScheduler.h"
 
-PrintToStdOutJob::PrintToStdOutJob(QString text)
+JobScheduler* JobScheduler::pInstance = NULL;
+
+JobScheduler::JobScheduler()
 {
-    this->text = text;
-    this->streamLock = new QMutex();
 }
 
-PrintToStdOutJob::~PrintToStdOutJob()
+JobScheduler::~JobScheduler()
 {
-    delete this->streamLock;
 }
 
-JobResult PrintToStdOutJob::_doJob()
+JobScheduler* JobScheduler::getInstance()
 {
-    QMutexLocker(this->streamLock);
-
-    std::cout << text.toStdString();
-
-    return JOB_COMPLETED_NO_ERRORS;
+	if (!JobScheduler::pInstance)
+	{
+		pInstance = new JobScheduler();
+	}
+	return JobScheduler::pInstance;
 }
 
-// Local Variables:
-// tab-width: 8
-// mode: C++
-// c-basic-offset: 4
-// indent-tabs-mode: t
-// c-file-style: "stroustrup"
-// End:
-// ex: shiftwidth=4 tabstop=8
+
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8
