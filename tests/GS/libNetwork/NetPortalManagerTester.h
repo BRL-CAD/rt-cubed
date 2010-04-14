@@ -26,8 +26,8 @@
 #ifndef __NETPORTALMANAGERTESTER_H__
 #define __NETPORTALMANAGERTESTER_H__
 
-#include "GS/libNetwork/NetPortalManager.h"
-#include "GS/libNetwork/NetPortal.h"
+#include "libNetwork/NetPortalManager.h"
+#include "libNetwork/NetPortal.h"
 #include "GS/GSCommon.h"
 #include "utility/Logger.h"
 

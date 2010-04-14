@@ -1,4 +1,4 @@
-/*                B U I L D N E T M S G J O B . H
+/*              G E O M E T R Y C H U N K M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,40 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file BuildNetMsgJob.h
+/** @file GeometryChunkMsg.h
  *
  * Brief description
  *
  */
 
+#ifndef __GEOMETRYCHUNKMSG_H__
+#define __GEOMETRYCHUCKMSG_H__
 
-#ifndef __BUILDNETMSGJOB_H__
-#define __BUILDNETMSGJOB_H__
+#include "GS/GSCommon.h"
+#include "libNetwork/GenericMultiByteMsg.h"
 
-#include "libNetwork/NetMsg.h"
-#include "GS/Jobs/AbstractJob.h"
-
-#include <QString>
-#include <QStringList>
-
-class BuildNetMsgJob : public AbstractJob
+class GeometryChunkMsg : public GenericMultiByteMsg
 {
+  
 public:
-	BuildNetMsgJob();
-	virtual ~BuildNetMsgJob();
 
-protected:
-	virtual JobResult _doJob();
-};
+  //Normal Constructor
+  GeometryChunkMsg(char* dataIn, quint32 dataInLen);
+
+  //Reply Constructor
+  GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen);
+
+  //Deserializing Constructors
+  GeometryChunkMsg(QDataStream* ds);
+  
+ };
 
 #endif
 
-/*
- * Local Variables:
- * tab-width: 8
- * mode: C
- * indent-tabs-mode: t
- * c-file-style: "stroustrup"
- * End:
- * ex: shiftwidth=4 tabstop=8
- */
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

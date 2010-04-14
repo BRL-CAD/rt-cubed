@@ -1,4 +1,4 @@
-/*               G E O M E T R Y S E R V I C E . H
+/*        N E T M S G S U B S C R I B E R R E G I S T R Y . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,45 +17,38 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file NetMsgSubscriberRegistry.cxx
  *
- * Brief description
+ * Provides a means for any class implementing the
+ * INetMsgHandler interface to be registered onto
+ * the NetMsg distribution lists.
  *
  */
 
-#ifndef __GEOMETRYSERVICE_H__
-#define __GEOMETRYSERVICE_H__
+#include "libNetwork/NetMsgSubscriberRegistry.h"
+#include <cstdlib>
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
+NetMsgSubscriberRegistry* NetMsgSubscriberRegistry::pInstance = NULL;
 
-#include "alf/BaseApp.h"
-
-#include "GE/GeometryEngine.h"
-#include "GS/GSCommon.h"
-#include "libNetwork/NetPortalManager.h"
-
-class GeometryService : public BaseApp
+NetMsgSubscriberRegistry::NetMsgSubscriberRegistry()
 {
+	// TODO Auto-generated constructor stub
 
-public:
-	GeometryService(int& argc, char* argv[], QString hostname);
-	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
+}
 
-protected slots:
-	void handleEventsFromPortal(NetPortal* nsp);
+NetMsgSubscriberRegistry::~NetMsgSubscriberRegistry()
+{
+	// TODO Auto-generated destructor stub
+}
 
-private:
-	QString localHostname;
-	NetPortalManager* portalMan;
-
-};
-
-#endif
+NetMsgSubscriberRegistry* NetMsgSubscriberRegistry::getInstance()
+{
+	if (!NetMsgSubscriberRegistry::pInstance)
+	{
+		NetMsgSubscriberRegistry::pInstance = new NetMsgSubscriberRegistry();
+	}
+	return NetMsgSubscriberRegistry::pInstance;
+}
 
 // Local Variables: ***
 // mode: C++ ***

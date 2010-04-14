@@ -30,32 +30,37 @@ PROJECT(GeometryService)
 
 MESSAGE(STATUS "")
 MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##        Configuring GeometryService         ##")
+MESSAGE(STATUS "##           Configuring libNetwork           ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
 
 INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
 
-SET(GS_SOURCES
-	Config.cxx
-	GeometryService.cxx
-	DataManager.cxx
-	DbObjectManifest.cxx
-	GeometryProcessor.cxx
-	Session.cxx
-	SessionManager.cxx
-	Account.cxx
-	AccountManager.cxx
-	Jobs/AbstractJob.cxx
-	Jobs/JobManager.cxx
-	Jobs/JobScheduler.cxx
-	Jobs/JobWorker.cxx
-	Jobs/PrintToStdOutJob.cxx
+SET(LIBNET_SOURCES
+	NetPortal.cxx
+	NetPortalManager.cxx
+	NetMsgFactory.cxx
+	NetMsgSubscriberRegistry.cxx
+	INetMsgHandler.cxx
+	NetMsg.cxx
+	GenericOneStringMsg.cxx
+	GenericOneByteMsg.cxx
+	GenericTwoBytesMsg.cxx
+	GenericFourBytesMsg.cxx
+	GenericMultiByteMsg.cxx
+	FailureMsg.cxx
+	SuccessMsg.cxx
+	RemHostNameSetMsg.cxx
+	NewHostOnNetMsg.cxx
+	GeometryReqMsg.cxx
+	GeometryManifestMsg.cxx
+	GeometryChunkMsg.cxx
 )
 
-QT4_WRAP_CPP(GS_MOCCED_HEADERS
-
+QT4_WRAP_CPP(LIBNET_MOCCED_HEADERS
+	${RT3_INCLUDE_DIR}/libNetwork/NetPortal.h
+	${RT3_INCLUDE_DIR}/libNetwork/NetPortalManager.h
 )
 
 INCLUDE (${QT_USE_FILE})
@@ -65,8 +70,8 @@ IF(COMMAND cmake_policy)
 ENDIF(COMMAND cmake_policy)
 
 ## Make the GS Library
-ADD_LIBRARY (gs SHARED ${GS_SOURCES} ${GS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(gs alf network utility ${QT_LIBRARIES})
+ADD_LIBRARY (network SHARED ${LIBNET_SOURCES} ${LIBNET_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(network ge utility ${QT_LIBRARIES})
 
 MESSAGE(STATUS "Configuring Complete.")
 MESSAGE(STATUS "")

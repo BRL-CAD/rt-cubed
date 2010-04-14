@@ -1,4 +1,4 @@
-/*                B U I L D N E T M S G J O B . H
+/*             N E W H O S T O N N E T M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,44 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file BuildNetMsgJob.h
+/** @file NewHostOnNetMsg.h
  *
  * Brief description
  *
  */
 
+#ifndef __NEWHOSTONNETMSG_H__
+#define __NEWHOSTONNETMSG_H__
 
-#ifndef __BUILDNETMSGJOB_H__
-#define __BUILDNETMSGJOB_H__
+#include "GS/GSCommon.h"
+#include "libNetwork/GenericOneStringMsg.h"
 
-#include "libNetwork/NetMsg.h"
-#include "GS/Jobs/AbstractJob.h"
-
-#include <QString>
-#include <QStringList>
-
-class BuildNetMsgJob : public AbstractJob
+class NewHostOnNetMsg : public GenericOneStringMsg
 {
-public:
-	BuildNetMsgJob();
-	virtual ~BuildNetMsgJob();
 
-protected:
-	virtual JobResult _doJob();
+public:
+
+  //Normal Constructor
+  NewHostOnNetMsg(QString s);
+
+  //Reply Constructor
+  NewHostOnNetMsg(NewHostOnNetMsg* msg, QString s);
+
+  //Deserializing Constructors
+  NewHostOnNetMsg(QDataStream* ds);
+
+  //Destructor
+  virtual ~NewHostOnNetMsg();
+
+  QString getNewHostName();
 };
 
 #endif
 
-/*
- * Local Variables:
- * tab-width: 8
- * mode: C
- * indent-tabs-mode: t
- * c-file-style: "stroustrup"
- * End:
- * ex: shiftwidth=4 tabstop=8
- */
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

@@ -1,4 +1,4 @@
-/*                B U I L D N E T M S G J O B . H
+/*             S U C C E S S M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,46 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file BuildNetMsgJob.h
+/** @file SuccessMsg.h
  *
  * Brief description
  *
  */
 
+#ifndef __SUCCESSMSG_H__
+#define __SUCCESSMSG_H__
 
-#ifndef __BUILDNETMSGJOB_H__
-#define __BUILDNETMSGJOB_H__
+#include "GS/GSCommon.h"
+#include "libNetwork/GenericOneByteMsg.h"
 
-#include "libNetwork/NetMsg.h"
-#include "GS/Jobs/AbstractJob.h"
 
-#include <QString>
-#include <QStringList>
-
-class BuildNetMsgJob : public AbstractJob
+class SuccessMsg : public GenericOneByteMsg
 {
-public:
-	BuildNetMsgJob();
-	virtual ~BuildNetMsgJob();
 
-protected:
-	virtual JobResult _doJob();
+public:
+
+  //Normal Constructor
+  SuccessMsg(quint8 failureCode);
+
+  //Reply Constructor
+  SuccessMsg(NetMsg* msg, quint8 failureCode);
+
+  //Deserializing Constructors
+  SuccessMsg(QDataStream* ds);
+  
+  /*
+   *Getters n Setters
+   */
+  quint8 getSuccessCode();
+
 };
 
 #endif
 
-/*
- * Local Variables:
- * tab-width: 8
- * mode: C
- * indent-tabs-mode: t
- * c-file-style: "stroustrup"
- * End:
- * ex: shiftwidth=4 tabstop=8
- */
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

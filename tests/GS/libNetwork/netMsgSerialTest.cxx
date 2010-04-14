@@ -23,22 +23,22 @@
  *
  */
 
-#include "GS/libNetwork/NetMsg.h"
-#include "GS/libNetwork/GenericOneStringMsg.h"
-#include "GS/libNetwork/GenericOneByteMsg.h"
-#include "GS/libNetwork/GenericTwoBytesMsg.h"
-#include "GS/libNetwork/GenericFourBytesMsg.h"
-#include "GS/libNetwork/GenericMultiByteMsg.h"
+#include "libNetwork/NetMsg.h"
+#include "libNetwork/GenericOneStringMsg.h"
+#include "libNetwork/GenericOneByteMsg.h"
+#include "libNetwork/GenericTwoBytesMsg.h"
+#include "libNetwork/GenericFourBytesMsg.h"
+#include "libNetwork/GenericMultiByteMsg.h"
 
-#include "GS/libNetwork/FailureMsg.h"
-#include "GS/libNetwork/SuccessMsg.h"
+#include "libNetwork/FailureMsg.h"
+#include "libNetwork/SuccessMsg.h"
 
-#include "GS/libNetwork/RemHostNameSetMsg.h"
-#include "GS/libNetwork/NewHostOnNetMsg.h"
+#include "libNetwork/RemHostNameSetMsg.h"
+#include "libNetwork/NewHostOnNetMsg.h"
 
-#include "GS/libNetwork/GeometryReqMsg.h"
-#include "GS/libNetwork/GeometryManifestMsg.h"
-#include "GS/libNetwork/GeometryChunkMsg.h"
+#include "libNetwork/GeometryReqMsg.h"
+#include "libNetwork/GeometryManifestMsg.h"
+#include "libNetwork/GeometryChunkMsg.h"
 
 void
 testEquals(NetMsg* msg01, NetMsg* msg02, bool desiredResult,  bool showInfo)

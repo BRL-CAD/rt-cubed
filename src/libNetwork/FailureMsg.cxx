@@ -1,4 +1,4 @@
-/*                B U I L D N E T M S G J O B . H
+/*       F A I L U R E . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,43 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file BuildNetMsgJob.h
+/** @file FailureMsg.cxx
  *
  * Brief description
  *
  */
 
 
-#ifndef __BUILDNETMSGJOB_H__
-#define __BUILDNETMSGJOB_H__
+#include "libNetwork/FailureMsg.h"
+#include <sstream>
 
-#include "libNetwork/NetMsg.h"
-#include "GS/Jobs/AbstractJob.h"
-
-#include <QString>
-#include <QStringList>
-
-class BuildNetMsgJob : public AbstractJob
+//Normal Constructor
+FailureMsg::FailureMsg(quint8 failureCode):
+  GenericOneByteMsg(FAILURE, failureCode)
 {
-public:
-	BuildNetMsgJob();
-	virtual ~BuildNetMsgJob();
+}
 
-protected:
-	virtual JobResult _doJob();
-};
+//Reply  Constructor
+FailureMsg::FailureMsg(NetMsg* msg, quint8 failureCode):
+  GenericOneByteMsg(FAILURE, msg, failureCode)
+{
+}
 
-#endif
+//Deserializing Constructors
+FailureMsg::FailureMsg(QDataStream* ds):
+  GenericOneByteMsg(ds)
+{
+}
 
 /*
- * Local Variables:
- * tab-width: 8
- * mode: C
- * indent-tabs-mode: t
- * c-file-style: "stroustrup"
- * End:
- * ex: shiftwidth=4 tabstop=8
+ *Getters n Setters
  */
+quint8 FailureMsg::getFailureCode() {return this->data;}
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

@@ -26,7 +26,7 @@
 #ifndef __DISCONNECTJOB_H__
 #define __DISCONNECTJOB_H__
 
-#include "GS/libNetwork/NetMsg.h"
+#include "libNetwork/NetMsg.h"
 #include "GS/Jobs/AbstractJob.h"
 
 #include <QString>

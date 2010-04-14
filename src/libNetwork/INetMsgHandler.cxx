@@ -1,4 +1,4 @@
-/*                B U I L D N E T M S G J O B . H
+/*              I N E T M S G H A N D L E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,29 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file BuildNetMsgJob.h
+/** @file INetMsgHandler.cxx
  *
- * Brief description
+ * Interface.  Any class needing to handle incoming
+ * NetMsgs and be registered to the NetMsgSubscriberRegistry
+ * must implement this interface.
  *
  */
 
+#include "libNetwork/INetMsgHandler.h"
 
-#ifndef __BUILDNETMSGJOB_H__
-#define __BUILDNETMSGJOB_H__
+INetMsgHandler::INetMsgHandler() {
+	// TODO Auto-generated constructor stub
 
-#include "libNetwork/NetMsg.h"
-#include "GS/Jobs/AbstractJob.h"
+}
 
-#include <QString>
-#include <QStringList>
+INetMsgHandler::~INetMsgHandler() {
+	// TODO Auto-generated destructor stub
+}
 
-class BuildNetMsgJob : public AbstractJob
-{
-public:
-	BuildNetMsgJob();
-	virtual ~BuildNetMsgJob();
-
-protected:
-	virtual JobResult _doJob();
-};
-
-#endif
-
-/*
- * Local Variables:
- * tab-width: 8
- * mode: C
- * indent-tabs-mode: t
- * c-file-style: "stroustrup"
- * End:
- * ex: shiftwidth=4 tabstop=8
- */
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8
