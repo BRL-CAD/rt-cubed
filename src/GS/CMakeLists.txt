@@ -54,6 +54,7 @@ SET(GS_SOURCES
 	Jobs/JobManager.cxx
 	Jobs/JobScheduler.cxx
 	Jobs/JobWorker.cxx
+	Jobs/PrintToStdOutJob.cxx
 )
 
 QT4_WRAP_CPP(GS_MOCCED_HEADERS

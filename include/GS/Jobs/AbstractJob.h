@@ -28,21 +28,22 @@
 
 #include "GS/GSCommon.h"
 
-class AbstractJob {
+class AbstractJob
+{
 
 public:
-	AbstractJob();
-	virtual ~AbstractJob();
+    AbstractJob();
+    virtual ~AbstractJob();
 
-	JobResult doJob();
-	JobStatus getStatus();
+    JobResult doJob();
+    JobStatus getStatus();
 
 protected:
-	virtual JobResult _doJob();
+    virtual JobResult _doJob();
 
 private:
-	unsigned int jobID;
-	JobStatus status;
+    unsigned int jobID;
+    JobStatus status;
 
 };
 
