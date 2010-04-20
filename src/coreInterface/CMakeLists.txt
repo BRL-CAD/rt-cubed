@@ -27,13 +27,7 @@
 #
 #########################################################################
 
-
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##         Configuring  coreInterface         ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
-
+PROJECT(COREINTERFACE)
 
 IF(BRLCAD_VERSION)
 	STRING(REGEX REPLACE "([0-9]+)\\.[0-9]+\\.[0-9]+" "\\1" BRLCAD_MAJOR_VERSION "${BRLCAD_VERSION}")
@@ -50,12 +44,16 @@ ENDIF(BRLCAD_VERSION)
 
 
 if(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
-	INCLUDE_DIRECTORIES(
-		${RT3_INCLUDE_DIR}
-		${BRLCAD_INCLUDE_DIRS}
-		${BRLCAD_INCLUDE_DIRS}/brlcad
-		${BRLCAD_INCLUDE_DIRS}/openNURBS
-	)
+
+    SET(PROJ_INCLUDE_DIRS 
+        ${GLOBAL_INCLUDE_DIRS}
+		${BRLCAD_INCLUDE_DIRS}/openNURBS       
+    )
+
+	INCLUDE_DIRECTORIES(${PROJ_INCLUDE_DIRS} )
+
+    #Print
+    INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
 
 	set(LIBCOREINTERFACE_SOURCES
 		Arb8.cpp
@@ -82,4 +80,3 @@ ELSE(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
 	MESSAGE(STATUS "Configuring Omitted.")
 ENDIF(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
 
-MESSAGE(STATUS "")
