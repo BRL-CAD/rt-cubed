@@ -32,6 +32,11 @@ MESSAGE(STATUS "##           Configuring libUtility           ##")
 MESSAGE(STATUS "################################################")
 MESSAGE(STATUS "")
 
+if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
+
 set(LIBUTILITY_SOURCES
 	init.cxx
 	Application.cxx
