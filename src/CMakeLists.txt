@@ -26,7 +26,7 @@
 #
 ##########################################################################
 
-#ADD_SUBDIRECTORY(./other/)
+ADD_SUBDIRECTORY(./other/)
 
 ADD_SUBDIRECTORY(./date)
 ADD_SUBDIRECTORY(./GE)
@@ -38,4 +38,4 @@ ADD_SUBDIRECTORY(./adminpanel)
 ADD_SUBDIRECTORY(./libNetwork)
 ADD_SUBDIRECTORY(./libJob)
 
-#ADD_SUBDIRECTORY(./coreInterface)
+ADD_SUBDIRECTORY(./coreInterface)
