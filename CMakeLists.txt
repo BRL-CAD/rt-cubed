@@ -64,24 +64,6 @@ MESSAGE(STATUS "")
 #Setup unit testing compilation flag
 SET (COMPILE_UNIT_TESTS OFF CACHE BOOL "Compile the Unit test suite? (Requires CPPUNIT)")
 
-#
-# Setup paths used for searching for required libs
-#
-SET(INCLUDE_SEARCH_PATHS 
-	${INCLUDE_SEARCH_PATHS}
-	/usr/brlcad/include 
-	/usr/local/brlcad/include 
-	/usr/local/include
-)
-
-SET(LIB_SEARCH_PATHS 
-	${LIB_SEARCH_PATHS}
-	/usr/brlcad/lib 
-	/usr/local/brlcad/lib 
-	/usr/local/lib
-	./src/other/mocha/
-)
-
 MESSAGE(STATUS "Finding Required Dependancies...")
 
 #
