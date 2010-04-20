@@ -26,17 +26,21 @@
 #
 ##########################################################################
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##           Configuring libUtility           ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+PROJECT(LibUtility)
 
-if(COMMAND cmake_policy)
-    cmake_policy(SET CMP0003 NEW)
-endif(COMMAND cmake_policy)
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
+SET(PROJ_LINK_LIBS
+    tds
+    ${QT_LIBRARIES}
+)
 
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
 set(LIBUTILITY_SOURCES
 	init.cxx
 	Application.cxx
@@ -47,10 +51,7 @@ set(LIBUTILITY_SOURCES
 	Logger.cxx
 )
 
-INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
-
 ADD_LIBRARY (utility SHARED ${LIBUTILITY_SOURCES})
-TARGET_LINK_LIBRARIES(utility tds ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(utility ${PROJ_LINK_LIBS})
 
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tDone.")

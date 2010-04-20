@@ -26,13 +26,7 @@
 #
 ##########################################################################
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##         Configuring Utility Tests          ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
-
-
+PROJECT(UtilityTests)
 
 IF(COMMAND cmake_policy)
 	CMAKE_POLICY(SET CMP0003 NEW)
@@ -41,8 +35,9 @@ ENDIF(COMMAND cmake_policy)
 SET(UTILITYTESTS_INCLUDE_DIRS ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
 INCLUDE_DIRECTORIES (${UTILITYTESTS_INCLUDE_DIRS})
 
+MESSAGE(STATUS "\tConfiguring ${PROJECT_NAME}...")
+MESSAGE(STATUS "\t\t${PROJECT_NAME} Include Dirs: ${UTILITYTESTS_INCLUDE_DIRS}")
+
 ## Make the Test Apps.
 ADD_EXECUTABLE(loggerTest ./loggerTest.cxx )
 TARGET_LINK_LIBRARIES(loggerTest utility )
-
-

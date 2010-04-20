@@ -26,18 +26,21 @@
 #
 ##########################################################################
 
+PROJECT(GeometryEngine)
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##        Configuring GeometryEngine          ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
-if(COMMAND cmake_policy)
-   cmake_policy(SET CMP0003 NEW)
-endif(COMMAND cmake_policy)
-    
-set(GE_SOURCES
+SET(PROJ_LINK_LIBS
+    ${QT_LIBRARIES}
+)
+
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
+SET(GE_SOURCES
 	GeometryEngine.cxx
 	exception/CloneNotSupportedException.cxx
 	exception/Exception.cxx
@@ -48,16 +51,14 @@ set(GE_SOURCES
 	exception/EOFException.cxx
 	exception/IOException.cxx
 )
+QT4_WRAP_CPP(GE_MOCCED_HEADERS
 
-INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
-MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR}")
+)
 
-ADD_LIBRARY (ge SHARED ${GE_SOURCES})
-TARGET_LINK_LIBRARIES(ge ${QT_LIBRARIES})
+ADD_LIBRARY (ge SHARED ${GE_SOURCES} ${GE_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(ge ${PROJ_LINK_LIBS})
 
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
-
+MESSAGE(STATUS "\tDone.")
 
 ADD_SUBDIRECTORY(./libGeometry)
 ADD_SUBDIRECTORY(./libImage)

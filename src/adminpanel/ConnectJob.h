@@ -30,8 +30,6 @@
 #include "libJob/AbstractJob.h"
 #include "libNetwork/NetPortalManager.h"
 
-#include <QString>
-#include <QStringList>
 #include <QHostAddress>
 
 class ConnectJob : public AbstractJob

@@ -26,17 +26,20 @@
 #
 ##########################################################################
 
-PROJECT(libJob)
+PROJECT(LibJob)
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##             Configuring libJob             ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
-INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
-MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
+SET(PROJ_LINK_LIBS
+    ${QT_LIBRARIES}
+)
 
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
 SET(LIBJOB_SOURCES
 	AbstractJob.cxx
 	JobManager.cxx
@@ -48,15 +51,7 @@ SET(LIBJOB_SOURCES
 QT4_WRAP_CPP(LIBJOB_MOCCED_HEADERS
 )
 
-INCLUDE (${QT_USE_FILE})
-
-IF(COMMAND cmake_policy)
-	CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND cmake_policy)
-
-## Make the job Library
 ADD_LIBRARY (job SHARED ${LIBJOB_SOURCES} ${LIBJOB_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(job ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(job ${PROJ_LINK_LIBS})
 
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tDone.")

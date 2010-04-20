@@ -25,6 +25,7 @@
 
 #include "ConnectJob.h"
 #include "GS/GSCommon.h"
+#include <QHostAddress>
 
 ConnectJob::ConnectJob(NetPortalManager* portMan, QHostAddress address, quint16 port)
 {

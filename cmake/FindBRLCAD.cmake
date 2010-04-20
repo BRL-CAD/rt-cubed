@@ -63,31 +63,17 @@
 #
 #########################################################################
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##           Searching for BRLCAD...          ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tSearching for BRLCAD...")
 
-
-
-FIND_PROGRAM(BRLCAD_CONFIGEXE brlcad-config PATHS $ENV{BRLCAD_ROOT}/bin)
-
+#Attempt to get brlcad parameters.
+FIND_PROGRAM(BRLCAD_CONFIGEXE brlcad-config)
 IF(BRLCAD_CONFIGEXE)
-	EXEC_PROGRAM(${BRLCAD_CONFIGEXE} ARGS --version OUTPUT_VARIABLE BRLCAD_VERSION)
-	EXEC_PROGRAM(${BRLCAD_CONFIGEXE} ARGS --includedir OUTPUT_VARIABLE BRLCAD_INCLUDE_DIRS)
-	EXEC_PROGRAM(${BRLCAD_CONFIGEXE} ARGS --libdir OUTPUT_VARIABLE BRLCAD_LIBRARY_DIRS)
+	EXECUTE_PROCESS(COMMAND ${BRLCAD_CONFIGEXE} --version OUTPUT_VARIABLE BRLCAD_VERSION)
+	EXECUTE_PROCESS(COMMAND ${BRLCAD_CONFIGEXE} --includedir OUTPUT_VARIABLE BRLCAD_INCLUDE_DIR)
+	EXECUTE_PROCESS(COMMAND ${BRLCAD_CONFIGEXE} --libdir OUTPUT_VARIABLE BRLCAD_LIBRARY_DIR)
 
-	SET(INCLUDE_SEARCH_PATHS
-		${INCLUDE_SEARCH_PATHS}
-		${BRLCAD_INCLUDE_DIRS}
-	)
+#    MESSAGE(STATUS "\t\tDiscovered BRLCAD Version ${BRLCAD_VERSION}")
 
-	SET(LIB_SEARCH_PATHS
-		${LIB_SEARCH_PATHS}
-		${BRLCAD_LIBRARY_DIRS}
-	)
 ENDIF(BRLCAD_CONFIGEXE)
 
 # Include dirs
@@ -99,33 +85,34 @@ IF(NOT BRLCAD_INCLUDE_DIRS)
 ENDIF(NOT BRLCAD_INCLUDE_DIRS)
 
 IF(NOT BRLCAD_INCLUDE_DIRS)
-	MESSAGE(STATUS "Could not find brlcad! ${BRLCAD_INCLUDE_DIRS}")
-	MESSAGE(STATUS "\tSearched: ${INCLUDE_SEARCH_PATHS}")
+	MESSAGE(STATUS "\t\tCould not find brlcad in: ${INCLUDE_SEARCH_PATHS}")
 	RETURN()
 ENDIF(NOT BRLCAD_INCLUDE_DIRS)
 
-MESSAGE(STATUS "Found BRLCAD Include dir at: \t${BRLCAD_INCLUDE_DIRS}")
-
+MESSAGE(STATUS "\t\tInclude dir: \t${BRLCAD_INCLUDE_DIRS}")
 
 FOREACH (lib 
-	bn   bu   dm   fb   ged   
-	optical   orle   pkg   png   
-	regex   rt   sysv   tclcad   
-	utahrle   wdb   opennurbs   
-	tcl85   tclstub85   tk85   
-	tkpng   tkstub85  BLT24   
-	itcl34   itclstub34   itk34   
+	bn bu dm fb ged 
+	optical orle pkg png 
+	rt sysv tclcad 
+	utahrle wdb regex opennurbs 
+	tcl85 tclstub85 tk85 
+	tkpng tkstub85 BLT24 
+	itcl34 itclstub34 itk34 
 	itkstub34
 )
 	FIND_LIBRARY( ${lib}_LIBRARY 	NAMES ${lib}	PATHS ${LIB_SEARCH_PATHS} )
 	
 	SET(BRLCAD_LIBRARIES ${BRLCAD_LIBRARIES} ${${lib}_LIBRARY} )
 	IF(NOT ${lib}_LIBRARY)
-		MESSAGE(STATUS "Could not find: lib${lib} ")
+	    SET(BRLCAD_LIBS_FOUND ${BRLCAD_LIBS_FOUND} " ${lib}")
 	ELSE(NOT ${lib}_LIBRARY)
-		MESSAGE(STATUS "Found: lib${lib} \t${${lib}}")
+	    SET(BRLCAD_LIBS_MISSING ${BRLCAD_LIBS_MISSING} " ${lib}")
 	ENDIF(NOT ${lib}_LIBRARY)
-
 
 ENDFOREACH (lib)
 
+MESSAGE(STATUS "\t\tFound libs: \t${BRLCAD_LIBS_FOUND}")
+MESSAGE(STATUS "\t\tLibs NOT Found: \t${BRLCAD_LIBS_MISSING}")
+
+SET(BRLCAD_FOUND TRUE)

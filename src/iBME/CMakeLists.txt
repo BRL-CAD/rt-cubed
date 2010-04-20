@@ -26,29 +26,25 @@
 #
 ##########################################################################
 
+PROJECT(Geoserv)
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##              Configuring iBME              ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
-IF(COMMAND cmake_policy)
-	CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND cmake_policy)
+SET(PROJ_LINK_LIBS
 
-SET(IBME_INCLUDE_DIRS ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
+)
 
-INCLUDE_DIRECTORIES (${IBME_INCLUDE_DIRS})
-MESSAGE(STATUS "Include Directories: ${IBME_INCLUDE_DIRS}")
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
 
-## Make the GS phase 0 Executable.
-#ADD_EXECUTABLE(gsph0 gsph0.cxx)
-#TARGET_LINK_LIBRARIES(gsph0 ge gs ${QT_LIBRARIES})
+#Set Sources
+SET(GEOSERV_SOURCES
+	../GS/gsmain.cxx
+)
 
-## Make the GS Executable.
 ADD_EXECUTABLE(geoserv ../GS/gsmain.cxx)
-TARGET_LINK_LIBRARIES(geoserv ge gs ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(geoserv ${PROJ_LINK_LIBS})
 
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tDone.")

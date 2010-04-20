@@ -28,15 +28,21 @@
 
 PROJECT(GeometryService)
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##        Configuring GeometryService         ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
-INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
-MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
+SET(PROJ_LINK_LIBS
+    ${QT_LIBRARIES}
+    alf
+    network
+    utility
+)
 
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
 SET(GS_SOURCES
 	Config.cxx
 	GeometryService.cxx
@@ -53,15 +59,7 @@ QT4_WRAP_CPP(GS_MOCCED_HEADERS
 
 )
 
-INCLUDE (${QT_USE_FILE})
-
-IF(COMMAND cmake_policy)
-	CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND cmake_policy)
-
-## Make the GS Library
 ADD_LIBRARY (gs SHARED ${GS_SOURCES} ${GS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(gs alf network utility ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(gs ${PROJ_LINK_LIBS})
 
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tDone.")

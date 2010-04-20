@@ -26,14 +26,19 @@
 #
 ##########################################################################
 
+PROJECT(LibImage)
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##            Configuring libImage            ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
+SET(PROJ_LINK_LIBS
+)
 
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
 set(LIBIMAGE_SOURCES
 	init.cxx
 	Pixel.cxx
@@ -41,6 +46,6 @@ set(LIBIMAGE_SOURCES
 )
 
 ADD_LIBRARY (Image SHARED ${LIBIMAGE_SOURCES})
+TARGET_LINK_LIBRARIES(Image ${PROJ_LINK_LIBS})
 
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tDone.")

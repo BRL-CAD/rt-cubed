@@ -26,21 +26,22 @@
 #
 ##########################################################################
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##        Configuring libNetwork Tests        ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+PROJECT(LibNetworkTests)
 
-IF(COMMAND cmake_policy)
-	CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND cmake_policy)
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
-SET(LIBNETWORKTESTS_INCLUDE_DIRS ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
+SET(PROJ_LINK_LIBS
+    network
+    utility
+    ${QT_LIBRARIES}
+)
 
-INCLUDE_DIRECTORIES (${LIBNETWORKTESTS_INCLUDE_DIRS})
-MESSAGE(STATUS "Include Directories: ${LIBNETWORKTESTS_INCLUDE_DIRS}")
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
 
+#Set Sources
 SET(LIBNETWORKTESTS_SOURCES
 	NetPortalManagerTester.cxx
 )
@@ -50,18 +51,45 @@ QT4_WRAP_CPP(LIBNETWORKTESTS_MOCCED_HEADERS
 )
 
 ADD_LIBRARY (libNetworkTests SHARED ${LIBNETWORKTESTS_SOURCES} ${LIBNETWORKTESTS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(libNetworkTests network utility ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(libNetworkTests ${PROJ_LINK_LIBS})
+
+MESSAGE(STATUS "\tDone.")
 
 
-## Make the Test Apps.
+
+
+PROJECT(NetMsgSerialTest)
+
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
 ADD_EXECUTABLE(netMsgSerialTest ./netMsgSerialTest.cxx )
-TARGET_LINK_LIBRARIES(netMsgSerialTest ge gs ${QT_LIBRARIES} libNetworkTests)
+TARGET_LINK_LIBRARIES(netMsgSerialTest libNetworkTests ${PROJ_LINK_LIBS})
 
-ADD_EXECUTABLE(netMsgFactoryTest ./netMsgFactoryTest.cxx)
-TARGET_LINK_LIBRARIES(netMsgFactoryTest ge gs ${QT_LIBRARIES} libNetworkTests)
-
+MESSAGE(STATUS "\tDone.")
 
 
 
-ADD_EXECUTABLE(netPortalManagerTest ./netPortalManagerTest.cxx)
-TARGET_LINK_LIBRARIES(netPortalManagerTest ge gs ${QT_LIBRARIES} libNetworkTests)
+
+PROJECT(NetMsgFactoryTest)
+
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+ADD_EXECUTABLE(netMsgFactoryTest ./netMsgFactoryTest.cxx )
+TARGET_LINK_LIBRARIES(netMsgFactoryTest libNetworkTests ${PROJ_LINK_LIBS})
+
+MESSAGE(STATUS "\tDone.")
+
+
+
+PROJECT(NetPortalManagerTest)
+
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+ADD_EXECUTABLE(netPortalManagerTest ./netPortalManagerTest.cxx )
+TARGET_LINK_LIBRARIES(netPortalManagerTest libNetworkTests ${PROJ_LINK_LIBS})
+
+MESSAGE(STATUS "\tDone.")
+

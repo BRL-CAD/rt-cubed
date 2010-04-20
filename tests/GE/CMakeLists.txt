@@ -26,9 +26,27 @@
 #
 ##########################################################################
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##     Configuring GeometryEngine Tests       ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+PROJECT(GeometryEngineTests)
 
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+
+SET(PROJ_LINK_LIBS
+)
+
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
+SET(GETESTS_SOURCES
+    GeometryEngineTest.cxx
+)
+
+QT4_WRAP_CPP(GETESTS_MOCCED_HEADERS
+)
+
+ADD_LIBRARY (getests SHARED ${GETESTS_SOURCES} ${GETESTS_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(getests ${PROJ_LINK_LIBS})
+
+MESSAGE(STATUS "\tDone.")

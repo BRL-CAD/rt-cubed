@@ -26,32 +26,24 @@
 #
 ##########################################################################
 
+PROJECT(ApplicationLaunchFramework)
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##  Configuring Application Launch Framework  ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
-if(COMMAND cmake_policy)
-   cmake_policy(SET CMP0003 NEW)
-endif(COMMAND cmake_policy)
-     
-PROJECT(alf)
+SET(PROJ_LINK_LIBS
+    utility
+    ${QT_LIBRARIES}
+)
 
-INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
-MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR}")
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
 
-INCLUDE (${QT_USE_FILE})
-SET (QT_USE_QTNETWORK TRUE)
-
+#Set Sources
 set(ALF_SOURCES
     AppLauncher.cxx
     BaseApp.cxx
-)
-
-set(ALF_HEADERS
-
 )
 
 set(ALF_PREMOC_HEADERS
@@ -60,9 +52,7 @@ set(ALF_PREMOC_HEADERS
 
 qt4_wrap_cpp(ALF_POSTMOC_HEADERS ${ALF_PREMOC_HEADERS})
 
-ADD_LIBRARY (alf SHARED ${ALF_HEADERS} ${ALF_POSTMOC_HEADERS} ${ALF_SOURCES})
-TARGET_LINK_LIBRARIES(alf utility ${QT_LIBRARIES} )
+ADD_LIBRARY (alf SHARED  ${ALF_POSTMOC_HEADERS} ${ALF_SOURCES})
+TARGET_LINK_LIBRARIES(alf ${PROJ_LINK_LIBS})
 
-
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tDone.")

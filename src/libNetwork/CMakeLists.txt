@@ -26,17 +26,23 @@
 #
 ##########################################################################
 
-PROJECT(libNetwork)
+PROJECT(LibNetwork)
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##           Configuring libNetwork           ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS}  ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
-INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
-MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ")
+SET(PROJ_LINK_LIBS
+    ge
+    job
+    utility
+    ${QT_LIBRARIES}
+)
 
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
 SET(LIBNET_SOURCES
 	NetPortal.cxx
 	NetPortalManager.cxx
@@ -63,15 +69,7 @@ QT4_WRAP_CPP(LIBNET_MOCCED_HEADERS
 	${RT3_INCLUDE_DIR}/libNetwork/NetPortalManager.h
 )
 
-INCLUDE (${QT_USE_FILE})
-
-IF(COMMAND cmake_policy)
-	CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND cmake_policy)
-
-## Make the GS Library
 ADD_LIBRARY (network SHARED ${LIBNET_SOURCES} ${LIBNET_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(network ge job utility ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(network ${PROJ_LINK_LIBS})
 
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tDone.")

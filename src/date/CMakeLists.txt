@@ -26,26 +26,24 @@
 #
 ##########################################################################
 
+PROJECT(TimeDateStamp)
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##        Configuring TimeDate Stamp          ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} )
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
+SET(PROJ_LINK_LIBS
+)
 
-set(TDS_SOURCES
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
+SET(TDS_SOURCES
 	buildStamp.cxx
 )
 
-set(TDS_HEADERS
-	buildStamp.h
-)
+ADD_LIBRARY (tds SHARED ${TDS_SOURCES})
+TARGET_LINK_LIBRARIES(tds ${PROJ_LINK_LIBS})
 
-INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR})
-MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR}")
-
-ADD_LIBRARY (tds SHARED ${TDS_HEADERS} ${TDS_SOURCES})
-
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tDone.")

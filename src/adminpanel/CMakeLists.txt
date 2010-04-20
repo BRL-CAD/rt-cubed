@@ -19,32 +19,31 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/src/GE/CMakeLists.txt
+#	@file rt^3/src/adminpanel/CMakeLists.txt
 #
 #	$Revision:  $
 #	$Author:  $
 #
 ##########################################################################
+   
+PROJECT(AdminControlPanel)
 
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##       Configuring AdminControlPanel        ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+SET(PROJ_LINK_LIBS
+    gs
+    ge
+    job
+    network
+    ${QT_LIBRARIES}
+)
 
-if(COMMAND cmake_policy)
-   cmake_policy(SET CMP0003 NEW)
-endif(COMMAND cmake_policy)
-     
-PROJECT(acp)
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
 
-INCLUDE_DIRECTORIES (${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
-MESSAGE(STATUS "Include Directories: ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR}")
-
-INCLUDE (${QT_USE_FILE})
-SET (QT_USE_QTNETWORK TRUE)
-
+#Set Sources
 set(ACP_SOURCES
 	acpMain.cxx
 	ACPChatterBox.cxx
@@ -55,23 +54,13 @@ set(ACP_SOURCES
 	BuildNetMsgJob.cxx
 )
 
-set(ACP_HEADERS
-	ACPChatterBox.h
-	CommandProcessor.h
-	ConnectJob.h
-	DisconnectJob.h
-	BuildNetMsgJob.h
-)
-
 set(ACP_PREMOC_HEADERS
 	AdminControlPanel.h
 )
 
 qt4_wrap_cpp(ACP_POSTMOC_HEADERS ${ACP_PREMOC_HEADERS})
 
-ADD_EXECUTABLE (acp ${ACP_HEADERS} ${ACP_POSTMOC_HEADERS} ${ACP_SOURCES})
-TARGET_LINK_LIBRARIES(acp ${QT_LIBRARIES} gs ge)
+ADD_EXECUTABLE (acp ${ACP_POSTMOC_HEADERS} ${ACP_SOURCES})
+TARGET_LINK_LIBRARIES(acp ${PROJ_LINK_LIBS})
 
-
-MESSAGE(STATUS "Configuring Complete.")
-MESSAGE(STATUS "")
+MESSAGE(STATUS "\tDone.")

@@ -26,13 +26,29 @@
 #
 ##########################################################################
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##     Configuring GeometryService Tests      ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
+PROJECT(GeometryServiceTests)
+
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} )
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+
+SET(PROJ_LINK_LIBS
+)
+
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
+SET(GSTESTS_SOURCES
+	GeometryServiceTest.cxx
+)
+
+QT4_WRAP_CPP(GSTESTS_MOCCED_HEADERS
+)
+
+ADD_LIBRARY (GeometryServiceTest SHARED ${GSTESTS_SOURCES} ${GSTESTS_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(GeometryServiceTest ${PROJ_LINK_LIBS})
+
+MESSAGE(STATUS "\tDone.")
 
 ADD_SUBDIRECTORY(./libNetwork)
-
-
-ADD_EXECUTABLE(GeometryServiceTest ./GeometryServiceTest.cxx)

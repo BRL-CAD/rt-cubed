@@ -26,10 +26,8 @@
 #
 ##########################################################################
 
+#ADD_SUBDIRECTORY(./other/)
 
-#Build 'others' first
-ADD_SUBDIRECTORY(./other/)
-ADD_SUBDIRECTORY(./coreInterface)
 ADD_SUBDIRECTORY(./date)
 ADD_SUBDIRECTORY(./GE)
 ADD_SUBDIRECTORY(./GS)
@@ -38,6 +36,6 @@ ADD_SUBDIRECTORY(./alf)
 ADD_SUBDIRECTORY(./utility)
 ADD_SUBDIRECTORY(./adminpanel)
 ADD_SUBDIRECTORY(./libNetwork)
-ADD_SUBDIRECTORY(./libJob
-)
+ADD_SUBDIRECTORY(./libJob)
 
+#ADD_SUBDIRECTORY(./coreInterface)

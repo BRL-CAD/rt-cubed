@@ -36,26 +36,7 @@
 #
 #########################################################################
 
-MESSAGE(STATUS "")
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##           Searching for CPPUNIT...         ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
-
-SET(CPPUNIT_ROOT $ENV{CPPUNIT_ROOT})
-
-IF(CPPUNIT_ROOT)
-	SET(INCLUDE_SEARCH_PATHS 
-		${INCLUDE_SEARCH_PATHS}
-		${CPPUNIT_ROOT}/include
-	)
-
-	SET(LIB_SEARCH_PATHS 
-		${LIB_SEARCH_PATHS}
-		${CPPUNIT_ROOT}/lib
-	)
-ENDIF(CPPUNIT_ROOT)
+MESSAGE(STATUS "\tSearching for CPPUNIT...")
 
 # Include dirs
 FIND_PATH(CPPUNIT_INCLUDE_DIRS
@@ -64,20 +45,17 @@ FIND_PATH(CPPUNIT_INCLUDE_DIRS
 )
 
 IF(NOT CPPUNIT_INCLUDE_DIRS)
-	MESSAGE(STATUS "Could not find CPPUNIT! ${CPPUNIT_INCLUDE_DIRS}")
-	MESSAGE(STATUS "\tSearched: ${INCLUDE_SEARCH_PATHS}")
+	MESSAGE(STATUS "\t\tCould not find CPPUNIT in: ${INCLUDE_SEARCH_PATHS}")
 	RETURN()
 ENDIF(NOT CPPUNIT_INCLUDE_DIRS)
 
-MESSAGE(STATUS "Found CPPUNIT Include dir at: \t${CPPUNIT_INCLUDE_DIRS}")
+FIND_LIBRARY( cppunit_LIBRARY NAMES cppunit PATHS ${LIB_SEARCH_PATHS} )
 
-FOREACH (lib cppunit )
-	FIND_LIBRARY( ${lib}_LIBRARY 	NAMES ${lib}	PATHS ${LIB_SEARCH_PATHS} )
-	
-	SET(CPPUNIT_LIBRARIES ${CPPUNIT_LIBRARIES} ${${lib}_LIBRARY} )
-	IF(NOT ${lib}_LIBRARY)
-		MESSAGE(STATUS "Could not find: lib${lib} ")
-	ELSE(NOT ${lib}_LIBRARY)
-		MESSAGE(STATUS "Found: lib${lib} \t${${lib}}")
-	ENDIF(NOT ${lib}_LIBRARY)
-ENDFOREACH (lib)
+IF(cppunit_LIBRARY)
+    MESSAGE(STATUS "\t\tInclude dir: \t${CPPUNIT_INCLUDE_DIRS}")
+    MESSAGE(STATUS "\t\tLibrary: \t${cppunit_LIBRARY}")
+    SET(CPPUNIT_FOUND TRUE)
+ELSE(cppunit_LIBRARY)
+	MESSAGE(STATUS "\t\tCould not find CPPUNIT in: ${INCLUDE_SEARCH_PATHS}")
+	RETURN()
+ENDIF(cppunit_LIBRARY)

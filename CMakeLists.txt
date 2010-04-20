@@ -27,27 +27,51 @@
 #########################################################################
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.2)
+IF(COMMAND cmake_policy)
+	CMAKE_POLICY(SET CMP0003 NEW)
+ENDIF(COMMAND cmake_policy)
 
 #################################
 INCLUDE (cmake/PrintHeader.cmake)
 #################################
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-#Set VAR for top level include directory
+#Shortcut for root dir
+SET(RT3_ROOT ${CMAKE_SOURCE_DIR})
+
+#Set path for cmake modules.
+SET(CMAKE_MODULE_PATH "${RT3_ROOT}/cmake")
+
+#
+# Globals
+#
+
+MESSAGE(STATUS "System Name: ${CMAKE_SYSTEM_NAME}")
+MESSAGE(STATUS "System Processor: ${CMAKE_SYSTEM_PROCESSOR}")
+MESSAGE(STATUS "System Version: ${CMAKE_SYSTEM_VERSION}")
+
 SET(RT3_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
-MESSAGE(STATUS "RT3_INCLUDE_DIR: ${CMAKE_SOURCE_DIR}/include")
+
+#Start of global include var
+SET(GLOBAL_INCLUDE_DIRS ${RT3_INCLUDE_DIR})
+MESSAGE(STATUS "GLOBAL_INCLUDE_DIRS: ${GLOBAL_INCLUDE_DIRS}")
+MESSAGE(STATUS "")
+
+#
+# FLAGS
+#
 
 #Setup unit testing compilation flag
 SET (COMPILE_UNIT_TESTS OFF CACHE BOOL "Compile the Unit test suite? (Requires CPPUNIT)")
 
-#Setup search paths
+#
+# Setup paths used for searching for required libs
+#
 SET(INCLUDE_SEARCH_PATHS 
 	${INCLUDE_SEARCH_PATHS}
 	/usr/brlcad/include 
 	/usr/local/brlcad/include 
 	/usr/local/include
-	~/include
 )
 
 SET(LIB_SEARCH_PATHS 
@@ -55,48 +79,67 @@ SET(LIB_SEARCH_PATHS
 	/usr/brlcad/lib 
 	/usr/local/brlcad/lib 
 	/usr/local/lib
-	~/lib
 	./src/other/mocha/
 )
 
+MESSAGE(STATUS "Finding Required Dependancies...")
+
+#
+# Required packages
+#
+
+#Find X11
+FIND_PACKAGE ( X11 REQUIRED )
+IF (NOT X11_FOUND)
+	RETURN()
+ENDIF (NOT X11_FOUND)
+
 #Find BRLCAD
 FIND_PACKAGE ( BRLCAD REQUIRED )
+IF (NOT BRLCAD_FOUND)
+	RETURN()
+ENDIF (NOT BRLCAD_FOUND)
 
+#Find CPPUNIT if needed.
 IF (COMPILE_UNIT_TESTS)
 	FIND_PACKAGE ( CPPUNIT REQUIRED )
+	IF (NOT CPPUNIT_FOUND)
+	    RETURN()
+    ENDIF (NOT CPPUNIT_FOUND)
 ENDIF (COMPILE_UNIT_TESTS)
-
-MESSAGE(STATUS "")
-MESSAGE(STATUS "")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "##             Searching for QT4...           ##")
-MESSAGE(STATUS "################################################")
-MESSAGE(STATUS "")
-
-
 #Search for QT4
+MESSAGE(STATUS "\tSearching for QT4...")
+
 FIND_PACKAGE ( Qt4 REQUIRED )
 IF (NOT QT4_FOUND)
-	MESSAGE(STATUS "ERROR:  QT4 not found!")
 	RETURN()
 ENDIF (NOT QT4_FOUND)
 
-MESSAGE(STATUS "QT4 was found.")
-
 #Configure QT4
-INCLUDE (${QT_USE_FILE})
-SET (QT_USE_QTNETWORK TRUE)
-
 ADD_DEFINITIONS( ${QT_DEFINITIONS} )
 
+SET (QT_USE_QTNETWORK TRUE)
+INCLUDE (${QT_USE_FILE})
 
+SET(QT_VERSION "${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
+
+MESSAGE(STATUS "\t\tInclude dirs: \t${QT_INCLUDE_DIR}")
+MESSAGE(STATUS "\t\tQt Version: \t${QT_VERSION}")
+MESSAGE(STATUS "All Dependancies Found")
+MESSAGE(STATUS "")
 
 #Decend into the source tree.
+MESSAGE(STATUS "Configuring Projects...")
 ADD_SUBDIRECTORY(./src)
+MESSAGE(STATUS "All Projects configured.")
+MESSAGE(STATUS "")
 
 #Decend into the test tree.
 IF (COMPILE_UNIT_TESTS)
+    MESSAGE(STATUS "Configuring Tests...")
 	ADD_SUBDIRECTORY(./tests)
+	MESSAGE(STATUS "All Tests configured.")
+    MESSAGE(STATUS "")
 ENDIF (COMPILE_UNIT_TESTS)
 
 #################################
