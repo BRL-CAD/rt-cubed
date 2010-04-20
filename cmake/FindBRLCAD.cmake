@@ -49,7 +49,7 @@
 #	tcl85_LIBRARY 
 #	tclstub85_LIBRARY 
 #	tk85_LIBRARY 
-#	tkimg_LIBRARY 
+#	tkpng_LIBRARY 
 #	tkstub85_LIBRARY 
 #	BLT24_LIBRARY 
 #	itcl34_LIBRARY 
@@ -113,7 +113,7 @@ FOREACH (lib
 	regex   rt   sysv   tclcad   
 	utahrle   wdb   opennurbs   
 	tcl85   tclstub85   tk85   
-	tkimg   tkstub85  BLT24   
+	tkpng   tkstub85  BLT24   
 	itcl34   itclstub34   itk34   
 	itkstub34
 )
