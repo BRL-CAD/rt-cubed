@@ -19,15 +19,36 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/tests/CMakeLists.txt
+#	@file rt^3/tests/libJob/CMakeLists.txt
 #
 #	$Revision:  $
 #	$Author:  $
 #
 ##########################################################################
 
-ADD_SUBDIRECTORY(./GE)
-ADD_SUBDIRECTORY(./GS)
-ADD_SUBDIRECTORY(./utility)
-ADD_SUBDIRECTORY(./libNetwork)
-ADD_SUBDIRECTORY(./libJob)
+PROJECT(BasicJMTest)
+
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+
+SET(PROJ_LINK_LIBS
+    job
+    ${QT_LIBRARIES}
+)
+
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
+SET(BASIC_JM_TESTS_SOURCES
+	BasicJMTest.cxx
+)
+
+QT4_WRAP_CPP(BASIC_JM_TESTS_MOCCED_HEADERS
+)
+
+ADD_LIBRARY (basicJmTest SHARED ${BASIC_JM_TESTS_SOURCES} ${BASIC_JM_TESTS_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(basicJmTest ${PROJ_LINK_LIBS})
+
+MESSAGE(STATUS "\tDone.")
