@@ -71,7 +71,10 @@ OgreGLWidget::OgreGLWidget(QWidget *parent) :
     _root = new Ogre::Root(OGRE_PLUGIN_FILE, OGRE_CFG_FILE, OGRE_LOG_FILE);
     
     _root->loadPlugin("RenderSystem_GL");
-    _root->setRenderSystem(*(_root->getAvailableRenderers().begin()));
+
+    Ogre::RenderSystemList* rsl = _root->getAvailableRenderers();
+
+    _root->setRenderSystem(*(rsl->begin()));
     _root->initialise(false);
 
     // Initialize frame time tracking for smooth camera movement
