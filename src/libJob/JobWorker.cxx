@@ -25,11 +25,13 @@
 
 #include "libJob/JobWorker.h"
 #include "libJob/JobManager.h"
+#include <iostream>
 
 JobWorker::JobWorker()
 {
-	this->status = WORKER_NOTREADY;
-	this->runCmd = true;
+    this->status = WORKER_NOTREADY;
+    this->runCmd = true;
+    this->workerId = QUuid::createUuid();
 }
 
 JobWorker::~JobWorker()
@@ -38,42 +40,58 @@ JobWorker::~JobWorker()
 
 void JobWorker::run()
 {
-	JobManager* jm = JobManager::getInstance();
+    JobManager* jm = JobManager::getInstance();
 
-	this->status = WORKER_READY;
+    this->status = WORKER_READY;
 
-	while (this->runCmd)
-	{
-		if (!jm->hasJobsToWork())
-		{
-			this->msleep(100);
-		}
-		else
-		{
-			AbstractJob* job = jm->getNextJob();
-
-			if (job == NULL)
-			{
-				continue;
-			}
-
-			JobResult result = job->doJob();
-
-			//TODO log the result?
-
-		}
+    //TODO there must be a more dynamic way to have the workers idle other than a sleep
+    while (this->runCmd) {
+	if (!jm->hasJobsToWork()) {
+	    this->msleep(100);
 	}
-	this->status = WORKER_NOTREADY;
+	else {
+	    AbstractJob* job = jm->getNextJob();
+
+	    if (job == NULL) {
+		continue;
+	    }
+
+	    std::cout << "JobWorker (" << this->getWorkerIdAsStdString()
+		    << ") is working Job with ID of " << job->getJobId()
+		    << std::endl;
+
+	    JobResult result = job->doJob();
+
+	    //TODO log the result?
+
+	}
+    }
+    this->status = WORKER_NOTREADY;
 }
 
 JobWorkerStatus JobWorker::getStatus()
 {
-	return this->status;
+    return this->status;
+}
+
+QUuid JobWorker::getWorkerId()
+{
+    return this->workerId;
+}
+
+QString JobWorker::getWorkerIdAsQString()
+{
+    return this->workerId.toString();
+}
+
+std::string JobWorker::getWorkerIdAsStdString()
+{
+    return this->workerId.toString().toStdString();
 }
 
 void JobWorker::shutdown()
 {
-	this->runCmd = false;
+    this->runCmd = false;
 }
 // Local Variables: ***
 // mode: C++ ***

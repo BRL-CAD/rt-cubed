@@ -29,6 +29,8 @@
 #include "GS/GSCommon.h"
 #include "libJob/AbstractJob.h"
 #include <QThread>
+#include <QUuid>
+#include <string>
 
 class JobWorker: public QThread
 {
@@ -41,9 +43,13 @@ public:
 
 	JobWorkerStatus getStatus();
 	void shutdown();
+	QUuid getWorkerId();
+	QString getWorkerIdAsQString();
+	std::string getWorkerIdAsStdString();
 private:
 	JobWorkerStatus status;
 	bool runCmd;
+	QUuid workerId;
 };
 
 #endif

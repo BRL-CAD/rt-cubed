@@ -47,6 +47,11 @@ JobStatus AbstractJob::getStatus()
     return this->status;
 }
 
+quint32 AbstractJob::getJobId()
+{
+    return this->jobID;
+}
+
 JobResult AbstractJob::_doJob()
 {
     //Give a default function.

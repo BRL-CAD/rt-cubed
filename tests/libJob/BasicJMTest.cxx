@@ -25,17 +25,29 @@
 
 #include "libJob/JobManager.h"
 #include "libJob/PrintToStdOutJob.h"
+#include "utility/ThreadUtils.h"
 
 int main(int argc, char* argv[])
 {
+    PrintToStdOutJob* ptsoJob = new PrintToStdOutJob("The quick brown fox jumps over the lazy dog.\n");
+
     JobManager* jm = JobManager::getInstance();
 
-    PrintToStdOutJob* ptsoJob = new PrintToStdOutJob("The quick brown fox jumps over the lazy dog.");
+    jm->submitJob(ptsoJob);
+    ThreadUtils::sleep(1);
+    jm->submitJob(ptsoJob);
+    ThreadUtils::sleep(1);
 
     jm->submitJob(ptsoJob);
+    jm->submitJob(ptsoJob);
+    jm->submitJob(ptsoJob);
+    jm->submitJob(ptsoJob);
+
+    ThreadUtils::sleep(1);
 
 
-    delete ptsoJob;
+    ThreadUtils::sleep(10);
+
     delete jm;
     return 0;
 }

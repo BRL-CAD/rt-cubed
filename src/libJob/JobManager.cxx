@@ -25,67 +25,67 @@
 
 #include "libJob/JobManager.h"
 #include <QMutexLocker>
+#include <iostream>
 
 JobManager* JobManager::pInstance = NULL;
 
 JobManager::JobManager()
 {
 
-	this->jobQueue = new QList<AbstractJob*> ();
-	this->queueLock = new QMutex();
+    this->jobQueue = new QList<AbstractJob*> ();
+    this->queueLock = new QMutex();
 
-	this->jobWorkers = new QList<JobWorker*> ();
+    this->jobWorkers = new QList<JobWorker*> ();
 
-	for (quint32 i = 0; i < MAX_JOBWORKERS; ++i)
-	{
-		JobWorker* jw = new JobWorker();
-		this->jobWorkers->append(jw);
-		jw->start();
-	}
+    for (quint32 i = 0; i < MAX_JOBWORKERS; ++i) {
+	JobWorker* jw = new JobWorker();
+	this->jobWorkers->append(jw);
+	jw->start();
+
+	std::cout << "Created new JobWorker with ID of "
+		<< jw->getWorkerIdAsStdString() << std::endl;
+    }
 }
 
 JobManager::~JobManager()
 {
-	delete jobQueue;
-	//TODO Should I loop through jobs, destroying them as well?
-	delete queueLock;
+    delete jobQueue;
+    //TODO Should I loop through jobs, destroying them as well?
+    delete queueLock;
 
-	delete jobWorkers;
-	//TODO Should I loop through workers, destroying them as well?
+    delete jobWorkers;
+    //TODO Should I loop through workers, destroying them as well?
 }
 
 JobManager* JobManager::getInstance()
 {
-	if (!JobManager::pInstance)
-	{
-		pInstance = new JobManager();
-	}
-	return JobManager::pInstance;
+    if (!JobManager::pInstance) {
+	pInstance = new JobManager();
+    }
+    return JobManager::pInstance;
 }
 
 void JobManager::submitJob(AbstractJob* job)
 {
-	QMutexLocker locker(this->queueLock);
-	this->jobQueue->append(job);
+    QMutexLocker locker(this->queueLock);
+    this->jobQueue->append(job);
 }
 
 AbstractJob* JobManager::getNextJob()
 {
-	QMutexLocker locker(this->queueLock);
-	if (!this->jobQueue->isEmpty())
-	{
-		return this->jobQueue->takeFirst();
-	}
-	else
-	{
-		return NULL;
-	}
+    QMutexLocker locker(this->queueLock);
+    if (!this->jobQueue->isEmpty()) {
+	return this->jobQueue->takeFirst();
+    }
+    else {
+	return NULL;
+    }
 }
 
 bool JobManager::hasJobsToWork()
 {
-	QMutexLocker locker(this->queueLock);
-	return !this->jobQueue->isEmpty();
+    QMutexLocker locker(this->queueLock);
+    return !this->jobQueue->isEmpty();
 }
 
 //TODO add JobWorker Monitor.

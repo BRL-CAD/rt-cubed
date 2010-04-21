@@ -34,6 +34,7 @@ INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
 SET(PROJ_LINK_LIBS
     job
+    utility
     ${QT_LIBRARIES}
 )
 

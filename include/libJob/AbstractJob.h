@@ -27,6 +27,7 @@
 #define __ABSTRACTJOB_H__
 
 #include "GS/GSCommon.h"
+#include <Qt>
 
 class AbstractJob
 {
@@ -37,12 +38,12 @@ public:
 
     JobResult doJob();
     JobStatus getStatus();
+    quint32 getJobId();
 
 protected:
     virtual JobResult _doJob();
 
-private:
-    unsigned int jobID;
+    quint32 jobID;
     JobStatus status;
 
 };
