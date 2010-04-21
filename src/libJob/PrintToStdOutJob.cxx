@@ -23,6 +23,7 @@
 
 #include "libJob/PrintToStdOutJob.h"
 #include <iostream>
+#include "utility/ThreadUtils.h"
 
 PrintToStdOutJob::PrintToStdOutJob(QString text)
 {
@@ -37,9 +38,12 @@ PrintToStdOutJob::~PrintToStdOutJob()
 
 JobResult PrintToStdOutJob::_doJob()
 {
+
+    ThreadUtils::sleep(1);
+
     QMutexLocker(this->streamLock);
 
-    std::cout << text.toStdString();
+    std::cout << "JobID:" << this->jobID << " Text: "<< text.toStdString();
 
     return JOB_COMPLETED_NO_ERRORS;
 }

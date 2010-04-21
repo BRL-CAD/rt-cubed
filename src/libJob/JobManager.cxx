@@ -37,7 +37,8 @@ JobManager::JobManager()
 
     this->jobWorkers = new QList<JobWorker*> ();
 
-    QString text = "MAX_JOBWORKERS: " + QString::number(MAX_JOBWORKERS);
+    QString text = "Startup.  MAX_JOBWORKERS: " + QString::number(
+	    MAX_JOBWORKERS);
 
     this->log->logINFO("JobManager", text);
 
@@ -46,8 +47,8 @@ JobManager::JobManager()
 	this->jobWorkers->append(jw);
 	jw->start();
 
-	std::cout << "Created new JobWorker with ID of "
-		<< jw->getWorkerIdAsStdString() << std::endl;
+	text = "Created new JobWorker with ID of " + jw->getWorkerIdAsQString();
+	this->log->logINFO("JobManager", text);
     }
 }
 
@@ -56,7 +57,6 @@ JobManager::~JobManager()
     delete jobQueue;
     //TODO Should I loop through jobs, destroying them as well?
     delete queueLock;
-
 
     //loop through workers
     while (!this->jobWorkers->isEmpty()) {

@@ -57,9 +57,9 @@ void JobWorker::run()
 		continue;
 	    }
 
-	    std::cout << "JobWorker (" << this->getWorkerIdAsStdString()
-		    << ") is working Job with ID of " << job->getJobId()
-		    << std::endl;
+	    QString text = "JobWorker " + this->getWorkerIdAsQString()
+		    + " is working Job with ID of " + job->getJobId();
+	    this->log->logINFO("JobWorker", text);
 
 	    JobResult result = job->doJob();
 
@@ -93,8 +93,8 @@ std::string JobWorker::getWorkerIdAsStdString()
 void JobWorker::shutdown()
 {
     this->runCmd = false;
-    QString text = "JobWorker (" + this->getWorkerIdAsQString()
-	    + ") received Shutdown Command.";
+    QString text = "JobWorker " + this->getWorkerIdAsQString()
+	    + " received Shutdown Command.";
     this->log->logINFO("JobWorker", text);
 }
 
