@@ -1,4 +1,4 @@
-/*                 B A S I C J M T E S T . C X X
+/*                   T H R E A D U T I L S . H
  * BRLCAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,33 +17,36 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file BasicJMTest.cxx
- *
- * Brief description
+/** @file ThreadUtils.h
+ * ThreadUtils.h
  *
  */
 
-#include "libJob/JobManager.h"
-#include "libJob/PrintToStdOutJob.h"
+#ifndef __THREADUTILS_H__
+#define __THREADUTILS_H__
 
-int main(int argc, char* argv[])
+#include <QThread>
+
+class ThreadUtils: public QThread
 {
-    JobManager* jm = JobManager::getInstance();
+public:
+    virtual ~ThreadUtils();
 
-    PrintToStdOutJob* ptsoJob = new PrintToStdOutJob("The quick brown fox jumps over the lazy dog.");
+    void static sleep(unsigned long secs);
+    void static usleep(unsigned long usecs);
 
-    jm->submitJob(ptsoJob);
+private:
+    ThreadUtils();
+};
 
+#endif /* __THREADUTILS_H__ */
 
-    delete ptsoJob;
-    delete jm;
-    return 0;
-}
-
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables:
+ * tab-width: 8
+ * mode: C
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

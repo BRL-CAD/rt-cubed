@@ -49,6 +49,7 @@ set(LIBUTILITY_SOURCES
 	Timer.cxx
 	Utils.cxx
 	Logger.cxx
+	ThreadUtils.cxx
 )
 
 ADD_LIBRARY (utility SHARED ${LIBUTILITY_SOURCES})
