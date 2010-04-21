@@ -82,6 +82,14 @@ set(QT_USE_QTOPENGL 1)
 INCLUDE(${QT_USE_FILE})
 set(LIBS ${LIBS} ${QT_LIBRARIES})
 
+
+find_library(zzip_LIBRARY
+  NAMES zzip
+)
+
+MESSAGE(STATUS "zzip path: ${zzip_LIBRARY}")
+set(LIBS ${LIBS} ${zzip_LIBRARY})
+
 # Preprocess Qt stuff
 qt4_wrap_cpp(G3D_MOC_OUTFILES ${G3D_MOC_HEADERS})
 qt4_wrap_ui(G3D_UI_OUTFILES ${G3D_UIS})
