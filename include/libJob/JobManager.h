@@ -28,6 +28,7 @@
 
 #include "libJob/AbstractJob.h"
 #include "libJob/JobWorker.h"
+#include "utility/Logger.h"
 #include "GS/GSCommon.h"
 #include <QList>
 #include <QMutex>
@@ -55,6 +56,7 @@ private:
 	QList<JobWorker*>* jobWorkers;
 	QList<AbstractJob*>* jobQueue;
 	QMutex* queueLock;
+	Logger* log;
 };
 
 #endif

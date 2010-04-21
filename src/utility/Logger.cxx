@@ -32,7 +32,7 @@ QMutex* Logger::lock = new QMutex();
 
 Logger::Logger()
 {
-    this->verbose = true; //Default to true
+    this->verbose = false; //Default to false
 }
 Logger* Logger::getInstance()
 {
@@ -45,32 +45,32 @@ Logger* Logger::getInstance()
     return Logger::instance;
 }
 
-void Logger::logDEBUG(QString string)
+void Logger::logDEBUG(QString origin, QString string)
 {
-    this->log(Logger::DEBUG, string);
+    this->log(Logger::DEBUG, origin, string);
 }
 
-void Logger::logINFO(QString string)
+void Logger::logINFO(QString origin, QString string)
 {
-    this->log(Logger::INFO, string);
+    this->log(Logger::INFO, origin, string);
 }
 
-void Logger::logWARNING(QString string)
+void Logger::logWARNING(QString origin, QString string)
 {
-    this->log(Logger::WARNING, string);
+    this->log(Logger::WARNING, origin, string);
 }
 
-void Logger::logERROR(QString string)
+void Logger::logERROR(QString origin, QString string)
 {
-    this->log(Logger::ERROR, string);
+    this->log(Logger::ERROR, origin, string);
 }
 
-void Logger::logFATAL(QString string)
+void Logger::logFATAL(QString origin, QString string)
 {
-    this->log(Logger::FATAL, string);
+    this->log(Logger::FATAL, origin, string);
 }
 
-void Logger::log(quint32 logLevel, QString string)
+void Logger::log(quint32 logLevel, QString origin, QString string)
 {
     QString time("");
 
@@ -102,8 +102,8 @@ void Logger::log(quint32 logLevel, QString string)
 
     //TODO add file logging
 
-    std::cout << time.toStdString() << "   " << type.toStdString() << " \t "
-	    << string.toStdString();
+    std::cout << time.toStdString() << "   " << origin.toStdString() << " \t "
+	    << type.toStdString() << " \t " << string.toStdString();
 
     if (this->verbose) {
 	std::cout << " \t\t " << "STACK TRACE GOES HERE";

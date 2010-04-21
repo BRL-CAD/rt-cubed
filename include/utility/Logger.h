@@ -45,11 +45,11 @@ public:
 	void enableVerbose(){this->verbose = true;}
 	void disableVerbose(){this->verbose = false;}
 
-	void logDEBUG(QString string);
-	void logINFO(QString string);
-	void logWARNING(QString string);
-	void logERROR(QString string);
-	void logFATAL(QString string);
+	void logDEBUG(QString origin, QString string);
+	void logINFO(QString origin, QString string);
+	void logWARNING(QString origin, QString string);
+	void logERROR(QString origin, QString string);
+	void logFATAL(QString origin, QString string);
 
 	enum
 	{
@@ -66,7 +66,7 @@ protected:
 	Logger& operator=(const Logger& log){};
 	~Logger(){};
 
-	void log(quint32 logLevel, QString string);
+	void log(quint32 logLevel, QString origin, QString string);
 };
 
 #endif

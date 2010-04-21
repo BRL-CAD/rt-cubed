@@ -31,11 +31,15 @@ JobManager* JobManager::pInstance = NULL;
 
 JobManager::JobManager()
 {
-
+    this->log = Logger::getInstance();
     this->jobQueue = new QList<AbstractJob*> ();
     this->queueLock = new QMutex();
 
     this->jobWorkers = new QList<JobWorker*> ();
+
+    QString text = "MAX_JOBWORKERS: " + QString::number(MAX_JOBWORKERS);
+
+    this->log->logINFO("JobManager", text);
 
     for (quint32 i = 0; i < MAX_JOBWORKERS; ++i) {
 	JobWorker* jw = new JobWorker();
@@ -53,8 +57,17 @@ JobManager::~JobManager()
     //TODO Should I loop through jobs, destroying them as well?
     delete queueLock;
 
+
+    //loop through workers
+    while (!this->jobWorkers->isEmpty()) {
+	JobWorker* jw = this->jobWorkers->front();
+
+	jw->shutdown();
+
+	this->jobWorkers->pop_front();
+    }
+
     delete jobWorkers;
-    //TODO Should I loop through workers, destroying them as well?
 }
 
 JobManager* JobManager::getInstance()

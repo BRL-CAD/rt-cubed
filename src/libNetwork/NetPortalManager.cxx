@@ -115,7 +115,7 @@ QString NetPortalManager::getLocalHostName()
 void NetPortalManager::localLog(QString str)
 {
     QString nStr = "[" + this->localHostName + "] "+ str;
-    this->log->logINFO(nStr);
+    this->log->logINFO("NetPortalManager", nStr);
 }
 // Local Variables:
 // tab-width: 8

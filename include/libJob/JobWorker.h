@@ -28,6 +28,7 @@
 
 #include "GS/GSCommon.h"
 #include "libJob/AbstractJob.h"
+#include "utility/Logger.h"
 #include <QThread>
 #include <QUuid>
 #include <string>
@@ -47,6 +48,7 @@ public:
 	QString getWorkerIdAsQString();
 	std::string getWorkerIdAsStdString();
 private:
+	Logger* log;
 	JobWorkerStatus status;
 	bool runCmd;
 	QUuid workerId;

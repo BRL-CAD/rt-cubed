@@ -42,7 +42,7 @@ bool Config::loadFile(QString pathAndFileName)
 {
     QString msg;
     msg = "Attemping to load config from: " + pathAndFileName + ".\n";
-    this->log->logINFO(msg);
+    this->log->logINFO("Config", msg);
 
     //init file object
     QFile f(pathAndFileName);
@@ -50,7 +50,7 @@ bool Config::loadFile(QString pathAndFileName)
     //verify & open
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
 	msg = "Loading config from: " + pathAndFileName + " FAILED.\n";
-	this->log->logFATAL(msg);
+	this->log->logFATAL("Config", msg);
 	return false;
     }
 

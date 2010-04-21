@@ -32,6 +32,7 @@ JobWorker::JobWorker()
     this->status = WORKER_NOTREADY;
     this->runCmd = true;
     this->workerId = QUuid::createUuid();
+    this->log = Logger::getInstance();
 }
 
 JobWorker::~JobWorker()
@@ -92,7 +93,11 @@ std::string JobWorker::getWorkerIdAsStdString()
 void JobWorker::shutdown()
 {
     this->runCmd = false;
+    QString text = "JobWorker (" + this->getWorkerIdAsQString()
+	    + ") received Shutdown Command.";
+    this->log->logINFO("JobWorker", text);
 }
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

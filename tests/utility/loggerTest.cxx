@@ -30,19 +30,18 @@ int main(int argc, char* argv[])
     Logger* log = Logger::getInstance();
 
     log->disableVerbose();
-    log->logDEBUG("Testing DEBUG with Verbose OFF");
-    log->logINFO("Testing INFO with Verbose OFF");
-    log->logWARNING("Testing WARNING with Verbose OFF");
-    log->logERROR("Testing ERROR with Verbose OFF");
-    log->logFATAL("Testing FATAL with Verbose OFF");
+    log->logDEBUG("LoggerTest", "Testing DEBUG with Verbose OFF");
+    log->logINFO("LoggerTest", "Testing INFO with Verbose OFF");
+    log->logWARNING("LoggerTest", "Testing WARNING with Verbose OFF");
+    log->logERROR("LoggerTest", "Testing ERROR with Verbose OFF");
+    log->logFATAL("LoggerTest", "Testing FATAL with Verbose OFF");
 
     log->enableVerbose();
-    log->logDEBUG("Testing DEBUG with Verbose ON");
-    log->logINFO("Testing INFO with Verbose ON");
-    log->logWARNING("Testing WARNING with Verbose ON");
-    log->logERROR("Testing ERROR with Verbose ON");
-    log->logFATAL("Testing FATAL with Verbose ON");
-
+    log->logDEBUG("LoggerTest", "Testing DEBUG with Verbose ON");
+    log->logINFO("LoggerTest", "Testing INFO with Verbose ON");
+    log->logWARNING("LoggerTest", "Testing WARNING with Verbose ON");
+    log->logERROR("LoggerTest", "Testing ERROR with Verbose ON");
+    log->logFATAL("LoggerTest", "Testing FATAL with Verbose ON");
 
     return 0;
 }
