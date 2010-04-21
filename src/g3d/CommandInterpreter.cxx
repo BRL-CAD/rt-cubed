@@ -100,8 +100,11 @@ QString CommandInterpreter::getAutocompleteString(const QString& input)
     // add letters while they match in all candidates in same position
     while (true) {
       // check that matches in all candidates
-      size_t pos = r.length();
-      QCharRef charMatch = candidates[0][pos];
+      quint32 pos = r.length();
+
+      QString str = candidates[0];
+
+      QCharRef charMatch = str[pos];
       bool allOfThemMatch = true;
       for (std::vector<QString>::iterator it = candidates.begin();
 	   it != candidates.end();
