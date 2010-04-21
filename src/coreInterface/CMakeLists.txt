@@ -72,11 +72,15 @@ if(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
 		Object.cpp
 		Unknown.cpp
 	)
+	
+	#Temporary fix fo the types.h vs unistd.h vs stdint.h vs pstdint.h declaration conflicts
+	SET_SOURCE_FILES_PROPERTIES(${LIBCOREINTERFACE_SOURCES} PROPERTIES COMPILE_FLAGS "-DHAVE_STDINT_H")
 
 	ADD_LIBRARY (coreInterface SHARED ${LIBCOREINTERFACE_SOURCES})
 
-	MESSAGE(STATUS "Configuring Complete.")
+	MESSAGE(STATUS "\tConfiguring Complete.")
 ELSE(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
-	MESSAGE(STATUS "Configuring Omitted.")
+	MESSAGE(STATUS "\tConfiguring Omitted.")
 ENDIF(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
 
+MESSAGE(STATUS "\tDone.")
