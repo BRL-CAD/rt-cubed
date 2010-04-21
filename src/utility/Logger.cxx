@@ -25,6 +25,7 @@
 
 #include "utility/Logger.h"
 #include <QTime>
+#include <iomanip>
 
 //Statics instantiation
 Logger* Logger::instance;
@@ -102,11 +103,13 @@ void Logger::log(quint32 logLevel, QString origin, QString string)
 
     //TODO add file logging
 
-    std::cout << time.toStdString() << "   " << origin.toStdString() << " \t "
-	    << type.toStdString() << " \t " << string.toStdString();
+    std::cout << std::setw(12) << std::left << time.toStdString();
+    std::cout << std::setw(20) << std::left << origin.toStdString();
+    std::cout << std::setw(12) << std::left << type.toStdString();
+    std::cout << std::left << string.toStdString();
 
     if (this->verbose) {
-	std::cout << " \t\t " << "STACK TRACE GOES HERE";
+	std::cout << " \t" << "STACK TRACE GOES HERE";
     }
 
     std::cout << std::endl;
