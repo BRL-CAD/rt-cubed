@@ -1,4 +1,4 @@
-/*                       G S P H 0 . C X X
+/*                       G M A I N . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,7 +17,7 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file gsph0.cxx
+/** @file gsmain.cxx
  *
  * Brief description
  *
