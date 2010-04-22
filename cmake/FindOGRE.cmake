@@ -85,6 +85,7 @@ elseif (UNIX)
     /usr/local/lib/OGRE
     $ENV{HOME}/ogre
     $ENV{HOME}/OGRE
+    $ENV{HOME}
   )
 endif ()
 set(OGRE_PREFIX_PATH
