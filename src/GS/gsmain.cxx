@@ -23,10 +23,18 @@
  *
  */
 
+#include "GS/GeometryService.h"
+#include "alf/BaseApp.h"
 #include <iostream>
 
 int main(int argc, char* argv[])
 {
-	std::cout << "Hello World!!!";
-	return 0;
+
+    //TODO Configure system loads stuff here
+
+
+
+    GeometryService gs(argc, argv, "ToBeDeterminedName");
+
+    return gs.exec();
 }
