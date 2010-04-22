@@ -25,17 +25,20 @@
 
 #include "GS/Session.h"
 
-
 Session::Session()
 {
-  std::cout << "New Session\n";
+    this->sessionID = QUuid::createUuid();
 }
 
-Session::~Session() 
-{ 
-  std::cout << "End Session\n\n";
+Session::~Session()
+{
+    std::cout << "End Session\n\n";
 }
 
+QUuid Session::getSessionID()
+{
+    return this->sessionID;
+}
 
 // Local Variables: ***
 // mode: C++ ***

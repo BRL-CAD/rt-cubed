@@ -31,15 +31,19 @@
 #include <ios>
 #include <fstream>
 
+#include <QUuid>
+
 class Session
 {
 
 public:
-  Session();
-  virtual ~Session();
+    Session();
+    virtual ~Session();
 
-  
+    QUuid getSessionID();
+
 private:
+    QUuid sessionID;
 
 };
 

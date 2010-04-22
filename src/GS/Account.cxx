@@ -33,6 +33,9 @@ Account::~Account()
 { 
 }
 
+QString Account::getUname(){
+    return this->uname;
+}
 
 // Local Variables: ***
 // mode: C++ ***

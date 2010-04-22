@@ -26,14 +26,18 @@
 #ifndef __ACCOUNT_H__
 #define __ACCOUNT_H__
 
+#include <QString>
+
 class Account
 {
 
 public:
   Account();
   virtual ~Account();
+  QString getUname();
   
 private:
+  QString uname;
 
 };
 
