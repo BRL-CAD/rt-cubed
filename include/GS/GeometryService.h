@@ -36,8 +36,9 @@
 #include "GE/GeometryEngine.h"
 #include "GS/GSCommon.h"
 #include "libNetwork/NetPortalManager.h"
+#include "libNetwork/INetMsgHandler.h"
 
-class GeometryService : public BaseApp
+class GeometryService : public BaseApp, public INetMsgHandler
 {
 
 public:

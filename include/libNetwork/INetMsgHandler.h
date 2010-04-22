@@ -30,8 +30,9 @@
 
 class INetMsgHandler {
 public:
-	INetMsgHandler();
-	virtual ~INetMsgHandler();
+	INetMsgHandler(){};
+	virtual ~INetMsgHandler(){};
+	virtual void handleNetMsg(NetMsg* msg){};
 };
 
 #endif /* __INETMSGHANDLER_H__ */
