@@ -26,7 +26,7 @@
 #
 ##########################################################################
 
-PROJECT(GeometryService)
+PROJECT(libGS)
 
 #Add additional include dirs to INCLUDE_DIRS as needed
 SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
@@ -61,5 +61,33 @@ QT4_WRAP_CPP(GS_MOCCED_HEADERS
 
 ADD_LIBRARY (gs SHARED ${GS_SOURCES} ${GS_MOCCED_HEADERS})
 TARGET_LINK_LIBRARIES(gs ${PROJ_LINK_LIBS})
+
+MESSAGE(STATUS "\tDone.")
+
+##############
+##############
+##############
+
+PROJECT(Geoserv)
+
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+
+SET(PROJ_LINK_LIBS
+    gs
+    ${QT_LIBRARIES}
+)
+
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
+SET(GEOSERV_SOURCES
+	../GS/gsmain.cxx
+)
+
+ADD_EXECUTABLE(geoserv ../GS/gsmain.cxx)
+TARGET_LINK_LIBRARIES(geoserv ${PROJ_LINK_LIBS})
 
 MESSAGE(STATUS "\tDone.")

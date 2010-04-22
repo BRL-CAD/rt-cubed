@@ -28,7 +28,7 @@
 GeometryService::GeometryService(int& argc, char* argv[], QString hostname) :
     BaseApp(argc, argv), localHostname(hostname)
 {
-    this->log->logINFO("GeometryService:", hostname + " is starting up...");
+    this->log->logINFO("GeometryService", hostname + " is starting up...");
     this->portalMan = new NetPortalManager(hostname);
 
     QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)),
