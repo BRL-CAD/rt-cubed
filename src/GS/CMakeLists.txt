@@ -44,7 +44,6 @@ INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
 
 #Set Sources
 SET(GS_SOURCES
-	Config.cxx
 	GeometryService.cxx
 	DataManager.cxx
 	DbObjectManifest.cxx

@@ -26,18 +26,60 @@
 #
 ##########################################################################
 
-PROJECT(UtilityTests)
+PROJECT(LoggerTest)
 
-IF(COMMAND cmake_policy)
-	CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND cmake_policy)
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
 
-SET(UTILITYTESTS_INCLUDE_DIRS ${RT3_INCLUDE_DIR} ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${UTILITYTESTS_INCLUDE_DIRS})
+SET(PROJ_LINK_LIBS
+    utility
+)
 
-MESSAGE(STATUS "\tConfiguring ${PROJECT_NAME}...")
-MESSAGE(STATUS "\t\t${PROJECT_NAME} Include Dirs: ${UTILITYTESTS_INCLUDE_DIRS}")
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
 
-## Make the Test Apps.
-ADD_EXECUTABLE(loggerTest ./loggerTest.cxx )
-TARGET_LINK_LIBRARIES(loggerTest utility )
+#Set Sources
+SET(LOGGER_SOURCES
+	loggerTest.cxx
+)
+
+QT4_WRAP_CPP(LOGGER_MOCCED_HEADERS
+)
+
+ADD_EXECUTABLE (loggerTest  ${LOGGER_SOURCES} ${LOGGER_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(loggerTest ${PROJ_LINK_LIBS})
+
+MESSAGE(STATUS "\tDone.")
+
+
+
+
+PROJECT(ConfigTest)
+
+#Add additional include dirs to INCLUDE_DIRS as needed
+SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
+INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+
+SET(PROJ_LINK_LIBS
+    utility
+)
+
+#Print
+INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+
+#Set Sources
+SET(CONFIGTEST_SOURCES
+	configTest.cxx
+)
+
+QT4_WRAP_CPP(CONFIGTEST_MOCCED_HEADERS
+)
+
+ADD_EXECUTABLE (configTest  ${CONFIGTEST_SOURCES} ${CONFIGTEST_MOCCED_HEADERS})
+TARGET_LINK_LIBRARIES(configTest ${PROJ_LINK_LIBS})
+
+MESSAGE(STATUS "\tDone.")
+
+
+

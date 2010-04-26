@@ -1,4 +1,4 @@
-/*                        C O N F I G . H
+/*                   C O N F I G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -26,18 +26,37 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
-/**
- * Singleton Class.
- * Holds all application Preferences read in from config file.
- */
+#include "GS/GSCommon.h"
+#include "utility/Logger.h"
+#include <QMap>
+#include <QString>
+
 class Config
 {
 
 public:
-	Config();
-	virtual ~Config();
+	~Config();
+	static Config* getInstance();
+
+	bool loadFile(QString pathAndFileName);
+	QString getConfigValue(QString key);
+
+private:
+	Config(); //Turn off Default cstr
+	Config(const Config& c){}; //Turn off Copy cstr
+	Config& operator=(const Config& c){}; //Turn off equal oper
+	void processLine(QString line);
+	void removeAllOccurances(QString* data, QString search,
+			QString replace);
+
+	QMutex lock;
+	Logger* log;
+	QMap<QString, QString>* configMap;
+
+	static Config* pInstance;
 
 };
+
 #endif
 
 // Local Variables: ***

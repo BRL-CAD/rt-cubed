@@ -1,5 +1,5 @@
-/*                   C O N F I G . H
- * BRL-CAD
+/*                 B A S I C J M T E S T . C X X
+ * BRLCAD
  *
  * Copyright (c) 2010 United States Government as represented by
  * the U.S. Army Research Laboratory.
@@ -17,43 +17,27 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file Config.h
+/** @file configTest.cxx
  *
  * Brief description
  *
  */
 
-#ifndef __CONFIG_H__
-#define __CONFIG_H__
-
-#include "GS/GSCommon.h"
 #include "utility/Logger.h"
-#include <QMap>
-#include <QString>
+#include "utility/Config.h"
+#include "utility/ThreadUtils.h"
 
-class Config
+int main(int argc, char* argv[])
 {
+	Logger* log = Logger::getInstance();
+	log->logINFO("ConfigTest", "Attempting to open a file...");
 
-public:
-	static Config* getInstance();
+	Config* c = Config::getInstance();
 
-	bool loadFile(QString pathAndFileName);
-	QString getConfigValue(QString key);
+	c->loadFile("test.config");
 
-private:
-	Config();
-	Config(const Config& c){};
-	Config& operator=(const Config& c){};
-	~Config();
-	void processLine(QByteArray line);
-
-	QMutex lock;
-	Logger* log;
-	QMap<QString, QString>* configMap;
-
-};
-
-#endif
+	return 0;
+}
 
 // Local Variables: ***
 // mode: C++ ***

@@ -47,6 +47,7 @@ set(LIBUTILITY_SOURCES
 	Date.cxx
 	Time.cxx
 	Timer.cxx
+    Config.cxx
 	Utils.cxx
 	Logger.cxx
 	ThreadUtils.cxx
