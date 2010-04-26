@@ -34,7 +34,7 @@
 #include "libNetwork/FailureMsg.h"
 #include "libNetwork/SuccessMsg.h"
 
-#include "libNetwork/RemHostNameSetMsg.h"
+#include "libNetwork/RemoteGSHostnameSetMsg.h"
 #include "libNetwork/NewHostOnNetMsg.h"
 
 #include "libNetwork/GeometryReqMsg.h"
@@ -214,18 +214,18 @@ void testSuccessMsg(NetMsgFactory* factory)
 
 }
 
-void testRemHostNameSetMsg(NetMsgFactory* factory)
+void testRemoteGSHostnameSetMsg(NetMsgFactory* factory)
 {
-	std::cout << "RemHostNameSetMsg Test:";
+	std::cout << "RemoteHostnameSetMsg Test:";
 
 	QByteArray networkSim;
-	RemHostNameSetMsg m1("Gomer Pyle");
+	RemoteGSHostnameSetMsg m1("Gomer Pyle");
 	m1.serialize(&networkSim);
 
 	if (!testFactoryCommon(factory, networkSim))
 		return;
 
-	RemHostNameSetMsg* m2 = (RemHostNameSetMsg*) factory->getNextMsg();
+	RemoteGSHostnameSetMsg* m2 = (RemoteGSHostnameSetMsg*) factory->getNextMsg();
 	testEquals(&m1, m2, true, false);
 	delete m2;
 
@@ -341,7 +341,7 @@ int main(int argc, char* argv[])
 	testFailureMsg(factory);
 	testSuccessMsg(factory);
 
-	testRemHostNameSetMsg(factory);
+	testRemoteGSHostnameSetMsg(factory);
 
 	testNewHostOnNetMsg(factory);
 

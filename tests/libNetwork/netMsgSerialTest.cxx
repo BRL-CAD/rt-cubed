@@ -33,7 +33,7 @@
 #include "libNetwork/FailureMsg.h"
 #include "libNetwork/SuccessMsg.h"
 
-#include "libNetwork/RemHostNameSetMsg.h"
+#include "libNetwork/RemoteGSHostnameSetMsg.h"
 #include "libNetwork/NewHostOnNetMsg.h"
 
 #include "libNetwork/GeometryReqMsg.h"
@@ -426,17 +426,17 @@ testSuccessMsg()
 }
 
 void
-testRemHostNameSetMsg()
+testRemoteHostnameSetMsg()
 {
-  std::cout << "RemHostNameSetMsg Test:\n";
+  std::cout << "RemoteGSHostnameSetMsg Test:\n";
   QDataStream* qds;
   QByteArray* networkSim = new QByteArray();
   std::cout << "\t Equality (without RegardingUUID): ";
 
-  RemHostNameSetMsg* m1 = new RemHostNameSetMsg("Gomer Pyle");
+  RemoteGSHostnameSetMsg* m1 = new RemoteGSHostnameSetMsg("Gomer Pyle");
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  RemHostNameSetMsg* m2 = new RemHostNameSetMsg(qds);
+  RemoteGSHostnameSetMsg* m2 = new RemoteGSHostnameSetMsg(qds);
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -444,10 +444,10 @@ testRemHostNameSetMsg()
 
   std::cout << "\t Equality (with RegardingUUID):\t";
 
-  RemHostNameSetMsg* m3 = new RemHostNameSetMsg(m2, "Kiaser Sose");
+  RemoteGSHostnameSetMsg* m3 = new RemoteGSHostnameSetMsg(m2, "Kiaser Sose");
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  RemHostNameSetMsg* m4 = new RemHostNameSetMsg(qds);
+  RemoteGSHostnameSetMsg* m4 = new RemoteGSHostnameSetMsg(qds);
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -694,7 +694,7 @@ int main(int argc, char* argv[])
   testFailureMsg();
   testSuccessMsg();
  
-  testRemHostNameSetMsg();
+  testRemoteHostnameSetMsg();
 
   testNewHostOnNetMsg();
 

@@ -25,11 +25,11 @@
 
 #include "GS/GeometryService.h"
 
-GeometryService::GeometryService(int& argc, char* argv[], QString hostname) :
-    BaseApp(argc, argv), localHostname(hostname)
+GeometryService::GeometryService(int& argc, char* argv[], QString gsHostname) :
+    BaseApp(argc, argv), localGSHostname(gsHostname)
 {
-    this->log->logINFO("GeometryService", hostname + " is starting up...");
-    this->portalMan = new NetPortalManager(hostname);
+    this->log->logINFO("GeometryService ", gsHostname + " is starting up...");
+    this->portalMan = new NetPortalManager(gsHostname);
 
     QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)),
 	this, SLOT(handleNewPortal(NetPortal*)));

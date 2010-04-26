@@ -1,4 +1,4 @@
-/*             R E M H O S T N A M E S E T M S G . H
+/*             R E M O T E G S H O S T N A M E S E T M S G . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,39 +17,42 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file RemHostNameSetMsg.h
+/** @file RemoteGSHostnameSetMsg.cxx
  *
  * Brief description
  *
  */
 
-#ifndef __REMHOSTNAMESETMSG_H__
-#define __REMHOSTNAMESETMSG_H__
+#include "libNetwork/RemoteGSHostnameSetMsg.h"
+#include <sstream>
 
-#include "GS/GSCommon.h"
-#include "libNetwork/GenericOneStringMsg.h"
-
-class RemHostNameSetMsg : public GenericOneStringMsg
+//Normal Constructor
+RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QString gsHostname):
+  GenericOneStringMsg(REMGSHOSTNAMESET, gsHostname)
 {
-
-public:
-
-  //Normal Constructor
-  RemHostNameSetMsg(QString s);
+}
 
   //Reply Constructor
-  RemHostNameSetMsg(RemHostNameSetMsg* msg, QString s);
+RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg, QString gsHostname):
+  GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
+{
+}
 
-  //Deserializing Constructors
-  RemHostNameSetMsg(QDataStream* ds);
+//Deserializing Constructor
+RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QDataStream* ds):
+  GenericOneStringMsg(ds)
+{
+}
 
-  //Destructor
-  virtual ~RemHostNameSetMsg();
+//Destructor
+RemoteGSHostnameSetMsg::~RemoteGSHostnameSetMsg()
+{
+}
 
-  QString getRemoteHostName();
-};
-
-#endif
+ /*
+ *Getters n Setters
+ */
+QString RemoteGSHostnameSetMsg::getRemoteGSHostname() {return this->strData;}
 
 // Local Variables: ***
 // mode: C++ ***

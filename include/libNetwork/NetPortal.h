@@ -45,9 +45,9 @@ public:
 	NetPortal(NetPortalManager* parent, int socketDescriptor);
 	virtual ~NetPortal();
 
-	void connectToHost(QString hostname, quint16 port);
-	void connectToHost(QHostAddress address, quint16 port);
-	void disconnectFromHost(quint8 reason);
+	void connectToNetHost(QString netHostname, quint16 port);
+	void connectToNetHost(QHostAddress address, quint16 port);
+	void disconnectFromNetHost(quint8 reason);
 
 	void attemptToBuildMsg();
 
@@ -57,7 +57,7 @@ public:
 	void send(NetMsg& msg);
 	void quickSend(quint32 opcode);
 
-	QString getRemoteHostName();
+	QString getRemoteGSHostname();
 
 	enum HandshakeStatus
 	{
@@ -74,7 +74,7 @@ signals:
 	void socketError(QAbstractSocket::SocketError err);
 
 public slots:
-	void sendLocalHostnameToRemHost();
+	void sendLocalGSHostnameToRemoteGSHost();
 
 protected slots:
 	void moveDataFromSocketBuffer();
@@ -85,7 +85,7 @@ protected slots:
 private:
 	QTcpSocket* sock;
 	NetPortalManager* nspm;
-	QString remHostName;
+	QString remGSHostname;
 	NetMsgFactory* factory;
 	HandshakeStatus handshakeStatus;
 	Logger* log;

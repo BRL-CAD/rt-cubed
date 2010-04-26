@@ -46,7 +46,7 @@ public:
   //Destructor
   virtual ~NewHostOnNetMsg();
 
-  QString getNewHostName();
+  QString getNewGSHostname();
 };
 
 #endif

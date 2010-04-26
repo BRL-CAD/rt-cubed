@@ -56,7 +56,7 @@ SET(LIBNET_SOURCES
 	GenericMultiByteMsg.cxx
 	FailureMsg.cxx
 	SuccessMsg.cxx
-	RemHostNameSetMsg.cxx
+	RemoteGSHostnameSetMsg.cxx
 	NewHostOnNetMsg.cxx
 	GeometryReqMsg.cxx
 	GeometryManifestMsg.cxx

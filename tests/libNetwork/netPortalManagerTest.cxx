@@ -9,7 +9,7 @@
 #include "libNetwork/FailureMsg.h"
 #include "libNetwork/SuccessMsg.h"
 
-#include "libNetwork/RemHostNameSetMsg.h"
+#include "libNetwork/RemoteGSHostnameSetMsg.h"
 #include "libNetwork/NewHostOnNetMsg.h"
 
 #include "libNetwork/GeometryReqMsg.h"
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     //Connect to netMan02
     NetPortal* np01 = npmt01.getNewPortal();
     NetPortal* np02 = npmt02.getNewPortal();
-    np01->connectToHost(netMan02Addy, netMan02Port);
+    np01->connectToNetHost(netMan02Addy, netMan02Port);
 
     np01->quickSend(12345677);
 

@@ -42,7 +42,7 @@ class GeometryService : public BaseApp, public INetMsgHandler
 {
 
 public:
-	GeometryService(int& argc, char* argv[], QString hostname);
+	GeometryService(int& argc, char* argv[], QString localGSHostname);
 	virtual ~GeometryService();
 	void startListening(const QHostAddress& addy, quint16 port);
 	int exec();
@@ -51,7 +51,7 @@ protected slots:
 	void handleNewPortal(NetPortal* nsp);
 
 private:
-	QString localHostname;
+	QString localGSHostname;
 	NetPortalManager* portalMan;
 };
 

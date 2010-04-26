@@ -47,7 +47,7 @@ enum JobResult
 #define	FAILURE          	0
 #define	SUCCESS          	5
 
-#define REMHOSTNAMESET 		100
+#define REMGSHOSTNAMESET 		100
 
 #define	DISCONNECTREQ 		150
 

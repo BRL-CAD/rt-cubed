@@ -40,7 +40,7 @@ ConnectJob::~ConnectJob()
 JobResult ConnectJob::_doJob()
 {
 	NetPortal* portal = this->portMan->getNewPortal();
-	portal->connectToHost(this->address, this->port);
+	portal->connectToNetHost(this->address, this->port);
 
 	return JOB_COMPLETED_NO_ERRORS;
 }

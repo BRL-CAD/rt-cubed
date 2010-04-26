@@ -42,13 +42,13 @@ class NetPortalManager: public QTcpServer
 Q_OBJECT
 
 public:
-    NetPortalManager(QString hostName, QObject* parent = 0);
+    NetPortalManager(QString GSHostname, QObject* parent = 0);
     ~NetPortalManager();
 
-    QString getLocalHostName();
+    QString getLocalGSHostname();
     NetPortal* getNewPortal(int socketDescriptor = 0);
 
-    NetPortal* getPortalByRemHostname(QString remHostName);
+    NetPortal* getPortalByRemoteGSHostname(QString remHostname);
 
     void localLog(QString str);
 protected:
@@ -57,8 +57,8 @@ protected:
 protected slots:
 
     void handlePortalDisconnect();
-    void mapPortalToHostname(NetPortal* portal);
-    void unmapPortalToHostname(QString hostname);
+    void mapPortalToGSHostname(NetPortal* portal);
+    void unmapPortalToGSHostname(QString gsHostname);
 
 signals:
 void newIncomingConnection(NetPortal* nsp);
@@ -67,10 +67,10 @@ private:
     void registerPortal(NetPortal* portal);
     void unregisterPortal(NetPortal* portal);
 
-    QString localHostName;
+    QString localGSHostname;
     Logger* log;
 
-    QMap<QString, NetPortal*>* hostnameToPortalMap;
+    QMap<QString, NetPortal*>* gsHostnameToPortalMap;
     QList<NetPortal*>* portalList;
 
     NetPortal* preparePortal();

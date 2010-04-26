@@ -202,7 +202,7 @@ NetMsg* NetMsgFactory::buildMsgByType(quint32 type, QDataStream* qds)
 	return new GenericOneByteMsg(qds);
     case SUCCESS:
 	return new GenericOneByteMsg(qds);
-    case REMHOSTNAMESET:
+    case REMGSHOSTNAMESET:
 	return new GenericOneStringMsg(qds);
     case DISCONNECTREQ:
 	return new NetMsg(qds);
