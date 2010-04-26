@@ -73,11 +73,11 @@ NetPortal::~NetPortal()
 
 void NetPortal::connectToNetHost(QString netHostname, quint16 port)
 {
-	this->sock->connectToNetHost(netHostname, port);
+	this->sock->connectToHost(netHostname, port);
 }
 void NetPortal::connectToNetHost(QHostAddress address, quint16 port)
 {
-	this->sock->connectToNetHost(address, port);
+	this->sock->connectToHost(address, port);
 }
 void NetPortal::disconnectFromNetHost(quint8 reason)
 {
@@ -86,7 +86,7 @@ void NetPortal::disconnectFromNetHost(quint8 reason)
 			+ this->remGSHostname + "). Reason code: " + reason + "\n";
 	this->log->logINFO("NetPortal", msg);
 
-	this->sock->disconnectFromNetHost();
+	this->sock->disconnectFromHost();
 }
 
 /***************************/
@@ -182,7 +182,7 @@ void NetPortal::attemptToBuildMsg()
 			}
 
 			QString remoteHostname =
-					((RemoteGSHostnameSetMsg*) msg)->getRemoteHostname();
+					((RemoteGSHostnameSetMsg*) msg)->getRemoteGSHostname();
 
 			delete msg;
 

@@ -46,7 +46,7 @@ public:
   //Destructor
   virtual ~RemoteGSHostnameSetMsg();
 
-  QString getRemoteHostname();
+  QString getRemoteGSHostname();
 };
 
 #endif //__REMOTEGSHOSTNAMESETMSG_H__
