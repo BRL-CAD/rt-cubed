@@ -80,9 +80,14 @@ IF(BRLCAD_CONFIGEXE)
     MESSAGE(STATUS "\t\tDiscovered BRLCAD Version ${BRLCAD_VERSION}")
 
 ELSE(BRLCAD_CONFIGEXE)
-    RETURN()
-
+    MESSAGE(STATUS "\t\tCould not discover BRLCAD Version.")
+    #RETURN()
+    #TODO need to make the BRLCAD version checking a requirement for coreInterface, but nothing else.
+    #TODO figure out why brlcad-config isn't present on Windows.
 ENDIF(BRLCAD_CONFIGEXE)
+
+
+
 
 IF(NOT BRLCAD_INCLUDE_DIRS)
 	MESSAGE(STATUS "\t\tCould not find brlcad in: ${INCLUDE_SEARCH_PATHS}")
