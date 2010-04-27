@@ -30,6 +30,12 @@
 #include <vector>
 #include <iomanip>
 
+#include "libNetwork/NetPortalManager.h"
+#include "libNetwork/NetPortal.h"
+
+#include <QUuid>
+#include <QHostAddress>
+
 static const int DEFAULT_PORT = 7777;
 
 /**
@@ -64,7 +70,6 @@ public:
     }
 };
 
-
 /**
  * wrapper client class for staring up an object that can connect to
  * and communicate with a geometry server.  this should simply stub
@@ -73,6 +78,10 @@ public:
 class GeometryClient
 {
 private:
+    QUuid testClientID;
+    NetPortalManager* portMan;
+    NetPortal* portal;
+
     bool exists(std::string object) const
     {
 	if (object.size() == 0)
@@ -85,17 +94,31 @@ private:
 public:
     GeometryClient()
     {
-    }
-    ~GeometryClient()
-    {
+	this->testClientID = QUuid::createUuid();
+
+	this->portMan = new NetPortalManager("GSTestClient - "
+		+ this->testClientID.toString());
+
+	this->portal = this->portMan->getNewPortal();
     }
 
-    void connect(const char *host = "localhost", int port = DEFAULT_PORT) const
+    ~GeometryClient()
     {
-	if (!host || port < 0) {
+	delete this->portMan;
+	delete this->portal;
+    }
+
+    void connect(const QHostAddress address = QHostAddress::LocalHost, int port = DEFAULT_PORT) const
+    {
+	if (port < 0) {
 	    std::cerr << "Unexpected test harness state" << std::endl;
 	    exit(1);
 	}
+
+	QHostAddress addy();
+
+	this->portal->connectToNetHost(address, port);
+
     }
 
     void disconnect() const
@@ -114,7 +137,7 @@ public:
     }
 
     std::string getObject(const std::string object, const std::string version =
-			  std::string("")) const
+	    std::string("")) const
     {
 	std::string encoding = "";
 
@@ -179,7 +202,7 @@ public:
     }
 
     bool getAttribute(const std::string object, const std::string name,
-		      std::string &value) const
+	    std::string &value) const
     {
 	if (!exists(object))
 	    return false;
@@ -190,7 +213,7 @@ public:
     }
 
     bool setAttribute(const std::string object, const std::string name,
-		      std::string value) const
+	    std::string value) const
     {
 	if (!exists(object))
 	    return false;
@@ -206,7 +229,7 @@ public:
     } representation_t;
 
     std::string getRepresentation(const std::string object,
-				  representation_t representation, bool blocking = true) const
+	    representation_t representation, bool blocking = true) const
     {
 	if (!blocking) {
 	    // get unevaluated representation handle, return it
@@ -215,41 +238,41 @@ public:
 	}
 
 	switch (representation) {
-	    case WIREFRAME:
-		{
+	case WIREFRAME:
+	    {
 
-		    // get wireframe representation from server, return true
+		// get wireframe representation from server, return true
 
-		    break;
-		}
-	    case TRIANGLES:
-		{
+		break;
+	    }
+	case TRIANGLES:
+	    {
 
-		    // get triangle mesh representation from server, return true
+		// get triangle mesh representation from server, return true
 
-		    break;
-		}
-	    case POINTS:
-		{
+		break;
+	    }
+	case POINTS:
+	    {
 
-		    // get point-cloud representation from server, return true
+		// get point-cloud representation from server, return true
 
-		    break;
-		}
-	    case NURBS:
-		{
+		break;
+	    }
+	case NURBS:
+	    {
 
-		    // get NURBS representation from server, return true
+		// get NURBS representation from server, return true
 
-		    break;
-		}
-	    case CAD:
-		{
+		break;
+	    }
+	case CAD:
+	    {
 
-		    // get .g representation from server, return true
+		// get .g representation from server, return true
 
-		    break;
-		}
+		break;
+	    }
 	}
 	return std::string("");
     }
@@ -281,14 +304,13 @@ public:
     }
 
     bool shootRay(const double point[3], const double direction[3],
-		  const std::string object) const
+	    const std::string object) const
     {
 	// tell server to fire ray at object, return true
 
 	return false;
     }
 };
-
 
 /*******************************************/
 /* basic scaffolding for reporting results */
@@ -319,7 +341,6 @@ static void Report(const std::string msg, bool showTitle = false)
     std::cout << msg << std::endl;
 }
 
-
 /* basic end-of-section sanity testing with summary reporting */
 #define RESULT() \
     GAS(gs != NULL && gs->stillRunning(), "Server is still running"); \
@@ -343,63 +364,70 @@ static void Report(const std::string msg, bool showTitle = false)
 /************************************************************/
 
 static void Connect(GeometryClient *gc, GeometryClient *gc2 = NULL,
-		    GeometryClient *gc3 = NULL)
+	GeometryClient *gc3 = NULL)
 {
     if (gc && !gc2 && !gc3) {
-	gc->connect("localhost", DEFAULT_PORT);
+	gc->connect();
 	GAS(gc->connected(), "Connecting client");
-    } else if (gc && gc2 && !gc3) {
-	gc->connect("localhost", DEFAULT_PORT);
-	gc2->connect("localhost", DEFAULT_PORT);
+    }
+    else if (gc && gc2 && !gc3) {
+	gc->connect();
+	gc2->connect();
 	GAS(gc->connected() && gc2->connected(), "Connecting two clients");
-    } else if (gc && gc2 && gc3) {
-	gc->connect("localhost", DEFAULT_PORT);
-	gc2->connect("localhost", DEFAULT_PORT);
-	gc3->connect("localhost", DEFAULT_PORT);
+    }
+    else if (gc && gc2 && gc3) {
+	gc->connect();
+	gc2->connect();
+	gc3->connect();
 	GAS(gc->connected() && gc2->connected() && gc3->connected(), "Connecting three clients");
-    } else {
+    }
+    else {
 	std::cerr << "Unexpected test harness state" << std::endl;
 	exit(1);
     }
 }
 
-
 static void Disconnect(GeometryClient *gc, GeometryClient *gc2 = NULL,
-		       GeometryClient *gc3 = NULL)
+	GeometryClient *gc3 = NULL)
 {
     if (gc && !gc2 && !gc3) {
 	if (gc->connected()) {
 	    gc->disconnect();
 	    GAS(!gc->connected(), "Disconnecting client");
-	} else {
+	}
+	else {
 	    GAS(gc->connected(), "Disconnecting client");
 	}
-    } else if (gc && gc2 && !gc3) {
+    }
+    else if (gc && gc2 && !gc3) {
 	if (gc->connected() || gc2->connected()) {
 	    gc->disconnect();
 	    gc2->disconnect();
 	    GAS(!gc->connected() || !gc2->connected(), "Disconnecting two clients");
-	} else {
+	}
+	else {
 	    GAS(gc->connected(), "Disconnecting client one");
 	    GAS(gc2->connected(), "Disconnecting client two");
 	}
-    } else if (gc && gc2 && gc3) {
+    }
+    else if (gc && gc2 && gc3) {
 	if (gc->connected() || gc2->connected() || gc3->connected()) {
 	    gc->disconnect();
 	    gc2->disconnect();
 	    gc3->disconnect();
 	    GAS(!gc->connected() || !gc2->connected() || !gc3->connected(), "Disconnecting three clients");
-	} else {
+	}
+	else {
 	    GAS(gc->connected(), "Disconnecting client one");
 	    GAS(gc2->connected(), "Disconnecting client two");
 	    GAS(gc3->connected(), "Disconnecting client three");
 	}
-    } else {
+    }
+    else {
 	std::cerr << "Unexpected test harness state" << std::endl;
 	exit(1);
     }
 }
-
 
 /************/
 /* THE BOSS */
@@ -414,7 +442,7 @@ int main(int ac, char *av[])
     if (ac > 1) {
 	for (int i = 1; i < ac; i++) {
 	    std::cerr << "Unexpected test harness parameter: [" << av[i] << "]"
-		      << std::endl;
+		    << std::endl;
 	}
 	exit(1);
     }
@@ -437,7 +465,7 @@ int main(int ac, char *av[])
 
     gs->stop();
     GAS(!gs->stillRunning(), "Server shutting down");
-    gc->connect("localhost", DEFAULT_PORT);
+    gc->connect();
     GAS(!gc->connected(), "Client prevented from connecting");
     gs->start();
 
@@ -591,7 +619,8 @@ int main(int ac, char *av[])
 	attr.clear();
 	gc->getAttribute(gcdir[0], "foo", attr);
 	GAS(attr.size() == 0, "Client ensuring attribute now exists");
-    } else {
+    }
+    else {
 	GAS(false, "Unable to test attributes");
     }
     Disconnect(gc);
@@ -719,7 +748,8 @@ int main(int ac, char *av[])
 	rep2 = gc->getRepresentation(gcdir[0], GeometryClient::TRIANGLES);
 	GAS(rep2.size() != 0, "Getting updated mesh representation of object");
 	GAS(rep.size() > 0 && rep2.size() > 0 && rep != rep2, "Ensuring representations are different");
-    } else {
+    }
+    else {
 	GAS(false, "Unable to test getting mesh representations");
     }
     Disconnect(gc);
@@ -745,7 +775,8 @@ int main(int ac, char *av[])
 	gc->evaluateRepresentation(rep2);
 	//sleep(1); // give server time to process
 	GAS(gc->eventsReceived() > 0, "Client received representation events");
-    } else {
+    }
+    else {
 	GAS(false, "Unable to test getting point cloud representations");
     }
 
@@ -762,7 +793,6 @@ int main(int ac, char *av[])
 
     return 0;
 }
-
 
 // Local Variables:
 // tab-width: 8
