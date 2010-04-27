@@ -41,7 +41,7 @@ public:
   NewHostOnNetMsg(NewHostOnNetMsg* msg, QString s);
 
   //Deserializing Constructors
-  NewHostOnNetMsg(QDataStream* ds);
+  NewHostOnNetMsg(QDataStream* ds, QString origin);
 
   //Destructor
   virtual ~NewHostOnNetMsg();

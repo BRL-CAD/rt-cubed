@@ -42,7 +42,7 @@ public:
   FailureMsg(NetMsg* msg, quint8 failureCode);
 
   //Deserializing Constructors
-  FailureMsg(QDataStream* ds);
+  FailureMsg(QDataStream* ds, QString origin);
   
   /*
    *Getters n Setters

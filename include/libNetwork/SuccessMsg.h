@@ -29,25 +29,24 @@
 #include "GS/GSCommon.h"
 #include "libNetwork/GenericOneByteMsg.h"
 
-
-class SuccessMsg : public GenericOneByteMsg
+class SuccessMsg: public GenericOneByteMsg
 {
 
 public:
 
-  //Normal Constructor
-  SuccessMsg(quint8 failureCode);
+    //Normal Constructor
+    SuccessMsg(quint8 successCode);
 
-  //Reply Constructor
-  SuccessMsg(NetMsg* msg, quint8 failureCode);
+    //Reply Constructor
+    SuccessMsg(NetMsg* msg, quint8 successCode);
 
-  //Deserializing Constructors
-  SuccessMsg(QDataStream* ds);
-  
-  /*
-   *Getters n Setters
-   */
-  quint8 getSuccessCode();
+    //Deserializing Constructors
+    SuccessMsg(QDataStream* ds, QString origin);
+
+    /*
+     *Getters n Setters
+     */
+    quint8 getSuccessCode();
 
 };
 

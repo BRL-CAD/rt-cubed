@@ -38,6 +38,8 @@
 
 NetMsgFactory::NetMsgFactory()
 {
+    this->portalName = "NotSetYet";
+
     this->intBuffer = new QBuffer();
     this->intBuffer->open(QIODevice::ReadWrite);
     this->limit = 0;
@@ -116,7 +118,7 @@ bool NetMsgFactory::attemptToMakeMsg()
 
     //Wrap up the buffer in a DataStream
     QDataStream* qds = new QDataStream(this->intBuffer);
-    NetMsg* msg = this->buildMsgByType(msgType, qds);
+    NetMsg* msg = this->buildMsgByType(msgType, qds, this->portalName);
 
     if (msg == NULL) {
 	std::cout << "Factory failed: msgType lookup Failure:" << msgType
@@ -195,34 +197,35 @@ void NetMsgFactory::compactBuffer()
 
 }
 
-NetMsg* NetMsgFactory::buildMsgByType(quint32 type, QDataStream* qds)
+NetMsg* NetMsgFactory::buildMsgByType(quint32 type, QDataStream* qds,
+	QString portalName)
 {
     switch (type) {
     case FAILURE:
-	return new GenericOneByteMsg(qds);
+	return new GenericOneByteMsg(qds, portalName);
     case SUCCESS:
-	return new GenericOneByteMsg(qds);
+	return new GenericOneByteMsg(qds, portalName);
     case REMGSHOSTNAMESET:
-	return new GenericOneStringMsg(qds);
+	return new GenericOneStringMsg(qds, portalName);
     case DISCONNECTREQ:
-	return new NetMsg(qds);
+	return new NetMsg(qds, portalName);
     case NEWHOSTONNET:
-	return new GenericOneStringMsg(qds);
+	return new GenericOneStringMsg(qds, portalName);
     case FULLHOSTLISTREQ:
-	return new NetMsg(qds);
+	return new NetMsg(qds, portalName);
     case FULLHOSTLIST:
 	//TODO implement MsgType!!
-	return new NetMsg(qds);
+	return new NetMsg(qds, portalName);
     case NEWSESSIONREQ:
-	return new NetMsg(qds);
+	return new NetMsg(qds, portalName);
     case NEWSESSION:
-	return new GenericOneStringMsg(qds);
+	return new GenericOneStringMsg(qds, portalName);
     case GEOMETRYREQ:
-	return new GeometryReqMsg(qds);
+	return new GeometryReqMsg(qds, portalName);
     case GEOMETRYMANIFEST:
-	return new GeometryManifestMsg(qds);
+	return new GeometryManifestMsg(qds, portalName);
     case GEOMETRYCHUNK:
-	return new GeometryChunkMsg(qds);
+	return new GeometryChunkMsg(qds, portalName);
     default:
 	return NULL;
     }
@@ -264,6 +267,15 @@ quint32 NetMsgFactory::getInboxSize()
     return this->inbox->size();
 }
 
+void NetMsgFactory::setPortalName(QString portalName)
+{
+    this->portalName = portalName;
+}
+
+QString NetMsgFactory::getPortalName()
+{
+    return this->portalName;
+}
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

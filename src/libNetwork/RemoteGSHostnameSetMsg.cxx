@@ -27,20 +27,21 @@
 #include <sstream>
 
 //Normal Constructor
-RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QString gsHostname):
-  GenericOneStringMsg(REMGSHOSTNAMESET, gsHostname)
+RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QString gsHostname) :
+    GenericOneStringMsg(REMGSHOSTNAMESET, gsHostname)
 {
 }
 
-  //Reply Constructor
-RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg, QString gsHostname):
-  GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
+//Reply Constructor
+RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg,
+	QString gsHostname) :
+    GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
 {
 }
 
 //Deserializing Constructor
-RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QDataStream* ds):
-  GenericOneStringMsg(ds)
+RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QDataStream* ds, QString origin) :
+    GenericOneStringMsg(ds, origin)
 {
 }
 
@@ -49,10 +50,13 @@ RemoteGSHostnameSetMsg::~RemoteGSHostnameSetMsg()
 {
 }
 
- /*
+/*
  *Getters n Setters
  */
-QString RemoteGSHostnameSetMsg::getRemoteGSHostname() {return this->strData;}
+QString RemoteGSHostnameSetMsg::getRemoteGSHostname()
+{
+    return this->strData;
+}
 
 // Local Variables: ***
 // mode: C++ ***

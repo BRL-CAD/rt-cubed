@@ -28,60 +28,57 @@
 
 //Normal Constructor
 NetMsg::NetMsg(quint32 mType) :
-	msgLen(0), msgType(mType), hasReUUID(false), reUUID(NULL)
+    msgLen(0), msgType(mType), hasReUUID(false), reUUID(NULL)
 {
-	msgUUID = QUuid::createUuid();
+    msgUUID = QUuid::createUuid();
 }
 
 //Reply Constructor
 NetMsg::NetMsg(quint32 mType, NetMsg* msg) :
-	msgLen(0), msgType(mType)
+    msgLen(0), msgType(mType)
 {
-	if (msg->getMsgUUID() != NULL)
-	{
+    if (msg->getMsgUUID() != NULL) {
 
-		QString strUUID = msg->getMsgUUID().toString();
+	QString strUUID = msg->getMsgUUID().toString();
 
-		QUuid uuid(strUUID);
+	QUuid uuid(strUUID);
 
-		this->reUUID = uuid;
+	this->reUUID = uuid;
 
-		this->hasReUUID = true;
+	this->hasReUUID = true;
 
-	}
-	else
-	{
+    }
+    else {
 
-		this->reUUID = NULL;
-		this->hasReUUID = false;
-	}
+	this->reUUID = NULL;
+	this->hasReUUID = false;
+    }
 
-	msgUUID = QUuid::createUuid();
+    msgUUID = QUuid::createUuid();
 
 }
 
 //Deserializing Constructors
-NetMsg::NetMsg(QDataStream* ds)
+NetMsg::NetMsg(QDataStream* ds, QString origin)
 {
-	try
-	{
-		*ds >> this->msgLen;
+    this->origin = origin;
 
-		*ds >> this->msgType;
+    try {
+	*ds >> this->msgLen;
 
-		this->msgUUID = *Utils::getQUuid(ds);
+	*ds >> this->msgType;
 
-		*ds >> this->hasReUUID;
+	this->msgUUID = *Utils::getQUuid(ds);
 
-		if (this->hasReUUID)
-		{
-			this->reUUID = *Utils::getQUuid(ds);
-		}
+	*ds >> this->hasReUUID;
 
-	} catch (IOException ioe)
-	{
-		std::cerr << "Error in NetMsg(): " << ioe.getMessage() << std::endl;
+	if (this->hasReUUID) {
+	    this->reUUID = *Utils::getQUuid(ds);
 	}
+
+    } catch (IOException ioe) {
+	std::cerr << "Error in NetMsg(): " << ioe.getMessage() << std::endl;
+    }
 
 }
 
@@ -93,59 +90,57 @@ NetMsg::~NetMsg()
 //Serializers
 QByteArray* NetMsg::serialize()
 {
-	QByteArray* ba = new QByteArray();
+    QByteArray* ba = new QByteArray();
 
-	this->serialize(ba);
+    this->serialize(ba);
 
-	return ba;
+    return ba;
 }
 
 void NetMsg::serialize(QByteArray* ba)
 {
-	//Make a BA for the subclass
-	QByteArray* subBA = new QByteArray();
+    //Make a BA for the subclass
+    QByteArray* subBA = new QByteArray();
 
-	//Make a DS for the subclass
-	QDataStream* subDS = new QDataStream(subBA, QIODevice::ReadWrite);
+    //Make a DS for the subclass
+    QDataStream* subDS = new QDataStream(subBA, QIODevice::ReadWrite);
 
-	//Serialize Header
-	*subDS << this->msgType;
-	Utils::putQUuid(subDS, this->msgUUID);
-	*subDS << this->hasReUUID;
+    //Serialize Header
+    *subDS << this->msgType;
+    Utils::putQUuid(subDS, this->msgUUID);
+    *subDS << this->hasReUUID;
 
-	if (this->hasReUUID)
-	{
-		Utils::putQUuid(subDS, this->reUUID);
-	}
+    if (this->hasReUUID) {
+	Utils::putQUuid(subDS, this->reUUID);
+    }
 
-	//Call subclass serialize
-	if (!this->_serialize(subDS))
-	{
-		std::cerr << "A serialization Error in NetMsg::serialize() occurred.\n";
-		return;
-	}
+    //Call subclass serialize
+    if (!this->_serialize(subDS)) {
+	std::cerr << "A serialization Error in NetMsg::serialize() occurred.\n";
+	return;
+    }
 
-	//Make a DS & BA
-	QByteArray* outBA = new QByteArray();
-	QDataStream outDS(outBA, QIODevice::ReadWrite);
+    //Make a DS & BA
+    QByteArray* outBA = new QByteArray();
+    QDataStream outDS(outBA, QIODevice::ReadWrite);
 
-	//write the length msgLen
-	outDS << subBA->size();
+    //write the length msgLen
+    outDS << subBA->size();
 
-	//Then add the entire contents of subBA
-	*outBA += *subBA;
+    //Then add the entire contents of subBA
+    *outBA += *subBA;
 
-	//Finally, dump serialized object into the supplied BA:
-	*ba += *outBA;
+    //Finally, dump serialized object into the supplied BA:
+    *ba += *outBA;
 
-	delete subDS;
-	delete subBA;
-	delete outBA;
+    delete subDS;
+    delete subBA;
+    delete outBA;
 }
 
 bool NetMsg::_serialize(QDataStream* ds)
 {
-	return true;
+    return true;
 }
 
 /*
@@ -153,23 +148,23 @@ bool NetMsg::_serialize(QDataStream* ds)
  */
 quint32 NetMsg::getMsgLen()
 {
-	return this->msgLen;
+    return this->msgLen;
 }
 quint32 NetMsg::getMsgType()
 {
-	return this->msgType;
+    return this->msgType;
 }
 QUuid NetMsg::getMsgUUID()
 {
-	return this->msgUUID;
+    return this->msgUUID;
 }
 bool NetMsg::msgHasReUUID()
 {
-	return this->hasReUUID;
+    return this->hasReUUID;
 }
 QUuid NetMsg::getReUUID()
 {
-	return this->reUUID;
+    return this->reUUID;
 }
 
 /*
@@ -177,68 +172,61 @@ QUuid NetMsg::getReUUID()
  */
 bool NetMsg::equals(NetMsg& msg)
 {
-	if (this->getMsgType() != msg.getMsgType())
-	{
-		return false;
-	}
+    if (this->getMsgType() != msg.getMsgType()) {
+	return false;
+    }
 
-	if (this->getMsgUUID() != msg.getMsgUUID())
-	{
-		return false;
-	}
+    if (this->getMsgUUID() != msg.getMsgUUID()) {
+	return false;
+    }
 
-	if (this->msgHasReUUID() != msg.msgHasReUUID())
-	{
-		return false;
-	}
+    if (this->msgHasReUUID() != msg.msgHasReUUID()) {
+	return false;
+    }
 
-	if (this->msgHasReUUID())
-	{
-		if (this->getReUUID() != msg.getReUUID())
-		{
-			return false;
-		}
+    if (this->msgHasReUUID()) {
+	if (this->getReUUID() != msg.getReUUID()) {
+	    return false;
 	}
+    }
 
-	return this->_equals(msg);
+    return this->_equals(msg);
 }
 
 bool NetMsg::_equals(NetMsg& msg)
 {
-	return true;
+    return true;
 }
 
 QString NetMsg::toString()
 {
-	QString out;
+    QString out;
 
-	out += "msgType: '" + QString::number(this->msgType);
+    out += "msgType: '" + QString::number(this->msgType);
 
-	if (this->msgUUID != NULL)
-	{
-		out += "'\t msgUUID: '" + this->msgUUID.toString();
-	}
+    if (this->msgUUID != NULL) {
+	out += "'\t msgUUID: '" + this->msgUUID.toString();
+    }
 
-	out += "'\t hasReUUID: '" + QString::number(this->hasReUUID);
+    out += "'\t hasReUUID: '" + QString::number(this->hasReUUID);
 
-	if (this->reUUID != NULL)
-	{
-		out += "'\t reUUID: '" + this->reUUID.toString();
-	}
+    if (this->reUUID != NULL) {
+	out += "'\t reUUID: '" + this->reUUID.toString();
+    }
 
-	out += "'";
+    out += "'";
 
-	return out;
+    return out;
 }
 
 std::string NetMsg::toStdString()
 {
-	return this->toString().toStdString();
+    return this->toString().toStdString();
 }
 
 void NetMsg::printMe()
 {
-	std::cout << this->toStdString();
+    std::cout << this->toStdString();
 }
 
 // Local Variables: ***

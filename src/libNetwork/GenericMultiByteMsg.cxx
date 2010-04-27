@@ -27,108 +27,110 @@
 #include <sstream>
 
 //Normal Constructor
-GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, char* dataIn, quint32 dataInLen):
-  NetMsg(type), dataLen(dataInLen)
+GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, char* dataIn,
+	quint32 dataInLen) :
+    NetMsg(type), dataLen(dataInLen)
 {
-  //Deep copy
-  this->data = (char* )malloc(dataInLen);
+    //Deep copy
+    this->data = (char*) malloc(dataInLen);
 
-  for (quint32 i = 0; i < dataInLen; ++i) {
-    this->data[i] = dataIn[i];
-  }
+    for (quint32 i = 0; i < dataInLen; ++i) {
+	this->data[i] = dataIn[i];
+    }
 }
 
-  //Reply Constructor
-GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn, quint32 dataInLen ):
-  NetMsg(type, msg), dataLen(dataInLen)
+//Reply Constructor
+GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, NetMsg* msg,
+	char* dataIn, quint32 dataInLen) :
+    NetMsg(type, msg), dataLen(dataInLen)
 {
-  //Deep copy
-  this->data = (char* )malloc(dataInLen);
+    //Deep copy
+    this->data = (char*) malloc(dataInLen);
 
-  for (quint32 i = 0; i < dataInLen; ++i) {
-    this->data[i] = dataIn[i];
-  }
+    for (quint32 i = 0; i < dataInLen; ++i) {
+	this->data[i] = dataIn[i];
+    }
 
 }
 
 //Deserializing Constructors
-GenericMultiByteMsg::GenericMultiByteMsg(QDataStream* ds):
-NetMsg(ds)
+GenericMultiByteMsg::GenericMultiByteMsg(QDataStream* ds, QString origin) :
+    NetMsg(ds, origin)
 {
-  *ds >> this->dataLen;  
-  this->data = (char* )malloc(dataLen);
+    *ds >> this->dataLen;
+    this->data = (char*) malloc(dataLen);
 
-  for (quint32 i = 0; i< this->dataLen; ++i)
-    {
-      quint8 c;
-      *ds >> c;
-      this->data[i] = c;
+    for (quint32 i = 0; i < this->dataLen; ++i) {
+	quint8 c;
+	*ds >> c;
+	this->data[i] = c;
     }
 
 }
-
 
 //Destructor
 GenericMultiByteMsg::~GenericMultiByteMsg()
 {
-  free(this->data);
+    free(this->data);
 }
 
 bool GenericMultiByteMsg::_serialize(QDataStream* ds)
 {
-  *ds << this->dataLen;
-  for (quint32 i = 0; i< this->dataLen; ++i)
-    {
-     //Oddness, the DataStream won't detect this is a quint8
-      //Therefore you MUST cast it.
-      *ds << (quint8)this->data[i];
+    *ds << this->dataLen;
+    for (quint32 i = 0; i < this->dataLen; ++i) {
+	//Oddness, the DataStream won't detect this is a quint8
+	//Therefore you MUST cast it.
+	*ds << (quint8) this->data[i];
     }
-  return true;
+    return true;
 }
 
-QString GenericMultiByteMsg::toString() 
+QString GenericMultiByteMsg::toString()
 {
-  QString out;
+    QString out;
 
-  out.append(NetMsg::toString());
-  out.append("\t dataLen: '");
-  out.append(QString::number(this->dataLen));
-  out.append("'\t data: ");
+    out.append(NetMsg::toString());
+    out.append("\t dataLen: '");
+    out.append(QString::number(this->dataLen));
+    out.append("'\t data: ");
 
-  for (quint32 i = 0; i< this->dataLen; ++i)
-    {
-      out.append(QString::number(this->data[i]));
-      out.append(", ");
+    for (quint32 i = 0; i < this->dataLen; ++i) {
+	out.append(QString::number(this->data[i]));
+	out.append(", ");
     }
 
-  return out;
+    return out;
 }
 
-bool
-GenericMultiByteMsg::_equals(NetMsg& msg) 
+bool GenericMultiByteMsg::_equals(NetMsg& msg)
 {
-  GenericMultiByteMsg& gmsg = (GenericMultiByteMsg&) msg;
+    GenericMultiByteMsg& gmsg = (GenericMultiByteMsg&) msg;
 
-  if (this->getDataLen() != gmsg.getDataLen()) {
-    std::cout << "\n1\n";
-    return false;
-  }
-
-  for (quint32 i =0; i < gmsg.getDataLen(); ++i)
-    {
-      if (this->getData()[i] != gmsg.getData()[i]){
+    if (this->getDataLen() != gmsg.getDataLen()) {
+	std::cout << "\n1\n";
 	return false;
-      }
     }
 
-  return true;
+    for (quint32 i = 0; i < gmsg.getDataLen(); ++i) {
+	if (this->getData()[i] != gmsg.getData()[i]) {
+	    return false;
+	}
+    }
+
+    return true;
 }
 
- /*
+/*
  *Getters n Setters
  */
-char* GenericMultiByteMsg::getData() {return this->data;}
-quint32 GenericMultiByteMsg::getDataLen(){return this->dataLen;}
+char* GenericMultiByteMsg::getData()
+{
+    return this->data;
+}
+quint32 GenericMultiByteMsg::getDataLen()
+{
+    return this->dataLen;
+}
 
 // Local Variables: ***
 // mode: C++ ***

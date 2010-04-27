@@ -40,7 +40,7 @@ public:
   GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn, quint32 dataInLen);
 
   //Deserializing Constructors
-  GenericMultiByteMsg(QDataStream* ds);
+  GenericMultiByteMsg(QDataStream* ds, QString origin);
 
   //Destructor
   virtual ~GenericMultiByteMsg();

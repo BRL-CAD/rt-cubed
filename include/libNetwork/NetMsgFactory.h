@@ -41,32 +41,33 @@ class NetMsgFactory
 
 public:
 
-	NetMsgFactory();
-	virtual ~NetMsgFactory();
+    NetMsgFactory();
+    virtual ~NetMsgFactory();
 
-	bool addData(QByteArray& data);
-	bool hasMsgsAvailable();
-	NetMsg* getNextMsg();
-	NetMsg* peekNextMsg();
-	void attemptToMakeMsgs();
+    bool addData(QByteArray& data);
+    bool hasMsgsAvailable();
+    NetMsg* getNextMsg();
+    NetMsg* peekNextMsg();
+    void attemptToMakeMsgs();
 
-	bool attemptToMakeMsg();
-	void printBufferStatus(bool extended);
+    bool attemptToMakeMsg();
+    void printBufferStatus(bool extended);
 
-	quint32 getInboxSize();
-
+    quint32 getInboxSize();
+    void setPortalName(QString portalName);
+    QString getPortalName();
 private:
+    QString portalName;
+    QMutex* lock;
 
-	QMutex* lock;
+    QQueue<NetMsg*>* inbox;
 
-	QQueue<NetMsg*>* inbox;
+    QBuffer* intBuffer;
+    quint64 limit;
 
-	QBuffer* intBuffer;
-	quint64 limit;
-
-
-	void compactBuffer();
-	static NetMsg* buildMsgByType(quint32 type, QDataStream* qds);
+    void compactBuffer();
+    static NetMsg* buildMsgByType(quint32 type, QDataStream* qds,
+	    QString portalName);
 };
 
 #endif

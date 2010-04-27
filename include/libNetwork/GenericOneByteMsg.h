@@ -41,7 +41,7 @@ public:
   GenericOneByteMsg(quint32 type, NetMsg* msg, quint8 b);
 
   //Deserializing Constructors
-  GenericOneByteMsg(QDataStream* ds);
+  GenericOneByteMsg(QDataStream* ds, QString origin);
 
   //Destructor
   virtual ~GenericOneByteMsg();

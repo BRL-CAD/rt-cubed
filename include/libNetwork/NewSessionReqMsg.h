@@ -41,7 +41,7 @@ public:
   NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd);
 
   //Deserializing Constructors
-  NewSessionReqMsg(QDataStream* ds);
+  NewSessionReqMsg(QDataStream* ds, QString origin);
 
   //Destructor
   virtual ~NewSessionReqMsg();

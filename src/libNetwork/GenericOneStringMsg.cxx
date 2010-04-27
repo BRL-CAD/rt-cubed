@@ -27,22 +27,22 @@
 #include <sstream>
 
 //Normal Constructor
-GenericOneStringMsg::GenericOneStringMsg(quint32 type, QString s):
-  NetMsg(type), strData(s)
+GenericOneStringMsg::GenericOneStringMsg(quint32 type, QString s) :
+    NetMsg(type), strData(s)
 {
 }
 
-  //Reply Constructor
-GenericOneStringMsg::GenericOneStringMsg(quint32 type, NetMsg* msg, QString s):
-  NetMsg(type, msg), strData(s)
+//Reply Constructor
+GenericOneStringMsg::GenericOneStringMsg(quint32 type, NetMsg* msg, QString s) :
+    NetMsg(type, msg), strData(s)
 {
 }
 
 //Deserializing Constructors
-GenericOneStringMsg::GenericOneStringMsg(QDataStream* ds):
-  NetMsg(ds)
+GenericOneStringMsg::GenericOneStringMsg(QDataStream* ds, QString origin) :
+    NetMsg(ds, origin)
 {
-  this->strData = *Utils::getString(ds);
+    this->strData = *Utils::getString(ds);
 }
 
 //Destructor
@@ -52,40 +52,39 @@ GenericOneStringMsg::~GenericOneStringMsg()
 
 bool GenericOneStringMsg::_serialize(QDataStream* ds)
 {
-  Utils::putString(ds, this->strData);
-  return true;
+    Utils::putString(ds, this->strData);
+    return true;
 }
 
-QString GenericOneStringMsg::toString() 
+QString GenericOneStringMsg::toString()
 {
-  QString out;
+    QString out;
 
-  out.append(NetMsg::toString());
-  out.append("\t  strData: ");
-  out.append(this->strData);
-  
-  return out;
+    out.append(NetMsg::toString());
+    out.append("\t  strData: ");
+    out.append(this->strData);
+
+    return out;
 }
 
-
-bool
-GenericOneStringMsg::_equals(NetMsg& msg) 
+bool GenericOneStringMsg::_equals(NetMsg& msg)
 {
-  GenericOneStringMsg& gmsg = (GenericOneStringMsg&) msg;
- 
-  if (this->getStrData() != gmsg.getStrData()) {
-    return false;
-  }
+    GenericOneStringMsg& gmsg = (GenericOneStringMsg&) msg;
 
-  return true;
+    if (this->getStrData() != gmsg.getStrData()) {
+	return false;
+    }
+
+    return true;
 }
 
-
- /*
+/*
  *Getters n Setters
  */
-QString GenericOneStringMsg::getStrData() {return this->strData;}
-
+QString GenericOneStringMsg::getStrData()
+{
+    return this->strData;
+}
 
 // Local Variables: ***
 // mode: C++ ***

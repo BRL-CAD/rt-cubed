@@ -29,28 +29,27 @@
 #include "GS/GSCommon.h"
 #include "libNetwork/GenericOneStringMsg.h"
 
-class RemoteGSHostnameSetMsg : public GenericOneStringMsg
+class RemoteGSHostnameSetMsg: public GenericOneStringMsg
 {
 
 public:
 
-  //Normal Constructor
-  RemoteGSHostnameSetMsg(QString s);
+    //Normal Constructor
+    RemoteGSHostnameSetMsg(QString s);
 
-  //Reply Constructor
-  RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg, QString s);
+    //Reply Constructor
+    RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg, QString s);
 
-  //Deserializing Constructors
-  RemoteGSHostnameSetMsg(QDataStream* ds);
+    //Deserializing Constructors
+    RemoteGSHostnameSetMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~RemoteGSHostnameSetMsg();
+    //Destructor
+    virtual ~RemoteGSHostnameSetMsg();
 
-  QString getRemoteGSHostname();
+    QString getRemoteGSHostname();
 };
 
 #endif //__REMOTEGSHOSTNAMESETMSG_H__
-
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

@@ -26,66 +26,68 @@
 #include "libNetwork/GeometryReqMsg.h"
 
 //Only Constructor
-GeometryReqMsg::GeometryReqMsg(quint8 requestType, QString data):
-  GenericOneStringMsg(GEOMETRYREQ, data), reqType(requestType)
+GeometryReqMsg::GeometryReqMsg(quint8 requestType, QString data) :
+    GenericOneStringMsg(GEOMETRYREQ, data), reqType(requestType)
 {
 }
 
 //Reply Constructor
-GeometryReqMsg::GeometryReqMsg(NetMsg* msg, quint8 requestType, QString data):
-  GenericOneStringMsg(GEOMETRYREQ, msg, data), reqType(requestType)
+GeometryReqMsg::GeometryReqMsg(NetMsg* msg, quint8 requestType, QString data) :
+    GenericOneStringMsg(GEOMETRYREQ, msg, data), reqType(requestType)
 {
 }
 
 //Deserializing Constructor
-GeometryReqMsg::GeometryReqMsg(QDataStream* ds):
-  GenericOneStringMsg(ds)
+GeometryReqMsg::GeometryReqMsg(QDataStream* ds, QString origin) :
+    GenericOneStringMsg(ds, origin)
 {
-  *ds >> this->reqType;
+    *ds >> this->reqType;
 }
 
 //Destructor
 GeometryReqMsg::~GeometryReqMsg()
-{}
+{
+}
 
 bool GeometryReqMsg::_serialize(QDataStream* ds)
 {
-   //Call the super
-   GenericOneStringMsg::_serialize(ds);
+    //Call the super
+    GenericOneStringMsg::_serialize(ds);
 
-  *ds << this->reqType;
-   return true;
+    *ds << this->reqType;
+    return true;
 }
 
-QString GeometryReqMsg::toString() 
+QString GeometryReqMsg::toString()
 {
-  QString out;
+    QString out;
 
-  out.append(GenericOneStringMsg::toString());
-  out.append("' requestType: '");
-  out.append(QString::number(this->reqType));
-  out.append("'");
-  
-  return out;
+    out.append(GenericOneStringMsg::toString());
+    out.append("' requestType: '");
+    out.append(QString::number(this->reqType));
+    out.append("'");
+
+    return out;
 }
 
-
-bool
-GeometryReqMsg::_equals(NetMsg& msg) 
+bool GeometryReqMsg::_equals(NetMsg& msg)
 {
-  GeometryReqMsg& gmsg = (GeometryReqMsg&) msg;
-   
-  if (this->getRequestType() != gmsg.getRequestType()) {
-    return false;
-  }
+    GeometryReqMsg& gmsg = (GeometryReqMsg&) msg;
 
-  return true;
+    if (this->getRequestType() != gmsg.getRequestType()) {
+	return false;
+    }
+
+    return true;
 }
 
 /*
  *Getters n Setters
  */
-quint8 GeometryReqMsg::getRequestType() {return this->reqType;}
+quint8 GeometryReqMsg::getRequestType()
+{
+    return this->reqType;
+}
 
 // Local Variables: ***
 // mode: C++ ***

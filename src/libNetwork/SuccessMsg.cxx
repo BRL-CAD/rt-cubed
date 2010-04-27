@@ -27,27 +27,30 @@
 #include <sstream>
 
 //Normal Constructor
-SuccessMsg::SuccessMsg(quint8 failureCode):
-  GenericOneByteMsg(FAILURE, failureCode)
+SuccessMsg::SuccessMsg(quint8 successCode) :
+    GenericOneByteMsg(SUCCESS, successCode)
 {
 }
 
 //Reply  Constructor
-SuccessMsg::SuccessMsg(NetMsg* msg, quint8 failureCode):
-  GenericOneByteMsg(FAILURE, msg, failureCode)
+SuccessMsg::SuccessMsg(NetMsg* msg, quint8 successCode) :
+    GenericOneByteMsg(SUCCESS, msg, successCode)
 {
 }
 
 //Deserializing Constructors
-SuccessMsg::SuccessMsg(QDataStream* ds):
-  GenericOneByteMsg(ds)
+SuccessMsg::SuccessMsg(QDataStream* ds, QString origin) :
+    GenericOneByteMsg(ds, origin)
 {
 }
 
 /*
  *Getters n Setters
  */
-quint8 SuccessMsg::getSuccessCode() {return this->data;}
+quint8 SuccessMsg::getSuccessCode()
+{
+    return this->data;
+}
 
 // Local Variables: ***
 // mode: C++ ***

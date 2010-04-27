@@ -36,7 +36,7 @@
 
 class NetPortalManager;
 
-class NetPortal: public QObject
+class NetPortal : public QObject
 {
 Q_OBJECT
 //friend class NetPortalManager;

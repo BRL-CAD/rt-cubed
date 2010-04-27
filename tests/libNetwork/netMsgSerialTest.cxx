@@ -100,7 +100,7 @@ testNetMsg()
   NetMsg* m1 = new NetMsg(1200340056);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  NetMsg* m2 = new NetMsg(qds);
+  NetMsg* m2 = new NetMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -110,7 +110,7 @@ testNetMsg()
   NetMsg* m3 = new NetMsg(8675309, m2);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  NetMsg* m4 = new NetMsg(qds);
+  NetMsg* m4 = new NetMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3,m4, true, false);
@@ -141,7 +141,7 @@ testGenericOneStringMsg(QString str)
   GenericOneStringMsg* m1 = new GenericOneStringMsg(1200340056, str);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericOneStringMsg* m2 = new GenericOneStringMsg(qds);
+  GenericOneStringMsg* m2 = new GenericOneStringMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -151,7 +151,7 @@ testGenericOneStringMsg(QString str)
   GenericOneStringMsg* m3 = new GenericOneStringMsg(8675309, m2, str);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericOneStringMsg* m4 = new GenericOneStringMsg(qds);
+  GenericOneStringMsg* m4 = new GenericOneStringMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3,m4, true, false);
@@ -182,7 +182,7 @@ testGenericOneByteMsg()
   GenericOneByteMsg* m1 = new GenericOneByteMsg(1200340056, 123);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericOneByteMsg* m2 = new GenericOneByteMsg(qds);
+  GenericOneByteMsg* m2 = new GenericOneByteMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -193,7 +193,7 @@ testGenericOneByteMsg()
   GenericOneByteMsg* m3 = new GenericOneByteMsg(1200340056, m2, 123);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericOneByteMsg* m4 = new GenericOneByteMsg(qds);
+  GenericOneByteMsg* m4 = new GenericOneByteMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -224,7 +224,7 @@ testGenericTwoBytesMsg()
   GenericTwoBytesMsg* m1 = new GenericTwoBytesMsg(1200340056, 12345);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericTwoBytesMsg* m2 = new GenericTwoBytesMsg(qds);
+  GenericTwoBytesMsg* m2 = new GenericTwoBytesMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -235,7 +235,7 @@ testGenericTwoBytesMsg()
   GenericTwoBytesMsg* m3 = new GenericTwoBytesMsg(1200340056, m2, 12345);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericTwoBytesMsg* m4 = new GenericTwoBytesMsg(qds);
+  GenericTwoBytesMsg* m4 = new GenericTwoBytesMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -266,7 +266,7 @@ testGenericFourBytesMsg()
   GenericFourBytesMsg* m1 = new GenericFourBytesMsg(1200340056, 987654321);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericFourBytesMsg* m2 = new GenericFourBytesMsg(qds);
+  GenericFourBytesMsg* m2 = new GenericFourBytesMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -277,7 +277,7 @@ testGenericFourBytesMsg()
   GenericFourBytesMsg* m3 = new GenericFourBytesMsg(1200340056, m2, 987654321);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericFourBytesMsg* m4 = new GenericFourBytesMsg(qds);
+  GenericFourBytesMsg* m4 = new GenericFourBytesMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -311,7 +311,7 @@ testGenericMultiByteMsg()
   GenericMultiByteMsg* m1 = new GenericMultiByteMsg(1200340056, data, 12);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericMultiByteMsg* m2 = new GenericMultiByteMsg(qds);
+  GenericMultiByteMsg* m2 = new GenericMultiByteMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -322,7 +322,7 @@ testGenericMultiByteMsg()
   GenericMultiByteMsg* m3 = new GenericMultiByteMsg(1200340056, m2, data, 12);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GenericMultiByteMsg* m4 = new GenericMultiByteMsg(qds);
+  GenericMultiByteMsg* m4 = new GenericMultiByteMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -353,7 +353,7 @@ testFailureMsg()
   FailureMsg* m1 = new FailureMsg(123);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  FailureMsg* m2 = new FailureMsg(qds);
+  FailureMsg* m2 = new FailureMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -364,7 +364,7 @@ testFailureMsg()
   FailureMsg* m3 = new FailureMsg(m2, 123);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  FailureMsg* m4 = new FailureMsg(qds);
+  FailureMsg* m4 = new FailureMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -395,7 +395,7 @@ testSuccessMsg()
   SuccessMsg* m1 = new SuccessMsg(123);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  SuccessMsg* m2 = new SuccessMsg(qds);
+  SuccessMsg* m2 = new SuccessMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -406,7 +406,7 @@ testSuccessMsg()
   SuccessMsg* m3 = new SuccessMsg(m2, 123);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  SuccessMsg* m4 = new SuccessMsg(qds);
+  SuccessMsg* m4 = new SuccessMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -436,7 +436,7 @@ testRemoteHostnameSetMsg()
   RemoteGSHostnameSetMsg* m1 = new RemoteGSHostnameSetMsg("Gomer Pyle");
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  RemoteGSHostnameSetMsg* m2 = new RemoteGSHostnameSetMsg(qds);
+  RemoteGSHostnameSetMsg* m2 = new RemoteGSHostnameSetMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -447,7 +447,7 @@ testRemoteHostnameSetMsg()
   RemoteGSHostnameSetMsg* m3 = new RemoteGSHostnameSetMsg(m2, "Kiaser Sose");
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  RemoteGSHostnameSetMsg* m4 = new RemoteGSHostnameSetMsg(qds);
+  RemoteGSHostnameSetMsg* m4 = new RemoteGSHostnameSetMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -478,7 +478,7 @@ testNewHostOnNetMsg()
   NewHostOnNetMsg* m1 = new NewHostOnNetMsg("Gomer Pyle");
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  NewHostOnNetMsg* m2 = new NewHostOnNetMsg(qds);
+  NewHostOnNetMsg* m2 = new NewHostOnNetMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -489,7 +489,7 @@ testNewHostOnNetMsg()
   NewHostOnNetMsg* m3 = new NewHostOnNetMsg(m2, "Kiaser Sose");
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  NewHostOnNetMsg* m4 = new NewHostOnNetMsg(qds);
+  NewHostOnNetMsg* m4 = new NewHostOnNetMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -522,7 +522,7 @@ testGeometryReqMsg(QString uuid01, QString uuid02)
   m1->serialize(networkSim);
 
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GeometryReqMsg* m2 = new GeometryReqMsg(qds);
+  GeometryReqMsg* m2 = new GeometryReqMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -533,7 +533,7 @@ testGeometryReqMsg(QString uuid01, QString uuid02)
   GeometryReqMsg* m3 = new GeometryReqMsg(m2, ReqByUUID, uuid02);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GeometryReqMsg* m4 = new GeometryReqMsg(qds);
+  GeometryReqMsg* m4 = new GeometryReqMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -568,7 +568,7 @@ testGeometryChunkMsg()
   GeometryChunkMsg* m1 = new GeometryChunkMsg(data, 12);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GeometryChunkMsg* m2 = new GeometryChunkMsg(qds);
+  GeometryChunkMsg* m2 = new GeometryChunkMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -579,7 +579,7 @@ testGeometryChunkMsg()
   GeometryChunkMsg* m3 = new GeometryChunkMsg( m2, data, 12);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GeometryChunkMsg* m4 = new GeometryChunkMsg(qds);
+  GeometryChunkMsg* m4 = new GeometryChunkMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);
@@ -619,7 +619,7 @@ testGeometryManifestMsg(QList<QString>* items)
   GeometryManifestMsg* m1 = new GeometryManifestMsg(items01);
   m1->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GeometryManifestMsg* m2 = new GeometryManifestMsg(qds);
+  GeometryManifestMsg* m2 = new GeometryManifestMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m1, m2, true, false);
@@ -630,7 +630,7 @@ testGeometryManifestMsg(QList<QString>* items)
   GeometryManifestMsg* m3 = new GeometryManifestMsg( m2, items02);
   m3->serialize(networkSim);
   qds = new QDataStream(networkSim, QIODevice::ReadOnly);
-  GeometryManifestMsg* m4 = new GeometryManifestMsg(qds);
+  GeometryManifestMsg* m4 = new GeometryManifestMsg(qds, "TestOrigin");
   delete qds;
 
   testEquals(m3, m4, true, false);

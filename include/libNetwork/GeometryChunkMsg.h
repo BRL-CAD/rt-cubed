@@ -41,7 +41,7 @@ public:
   GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen);
 
   //Deserializing Constructors
-  GeometryChunkMsg(QDataStream* ds);
+  GeometryChunkMsg(QDataStream* ds, QString origin);
   
  };
 

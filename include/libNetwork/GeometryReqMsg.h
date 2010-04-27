@@ -29,37 +29,37 @@
 #include "GS/GSCommon.h"
 #include "libNetwork/GenericOneStringMsg.h"
 
-class GeometryReqMsg : public GenericOneStringMsg
+class GeometryReqMsg: public GenericOneStringMsg
 {
 
 public:
 
-  //Only Constructor
-  GeometryReqMsg(quint8 requestType, QString data);
+    //Only Constructor
+    GeometryReqMsg(quint8 requestType, QString data);
 
-  //Reply Constructor
-  GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
+    //Reply Constructor
+    GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
 
-  //Deserializing Constructors
-  GeometryReqMsg(QDataStream* ds);
+    //Deserializing Constructors
+    GeometryReqMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~GeometryReqMsg();
-  
-  virtual QString toString();
+    //Destructor
+    virtual ~GeometryReqMsg();
 
-  /*
-   *Getters n Setters
-   */
-  quint8 getRequestType();
-  
-  QString getData();
-  
+    virtual QString toString();
+
+    /*
+     *Getters n Setters
+     */
+    quint8 getRequestType();
+
+    QString getData();
+
 private:
-  quint8 reqType;
+    quint8 reqType;
 
-  bool _serialize(QDataStream* ds);
-  bool _equals(NetMsg& msg);
+    bool _serialize(QDataStream* ds);
+    bool _equals(NetMsg& msg);
 
 };
 

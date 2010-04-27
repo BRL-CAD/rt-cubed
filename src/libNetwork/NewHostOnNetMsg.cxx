@@ -27,19 +27,19 @@
 #include <sstream>
 
 //Normal Constructor
-NewHostOnNetMsg::NewHostOnNetMsg(QString gsHostname):
-  GenericOneStringMsg(REMGSHOSTNAMESET, gsHostname)
+NewHostOnNetMsg::NewHostOnNetMsg(QString gsHostname) :
+    GenericOneStringMsg(REMGSHOSTNAMESET, gsHostname)
 {
 }
 
-  //Reply Constructor
-NewHostOnNetMsg::NewHostOnNetMsg(NewHostOnNetMsg* msg, QString gsHostname):
-  GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
+//Reply Constructor
+NewHostOnNetMsg::NewHostOnNetMsg(NewHostOnNetMsg* msg, QString gsHostname) :
+    GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
 {
 }
 
-NewHostOnNetMsg::NewHostOnNetMsg(QDataStream* ds):
-  GenericOneStringMsg(ds)
+NewHostOnNetMsg::NewHostOnNetMsg(QDataStream* ds, QString origin) :
+    GenericOneStringMsg(ds, origin)
 {
 }
 
@@ -48,10 +48,13 @@ NewHostOnNetMsg::~NewHostOnNetMsg()
 {
 }
 
- /*
+/*
  *Getters n Setters
  */
-QString NewHostOnNetMsg::getNewGSHostname() {return this->strData;}
+QString NewHostOnNetMsg::getNewGSHostname()
+{
+    return this->strData;
+}
 
 // Local Variables: ***
 // mode: C++ ***

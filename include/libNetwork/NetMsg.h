@@ -27,6 +27,7 @@
 #define __NETMSG_H__
 
 #include "GS/GSCommon.h"
+
 #include "GE/exception/IOException.h"
 #include "utility/Utils.h"
 #include <QDataStream>
@@ -46,7 +47,7 @@ public:
   NetMsg(quint32 mType, NetMsg* msg);
 
   //Deserializing Constructors
-  NetMsg(QDataStream* ds);
+  NetMsg(QDataStream* ds, QString origin);
 
   //Destructor
   virtual ~NetMsg();
@@ -79,6 +80,7 @@ protected:
   QUuid msgUUID;
   bool hasReUUID;
   QUuid reUUID;
+  QString origin;
 
   virtual bool _serialize(QDataStream* ds);
   virtual bool _equals(NetMsg& msg);

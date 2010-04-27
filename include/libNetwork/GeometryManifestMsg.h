@@ -30,36 +30,35 @@
 #include "GS/GSCommon.h"
 #include "libNetwork/NetMsg.h"
 
-
-class GeometryManifestMsg : public NetMsg
+class GeometryManifestMsg: public NetMsg
 {
 
 public:
 
-  //Normal Constructor
-  GeometryManifestMsg( QList<QString>& items);
+    //Normal Constructor
+    GeometryManifestMsg(QList<QString>& items);
 
-  //Reply Constructor
-  GeometryManifestMsg(NetMsg* msg, QList<QString>& items );
+    //Reply Constructor
+    GeometryManifestMsg(NetMsg* msg, QList<QString>& items);
 
-  //Deserializing Constructor
-  GeometryManifestMsg(QDataStream* ds);
+    //Deserializing Constructor
+    GeometryManifestMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~GeometryManifestMsg();
-  
-  virtual QString toString();
+    //Destructor
+    virtual ~GeometryManifestMsg();
 
-  /*
-   *Getters n Setters
-   */
-  quint32 getNumOfItems();
-  QList<QString>* getItemData();
+    virtual QString toString();
+
+    /*
+     *Getters n Setters
+     */
+    quint32 getNumOfItems();
+    QList<QString>* getItemData();
 
 private:
-  QList<QString>* itemData;
-  
-  virtual bool _serialize(QDataStream* ds);
+    QList<QString>* itemData;
+
+    virtual bool _serialize(QDataStream* ds);
 
 };
 

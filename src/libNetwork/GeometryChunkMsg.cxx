@@ -26,22 +26,21 @@
 #include "libNetwork/GeometryChunkMsg.h"
 #include <sstream>
 
-
 //Normal Constructor
-GeometryChunkMsg::GeometryChunkMsg(char* dataIn, quint32 dataInLen):
-  GenericMultiByteMsg(GEOMETRYCHUNK, dataIn, dataInLen)
+GeometryChunkMsg::GeometryChunkMsg(char* dataIn, quint32 dataInLen) :
+    GenericMultiByteMsg(GEOMETRYCHUNK, dataIn, dataInLen)
 {
 }
 
-  //Reply Constructor
-GeometryChunkMsg::GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen ):
-  GenericMultiByteMsg(GEOMETRYCHUNK, msg, dataIn, dataInLen)
+//Reply Constructor
+GeometryChunkMsg::GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen) :
+    GenericMultiByteMsg(GEOMETRYCHUNK, msg, dataIn, dataInLen)
 {
 }
 
-  //Deserializing Constructor
-GeometryChunkMsg::GeometryChunkMsg(QDataStream* ds ):
-  GenericMultiByteMsg(ds)
+//Deserializing Constructor
+GeometryChunkMsg::GeometryChunkMsg(QDataStream* ds, QString origin) :
+    GenericMultiByteMsg(ds, origin)
 {
 }
 

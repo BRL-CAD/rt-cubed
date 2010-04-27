@@ -27,22 +27,22 @@
 #include <sstream>
 
 //Normal Constructor
-GenericFourBytesMsg::GenericFourBytesMsg(quint32 type, quint32 b):
-  NetMsg(type), data(b)
+GenericFourBytesMsg::GenericFourBytesMsg(quint32 type, quint32 b) :
+    NetMsg(type), data(b)
 {
 }
 
 //Reply Constructor
-GenericFourBytesMsg::GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b):
-  NetMsg(type, msg), data(b)
+GenericFourBytesMsg::GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b) :
+    NetMsg(type, msg), data(b)
 {
 }
 
 //Deserializing Constructors
-GenericFourBytesMsg::GenericFourBytesMsg(QDataStream* ds):
-NetMsg(ds)
+GenericFourBytesMsg::GenericFourBytesMsg(QDataStream* ds, QString origin) :
+    NetMsg(ds, origin)
 {
-     *ds >> this->data;
+    *ds >> this->data;
 }
 
 //Destructor
@@ -52,39 +52,40 @@ GenericFourBytesMsg::~GenericFourBytesMsg()
 
 bool GenericFourBytesMsg::_serialize(QDataStream* ds)
 {
-  *ds << this->data;
-  return true;
+    *ds << this->data;
+    return true;
 }
 
-QString GenericFourBytesMsg::toString() 
+QString GenericFourBytesMsg::toString()
 {
-  QString out;
+    QString out;
 
-  out.append(NetMsg::toString());
-  out.append("\t data: '");
-  out.append(QString::number(this->data));
-  out.append("'");  
+    out.append(NetMsg::toString());
+    out.append("\t data: '");
+    out.append(QString::number(this->data));
+    out.append("'");
 
-  return out;
+    return out;
 }
 
-bool
-GenericFourBytesMsg::_equals(NetMsg& msg) 
+bool GenericFourBytesMsg::_equals(NetMsg& msg)
 {
-  GenericFourBytesMsg& gmsg = (GenericFourBytesMsg&) msg;
+    GenericFourBytesMsg& gmsg = (GenericFourBytesMsg&) msg;
 
-  if (this->getData() != gmsg.getData()) {
-    return false;
-  }
+    if (this->getData() != gmsg.getData()) {
+	return false;
+    }
 
-  return true;
+    return true;
 }
 
-
- /*
+/*
  *Getters n Setters
  */
-quint32 GenericFourBytesMsg::getData() {return this->data;}
+quint32 GenericFourBytesMsg::getData()
+{
+    return this->data;
+}
 
 // Local Variables: ***
 // mode: C++ ***
