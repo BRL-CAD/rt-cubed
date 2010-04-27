@@ -37,14 +37,15 @@ class Session
 {
 
 public:
-    Session();
+    Session(quint32 accountID);
     virtual ~Session();
 
     QUuid getSessionID();
+    quint32 getAccountID();
 
 private:
     QUuid sessionID;
-
+    quint32 accountID;
 };
 
 #endif

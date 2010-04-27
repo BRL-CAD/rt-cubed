@@ -25,9 +25,10 @@
 
 #include "GS/Session.h"
 
-Session::Session()
+Session::Session(quint32 accountID)
 {
     this->sessionID = QUuid::createUuid();
+    this->accountID = accountID;
 }
 
 Session::~Session()
@@ -38,6 +39,11 @@ Session::~Session()
 QUuid Session::getSessionID()
 {
     return this->sessionID;
+}
+
+quint32 Session::getAccountID()
+{
+    return this->accountID;
 }
 
 // Local Variables: ***
