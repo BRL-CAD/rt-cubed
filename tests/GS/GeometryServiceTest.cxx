@@ -338,9 +338,9 @@ static void Report(const std::string msg, bool showTitle = false)
 #define REQUIREMENT(m) \
     std::cout << std::setw(74) << std::setfill('=') << std::string(" ") + m + std::string(" ") << std::setw(4) << "=" << std::endl;
 
-/**********************************************************/
-/* convenience wrappers to simplify the repetive patterns */
-/**********************************************************/
+/************************************************************/
+/* convenience wrappers to simplify the repetitive patterns */
+/************************************************************/
 
 static void Connect(GeometryClient *gc, GeometryClient *gc2 = NULL,
 		    GeometryClient *gc3 = NULL)
