@@ -40,6 +40,7 @@ public:
 
 	bool loadFile(QString pathAndFileName);
 	QString getConfigValue(QString key);
+	QList<QString> getAllKeys();
 
 private:
 	Config(); //Turn off Default cstr
