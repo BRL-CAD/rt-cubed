@@ -5,6 +5,10 @@ intended for the general public.
 
 
 
+-Core Interface requires the use of brlcad-config to generate 'brlcadversion.h' via cmake.  brlcad-config is not present on windows brlcad builds, thus coreInterface will not build on windows.
+
+
+//Older stuff
 * put together basic application components:
 	- argument handler
 	- singleton
