@@ -67,14 +67,16 @@ enum JobResult
 #define GEOMETRYCHUNK		410
 
 /*  Failure Codes */
-#define UUIDNotFoundFailure      0
-#define FileNotFoundFailure      1
+#define UUIDNotFoundFailure      10
+#define FileNotFoundFailure      20
 
-#define PORTAL_HANDSHAKE_FAILURE   	2
-#define UNKNOWN_PORTAL_FAILURE		3
-#define PORTAL_WRITE_FAILURE		4
-#define PORTAL_READ_FAILURE		5
-#define REM_HOST_DISCONNECT		6
+#define PORTAL_HANDSHAKE_FAILURE   	30
+#define UNKNOWN_PORTAL_FAILURE		40
+#define PORTAL_WRITE_FAILURE		50
+#define PORTAL_READ_FAILURE		60
+#define REM_HOST_DISCONNECT		70
+
+#define AUTHENTICATION_FAILED		80
 
 #endif
 
