@@ -57,7 +57,7 @@ enum JobResult
 #define FULLHOSTLIST		255
 
 #define NEWSESSIONREQ		300
-#define NEWSESSION		305
+#define SESSIONINFO		305
 #define LOGOUTSESSION		310
 
 #define	GEOMETRYREQ		400

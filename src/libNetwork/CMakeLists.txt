@@ -58,6 +58,7 @@ SET(LIBNET_SOURCES
 	SuccessMsg.cxx
 	RemoteGSHostnameSetMsg.cxx
     NewSessionReqMsg.cxx
+    SessionInfoMsg.cxx
 	NewHostOnNetMsg.cxx
 	GeometryReqMsg.cxx
 	GeometryManifestMsg.cxx
