@@ -30,12 +30,13 @@ class AccountManager
 {
 
 public:
-	virtual ~AccountManager();
-	static AccountManager* getInstance();
+    virtual ~AccountManager();
+    static AccountManager* getInstance();
+    quint32 validateLoginCreds(QString uname, QString passwd);
 
 private:
-	static AccountManager* pInstance;
-	AccountManager();
+    static AccountManager* pInstance;
+    AccountManager();
 
 };
 

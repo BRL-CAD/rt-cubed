@@ -38,11 +38,21 @@ AccountManager::~AccountManager()
 
 AccountManager* AccountManager::getInstance()
 {
-	if (!AccountManager::pInstance)
-	{
-		pInstance = new AccountManager();
-	}
-	return AccountManager::pInstance;
+    if (!AccountManager::pInstance) {
+	pInstance = new AccountManager();
+    }
+    return AccountManager::pInstance;
+}
+
+/**
+ * returns 0 for bad login.  Positive number is the accountID
+ */
+quint32 AccountManager::validateLoginCreds(QString uname, QString passwd)
+{
+    if (uname == "Kiaser" && passwd == "Sose") {
+	return true;
+    }
+    return false;
 }
 
 // Local Variables: ***
