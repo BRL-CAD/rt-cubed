@@ -48,11 +48,14 @@ public:
 	int exec();
 
 protected slots:
-	void handleNewPortal(NetPortal* nsp);
+    void handleNewPortal(NetPortal* nsp);
+    void handleMsgReady();
 
 private:
 	QString localGSHostname;
 	NetPortalManager* portalMan;
+
+	void handleNetMsg(NetMsg* msg);
 };
 
 #endif

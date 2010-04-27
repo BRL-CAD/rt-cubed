@@ -31,7 +31,7 @@ GeometryService::GeometryService(int& argc, char* argv[], QString gsHostname) :
     this->log->logINFO("GeometryService ", gsHostname + " is starting up...");
     this->portalMan = new NetPortalManager(gsHostname);
 
-    QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)),
+QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)),
 	this, SLOT(handleNewPortal(NetPortal*)));
 }
 
@@ -49,6 +49,40 @@ void GeometryService::handleNewPortal(NetPortal* nsp)
 {
     this->log->logINFO("GeometryService",
 	    "New portal received from NetPortalManager");
+
+    QObject::connect(nsp, SIGNAL(msgReady()), this, SLOT(handleMsgReady()));
+}
+
+void GeometryService::handleMsgReady()
+{
+    NetPortal* np = (NetPortal*) QObject::sender();
+    NetMsg* msg = np->getNextMsg();
+
+    if (msg != NULL) {
+	this->handleNetMsg(msg);
+    }
+}
+
+void GeometryService::handleNetMsg(NetMsg* msg)
+{
+    quint32 msgType = msg->getMsgType();
+
+    switch (msgType) {
+
+    case (NEWSESSIONREQ):
+	{
+	    //Route to SessionManager
+	    SessionManager::getInstance()->handleNetMsg(msg);
+
+	    break;
+	}
+    default:
+	{
+	    throw new GSException("Does not handle this MsgType");
+	    break;
+	}
+    };
+
 }
 
 int GeometryService::exec()
