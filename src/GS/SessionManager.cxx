@@ -24,12 +24,16 @@
  */
 
 #include "GS/SessionManager.h"
+#include "GS/AccountManager.h"
+#include "libNetwork/NewSessionReqMsg.h"
+#include "utility/GSException.h"
 #include <QMutexLocker>
 
 SessionManager* SessionManager::pInstance = NULL;
 
 SessionManager::SessionManager()
 {
+    this->sessionIdMap = new QMap<quint32, Session*> ();
 }
 
 SessionManager::~SessionManager()
@@ -38,13 +42,47 @@ SessionManager::~SessionManager()
 
 SessionManager* SessionManager::getInstance()
 {
-	if (!SessionManager::pInstance)
-	{
-		pInstance = new SessionManager();
-	}
-	return SessionManager::pInstance;
+    if (!SessionManager::pInstance) {
+	pInstance = new SessionManager();
+    }
+    return SessionManager::pInstance;
 }
 
+void SessionManager::handleNetMsg(NetMsg* msg)
+{
+    quint32 msgType = msg->getMsgType();
+
+    switch (msgType) {
+
+    case (NEWSESSIONREQ):
+	{
+	    NewSessionReqMsg* nstMsg = (NewSessionReqMsg*) msg;
+
+	    QString uname = nstMsg->getUName();
+	    QString passwd = nstMsg->getPasswd();
+
+	    quint32 accountID =
+		    AccountManager::getInstance()->validateLoginCreds(uname,
+			    passwd);
+
+	    Session* session = this->newSession(accountID);
+
+	    break;
+	}
+    default:
+	{
+	    throw new GSException("Does not handle this MsgType");
+	    break;
+	}
+    };
+
+}
+Session* SessionManager::newSession(quint32 accountID)
+{
+    Session* s = new Session(accountID);
+
+    return s;
+}
 
 // Local Variables: ***
 // mode: C++ ***

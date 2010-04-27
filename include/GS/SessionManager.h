@@ -27,17 +27,23 @@
 #define __SESSIONMANAGER_H__
 
 #include "GS/Session.h"
+#include "libNetwork/INetMsgHandler.h"
 
-class SessionManager
+#include <QMap>
+
+class SessionManager: public INetMsgHandler
 {
 public:
-	static SessionManager* getInstance();
-	virtual ~SessionManager();
+    static SessionManager* getInstance();
+    virtual ~SessionManager();
+    void handleNetMsg(NetMsg* msg);
 
 private:
-	static SessionManager* pInstance;
+    static SessionManager* pInstance;
+    SessionManager();
+    Session* newSession(quint32 accountID);
 
-	SessionManager();
+    QMap<quint32, Session*>* sessionIdMap;
 };
 
 #endif
