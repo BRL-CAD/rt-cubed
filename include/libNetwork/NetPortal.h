@@ -52,7 +52,7 @@ public:
 	void attemptToBuildMsg();
 
 	bool hasMsg();
-	NetMsg* getNextMsg();
+	NetMsg* getNextMsg(bool peek = false);
 
 	void send(NetMsg& msg);
 	void quickSend(quint32 opcode);

@@ -154,7 +154,7 @@ void NetPortal::attemptToBuildMsg()
 		case (NetPortal::Ready):
 		{
 			//Check to see if the Msg received is Portal Control
-			NetMsg* msg = this->getNextMsg();
+			NetMsg* msg = this->getNextMsg(true);
 			if (msg != 0)
 			{
 				quint32 type = msg->getMsgType();
@@ -274,9 +274,9 @@ bool NetPortal::hasMsg()
 	return this->factory->hasMsgsAvailable();
 }
 
-NetMsg* NetPortal::getNextMsg()
+NetMsg* NetPortal::getNextMsg(bool peek)
 {
-	return this->factory->getNextMsg();
+	return this->factory->getNextMsg(peek);
 }
 
 QString NetPortal::getRemoteGSHostname()

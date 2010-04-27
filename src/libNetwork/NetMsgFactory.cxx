@@ -238,27 +238,20 @@ bool NetMsgFactory::hasMsgsAvailable()
 }
 
 NetMsg*
-NetMsgFactory::getNextMsg()
+NetMsgFactory::getNextMsg(bool peek)
 {
     if (this->inbox->isEmpty()) {
 	std::cout << "Factory.getNextMsg() is returning NULL\n";
 	return NULL;
     }
 
-    NetMsg* out = this->inbox->takeFirst();
+    NetMsg* out = 0;
 
-    return out;
-}
-NetMsg*
-NetMsgFactory::peekNextMsg()
-{
-    if (this->inbox->isEmpty()) {
-	std::cout << "Factory.peekNextMsg() is returning NULL\n";
-	return NULL;
+    if (peek) {
+	out = this->inbox->first();
+    } else {
+	out = this->inbox->takeFirst();
     }
-
-    NetMsg* out = this->inbox->first();
-
     return out;
 }
 

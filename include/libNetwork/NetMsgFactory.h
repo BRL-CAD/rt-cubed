@@ -46,8 +46,7 @@ public:
 
     bool addData(QByteArray& data);
     bool hasMsgsAvailable();
-    NetMsg* getNextMsg();
-    NetMsg* peekNextMsg();
+    NetMsg* getNextMsg(bool peek = false);
     void attemptToMakeMsgs();
 
     bool attemptToMakeMsg();
