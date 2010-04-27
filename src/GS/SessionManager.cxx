@@ -26,6 +26,8 @@
 #include "GS/SessionManager.h"
 #include "GS/AccountManager.h"
 #include "libNetwork/NewSessionReqMsg.h"
+#include "libNetwork/SessionInfoMsg.h"
+#include "libNetwork/FailureMsg.h"
 #include "utility/GSException.h"
 #include <QMutexLocker>
 
@@ -48,7 +50,7 @@ SessionManager* SessionManager::getInstance()
     return SessionManager::pInstance;
 }
 
-void SessionManager::handleNetMsg(NetMsg* msg,NetPortal* origin)
+void SessionManager::handleNetMsg(NetMsg* msg, NetPortal* origin)
 {
     quint32 msgType = msg->getMsgType();
 
@@ -67,9 +69,18 @@ void SessionManager::handleNetMsg(NetMsg* msg,NetPortal* origin)
 
 	    if (accountID > 0) {
 		Session* session = this->newSession(accountID);
+		this->sessionIdMap->insert(accountID, session);
 
+		// use reply cstr.
+		SessionInfoMsg siMsg(msg, session->getSessionID() );
+
+		//Send back reply
+		origin->send(siMsg);
 	    } else {
+		FailureMsg fMsg(msg, AUTHENTICATION_FAILED);
 
+		//Send back reply
+		origin->send(fMsg);
 	    }
 
 	    break;
