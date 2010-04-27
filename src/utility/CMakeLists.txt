@@ -51,6 +51,7 @@ set(LIBUTILITY_SOURCES
 	Utils.cxx
 	Logger.cxx
 	ThreadUtils.cxx
+	GSException.cxx
 )
 
 ADD_LIBRARY (utility SHARED ${LIBUTILITY_SOURCES})
