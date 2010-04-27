@@ -33,6 +33,8 @@
 #include "libNetwork/GeometryReqMsg.h"
 #include "libNetwork/GeometryManifestMsg.h"
 #include "libNetwork/GeometryChunkMsg.h"
+#include "libNetwork/NewSessionReqMsg.h"
+#include "libNetwork/SessionInfoMsg.h"
 
 #include <QMutexLocker>
 
@@ -211,15 +213,14 @@ NetMsg* NetMsgFactory::buildMsgByType(quint32 type, QDataStream* qds,
 	return new NetMsg(qds, portalName);
     case NEWHOSTONNET:
 	return new GenericOneStringMsg(qds, portalName);
-    case FULLHOSTLISTREQ:
-	return new NetMsg(qds, portalName);
-    case FULLHOSTLIST:
-	//TODO implement MsgType!!
-	return new NetMsg(qds, portalName);
+//    case FULLHOSTLISTREQ:
+//	return new NetMsg(qds, portalName);
+//    case FULLHOSTLIST:
+//	return new NetMsg(qds, portalName);
     case NEWSESSIONREQ:
-	return new NetMsg(qds, portalName);
-    case NEWSESSION:
-	return new GenericOneStringMsg(qds, portalName);
+	return new NewSessionReqMsg(qds, portalName);
+    case SESSIONINFO:
+	return new SessionInfoMsg(qds, portalName);
     case GEOMETRYREQ:
 	return new GeometryReqMsg(qds, portalName);
     case GEOMETRYMANIFEST:
