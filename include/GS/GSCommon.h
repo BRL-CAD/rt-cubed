@@ -47,7 +47,7 @@ enum JobResult
 #define	FAILURE          	0
 #define	SUCCESS          	5
 
-#define REMGSHOSTNAMESET 		100
+#define REMGSHOSTNAMESET	100
 
 #define	DISCONNECTREQ 		150
 
@@ -57,11 +57,12 @@ enum JobResult
 #define FULLHOSTLIST		255
 
 #define NEWSESSIONREQ		300
-#define NEWSESSION			305
+#define NEWSESSION		305
+#define LOGOUTSESSION		310
 
-#define	GEOMETRYREQ			400
-#define ReqByUUID         10
-#define ReqByFilePath     11
+#define	GEOMETRYREQ		400
+#define ReqByUUID       	  10
+#define ReqByFilePath  		  11
 #define GEOMETRYMANIFEST	405
 #define GEOMETRYCHUNK		410
 
@@ -69,11 +70,11 @@ enum JobResult
 #define UUIDNotFoundFailure      0
 #define FileNotFoundFailure      1
 
-#define PORTAL_HANDSHAKE_FAILURE    2
+#define PORTAL_HANDSHAKE_FAILURE   	2
 #define UNKNOWN_PORTAL_FAILURE		3
 #define PORTAL_WRITE_FAILURE		4
-#define PORTAL_READ_FAILURE			5
-#define REM_HOST_DISCONNECT			6
+#define PORTAL_READ_FAILURE		5
+#define REM_HOST_DISCONNECT		6
 
 #endif
 
