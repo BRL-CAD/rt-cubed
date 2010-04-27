@@ -78,7 +78,6 @@ void Logger::log(quint32 logLevel, QString origin, QString string)
     QString type("");
 
     time += QTime::currentTime().toString();
-    time += ": ";
 
     switch (logLevel) {
     case (Logger::FATAL):
