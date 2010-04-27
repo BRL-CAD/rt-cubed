@@ -24,6 +24,8 @@
  */
 
 #include "GS/GeometryService.h"
+#include "GS/SessionManager.h"
+#include "utility/GSException.h"
 
 GeometryService::GeometryService(int& argc, char* argv[], QString gsHostname) :
     BaseApp(argc, argv), localGSHostname(gsHostname)
@@ -59,11 +61,11 @@ void GeometryService::handleMsgReady()
     NetMsg* msg = np->getNextMsg();
 
     if (msg != NULL) {
-	this->handleNetMsg(msg);
+	this->handleNetMsg(msg, np);
     }
 }
 
-void GeometryService::handleNetMsg(NetMsg* msg)
+void GeometryService::handleNetMsg(NetMsg* msg, NetPortal* origin)
 {
     quint32 msgType = msg->getMsgType();
 
@@ -72,7 +74,7 @@ void GeometryService::handleNetMsg(NetMsg* msg)
     case (NEWSESSIONREQ):
 	{
 	    //Route to SessionManager
-	    SessionManager::getInstance()->handleNetMsg(msg);
+	    SessionManager::getInstance()->handleNetMsg(msg, origin);
 
 	    break;
 	}

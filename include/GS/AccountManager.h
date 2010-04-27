@@ -26,6 +26,8 @@
 #ifndef __ACCOUNTMANAGER_H__
 #define __ACCOUNTMANAGER_H__
 
+#include <QString>
+
 class AccountManager
 {
 

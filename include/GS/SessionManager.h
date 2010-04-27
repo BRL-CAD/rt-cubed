@@ -36,7 +36,7 @@ class SessionManager: public INetMsgHandler
 public:
     static SessionManager* getInstance();
     virtual ~SessionManager();
-    void handleNetMsg(NetMsg* msg);
+    void handleNetMsg(NetMsg* msg, NetPortal* origin);
 
 private:
     static SessionManager* pInstance;

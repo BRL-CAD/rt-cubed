@@ -55,7 +55,7 @@ private:
 	QString localGSHostname;
 	NetPortalManager* portalMan;
 
-	void handleNetMsg(NetMsg* msg);
+	void handleNetMsg(NetMsg* msg, NetPortal* origin);
 };
 
 #endif

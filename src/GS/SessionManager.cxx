@@ -48,7 +48,7 @@ SessionManager* SessionManager::getInstance()
     return SessionManager::pInstance;
 }
 
-void SessionManager::handleNetMsg(NetMsg* msg)
+void SessionManager::handleNetMsg(NetMsg* msg,NetPortal* origin)
 {
     quint32 msgType = msg->getMsgType();
 
@@ -65,7 +65,12 @@ void SessionManager::handleNetMsg(NetMsg* msg)
 		    AccountManager::getInstance()->validateLoginCreds(uname,
 			    passwd);
 
-	    Session* session = this->newSession(accountID);
+	    if (accountID > 0) {
+		Session* session = this->newSession(accountID);
+
+	    } else {
+
+	    }
 
 	    break;
 	}
