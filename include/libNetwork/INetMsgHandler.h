@@ -28,10 +28,10 @@
 #ifndef __INETMSGHANDLER_H__
 #define __INETMSGHANDLER_H__
 
+#include "libNetwork/NetMsg.h"
+
 class INetMsgHandler {
 public:
-	INetMsgHandler(){};
-	virtual ~INetMsgHandler(){};
 	virtual void handleNetMsg(NetMsg* msg){};
 };
 
