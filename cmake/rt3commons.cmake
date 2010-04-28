@@ -121,7 +121,7 @@ MACRO(MAKE_LIBRARY_HEADER_FILE)
     FILE(APPEND ${FILENAME} "\n")
  
     FOREACH (headerFile ${${NAME_UPPER}_ALL_INST_HEADERS})
-        FILE(APPEND ${FILENAME} "#include ${headerFile}\n")
+        FILE(APPEND ${FILENAME} "#include \"${headerFile}\"\n")
     ENDFOREACH (headerFile)
  
     FILE(APPEND ${FILENAME} "\n")
