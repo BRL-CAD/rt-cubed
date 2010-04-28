@@ -47,7 +47,7 @@ public:
 
 	void connectToNetHost(QString netHostname, quint16 port);
 	void connectToNetHost(QHostAddress address, quint16 port);
-	void disconnectFromNetHost(quint8 reason);
+	void disconnectFromNetHost(quint8 reason = LOCAL_DISCONNECT_REQ);
 
 	void attemptToBuildMsg();
 
