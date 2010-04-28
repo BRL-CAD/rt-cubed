@@ -25,25 +25,16 @@
 #
 #########################################################################
 
-
 MESSAGE(STATUS "\tConfiguring '${PROJECT_NAME}'...")
 
-
 IF(PROJ_INCLUDE_DIRS)
-    MESSAGE(STATUS "\t\t'${PROJECT_NAME}' include dirs:")
-    FOREACH (dir ${PROJ_INCLUDE_DIRS})
-        MESSAGE(STATUS "\t\t\t${dir}")
-    ENDFOREACH (dir)
+    MESSAGE(STATUS "\t\t'${PROJECT_NAME}' include dirs:  ${PROJ_INCLUDE_DIRS}")
 ELSE(PROJ_INCLUDE_DIRS)
     MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no include dirs.")
 ENDIF(PROJ_INCLUDE_DIRS)
 
 IF(PROJ_LINK_LIBS)
-    MESSAGE(STATUS "\t\t'${PROJECT_NAME}' linked libraries:")
-    FOREACH (lib ${PROJ_LINK_LIBS})
-        MESSAGE(STATUS "\t\t\t${lib}")
-    ENDFOREACH (lib)
+    MESSAGE(STATUS "\t\t'${PROJECT_NAME}' linked libraries:  ${PROJ_LINK_LIBS}")
 ELSE(PROJ_LINK_LIBS)
     MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no linked libraries.")
 ENDIF(PROJ_LINK_LIBS)
-
