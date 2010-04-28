@@ -27,7 +27,7 @@
 #define __BASEAPP_H__
 
 #include <QCoreApplication>
-#include "Logger.h"
+#include "libUtility.h"
 
 class BaseApp: public QCoreApplication
 {

@@ -26,7 +26,7 @@
 #ifndef __NETPORTALMANAGER_H__
 #define __NETPORTALMANAGER_H__
 
-#include "Logger.h"
+#include "libUtility.h"
 
 #include "libNetwork/NetPortal.h"
 
