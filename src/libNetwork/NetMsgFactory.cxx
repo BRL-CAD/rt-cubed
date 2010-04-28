@@ -23,18 +23,18 @@
  *
  */
 
-#include "GS/GSCommon.h"
-#include "libNetwork/NetMsgFactory.h"
-#include "libNetwork/GenericOneStringMsg.h"
-#include "libNetwork/GenericOneByteMsg.h"
-#include "libNetwork/GenericTwoBytesMsg.h"
-#include "libNetwork/GenericFourBytesMsg.h"
-#include "libNetwork/GenericMultiByteMsg.h"
-#include "libNetwork/GeometryReqMsg.h"
-#include "libNetwork/GeometryManifestMsg.h"
-#include "libNetwork/GeometryChunkMsg.h"
-#include "libNetwork/NewSessionReqMsg.h"
-#include "libNetwork/SessionInfoMsg.h"
+
+#include "NetMsgFactory.h"
+#include "GenericOneStringMsg.h"
+#include "GenericOneByteMsg.h"
+#include "GenericTwoBytesMsg.h"
+#include "GenericFourBytesMsg.h"
+#include "GenericMultiByteMsg.h"
+#include "GeometryReqMsg.h"
+#include "GeometryManifestMsg.h"
+#include "GeometryChunkMsg.h"
+#include "NewSessionReqMsg.h"
+#include "SessionInfoMsg.h"
 
 #include <QMutexLocker>
 

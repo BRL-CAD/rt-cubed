@@ -1,4 +1,4 @@
-/*              D B O B J E C T M A N I F E S T . H
+/*               G E O M E T R Y S E R V I C E . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,32 +17,44 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file DbObjectManifest.h
+/** @file GeometryService.h
  *
  * Brief description
  *
  */
 
-#ifndef __DBOBJECTMANIFEST_H__
-#define __DBOBJECTMANIFEST_H__
+#ifndef __GEOMETRYSERVICE_H__
+#define __GEOMETRYSERVICE_H__
 
-#include <list>
-#include <map>
-#include <string>
-#include "GS/GSCommon.h"
-#include <QUuid>
+#include <QTcpSocket>
+#include <QString>
+#include <QStringList>
+#include <QCoreApplication>
 
-class DbObjectManifest
+#include "alf/BaseApp.h"
+
+#include "GE/GeometryEngine.h"
+#include "GSCommon.h"
+#include "network.h"
+
+class GeometryService : public BaseApp, public INetMsgHandler
 {
 
 public:
-	DbObjectManifest();
-	virtual ~DbObjectManifest();
+	GeometryService(int& argc, char* argv[], QString localGSHostname);
+	virtual ~GeometryService();
+	void startListening(const QHostAddress& addy, quint16 port);
+	int exec();
+
+protected slots:
+    void handleNewPortal(NetPortal* nsp);
+    void handleMsgReady();
 
 private:
-	std::list<QUuid> DbObjectList;
-	std::map<QUuid, std::string > DbObjectMap;
+	QString localGSHostname;
+	NetPortalManager* portalMan;
 
+	void handleNetMsg(NetMsg* msg, NetPortal* origin);
 };
 
 #endif

@@ -26,7 +26,6 @@
 #ifndef __APPLAUNCHER_H__
 #define __APPLAUNCHER_H__
 
-#include "GS/GSCommon.h"
 #include <QString>
 #include <QUuid>
 

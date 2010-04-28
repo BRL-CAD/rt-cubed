@@ -23,11 +23,9 @@
  *
  */
 
-#include "GS/SessionManager.h"
-#include "GS/AccountManager.h"
-#include "libNetwork/NewSessionReqMsg.h"
-#include "libNetwork/SessionInfoMsg.h"
-#include "libNetwork/FailureMsg.h"
+#include "SessionManager.h"
+#include "AccountManager.h"
+#include "network.h"
 #include "utility.h"
 #include <QMutexLocker>
 

@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/GeometryChunkMsg.h"
+#include "GeometryChunkMsg.h"
 #include <sstream>
 
 //Normal Constructor

@@ -26,12 +26,19 @@
 #ifndef __JOBWORKER_H__
 #define __JOBWORKER_H__
 
-#include "GS/GSCommon.h"
+#define MAX_JOBWORKERS 5
+
+
 #include "libJob/AbstractJob.h"
 #include "utility.h"
 #include <QThread>
 #include <QUuid>
 #include <string>
+
+enum JobWorkerStatus
+{
+	WORKER_NOTREADY, WORKER_READY, WORKER_RUNNING
+};
 
 class JobWorker: public QThread
 {
@@ -47,6 +54,10 @@ public:
 	QUuid getWorkerId();
 	QString getWorkerIdAsQString();
 	std::string getWorkerIdAsStdString();
+
+
+
+
 private:
 	Logger* log;
 	JobWorkerStatus status;

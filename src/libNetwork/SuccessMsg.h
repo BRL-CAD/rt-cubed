@@ -1,4 +1,4 @@
-/*             G E N E R I C F O U R B Y T E S M S G . H
+/*             S U C C E S S M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,45 +17,37 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GenericFourBytesMsg.h
+/** @file SuccessMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GENERICFOURBYTESMSG_H__
-#define __GENERICFOURBYTESMSG_H__
+#ifndef __SUCCESSMSG_H__
+#define __SUCCESSMSG_H__
 
-#include "libNetwork/NetMsg.h"
 
-class GenericFourBytesMsg: public NetMsg
+#include "GenericOneByteMsg.h"
+
+class SuccessMsg: public GenericOneByteMsg
 {
 
 public:
 
     //Normal Constructor
-    GenericFourBytesMsg(quint32 type, quint32 b);
+    SuccessMsg(quint8 successCode);
 
     //Reply Constructor
-    GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b);
+    SuccessMsg(NetMsg* msg, quint8 successCode);
 
     //Deserializing Constructors
-    GenericFourBytesMsg(QDataStream* ds, QString origin);
-
-    //Destructor
-    virtual ~GenericFourBytesMsg();
+    SuccessMsg(QDataStream* ds, QString origin);
 
     /*
-     * Utilities
+     *Getters n Setters
      */
-    virtual QString toString();
+    quint8 getSuccessCode();
 
-protected:
-    quint32 getData();
-    quint32 data;
-
-    virtual bool _serialize(QDataStream* ds);
-    virtual bool _equals(NetMsg& msg);
 };
 
 #endif

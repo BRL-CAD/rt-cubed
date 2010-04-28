@@ -25,7 +25,7 @@
  *
  */
 
-#include "libNetwork/NetMsgSubscriberRegistry.h"
+#include "NetMsgSubscriberRegistry.h"
 #include <cstdlib>
 
 NetMsgSubscriberRegistry* NetMsgSubscriberRegistry::pInstance = NULL;

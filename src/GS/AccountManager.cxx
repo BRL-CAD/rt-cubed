@@ -23,7 +23,7 @@
  *
  */
 
-#include "GS/AccountManager.h"
+#include "AccountManager.h"
 #include <cstdlib>
 
 AccountManager* AccountManager::pInstance = NULL;

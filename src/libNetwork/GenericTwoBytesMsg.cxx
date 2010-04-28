@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/GenericTwoBytesMsg.h"
+#include "GenericTwoBytesMsg.h"
 #include <sstream>
 
 //Normal Constructor

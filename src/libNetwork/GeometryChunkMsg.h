@@ -1,4 +1,4 @@
-/*         F A I L U R E M S G . H
+/*              G E O M E T R Y C H U N K M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,39 +17,33 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file FailureMsg.h
+/** @file GeometryChunkMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __FAILUREMSG_H__
-#define __FAILUREMSG_H__
-
-#include "GS/GSCommon.h"
-#include "libNetwork/GenericOneByteMsg.h"
+#ifndef __GEOMETRYCHUNKMSG_H__
+#define __GEOMETRYCHUCKMSG_H__
 
 
-class FailureMsg : public GenericOneByteMsg
+#include "GenericMultiByteMsg.h"
+
+class GeometryChunkMsg : public GenericMultiByteMsg
 {
-
+  
 public:
 
   //Normal Constructor
-  FailureMsg(quint8 failureCode);
+  GeometryChunkMsg(char* dataIn, quint32 dataInLen);
 
   //Reply Constructor
-  FailureMsg(NetMsg* msg, quint8 failureCode);
+  GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen);
 
   //Deserializing Constructors
-  FailureMsg(QDataStream* ds, QString origin);
+  GeometryChunkMsg(QDataStream* ds, QString origin);
   
-  /*
-   *Getters n Setters
-   */
-  quint8 getFailureCode();
-
-};
+ };
 
 #endif
 

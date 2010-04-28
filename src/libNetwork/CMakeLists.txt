@@ -26,24 +26,23 @@
 #
 ##########################################################################
 
-PROJECT(LibNetwork)
+RT3_PROJECT(network)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS}  ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
 
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     ge
     job
     utility
     ${QT_LIBRARIES}
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(LIBNET_SOURCES
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
 	NetPortal.cxx
 	NetPortalManager.cxx
 	NetMsgFactory.cxx
@@ -65,12 +64,38 @@ SET(LIBNET_SOURCES
 	GeometryChunkMsg.cxx
 )
 
-QT4_WRAP_CPP(LIBNET_MOCCED_HEADERS
-	${RT3_INCLUDE_DIR}/libNetwork/NetPortal.h
-	${RT3_INCLUDE_DIR}/libNetwork/NetPortalManager.h
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS(
+    INetMsgHandler.h
+	NetMsgFactory.h
+	NetMsgSubscriberRegistry.h
+	NetMsg.h
+	GenericOneStringMsg.h
+	GenericOneByteMsg.h
+	GenericTwoBytesMsg.h
+	GenericFourBytesMsg.h
+	GenericMultiByteMsg.h
+	FailureMsg.h
+	SuccessMsg.h
+	RemoteGSHostnameSetMsg.h
+    NewSessionReqMsg.h
+    SessionInfoMsg.h
+	NewHostOnNetMsg.h
+	GeometryReqMsg.h
+	GeometryManifestMsg.h
+	GeometryChunkMsg.h
 )
 
-ADD_LIBRARY (network SHARED ${LIBNET_SOURCES} ${LIBNET_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(network ${PROJ_LINK_LIBS})
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS(
+	NetPortal.h
+	NetPortalManager.h
+)
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_LIB()

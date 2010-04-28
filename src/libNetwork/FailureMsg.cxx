@@ -24,7 +24,7 @@
  */
 
 
-#include "libNetwork/FailureMsg.h"
+#include "FailureMsg.h"
 #include <sstream>
 
 //Normal Constructor

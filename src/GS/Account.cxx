@@ -23,7 +23,7 @@
  *
  */
 
-#include "GS/Account.h"
+#include "Account.h"
 
 Account::Account()
 {

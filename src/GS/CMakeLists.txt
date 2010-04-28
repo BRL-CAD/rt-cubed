@@ -26,24 +26,23 @@
 #
 ##########################################################################
 
-PROJECT(libGS)
+RT3_PROJECT(gs)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
 
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     ${QT_LIBRARIES}
     alf
     network
     utility
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(GS_SOURCES
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
 	GeometryService.cxx
 	DataManager.cxx
 	DbObjectManifest.cxx
@@ -54,39 +53,65 @@ SET(GS_SOURCES
 	AccountManager.cxx
 )
 
-QT4_WRAP_CPP(GS_MOCCED_HEADERS
-
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS(
+	GeometryService.h
+	DataManager.h
+	DbObjectManifest.h
+	GeometryProcessor.h
+	Session.h
+	SessionManager.h
+	Account.h
+	AccountManager.h
 )
 
-ADD_LIBRARY (gs SHARED ${GS_SOURCES} ${GS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(gs ${PROJ_LINK_LIBS})
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_LIB()
+
 
 ##############
 ##############
 ##############
 
-PROJECT(Geoserv)
+RT3_PROJECT(geoserv)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
 
-SET(PROJ_LINK_LIBS
-    gs
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     ${QT_LIBRARIES}
+    gs
+    network
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(GEOSERV_SOURCES
-	../GS/gsmain.cxx
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
+	gsmain.cxx
 )
 
-ADD_EXECUTABLE(geoserv ../GS/gsmain.cxx)
-TARGET_LINK_LIBRARIES(geoserv ${PROJ_LINK_LIBS})
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_EXE()

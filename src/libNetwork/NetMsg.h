@@ -1,4 +1,4 @@
-/*               G S C O M M O N . H
+/*                        N E T M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,30 +17,14 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file NetMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GSCOMMON_H__
-#define __GSCOMMON_H__
-
-//JobManager stuff
-#define MAX_JOBWORKERS 5
-
-enum JobWorkerStatus
-{
-	WORKER_NOTREADY, WORKER_READY, WORKER_RUNNING
-};
-enum JobStatus
-{
-	JOB_NOTSTARTED, JOB_RUNNING, JOB_FINISHED
-};
-enum JobResult
-{
-	JOB_COMPLETED_NO_ERRORS, JOB_COMPLETED_WITH_ERRORS, JOB_FAILED
-};
+#ifndef __NETMSG_H__
+#define __NETMSG_H__
 
 /*  NetMsg Types */
 
@@ -78,6 +62,73 @@ enum JobResult
 #define LOCAL_DISCONNECT_REQ		80
 
 #define AUTHENTICATION_FAILED		90
+
+
+
+
+
+
+#include "GE/exception/IOException.h"
+#include "utility.h"
+#include <QDataStream>
+#include <QByteArray>
+#include <QUuid>
+#include <sstream>
+
+class NetMsg
+{
+
+public:
+
+  //Normal Constructor
+  NetMsg(quint32 mType);
+
+  //Reply Constructor
+  NetMsg(quint32 mType, NetMsg* msg);
+
+  //Deserializing Constructors
+  NetMsg(QDataStream* ds, QString origin);
+
+  //Destructor
+  virtual ~NetMsg();
+  
+
+  //Serializers
+  QByteArray* serialize();
+  void serialize(QByteArray* ba);
+
+  /*
+   *Getters n Setters
+   */
+  quint32 getMsgLen();
+  quint32 getMsgType();
+  QUuid getMsgUUID();
+  bool msgHasReUUID();
+  QUuid getReUUID();
+
+  /*
+   * Utilities
+   */
+  virtual QString toString();
+  virtual std::string toStdString();
+  virtual bool equals(NetMsg& msg);
+  void printMe();
+
+protected:
+  quint32 msgLen;
+  quint32 msgType;
+  QUuid msgUUID;
+  bool hasReUUID;
+  QUuid reUUID;
+  QString origin;
+
+  virtual bool _serialize(QDataStream* ds);
+  virtual bool _equals(NetMsg& msg);
+
+  //Disable Default Constructor
+  NetMsg(){}
+
+};
 
 #endif
 

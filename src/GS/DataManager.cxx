@@ -24,7 +24,7 @@
  *
  */
 
-#include "GS/DataManager.h"
+#include "DataManager.h"
 
 DataManager* DataManager::pInstance = NULL;
 

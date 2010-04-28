@@ -1,4 +1,4 @@
-/*             G E N E R I C T W O B Y T E S M S G . H
+/*             G E N E R I C M U L T I B Y T E M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,34 +17,33 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GenericTwoBytesMsg.h
+/** @file GenericMultiByteMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GENERICTWOBYTESMSG_H__
-#define __GENERICTWOBYTESMSG_H__
+#ifndef __GENERICMULTIBYTEMSG_H__
+#define __GENERICMULTIBYTEMSG_H__
 
-#include "GS/GSCommon.h"
-#include "libNetwork/NetMsg.h"
+#include "NetMsg.h"
 
-class GenericTwoBytesMsg : public NetMsg
+class GenericMultiByteMsg : public NetMsg
 {
 
 public:
 
   //Normal Constructor
-  GenericTwoBytesMsg(quint32 type, quint16 b);
+  GenericMultiByteMsg(quint32 type, char* dataIn, quint32 dataInLen);
 
   //Reply Constructor
-  GenericTwoBytesMsg(quint32 type, NetMsg* msg, quint16 b);
+  GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn, quint32 dataInLen);
 
   //Deserializing Constructors
-  GenericTwoBytesMsg(QDataStream* ds, QString origin);
+  GenericMultiByteMsg(QDataStream* ds, QString origin);
 
   //Destructor
-  virtual ~GenericTwoBytesMsg();
+  virtual ~GenericMultiByteMsg();
 
   /*
    * Utilities
@@ -52,8 +51,11 @@ public:
   virtual QString toString();
 
 protected:
-  quint16 getData();
-  quint16 data;
+  quint32 getDataLen();
+  char* getData();
+
+  quint32 dataLen;
+  char* data;
 
   virtual bool _serialize(QDataStream* ds);
   virtual bool _equals(NetMsg& msg);

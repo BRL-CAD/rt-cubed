@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/GenericOneStringMsg.h"
+#include "GenericOneStringMsg.h"
 #include <sstream>
 
 //Normal Constructor

@@ -26,7 +26,6 @@
 #ifndef __THROWABLE_H__
 #define __THROWABLE_H__
 
-#include "GS/GSCommon.h"
 #include <string>
 
 

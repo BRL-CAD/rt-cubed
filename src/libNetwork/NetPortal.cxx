@@ -23,11 +23,11 @@
  *
  */
 
-#include "GS/GSCommon.h"
-#include "libNetwork/NetPortal.h"
-#include "libNetwork/NetMsg.h"
-#include "libNetwork/RemoteGSHostnameSetMsg.h"
-#include "libNetwork/NetPortalManager.h"
+
+#include "NetPortal.h"
+#include "NetMsg.h"
+#include "RemoteGSHostnameSetMsg.h"
+#include "NetPortalManager.h"
 
 #include <QHostAddress>
 

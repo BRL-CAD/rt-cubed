@@ -1,4 +1,4 @@
-/*             S U C C E S S M S G . H
+/*             G E N E R I C T W O B Y T E S M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,36 +17,46 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file SuccessMsg.h
+/** @file GenericTwoBytesMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __SUCCESSMSG_H__
-#define __SUCCESSMSG_H__
+#ifndef __GENERICTWOBYTESMSG_H__
+#define __GENERICTWOBYTESMSG_H__
 
-#include "GS/GSCommon.h"
-#include "libNetwork/GenericOneByteMsg.h"
 
-class SuccessMsg: public GenericOneByteMsg
+#include "NetMsg.h"
+
+class GenericTwoBytesMsg : public NetMsg
 {
 
 public:
 
-    //Normal Constructor
-    SuccessMsg(quint8 successCode);
+  //Normal Constructor
+  GenericTwoBytesMsg(quint32 type, quint16 b);
 
-    //Reply Constructor
-    SuccessMsg(NetMsg* msg, quint8 successCode);
+  //Reply Constructor
+  GenericTwoBytesMsg(quint32 type, NetMsg* msg, quint16 b);
 
-    //Deserializing Constructors
-    SuccessMsg(QDataStream* ds, QString origin);
+  //Deserializing Constructors
+  GenericTwoBytesMsg(QDataStream* ds, QString origin);
 
-    /*
-     *Getters n Setters
-     */
-    quint8 getSuccessCode();
+  //Destructor
+  virtual ~GenericTwoBytesMsg();
+
+  /*
+   * Utilities
+   */
+  virtual QString toString();
+
+protected:
+  quint16 getData();
+  quint16 data;
+
+  virtual bool _serialize(QDataStream* ds);
+  virtual bool _equals(NetMsg& msg);
 
 };
 

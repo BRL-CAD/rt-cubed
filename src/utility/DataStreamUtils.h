@@ -26,7 +26,6 @@
 #ifndef __DATASTREAMUTILS_H__
 #define __DATASTREAMUTILS_H__
 
-#include "GS/GSCommon.h"
 #include <QString>
 #include <QDataStream>
 #include <QUuid>

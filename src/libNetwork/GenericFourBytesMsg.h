@@ -1,4 +1,4 @@
-/*              I N E T M S G H A N D L E R . H
+/*             G E N E R I C F O U R B Y T E S M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,27 +17,48 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file INetMsgHandler.h
+/** @file GenericFourBytesMsg.h
  *
- * Interface.  Any class needing to handle incoming
- * NetMsgs and be registered to the NetMsgSubscriberRegistry
- * must implement this interface.
+ * Brief description
  *
  */
 
-#ifndef __INETMSGHANDLER_H__
-#define __INETMSGHANDLER_H__
+#ifndef __GENERICFOURBYTESMSG_H__
+#define __GENERICFOURBYTESMSG_H__
 
-#include "libNetwork/NetMsg.h"
-#include "libNetwork/NetPortal.h"
+#include "NetMsg.h"
 
-class INetMsgHandler {
+class GenericFourBytesMsg: public NetMsg
+{
+
 public:
-	virtual void handleNetMsg(NetMsg* msg, NetPortal* origin){};
+
+    //Normal Constructor
+    GenericFourBytesMsg(quint32 type, quint32 b);
+
+    //Reply Constructor
+    GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b);
+
+    //Deserializing Constructors
+    GenericFourBytesMsg(QDataStream* ds, QString origin);
+
+    //Destructor
+    virtual ~GenericFourBytesMsg();
+
+    /*
+     * Utilities
+     */
+    virtual QString toString();
+
+protected:
+    quint32 getData();
+    quint32 data;
+
+    virtual bool _serialize(QDataStream* ds);
+    virtual bool _equals(NetMsg& msg);
 };
 
-#endif /* __INETMSGHANDLER_H__ */
-
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

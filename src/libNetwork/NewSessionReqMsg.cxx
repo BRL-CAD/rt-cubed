@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/NewSessionReqMsg.h"
+#include "NewSessionReqMsg.h"
 #include <sstream>
 
 //Normal Constructor

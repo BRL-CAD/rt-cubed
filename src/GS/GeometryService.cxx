@@ -23,8 +23,8 @@
  *
  */
 
-#include "GS/GeometryService.h"
-#include "GS/SessionManager.h"
+#include "GeometryService.h"
+#include "SessionManager.h"
 #include "utility.h"
 
 GeometryService::GeometryService(int& argc, char* argv[], QString gsHostname) :

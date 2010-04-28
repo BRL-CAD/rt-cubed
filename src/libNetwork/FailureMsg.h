@@ -1,4 +1,4 @@
-/*             D A T A M A N A G E R . C X X
+/*         F A I L U R E M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,36 +17,41 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file DataManager.cxx
+/** @file FailureMsg.h
  *
- * Single point of access for all Database
- * object IO from SVN, Cache and Disk
+ * Brief description
  *
  */
 
-#ifndef __DATAMANAGER_H__
-#define __DATAMANAGER_H__
+#ifndef __FAILUREMSG_H__
+#define __FAILUREMSG_H__
 
-#include "GS/GSCommon.h"
-#include <QString>
-#include <QUuid>
 
-class DataManager {
+#include "GenericOneByteMsg.h"
+
+
+class FailureMsg : public GenericOneByteMsg
+{
 
 public:
-	static DataManager* getInstance();
-	virtual ~DataManager();
 
-	QString getDbObjectByURL(QString url);
-	QString getDbObjectByUUID(QUuid& uuid);
+  //Normal Constructor
+  FailureMsg(quint8 failureCode);
 
-private:
-	static DataManager* pInstance;
-	DataManager();
+  //Reply Constructor
+  FailureMsg(NetMsg* msg, quint8 failureCode);
+
+  //Deserializing Constructors
+  FailureMsg(QDataStream* ds, QString origin);
+  
+  /*
+   *Getters n Setters
+   */
+  quint8 getFailureCode();
 
 };
 
-#endif /* __DATAMANAGER_H__ */
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

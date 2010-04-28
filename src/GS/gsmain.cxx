@@ -23,7 +23,7 @@
  *
  */
 
-#include "GS/GeometryService.h"
+#include "GeometryService.h"
 #include "alf/BaseApp.h"
 #include <iostream>
 

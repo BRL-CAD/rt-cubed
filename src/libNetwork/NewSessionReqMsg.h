@@ -1,5 +1,5 @@
-/*               G E O M E T R Y S E R V I C E . H
- * BRL-CAD
+/*            N E W S E S S I O N R E Q M S G . H
+ * BRLCAD
  *
  * Copyright (c) 2010 United States Government as represented by
  * the U.S. Army Research Laboratory.
@@ -17,48 +17,52 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file NewSessionReqMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYSERVICE_H__
-#define __GEOMETRYSERVICE_H__
+#ifndef __NEWSESSIONREQMSG_H__
+#define __NEWSESSIONREQMSG_H__
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
 
-#include "alf/BaseApp.h"
+#include "NetMsg.h"
 
-#include "GE/GeometryEngine.h"
-#include "GS/GSCommon.h"
-#include "libNetwork/NetPortalManager.h"
-#include "libNetwork/INetMsgHandler.h"
-
-class GeometryService : public BaseApp, public INetMsgHandler
+class NewSessionReqMsg : public NetMsg
 {
 
 public:
-	GeometryService(int& argc, char* argv[], QString localGSHostname);
-	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
 
-protected slots:
-    void handleNewPortal(NetPortal* nsp);
-    void handleMsgReady();
+  //Normal Constructor
+  NewSessionReqMsg(QString uname, QString passwd);
 
-private:
-	QString localGSHostname;
-	NetPortalManager* portalMan;
+  //Reply Constructor
+  NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd);
 
-	void handleNetMsg(NetMsg* msg, NetPortal* origin);
+  //Deserializing Constructors
+  NewSessionReqMsg(QDataStream* ds, QString origin);
+
+  //Destructor
+  virtual ~NewSessionReqMsg();
+
+  /*
+   * Utilities
+   */
+  virtual QString toString();
+  QString getUName();
+  QString getPasswd();
+
+protected:
+  QString uname;
+  QString passwd;
+
+  virtual bool _serialize(QDataStream* ds);
+  virtual bool _equals(NetMsg& msg);
+
 };
 
-#endif
+#endif //__NEWSESSIONREQMSG_H__
 
 // Local Variables: ***
 // mode: C++ ***

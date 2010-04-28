@@ -1,4 +1,4 @@
-/*                G E O M E T R Y R E Q M S G . H
+/*             D A T A M A N A G E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,53 +17,36 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryReqMsg.h
+/** @file DataManager.cxx
  *
- * Brief description
+ * Single point of access for all Database
+ * object IO from SVN, Cache and Disk
  *
  */
 
-#ifndef __GEOMETRYREQMSG_H__
-#define __GEOMETRYREQMSG_H__
+#ifndef __DATAMANAGER_H__
+#define __DATAMANAGER_H__
 
-#include "GS/GSCommon.h"
-#include "libNetwork/GenericOneStringMsg.h"
+#include "GSCommon.h"
+#include <QString>
+#include <QUuid>
 
-class GeometryReqMsg: public GenericOneStringMsg
-{
+class DataManager {
 
 public:
+	static DataManager* getInstance();
+	virtual ~DataManager();
 
-    //Only Constructor
-    GeometryReqMsg(quint8 requestType, QString data);
-
-    //Reply Constructor
-    GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
-
-    //Deserializing Constructors
-    GeometryReqMsg(QDataStream* ds, QString origin);
-
-    //Destructor
-    virtual ~GeometryReqMsg();
-
-    virtual QString toString();
-
-    /*
-     *Getters n Setters
-     */
-    quint8 getRequestType();
-
-    QString getData();
+	QString getDbObjectByURL(QString url);
+	QString getDbObjectByUUID(QUuid& uuid);
 
 private:
-    quint8 reqType;
-
-    bool _serialize(QDataStream* ds);
-    bool _equals(NetMsg& msg);
+	static DataManager* pInstance;
+	DataManager();
 
 };
 
-#endif
+#endif /* __DATAMANAGER_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/NetMsg.h"
+#include "NetMsg.h"
 #include <sstream>
 
 //Normal Constructor

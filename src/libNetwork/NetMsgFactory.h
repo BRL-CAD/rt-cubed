@@ -28,8 +28,8 @@
 
 #include "utility.h"
 
-#include "GS/GSCommon.h"
-#include "libNetwork/NetMsg.h"
+
+#include "NetMsg.h"
 
 #include <QByteArray>
 #include <QQueue>

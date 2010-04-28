@@ -27,9 +27,7 @@
 #ifndef __JOBSCHEDULER_H__
 #define __JOBSCHEDULER_H__
 
-#include "GS/GSCommon.h"
 #include <QMutex>
-
 
 class JobScheduler
 {

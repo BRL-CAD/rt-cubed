@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/GeometryReqMsg.h"
+#include "GeometryReqMsg.h"
 
 //Only Constructor
 GeometryReqMsg::GeometryReqMsg(quint8 requestType, QString data) :

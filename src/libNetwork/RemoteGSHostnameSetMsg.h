@@ -1,4 +1,4 @@
-/*             N E W H O S T O N N E T M S G . H
+/*             R E M O T E G S H O S T N A M E S E T M S G  . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,40 +17,39 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NewHostOnNetMsg.h
+/** @file RemoteGSHostnameSetMsg.cxx
  *
  * Brief description
  *
  */
 
-#ifndef __NEWHOSTONNETMSG_H__
-#define __NEWHOSTONNETMSG_H__
+#ifndef __REMOTEGSHOSTNAMESETMSG_H__
+#define __REMOTEGSHOSTNAMESETMSG_H__
 
-#include "GS/GSCommon.h"
-#include "libNetwork/GenericOneStringMsg.h"
 
-class NewHostOnNetMsg : public GenericOneStringMsg
+#include "GenericOneStringMsg.h"
+
+class RemoteGSHostnameSetMsg: public GenericOneStringMsg
 {
 
 public:
 
-  //Normal Constructor
-  NewHostOnNetMsg(QString s);
+    //Normal Constructor
+    RemoteGSHostnameSetMsg(QString s);
 
-  //Reply Constructor
-  NewHostOnNetMsg(NewHostOnNetMsg* msg, QString s);
+    //Reply Constructor
+    RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg, QString s);
 
-  //Deserializing Constructors
-  NewHostOnNetMsg(QDataStream* ds, QString origin);
+    //Deserializing Constructors
+    RemoteGSHostnameSetMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~NewHostOnNetMsg();
+    //Destructor
+    virtual ~RemoteGSHostnameSetMsg();
 
-  QString getNewGSHostname();
+    QString getRemoteGSHostname();
 };
 
-#endif
-
+#endif //__REMOTEGSHOSTNAMESETMSG_H__
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

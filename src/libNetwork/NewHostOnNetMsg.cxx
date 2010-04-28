@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/NewHostOnNetMsg.h"
+#include "NewHostOnNetMsg.h"
 #include <sstream>
 
 //Normal Constructor

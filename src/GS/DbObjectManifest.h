@@ -1,4 +1,4 @@
-/*           G E O M E T R Y M A N I F E S T M S G . H
+/*              D B O B J E C T M A N I F E S T . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,48 +17,31 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryManifestMsg.h
+/** @file DbObjectManifest.h
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYMANIFESTMSG_H__
-#define __GEOMETRYMANIFESTMSG_H__
+#ifndef __DBOBJECTMANIFEST_H__
+#define __DBOBJECTMANIFEST_H__
 
-#include <vector>
-#include "GS/GSCommon.h"
-#include "libNetwork/NetMsg.h"
+#include <list>
+#include <map>
+#include <string>
+#include "GSCommon.h"
+#include <QUuid>
 
-class GeometryManifestMsg: public NetMsg
+class DbObjectManifest
 {
 
 public:
-
-    //Normal Constructor
-    GeometryManifestMsg(QList<QString>& items);
-
-    //Reply Constructor
-    GeometryManifestMsg(NetMsg* msg, QList<QString>& items);
-
-    //Deserializing Constructor
-    GeometryManifestMsg(QDataStream* ds, QString origin);
-
-    //Destructor
-    virtual ~GeometryManifestMsg();
-
-    virtual QString toString();
-
-    /*
-     *Getters n Setters
-     */
-    quint32 getNumOfItems();
-    QList<QString>* getItemData();
+	DbObjectManifest();
+	virtual ~DbObjectManifest();
 
 private:
-    QList<QString>* itemData;
-
-    virtual bool _serialize(QDataStream* ds);
+	std::list<QUuid> DbObjectList;
+	std::map<QUuid, std::string > DbObjectMap;
 
 };
 

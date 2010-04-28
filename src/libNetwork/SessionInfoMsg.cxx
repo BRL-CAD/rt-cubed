@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/SessionInfoMsg.h"
+#include "SessionInfoMsg.h"
 #include <sstream>
 
 //Normal Constructor

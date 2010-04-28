@@ -1,4 +1,4 @@
-/*             G E N E R I C M U L T I B Y T E M S G . H
+/*                G E O M E T R Y R E Q M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,48 +17,49 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GenericMultiByteMsg.h
+/** @file GeometryReqMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GENERICMULTIBYTEMSG_H__
-#define __GENERICMULTIBYTEMSG_H__
+#ifndef __GEOMETRYREQMSG_H__
+#define __GEOMETRYREQMSG_H__
 
-#include "libNetwork/NetMsg.h"
 
-class GenericMultiByteMsg : public NetMsg
+#include "GenericOneStringMsg.h"
+
+class GeometryReqMsg: public GenericOneStringMsg
 {
 
 public:
 
-  //Normal Constructor
-  GenericMultiByteMsg(quint32 type, char* dataIn, quint32 dataInLen);
+    //Only Constructor
+    GeometryReqMsg(quint8 requestType, QString data);
 
-  //Reply Constructor
-  GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn, quint32 dataInLen);
+    //Reply Constructor
+    GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
 
-  //Deserializing Constructors
-  GenericMultiByteMsg(QDataStream* ds, QString origin);
+    //Deserializing Constructors
+    GeometryReqMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~GenericMultiByteMsg();
+    //Destructor
+    virtual ~GeometryReqMsg();
 
-  /*
-   * Utilities
-   */
-  virtual QString toString();
+    virtual QString toString();
 
-protected:
-  quint32 getDataLen();
-  char* getData();
+    /*
+     *Getters n Setters
+     */
+    quint8 getRequestType();
 
-  quint32 dataLen;
-  char* data;
+    QString getData();
 
-  virtual bool _serialize(QDataStream* ds);
-  virtual bool _equals(NetMsg& msg);
+private:
+    quint8 reqType;
+
+    bool _serialize(QDataStream* ds);
+    bool _equals(NetMsg& msg);
 
 };
 

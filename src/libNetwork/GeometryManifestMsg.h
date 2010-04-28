@@ -1,4 +1,4 @@
-/*                S E S S I O N M A N A G E R . H
+/*           G E O M E T R Y M A N I F E S T M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,33 +17,49 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file SessionManager.h
+/** @file GeometryManifestMsg.h
  *
- * Provides management functions for active Sessions.
+ * Brief description
  *
  */
 
-#ifndef __SESSIONMANAGER_H__
-#define __SESSIONMANAGER_H__
+#ifndef __GEOMETRYMANIFESTMSG_H__
+#define __GEOMETRYMANIFESTMSG_H__
 
-#include "GS/Session.h"
-#include "libNetwork/INetMsgHandler.h"
+#include <vector>
 
-#include <QMap>
+#include "NetMsg.h"
 
-class SessionManager: public INetMsgHandler
+class GeometryManifestMsg: public NetMsg
 {
+
 public:
-    static SessionManager* getInstance();
-    virtual ~SessionManager();
-    void handleNetMsg(NetMsg* msg, NetPortal* origin);
+
+    //Normal Constructor
+    GeometryManifestMsg(QList<QString>& items);
+
+    //Reply Constructor
+    GeometryManifestMsg(NetMsg* msg, QList<QString>& items);
+
+    //Deserializing Constructor
+    GeometryManifestMsg(QDataStream* ds, QString origin);
+
+    //Destructor
+    virtual ~GeometryManifestMsg();
+
+    virtual QString toString();
+
+    /*
+     *Getters n Setters
+     */
+    quint32 getNumOfItems();
+    QList<QString>* getItemData();
 
 private:
-    static SessionManager* pInstance;
-    SessionManager();
-    Session* newSession(quint32 accountID);
+    QList<QString>* itemData;
 
-    QMap<quint32, Session*>* sessionIdMap;
+    virtual bool _serialize(QDataStream* ds);
+
 };
 
 #endif

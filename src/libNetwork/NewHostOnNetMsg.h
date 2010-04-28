@@ -1,5 +1,5 @@
-/*            N E W S E S S I O N R E Q M S G . H
- * BRLCAD
+/*             N E W H O S T O N N E T M S G . H
+ * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
  * the U.S. Army Research Laboratory.
@@ -17,52 +17,39 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NewSessionReqMsg.h
+/** @file NewHostOnNetMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __NEWSESSIONREQMSG_H__
-#define __NEWSESSIONREQMSG_H__
+#ifndef __NEWHOSTONNETMSG_H__
+#define __NEWHOSTONNETMSG_H__
 
-#include "GS/GSCommon.h"
-#include "libNetwork/NetMsg.h"
 
-class NewSessionReqMsg : public NetMsg
+#include "GenericOneStringMsg.h"
+
+class NewHostOnNetMsg : public GenericOneStringMsg
 {
 
 public:
 
   //Normal Constructor
-  NewSessionReqMsg(QString uname, QString passwd);
+  NewHostOnNetMsg(QString s);
 
   //Reply Constructor
-  NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd);
+  NewHostOnNetMsg(NewHostOnNetMsg* msg, QString s);
 
   //Deserializing Constructors
-  NewSessionReqMsg(QDataStream* ds, QString origin);
+  NewHostOnNetMsg(QDataStream* ds, QString origin);
 
   //Destructor
-  virtual ~NewSessionReqMsg();
+  virtual ~NewHostOnNetMsg();
 
-  /*
-   * Utilities
-   */
-  virtual QString toString();
-  QString getUName();
-  QString getPasswd();
-
-protected:
-  QString uname;
-  QString passwd;
-
-  virtual bool _serialize(QDataStream* ds);
-  virtual bool _equals(NetMsg& msg);
-
+  QString getNewGSHostname();
 };
 
-#endif //__NEWSESSIONREQMSG_H__
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

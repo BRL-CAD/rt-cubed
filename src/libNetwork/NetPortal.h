@@ -30,9 +30,9 @@
 #include <QtNetwork/QTcpSocket>
 #include <QString>
 
-#include "GS/GSCommon.h"
+
 #include "utility.h"
-#include "libNetwork/NetMsgFactory.h"
+#include "NetMsgFactory.h"
 
 class NetPortalManager;
 

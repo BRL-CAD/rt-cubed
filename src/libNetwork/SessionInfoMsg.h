@@ -1,5 +1,5 @@
-/*             G E N E R I C O N E B Y T E M S G . H
- * BRL-CAD
+/*            S E S S I O N I N F O M S G . H
+ * BRLCAD
  *
  * Copyright (c) 2010 United States Government as represented by
  * the U.S. Army Research Laboratory.
@@ -17,49 +17,49 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GenericOneByteMsg.h
+/** @file SessionInfoMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GENERICONEBYTEMSG_H__
-#define __GENERICONEBYTEMSG_H__
+#ifndef __SESSIONINFOMSG_H__
+#define __SESSIONINFOMSG_H__
 
-#include "GS/GSCommon.h"
-#include "libNetwork/NetMsg.h"
+#include "NetMsg.h"
 
-class GenericOneByteMsg : public NetMsg
+class SessionInfoMsg : public NetMsg
 {
 
 public:
 
   //Normal Constructor
-  GenericOneByteMsg(quint32 type, quint8 b);
+  SessionInfoMsg(QUuid sessionID);
 
   //Reply Constructor
-  GenericOneByteMsg(quint32 type, NetMsg* msg, quint8 b);
+  SessionInfoMsg(NetMsg* msg, QUuid sessionID);
 
   //Deserializing Constructors
-  GenericOneByteMsg(QDataStream* ds, QString origin);
+  SessionInfoMsg(QDataStream* ds, QString origin);
 
   //Destructor
-  virtual ~GenericOneByteMsg();
+  virtual ~SessionInfoMsg();
 
   /*
    * Utilities
    */
   virtual QString toString();
+  QUuid getSessionID();
 
 protected:
-  quint8 getData();
-  quint8 data;
+  QUuid sessionID;
 
   virtual bool _serialize(QDataStream* ds);
-  virtual bool _equals(NetMsg& msg);
+
+
 };
 
-#endif
+#endif //__SESSIONINFOMSG_H__
 
 // Local Variables: ***
 // mode: C++ ***

@@ -1,4 +1,4 @@
-/*              G E O M E T R Y C H U N K M S G . H
+/*               G S C O M M O N . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,33 +17,15 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryChunkMsg.h
+/** @file GeometryService.h
  *
  * Brief description
  *
  */
 
-#ifndef __GEOMETRYCHUNKMSG_H__
-#define __GEOMETRYCHUCKMSG_H__
+#ifndef __GSCOMMON_H__
+#define __GSCOMMON_H__
 
-#include "GS/GSCommon.h"
-#include "libNetwork/GenericMultiByteMsg.h"
-
-class GeometryChunkMsg : public GenericMultiByteMsg
-{
-  
-public:
-
-  //Normal Constructor
-  GeometryChunkMsg(char* dataIn, quint32 dataInLen);
-
-  //Reply Constructor
-  GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen);
-
-  //Deserializing Constructors
-  GeometryChunkMsg(QDataStream* ds, QString origin);
-  
- };
 
 #endif
 

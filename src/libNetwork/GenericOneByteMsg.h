@@ -1,4 +1,4 @@
-/*             R E M O T E G S H O S T N A M E S E T M S G  . H
+/*             G E N E R I C O N E B Y T E M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,39 +17,50 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file RemoteGSHostnameSetMsg.cxx
+/** @file GenericOneByteMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __REMOTEGSHOSTNAMESETMSG_H__
-#define __REMOTEGSHOSTNAMESETMSG_H__
+#ifndef __GENERICONEBYTEMSG_H__
+#define __GENERICONEBYTEMSG_H__
 
-#include "GS/GSCommon.h"
-#include "libNetwork/GenericOneStringMsg.h"
 
-class RemoteGSHostnameSetMsg: public GenericOneStringMsg
+#include "NetMsg.h"
+
+class GenericOneByteMsg : public NetMsg
 {
 
 public:
 
-    //Normal Constructor
-    RemoteGSHostnameSetMsg(QString s);
+  //Normal Constructor
+  GenericOneByteMsg(quint32 type, quint8 b);
 
-    //Reply Constructor
-    RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg, QString s);
+  //Reply Constructor
+  GenericOneByteMsg(quint32 type, NetMsg* msg, quint8 b);
 
-    //Deserializing Constructors
-    RemoteGSHostnameSetMsg(QDataStream* ds, QString origin);
+  //Deserializing Constructors
+  GenericOneByteMsg(QDataStream* ds, QString origin);
 
-    //Destructor
-    virtual ~RemoteGSHostnameSetMsg();
+  //Destructor
+  virtual ~GenericOneByteMsg();
 
-    QString getRemoteGSHostname();
+  /*
+   * Utilities
+   */
+  virtual QString toString();
+
+protected:
+  quint8 getData();
+  quint8 data;
+
+  virtual bool _serialize(QDataStream* ds);
+  virtual bool _equals(NetMsg& msg);
 };
 
-#endif //__REMOTEGSHOSTNAMESETMSG_H__
+#endif
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

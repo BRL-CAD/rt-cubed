@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/GeometryManifestMsg.h"
+#include "GeometryManifestMsg.h"
 
 //Normal Constructor
 GeometryManifestMsg::GeometryManifestMsg(QList<QString>& items) :

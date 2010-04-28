@@ -23,7 +23,7 @@
  *
  */
 
-#include "GS/DbObjectManifest.h"
+#include "DbObjectManifest.h"
 
 DbObjectManifest::DbObjectManifest()
 {

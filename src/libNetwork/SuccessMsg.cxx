@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/SuccessMsg.h"
+#include "SuccessMsg.h"
 #include <sstream>
 
 //Normal Constructor

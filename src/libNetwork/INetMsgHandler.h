@@ -1,5 +1,5 @@
-/*            S E S S I O N I N F O M S G . H
- * BRLCAD
+/*              I N E T M S G H A N D L E R . H
+ * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
  * the U.S. Army Research Laboratory.
@@ -17,51 +17,27 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file SessionInfoMsg.h
+/** @file INetMsgHandler.h
  *
- * Brief description
+ * Interface.  Any class needing to handle incoming
+ * NetMsgs and be registered to the NetMsgSubscriberRegistry
+ * must implement this interface.
  *
  */
 
-#ifndef __SESSIONINFOMSG_H__
-#define __SESSIONINFOMSG_H__
+#ifndef __INETMSGHANDLER_H__
+#define __INETMSGHANDLER_H__
 
-#include "GS/GSCommon.h"
-#include "GS/Session.h"
-#include "libNetwork/NetMsg.h"
+#include "NetMsg.h"
+#include "NetPortal.h"
 
-class SessionInfoMsg : public NetMsg
-{
-
+class INetMsgHandler {
 public:
-
-  //Normal Constructor
-  SessionInfoMsg(QUuid sessionID);
-
-  //Reply Constructor
-  SessionInfoMsg(NetMsg* msg, QUuid sessionID);
-
-  //Deserializing Constructors
-  SessionInfoMsg(QDataStream* ds, QString origin);
-
-  //Destructor
-  virtual ~SessionInfoMsg();
-
-  /*
-   * Utilities
-   */
-  virtual QString toString();
-  QUuid getSessionID();
-
-protected:
-  QUuid sessionID;
-
-  virtual bool _serialize(QDataStream* ds);
-
-
+	virtual void handleNetMsg(NetMsg* msg, NetPortal* origin){};
 };
 
-#endif //__SESSIONINFOMSG_H__
+#endif /* __INETMSGHANDLER_H__ */
+
 
 // Local Variables: ***
 // mode: C++ ***

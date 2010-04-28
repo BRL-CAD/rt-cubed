@@ -23,7 +23,7 @@
  *
  */
 
-#include "libNetwork/RemoteGSHostnameSetMsg.h"
+#include "RemoteGSHostnameSetMsg.h"
 #include <sstream>
 
 //Normal Constructor

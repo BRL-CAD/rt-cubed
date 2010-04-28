@@ -1,4 +1,4 @@
-/*             G E N E R I C O N E S T R I N G M S G . H
+/*                S E S S I O N M A N A G E R . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,47 +17,33 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GenericOneStringMsg.h
+/** @file SessionManager.h
  *
- * Brief description
+ * Provides management functions for active Sessions.
  *
  */
 
-#ifndef __GENERICONESTRINGMSG_H__
-#define __GENERICONESTRINGMSG_H__
+#ifndef __SESSIONMANAGER_H__
+#define __SESSIONMANAGER_H__
 
-#include "GS/GSCommon.h"
-#include "libNetwork/NetMsg.h"
+#include "Session.h"
+#include "network.h"
 
-class GenericOneStringMsg : public NetMsg
+#include <QMap>
+
+class SessionManager: public INetMsgHandler
 {
-
 public:
+    static SessionManager* getInstance();
+    virtual ~SessionManager();
+    void handleNetMsg(NetMsg* msg, NetPortal* origin);
 
-  //Normal Constructor
-  GenericOneStringMsg(quint32 type, QString s);
+private:
+    static SessionManager* pInstance;
+    SessionManager();
+    Session* newSession(quint32 accountID);
 
-  //Reply Constructor
-  GenericOneStringMsg(quint32 type, NetMsg* msg, QString s);
-
-  //Deserializing Constructors
-  GenericOneStringMsg(QDataStream* ds, QString origin);
-
-  //Destructor
-  virtual ~GenericOneStringMsg();
-
-  /*
-   * Utilities
-   */
-  virtual QString toString();
-
-protected:
-  QString getStrData();
-  QString strData;
-
-  virtual bool _serialize(QDataStream* ds);
-  virtual bool _equals(NetMsg& msg);
-
+    QMap<quint32, Session*>* sessionIdMap;
 };
 
 #endif

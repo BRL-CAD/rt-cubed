@@ -28,7 +28,7 @@
 
 #include "libNetwork/NetPortalManager.h"
 #include "libNetwork/NetPortal.h"
-#include "GS/GSCommon.h"
+#include "GSCommon.h"
 #include "utility/Logger.h"
 
 #include <QObject>

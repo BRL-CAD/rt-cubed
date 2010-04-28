@@ -26,8 +26,6 @@
 #ifndef __LOGGER_H__
 #define __LOGGER_H__
 
-#include "GS/GSCommon.h"
-
 #include <QThread>
 #include <QString>
 #include <QMutex>

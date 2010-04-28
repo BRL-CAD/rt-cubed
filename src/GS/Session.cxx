@@ -23,7 +23,7 @@
  *
  */
 
-#include "GS/Session.h"
+#include "Session.h"
 
 Session::Session(quint32 accountID)
 {

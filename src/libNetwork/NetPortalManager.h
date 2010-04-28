@@ -28,7 +28,7 @@
 
 #include "utility.h"
 
-#include "libNetwork/NetPortal.h"
+#include "NetPortal.h"
 
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QHostAddress>

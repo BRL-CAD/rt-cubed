@@ -23,8 +23,8 @@
  *
  */
 
-#include "libNetwork/NetPortalManager.h"
-#include "libNetwork/RemoteGSHostnameSetMsg.h"
+#include "NetPortalManager.h"
+#include "RemoteGSHostnameSetMsg.h"
 #include <QTcpSocket>
 #include <iostream>
 

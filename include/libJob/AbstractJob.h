@@ -26,13 +26,22 @@
 #ifndef __ABSTRACTJOB_H__
 #define __ABSTRACTJOB_H__
 
-#include "GS/GSCommon.h"
 #include <Qt>
+
+enum JobStatus
+{
+    JOB_NOTSTARTED, JOB_RUNNING, JOB_FINISHED
+};
+enum JobResult
+{
+    JOB_COMPLETED_NO_ERRORS, JOB_COMPLETED_WITH_ERRORS, JOB_FAILED
+};
 
 class AbstractJob
 {
 
 public:
+
     AbstractJob();
     virtual ~AbstractJob();
 
