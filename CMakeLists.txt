@@ -35,12 +35,13 @@ ENDIF(COMMAND cmake_policy)
 INCLUDE (cmake/PrintHeader.cmake)
 #################################
 
-
 #Shortcut for root dir
 SET(RT3_ROOT ${CMAKE_SOURCE_DIR})
 
 #Set path for cmake modules.
 SET(CMAKE_MODULE_PATH "${RT3_ROOT}/cmake")
+
+INCLUDE (cmake/rt3commons.cmake)
 
 #
 # Globals
@@ -53,7 +54,7 @@ MESSAGE(STATUS "System Version: ${CMAKE_SYSTEM_VERSION}")
 SET(RT3_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
 #Start of global include var
-SET(GLOBAL_INCLUDE_DIRS ${RT3_INCLUDE_DIR})
+SET(GLOBAL_INCLUDE_DIRS ${RT3_INCLUDE_DIR} CACHE INTERNAL "")
 MESSAGE(STATUS "GLOBAL_INCLUDE_DIRS: ${GLOBAL_INCLUDE_DIRS}")
 MESSAGE(STATUS "")
 
