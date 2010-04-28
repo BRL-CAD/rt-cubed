@@ -26,7 +26,7 @@
 #
 ##########################################################################
 
-RT3_PROJECT(libUtility)
+RT3_PROJECT(utility)
 
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS(
@@ -67,4 +67,4 @@ RT3_PROJECT_ADD_QT_INST_HEADERS()
 RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 
 #Build the project
-RT3_PROJECT_BUILD_LIB("utility")
+RT3_PROJECT_BUILD_LIB()

@@ -28,7 +28,7 @@
 
 #include "GS/GSCommon.h"
 #include "libJob/AbstractJob.h"
-#include "libUtility.h"
+#include "utility.h"
 #include <QThread>
 #include <QUuid>
 #include <string>

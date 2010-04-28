@@ -23,7 +23,7 @@
 
 #include "libJob/PrintToStdOutJob.h"
 #include <iostream>
-#include "libUtility.h"
+#include "utility.h"
 
 PrintToStdOutJob::PrintToStdOutJob(QString text)
 {

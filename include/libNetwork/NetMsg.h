@@ -29,7 +29,7 @@
 #include "GS/GSCommon.h"
 
 #include "GE/exception/IOException.h"
-#include "libUtility.h"
+#include "utility.h"
 #include <QDataStream>
 #include <QByteArray>
 #include <QUuid>

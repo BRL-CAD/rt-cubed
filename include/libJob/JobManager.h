@@ -28,7 +28,7 @@
 
 #include "libJob/AbstractJob.h"
 #include "libJob/JobWorker.h"
-#include "libUtility.h"
+#include "utility.h"
 #include "GS/GSCommon.h"
 #include <QList>
 #include <QMutex>
