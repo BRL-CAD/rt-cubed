@@ -135,24 +135,25 @@ MACRO(RT3_PROJECT_PRINT)
     
     MESSAGE(STATUS "\tConfiguration for '${PROJECT_NAME}':")
     
-    IF(${NAME_UPPER}_INCLUDE_DIRS)
-        MESSAGE(STATUS "\t\t'${PROJECT_NAME}' include dirs:  ${${NAME_UPPER}_INCLUDE_DIRS}")
-    ELSE(${NAME_UPPER}_INCLUDE_DIRS)
-        MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no include dirs.")
-    ENDIF(${NAME_UPPER}_INCLUDE_DIRS)
-    
-    IF(${NAME_UPPER}_LINK_LIBS)
-        MESSAGE(STATUS "\t\t'${PROJECT_NAME}' linked libraries:   ${${NAME_UPPER}_LINK_LIBS}")
-    ELSE(${NAME_UPPER}_LINK_LIBS)
-        MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no linked libraries.")
-    ENDIF(${NAME_UPPER}_LINK_LIBS)
- 
-    IF(${NAME_UPPER}_SOURCES)
-        MESSAGE(STATUS "\t\t'${PROJECT_NAME}' source files:   ${${NAME_UPPER}_SOURCES}")
-    ELSE(${NAME_UPPER}_SOURCES)
-        MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no source files!")
-    ENDIF(${NAME_UPPER}_SOURCES)
-    
+    IF(VERBOSE_CMAKE_OUTPUT)    
+        IF(${NAME_UPPER}_INCLUDE_DIRS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' include dirs:  ${${NAME_UPPER}_INCLUDE_DIRS}")
+        ELSE(${NAME_UPPER}_INCLUDE_DIRS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no include dirs.")
+        ENDIF(${NAME_UPPER}_INCLUDE_DIRS)
+        
+        IF(${NAME_UPPER}_LINK_LIBS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' linked libraries:   ${${NAME_UPPER}_LINK_LIBS}")
+        ELSE(${NAME_UPPER}_LINK_LIBS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no linked libraries.")
+        ENDIF(${NAME_UPPER}_LINK_LIBS)
+     
+        IF(${NAME_UPPER}_SOURCES)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' source files:   ${${NAME_UPPER}_SOURCES}")
+        ELSE(${NAME_UPPER}_SOURCES)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no source files!")
+        ENDIF(${NAME_UPPER}_SOURCES)
+    ENDIF(VERBOSE_CMAKE_OUTPUT)
     
 ENDMACRO(RT3_PROJECT_PRINT)
 

@@ -62,8 +62,10 @@ MESSAGE(STATUS "")
 # FLAGS
 #
 
+SET (VERBOSE_CMAKE_OUTPUT OFF CACHE BOOL "Verbose cmake output.")
+
 #Setup unit testing compilation flag
-SET (COMPILE_UNIT_TESTS OFF CACHE BOOL "Compile the Unit test suite? (Requires CPPUNIT)")
+SET (COMPILE_UNIT_TESTS OFF CACHE BOOL "Compile the Unit test suite?")
 
 MESSAGE(STATUS "Finding Required Dependancies...")
 
