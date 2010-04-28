@@ -26,35 +26,48 @@
 #
 ##########################################################################
 
-PROJECT(LibUtility)
+RT3_PROJECT(libUtility)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
 
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     tds
     ${QT_LIBRARIES}
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-set(LIBUTILITY_SOURCES
-	init.cxx
-	Application.cxx
-	Date.cxx
-	Time.cxx
-	Timer.cxx
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
     Config.cxx
-	Utils.cxx
+	GSException.cxx
 	Logger.cxx
 	ThreadUtils.cxx
-	GSException.cxx
+	Utils.cxx
 )
 
-ADD_LIBRARY (utility SHARED ${LIBUTILITY_SOURCES})
-TARGET_LINK_LIBRARIES(utility ${PROJ_LINK_LIBS})
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS(
+    Config.h
+	Utils.h
+	Logger.h
+	ThreadUtils.h
+	GSException.h
+)
 
-MESSAGE(STATUS "\tDone.")
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS(
+)
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS(
+)
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS(
+)
+
+#Build the project
+RT3_PROJECT_BUILD_LIB("utility")

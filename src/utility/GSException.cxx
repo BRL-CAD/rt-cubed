@@ -23,8 +23,8 @@
  *  Created on: Apr 27, 2010
  */
 
-#include "utility/GSException.h"
-#include "utility/Logger.h"
+#include "GSException.h"
+#include "Logger.h"
 
 GSException::GSException(QString reason)
 {

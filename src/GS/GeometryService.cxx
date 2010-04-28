@@ -25,7 +25,7 @@
 
 #include "GS/GeometryService.h"
 #include "GS/SessionManager.h"
-#include "utility/GSException.h"
+#include "GSException.h"
 
 GeometryService::GeometryService(int& argc, char* argv[], QString gsHostname) :
     BaseApp(argc, argv), localGSHostname(gsHostname)

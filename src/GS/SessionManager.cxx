@@ -28,7 +28,7 @@
 #include "libNetwork/NewSessionReqMsg.h"
 #include "libNetwork/SessionInfoMsg.h"
 #include "libNetwork/FailureMsg.h"
-#include "utility/GSException.h"
+#include "GSException.h"
 #include <QMutexLocker>
 
 SessionManager* SessionManager::pInstance = NULL;

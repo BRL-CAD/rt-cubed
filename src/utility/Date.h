@@ -1,4 +1,4 @@
-/*                   C O N F I G . H
+/*                          D A T E . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,45 +17,33 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file Config.h
+/** @file Date.h
  *
  * Brief description
  *
  */
 
-#ifndef __CONFIG_H__
-#define __CONFIG_H__
+#ifndef __DATE_H__
+#define __DATE_H__
 
-#include "GS/GSCommon.h"
-#include "utility/Logger.h"
-#include <QMap>
-#include <QString>
+#include <string>
 
-class Config
+/** Generic representation of a date
+ */
+class Date
 {
-
+protected:
 public:
-	~Config();
-	static Config* getInstance();
+    Date();
+    Date(int year, unsigned month, unsigned day);
+    Date(const Date& date);
+    Date(const std::string date);
+    ~Date();
 
-	bool loadFile(QString pathAndFileName);
-	QString getConfigValue(QString key);
-	QList<QString> getAllKeys();
-
-private:
-	Config(); //Turn off Default cstr
-	Config(const Config& c){}; //Turn off Copy cstr
-	Config& operator=(const Config& c){}; //Turn off equal oper
-	void processLine(QString line);
-	void removeAllOccurances(QString* data, QString search,
-			QString replace);
-
-	QMutex lock;
-	Logger* log;
-	QMap<QString, QString>* configMap;
-
-	static Config* pInstance;
-
+    std::string string();
+    Date& operator=(Date date);
+    Date& operator+=(Date date);
+    Date& operator-=(Date date);
 };
 
 #endif

@@ -33,20 +33,17 @@
 #include "Date.h"
 #include "Time.h"
 
-
-namespace Utility {
-
-  /** Application is responsible for defining and handling command-line options
-   * and, more importantly, for actually doing something.
-   */
-  class Application
-  {
-  protected:
+/** Application is responsible for defining and handling command-line options
+ * and, more importantly, for actually doing something.
+ */
+class Application
+{
+protected:
     Date _runDate;
     Time _runTime;
 
-  public:
-    Application(int argc=0, char *argv[]=0);
+public:
+    Application(int argc = 0, char *argv[] = 0);
     ~Application();
 
     /** main routine for an application, should only return when the
@@ -55,7 +52,7 @@ namespace Utility {
     bool run();
 
     /** date when the application was compiled */
-    Date  buildDate() const;
+    Date buildDate() const;
     /** time of day when the application was compiled */
     Time buildTime() const;
 
@@ -67,10 +64,7 @@ namespace Utility {
     /** status message of how long app has been running */
     std::string uptime() const;
 
-  };
-
-}
-
+};
 
 #endif
 

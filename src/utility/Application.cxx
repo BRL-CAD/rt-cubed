@@ -24,7 +24,7 @@
  */
 
 // interface header
-#include "utility/Application.h"
+#include "Application.h"
 
 // implementation system headers
 #include <time.h>
@@ -33,7 +33,6 @@
 // implementation headers
 #include "../date/buildStamp.h"
 
-using namespace Utility;
 
 Application::Application(int argc, char*argv[])
 {

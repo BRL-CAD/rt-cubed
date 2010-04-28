@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "RtApplication.h"
-#include "utility/Utility.h"
+#include "Utility.h"
 #include "Geometry/Geometry.h"
 #include "Raytrace/Raytrace.h"
 #include "Image/Image.h"

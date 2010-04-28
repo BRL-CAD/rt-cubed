@@ -23,7 +23,7 @@
  *
  */
 
-#include "utility/Logger.h"
+#include "Logger.h"
 #include <QTime>
 #include <iomanip>
 

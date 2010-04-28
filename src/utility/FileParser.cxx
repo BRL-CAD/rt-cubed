@@ -1,4 +1,4 @@
-/*                       U T I L I T Y . H
+/*                    F I L E P A R S E R . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,27 +17,41 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file Utility.h
+/** @file FileParser.cxx
  *
  * Brief description
  *
  */
 
-#ifndef __UTILITY_H__
-#define __UTILTIY_H__
+#include "FileParser.h"
 
-namespace Utility {
-  int init();
+
+bool FileParser<FileParserMethod, Container>::load()
+{
+    /*    _container->add(*parse(_filename)); */
 }
 
-#include "utility/Application.h"
-#include "utility/Date.h"
-#include "utility/FileParser.h"
-#include "utility/Time.h"
-#include "utility/Timer.h"
+
+FileParser<FileParserMethod, Container>::FileParser(std::string filename) :
+    FileParserMethod(filename)
+{
+    _filename = filename;
+    _container = new Container();
+    load();
+}
 
 
-#endif
+FileParser<FileParserMethod, Container>::~FileParser()
+{
+    _filename = "";
+    delete _container;
+}
+
+
+Container& FileParser<FileParserMethod, Container>::getContainer() const
+{
+    return *_container;
+}
 
 // Local Variables: ***
 // mode: C++ ***

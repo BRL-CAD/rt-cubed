@@ -1,4 +1,4 @@
-/*                          D A T E . H
+/*                    F I L E P A R S E R . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,39 +17,32 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file Date.h
+/** @file FileParser.h
  *
  * Brief description
  *
  */
 
-#ifndef __DATE_H__
-#define __DATE_H__
+#ifndef __FILEPARSER_H__
+#define __FILEPARSER_H__
 
-#include <string>
+#include <iostream>
 
-namespace Utility {
+//template<typename FileParserMethod, typename Container>
+class FileParser: public FileParserMethod
+{
+protected:
+    std::string _filename;
+    Container *_container;
+public:
+    bool load();
 
-  /** Generic representation of a date
-   */
-  class Date
-  {
-  protected:
-  public:
-    Date();
-    Date(int year, unsigned month, unsigned day);
-    Date(const Date& date);
-    Date(const std::string date);
-    ~Date();
+    FileParser(std::string filename);
+    ~FileParser();
 
-    std::string string();
-    Date& operator=(Date date);
-    Date& operator+=(Date date);
-    Date& operator-=(Date date);
-  };
+    Container& getContainer() const;
 
-}
-
+};
 
 #endif
 

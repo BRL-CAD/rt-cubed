@@ -31,7 +31,7 @@
 #include <QString>
 
 #include "GS/GSCommon.h"
-#include "utility/Logger.h"
+#include "Logger.h"
 #include "libNetwork/NetMsgFactory.h"
 
 class NetPortalManager;

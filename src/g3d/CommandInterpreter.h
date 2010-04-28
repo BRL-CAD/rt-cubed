@@ -35,7 +35,7 @@
 #include <QObject>
 #include <QString>
 
-#include "../../include/utility/Singleton.h"
+#include "Singleton.h"
 
 
 class Command;

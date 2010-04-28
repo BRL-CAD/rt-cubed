@@ -26,7 +26,7 @@
 #ifndef __NETMSGFACTORY_H__
 #define __NETMSGFACTORY_H__
 
-#include "utility/Logger.h"
+#include "Logger.h"
 
 #include "GS/GSCommon.h"
 #include "libNetwork/NetMsg.h"

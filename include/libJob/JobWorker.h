@@ -28,7 +28,7 @@
 
 #include "GS/GSCommon.h"
 #include "libJob/AbstractJob.h"
-#include "utility/Logger.h"
+#include "Logger.h"
 #include <QThread>
 #include <QUuid>
 #include <string>

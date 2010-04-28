@@ -26,15 +26,19 @@
 #
 ##########################################################################
 
+#Deps first
 ADD_SUBDIRECTORY(./other/)
 
+#Libs next
 ADD_SUBDIRECTORY(./date)
 ADD_SUBDIRECTORY(./GE)
-ADD_SUBDIRECTORY(./GS)
 ADD_SUBDIRECTORY(./alf)
-ADD_SUBDIRECTORY(./utility)
-ADD_SUBDIRECTORY(./adminpanel)
+ADD_SUBDIRECTORY(./utility) 
 ADD_SUBDIRECTORY(./libNetwork)
 ADD_SUBDIRECTORY(./libJob)
-
 ADD_SUBDIRECTORY(./coreInterface)
+
+
+#Apps Last
+ADD_SUBDIRECTORY(./GS)
+ADD_SUBDIRECTORY(./adminpanel)

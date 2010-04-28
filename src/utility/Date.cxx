@@ -24,44 +24,35 @@
  */
 
 // interface header
-#include "utility/Date.h"
+#include "Date.h"
 
 // implementation system headers
 #include <time.h>
-
-
-using namespace Utility;
 
 Date::Date()
 {
 }
 
-
 Date::Date(int year, unsigned month, unsigned day)
 {
 }
-
 
 Date::Date(const Date& date)
 {
 }
 
-
 Date::Date(const std::string date)
 {
 }
-
 
 Date::~Date()
 {
 }
 
-
 std::string Date::string()
 {
-  return std::string("");
+    return std::string("");
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

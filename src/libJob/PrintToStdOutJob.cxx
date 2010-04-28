@@ -23,7 +23,7 @@
 
 #include "libJob/PrintToStdOutJob.h"
 #include <iostream>
-#include "utility/ThreadUtils.h"
+#include "ThreadUtils.h"
 
 PrintToStdOutJob::PrintToStdOutJob(QString text)
 {

@@ -27,15 +27,11 @@
 #define __TIME_H__
 
 #include <string>
-
-namespace Utility {
-
-  /** Generic representation of time
-   */
-  class Time
-  {
-  protected:
-  public:
+/** Generic representation of time
+ */
+class Time
+{
+public:
     Time();
     Time(int hour, int minute, int second);
     Time(const Time& time);
@@ -47,10 +43,7 @@ namespace Utility {
     Time& operator=(Time time);
     Time& operator+=(Time time);
     Time& operator-=(Time time);
-  };
-
-}
-
+};
 
 #endif
 

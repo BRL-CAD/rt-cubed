@@ -1,4 +1,4 @@
-/*                        I N I T . C X X
+/*                   C O N F I G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,20 +17,48 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file init.cxx
+/** @file Config.h
  *
  * Brief description
  *
  */
 
-#include <iostream>
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
 
-namespace Utility {
-  int init() {
-    std::cout << "initializing libUtility" << std::endl;
-    return 0;
-  }
-}
+#include "GS/GSCommon.h"
+#include "Logger.h"
+#include <QMap>
+#include <QString>
+
+class Config
+{
+
+public:
+	~Config();
+	static Config* getInstance();
+
+	bool loadFile(QString pathAndFileName);
+	QString getConfigValue(QString key);
+	QList<QString> getAllKeys();
+
+private:
+	Config(); //Turn off Default cstr
+	Config(const Config& c){}; //Turn off Copy cstr
+	Config& operator=(const Config& c){}; //Turn off equal oper
+	void processLine(QString line);
+	void removeAllOccurances(QString* data, QString search,
+			QString replace);
+
+	QMutex lock;
+	Logger* log;
+	QMap<QString, QString>* configMap;
+
+	static Config* pInstance;
+
+};
+
+#endif
 
 // Local Variables: ***
 // mode: C++ ***

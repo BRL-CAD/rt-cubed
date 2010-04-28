@@ -23,7 +23,7 @@
  *
  */
 
-#include "utility/Config.h"
+#include "Config.h"
 #include <QFile>
 #include <QStringList>
 

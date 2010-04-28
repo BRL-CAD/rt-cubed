@@ -24,44 +24,35 @@
  */
 
 // interface header
-#include "utility/Time.h"
+#include "Time.h"
 
 // implementation system headers
 #include <time.h>
-
-
-using namespace Utility;
 
 Time::Time()
 {
 }
 
-
 Time::Time(int hour, int minute, int second)
 {
 }
-
 
 Time::Time(const Time& time)
 {
 }
 
-
 Time::Time(const std::string time)
 {
 }
-
 
 Time::~Time()
 {
 }
 
-
 std::string Time::string()
 {
-  return std::string("");
+    return std::string("");
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

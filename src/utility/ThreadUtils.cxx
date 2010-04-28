@@ -24,7 +24,7 @@
  *      Author: dloman
  */
 
-#include "utility/ThreadUtils.h"
+#include "ThreadUtils.h"
 
 ThreadUtils::ThreadUtils()
 {
