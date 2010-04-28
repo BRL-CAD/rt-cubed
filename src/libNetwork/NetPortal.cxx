@@ -284,6 +284,10 @@ QString NetPortal::getRemoteGSHostname()
 	return this->remGSHostname;
 }
 
+bool NetPortal::isOpen() {
+    return this->sock->isOpen();
+}
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

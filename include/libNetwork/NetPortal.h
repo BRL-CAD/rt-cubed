@@ -59,6 +59,8 @@ public:
 
 	QString getRemoteGSHostname();
 
+	bool isOpen();
+
 	enum HandshakeStatus
 	{
 		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
