@@ -45,29 +45,26 @@ RT3_PROJECT_ADD_SOURCES (
 	GSException.cxx
 	Logger.cxx
 	ThreadUtils.cxx
-	Utils.cxx
+	DataStreamUtils.cxx
 )
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
     Config.h
-	Utils.h
+	GSException.h
 	Logger.h
 	ThreadUtils.h
-	GSException.h
+	DataStreamUtils.h
 )
 
 #Set NOINST headers
-RT3_PROJECT_ADD_NOINST_HEADERS(
-)
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
 #Set QT INST headers
-RT3_PROJECT_ADD_QT_INST_HEADERS(
-)
+RT3_PROJECT_ADD_QT_INST_HEADERS()
 
 #Set QT NOINST headers
-RT3_PROJECT_ADD_QT_NOINST_HEADERS(
-)
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 
 #Build the project
 RT3_PROJECT_BUILD_LIB("utility")

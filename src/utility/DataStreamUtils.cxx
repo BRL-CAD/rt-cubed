@@ -1,5 +1,4 @@
-
-/*                     U T I L S. C X X
+/*              D A T A S T R E A M U T I L S . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -18,13 +17,13 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file utils.cxx
+/** @file DataStreamUtils.cxx
  *
  * Brief description
  *
  */
 
-#include "Utils.h"
+#include "DataStreamUtils.h"
 
 
 QUuid* 

@@ -1,4 +1,4 @@
-/*                       U T I L S . H
+/*                 D A T A S T R E A M U T I L S . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,14 +17,14 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file Utils.h
+/** @file DataStreamUtils.h
  *
  * Brief description
  *
  */
 
-#ifndef __UTILS_H__
-#define __UTILS_H__
+#ifndef __DATASTREAMUTILS_H__
+#define __DATASTREAMUTILS_H__
 
 #include "GS/GSCommon.h"
 #include <QString>
@@ -47,7 +47,7 @@ Utils(){}
 
 };
 
-#endif
+#endif /* __DATASTREAMUTILS_H__ */
 
 // Local Variables: ***
 // mode: C++ ***
