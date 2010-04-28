@@ -115,27 +115,28 @@ public:
 	    exit(1);
 	}
 
-	QHostAddress addy();
-
 	this->portal->connectToNetHost(address, port);
 
     }
 
     void disconnect() const
     {
+	this->portal->disconnectFromNetHost();
     }
 
     bool connected() const
     {
-	return false;
+	return this->portal->isOpen();
     }
 
+    //TODO implement 'getDirectory'
     std::vector<std::string> getDirectory() const
     {
 	std::vector<std::string> v;
 	return v;
     }
 
+    //TODO implement 'getObject'
     std::string getObject(const std::string object, const std::string version =
 	    std::string("")) const
     {
@@ -146,6 +147,7 @@ public:
 	return encoding;
     }
 
+    //TODO implement 'getVersion'
     std::string getVersion(const std::string object) const
     {
 	if (exists(object))
@@ -156,6 +158,7 @@ public:
 	return std::string("");
     }
 
+    //TODO implement 'putObject'
     bool putObject(const std::string encoding) const
     {
 	if (encoding.size() == 0)
@@ -166,6 +169,7 @@ public:
 	return false;
     }
 
+    //TODO implement 'addObject'
     bool addObject(const std::string object) const
     {
 	if (exists(object))
@@ -177,6 +181,7 @@ public:
 	return putObject(encoding);
     }
 
+    //TODO implement 'updateObject'
     bool updateObject(const std::string object) const
     {
 	if (!exists(object))
@@ -191,6 +196,7 @@ public:
 	return putObject(object);
     }
 
+    //TODO implement 'deleteObject'
     bool deleteObject(const std::string object) const
     {
 	if (!exists(object))
@@ -201,6 +207,7 @@ public:
 	return false;
     }
 
+    //TODO implement 'getAttribute'
     bool getAttribute(const std::string object, const std::string name,
 	    std::string &value) const
     {
@@ -212,6 +219,7 @@ public:
 	return false;
     }
 
+    //TODO implement 'setAttribute'
     bool setAttribute(const std::string object, const std::string name,
 	    std::string value) const
     {
@@ -228,6 +236,7 @@ public:
 	WIREFRAME, TRIANGLES, POINTS, NURBS, CAD
     } representation_t;
 
+    //TODO implement 'getRepresentation'
     std::string getRepresentation(const std::string object,
 	    representation_t representation, bool blocking = true) const
     {
@@ -277,18 +286,21 @@ public:
 	return std::string("");
     }
 
+    //TODO implement 'evaluateRepresentation'
     void evaluateRepresentation(const std::string representation) const
     {
 	// tell server to begin evaluating the non-blocking representation handle
     }
 
-    bool subscribeEvent() const
+    //TODO implement 'subscribeEvent'
+   bool subscribeEvent() const
     {
 	// subscribe to all events on server, return true
 
 	return false;
     }
 
+   //TODO implement 'unsubscribeEvent'
     bool unsubscribeEvent() const
     {
 	// unsubscribe to all events on server, return true
@@ -296,6 +308,7 @@ public:
 	return false;
     }
 
+    //TODO implement 'eventsReceived'
     int eventsReceived() const
     {
 	// retrieved any events buffered on server, return count
@@ -303,6 +316,7 @@ public:
 	return 0;
     }
 
+    //TODO implement 'shootRay'
     bool shootRay(const double point[3], const double direction[3],
 	    const std::string object) const
     {
