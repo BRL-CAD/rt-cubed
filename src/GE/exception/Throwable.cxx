@@ -23,7 +23,7 @@
  *
  */
 
-#include "GE/exception/Throwable.h"
+#include "Throwable.h"
 
 Throwable::Throwable() throw ()
 {

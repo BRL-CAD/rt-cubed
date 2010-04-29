@@ -26,7 +26,7 @@
 #ifndef __CLONENOTSUPPORTEDEXCEPTION_H__
 #define __CLONENOTSUPPORTEDEXCEPTION_H__
 
-#include "GE/exception/Exception.h"
+#include "Exception.h"
 
 class  CloneNotSupportedException : public Exception
 {

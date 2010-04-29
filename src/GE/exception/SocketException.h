@@ -26,7 +26,7 @@
 #ifndef __SOCKETEXCEPTION_H__
 #define __SOCKETEXCEPTION_H__
 
-#include "GE/exception/Exception.h"
+#include "Exception.h"
 
 class  SocketException : public Exception
 {

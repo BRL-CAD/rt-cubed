@@ -26,7 +26,7 @@
 #ifndef __NULLPOINTEREXCEPTION_H__
 #define __NULLPOINTEREXCEPTION_H__
 
-#include "GE/exception/RuntimeException.h"
+#include "RuntimeException.h"
 
 class  NullPointerException : public RuntimeException
 {

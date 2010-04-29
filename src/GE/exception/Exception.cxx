@@ -23,7 +23,7 @@
  *
  */
 
-#include "GE/exception/Exception.h"
+#include "Exception.h"
 
 Exception::Exception() throw ()
 {

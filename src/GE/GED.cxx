@@ -23,7 +23,7 @@
  *
  */
 
-#include "GE/GED.h"
+#include "GED.h"
 
 GED::GED()
 {

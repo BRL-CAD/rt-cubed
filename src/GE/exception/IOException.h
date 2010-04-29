@@ -26,7 +26,7 @@
 #ifndef __IOEXCEPTION_H__
 #define __IOEXCEPTION_H__
 
-#include "GE/exception/Exception.h"
+#include "Exception.h"
 
 class IOException : public Exception
 {

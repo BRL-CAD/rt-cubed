@@ -23,7 +23,7 @@
  *
  */
 
-#include "GE/GeometryEngine.h"
+#include "GeometryEngine.h"
 
 GeometryEngine::GeometryEngine()
 {

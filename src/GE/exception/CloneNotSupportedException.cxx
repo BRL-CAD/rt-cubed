@@ -23,7 +23,7 @@
  *
  */
 
-#include "GE/exception/CloneNotSupportedException.h"
+#include "CloneNotSupportedException.h"
 
 CloneNotSupportedException::CloneNotSupportedException() throw ()
 {

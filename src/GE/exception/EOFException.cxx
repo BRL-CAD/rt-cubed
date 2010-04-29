@@ -23,7 +23,7 @@
  *
  */
 
-#include "GE/exception/EOFException.h"
+#include "EOFException.h"
 
 EOFException::EOFException() throw ()
 {

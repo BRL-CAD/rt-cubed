@@ -26,7 +26,7 @@
 #ifndef __EOFEXCEPTION_H
 #define __EOFEXCEPTION_H
 
-#include "GE/exception/IOException.h"
+#include "IOException.h"
 
 class  EOFException : public IOException
 {

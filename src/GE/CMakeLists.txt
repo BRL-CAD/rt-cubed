@@ -21,26 +21,25 @@
 #########################################################################
 #	@file rt^3/src/GE/CMakeLists.txt
 #
-#	$Revision:  $
-#	$Author:  $
+#    Geometry Engine (ge)
+#
 #
 ##########################################################################
 
-PROJECT(GeometryEngine)
+RT3_PROJECT(ge)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
 
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     ${QT_LIBRARIES}
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(GE_SOURCES
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
 	GeometryEngine.cxx
 	exception/CloneNotSupportedException.cxx
 	exception/Exception.cxx
@@ -51,11 +50,28 @@ SET(GE_SOURCES
 	exception/EOFException.cxx
 	exception/IOException.cxx
 )
-QT4_WRAP_CPP(GE_MOCCED_HEADERS
 
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS(
+	GeometryEngine.h
+	CloneNotSupportedException.h
+	Exception.h
+	NullPointerException.h
+	RuntimeException.h
+	Throwable.h
+	StreamEmptyException.h
+	EOFException.h
+	IOException.h
 )
 
-ADD_LIBRARY (ge SHARED ${GE_SOURCES} ${GE_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(ge ${PROJ_LINK_LIBS})
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_LIB()

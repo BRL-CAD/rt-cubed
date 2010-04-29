@@ -23,8 +23,7 @@
  *
  */
 
-#include "GE/exception/IOException.h"
-#include "GE/exception/Exception.h"
+#include "IOException.h"
 
 IOException::IOException()
 {

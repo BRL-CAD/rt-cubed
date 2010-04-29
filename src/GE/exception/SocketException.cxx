@@ -23,8 +23,7 @@
  *
  */
 
-#include "GE/exception/SocketException.h"
-#include "GE/exception/Exception.h"
+#include "SocketException.h"
 
 SocketException::SocketException()
 {

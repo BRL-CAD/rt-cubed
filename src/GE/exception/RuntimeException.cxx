@@ -23,7 +23,7 @@
  *
  */
 
-#include "GE/exception/RuntimeException.h"
+#include "RuntimeException.h"
 
 RuntimeException::RuntimeException() throw ()
 {

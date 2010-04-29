@@ -23,8 +23,7 @@
  *
  */
 
-#include "GE/exception/StreamEmptyException.h"
-#include "GE/exception/Exception.h"
+#include "StreamEmptyException.h"
 
 StreamEmptyException::StreamEmptyException()
 {

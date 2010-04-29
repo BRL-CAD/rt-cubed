@@ -26,7 +26,7 @@
 #ifndef __RUNTIMEEXCEPTION_H__
 #define __RUNTIMEEXCEPTION_H__
 
-#include "GE/exception/Exception.h"
+#include "Exception.h"
 
 class  RuntimeException : public Exception
 {

@@ -23,7 +23,7 @@
  *
  */
 
-#include "GE/exception/NullPointerException.h"
+#include "NullPointerException.h"
 
 NullPointerException::NullPointerException() throw ()
 {

@@ -26,7 +26,7 @@
 #ifndef __STREAMEMPTYEXCEPTION_H__
 #define __STREAMEMPTYEXCEPTION_H__
 
-#include "GE/exception/Exception.h"
+#include "Exception.h"
 
 class StreamEmptyException : public Exception
 {
