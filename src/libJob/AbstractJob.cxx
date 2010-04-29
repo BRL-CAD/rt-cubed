@@ -23,7 +23,7 @@
  *
  */
 
-#include "libJob/AbstractJob.h"
+#include "AbstractJob.h"
 
 AbstractJob::AbstractJob()
 {

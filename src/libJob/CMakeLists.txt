@@ -21,32 +21,26 @@
 #########################################################################
 #	@file rt^3/src/libJob/CMakeLists.txt
 #
-#	$Revision:  $
-#	$Author:  $
+#    Job Library
+#
 #
 ##########################################################################
 
-PROJECT(LibJob)
+RT3_PROJECT(job)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS 
-    ${GLOBAL_INCLUDE_DIRS} 
-    ${QT_INCLUDE_DIR}
-    ${LIBUTILITY_PROJECT_DIR}
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+   ${QT_INCLUDE_DIR}
 )
 
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
-
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     utility
     ${QT_LIBRARIES}
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(LIBJOB_SOURCES
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
 	AbstractJob.cxx
 	JobManager.cxx
 	JobScheduler.cxx
@@ -54,10 +48,23 @@ SET(LIBJOB_SOURCES
 	PrintToStdOutJob.cxx
 )
 
-QT4_WRAP_CPP(LIBJOB_MOCCED_HEADERS
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS(
+	AbstractJob.h
+	JobManager.h
+	JobScheduler.h
+	JobWorker.h
+	PrintToStdOutJob.h
 )
 
-ADD_LIBRARY (job SHARED ${LIBJOB_SOURCES} ${LIBJOB_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(job ${PROJ_LINK_LIBS})
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_LIB()

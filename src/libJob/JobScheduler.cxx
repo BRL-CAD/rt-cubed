@@ -24,7 +24,7 @@
  *
  */
 
-#include "libJob/JobScheduler.h"
+#include "JobScheduler.h"
 
 JobScheduler* JobScheduler::pInstance = NULL;
 

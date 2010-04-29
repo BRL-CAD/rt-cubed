@@ -26,12 +26,10 @@
 #ifndef __JOBMANAGER_H__
 #define __JOBMANAGER_H__
 
-#include "libJob/AbstractJob.h"
-#include "libJob/JobWorker.h"
+#include "job.h"
 #include "utility.h"
 #include <QList>
 #include <QMutex>
-
 
 class JobManager
 {

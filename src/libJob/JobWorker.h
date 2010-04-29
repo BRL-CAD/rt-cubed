@@ -29,7 +29,7 @@
 #define MAX_JOBWORKERS 5
 
 
-#include "libJob/AbstractJob.h"
+#include "job.h"
 #include "utility.h"
 #include <QThread>
 #include <QUuid>

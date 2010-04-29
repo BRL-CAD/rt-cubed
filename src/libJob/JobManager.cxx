@@ -23,7 +23,7 @@
  *
  */
 
-#include "libJob/JobManager.h"
+#include "JobManager.h"
 #include <QMutexLocker>
 #include <iostream>
 

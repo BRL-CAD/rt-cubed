@@ -21,7 +21,7 @@
  *
  */
 
-#include "libJob/PrintToStdOutJob.h"
+#include "PrintToStdOutJob.h"
 #include <iostream>
 #include "utility.h"
 

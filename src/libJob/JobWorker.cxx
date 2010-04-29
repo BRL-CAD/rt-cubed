@@ -23,8 +23,7 @@
  *
  */
 
-#include "libJob/JobWorker.h"
-#include "libJob/JobManager.h"
+#include "JobWorker.h"
 #include <iostream>
 
 JobWorker::JobWorker()
