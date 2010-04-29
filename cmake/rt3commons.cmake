@@ -193,12 +193,10 @@ MACRO(RT3_PROJECT_BUILD_LIB)
     #Do the Moccing for INST QT headers
     FOREACH (tFile ${${NAME_UPPER}_QT_INST_HEADERS})
         qt4_wrap_cpp(tMoc ${RT3_ROOT}/include/${tFile})
-        RT3_PROJECT_ADD_MOCCED_INST_HEADERS(${tMoc})
+        RT3_PROJECT_ADD_MOCCED_INST_HEADERS(${tMoc})        
     ENDFOREACH (tFile)
 
     SET(${NAME_UPPER}_ALL_INST_HEADERS ${${NAME_UPPER}_QT_INST_HEADERS} ${${NAME_UPPER}_INST_HEADERS} CACHE INTERNAL "")
-
-    MESSAGE(STATUS "${NAME_UPPER}_ALL_INST_HEADERS: ${${NAME_UPPER}_ALL_INST_HEADERS}")
 
     MAKE_LIBRARY_HEADER_FILE()
 
@@ -216,13 +214,13 @@ MACRO(RT3_PROJECT_BUILD_EXE)
     
     #Do the Moccing for NOINST QT headers
     FOREACH (tFile ${${NAME_UPPER}_QT_NOINST_HEADERS})
-        qt4_wrap_cpp(tMoc ${RT3_ROOT}/include/${tFile})
+        qt4_wrap_cpp(tMoc ${tFile})
         RT3_PROJECT_ADD_MOCCED_NOINST_HEADERS(${tMoc})
     ENDFOREACH (tFile)
     
     #Do the Moccing for INST QT headers
     FOREACH (tFile ${${NAME_UPPER}_QT_INST_HEADERS})
-        qt4_wrap_cpp(tMoc ${tFile})
+        qt4_wrap_cpp(tMoc ${RT3_ROOT}/include/${tFile})
         RT3_PROJECT_ADD_MOCCED_INST_HEADERS(${tMoc})
     ENDFOREACH (tFile)
 
