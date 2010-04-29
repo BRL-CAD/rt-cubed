@@ -44,6 +44,7 @@ INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
 #Set Sources
 SET(BASIC_JM_TESTS_SOURCES
 	BasicJMTest.cxx
+	PrintToStdOutJob.cxx
 )
 
 QT4_WRAP_CPP(BASIC_JM_TESTS_MOCCED_HEADERS

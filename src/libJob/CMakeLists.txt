@@ -45,7 +45,6 @@ RT3_PROJECT_ADD_SOURCES (
 	JobManager.cxx
 	JobScheduler.cxx
 	JobWorker.cxx
-	PrintToStdOutJob.cxx
 )
 
 #Set INST Headers
@@ -54,7 +53,6 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	JobManager.h
 	JobScheduler.h
 	JobWorker.h
-	PrintToStdOutJob.h
 )
 
 #Set NOINST headers
