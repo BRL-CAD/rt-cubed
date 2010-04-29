@@ -123,7 +123,7 @@ void Config::removeAllOccurances(QString* data, QString search, QString replace)
 
 QString Config::getConfigValue(QString key)
 {
-    return this->configMap->value(key, "");
+    return this->configMap->value(key, "") + "";
 }
 
 QList<QString> Config::getAllKeys()
