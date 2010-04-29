@@ -192,7 +192,7 @@ MACRO(RT3_PROJECT_BUILD_LIB)
     
     #Do the Moccing for INST QT headers
     FOREACH (tFile ${${NAME_UPPER}_QT_INST_HEADERS})
-        qt4_wrap_cpp(tMoc ${tFile})
+        qt4_wrap_cpp(tMoc ${RT3_ROOT}/include/${tFile})
         RT3_PROJECT_ADD_MOCCED_INST_HEADERS(${tMoc})
     ENDFOREACH (tFile)
 
@@ -216,7 +216,7 @@ MACRO(RT3_PROJECT_BUILD_EXE)
     
     #Do the Moccing for NOINST QT headers
     FOREACH (tFile ${${NAME_UPPER}_QT_NOINST_HEADERS})
-        qt4_wrap_cpp(tMoc ${tFile})
+        qt4_wrap_cpp(tMoc ${RT3_ROOT}/include/${tFile})
         RT3_PROJECT_ADD_MOCCED_NOINST_HEADERS(${tMoc})
     ENDFOREACH (tFile)
     
