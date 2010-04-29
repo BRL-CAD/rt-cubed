@@ -26,70 +26,123 @@
 #
 ##########################################################################
 
-PROJECT(LibNetworkTests)
+RT3_PROJECT(libNetworkTests)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
 
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     network
     utility
     ${QT_LIBRARIES}
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(LIBNETWORKTESTS_SOURCES
-	NetPortalManagerTester.cxx
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
+    NetPortalManagerTester.cxx
 )
 
-QT4_WRAP_CPP(LIBNETWORKTESTS_MOCCED_HEADERS
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS(
     NetPortalManagerTester.h
 )
 
-ADD_LIBRARY (libNetworkTests SHARED ${LIBNETWORKTESTS_SOURCES} ${LIBNETWORKTESTS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(libNetworkTests ${PROJ_LINK_LIBS})
+#Build the project
+RT3_PROJECT_BUILD_LIB()
 
-MESSAGE(STATUS "\tDone.")
+##########################################################################
 
+RT3_PROJECT(netMsgSerialTest)
 
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS()
 
+#Set Libs
+RT3_PROJECT_ADD_LIBS( libNetworkTests )
 
-PROJECT(NetMsgSerialTest)
+#set Source files
+RT3_PROJECT_ADD_SOURCES ( netMsgSerialTest.cxx )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
 
-ADD_EXECUTABLE(netMsgSerialTest ./netMsgSerialTest.cxx )
-TARGET_LINK_LIBRARIES(netMsgSerialTest libNetworkTests ${PROJ_LINK_LIBS})
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
 
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 
+#Build the project
+RT3_PROJECT_BUILD_EXE()
 
+##########################################################################
 
-PROJECT(NetMsgFactoryTest)
+RT3_PROJECT(netMsgFactoryTest)
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS()
 
-ADD_EXECUTABLE(netMsgFactoryTest ./netMsgFactoryTest.cxx )
-TARGET_LINK_LIBRARIES(netMsgFactoryTest libNetworkTests ${PROJ_LINK_LIBS})
+#Set Libs
+RT3_PROJECT_ADD_LIBS( libNetworkTests )
 
-MESSAGE(STATUS "\tDone.")
+#set Source files
+RT3_PROJECT_ADD_SOURCES (netMsgFactoryTest.cxx)
 
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
 
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
-PROJECT(NetPortalManagerTest)
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 
-ADD_EXECUTABLE(netPortalManagerTest ./netPortalManagerTest.cxx )
-TARGET_LINK_LIBRARIES(netPortalManagerTest libNetworkTests ${PROJ_LINK_LIBS})
+#Build the project
+RT3_PROJECT_BUILD_EXE()
 
-MESSAGE(STATUS "\tDone.")
+##########################################################################
+
+RT3_PROJECT(netPortalManagerTest)
+
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS()
+
+#Set Libs
+RT3_PROJECT_ADD_LIBS( libNetworkTests )
+
+#set Source files
+RT3_PROJECT_ADD_SOURCES (netPortalManagerTest.cxx)
+
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_EXE()
 

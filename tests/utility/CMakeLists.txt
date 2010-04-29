@@ -26,61 +26,63 @@
 #
 ##########################################################################
 
-PROJECT(LoggerTest)
+RT3_PROJECT(loggerTest)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS()
 
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     utility
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+#set Source files
+RT3_PROJECT_ADD_SOURCES (loggerTest.cxx)
 
-#Set Sources
-SET(LOGGER_SOURCES
-	loggerTest.cxx
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_EXE()
+
+##########################################################################
+
+RT3_PROJECT(configTest)
+
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
 )
 
-QT4_WRAP_CPP(LOGGER_MOCCED_HEADERS
-)
-
-ADD_EXECUTABLE (loggerTest  ${LOGGER_SOURCES} ${LOGGER_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(loggerTest ${PROJ_LINK_LIBS})
-
-MESSAGE(STATUS "\tDone.")
-
-
-
-
-PROJECT(ConfigTest)
-
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
-
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     utility
     ${QT_LIBRARIES}
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+#set Source files
+RT3_PROJECT_ADD_SOURCES (configTest.cxx)
 
-#Set Sources
-SET(CONFIGTEST_SOURCES
-	configTest.cxx
-)
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
 
-QT4_WRAP_CPP(CONFIGTEST_MOCCED_HEADERS
-)
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
-ADD_EXECUTABLE (configTest  ${CONFIGTEST_SOURCES} ${CONFIGTEST_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(configTest ${PROJ_LINK_LIBS})
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 
-
-
+#Build the project
+RT3_PROJECT_BUILD_EXE()

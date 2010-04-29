@@ -26,27 +26,30 @@
 #
 ##########################################################################
 
-PROJECT(GeometryEngineTests)
+RT3_PROJECT(geometryEngineTests)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS()
 
-SET(PROJ_LINK_LIBS
-)
+#Set Libs
+RT3_PROJECT_ADD_LIBS()
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(GETESTS_SOURCES
+#set Source files
+RT3_PROJECT_ADD_SOURCES(
     GeometryEngineTest.cxx
 )
 
-QT4_WRAP_CPP(GETESTS_MOCCED_HEADERS
-)
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
 
-ADD_LIBRARY (getests SHARED ${GETESTS_SOURCES} ${GETESTS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(getests ${PROJ_LINK_LIBS})
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_EXE()

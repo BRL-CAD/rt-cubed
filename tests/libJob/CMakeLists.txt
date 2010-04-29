@@ -26,31 +26,39 @@
 #
 ##########################################################################
 
-PROJECT(BasicJMTest)
+RT3_PROJECT(basicJMTest)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
 
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     job
     utility
     ${QT_LIBRARIES}
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(BASIC_JM_TESTS_SOURCES
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
 	BasicJMTest.cxx
 	PrintToStdOutJob.cxx
 )
 
-QT4_WRAP_CPP(BASIC_JM_TESTS_MOCCED_HEADERS
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS(
+	PrintToStdOutJob.h
 )
 
-ADD_EXECUTABLE (basicJmTest ${BASIC_JM_TESTS_SOURCES} ${BASIC_JM_TESTS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(basicJmTest ${PROJ_LINK_LIBS})
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_EXE()

@@ -26,29 +26,33 @@
 #
 ##########################################################################
 
-PROJECT(GeometryServiceTests)
+RT3_PROJECT(geometryServiceTests)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS( ${QT_INCLUDE_DIRS})
 
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     network
     ${QT_LIBRARIES}
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(GSTESTS_SOURCES
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
 	GeometryServiceTest.cxx
 )
 
-QT4_WRAP_CPP(GSTESTS_MOCCED_HEADERS
-)
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
 
-ADD_EXECUTABLE (GeometryServiceTest ${GSTESTS_SOURCES} ${GSTESTS_MOCCED_HEADERS})
-TARGET_LINK_LIBRARIES(GeometryServiceTest ${PROJ_LINK_LIBS})
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_EXE()
