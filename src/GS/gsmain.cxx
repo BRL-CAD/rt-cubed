@@ -24,17 +24,30 @@
  */
 
 #include "GeometryService.h"
-#include "BaseApp.h"
+#include "alf.h"
+#include "utility.h"
 #include <iostream>
+#include <QString>
 
 int main(int argc, char* argv[])
 {
+    Logger* log = Logger::getInstance();
+    Config* c = Config::getInstance();
 
     //TODO Configure system loads stuff here
+    if (c->loadFile("geoserve.config")) {
+	return 1;
+    }
 
+    QString gsHostname = c->getConfigValue("GSHostName");
 
+    if (gsHostname == "") {
+	gsHostname = "DefaultGSHostname";
+    }
 
-    GeometryService gs(argc, argv, "ToBeDeterminedName");
+    log->logBANNER("GSMain", "Booting GeometryService: " + gsHostname);
+
+    GeometryService gs(argc, argv, gsHostname);
 
     return gs.exec();
 }
