@@ -59,7 +59,6 @@ RT3_PROJECT_ADD_INST_HEADERS(
 
 #Set NOINST headers
 RT3_PROJECT_ADD_NOINST_HEADERS(
-	GeometryService.h
 	DataManager.h
 	DbObjectManifest.h
 	GeometryProcessor.h
@@ -73,7 +72,9 @@ RT3_PROJECT_ADD_NOINST_HEADERS(
 RT3_PROJECT_ADD_QT_INST_HEADERS()
 
 #Set QT NOINST headers
-RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+RT3_PROJECT_ADD_QT_NOINST_HEADERS(
+	GeometryService.h
+)
 
 #Build the project
 RT3_PROJECT_BUILD_LIB()

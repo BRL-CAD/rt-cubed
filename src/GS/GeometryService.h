@@ -36,6 +36,7 @@
 
 class GeometryService : public BaseApp, public INetMsgHandler
 {
+    Q_OBJECT
 
 public:
 	GeometryService(int& argc, char* argv[], QString localGSHostname);
@@ -44,7 +45,7 @@ public:
 	int exec();
 
 protected slots:
-    void handleNewPortal(NetPortal* nsp);
+    void handleNewPortal(NetPortal*);
     void handleMsgReady();
 
 private:

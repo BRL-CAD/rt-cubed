@@ -33,8 +33,7 @@ GeometryService::GeometryService(int& argc, char* argv[], QString gsHostname) :
     this->log->logINFO("GeometryService ", gsHostname + " is starting up...");
     this->portalMan = new NetPortalManager(gsHostname);
 
-QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)),
-	this, SLOT(handleNewPortal(NetPortal*)));
+    QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)), this, SLOT(handleNewPortal(NetPortal*) ) );
 }
 
 GeometryService::~GeometryService()
