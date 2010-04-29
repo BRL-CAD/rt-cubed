@@ -62,7 +62,12 @@ MESSAGE(STATUS "")
 # FLAGS
 #
 
-SET (VERBOSE_CMAKE_OUTPUT OFF CACHE BOOL "Verbose cmake output.")
+#Flag for setting to ON by anything that needs to warn the user of a potential issue.
+SET (RT3_COMPILE_WARNINGS OFF CACHE INTERNAL "")
+SET (RT3_LAST_WARNING_MSG "" CACHE INTERNAL "")
+
+#Verbose option
+SET (VERBOSE_CMAKE_OUTPUT OFF CACHE BOOL "Verbose cmake output. When Set to ON, each project will print its include paths and libraries required for linking.")
 
 #Setup unit testing compilation flag
 SET (COMPILE_UNIT_TESTS OFF CACHE BOOL "Compile the Unit test suite?")
@@ -135,3 +140,11 @@ ENDIF (COMPILE_UNIT_TESTS)
 #################################
 INCLUDE (./cmake/PrintFooter.cmake)
 #################################
+
+
+IF (RT3_COMPILE_WARNINGS)
+    MESSAGE(STATUS "There were some Build Config Errors!")
+    MESSAGE(STATUS "\tLast Error: ${RT3_LAST_WARNING_MSG}")
+ENDIF (RT3_COMPILE_WARNINGS)
+    
+    
