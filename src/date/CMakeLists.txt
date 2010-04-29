@@ -21,29 +21,37 @@
 #########################################################################
 #	@file rt^3/src/date/CMakeLists.txt
 #
-#	$Revision:  $
-#	$Author:  $
+#    Time Date Stamp (tds)
+#
 #
 ##########################################################################
 
-PROJECT(TimeDateStamp)
+RT3_PROJECT(tds)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} )
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS()
 
-SET(PROJ_LINK_LIBS
-)
+#Set Libs
+RT3_PROJECT_ADD_LIBS()
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-SET(TDS_SOURCES
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
 	buildStamp.cxx
 )
 
-ADD_LIBRARY (tds SHARED ${TDS_SOURCES})
-TARGET_LINK_LIBRARIES(tds ${PROJ_LINK_LIBS})
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
 
-MESSAGE(STATUS "\tDone.")
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS(
+	buildStamp.h
+)
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_LIB()
