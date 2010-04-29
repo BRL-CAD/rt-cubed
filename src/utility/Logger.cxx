@@ -46,6 +46,11 @@ Logger* Logger::getInstance()
     return Logger::instance;
 }
 
+void Logger::logBANNER(QString origin, QString string)
+{
+    this->log(Logger::BANNER, origin, string);
+}
+
 void Logger::logDEBUG(QString origin, QString string)
 {
     this->log(Logger::DEBUG, origin, string);
@@ -90,8 +95,11 @@ void Logger::log(quint32 logLevel, QString origin, QString string)
 	type += "(WARNING) ";
 	break;
     case (Logger::INFO):
-	type += "(INFO) ";
-	break;
+ 	type += "(INFO) ";
+ 	break;
+    case (Logger::BANNER):
+ 	type += "(BANNER) ";
+ 	break;
     case (Logger::DEBUG):
     default:
 	type += "(DEBUG) ";
@@ -105,7 +113,12 @@ void Logger::log(quint32 logLevel, QString origin, QString string)
     std::cout << std::setw(12) << std::left << time.toStdString();
     std::cout << std::setw(20) << std::left << origin.toStdString();
     std::cout << std::setw(12) << std::left << type.toStdString();
-    std::cout << std::left << string.toStdString();
+
+    if (logLevel == Logger::BANNER) {
+	std::cout << std::left << "======= " << string.toStdString() << " =======";
+    } else {
+	std::cout << std::left << string.toStdString();
+    }
 
     if (this->verbose) {
 	std::cout << " \t" << "STACK TRACE GOES HERE";

@@ -43,6 +43,7 @@ public:
 	void enableVerbose(){this->verbose = true;}
 	void disableVerbose(){this->verbose = false;}
 
+	void logBANNER(QString origin, QString string);
 	void logDEBUG(QString origin, QString string);
 	void logINFO(QString origin, QString string);
 	void logWARNING(QString origin, QString string);
@@ -51,7 +52,7 @@ public:
 
 	enum
 	{
-		INFO, WARNING, ERROR, FATAL, DEBUG
+		BANNER, INFO, WARNING, ERROR, FATAL, DEBUG
 	};
 
 protected:
