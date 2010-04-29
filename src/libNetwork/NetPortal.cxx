@@ -25,8 +25,6 @@
 
 
 #include "NetPortal.h"
-#include "NetMsg.h"
-#include "RemoteGSHostnameSetMsg.h"
 #include "NetPortalManager.h"
 
 #include <QHostAddress>

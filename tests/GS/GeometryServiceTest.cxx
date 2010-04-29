@@ -30,8 +30,7 @@
 #include <vector>
 #include <iomanip>
 
-#include "libNetwork/NetPortalManager.h"
-#include "libNetwork/NetPortal.h"
+#include "network.h"
 
 #include <QUuid>
 #include <QHostAddress>

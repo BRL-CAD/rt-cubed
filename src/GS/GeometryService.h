@@ -26,16 +26,13 @@
 #ifndef __GEOMETRYSERVICE_H__
 #define __GEOMETRYSERVICE_H__
 
+#include "BaseApp.h"
+#include "network.h"
+
 #include <QTcpSocket>
 #include <QString>
 #include <QStringList>
 #include <QCoreApplication>
-
-#include "alf/BaseApp.h"
-
-#include "GE/GeometryEngine.h"
-#include "GSCommon.h"
-#include "network.h"
 
 class GeometryService : public BaseApp, public INetMsgHandler
 {

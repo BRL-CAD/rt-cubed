@@ -26,20 +26,21 @@
 #ifndef __NETPORTAL_H__
 #define __NETPORTAL_H__
 
+#include "utility.h"
+#include "NetMsg.h"
+#include "NetMsgFactory.h"
+#include "RemoteGSHostnameSetMsg.h"
+
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>
 #include <QString>
-
-
-#include "utility.h"
-#include "NetMsgFactory.h"
 
 class NetPortalManager;
 
 class NetPortal : public QObject
 {
 Q_OBJECT
-//friend class NetPortalManager;
+
 public:
 	NetPortal(NetPortalManager* parent);
 	NetPortal(NetPortalManager* parent, int socketDescriptor);

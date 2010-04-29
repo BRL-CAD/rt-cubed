@@ -29,7 +29,6 @@
 #include <list>
 #include <map>
 #include <string>
-#include "GSCommon.h"
 #include <QUuid>
 
 class DbObjectManifest

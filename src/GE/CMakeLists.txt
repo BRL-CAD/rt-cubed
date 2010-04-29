@@ -41,30 +41,21 @@ RT3_PROJECT_ADD_LIBS(
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
 	GeometryEngine.cxx
-	exception/CloneNotSupportedException.cxx
 	exception/Exception.cxx
-	exception/NullPointerException.cxx
-	exception/RuntimeException.cxx
 	exception/Throwable.cxx
-	exception/StreamEmptyException.cxx
-	exception/EOFException.cxx
 	exception/IOException.cxx
 )
 
 #Set INST Headers
-RT3_PROJECT_ADD_INST_HEADERS()
+RT3_PROJECT_ADD_INST_HEADERS(
+	Throwable.h
+	Exception.h
+	IOException.h
+)
 
 #Set NOINST headers
 RT3_PROJECT_ADD_NOINST_HEADERS(
 	GeometryEngine.h
-	CloneNotSupportedException.h
-	Exception.h
-	NullPointerException.h
-	RuntimeException.h
-	Throwable.h
-	StreamEmptyException.h
-	EOFException.h
-	IOException.h
 )
 
 #Set QT INST headers

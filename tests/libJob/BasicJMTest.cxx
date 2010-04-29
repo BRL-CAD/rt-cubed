@@ -23,9 +23,9 @@
  *
  */
 
-#include "libJob/JobManager.h"
-#include "libJob/PrintToStdOutJob.h"
-#include "utility/ThreadUtils.h"
+#include "job.h"
+#include "PrintToStdOutJob.h"
+#include "utility.h"
 
 int main(int argc, char* argv[])
 {

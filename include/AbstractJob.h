@@ -1,4 +1,4 @@
-/*                        N E T M S G F A C T O R Y. H
+/*                   A B S T R A C T J O B . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,56 +17,44 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NetMsg.h
+/** @file AbstractJob.h
  *
  * Brief description
  *
  */
 
-#ifndef __NETMSGFACTORY_H__
-#define __NETMSGFACTORY_H__
+#ifndef __ABSTRACTJOB_H__
+#define __ABSTRACTJOB_H__
 
-#include "utility.h"
+#include <Qt>
 
+enum JobStatus
+{
+    JOB_NOTSTARTED, JOB_RUNNING, JOB_FINISHED
+};
+enum JobResult
+{
+    JOB_COMPLETED_NO_ERRORS, JOB_COMPLETED_WITH_ERRORS, JOB_FAILED
+};
 
-#include "NetMsg.h"
-
-#include <QByteArray>
-#include <QQueue>
-#include <QBuffer>
-#include <QMutex>
-
-class NetMsgFactory
+class AbstractJob
 {
 
 public:
 
-    NetMsgFactory();
-    virtual ~NetMsgFactory();
+    AbstractJob();
+    virtual ~AbstractJob();
 
-    bool addData(QByteArray& data);
-    bool hasMsgsAvailable();
-    NetMsg* getNextMsg(bool peek = false);
-    void attemptToMakeMsgs();
+    JobResult doJob();
+    JobStatus getStatus();
+    quint32 getJobId();
 
-    bool attemptToMakeMsg();
-    void printBufferStatus(bool extended);
+protected:
+    virtual JobResult _doJob();
 
-    quint32 getInboxSize();
-    void setPortalName(QString portalName);
-    QString getPortalName();
-private:
-    QString portalName;
-    QMutex* lock;
+    quint32 jobID;
+    JobStatus status;
 
-    QQueue<NetMsg*>* inbox;
-
-    QBuffer* intBuffer;
-    quint64 limit;
-
-    void compactBuffer();
-    static NetMsg* buildMsgByType(quint32 type, QDataStream* qds,
-	    QString portalName);
 };
 
 #endif

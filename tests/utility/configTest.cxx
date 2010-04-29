@@ -23,9 +23,7 @@
  *
  */
 
-#include "utility/Logger.h"
-#include "utility/Config.h"
-#include "utility/ThreadUtils.h"
+#include "utility.h"
 #include <QString>
 
 int main(int argc, char* argv[])

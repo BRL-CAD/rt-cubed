@@ -64,11 +64,7 @@
 #define AUTHENTICATION_FAILED		90
 
 
-
-
-
-
-#include "GE/exception/IOException.h"
+#include "IOException.h"
 #include "utility.h"
 #include <QDataStream>
 #include <QByteArray>

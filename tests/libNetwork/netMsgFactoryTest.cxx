@@ -23,23 +23,7 @@
  *
  */
 
-#include "libNetwork/NetMsg.h"
-#include "libNetwork/NetMsgFactory.h"
-#include "libNetwork/GenericOneStringMsg.h"
-#include "libNetwork/GenericOneByteMsg.h"
-#include "libNetwork/GenericTwoBytesMsg.h"
-#include "libNetwork/GenericFourBytesMsg.h"
-#include "libNetwork/GenericMultiByteMsg.h"
-
-#include "libNetwork/FailureMsg.h"
-#include "libNetwork/SuccessMsg.h"
-
-#include "libNetwork/RemoteGSHostnameSetMsg.h"
-#include "libNetwork/NewHostOnNetMsg.h"
-
-#include "libNetwork/GeometryReqMsg.h"
-#include "libNetwork/GeometryManifestMsg.h"
-#include "libNetwork/GeometryChunkMsg.h"
+#include "network.h"
 
 void testEquals(NetMsg* msg01, NetMsg* msg02, bool desiredResult, bool showInfo)
 {

@@ -27,8 +27,7 @@
 #define __NETPORTALMANAGER_H__
 
 #include "utility.h"
-
-#include "NetPortal.h"
+#include "NetMsg.h"
 
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QHostAddress>
@@ -36,6 +35,8 @@
 #include <QUuid>
 #include <QList>
 #include <QByteArray>
+
+class NetPortal;
 
 class NetPortalManager: public QTcpServer
 {
@@ -47,10 +48,9 @@ public:
 
     QString getLocalGSHostname();
     NetPortal* getNewPortal(int socketDescriptor = 0);
-
     NetPortal* getPortalByRemoteGSHostname(QString remHostname);
-
     void localLog(QString str);
+
 protected:
     void incomingConnection(int socketDescriptor);
 

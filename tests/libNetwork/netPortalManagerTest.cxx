@@ -1,23 +1,27 @@
-#include "libNetwork/NetMsg.h"
-#include "libNetwork/NetMsgFactory.h"
-#include "libNetwork/GenericOneStringMsg.h"
-#include "libNetwork/GenericOneByteMsg.h"
-#include "libNetwork/GenericTwoBytesMsg.h"
-#include "libNetwork/GenericFourBytesMsg.h"
-#include "libNetwork/GenericMultiByteMsg.h"
-
-#include "libNetwork/FailureMsg.h"
-#include "libNetwork/SuccessMsg.h"
-
-#include "libNetwork/RemoteGSHostnameSetMsg.h"
-#include "libNetwork/NewHostOnNetMsg.h"
-
-#include "libNetwork/GeometryReqMsg.h"
-#include "libNetwork/GeometryManifestMsg.h"
-#include "libNetwork/GeometryChunkMsg.h"
-
-#include "libNetwork/NetPortalManager.h"
-#include "libNetwork/FailureMsg.h"
+/*        N E T P O R T A L M A N A G E R T E S T . C X X
+ * BRLCAD
+ *
+ * Copyright (c) 2010 United States Government as represented by
+ * the U.S. Army Research Laboratory.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this file; see the file named COPYING for more
+ * information.
+ */
+/** @file netPortalManagerTest.cxx
+ *
+ * Brief description
+ *
+ */
 
 #include "NetPortalManagerTester.h"
 
@@ -62,3 +66,12 @@ int main(int argc, char* argv[])
     return coreApp.exec();
 }
 
+
+// Local Variables:
+// tab-width: 8
+// mode: C++
+// c-basic-offset: 4
+// indent-tabs-mode: t
+// c-file-style: "stroustrup"
+// End:
+// ex: shiftwidth=4 tabstop=8

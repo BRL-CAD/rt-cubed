@@ -55,6 +55,10 @@ RT3_PROJECT_ADD_SOURCES (
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
+)
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS(
 	GeometryService.h
 	DataManager.h
 	DbObjectManifest.h
@@ -64,9 +68,6 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	Account.h
 	AccountManager.h
 )
-
-#Set NOINST headers
-RT3_PROJECT_ADD_NOINST_HEADERS()
 
 #Set QT INST headers
 RT3_PROJECT_ADD_QT_INST_HEADERS()

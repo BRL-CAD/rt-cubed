@@ -1,4 +1,4 @@
-/*                    J O B M A N A G E R . H
+/*                G E O M E T R Y R E Q M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,43 +17,49 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file JobManager.h
+/** @file GeometryReqMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __JOBMANAGER_H__
-#define __JOBMANAGER_H__
+#ifndef __GEOMETRYREQMSG_H__
+#define __GEOMETRYREQMSG_H__
 
-#include "job.h"
-#include "utility.h"
-#include <QList>
-#include <QMutex>
+#include "GenericOneStringMsg.h"
 
-class JobManager
+class GeometryReqMsg: public GenericOneStringMsg
 {
 
 public:
-	static JobManager* getInstance();
-	void submitJob(AbstractJob* aj);
 
-	virtual ~JobManager();
+    //Only Constructor
+    GeometryReqMsg(quint8 requestType, QString data);
 
-	AbstractJob* getNextJob();
-	bool hasJobsToWork();
+    //Reply Constructor
+    GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
+
+    //Deserializing Constructors
+    GeometryReqMsg(QDataStream* ds, QString origin);
+
+    //Destructor
+    virtual ~GeometryReqMsg();
+
+    virtual QString toString();
+
+    /*
+     *Getters n Setters
+     */
+    quint8 getRequestType();
+
+    QString getData();
 
 private:
-	static JobManager* pInstance;
-	JobManager();
+    quint8 reqType;
 
-	JobManager(JobManager const&){};
-	JobManager& operator=(JobManager const&){};
+    bool _serialize(QDataStream* ds);
+    bool _equals(NetMsg& msg);
 
-	QList<JobWorker*>* jobWorkers;
-	QList<AbstractJob*>* jobQueue;
-	QMutex* queueLock;
-	Logger* log;
 };
 
 #endif

@@ -42,19 +42,19 @@ RT3_PROJECT_ADD_LIBS(
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
     Config.cxx
+	DataStreamUtils.cxx
 	GSException.cxx
 	Logger.cxx
 	ThreadUtils.cxx
-	DataStreamUtils.cxx
 )
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
     Config.h
+	DataStreamUtils.h
 	GSException.h
 	Logger.h
 	ThreadUtils.h
-	DataStreamUtils.h
 )
 
 #Set NOINST headers

@@ -26,10 +26,8 @@
 #ifndef __NETPORTALMANAGERTESTER_H__
 #define __NETPORTALMANAGERTESTER_H__
 
-#include "libNetwork/NetPortalManager.h"
-#include "libNetwork/NetPortal.h"
-#include "GSCommon.h"
-#include "utility/Logger.h"
+#include "network.h"
+#include "utility.h"
 
 #include <QObject>
 

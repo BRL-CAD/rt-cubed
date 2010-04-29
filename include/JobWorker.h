@@ -28,8 +28,6 @@
 
 #define MAX_JOBWORKERS 5
 
-
-#include "job.h"
 #include "utility.h"
 #include <QThread>
 #include <QUuid>

@@ -24,7 +24,7 @@
  */
 
 #include "GeometryService.h"
-#include "alf/BaseApp.h"
+#include "BaseApp.h"
 #include <iostream>
 
 int main(int argc, char* argv[])

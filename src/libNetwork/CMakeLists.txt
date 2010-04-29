@@ -68,8 +68,8 @@ RT3_PROJECT_ADD_SOURCES (
 RT3_PROJECT_ADD_INST_HEADERS(
     INetMsgHandler.h
 	NetMsgFactory.h
-	NetMsgSubscriberRegistry.h
 	NetMsg.h
+	RemoteGSHostnameSetMsg.h
 	GenericOneStringMsg.h
 	GenericOneByteMsg.h
 	GenericTwoBytesMsg.h
@@ -77,7 +77,6 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	GenericMultiByteMsg.h
 	FailureMsg.h
 	SuccessMsg.h
-	RemoteGSHostnameSetMsg.h
     NewSessionReqMsg.h
     SessionInfoMsg.h
 	NewHostOnNetMsg.h
@@ -87,13 +86,16 @@ RT3_PROJECT_ADD_INST_HEADERS(
 )
 
 #Set NOINST headers
-RT3_PROJECT_ADD_NOINST_HEADERS()
+RT3_PROJECT_ADD_NOINST_HEADERS(
+	NetMsgSubscriberRegistry.h
+)
 
 #Set QT INST headers
 RT3_PROJECT_ADD_QT_INST_HEADERS(
 	NetPortal.h
 	NetPortalManager.h
 )
+
 #Set QT NOINST headers
 RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 

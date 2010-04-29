@@ -1,4 +1,4 @@
-/*               G S C O M M O N . H
+/*                        N E T M S G F A C T O R Y. H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,15 +17,55 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file GeometryService.h
+/** @file NetMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __GSCOMMON_H__
-#define __GSCOMMON_H__
+#ifndef __NETMSGFACTORY_H__
+#define __NETMSGFACTORY_H__
 
+#include "utility.h"
+#include "NetMsg.h"
+
+#include <QByteArray>
+#include <QQueue>
+#include <QBuffer>
+#include <QMutex>
+
+class NetMsgFactory
+{
+
+public:
+
+    NetMsgFactory();
+    virtual ~NetMsgFactory();
+
+    bool addData(QByteArray& data);
+    bool hasMsgsAvailable();
+    NetMsg* getNextMsg(bool peek = false);
+    void attemptToMakeMsgs();
+
+    bool attemptToMakeMsg();
+    void printBufferStatus(bool extended);
+
+    quint32 getInboxSize();
+    void setPortalName(QString portalName);
+    QString getPortalName();
+private:
+    QString portalName;
+    QMutex* lock;
+
+    QQueue<NetMsg*>* inbox;
+
+    QBuffer* intBuffer;
+    quint64 limit;
+
+    void compactBuffer();
+    static NetMsg* buildMsgByType(quint32 type, QDataStream* qds,
+	    QString portalName);
+};
 
 #endif
 

@@ -24,6 +24,7 @@
  */
 
 #include "JobWorker.h"
+#include "JobManager.h"
 #include <iostream>
 
 JobWorker::JobWorker()

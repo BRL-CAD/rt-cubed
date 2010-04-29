@@ -27,7 +27,6 @@
 #ifndef __DATAMANAGER_H__
 #define __DATAMANAGER_H__
 
-#include "GSCommon.h"
 #include <QString>
 #include <QUuid>
 
