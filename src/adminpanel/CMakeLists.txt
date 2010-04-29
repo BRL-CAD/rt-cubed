@@ -26,13 +26,15 @@
 #
 ##########################################################################
    
-PROJECT(AdminControlPanel)
+RT3_PROJECT(AdminControlPanel)
 
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
 
-SET(PROJ_LINK_LIBS
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
     gs
     ge
     job
@@ -40,11 +42,8 @@ SET(PROJ_LINK_LIBS
     ${QT_LIBRARIES}
 )
 
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-#Set Sources
-set(ACP_SOURCES
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
 	acpMain.cxx
 	ACPChatterBox.cxx
 	AdminControlPanel.cxx
@@ -54,13 +53,26 @@ set(ACP_SOURCES
 	BuildNetMsgJob.cxx
 )
 
-set(ACP_PREMOC_HEADERS
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS(
+	acpMain.h
+	ACPChatterBox.h
+	CommandProcessor.h
+	ConnectJob.h
+	DisconnectJob.h
+	BuildNetMsgJob.h
+)
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS(
 	AdminControlPanel.h
 )
 
-qt4_wrap_cpp(ACP_POSTMOC_HEADERS ${ACP_PREMOC_HEADERS})
-
-ADD_EXECUTABLE (acp ${ACP_POSTMOC_HEADERS} ${ACP_SOURCES})
-TARGET_LINK_LIBRARIES(acp ${PROJ_LINK_LIBS})
-
-MESSAGE(STATUS "\tDone.")
+#Build the project
+RT3_PROJECT_BUILD_EXE()

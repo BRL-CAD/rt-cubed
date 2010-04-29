@@ -23,7 +23,7 @@
  *
  */
 
-#include "alf/BaseApp.h"
+#include "BaseApp.h"
 
 
 BaseApp::BaseApp(int& argc, char* argv[]) :

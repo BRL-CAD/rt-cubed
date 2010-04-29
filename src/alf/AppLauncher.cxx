@@ -24,7 +24,7 @@
  */
 
 #include <iostream>
-#include "alf/AppLauncher.h"
+#include "AppLauncher.h"
 
 int main(int argc, char* argv[]) {
 	std::cout << "App Launcher";

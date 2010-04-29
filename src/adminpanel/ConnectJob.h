@@ -26,9 +26,8 @@
 #ifndef __CONNECTJOB_H__
 #define __CONNECTJOB_H__
 
-#include "libNetwork/NetMsg.h"
-#include "libJob/AbstractJob.h"
-#include "libNetwork/NetPortalManager.h"
+#include "network.h"
+#include "job.h"
 
 #include <QHostAddress>
 

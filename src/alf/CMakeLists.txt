@@ -21,24 +21,12 @@
 #########################################################################
 #	@file rt^3/src/alf/CMakeLists.txt
 #
-#	$Revision:  $
-#	$Author:  $
+#    Application Launch Framework (ALF)
+#
 #
 ##########################################################################
 
-PROJECT(ApplicationLaunchFramework)
-
-#Add additional include dirs to INCLUDE_DIRS as needed
-SET(PROJ_INCLUDE_DIRS ${GLOBAL_INCLUDE_DIRS} ${QT_INCLUDE_DIR} ${LIBUTILITY_PROJECT_DIR})
-INCLUDE_DIRECTORIES (${PROJ_INCLUDE_DIRS})
-
-SET(PROJ_LINK_LIBS
-    utility
-    ${QT_LIBRARIES}
-)
-
-#Print
-INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
+RT3_PROJECT(alf)
 
 #Set Sources
 set(ALF_SOURCES
@@ -46,13 +34,37 @@ set(ALF_SOURCES
     BaseApp.cxx
 )
 
-set(ALF_PREMOC_HEADERS
-    
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
 )
 
-qt4_wrap_cpp(ALF_POSTMOC_HEADERS ${ALF_PREMOC_HEADERS})
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
+    utility
+    ${QT_LIBRARIES}
+)
 
-ADD_LIBRARY (alf SHARED  ${ALF_POSTMOC_HEADERS} ${ALF_SOURCES})
-TARGET_LINK_LIBRARIES(alf ${PROJ_LINK_LIBS})
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
+    AppLauncher.cxx
+    BaseApp.cxx
+)
 
-MESSAGE(STATUS "\tDone.")
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS(
+    AppLauncher.h
+    BaseApp.h
+)
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_LIB()
