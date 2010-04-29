@@ -30,7 +30,7 @@
 GeometryService::GeometryService(int& argc, char* argv[], QString gsHostname) :
     BaseApp(argc, argv), localGSHostname(gsHostname)
 {
-    this->log->logINFO("GeometryService ", gsHostname + " is starting up...");
+    this->log->logINFO("GeometryService", gsHostname + " is starting up...");
     this->portalMan = new NetPortalManager(gsHostname);
 
     QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)), this, SLOT(handleNewPortal(NetPortal*) ) );
@@ -43,6 +43,7 @@ GeometryService::~GeometryService()
 
 void GeometryService::startListening(const QHostAddress& addy, quint16 port)
 {
+    this->log->logINFO("GeometryService", localGSHostname + " is listening on " + addy.toString() + ":" + QString::number(port));
     this->portalMan->listen(addy, port);
 }
 
