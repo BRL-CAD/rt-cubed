@@ -78,9 +78,7 @@ if(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
 
 	ADD_LIBRARY (coreInterface SHARED ${LIBCOREINTERFACE_SOURCES})
 
-	MESSAGE(STATUS "\tConfiguring Complete.")
+	MESSAGE(STATUS "\tConfiguration for '${PROJECT_NAME}'... Done.")
 ELSE(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
-	MESSAGE(STATUS "\tConfiguring Omitted.")
+	MESSAGE(STATUS "\tConfiguration for '${PROJECT_NAME}'...  Omitted.")
 ENDIF(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
-
-MESSAGE(STATUS "\tDone.")
