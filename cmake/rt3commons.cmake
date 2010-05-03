@@ -124,7 +124,7 @@ MACRO(MAKE_LIBRARY_HEADER_FILE)
     STRING (REPLACE "." "_" INCLUDE_NAME ${FILENAME_UPPER})
     SET(INCLUDE_NAME "__${INCLUDE_NAME}__")
         
-    SET(PATH_AND_NAME ${RT3_ROOT}/include/${FILENAME})
+    SET(PATH_AND_NAME ${RT3_PUBLIC_HEADER_DIR}/${FILENAME})
         
     FILE(WRITE ${PATH_AND_NAME} ${RT3_FILE_HEADER})
     FILE(APPEND ${PATH_AND_NAME} ${RT3_FILE_AUTOGEN_STATEMENT})
@@ -136,13 +136,13 @@ MACRO(MAKE_LIBRARY_HEADER_FILE)
     FOREACH (headerFile ${${NAME_UPPER}_ALL_INST_HEADERS})
         FILE(APPEND ${PATH_AND_NAME} "#include \"${headerFile}\"\n")
         
-        IF (NOT EXISTS ${RT3_ROOT}/include/${headerFile})
+        IF (NOT EXISTS ${RT3_PUBLIC_HEADER_DIR}/${headerFile})
             SET(ERROR_MSG "Compiled Lib Header (${FILENAME}) points to file /include/${headerFile}, which could not be found.")
 
             SET (RT3_COMPILE_WARNINGS ON CACHE INTERNAL "")
             SET (RT3_LAST_WARNING_MSG "Last Error: ${ERROR_MSG}" CACHE INTERNAL "")
             MESSAGE(WARNING "!!  ${ERROR_MSG}")
-        ENDIF (NOT EXISTS ${RT3_ROOT}/include/${headerFile})
+        ENDIF (NOT EXISTS ${RT3_PUBLIC_HEADER_DIR}/${headerFile})
         
     ENDFOREACH (headerFile)
  

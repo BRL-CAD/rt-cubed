@@ -39,11 +39,11 @@ IF(BRLCAD_VERSION)
 		"#define BRLCAD_LIB_MINOR ${BRLCAD_MINOR_VERSION}\n"
 		"#define BRLCAD_LIB_PATCH ${BRLCAD_PATCH_VERSION}\n"
 	)
-	FILE(WRITE ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h ${BRLCADVERSION_H_CONTENT})
+	FILE(WRITE ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h ${BRLCADVERSION_H_CONTENT})
 ENDIF(BRLCAD_VERSION)
 
 
-if(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
+if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 
     SET(PROJ_INCLUDE_DIRS 
         ${GLOBAL_INCLUDE_DIRS}
@@ -79,6 +79,6 @@ if(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
 	ADD_LIBRARY (coreInterface SHARED ${LIBCOREINTERFACE_SOURCES})
 
 	MESSAGE(STATUS "\tConfiguration for '${PROJECT_NAME}'... Done.")
-ELSE(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
+ELSE(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 	MESSAGE(STATUS "\tConfiguration for '${PROJECT_NAME}'...  Omitted.")
-ENDIF(EXISTS ${RT3_INCLUDE_DIR}/brlcad/brlcadversion.h)
+ENDIF(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
