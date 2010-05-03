@@ -70,7 +70,7 @@ SET (RT3_LAST_WARNING_MSG "" CACHE INTERNAL "")
 SET (RT3_VERBOSE_CMAKE_OUTPUT OFF CACHE BOOL "Verbose cmake output. When Set to ON, each project will print its include paths and libraries required for linking.")
 
 #Setup unit testing compilation flag
-SET (COMPILE_UNIT_TESTS OFF CACHE BOOL "Compile the Unit test suite?")
+SET (RT3_BUILD_TESTS OFF CACHE BOOL "Compile the Unit test suite?")
 
 MESSAGE(STATUS "Finding Required Dependancies...")
 
@@ -93,13 +93,13 @@ IF (NOT BRLCAD_FOUND)
 ENDIF (NOT BRLCAD_FOUND)
 
 #Find CPPUNIT if needed.
-#IF (COMPILE_UNIT_TESTS)
+#IF (RT3_BUILD_TESTS)
 #	FIND_PACKAGE ( CPPUNIT REQUIRED )
 #	IF (NOT CPPUNIT_FOUND)
 #        MESSAGE(STATUS "\tDid not find CPPUNIT!")
 #	    RETURN()
 #    ENDIF (NOT CPPUNIT_FOUND)
-#ENDIF (COMPILE_UNIT_TESTS)
+#ENDIF (RT3_BUILD_TESTS)
 
 #Search for QT4
 MESSAGE(STATUS "\tSearching for QT4...")
@@ -130,12 +130,12 @@ MESSAGE(STATUS "All Projects configured.")
 MESSAGE(STATUS "")
 
 #Decend into the test tree.
-IF (COMPILE_UNIT_TESTS)
+IF (RT3_BUILD_TESTS)
     MESSAGE(STATUS "Configuring Tests...")
 	ADD_SUBDIRECTORY(./tests)
 	MESSAGE(STATUS "All Tests configured.")
     MESSAGE(STATUS "")
-ENDIF (COMPILE_UNIT_TESTS)
+ENDIF (RT3_BUILD_TESTS)
 
 #################################
 INCLUDE (./cmake/PrintFooter.cmake)
