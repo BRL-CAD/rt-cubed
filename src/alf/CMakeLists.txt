@@ -28,12 +28,6 @@
 
 RT3_PROJECT(alf)
 
-#Set Sources
-set(ALF_SOURCES
-    AppLauncher.cxx
-    BaseApp.cxx
-)
-
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS(
     ${QT_INCLUDE_DIR}
