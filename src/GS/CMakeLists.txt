@@ -44,6 +44,7 @@ RT3_PROJECT_ADD_LIBS(
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
 	GeometryService.cxx
+	GeometryServiceDaemon.cxx
 	DataManager.cxx
 	DbObjectManifest.cxx
 	GeometryProcessor.cxx
@@ -69,12 +70,13 @@ RT3_PROJECT_ADD_NOINST_HEADERS(
 )
 
 #Set QT INST headers
-RT3_PROJECT_ADD_QT_INST_HEADERS()
+RT3_PROJECT_ADD_QT_INST_HEADERS(
+	GeometryService.h
+	GeometryServiceDaemon.h
+)
 
 #Set QT NOINST headers
-RT3_PROJECT_ADD_QT_NOINST_HEADERS(
-	GeometryService.h
-)
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 
 #Build the project
 RT3_PROJECT_BUILD_LIB()
