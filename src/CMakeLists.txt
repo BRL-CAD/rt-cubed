@@ -27,7 +27,7 @@
 ##########################################################################
 
 #Deps first
-ADD_SUBDIRECTORY(./other/)
+#ADD_SUBDIRECTORY(./other/)
 
 #Libs next
 ADD_SUBDIRECTORY(./date)
@@ -37,7 +37,6 @@ ADD_SUBDIRECTORY(./utility)
 ADD_SUBDIRECTORY(./libNetwork)
 ADD_SUBDIRECTORY(./libJob)
 ADD_SUBDIRECTORY(./coreInterface)
-
 
 #Apps Last
 ADD_SUBDIRECTORY(./GS)
