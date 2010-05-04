@@ -73,7 +73,7 @@ MACRO(RT3_PROJECT_ADD VARNAME)
     STRING(TOUPPER ${PROJECT_NAME} NAME_UPPER)
  
     FOREACH (tFile ${ARGN})
-        SET(${NAME_UPPER}_${VARNAME} ${${NAME_UPPER}_${VARNAME}} ${tFile}  CACHE INTERNAL "")
+        SET(${NAME_UPPER}_${VARNAME} ${${NAME_UPPER}_${VARNAME}} ${tFile} CACHE INTERNAL "")
     ENDFOREACH (tFile)
 ENDMACRO(RT3_PROJECT_ADD)
 
@@ -175,6 +175,31 @@ MACRO(RT3_PROJECT_PRINT)
         ELSE(${NAME_UPPER}_SOURCES)
             MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no source files!")
         ENDIF(${NAME_UPPER}_SOURCES)
+
+        IF(${NAME_UPPER}_INST_HEADERS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' installable header files:   ${${NAME_UPPER}_INST_HEADERS}")
+        ELSE(${NAME_UPPER}_INST_HEADERS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no installable header files!")
+        ENDIF(${NAME_UPPER}_INST_HEADERS)
+
+        IF(${NAME_UPPER}_NOINST_HEADERS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' non-installable header files:   ${${NAME_UPPER}_NOINST_HEADERS}")
+        ELSE(${NAME_UPPER}_NOINST_HEADERS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no non-installable header files!")
+        ENDIF(${NAME_UPPER}_NOINST_HEADERS)
+
+        IF(${NAME_UPPER}_QT_INST_HEADERS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' installable QT header files:   ${${NAME_UPPER}_QT_INST_HEADERS}")
+        ELSE(${NAME_UPPER}_QT_INST_HEADERS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no installable QT header files!")
+        ENDIF(${NAME_UPPER}_QT_INST_HEADERS)
+
+        IF(${NAME_UPPER}_QT_NOINST_HEADERS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' non-installable QT header files:   ${${NAME_UPPER}_QT_NOINST_HEADERS}")
+        ELSE(${NAME_UPPER}_QT_NOINST_HEADERS)
+            MESSAGE(STATUS "\t\t'${PROJECT_NAME}' has no non-installable QT header files!")
+        ENDIF(${NAME_UPPER}_QT_NOINST_HEADERS)
+
     ENDIF(RT3_VERBOSE_CMAKE_OUTPUT)
     
 ENDMACRO(RT3_PROJECT_PRINT)
@@ -184,14 +209,19 @@ MACRO(RT3_PROJECT_BUILD_LIB)
     STRING(TOUPPER ${PROJECT_NAME} NAME_UPPER)
     INCLUDE_DIRECTORIES(${${NAME_UPPER}_INCLUDE_DIRS})
 
+    MESSAGE (STATUS "${NAME_UPPER}_QT_INST_HEADERS: ${${NAME_UPPER}_QT_INST_HEADERS}")
+    MESSAGE (STATUS "${NAME_UPPER}_QT_NOINST_HEADERS: ${${NAME_UPPER}_QT_NOINST_HEADERS}")
+
     #Do the Moccing for NOINST QT headers
     FOREACH (tFile ${${NAME_UPPER}_QT_NOINST_HEADERS})
+        SET (tMoc "")
         qt4_wrap_cpp(tMoc ${tFile})
         RT3_PROJECT_ADD_MOCCED_NOINST_HEADERS(${tMoc})
     ENDFOREACH (tFile)
     
     #Do the Moccing for INST QT headers
     FOREACH (tFile ${${NAME_UPPER}_QT_INST_HEADERS})
+        SET (tMoc "")
         qt4_wrap_cpp(tMoc ${RT3_ROOT}/include/${tFile})
         RT3_PROJECT_ADD_MOCCED_INST_HEADERS(${tMoc})        
     ENDFOREACH (tFile)
@@ -200,7 +230,7 @@ MACRO(RT3_PROJECT_BUILD_LIB)
 
     MAKE_LIBRARY_HEADER_FILE()
     RT3_PROJECT_PRINT()
-    
+        
     ADD_LIBRARY (${PROJECT_NAME} SHARED ${${NAME_UPPER}_SOURCES} ${${NAME_UPPER}_MOCCED_INST_HEADERS}  ${${NAME_UPPER}_MOCCED_NOINST_HEADERS})
     TARGET_LINK_LIBRARIES(${PROJECT_NAME}  ${${NAME_UPPER}_LINK_LIBS})
     
@@ -218,12 +248,14 @@ MACRO(RT3_PROJECT_BUILD_EXE)
     
     #Do the Moccing for NOINST QT headers
     FOREACH (tFile ${${NAME_UPPER}_QT_NOINST_HEADERS})
+        SET (tMoc "")
         qt4_wrap_cpp(tMoc ${tFile})
         RT3_PROJECT_ADD_MOCCED_NOINST_HEADERS(${tMoc})
     ENDFOREACH (tFile)
     
     #Do the Moccing for INST QT headers
     FOREACH (tFile ${${NAME_UPPER}_QT_INST_HEADERS})
+        SET (tMoc "")
         qt4_wrap_cpp(tMoc ${RT3_ROOT}/include/${tFile})
         RT3_PROJECT_ADD_MOCCED_INST_HEADERS(${tMoc})
     ENDFOREACH (tFile)
