@@ -8,7 +8,7 @@ intended for the general public.
 -Core Interface requires the use of brlcad-config to generate 'brlcadversion.h' via cmake.  brlcad-config is not present on windows brlcad builds, thus coreInterface will not build on windows.
 -Check for const-ness from top to bottom
 -Look at /src/GE/exception and see if anything is actually using those files.  If not, remove them.
-
+-Replace QT's signals 'n' slots functionality with a simpler in house version that utilizes the JobManager.  Signals and Slots requires a QCoreApplication.exec() to be blocked for it to work.  Hampers current design goals.
 
 
 //Older stuff
