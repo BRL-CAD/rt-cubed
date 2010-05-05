@@ -24,6 +24,7 @@
  */
 
 #include "Event.h"
+#include "IEventPublisher.h"
 
 Event::Event(IEventPublisher* pub, quint32 eventType) :
     _pub(pub), _eventType(eventType), _message("")

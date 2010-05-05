@@ -26,9 +26,9 @@
 #ifndef __EVENT_H__
 #define __EVENT_H__
 
-#include "IEventPublisher.h"
-
 #include <QString>
+
+class IEventPublisher;
 
 class Event
 {
