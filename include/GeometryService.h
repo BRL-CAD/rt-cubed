@@ -42,6 +42,7 @@ public:
 	GeometryService(const QString localGSHostname);
 	virtual ~GeometryService();
 	void startListening(const QHostAddress& addy, quint16 port);
+	void stopListening();
 
 protected slots:
     void handleNewPortal(NetPortal*);

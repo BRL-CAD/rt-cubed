@@ -47,6 +47,14 @@ void GeometryService::startListening(const QHostAddress& addy, quint16 port)
     this->portalMan->listen(addy, port);
 }
 
+void GeometryService::stopListening()
+{
+    this->log->logINFO("GeometryService", localGSHostname + " stopped listening on " + addy.toString() + ":" + QString::number(port));
+    this->portalMan->close();
+}
+
+
+
 void GeometryService::handleNewPortal(NetPortal* nsp)
 {
     this->log->logINFO("GeometryService",
