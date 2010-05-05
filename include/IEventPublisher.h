@@ -28,6 +28,8 @@
 
 class IEventPublisher
 {
+
+
 };
 
 #endif /* __IEVENTPUBLISHER_H__ */

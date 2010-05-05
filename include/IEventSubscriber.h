@@ -26,6 +26,12 @@
 #ifndef __IEVENTSUBSCRIBER_H__
 #define __IEVENTSUBSCRIBER_H__
 
+class IEventSubscriber
+{
+
+
+};
+
 #endif /* __IEVENTSUBSCRIBER_H__ */
 
 /*
