@@ -43,6 +43,11 @@ EventManager* EventManager::getInstance()
     return EventManager::pInstance;
 }
 
+void EventManager::submitEvent(Event* e)
+{
+
+}
+
 // Local Variables:
 // tab-width: 8
 // mode: C++

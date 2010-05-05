@@ -26,6 +26,7 @@
 #ifndef __EVENTMANAGER_H__
 #define __EVENTMANAGER_H__
 
+#include "Event.h"
 #include "utility.h"
 
 class EventManager
@@ -33,7 +34,7 @@ class EventManager
 public:
     virtual ~EventManager();
     static EventManager* getInstance();
-
+    void submitEvent(Event* e);
 
 private:
     static EventManager* pInstance;
