@@ -27,7 +27,7 @@
 #ifndef __GEOMETRYSERVICEDAEMON_H__
 #define __GEOMETRYSERVICEDAEMON_H__
 
-#include "GeometryService.h"
+#include "GeometryServiceApp.h"
 
 #include <QThread>
 
@@ -36,16 +36,16 @@ class GeometryServiceDaemon : public QThread
     Q_OBJECT
 
 public:
-    GeometryServiceDaemon(GeometryService* gs);
+    GeometryServiceDaemon(GeometryServiceApp* gsa);
     virtual ~GeometryServiceDaemon(){};
 
-    GeometryService* getGeometryService();
+    GeometryServiceApp* getGeometryServiceApp();
 
 protected:
     void run();
 
 private:
-    GeometryService* gs;
+    GeometryServiceApp* gsa;
 };
 
 #endif

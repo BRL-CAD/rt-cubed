@@ -25,18 +25,18 @@
 
 #include "GeometryServiceDaemon.h"
 
-GeometryServiceDaemon::GeometryServiceDaemon(GeometryService* gs) : gs(gs)
+GeometryServiceDaemon::GeometryServiceDaemon(GeometryServiceApp* gsa) : gsa(gsa)
 {
 }
 
 void GeometryServiceDaemon::run()
 {
-    int retVal = this->gs->exec();
+    int retVal = this->gsa->exec();
 }
 
-GeometryService* GeometryServiceDaemon::getGeometryService()
+GeometryServiceApp* GeometryServiceDaemon::getGeometryServiceApp()
 {
-    return this->gs;
+    return this->gsa;
 }
 
 

@@ -24,6 +24,7 @@
  */
 
 #include "GeometryService.h"
+#include "GeometryServiceApp.h"
 #include "alf.h"
 #include "utility.h"
 #include <iostream>
@@ -48,8 +49,6 @@ int main(int argc, char* argv[])
 
     log->logBANNER("GSMain", "Booting GeometryService: " + gsHostname);
 
-    GeometryService gs(argc, argv, gsHostname);
-
     QString listenAddressStr = c->getConfigValue("ListenAddress");
     if (listenAddressStr == "") {
 	listenAddressStr = "localhost";
@@ -62,7 +61,10 @@ int main(int argc, char* argv[])
     }
     quint16 listenPort = listenPortStr.toShort();
 
+    GeometryService gs(gsHostname);
+    GeometryServiceApp gsa(argc, argv, &gs);
+
     gs.startListening(listenAddress, listenPort);
 
-    return gs.exec();
+    return gsa.exec();
 }

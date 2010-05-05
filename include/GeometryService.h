@@ -26,29 +26,29 @@
 #ifndef __GEOMETRYSERVICE_H__
 #define __GEOMETRYSERVICE_H__
 
-#include "BaseApp.h"
 #include "network.h"
+#include "utility.h"
 
 #include <QTcpSocket>
 #include <QString>
 #include <QStringList>
 #include <QCoreApplication>
 
-class GeometryService : public BaseApp, public INetMsgHandler
+class GeometryService : public QObject, public INetMsgHandler
 {
     Q_OBJECT
 
 public:
-	GeometryService(int& argc, char* argv[], QString localGSHostname);
+	GeometryService(const QString localGSHostname);
 	virtual ~GeometryService();
 	void startListening(const QHostAddress& addy, quint16 port);
-	int exec();
 
 protected slots:
     void handleNewPortal(NetPortal*);
     void handleMsgReady();
 
 private:
+	Logger* log;
 	QString localGSHostname;
 	NetPortalManager* portalMan;
 

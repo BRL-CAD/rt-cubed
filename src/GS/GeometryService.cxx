@@ -25,11 +25,11 @@
 
 #include "GeometryService.h"
 #include "SessionManager.h"
-#include "utility.h"
 
-GeometryService::GeometryService(int& argc, char* argv[], QString gsHostname) :
-    BaseApp(argc, argv), localGSHostname(gsHostname)
+GeometryService::GeometryService(const QString gsHostname) :
+    localGSHostname(gsHostname)
 {
+    this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", gsHostname + " is starting up...");
     this->portalMan = new NetPortalManager(gsHostname);
 
@@ -87,13 +87,6 @@ void GeometryService::handleNetMsg(NetMsg* msg, NetPortal* origin)
 
 }
 
-int GeometryService::exec()
-{
-    //Startup prior to exec()
-
-
-    return QCoreApplication::exec();
-}
 
 // Local Variables: ***
 // mode: C++ ***
