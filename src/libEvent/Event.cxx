@@ -25,7 +25,7 @@
 
 #include "Event.h"
 
-Event::Event(const IEventPublisher* pub, quint32 eventType) :
+Event::Event(IEventPublisher* pub, quint32 eventType) :
     _pub(pub), _eventType(eventType)
 {
 }
@@ -34,11 +34,11 @@ Event::~Event()
 {
 }
 
-IEventPublisher* Event::getPublisher()
+IEventPublisher* Event::getPublisher() const
 {
     return this->_pub;
 }
-quint32 Event::getEventType()
+quint32 Event::getEventType() const
 {
     return this->_eventType;
 }
@@ -46,7 +46,7 @@ void Event::setMessage(QString message)
 {
     this->_message = message;
 }
-QString Event::getMessage()
+QString Event::getMessage() const
 {
     return this->_message;
 }
