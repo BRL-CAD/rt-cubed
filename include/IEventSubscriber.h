@@ -27,10 +27,27 @@
 #define __IEVENTSUBSCRIBER_H__
 
 #include "Event.h"
+#include "EventManager.h"
+
+class IEventPublisher;
 
 class IEventSubscriber
 {
     virtual void handleEvent(Event* e) = 0;
+
+    void subscribeMeToAllEventsOfType(quint32 eventType) {
+	EventManager::getInstance()->subscribeByType(this, eventType);
+    }
+
+    void subscribeMeToAllEventsByPublisher(IEventPublisher pub) {
+	EventManager::getInstance()->subscribeByPublisher(this, pub);
+    }
+
+    void subscribeMeToEventOfTypeByPublisher(quint32 eventType, IEventPublisher pub) {
+	EventManager::getInstance()->subscribeByTypeAndPublisher(this, eventType, pub);
+    }
+
+
 };
 
 #endif /* __IEVENTSUBSCRIBER_H__ */
