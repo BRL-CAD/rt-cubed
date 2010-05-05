@@ -33,7 +33,7 @@
 
 class INetMsgHandler {
 public:
-	virtual void handleNetMsg(NetMsg* msg, NetPortal* origin){};
+	virtual void handleNetMsg(NetMsg* msg, NetPortal* origin) = 0;
 };
 
 #endif /* __INETMSGHANDLER_H__ */
