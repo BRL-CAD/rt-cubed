@@ -38,8 +38,12 @@ class GeometryServiceDaemon : public QThread
 public:
     GeometryServiceDaemon(GeometryService* gs);
     virtual ~GeometryServiceDaemon(){};
+
+    GeometryService* getGeometryService();
+
 protected:
     void run();
+
 private:
     GeometryService* gs;
 };

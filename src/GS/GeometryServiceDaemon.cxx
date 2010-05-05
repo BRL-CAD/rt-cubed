@@ -34,6 +34,11 @@ void GeometryServiceDaemon::run()
     int retVal = this->gs->exec();
 }
 
+GeometryService* GeometryServiceDaemon::getGeometryService()
+{
+    return this->gs;
+}
+
 
 // Local Variables: ***
 // mode: C++ ***
