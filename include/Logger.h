@@ -40,8 +40,16 @@ class Logger
 public:
 	static Logger* getInstance();
 
-	void enableVerbose(){this->verbose = true;}
-	void disableVerbose(){this->verbose = false;}
+	void enableVerbose(){this->_verbose = true;}
+	void disableVerbose(){this->_verbose = false;}
+
+	void enableLogToStdOut(){this->_toStdOut = true;}
+	void disableLogToStdOut(){this->_toStdOut = false;}
+
+	void enableLogToFile(){this->_toFile = true;}
+	void disableLogToFile(){this->_toFile = false;}
+
+
 
 	void logBANNER(QString origin, QString string);
 	void logDEBUG(QString origin, QString string);
@@ -58,7 +66,9 @@ public:
 protected:
 	static Logger* instance;
 	static QMutex* lock;
-	bool verbose;
+	bool _verbose;
+	bool _toStdOut;
+	bool _toFile;
 
 	Logger();
 	Logger(const Logger& logger){};

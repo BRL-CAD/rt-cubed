@@ -31,10 +31,11 @@
 Logger* Logger::instance;
 QMutex* Logger::lock = new QMutex();
 
-Logger::Logger()
+Logger::Logger() :
+	_verbose(false), _toFile(false), _toStdOut(true)
 {
-    this->verbose = false; //Default to false
 }
+
 Logger* Logger::getInstance()
 {
     QMutexLocker locker(Logger::lock);
@@ -108,24 +109,27 @@ void Logger::log(quint32 logLevel, QString origin, QString string)
 
     QMutexLocker locker(Logger::lock);
 
-    //TODO add file logging
-
-    std::cout << std::setw(12) << std::left << time.toStdString();
-    std::cout << std::setw(20) << std::left << origin.toStdString();
-    std::cout << std::setw(12) << std::left << type.toStdString();
-
-    if (logLevel == Logger::BANNER) {
-	std::cout << std::left << "======= " << string.toStdString() << " =======";
-    } else {
-	std::cout << std::left << string.toStdString();
+    if (this->_toFile) {
+	    //TODO add file logging
     }
 
-    if (this->verbose) {
-	std::cout << " \t" << "STACK TRACE GOES HERE";
+    if (this->_toStdOut) {
+	std::cout << std::setw(12) << std::setfill(' ') << std::left << time.toStdString();
+	std::cout << std::setw(20) << std::setfill(' ') << std::left << origin.toStdString();
+	std::cout << std::setw(12) << std::setfill(' ') << std::left << type.toStdString();
+
+	if (logLevel == Logger::BANNER) {
+	    std::cout << std::setfill(' ') << std::left << "======= " << string.toStdString() << " =======";
+	} else {
+	    std::cout << std::setfill(' ') << std::left << string.toStdString();
+	}
+
+	if (this->_verbose) {
+	    std::cout << std::setfill(' ') << " \t" << "STACK TRACE GOES HERE";
+	}
+
+	std::cout << std::endl;
     }
-
-    std::cout << std::endl;
-
 }
 
 // Local Variables: ***
