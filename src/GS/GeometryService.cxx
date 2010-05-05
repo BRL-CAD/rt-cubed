@@ -49,8 +49,13 @@ void GeometryService::startListening(const QHostAddress& addy, quint16 port)
 
 void GeometryService::stopListening()
 {
-    this->log->logINFO("GeometryService", localGSHostname + " stopped listening on " + addy.toString() + ":" + QString::number(port));
+    this->log->logINFO("GeometryService", localGSHostname + " stopped listening.");
     this->portalMan->close();
+}
+
+bool GeometryService::isListening() const
+{
+    return this->portalMan->isListening();
 }
 
 

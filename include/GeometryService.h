@@ -43,6 +43,7 @@ public:
 	virtual ~GeometryService();
 	void startListening(const QHostAddress& addy, quint16 port);
 	void stopListening();
+	bool isListening() const;
 
 protected slots:
     void handleNewPortal(NetPortal*);
