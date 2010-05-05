@@ -29,10 +29,15 @@ EventManager* EventManager::pInstance = NULL;
 
 EventManager::EventManager()
 {
+    this->subscriptions = new QList<EventSubscription*>();
 }
 
 EventManager::~EventManager()
 {
+    for (quint32 i = 0; i < subscriptions.size(); ++i) {
+	delete subscriptions[i];
+    }
+    delete subscriptions;
 }
 
 EventManager* EventManager::getInstance()
