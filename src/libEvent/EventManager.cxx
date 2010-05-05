@@ -34,8 +34,9 @@ EventManager::EventManager()
 
 EventManager::~EventManager()
 {
-    for (quint32 i = 0; i < subscriptions.size(); ++i) {
-	delete subscriptions[i];
+    for (quint32 i = 0; i < subscriptions->size(); ++i) {
+	EventSubscription* es = subscriptions->at(i);
+	delete es;
     }
     delete subscriptions;
 }

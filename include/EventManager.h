@@ -26,9 +26,14 @@
 #ifndef __EVENTMANAGER_H__
 #define __EVENTMANAGER_H__
 
+#define ALL_TYPES	0
+#define ALL_PUBLISHERS	0
+
 #include "Event.h"
 #include "utility.h"
 #include "job.h"
+
+class IEventSubscriber;
 
 class EventManager
 {
@@ -38,12 +43,6 @@ public:
     void submitEvent(Event* e);
 
 private:
-    static EventManager* pInstance;
-    EventManager();
-    void processEvent(Event* e);
-
-    Logger* log;
-
 
     //Private class for handling event submission
     class SubmitEventJob : public AbstractJob {
@@ -54,6 +53,32 @@ private:
 	JobResult _doJob(){EventManager::getInstance()->processEvent(e);};
 	Event* e;
     };
+
+    //private class for grouping subscription data together
+    class EventSubscription
+    {
+    public:
+        EventSubscription(IEventSubscriber* sub, quint32 eventType = ALL_TYPES, IEventPublisher* pub = ALL_PUBLISHERS):_sub(sub), _eventType(eventType), _pub(pub){};
+        virtual ~EventSubscription();
+
+        IEventPublisher* getPublisher(){return this->_pub;};
+        quint32 getEventType(){return this->_eventType;};
+        IEventSubscriber* getEventSubscriber(){return this->_sub;};
+
+    private:
+        IEventPublisher* _pub;
+        quint32 _eventType;
+        IEventSubscriber* _sub;
+    };
+
+
+    static EventManager* pInstance;
+    EventManager();
+    void processEvent(Event* e);
+
+    Logger* log;
+
+    QList<EventSubscription*>* subscriptions;
 
 };
 
