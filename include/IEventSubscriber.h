@@ -26,10 +26,11 @@
 #ifndef __IEVENTSUBSCRIBER_H__
 #define __IEVENTSUBSCRIBER_H__
 
+#include "Event.h"
+
 class IEventSubscriber
 {
-
-
+    virtual void handleEvent(Event* e) = 0;
 };
 
 #endif /* __IEVENTSUBSCRIBER_H__ */

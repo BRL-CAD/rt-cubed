@@ -26,9 +26,17 @@
 #ifndef __IEVENTPUBLISHER_H__
 #define __IEVENTPUBLISHER_H__
 
+#include "Event.h"
+#include "EventManager.h"
+#include <QString>
+
 class IEventPublisher
 {
-
+    void generateEvent(quint32 type, QString message = "")
+    {
+	Event* e = new Event(this, type, message);
+	EventManager::getInstance()->submitEvent(e);
+    }
 
 };
 
