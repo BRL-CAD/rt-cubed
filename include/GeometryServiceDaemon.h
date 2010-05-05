@@ -38,7 +38,7 @@ class GeometryServiceDaemon : public QThread
 public:
     GeometryServiceDaemon(GeometryServiceApp* gsa);
     virtual ~GeometryServiceDaemon(){};
-
+    void stop();
     GeometryServiceApp* getGeometryServiceApp();
 
 protected:

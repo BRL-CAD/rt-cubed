@@ -34,6 +34,12 @@ void GeometryServiceDaemon::run()
     int retVal = this->gsa->exec();
 }
 
+void GeometryServiceDaemon::stop()
+{
+    this->gsa->getGeometryService()->stopListening();
+    this->terminate();
+}
+
 GeometryServiceApp* GeometryServiceDaemon::getGeometryServiceApp()
 {
     return this->gsa;
