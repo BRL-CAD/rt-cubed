@@ -52,12 +52,6 @@ quint32 AbstractJob::getJobId()
     return this->jobID;
 }
 
-JobResult AbstractJob::_doJob()
-{
-    //Give a default function.
-    return JOB_COMPLETED_NO_ERRORS;
-}
-
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

@@ -50,7 +50,7 @@ public:
     quint32 getJobId();
 
 protected:
-    virtual JobResult _doJob();
+    virtual JobResult _doJob() = 0;
 
     quint32 jobID;
     JobStatus status;
