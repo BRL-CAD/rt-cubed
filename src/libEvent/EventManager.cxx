@@ -45,8 +45,15 @@ EventManager* EventManager::getInstance()
 
 void EventManager::submitEvent(Event* e)
 {
+    SubmitEventJob* j = new SubmitEventJob(e);
+    JobManager::getInstance()->submitJob(j);
+}
+
+void EventManager::processEvent(Event* e)
+{
 
 }
+
 
 // Local Variables:
 // tab-width: 8

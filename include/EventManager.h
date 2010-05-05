@@ -28,6 +28,7 @@
 
 #include "Event.h"
 #include "utility.h"
+#include "job.h"
 
 class EventManager
 {
@@ -39,8 +40,20 @@ public:
 private:
     static EventManager* pInstance;
     EventManager();
+    void processEvent(Event* e);
 
     Logger* log;
+
+
+    //Private class for handling event submission
+    class SubmitEventJob : public AbstractJob {
+    public:
+	SubmitEventJob(Event* e):e(e){};
+	virtual ~SubmitEventJob();
+    private:
+	JobResult _doJob(){EventManager::getInstance()->processEvent(e);};
+	Event* e;
+    };
 
 };
 
