@@ -30,12 +30,14 @@
 #include <vector>
 #include <iomanip>
 
+#include "gs.h"
 #include "network.h"
 
 #include <QUuid>
+#include <QString>
 #include <QHostAddress>
 
-static const int DEFAULT_PORT = 7777;
+static const quint16 DEFAULT_PORT = 7777;
 
 /**
  * wrapper server class for staring up an object that instantiates and
@@ -45,27 +47,38 @@ static const int DEFAULT_PORT = 7777;
 class GeometryServer
 {
 private:
-    int port_;
+    quint16 _port;
+    QHostAddress _addy;
+    GeometryService* gs;
 
 public:
-    GeometryServer(int port = DEFAULT_PORT)
+    GeometryServer(const QHostAddress& addy = QHostAddress::LocalHost, const quint16 port = DEFAULT_PORT)
     {
+
+	this->gs = new GeometryService("GSTester");
+
 	if (port > 0)
-	    start(port);
+	    start(addy, port);
     }
     ~GeometryServer()
     {
+	delete this->gs;
     }
     bool stillRunning() const
     {
-	return false;
+	//For now, make the test simple
+	return this->gs->isListening();
     }
-    void start(int port = DEFAULT_PORT)
+    void start(const QHostAddress& addy = QHostAddress::LocalHost, const quint16 port = DEFAULT_PORT)
     {
-	port_ = port;
+	this->_port = port;
+	this->_addy = addy;
+
+	this->gs->startListening(this->_addy, this->_port);
     }
     void stop() const
     {
+	this->gs->stopListening();
     }
 };
 
@@ -448,6 +461,9 @@ static void Disconnect(GeometryClient *gc, GeometryClient *gc2 = NULL,
 
 int main(int ac, char *av[])
 {
+    //disable the logger for now.
+    Logger::getInstance()->disableLogToStdOut();
+
     std::vector<std::string> gcdir, gc2dir, gc3dir;
     std::string rep, rep2;
 
