@@ -34,11 +34,11 @@ class Event
 {
 public:
     Event(IEventPublisher* pub, quint32 eventType);
+    Event(IEventPublisher* pub, quint32 eventType, QString message);
     virtual ~Event();
 
     IEventPublisher* getPublisher() const;
     quint32 getEventType() const;
-    void setMessage(QString message);
     QString getMessage() const;
 
 private:
