@@ -33,6 +33,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS( ${QT_INCLUDE_DIRS})
 
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
+    gs
     network
     ${QT_LIBRARIES}
 )
