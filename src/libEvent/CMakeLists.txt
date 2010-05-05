@@ -36,6 +36,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
     utility
+    job
     ${QT_LIBRARIES}
 )
 
