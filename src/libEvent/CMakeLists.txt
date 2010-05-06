@@ -48,6 +48,7 @@ RT3_PROJECT_ADD_SOURCES (
     EventSubscriber.cxx
     EventSubscription.cxx
     EventDeliverJob.cxx
+    SubmitEventJob.cxx
 )
 
 #Set INST Headers
@@ -62,6 +63,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 RT3_PROJECT_ADD_NOINST_HEADERS(
     EventSubscription.h
     EventDeliverJob.h
+    SubmitEventJob.h
 )
 
 #Build the project

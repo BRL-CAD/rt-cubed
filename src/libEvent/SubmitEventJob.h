@@ -1,4 +1,4 @@
-/*                  E V E N T M A N A G E R . H
+/*                S U B M I T E V E N T J O B . H
  * BRLCAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,51 +17,32 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file EventManager.h
+/** @file SubmitEventJob.h
  *
  * Brief description
  *
  */
 
-#ifndef __EVENTMANAGER_H__
-#define __EVENTMANAGER_H__
+#ifndef __SUBMITEVENTJOB_H__
+#define __SUBMITEVENTJOB_H__
 
+#include "job.h"
 #include "Event.h"
-#include "utility.h"
 
-class EventSubscriber;
-class EventSubscription;
-
-class EventManager
+class SubmitEventJob: public AbstractJob
 {
 public:
-    virtual ~EventManager();
-    static EventManager* getInstance();
+    SubmitEventJob(Event* e);
+    virtual ~SubmitEventJob();
 
-    /**
-     * Use submitEvent(...) when you want the call to processEvent(...) to be done from a different thread than the one calling submitEvent(...)
-     */
-    void submitEvent(Event* e);
-    void processEvent(Event* e);
-
-    void subscribe(EventSubscriber* sub, quint32 eventType,
-		    EventPublisher* pub);
-    void unsubscribe(EventSubscriber* sub, quint32 eventType,
-	    EventPublisher* pub);
+protected:
+    JobResult _doJob();
 
 private:
-    static EventManager* pInstance;
-    EventManager();
-
-    QList<EventSubscriber*>* buildSubscriberList(Event* e);
-
-    Logger* log;
-
-    QList<EventSubscription*>* subscriptions;
-
+    Event* e;
 };
 
-#endif /* __EVENTMANAGER_H__ */
+#endif /* __SUBMITEVENTJOB_H__ */
 
 /*
  * Local Variables:
