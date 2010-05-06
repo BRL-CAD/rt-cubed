@@ -26,20 +26,9 @@
 #include "EventSubscriber.h"
 #include "EventPublisher.h"
 
-void EventSubscriber::subscribeMeToAllEventsOfType(quint32 eventType)
+void EventSubscriber::subscribeMe(quint32 eventType, EventPublisher* pub)
 {
-    EventManager::getInstance()->subscribeByType(this, eventType);
-}
-
-void EventSubscriber::subscribeMeToAllEventsByPublisher(EventPublisher* pub)
-{
-    EventManager::getInstance()->subscribeByPublisher(this, pub);
-}
-
-void EventSubscriber::subscribeMeToEventOfTypeByPublisher(quint32 eventType,
-	EventPublisher* pub)
-{
-    EventManager::getInstance()->subscribeByTypeAndPublisher(this, eventType,
+    EventManager::getInstance()->subscribe(this, eventType,
 	    pub);
 }
 

@@ -38,10 +38,11 @@ public:
     virtual void handleEvent(Event* e) = 0;
 
 protected:
-    void subscribeMeToAllEventsOfType(quint32 eventType);
-    void subscribeMeToAllEventsByPublisher(EventPublisher* pub);
-    void subscribeMeToEventOfTypeByPublisher(quint32 eventType, EventPublisher* pub);
-
+    /**
+     * eventType can be a value > 0, or ALL_TYPES
+     * pub should be a pointer to an EventPublisher object, or can be ALL_PUBLISHERS
+     */
+    void subscribeMe(quint32 eventType, EventPublisher* pub);
 };
 
 #endif /* __EVENTSUBSCRIBER_H__ */
