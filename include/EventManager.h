@@ -26,15 +26,12 @@
 #ifndef __EVENTMANAGER_H__
 #define __EVENTMANAGER_H__
 
-#define ALL_TYPES	0
-#define ALL_PUBLISHERS	0
-
 #include "Event.h"
-#include "EventSubscription.h"
 #include "utility.h"
 #include "job.h"
 
 class EventSubscriber;
+class EventSubscription;
 
 class EventManager
 {

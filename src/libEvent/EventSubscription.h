@@ -26,6 +26,12 @@
 #ifndef __EVENTSUBSCRIPTION_H__
 #define __EVENTSUBSCRIPTION_H__
 
+#define ALL_TYPES	0
+#define ALL_PUBLISHERS	0
+
+#include "EventSubscriber.h"
+#include "EventPublisher.h"
+
 class EventSubscription
 {
 public:

@@ -24,6 +24,7 @@
  */
 
 #include "EventManager.h"
+#include "EventSubscription.h"
 
 EventManager* EventManager::pInstance = NULL;
 
