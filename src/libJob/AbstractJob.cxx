@@ -24,6 +24,7 @@
  */
 
 #include "AbstractJob.h"
+#include "JobManager.h"
 
 AbstractJob::AbstractJob()
 {
@@ -50,6 +51,11 @@ JobStatus AbstractJob::getStatus()
 quint32 AbstractJob::getJobId()
 {
     return this->jobID;
+}
+
+void AbstractJob::submit()
+{
+    JobManager::getInstance()->submitJob(this);
 }
 
 // Local Variables: ***

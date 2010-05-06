@@ -45,6 +45,8 @@ public:
     AbstractJob();
     virtual ~AbstractJob();
 
+    void submit();
+
     JobResult doJob();
     JobStatus getStatus();
     quint32 getJobId();
