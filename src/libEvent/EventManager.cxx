@@ -86,7 +86,8 @@ QList<EventSubscriber*>* EventManager::buildSubscriberList(Event* e)
 
 void EventManager::subscribe(EventSubscriber* sub, quint32 eventType, EventPublisher* pub)
 {
-
+    EventSubscription* es = new EventSubscription(sub, eventType, pub);
+    this->subscriptions->append(es);
 }
 
 
