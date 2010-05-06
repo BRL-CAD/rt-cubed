@@ -65,6 +65,8 @@ void EventManager::processEvent(Event* e)
     for (int i = 0; i < subList->size(); ++i) {
 	EventSubscriber* sub = subList->at(i);
 
+	EventDeliverJob* edj = new EventDeliverJob(sub, e);
+	edj->submit();
     }
 }
 
