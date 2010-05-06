@@ -43,6 +43,7 @@ public:
 
 	AbstractJob* getNextJob();
 	bool hasJobsToWork();
+	quint32 getWorkQueueLen();
 
 private:
 	static JobManager* pInstance;

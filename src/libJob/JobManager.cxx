@@ -101,6 +101,11 @@ bool JobManager::hasJobsToWork()
     return !this->jobQueue->isEmpty();
 }
 
+quint32 JobManager::getWorkQueueLen()
+{
+    return this->jobQueue->size();
+}
+
 //TODO add JobWorker Monitor.
 
 // Local Variables: ***
