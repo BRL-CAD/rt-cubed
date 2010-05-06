@@ -30,6 +30,7 @@
 
 class EventPublisher
 {
+public:
     void generateEvent(quint32 type, QString message = "");
 
 };

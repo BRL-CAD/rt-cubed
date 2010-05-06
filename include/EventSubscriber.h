@@ -34,8 +34,10 @@ class EventPublisher;
 
 class EventSubscriber
 {
+public:
     virtual void handleEvent(Event* e) = 0;
 
+protected:
     void subscribeMeToAllEventsOfType(quint32 eventType);
     void subscribeMeToAllEventsByPublisher(EventPublisher* pub);
     void subscribeMeToEventOfTypeByPublisher(quint32 eventType, EventPublisher* pub);
