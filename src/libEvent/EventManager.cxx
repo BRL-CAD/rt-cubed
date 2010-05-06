@@ -62,19 +62,33 @@ void EventManager::processEvent(Event* e)
 
 QList<EventSubscriber*>* EventManager::buildSubscriberList(Event* e)
 {
+    quint32 eType = e->getEventType();
+    EventPublisher* ePub = e->getPublisher();
 
-    QList<EventSubscriber*>* subscribers = new QList<EventSubscriber*> ();
+    QList<EventSubscriber*>* subscriberList = new QList<EventSubscriber*> ();
 
-    //First Check for
     for (quint32 i = 0; i < subscriptions->size(); ++i) {
-	EventSubscription* es = subscriptions->at(i);
+	EventSubscription* subscription = subscriptions->at(i);
 
+	quint32 ssType = subscription->getEventType();
+	EventPublisher* ssPub = subscription->getPublisher();
 
+	bool isSubscribedType = ((ssType == eType) || (ssType == ALL_TYPES));
+	bool isSubscribedPublisher = ((ssPub == ePub) || (ssPub == ALL_PUBLISHERS));
 
+	if (isSubscribedType && isSubscribedPublisher) {
+	    subscriberList->append(subscription->getEventSubscriber());
+	}
     }
 
+    return subscriberList;
+}
+
+void EventManager::subscribe(EventSubscriber* sub, quint32 eventType, EventPublisher* pub)
+{
 
 }
+
 
 // Local Variables:
 // tab-width: 8
