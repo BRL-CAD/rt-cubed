@@ -1,4 +1,4 @@
-/*               I E V E N T P U B L I S H E R . H
+/*                E V E N T P U B L I S H E R . H
  * BRLCAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,20 +17,20 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file IEventPublisher.h
+/** @file EventPublisher.h
  *
  * Brief description
  *
  */
 
-#ifndef __IEVENTPUBLISHER_H__
-#define __IEVENTPUBLISHER_H__
+#ifndef __EVENTPUBLISHER_H__
+#define __EVENTPUBLISHER_H__
 
 #include "Event.h"
 #include "EventManager.h"
 #include <QString>
 
-class IEventPublisher
+class EventPublisher
 {
     void generateEvent(quint32 type, QString message = "")
     {
@@ -40,7 +40,7 @@ class IEventPublisher
 
 };
 
-#endif /* __IEVENTPUBLISHER_H__ */
+#endif /* __EVENTPUBLISHER_H__ */
 
 /*
  * Local Variables:

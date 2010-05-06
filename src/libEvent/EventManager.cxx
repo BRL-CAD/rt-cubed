@@ -60,6 +60,21 @@ void EventManager::processEvent(Event* e)
 
 }
 
+QList<EventSubscriber*>* EventManager::buildSubscriberList(Event* e)
+{
+
+    QList<EventSubscriber*>* subscribers = new QList<EventSubscriber*> ();
+
+    //First Check for
+    for (quint32 i = 0; i < subscriptions->size(); ++i) {
+	EventSubscription* es = subscriptions->at(i);
+
+
+
+    }
+
+
+}
 
 // Local Variables:
 // tab-width: 8

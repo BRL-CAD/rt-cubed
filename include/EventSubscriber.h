@@ -17,21 +17,21 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file IEventSubscriber.h
+/** @file EventSubscriber.h
  *
  * Brief description
  *
  */
 
-#ifndef __IEVENTSUBSCRIBER_H__
-#define __IEVENTSUBSCRIBER_H__
+#ifndef __EVENTSUBSCRIBER_H__
+#define __EVENTSUBSCRIBER_H__
 
 #include "Event.h"
 #include "EventManager.h"
 
-class IEventPublisher;
+class EventPublisher;
 
-class IEventSubscriber
+class EventSubscriber
 {
     virtual void handleEvent(Event* e) = 0;
 
@@ -39,18 +39,18 @@ class IEventSubscriber
 	EventManager::getInstance()->subscribeByType(this, eventType);
     }
 
-    void subscribeMeToAllEventsByPublisher(IEventPublisher pub) {
-	EventManager::getInstance()->subscribeByPublisher(this, pub);
+    void subscribeMeToAllEventsByPublisher(EventPublisher* pub) {
+afsadfdfsa	EventManager::getInstance()->subscribeByPublisher(this, pub);
     }
 
-    void subscribeMeToEventOfTypeByPublisher(quint32 eventType, IEventPublisher pub) {
+    void subscribeMeToEventOfTypeByPublisher(quint32 eventType, EventPublisher* pub) {
 	EventManager::getInstance()->subscribeByTypeAndPublisher(this, eventType, pub);
     }
 
 
 };
 
-#endif /* __IEVENTSUBSCRIBER_H__ */
+#endif /* __EVENTSUBSCRIBER_H__ */
 
 /*
  * Local Variables:

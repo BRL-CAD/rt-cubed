@@ -24,14 +24,14 @@
  */
 
 #include "Event.h"
-#include "IEventPublisher.h"
+#include "EventPublisher.h"
 
-Event::Event(IEventPublisher* pub, quint32 eventType) :
+Event::Event(EventPublisher* pub, quint32 eventType) :
     _pub(pub), _eventType(eventType), _message("")
 {
 }
 
-Event::Event(IEventPublisher* pub, quint32 eventType, QString message) :
+Event::Event(EventPublisher* pub, quint32 eventType, QString message) :
     _pub(pub), _eventType(eventType), _message(message)
 {
 }
@@ -40,7 +40,7 @@ Event::~Event()
 {
 }
 
-IEventPublisher* Event::getPublisher() const
+EventPublisher* Event::getPublisher() const
 {
     return this->_pub;
 }

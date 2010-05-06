@@ -33,7 +33,7 @@
 #include "utility.h"
 #include "job.h"
 
-class IEventSubscriber;
+class EventSubscriber;
 
 class EventManager
 {
@@ -41,6 +41,10 @@ public:
     virtual ~EventManager();
     static EventManager* getInstance();
     void submitEvent(Event* e);
+
+    void subscribeByType(EventSubscriber* sub, quint32 eventType);
+    void subscribeByPublisher(EventSubscriber* sub, EventPublisher* pub);
+    void subscribeByTypeAndPublisher(EventSubscriber* sub, quint32 eventType,EventPublisher* pub);
 
 private:
 
@@ -58,23 +62,24 @@ private:
     class EventSubscription
     {
     public:
-        EventSubscription(IEventSubscriber* sub, quint32 eventType = ALL_TYPES, IEventPublisher* pub = ALL_PUBLISHERS):_sub(sub), _eventType(eventType), _pub(pub){};
+        EventSubscription(EventSubscriber* sub, quint32 eventType = ALL_TYPES, EventPublisher* pub = ALL_PUBLISHERS):_sub(sub), _eventType(eventType), _pub(pub){};
         virtual ~EventSubscription();
 
-        IEventPublisher* getPublisher(){return this->_pub;};
+        EventPublisher* getPublisher(){return this->_pub;};
         quint32 getEventType(){return this->_eventType;};
-        IEventSubscriber* getEventSubscriber(){return this->_sub;};
+        EventSubscriber* getEventSubscriber(){return this->_sub;};
 
     private:
-        IEventPublisher* _pub;
+        EventPublisher* _pub;
         quint32 _eventType;
-        IEventSubscriber* _sub;
+        EventSubscriber* _sub;
     };
 
 
     static EventManager* pInstance;
     EventManager();
     void processEvent(Event* e);
+    QList<EventSubscriber*>* buildSubscriberList(Event* e);
 
     Logger* log;
 

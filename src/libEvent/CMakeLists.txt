@@ -48,8 +48,8 @@ RT3_PROJECT_ADD_SOURCES (
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
-    IEventPublisher.h
-    IEventSubscriber.h
+    EventPublisher.h
+    EventSubscriber.h
     Event.h
     EventManager.h
 )

@@ -28,21 +28,21 @@
 
 #include <QString>
 
-class IEventPublisher;
+class EventPublisher;
 
 class Event
 {
 public:
-    Event(IEventPublisher* pub, quint32 eventType);
-    Event(IEventPublisher* pub, quint32 eventType, QString message);
+    Event(EventPublisher* pub, quint32 eventType);
+    Event(EventPublisher* pub, quint32 eventType, QString message);
     virtual ~Event();
 
-    IEventPublisher* getPublisher() const;
+    EventPublisher* getPublisher() const;
     quint32 getEventType() const;
     QString getMessage() const;
 
 private:
-    IEventPublisher* _pub;
+    EventPublisher* _pub;
     quint32 _eventType;
     QString _message;
 };
