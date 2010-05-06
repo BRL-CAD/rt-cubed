@@ -28,8 +28,7 @@
 
 void EventSubscriber::subscribeMe(quint32 eventType, EventPublisher* pub)
 {
-    EventManager::getInstance()->subscribe(this, eventType,
-	    pub);
+    EventManager::getInstance()->subscribe(this, eventType, pub);
 }
 
 /*

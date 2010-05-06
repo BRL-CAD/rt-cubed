@@ -50,7 +50,6 @@ EventSubscriber* EventSubscription::getEventSubscriber()
     return this->_sub;
 }
 
-
 /*
  * Local Variables:
  * tab-width: 8
