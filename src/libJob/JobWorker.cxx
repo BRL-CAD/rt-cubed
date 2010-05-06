@@ -58,7 +58,7 @@ void JobWorker::run()
 	    }
 
 	    QString text = "JobWorker " + this->getWorkerIdAsQString()
-		    + " is working Job with ID of " + job->getJobId();
+		    + " is working Job with ID of " + QString::number(job->getJobId());
 	    this->log->logINFO("JobWorker", text);
 
 	    JobResult result = job->doJob();
