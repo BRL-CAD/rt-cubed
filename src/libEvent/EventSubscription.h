@@ -26,17 +26,16 @@
 #ifndef __EVENTSUBSCRIPTION_H__
 #define __EVENTSUBSCRIPTION_H__
 
-#define ALL_TYPES	0
-#define ALL_PUBLISHERS	0
 
 #include "EventSubscriber.h"
 #include "EventPublisher.h"
+#include "commonDefines.h"
 
 class EventSubscription
 {
 public:
-    EventSubscription(EventSubscriber* sub, quint32 eventType = ALL_TYPES,
-	    EventPublisher* pub = ALL_PUBLISHERS);
+    EventSubscription(EventSubscriber* sub, quint32 eventType = ALL_EVENT_TYPES,
+	    EventPublisher* pub = ALL_EVENT_PUBLISHERS);
     virtual ~EventSubscription();
 
     EventPublisher* getPublisher();

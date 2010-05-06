@@ -28,6 +28,7 @@
 
 #include "Event.h"
 #include "utility.h"
+#include "commonDefines.h"
 
 class EventSubscriber;
 class EventSubscription;

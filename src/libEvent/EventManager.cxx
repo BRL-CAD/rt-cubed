@@ -85,9 +85,9 @@ QList<EventSubscriber*>* EventManager::buildSubscriberList(Event* e)
 	quint32 ssType = subscription->getEventType();
 	EventPublisher* ssPub = subscription->getPublisher();
 
-	bool isSubscribedType = ((ssType == eType) || (ssType == ALL_TYPES));
+	bool isSubscribedType = ((ssType == eType) || (ssType == ALL_EVENT_TYPES));
 	bool isSubscribedPublisher = ((ssPub == ePub) || (ssPub
-		== ALL_PUBLISHERS));
+		== ALL_EVENT_PUBLISHERS));
 
 	if (isSubscribedType && isSubscribedPublisher) {
 	    subscriberList->append(subscription->getEventSubscriber());
