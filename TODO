@@ -13,7 +13,7 @@ intended for the general public.
 
 * Replace QT's signals 'n' slots functionality with a simpler in house version that utilizes the JobManager.  Signals and Slots requires a QCoreApplication.exec() to be blocked for it to work.  Hampers current design goals.
 
-
+* Add in 'CLEAN' target to CMAKE.  Will require tracking all the CmakeLists.txt files via global cmake var.
 
 //Older stuff
 * put together basic application components:
