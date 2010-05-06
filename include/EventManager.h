@@ -38,7 +38,12 @@ class EventManager
 public:
     virtual ~EventManager();
     static EventManager* getInstance();
+
+    /**
+     * Use submitEvent(...) when you want the call to processEvent(...) to be done from a different thread than the one calling submitEvent(...)
+     */
     void submitEvent(Event* e);
+    void processEvent(Event* e);
 
     void subscribe(EventSubscriber* sub, quint32 eventType,
 		    EventPublisher* pub);
@@ -64,7 +69,7 @@ private:
 
     static EventManager* pInstance;
     EventManager();
-    void processEvent(Event* e);
+
     QList<EventSubscriber*>* buildSubscriberList(Event* e);
 
     Logger* log;
