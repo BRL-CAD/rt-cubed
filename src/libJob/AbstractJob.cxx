@@ -29,6 +29,7 @@
 AbstractJob::AbstractJob()
 {
     this->status = JOB_NOTSTARTED;
+    this->jobID = 0;
 }
 
 AbstractJob::~AbstractJob()
