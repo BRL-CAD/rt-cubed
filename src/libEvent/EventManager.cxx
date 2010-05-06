@@ -90,6 +90,11 @@ void EventManager::subscribe(EventSubscriber* sub, quint32 eventType, EventPubli
     this->subscriptions->append(es);
 }
 
+void EventManager::unsubscribe(EventSubscriber* sub, quint32 eventType, EventPublisher* pub)
+{
+    //TODO Implement this when needed.
+}
+
 
 // Local Variables:
 // tab-width: 8

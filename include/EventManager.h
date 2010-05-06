@@ -43,6 +43,7 @@ public:
     void submitEvent(Event* e);
 
     void subscribe(EventSubscriber* sub, quint32 eventType, EventPublisher* pub);
+    void unsubscribe(EventSubscriber* sub, quint32 eventType, EventPublisher* pub);
 
 private:
 
