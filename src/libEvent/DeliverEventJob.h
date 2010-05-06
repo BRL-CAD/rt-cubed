@@ -1,4 +1,4 @@
-/*             E V E N T D E L I V E R J O B . C X X
+/*               D E L I V E R E V E N T J O B . H
  * BRLCAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,43 +17,45 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file EventDeliverJob.cxx
+/** @file DeliverEventJob.h
  *
  * Brief description
  *
  */
 
-#include "EventDeliverJob.h"
+#ifndef __DELIVEREVENTJOB_H__
+#define __DELIVEREVENTJOB_H__
 
-EventDeliverJob::EventDeliverJob(EventSubscriber* sub, Event* e) :
-    _sub(sub), _e(e)
+#include "AbstractJob.h"
+#include "EventSubscriber.h"
+#include "Event.h"
+
+class DeliverEventJob: public AbstractJob
 {
-}
+public:
+    DeliverEventJob(EventSubscriber* sub, Event* e);
+    virtual ~DeliverEventJob();
 
-EventDeliverJob::~EventDeliverJob()
-{
-}
+    EventSubscriber* getEventSubscriber();
+    Event* getEvent();
 
-JobResult EventDeliverJob::_doJob()
-{
-    this->_sub->handleEvent(this->_e);
-}
+protected:
+    JobResult _doJob();
 
-EventSubscriber* EventDeliverJob::getEventSubscriber()
-{
-    return this->_sub;
-}
+private:
+    EventSubscriber* _sub;
+    Event* _e;
 
-Event* EventDeliverJob::getEvent()
-{
-    return this->_e;
-}
+};
 
-// Local Variables:
-// tab-width: 8
-// mode: C++
-// c-basic-offset: 4
-// indent-tabs-mode: t
-// c-file-style: "stroustrup"
-// End:
-// ex: shiftwidth=4 tabstop=8
+#endif /* __DELIVEREVENTJOB_H__ */
+
+/*
+ * Local Variables:
+ * tab-width: 8
+ * mode: C
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

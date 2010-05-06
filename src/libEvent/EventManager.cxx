@@ -25,7 +25,7 @@
 
 #include "EventManager.h"
 #include "EventSubscription.h"
-#include "EventDeliverJob.h"
+#include "DeliverEventJob.h"
 #include "SubmitEventJob.h"
 
 EventManager* EventManager::pInstance = NULL;
@@ -67,7 +67,7 @@ void EventManager::processEvent(Event* e)
     for (int i = 0; i < subList->size(); ++i) {
 	EventSubscriber* sub = subList->at(i);
 
-	EventDeliverJob* edj = new EventDeliverJob(sub, e);
+	DeliverEventJob* edj = new DeliverEventJob(sub, e);
 	edj->submit();
     }
 }
