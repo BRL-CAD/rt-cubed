@@ -30,6 +30,7 @@
 #define ALL_PUBLISHERS	0
 
 #include "Event.h"
+#include "EventSubscription.h"
 #include "utility.h"
 #include "job.h"
 
@@ -56,24 +57,6 @@ private:
 	JobResult _doJob(){EventManager::getInstance()->processEvent(e);};
 	Event* e;
     };
-
-    //private class for grouping subscription data together
-    class EventSubscription
-    {
-    public:
-        EventSubscription(EventSubscriber* sub, quint32 eventType = ALL_TYPES, EventPublisher* pub = ALL_PUBLISHERS):_sub(sub), _eventType(eventType), _pub(pub){};
-        virtual ~EventSubscription();
-
-        EventPublisher* getPublisher(){return this->_pub;};
-        quint32 getEventType(){return this->_eventType;};
-        EventSubscriber* getEventSubscriber(){return this->_sub;};
-
-    private:
-        EventPublisher* _pub;
-        quint32 _eventType;
-        EventSubscriber* _sub;
-    };
-
 
     static EventManager* pInstance;
     EventManager();

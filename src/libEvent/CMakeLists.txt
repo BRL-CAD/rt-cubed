@@ -46,18 +46,21 @@ RT3_PROJECT_ADD_SOURCES (
     EventManager.cxx
     EventPublisher.cxx
     EventSubscriber.cxx
+    EventSubscription.cxx
 )
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
-    EventPublisher.h
-    EventSubscriber.h
     Event.h
     EventManager.h
+    EventPublisher.h
+    EventSubscriber.h
 )
 
 #Set NOINST headers
-RT3_PROJECT_ADD_NOINST_HEADERS()
+RT3_PROJECT_ADD_NOINST_HEADERS(
+    EventSubscription.h
+)
 
 #Build the project
 RT3_PROJECT_BUILD_LIB()
