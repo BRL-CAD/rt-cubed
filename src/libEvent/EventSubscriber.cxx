@@ -1,4 +1,4 @@
-/*              I E V E N T S U B S C R I B E R . H
+/*              I E V E N T S U B S C R I B E R . C X X
  * BRLCAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,32 +17,31 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file EventSubscriber.h
+/** @file EventSubscriber.cxx
  *
  * Brief description
  *
  */
 
-#ifndef __EVENTSUBSCRIBER_H__
-#define __EVENTSUBSCRIBER_H__
+#include "EventSubscriber.h"
+#include "EventPublisher.h"
 
-#include "Event.h"
-#include "EventManager.h"
-#include <Qt>
-
-class EventPublisher;
-
-class EventSubscriber
+void EventSubscriber::subscribeMeToAllEventsOfType(quint32 eventType)
 {
-    virtual void handleEvent(Event* e) = 0;
+    EventManager::getInstance()->subscribeByType(this, eventType);
+}
 
-    void subscribeMeToAllEventsOfType(quint32 eventType);
-    void subscribeMeToAllEventsByPublisher(EventPublisher* pub);
-    void subscribeMeToEventOfTypeByPublisher(quint32 eventType, EventPublisher* pub);
+void EventSubscriber::subscribeMeToAllEventsByPublisher(EventPublisher* pub)
+{
+    EventManager::getInstance()->subscribeByPublisher(this, pub);
+}
 
-};
-
-#endif /* __EVENTSUBSCRIBER_H__ */
+void EventSubscriber::subscribeMeToEventOfTypeByPublisher(quint32 eventType,
+	EventPublisher* pub)
+{
+    EventManager::getInstance()->subscribeByTypeAndPublisher(this, eventType,
+	    pub);
+}
 
 /*
  * Local Variables:

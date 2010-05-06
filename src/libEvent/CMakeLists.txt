@@ -44,6 +44,8 @@ RT3_PROJECT_ADD_LIBS(
 RT3_PROJECT_ADD_SOURCES (
     Event.cxx
     EventManager.cxx
+    EventPublisher.cxx
+    EventSubscriber.cxx
 )
 
 #Set INST Headers
