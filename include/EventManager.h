@@ -42,9 +42,7 @@ public:
     static EventManager* getInstance();
     void submitEvent(Event* e);
 
-    void subscribeByType(EventSubscriber* sub, quint32 eventType);
-    void subscribeByPublisher(EventSubscriber* sub, EventPublisher* pub);
-    void subscribeByTypeAndPublisher(EventSubscriber* sub, quint32 eventType,EventPublisher* pub);
+    void subscribe(EventSubscriber* sub, quint32 eventType, EventPublisher* pub);
 
 private:
 
