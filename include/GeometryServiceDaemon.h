@@ -23,7 +23,6 @@
  *
  */
 
-
 #ifndef __GEOMETRYSERVICEDAEMON_H__
 #define __GEOMETRYSERVICEDAEMON_H__
 
@@ -31,9 +30,9 @@
 
 #include <QThread>
 
-class GeometryServiceDaemon : public QThread
+class GeometryServiceDaemon: public QThread
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
     GeometryServiceDaemon(GeometryServiceApp* gsa);

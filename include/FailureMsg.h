@@ -26,28 +26,26 @@
 #ifndef __FAILUREMSG_H__
 #define __FAILUREMSG_H__
 
-
 #include "GenericOneByteMsg.h"
 
-
-class FailureMsg : public GenericOneByteMsg
+class FailureMsg: public GenericOneByteMsg
 {
 
 public:
 
-  //Normal Constructor
-  FailureMsg(quint8 failureCode);
+	//Normal Constructor
+	FailureMsg(quint8 failureCode);
 
-  //Reply Constructor
-  FailureMsg(NetMsg* msg, quint8 failureCode);
+	//Reply Constructor
+	FailureMsg(NetMsg* msg, quint8 failureCode);
 
-  //Deserializing Constructors
-  FailureMsg(QDataStream* ds, QString origin);
-  
-  /*
-   *Getters n Setters
-   */
-  quint8 getFailureCode();
+	//Deserializing Constructors
+	FailureMsg(QDataStream* ds, QString origin);
+
+	/*
+	 *Getters n Setters
+	 */
+	quint8 getFailureCode();
 
 };
 

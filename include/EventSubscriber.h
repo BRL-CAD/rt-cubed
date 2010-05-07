@@ -35,14 +35,14 @@ class EventPublisher;
 class EventSubscriber
 {
 public:
-    virtual void handleEvent(Event* e) = 0;
+	virtual void handleEvent(Event* e) = 0;
 
 protected:
-    /**
-     * eventType can be a value > 0, or ALL_EVENT_TYPES
-     * pub should be a pointer to an EventPublisher object, or can be ALL_EVENT_PUBLISHERS
-     */
-    void subscribeMe(quint32 eventType, EventPublisher* pub);
+	/**
+	 * eventType can be a value > 0, or ALL_EVENT_TYPES
+	 * pub should be a pointer to an EventPublisher object, or can be ALL_EVENT_PUBLISHERS
+	 */
+	void subscribeMe(quint32 eventType, EventPublisher* pub);
 };
 
 #endif /* __EVENTSUBSCRIBER_H__ */

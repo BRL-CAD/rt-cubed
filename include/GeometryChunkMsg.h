@@ -26,24 +26,23 @@
 #ifndef __GEOMETRYCHUNKMSG_H__
 #define __GEOMETRYCHUCKMSG_H__
 
-
 #include "GenericMultiByteMsg.h"
 
-class GeometryChunkMsg : public GenericMultiByteMsg
+class GeometryChunkMsg: public GenericMultiByteMsg
 {
-  
+
 public:
 
-  //Normal Constructor
-  GeometryChunkMsg(char* dataIn, quint32 dataInLen);
+	//Normal Constructor
+	GeometryChunkMsg(char* dataIn, quint32 dataInLen);
 
-  //Reply Constructor
-  GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen);
+	//Reply Constructor
+	GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen);
 
-  //Deserializing Constructors
-  GeometryChunkMsg(QDataStream* ds, QString origin);
-  
- };
+	//Deserializing Constructors
+	GeometryChunkMsg(QDataStream* ds, QString origin);
+
+};
 
 #endif
 

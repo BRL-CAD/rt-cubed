@@ -53,9 +53,6 @@ public:
 	QString getWorkerIdAsQString();
 	std::string getWorkerIdAsStdString();
 
-
-
-
 private:
 	Logger* log;
 	JobWorkerStatus status;

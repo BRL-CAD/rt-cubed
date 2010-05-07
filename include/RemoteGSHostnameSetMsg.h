@@ -26,7 +26,6 @@
 #ifndef __REMOTEGSHOSTNAMESETMSG_H__
 #define __REMOTEGSHOSTNAMESETMSG_H__
 
-
 #include "GenericOneStringMsg.h"
 
 class RemoteGSHostnameSetMsg: public GenericOneStringMsg
@@ -34,19 +33,19 @@ class RemoteGSHostnameSetMsg: public GenericOneStringMsg
 
 public:
 
-    //Normal Constructor
-    RemoteGSHostnameSetMsg(QString s);
+	//Normal Constructor
+	RemoteGSHostnameSetMsg(QString s);
 
-    //Reply Constructor
-    RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg, QString s);
+	//Reply Constructor
+	RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg, QString s);
 
-    //Deserializing Constructors
-    RemoteGSHostnameSetMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	RemoteGSHostnameSetMsg(QDataStream* ds, QString origin);
 
-    //Destructor
-    virtual ~RemoteGSHostnameSetMsg();
+	//Destructor
+	virtual ~RemoteGSHostnameSetMsg();
 
-    QString getRemoteGSHostname();
+	QString getRemoteGSHostname();
 };
 
 #endif //__REMOTEGSHOSTNAMESETMSG_H__

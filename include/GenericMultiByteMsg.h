@@ -28,37 +28,38 @@
 
 #include "NetMsg.h"
 
-class GenericMultiByteMsg : public NetMsg
+class GenericMultiByteMsg: public NetMsg
 {
 
 public:
 
-  //Normal Constructor
-  GenericMultiByteMsg(quint32 type, char* dataIn, quint32 dataInLen);
+	//Normal Constructor
+	GenericMultiByteMsg(quint32 type, char* dataIn, quint32 dataInLen);
 
-  //Reply Constructor
-  GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn, quint32 dataInLen);
+	//Reply Constructor
+	GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn,
+			quint32 dataInLen);
 
-  //Deserializing Constructors
-  GenericMultiByteMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	GenericMultiByteMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~GenericMultiByteMsg();
+	//Destructor
+	virtual ~GenericMultiByteMsg();
 
-  /*
-   * Utilities
-   */
-  virtual QString toString();
+	/*
+	 * Utilities
+	 */
+	virtual QString toString();
 
 protected:
-  quint32 getDataLen();
-  char* getData();
+	quint32 getDataLen();
+	char* getData();
 
-  quint32 dataLen;
-  char* data;
+	quint32 dataLen;
+	char* data;
 
-  virtual bool _serialize(QDataStream* ds);
-  virtual bool _equals(NetMsg& msg);
+	virtual bool _serialize(QDataStream* ds);
+	virtual bool _equals(NetMsg& msg);
 
 };
 

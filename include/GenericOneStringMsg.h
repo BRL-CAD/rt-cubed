@@ -26,37 +26,36 @@
 #ifndef __GENERICONESTRINGMSG_H__
 #define __GENERICONESTRINGMSG_H__
 
-
 #include "NetMsg.h"
 
-class GenericOneStringMsg : public NetMsg
+class GenericOneStringMsg: public NetMsg
 {
 
 public:
 
-  //Normal Constructor
-  GenericOneStringMsg(quint32 type, QString s);
+	//Normal Constructor
+	GenericOneStringMsg(quint32 type, QString s);
 
-  //Reply Constructor
-  GenericOneStringMsg(quint32 type, NetMsg* msg, QString s);
+	//Reply Constructor
+	GenericOneStringMsg(quint32 type, NetMsg* msg, QString s);
 
-  //Deserializing Constructors
-  GenericOneStringMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	GenericOneStringMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~GenericOneStringMsg();
+	//Destructor
+	virtual ~GenericOneStringMsg();
 
-  /*
-   * Utilities
-   */
-  virtual QString toString();
+	/*
+	 * Utilities
+	 */
+	virtual QString toString();
 
 protected:
-  QString getStrData();
-  QString strData;
+	QString getStrData();
+	QString strData;
 
-  virtual bool _serialize(QDataStream* ds);
-  virtual bool _equals(NetMsg& msg);
+	virtual bool _serialize(QDataStream* ds);
+	virtual bool _equals(NetMsg& msg);
 
 };
 

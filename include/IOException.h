@@ -28,11 +28,11 @@
 
 #include "Exception.h"
 
-class IOException : public Exception
+class IOException: public Exception
 {
 public:
-  IOException();
-  IOException(const std::string& message);
+	IOException();
+	IOException(const std::string& message);
 };
 
 #endif

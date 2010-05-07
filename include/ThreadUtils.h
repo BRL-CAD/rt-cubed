@@ -30,13 +30,13 @@
 class ThreadUtils: public QThread
 {
 public:
-    virtual ~ThreadUtils();
+	virtual ~ThreadUtils();
 
-    void static sleep(unsigned long secs);
-    void static usleep(unsigned long usecs);
+	void static sleep(unsigned long secs);
+	void static usleep(unsigned long usecs);
 
 private:
-    ThreadUtils();
+	ThreadUtils();
 };
 
 #endif /* __THREADUTILS_H__ */

@@ -23,7 +23,6 @@
  *
  */
 
-
 #ifndef __COMMONDEFINES_H__
 #define __COMMONDEFINES_H__
 

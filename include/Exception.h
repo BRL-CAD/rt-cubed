@@ -27,11 +27,11 @@
 #define __EXCEPTION_H__
 
 #include "Throwable.h"
-class  Exception : public Throwable
+class Exception: public Throwable
 {
 public:
-  Exception() throw ();
-  Exception(const std::string& message) throw ();
+	Exception() throw ();
+	Exception(const std::string& message) throw ();
 };
 
 #endif

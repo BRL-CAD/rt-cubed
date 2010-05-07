@@ -30,11 +30,11 @@
 
 enum JobStatus
 {
-    JOB_NOTSTARTED, JOB_RUNNING, JOB_FINISHED
+	JOB_NOTSTARTED, JOB_RUNNING, JOB_FINISHED
 };
 enum JobResult
 {
-    JOB_COMPLETED_NO_ERRORS, JOB_COMPLETED_WITH_ERRORS, JOB_FAILED
+	JOB_COMPLETED_NO_ERRORS, JOB_COMPLETED_WITH_ERRORS, JOB_FAILED
 };
 
 class AbstractJob
@@ -42,20 +42,20 @@ class AbstractJob
 
 public:
 
-    AbstractJob();
-    virtual ~AbstractJob();
+	AbstractJob();
+	virtual ~AbstractJob();
 
-    void submit();
+	void submit();
 
-    JobResult doJob();
-    JobStatus getStatus();
-    quint32 getJobId();
+	JobResult doJob();
+	JobStatus getStatus();
+	quint32 getJobId();
 
 protected:
-    virtual JobResult _doJob() = 0;
+	virtual JobResult _doJob() = 0;
 
-    quint32 jobID;
-    JobStatus status;
+	quint32 jobID;
+	JobStatus status;
 
 };
 

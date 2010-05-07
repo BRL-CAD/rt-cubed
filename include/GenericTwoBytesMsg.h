@@ -26,37 +26,36 @@
 #ifndef __GENERICTWOBYTESMSG_H__
 #define __GENERICTWOBYTESMSG_H__
 
-
 #include "NetMsg.h"
 
-class GenericTwoBytesMsg : public NetMsg
+class GenericTwoBytesMsg: public NetMsg
 {
 
 public:
 
-  //Normal Constructor
-  GenericTwoBytesMsg(quint32 type, quint16 b);
+	//Normal Constructor
+	GenericTwoBytesMsg(quint32 type, quint16 b);
 
-  //Reply Constructor
-  GenericTwoBytesMsg(quint32 type, NetMsg* msg, quint16 b);
+	//Reply Constructor
+	GenericTwoBytesMsg(quint32 type, NetMsg* msg, quint16 b);
 
-  //Deserializing Constructors
-  GenericTwoBytesMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	GenericTwoBytesMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~GenericTwoBytesMsg();
+	//Destructor
+	virtual ~GenericTwoBytesMsg();
 
-  /*
-   * Utilities
-   */
-  virtual QString toString();
+	/*
+	 * Utilities
+	 */
+	virtual QString toString();
 
 protected:
-  quint16 getData();
-  quint16 data;
+	quint16 getData();
+	quint16 data;
 
-  virtual bool _serialize(QDataStream* ds);
-  virtual bool _equals(NetMsg& msg);
+	virtual bool _serialize(QDataStream* ds);
+	virtual bool _equals(NetMsg& msg);
 
 };
 

@@ -37,7 +37,7 @@
 
 class NetPortalManager;
 
-class NetPortal : public QObject
+class NetPortal: public QObject
 {
 Q_OBJECT
 
@@ -67,7 +67,7 @@ public:
 		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
 	};
 
-signals:
+	signals:
 	void msgReady();
 	void handshakeStatusUpdate(quint32 current, quint32 old);
 	void portalHandshakeComplete(NetPortal* portal);

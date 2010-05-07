@@ -33,18 +33,18 @@ class EventPublisher;
 class Event
 {
 public:
-    Event(EventPublisher* pub, quint32 eventType);
-    Event(EventPublisher* pub, quint32 eventType, QString message);
-    virtual ~Event();
+	Event(EventPublisher* pub, quint32 eventType);
+	Event(EventPublisher* pub, quint32 eventType, QString message);
+	virtual ~Event();
 
-    EventPublisher* getPublisher() const;
-    quint32 getEventType() const;
-    QString getMessage() const;
+	EventPublisher* getPublisher() const;
+	quint32 getEventType() const;
+	QString getMessage() const;
 
 private:
-    EventPublisher* _pub;
-    quint32 _eventType;
-    QString _message;
+	EventPublisher* _pub;
+	quint32 _eventType;
+	QString _message;
 };
 
 #endif /* __EVENT_H__ */

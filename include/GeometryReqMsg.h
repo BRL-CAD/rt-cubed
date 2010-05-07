@@ -33,32 +33,32 @@ class GeometryReqMsg: public GenericOneStringMsg
 
 public:
 
-    //Only Constructor
-    GeometryReqMsg(quint8 requestType, QString data);
+	//Only Constructor
+	GeometryReqMsg(quint8 requestType, QString data);
 
-    //Reply Constructor
-    GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
+	//Reply Constructor
+	GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
 
-    //Deserializing Constructors
-    GeometryReqMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	GeometryReqMsg(QDataStream* ds, QString origin);
 
-    //Destructor
-    virtual ~GeometryReqMsg();
+	//Destructor
+	virtual ~GeometryReqMsg();
 
-    virtual QString toString();
+	virtual QString toString();
 
-    /*
-     *Getters n Setters
-     */
-    quint8 getRequestType();
+	/*
+	 *Getters n Setters
+	 */
+	quint8 getRequestType();
 
-    QString getData();
+	QString getData();
 
 private:
-    quint8 reqType;
+	quint8 reqType;
 
-    bool _serialize(QDataStream* ds);
-    bool _equals(NetMsg& msg);
+	bool _serialize(QDataStream* ds);
+	bool _equals(NetMsg& msg);
 
 };
 

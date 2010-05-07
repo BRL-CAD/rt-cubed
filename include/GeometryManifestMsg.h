@@ -35,30 +35,30 @@ class GeometryManifestMsg: public NetMsg
 
 public:
 
-    //Normal Constructor
-    GeometryManifestMsg(QList<QString>& items);
+	//Normal Constructor
+	GeometryManifestMsg(QList<QString>& items);
 
-    //Reply Constructor
-    GeometryManifestMsg(NetMsg* msg, QList<QString>& items);
+	//Reply Constructor
+	GeometryManifestMsg(NetMsg* msg, QList<QString>& items);
 
-    //Deserializing Constructor
-    GeometryManifestMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructor
+	GeometryManifestMsg(QDataStream* ds, QString origin);
 
-    //Destructor
-    virtual ~GeometryManifestMsg();
+	//Destructor
+	virtual ~GeometryManifestMsg();
 
-    virtual QString toString();
+	virtual QString toString();
 
-    /*
-     *Getters n Setters
-     */
-    quint32 getNumOfItems();
-    QList<QString>* getItemData();
+	/*
+	 *Getters n Setters
+	 */
+	quint32 getNumOfItems();
+	QList<QString>* getItemData();
 
 private:
-    QList<QString>* itemData;
+	QList<QString>* itemData;
 
-    virtual bool _serialize(QDataStream* ds);
+	virtual bool _serialize(QDataStream* ds);
 
 };
 

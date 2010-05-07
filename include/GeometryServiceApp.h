@@ -23,7 +23,6 @@
  *
  */
 
-
 #ifndef __GEOMETRYSERVICEAPP_H__
 #define __GEOMETRYSERVICEAPP_H__
 

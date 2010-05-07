@@ -63,7 +63,6 @@
 
 #define AUTHENTICATION_FAILED		90
 
-
 #include "IOException.h"
 #include "libutility.h"
 #include <QDataStream>
@@ -76,54 +75,52 @@ class NetMsg
 
 public:
 
-  //Normal Constructor
-  NetMsg(quint32 mType);
+	//Normal Constructor
+	NetMsg(quint32 mType);
 
-  //Reply Constructor
-  NetMsg(quint32 mType, NetMsg* msg);
+	//Reply Constructor
+	NetMsg(quint32 mType, NetMsg* msg);
 
-  //Deserializing Constructors
-  NetMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	NetMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~NetMsg();
-  
+	//Destructor
+	virtual ~NetMsg();
 
-  //Serializers
-  QByteArray* serialize();
-  void serialize(QByteArray* ba);
+	//Serializers
+	QByteArray* serialize();
+	void serialize(QByteArray* ba);
 
-  /*
-   *Getters n Setters
-   */
-  quint32 getMsgLen();
-  quint32 getMsgType();
-  QUuid getMsgUUID();
-  bool msgHasReUUID();
-  QUuid getReUUID();
+	/*
+	 *Getters n Setters
+	 */
+	quint32 getMsgLen();
+	quint32 getMsgType();
+	QUuid getMsgUUID();
+	bool msgHasReUUID();
+	QUuid getReUUID();
 
-  /*
-   * Utilities
-   */
-  virtual QString toString();
-  virtual std::string toStdString();
-  virtual bool equals(NetMsg& msg);
-  void printMe();
+	/*
+	 * Utilities
+	 */
+	virtual QString toString();
+	virtual std::string toStdString();
+	virtual bool equals(NetMsg& msg);
+	void printMe();
 
 protected:
-  quint32 msgLen;
-  quint32 msgType;
-  QUuid msgUUID;
-  bool hasReUUID;
-  QUuid reUUID;
-  QString origin;
+	quint32 msgLen;
+	quint32 msgType;
+	QUuid msgUUID;
+	bool hasReUUID;
+	QUuid reUUID;
+	QString origin;
 
-  virtual bool _serialize(QDataStream* ds);
-  virtual bool _equals(NetMsg& msg);
+	virtual bool _serialize(QDataStream* ds);
+	virtual bool _equals(NetMsg& msg);
 
-  //Disable Default Constructor
-  NetMsg(){}
-
+	//Disable Default Constructor
+	NetMsg(){};
 };
 
 #endif

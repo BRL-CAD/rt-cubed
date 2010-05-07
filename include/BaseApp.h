@@ -32,11 +32,11 @@
 class BaseApp: public QCoreApplication
 {
 public:
-    BaseApp(int& argc, char* argv[]);
-    virtual ~BaseApp();
+	BaseApp(int& argc, char* argv[]);
+	virtual ~BaseApp();
 
 protected:
-    Logger* log;
+	Logger* log;
 };
 
 #endif /* __BASEAPP_H__ */

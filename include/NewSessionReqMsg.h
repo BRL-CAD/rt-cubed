@@ -26,44 +26,42 @@
 #ifndef __NEWSESSIONREQMSG_H__
 #define __NEWSESSIONREQMSG_H__
 
-
 #include "NetMsg.h"
 
-class NewSessionReqMsg : public NetMsg
+class NewSessionReqMsg: public NetMsg
 {
 
 public:
 
-  //Normal Constructor
-  NewSessionReqMsg(QString uname, QString passwd);
+	//Normal Constructor
+	NewSessionReqMsg(QString uname, QString passwd);
 
-  //Reply Constructor
-  NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd);
+	//Reply Constructor
+	NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd);
 
-  //Deserializing Constructors
-  NewSessionReqMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	NewSessionReqMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~NewSessionReqMsg();
+	//Destructor
+	virtual ~NewSessionReqMsg();
 
-  /*
-   * Utilities
-   */
-  virtual QString toString();
-  QString getUName();
-  QString getPasswd();
+	/*
+	 * Utilities
+	 */
+	virtual QString toString();
+	QString getUName();
+	QString getPasswd();
 
 protected:
-  QString uname;
-  QString passwd;
+	QString uname;
+	QString passwd;
 
-  virtual bool _serialize(QDataStream* ds);
-  virtual bool _equals(NetMsg& msg);
+	virtual bool _serialize(QDataStream* ds);
+	virtual bool _equals(NetMsg& msg);
 
 };
 
 #endif //__NEWSESSIONREQMSG_H__
-
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

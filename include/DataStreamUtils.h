@@ -34,15 +34,15 @@
 class Utils
 {
 public:
-static QString* getString(QDataStream* ds);
-static void putString(QDataStream* ds, QString str);
-static QUuid* getQUuid(QDataStream* ds);
-static void putQUuid(QDataStream* ds, QUuid str);
-static void printQByteArray(QByteArray* ba);
+	static QString* getString(QDataStream* ds);
+	static void putString(QDataStream* ds, QString str);
+	static QUuid* getQUuid(QDataStream* ds);
+	static void putQUuid(QDataStream* ds, QUuid str);
+	static void printQByteArray(QByteArray* ba);
 
 
 private:
-Utils(){}
+	Utils(){}
 
 };
 

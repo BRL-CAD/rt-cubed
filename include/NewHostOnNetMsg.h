@@ -26,27 +26,26 @@
 #ifndef __NEWHOSTONNETMSG_H__
 #define __NEWHOSTONNETMSG_H__
 
-
 #include "GenericOneStringMsg.h"
 
-class NewHostOnNetMsg : public GenericOneStringMsg
+class NewHostOnNetMsg: public GenericOneStringMsg
 {
 
 public:
 
-  //Normal Constructor
-  NewHostOnNetMsg(QString s);
+	//Normal Constructor
+	NewHostOnNetMsg(QString s);
 
-  //Reply Constructor
-  NewHostOnNetMsg(NewHostOnNetMsg* msg, QString s);
+	//Reply Constructor
+	NewHostOnNetMsg(NewHostOnNetMsg* msg, QString s);
 
-  //Deserializing Constructors
-  NewHostOnNetMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	NewHostOnNetMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~NewHostOnNetMsg();
+	//Destructor
+	virtual ~NewHostOnNetMsg();
 
-  QString getNewGSHostname();
+	QString getNewGSHostname();
 };
 
 #endif

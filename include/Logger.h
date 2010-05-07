@@ -33,23 +33,38 @@
 
 #include <iostream>
 
-
 class Logger
 {
 
 public:
 	static Logger* getInstance();
 
-	void enableVerbose(){this->_verbose = true;}
-	void disableVerbose(){this->_verbose = false;}
+	void enableVerbose()
+	{
+		this->_verbose = true;
+	}
+	void disableVerbose()
+	{
+		this->_verbose = false;
+	}
 
-	void enableLogToStdOut(){this->_toStdOut = true;}
-	void disableLogToStdOut(){this->_toStdOut = false;}
+	void enableLogToStdOut()
+	{
+		this->_toStdOut = true;
+	}
+	void disableLogToStdOut()
+	{
+		this->_toStdOut = false;
+	}
 
-	void enableLogToFile(){this->_toFile = true;}
-	void disableLogToFile(){this->_toFile = false;}
-
-
+	void enableLogToFile()
+	{
+		this->_toFile = true;
+	}
+	void disableLogToFile()
+	{
+		this->_toFile = false;
+	}
 
 	void logBANNER(QString origin, QString string);
 	void logDEBUG(QString origin, QString string);

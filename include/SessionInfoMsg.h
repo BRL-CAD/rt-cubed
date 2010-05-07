@@ -28,39 +28,37 @@
 
 #include "NetMsg.h"
 
-class SessionInfoMsg : public NetMsg
+class SessionInfoMsg: public NetMsg
 {
 
 public:
 
-  //Normal Constructor
-  SessionInfoMsg(QUuid sessionID);
+	//Normal Constructor
+	SessionInfoMsg(QUuid sessionID);
 
-  //Reply Constructor
-  SessionInfoMsg(NetMsg* msg, QUuid sessionID);
+	//Reply Constructor
+	SessionInfoMsg(NetMsg* msg, QUuid sessionID);
 
-  //Deserializing Constructors
-  SessionInfoMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	SessionInfoMsg(QDataStream* ds, QString origin);
 
-  //Destructor
-  virtual ~SessionInfoMsg();
+	//Destructor
+	virtual ~SessionInfoMsg();
 
-  /*
-   * Utilities
-   */
-  virtual QString toString();
-  QUuid getSessionID();
+	/*
+	 * Utilities
+	 */
+	virtual QString toString();
+	QUuid getSessionID();
 
 protected:
-  QUuid sessionID;
+	QUuid sessionID;
 
-  virtual bool _serialize(QDataStream* ds);
-
+	virtual bool _serialize(QDataStream* ds);
 
 };
 
 #endif //__SESSIONINFOMSG_H__
-
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

@@ -36,29 +36,30 @@ class EventSubscription;
 class EventManager
 {
 public:
-    virtual ~EventManager();
-    static EventManager* getInstance();
+	virtual ~EventManager();
+	static EventManager* getInstance();
 
-    /**
-     * Use submitEvent(...) when you want the call to processEvent(...) to be done from a different thread than the one calling submitEvent(...)
-     */
-    void submitEvent(Event* e);
-    void processEvent(Event* e);
+	/**
+	 * Use submitEvent(...) when you want the call to processEvent(...) to be done from a different thread than the one calling submitEvent(...)
+	 */
+	void submitEvent(Event* e);
+	void processEvent(Event* e);
 
-    void subscribe(EventSubscriber* sub, quint32 eventType,
-		    EventPublisher* pub);
-    void unsubscribe(EventSubscriber* sub, quint32 eventType,
-	    EventPublisher* pub);
+	void
+			subscribe(EventSubscriber* sub, quint32 eventType,
+					EventPublisher* pub);
+	void unsubscribe(EventSubscriber* sub, quint32 eventType,
+			EventPublisher* pub);
 
 private:
-    static EventManager* pInstance;
-    EventManager();
+	static EventManager* pInstance;
+	EventManager();
 
-    QList<EventSubscriber*>* buildSubscriberList(Event* e);
+	QList<EventSubscriber*>* buildSubscriberList(Event* e);
 
-    Logger* log;
+	Logger* log;
 
-    QList<EventSubscription*>* subscriptions;
+	QList<EventSubscription*>* subscriptions;
 
 };
 

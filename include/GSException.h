@@ -20,7 +20,6 @@
 /** @file GSException.h
  * GSException.h
  *
- *  Created on: Apr 27, 2010
  */
 
 #ifndef __GSEXCEPTION_H__
@@ -32,14 +31,14 @@
 class GSException: public std::exception
 {
 public:
-    GSException(QString reason);
-    ~GSException() throw ();
+	GSException(QString reason);
+	~GSException() throw ();
 
-    QString getReason();
-    void log(QString origin);
+	QString getReason();
+	void log(QString origin);
 
 private:
-    QString reason;
+	QString reason;
 };
 
 #endif /* __GSEXCEPTION_H__ */

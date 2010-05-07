@@ -33,29 +33,29 @@ class GenericFourBytesMsg: public NetMsg
 
 public:
 
-    //Normal Constructor
-    GenericFourBytesMsg(quint32 type, quint32 b);
+	//Normal Constructor
+	GenericFourBytesMsg(quint32 type, quint32 b);
 
-    //Reply Constructor
-    GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b);
+	//Reply Constructor
+	GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b);
 
-    //Deserializing Constructors
-    GenericFourBytesMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	GenericFourBytesMsg(QDataStream* ds, QString origin);
 
-    //Destructor
-    virtual ~GenericFourBytesMsg();
+	//Destructor
+	virtual ~GenericFourBytesMsg();
 
-    /*
-     * Utilities
-     */
-    virtual QString toString();
+	/*
+	 * Utilities
+	 */
+	virtual QString toString();
 
 protected:
-    quint32 getData();
-    quint32 data;
+	quint32 getData();
+	quint32 data;
 
-    virtual bool _serialize(QDataStream* ds);
-    virtual bool _equals(NetMsg& msg);
+	virtual bool _serialize(QDataStream* ds);
+	virtual bool _equals(NetMsg& msg);
 };
 
 #endif

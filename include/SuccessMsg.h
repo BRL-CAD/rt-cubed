@@ -26,7 +26,6 @@
 #ifndef __SUCCESSMSG_H__
 #define __SUCCESSMSG_H__
 
-
 #include "GenericOneByteMsg.h"
 
 class SuccessMsg: public GenericOneByteMsg
@@ -34,19 +33,19 @@ class SuccessMsg: public GenericOneByteMsg
 
 public:
 
-    //Normal Constructor
-    SuccessMsg(quint8 successCode);
+	//Normal Constructor
+	SuccessMsg(quint8 successCode);
 
-    //Reply Constructor
-    SuccessMsg(NetMsg* msg, quint8 successCode);
+	//Reply Constructor
+	SuccessMsg(NetMsg* msg, quint8 successCode);
 
-    //Deserializing Constructors
-    SuccessMsg(QDataStream* ds, QString origin);
+	//Deserializing Constructors
+	SuccessMsg(QDataStream* ds, QString origin);
 
-    /*
-     *Getters n Setters
-     */
-    quint8 getSuccessCode();
+	/*
+	 *Getters n Setters
+	 */
+	quint8 getSuccessCode();
 
 };
 
