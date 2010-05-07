@@ -28,6 +28,9 @@
 Throwable::Throwable() throw ()
 {
 }
+Throwable::~Throwable() throw ()
+{
+}
 
 Throwable::Throwable(const std::string& message) throw ()
 {
