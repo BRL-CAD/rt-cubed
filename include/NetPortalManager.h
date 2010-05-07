@@ -26,7 +26,7 @@
 #ifndef __NETPORTALMANAGER_H__
 #define __NETPORTALMANAGER_H__
 
-#include "utility.h"
+#include "libutility.h"
 #include "NetMsg.h"
 
 #include <QtNetwork/QTcpServer>

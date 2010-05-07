@@ -26,7 +26,7 @@
 #ifndef __NETMSGFACTORY_H__
 #define __NETMSGFACTORY_H__
 
-#include "utility.h"
+#include "libutility.h"
 #include "NetMsg.h"
 
 #include <QByteArray>

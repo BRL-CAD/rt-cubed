@@ -23,7 +23,7 @@
  *
  */
 
-#include "network.h"
+#include "libnetwork.h"
 
 void testEquals(NetMsg* msg01, NetMsg* msg02, bool desiredResult, bool showInfo)
 {

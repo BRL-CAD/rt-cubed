@@ -117,7 +117,7 @@ ENDMACRO(RT3_PROJECT_ADD_MOCCED_NOINST_HEADERS)
 ##Macro for writing the library's public header file
 MACRO(MAKE_LIBRARY_HEADER_FILE)
 
-    SET(FILENAME "${PROJECT_NAME}.h")
+    SET(FILENAME "lib${PROJECT_NAME}.h")
     STRING (TOUPPER ${FILENAME} FILENAME_UPPER)
     
     #Build the __include__ name    

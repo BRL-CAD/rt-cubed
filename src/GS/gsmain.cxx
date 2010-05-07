@@ -25,8 +25,8 @@
 
 #include "GeometryService.h"
 #include "GeometryServiceApp.h"
-#include "alf.h"
-#include "utility.h"
+#include "libalf.h"
+#include "libutility.h"
 #include <iostream>
 #include <QString>
 

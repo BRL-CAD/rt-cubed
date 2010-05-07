@@ -26,8 +26,8 @@
 #ifndef __CONNECTJOB_H__
 #define __CONNECTJOB_H__
 
-#include "network.h"
-#include "job.h"
+#include "libnetwork.h"
+#include "libjob.h"
 
 #include <QHostAddress>
 

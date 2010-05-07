@@ -28,7 +28,7 @@
 
 #include "AbstractJob.h"
 #include "JobWorker.h"
-#include "utility.h"
+#include "libutility.h"
 #include <QList>
 #include <QMutex>
 

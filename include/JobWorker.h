@@ -28,7 +28,7 @@
 
 #define MAX_JOBWORKERS 5
 
-#include "utility.h"
+#include "libutility.h"
 #include <QThread>
 #include <QUuid>
 #include <string>

@@ -26,7 +26,7 @@
 #ifndef __COMMANDPROCESSOR_H__
 #define __COMMANDPROCESSOR_H__
 
-#include "network.h"
+#include "libnetwork.h"
 
 #include <QString>
 #include <QStringList>

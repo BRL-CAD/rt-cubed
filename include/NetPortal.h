@@ -26,7 +26,7 @@
 #ifndef __NETPORTAL_H__
 #define __NETPORTAL_H__
 
-#include "utility.h"
+#include "libutility.h"
 #include "NetMsg.h"
 #include "NetMsgFactory.h"
 #include "RemoteGSHostnameSetMsg.h"

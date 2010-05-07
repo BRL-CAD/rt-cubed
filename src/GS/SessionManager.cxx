@@ -25,8 +25,8 @@
 
 #include "SessionManager.h"
 #include "AccountManager.h"
-#include "network.h"
-#include "utility.h"
+#include "libnetwork.h"
+#include "libutility.h"
 #include <QMutexLocker>
 
 SessionManager* SessionManager::pInstance = NULL;

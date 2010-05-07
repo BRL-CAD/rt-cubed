@@ -26,8 +26,8 @@
 #ifndef __DISCONNECTJOB_H__
 #define __DISCONNECTJOB_H__
 
-#include "network.h"
-#include "job.h"
+#include "libnetwork.h"
+#include "libjob.h"
 
 #include <QString>
 #include <QStringList>

@@ -30,8 +30,8 @@
 #include <vector>
 #include <iomanip>
 
-#include "gs.h"
-#include "network.h"
+#include "libgs.h"
+#include "libnetwork.h"
 
 #include <QUuid>
 #include <QString>

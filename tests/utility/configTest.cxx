@@ -23,7 +23,7 @@
  *
  */
 
-#include "utility.h"
+#include "libutility.h"
 #include <QString>
 
 int main(int argc, char* argv[])

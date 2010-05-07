@@ -30,7 +30,7 @@
 #include <algorithm>
 
 // external interface headers
-#include "Utility.h"
+#include "libutility.h"
 
 // library-specific headers
 #include "NFFFileParser.h"

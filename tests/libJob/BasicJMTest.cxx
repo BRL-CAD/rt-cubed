@@ -23,9 +23,9 @@
  *
  */
 
-#include "job.h"
+#include "libjob.h"
 #include "PrintToStdOutJob.h"
-#include "utility.h"
+#include "libutility.h"
 
 int main(int argc, char* argv[])
 {
