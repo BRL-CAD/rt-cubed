@@ -118,7 +118,15 @@ void EventManager::subscribe(EventSubscriber* sub, quint32 eventType,
 void EventManager::unsubscribe(EventSubscriber* sub, quint32 eventType,
 	EventPublisher* pub)
 {
-    //TODO Implement this when needed.
+    EventSubscription* es = new EventSubscription(sub, eventType, pub);
+
+    for (quint32 i = 0; i < subscriptions->size(); ++i) {
+ 	EventSubscription* subscription = subscriptions->at(i);
+
+ 	if (*subscription == *es) {
+ 	    this->subscriptions->removeAt(i);
+	}
+    }
 }
 
 // Local Variables:
