@@ -101,6 +101,17 @@ void EventManager::subscribe(EventSubscriber* sub, quint32 eventType,
 	EventPublisher* pub)
 {
     EventSubscription* es = new EventSubscription(sub, eventType, pub);
+
+    for (quint32 i = 0; i < subscriptions->size(); ++i) {
+ 	EventSubscription* subscription = subscriptions->at(i);
+
+ 	if (*subscription == *es) {
+ 	   log->logINFO("EventManager", "Duplicate Subscription");
+ 	   delete es;
+ 	   return;
+	}
+    }
+
     this->subscriptions->append(es);
 }
 
