@@ -58,12 +58,11 @@ JobManager::JobManager()
 
 JobManager::~JobManager()
 {
+    this->shutdown();
+
     delete jobQueue;
     //TODO Should I loop through jobs, destroying them as well?
     delete queueLock;
-
-    //loop through workers
-    this->shutdown();
 
     delete jobWorkers;
 }
@@ -76,19 +75,34 @@ void JobManager::startup()
     this->acceptJobs = true;
 }
 
-void JobManager::shutdown()
+void JobManager::shutdown(bool finishJobQueue)
 {
     this->acceptJobs = false;
+
+    //TODO These should be moved to preferences eventually.
+    quint32 maxWaitTimeSecs = 60;
+    quint32 waitTimePerLoopSecs = 5;
+    quint32 maxPasses = maxWaitTimeSecs / waitTimePerLoopSecs;
+    quint32 curPasses = 0;
+
+    while (this->jobQueue->size() != 0 && finishJobQueue) {
+	this->log->logINFO("JobManager", "Waiting for JobWorkers to process JobQueue. " + QString::number(this->jobQueue->size()) + " items remain...");
+	ThreadUtils::sleep(waitTimePerLoopSecs);
+	++curPasses;
+	if (curPasses >= maxPasses) {
+	    this->log->logINFO("JobManager", "Shutdown Wait time failsafe tripped.  Forcing Shutdown.");
+	    break;
+	}
+    }
 
     //loop through workers, shut them down individually, empty worker list
     while (!this->jobWorkers->isEmpty()) {
 	JobWorker* jw = this->jobWorkers->front();
-
 	jw->shutdown();
-
 	this->jobWorkers->pop_front();
     }
 
+    this->log->logINFO("JobManager", "All JobWorkers Stopped. " + QString::number(this->jobQueue->size()) + " items in jobQueue remain...");
 }
 
 JobManager* JobManager::getInstance()

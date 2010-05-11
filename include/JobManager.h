@@ -47,7 +47,7 @@ public:
 	void submitJob(AbstractJob* aj);
 
 	void startup();
-	void shutdown();
+	void shutdown(bool finishJobQueue = true);
 
 private:
 	static JobManager* pInstance;
