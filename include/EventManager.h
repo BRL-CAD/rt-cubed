@@ -30,6 +30,8 @@
 #include "libutility.h"
 #include "commonDefines.h"
 
+#include <QMutex>
+
 class EventSubscriber;
 class EventSubscription;
 
@@ -58,6 +60,7 @@ private:
 
 	Logger* log;
 
+	QMutex* subscriptionsLock;
 	QList<EventSubscription*>* subscriptions;
 
 };

@@ -28,20 +28,27 @@
 #include "DeliverEventJob.h"
 #include "SubmitEventJob.h"
 
+#include <QMutexLocker>
+
 EventManager* EventManager::pInstance = NULL;
 
 EventManager::EventManager()
 {
     this->subscriptions = new QList<EventSubscription*> ();
+    this->subscriptionsLock = new QMutex();
 }
 
 EventManager::~EventManager()
 {
+    this->subscriptionsLock->lock();
     for (quint32 i = 0; i < subscriptions->size(); ++i) {
 	EventSubscription* es = subscriptions->at(i);
 	delete es;
     }
     delete subscriptions;
+
+    this->subscriptionsLock->unlock();
+    delete this->subscriptionsLock;
 }
 
 EventManager* EventManager::getInstance()
@@ -74,6 +81,8 @@ void EventManager::processEvent(Event* e)
 
 QList<EventSubscriber*>* EventManager::buildSubscriberList(Event* e)
 {
+    QMutexLocker locker(this->subscriptionsLock);
+
     quint32 eType = e->getEventType();
     EventPublisher* ePub = e->getPublisher();
 
@@ -100,6 +109,8 @@ QList<EventSubscriber*>* EventManager::buildSubscriberList(Event* e)
 void EventManager::subscribe(EventSubscriber* sub, quint32 eventType,
 	EventPublisher* pub)
 {
+    QMutexLocker locker(this->subscriptionsLock);
+
     EventSubscription* es = new EventSubscription(sub, eventType, pub);
 
     for (quint32 i = 0; i < subscriptions->size(); ++i) {
@@ -118,6 +129,8 @@ void EventManager::subscribe(EventSubscriber* sub, quint32 eventType,
 void EventManager::unsubscribe(EventSubscriber* sub, quint32 eventType,
 	EventPublisher* pub)
 {
+    QMutexLocker locker(this->subscriptionsLock);
+
     EventSubscription* es = new EventSubscription(sub, eventType, pub);
 
     for (quint32 i = 0; i < subscriptions->size(); ++i) {
