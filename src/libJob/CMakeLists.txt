@@ -52,11 +52,12 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	AbstractJob.h
 	JobManager.h
 	JobScheduler.h
-	JobWorker.h
 )
 
 #Set NOINST headers
-RT3_PROJECT_ADD_NOINST_HEADERS()
+RT3_PROJECT_ADD_NOINST_HEADERS(
+	JobWorker.h
+)
 
 #Set QT INST headers
 RT3_PROJECT_ADD_QT_INST_HEADERS()

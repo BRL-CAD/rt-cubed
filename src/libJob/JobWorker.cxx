@@ -23,8 +23,9 @@
  *
  */
 
-#include "JobWorker.h"
 #include "JobManager.h"
+
+#include "JobWorker.h"
 #include <iostream>
 
 JobWorker::JobWorker()
@@ -33,7 +34,6 @@ JobWorker::JobWorker()
     this->runCmd = true;
     this->workerId = QUuid::createUuid();
     this->log = Logger::getInstance();
-    this->isIdle = true;
 }
 
 JobWorker::~JobWorker()
