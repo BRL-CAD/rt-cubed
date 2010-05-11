@@ -27,27 +27,32 @@
 #define __JOBMANAGER_H__
 
 #include "AbstractJob.h"
-#include "JobWorker.h"
 #include "libutility.h"
 #include <QList>
 #include <QMutex>
+
+class JobWorker; //use forward Dec since JobWorker isn't public
 
 class JobManager
 {
 
 public:
 	static JobManager* getInstance();
-	void submitJob(AbstractJob* aj);
 
 	virtual ~JobManager();
 
 	AbstractJob* getNextJob();
 	bool hasJobsToWork();
 	quint32 getWorkQueueLen();
+	void submitJob(AbstractJob* aj);
+
+	void startup();
+	void shutdown();
 
 private:
 	static JobManager* pInstance;
 	JobManager();
+	static QMutex* singletonLock;
 
 	JobManager(JobManager const&){};
 	JobManager& operator=(JobManager const&){};

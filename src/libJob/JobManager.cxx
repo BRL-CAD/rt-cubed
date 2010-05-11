@@ -24,10 +24,12 @@
  */
 
 #include "JobManager.h"
+#include "JobWorker.h"
 #include <QMutexLocker>
 #include <iostream>
 
 JobManager* JobManager::pInstance = NULL;
+QMutex* JobManager::singletonLock = new QMutex();
 
 JobManager::JobManager()
 {
@@ -45,7 +47,6 @@ JobManager::JobManager()
     for (quint32 i = 0; i < MAX_JOBWORKERS; ++i) {
 	JobWorker* jw = new JobWorker();
 	this->jobWorkers->append(jw);
-	jw->start();
 
 	text = "Created new JobWorker with ID of " + jw->getWorkerIdAsQString();
 	this->log->logINFO("JobManager", text);
@@ -62,6 +63,23 @@ JobManager::~JobManager()
     delete queueLock;
 
     //loop through workers
+    this->shutdown();
+
+    delete jobWorkers;
+}
+void JobManager::startup()
+{
+    for (quint32 i = 0; i < MAX_JOBWORKERS; ++i) {
+ 	JobWorker* jw = this->jobWorkers->at(i);
+ 	jw->start();
+
+ 	this->log->logINFO("JobManager", "Starting JobWorker with ID of " + jw->getWorkerIdAsQString());
+     }
+}
+
+void JobManager::shutdown()
+{
+    //loop through workers, shut them down individually, empty worker list
     while (!this->jobWorkers->isEmpty()) {
 	JobWorker* jw = this->jobWorkers->front();
 
@@ -70,11 +88,12 @@ JobManager::~JobManager()
 	this->jobWorkers->pop_front();
     }
 
-    delete jobWorkers;
 }
 
 JobManager* JobManager::getInstance()
 {
+    QMutexLocker locker(JobManager::singletonLock);
+
     if (!JobManager::pInstance) {
 	pInstance = new JobManager();
     }
