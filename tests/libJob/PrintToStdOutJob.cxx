@@ -38,13 +38,9 @@ PrintToStdOutJob::~PrintToStdOutJob()
 
 JobResult PrintToStdOutJob::_doJob()
 {
-
-    ThreadUtils::sleep(1);
-
+    ThreadUtils::usleep(2500);
     QMutexLocker(this->streamLock);
-
     std::cout << "JobID:" << this->jobID << " Text: "<< text.toStdString();
-
     return JOB_COMPLETED_NO_ERRORS;
 }
 

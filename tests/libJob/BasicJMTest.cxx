@@ -32,21 +32,12 @@ int main(int argc, char* argv[])
     PrintToStdOutJob* ptsoJob = new PrintToStdOutJob("The quick brown fox jumps over the lazy dog.\n");
 
     JobManager* jm = JobManager::getInstance();
+    jm->startup();
 
-    jm->submitJob(ptsoJob);
-    ThreadUtils::sleep(1);
-    jm->submitJob(ptsoJob);
-    ThreadUtils::sleep(1);
-
-    jm->submitJob(ptsoJob);
-    jm->submitJob(ptsoJob);
-    jm->submitJob(ptsoJob);
-    jm->submitJob(ptsoJob);
-
-    ThreadUtils::sleep(1);
-
-
-    ThreadUtils::sleep(10);
+    for (int i = 0; i< 30;++i) {
+	jm->submitJob(ptsoJob);
+	ThreadUtils::usleep(100);
+    }
 
     delete jm;
     return 0;
