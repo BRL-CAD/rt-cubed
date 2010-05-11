@@ -97,7 +97,7 @@ void JobManager::shutdown(bool finishJobQueue)
 	}
     }
 
-    //loop through workers, shut them down individually, empty worker list
+    //loop through workers, shut them down individually. Then empty worker list
     while (!this->jobWorkers->isEmpty()) {
 	JobWorker* jw = this->jobWorkers->front();
 	jw->shutdown();
