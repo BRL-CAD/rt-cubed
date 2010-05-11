@@ -50,8 +50,25 @@ EventSubscriber* EventSubscription::getEventSubscriber()
     return this->_sub;
 }
 
-bool EventSubscription::operator==(const EventSubscription &other) const {
-  return ( (other._eventType == this->_eventType) &&(other._pub == this->_pub) &&(other._sub == this->_sub) );
+bool EventSubscription::operator==(const EventSubscription &other) const
+{
+    Logger* log = Logger::getInstance();
+
+    if (other._eventType != this->_eventType) {
+//	log->logINFO("EventSubscription", "Equality Check: Event Type Mismatch (" + QString::number(other._eventType) + "/" + QString::number(this->_eventType) + ")");
+	return false;
+    }
+    if (other._pub != this->_pub) {
+//	log->logINFO("EventSubscription", "Equality Check: Publisher Pointer Mismatch");
+	return false;
+    }
+    if (other._sub != this->_sub) {
+//	log->logINFO("EventSubscription", "Equality Check: Subscriber Pointer Mismatch");
+	return false;
+    }
+
+//	log->logINFO("EventSubscription", "Equality Check: EQUAL");
+    return true;
 }
 
 /*
