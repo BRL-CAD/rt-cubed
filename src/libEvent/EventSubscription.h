@@ -26,7 +26,6 @@
 #ifndef __EVENTSUBSCRIPTION_H__
 #define __EVENTSUBSCRIPTION_H__
 
-
 #include "EventSubscriber.h"
 #include "EventPublisher.h"
 #include "commonDefines.h"
@@ -41,6 +40,8 @@ public:
     EventPublisher* getPublisher();
     quint32 getEventType();
     EventSubscriber* getEventSubscriber();
+
+    bool operator==(const EventSubscription &other) const;
 
 private:
     EventPublisher* _pub;

@@ -50,6 +50,10 @@ EventSubscriber* EventSubscription::getEventSubscriber()
     return this->_sub;
 }
 
+bool EventSubscription::operator==(const EventSubscription &other) const {
+  return ( (other._eventType == this->_eventType) &&(other._pub == this->_pub) &&(other._sub == this->_sub) );
+}
+
 /*
  * Local Variables:
  * tab-width: 8
