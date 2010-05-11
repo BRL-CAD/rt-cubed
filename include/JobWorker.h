@@ -35,7 +35,7 @@
 
 enum JobWorkerStatus
 {
-	WORKER_NOTREADY, WORKER_READY, WORKER_RUNNING
+	WORKER_NOTREADY, WORKER_READY, WORKER_WORKING
 };
 
 class JobWorker: public QThread
@@ -52,6 +52,8 @@ public:
 	QUuid getWorkerId();
 	QString getWorkerIdAsQString();
 	std::string getWorkerIdAsStdString();
+
+	bool isIdle();
 
 private:
 	Logger* log;

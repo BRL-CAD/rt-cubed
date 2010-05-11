@@ -33,6 +33,7 @@ JobWorker::JobWorker()
     this->runCmd = true;
     this->workerId = QUuid::createUuid();
     this->log = Logger::getInstance();
+    this->isIdle = true;
 }
 
 JobWorker::~JobWorker()
@@ -47,10 +48,13 @@ void JobWorker::run()
 
     //TODO there must be a more dynamic way to have the workers idle other than a sleep
     while (this->runCmd) {
+
+	this->status = WORKER_READY;
 	if (!jm->hasJobsToWork()) {
 	    this->msleep(100);
 	}
 	else {
+	    this->status = WORKER_WORKING;
 	    AbstractJob* job = jm->getNextJob();
 
 	    if (job == NULL) {
@@ -66,8 +70,14 @@ void JobWorker::run()
 	    //TODO log the result?
 
 	}
+	this->status = WORKER_READY;
     }
     this->status = WORKER_NOTREADY;
+}
+
+bool JobWorker::isIdle()
+{
+    return (this->status == WORKER_READY);
 }
 
 JobWorkerStatus JobWorker::getStatus()
