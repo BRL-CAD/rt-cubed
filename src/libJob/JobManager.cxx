@@ -50,6 +50,9 @@ JobManager::JobManager()
 	text = "Created new JobWorker with ID of " + jw->getWorkerIdAsQString();
 	this->log->logINFO("JobManager", text);
     }
+
+    text = "Created a total of " + QString::number(this->jobWorkers->size()) + " JobWorkers";
+    this->log->logINFO("JobManager", text);
 }
 
 JobManager::~JobManager()
