@@ -77,6 +77,8 @@ void JobManager::startup()
 
 void JobManager::shutdown(bool finishJobQueue)
 {
+    this->log->logINFO("JobManager", "JobManager Shutdown Requested. " + QString::number(this->jobQueue->size()) + " items in jobQueue remain...");
+
     this->acceptJobs = false;
 
     //TODO These should be moved to preferences eventually.
