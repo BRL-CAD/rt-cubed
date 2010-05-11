@@ -36,6 +36,7 @@ EventManager::EventManager()
 {
     this->subscriptions = new QList<EventSubscription*> ();
     this->subscriptionsLock = new QMutex();
+    this->log = Logger::getInstance();
 }
 
 EventManager::~EventManager()
@@ -118,6 +119,7 @@ void EventManager::subscribe(EventSubscriber* sub, quint32 eventType,
 
  	if (*subscription == *es) {
  	   log->logINFO("EventManager", "Duplicate Subscription");
+
  	   delete es;
  	   return;
 	}
