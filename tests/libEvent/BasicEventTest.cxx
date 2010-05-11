@@ -35,12 +35,18 @@ class TestSubscriber: public EventSubscriber
 {
 public:
     TestSubscriber(QString name) :
-	_name(name){};
+	_name(name)
+    {
+    }
+    ;
 
     void handleEvent(Event* e)
     {
-	Logger::getInstance()->logINFO(_name, "Recv Event of type: " + QString::number(e->getEventType()) + " with msg: " + e->getMessage());
-    };
+	Logger::getInstance()->logINFO(_name, "Recv Event of type: "
+		+ QString::number(e->getEventType()) + " with msg: "
+		+ e->getMessage());
+    }
+    ;
 
 private:
     QString _name;
@@ -50,7 +56,10 @@ class TestPublisher: public EventPublisher
 {
 public:
     TestPublisher(QString name) :
-	_name(name){};
+	_name(name)
+    {
+    }
+    ;
 
     void generateEvent(quint32 type, QString message = "")
     {
@@ -58,7 +67,6 @@ public:
 		+ QString::number(type) + " with msg: " + message);
 	EventPublisher::generateEvent(type, message);
     }
-
 
 private:
     QString _name;
@@ -70,6 +78,8 @@ int main(int argc, char* argv[])
     EventManager* eMan = EventManager::getInstance();
     Logger* log = Logger::getInstance();
 
+    log->logBANNER("BasicEventTest", "Basic Event Test");
+
     TestSubscriber tSub01("Sub01");
     TestSubscriber tSub02("Sub02");
     TestSubscriber tSub03("Sub03");
@@ -77,26 +87,57 @@ int main(int argc, char* argv[])
     TestPublisher tPubB("Pub-B");
     TestPublisher tPubC("Pub-C");
 
+    log->logBANNER("BasicEventTest", "All Publishers, Subscriber 01(Event #100)");
     eMan->subscribe(&tSub01, 100, ALL_EVENT_PUBLISHERS);
 
-    eMan->subscribe(&tSub02, 100, ALL_EVENT_PUBLISHERS);
-    eMan->subscribe(&tSub02, 101, &tPubA);
-
-    eMan->subscribe(&tSub03, ALL_EVENT_TYPES, &tPubB);
-
-    tPubA.generateEvent(100, "Msg 1");
-    tPubA.generateEvent(101, "Msg 2");
-    tPubA.generateEvent(102, "Msg 3");
-
-    tPubB.generateEvent(100, "Msg 11");
-    tPubB.generateEvent(101, "Msg 12");
-    tPubB.generateEvent(102, "Msg 13");
-
-
-    log->logINFO("JobManager", "Job Queue len: " + QString::number(jMan->getWorkQueueLen()));
+    tPubA.generateEvent(99, "Msg a99");
+    tPubA.generateEvent(100, "Msg a100");
+    tPubA.generateEvent(101, "Msg a101");
 
     ThreadUtils::sleep(1);
-    log->logINFO("JobManager", "Job Queue len: " + QString::number(jMan->getWorkQueueLen()));
+
+    log->logBANNER("BasicEventTest", "All Publishers, Subscriber 02(Event #100)");
+    eMan->subscribe(&tSub02, 100, ALL_EVENT_PUBLISHERS);
+
+    tPubA.generateEvent(99, "Msg a99");
+    tPubA.generateEvent(100, "Msg a100");
+    tPubA.generateEvent(101, "Msg a101");
+
+    ThreadUtils::sleep(1);
+
+    log->logBANNER("BasicEventTest", "Publisher A, Subscriber 02(Event# 101)");
+    eMan->subscribe(&tSub02, 101, &tPubA);
+    tPubA.generateEvent(99, "Msg a99");
+    tPubA.generateEvent(100, "Msg a100");
+    tPubA.generateEvent(101, "Msg a101");
+
+    tPubB.generateEvent(99, "Msg b99");
+    tPubB.generateEvent(100, "Msg b100");
+    tPubB.generateEvent(101, "Msg b101");
+
+    ThreadUtils::sleep(1);
+
+    log->logBANNER("BasicEventTest", "Publisher B, Subscriber 03(All Events)");
+    eMan->subscribe(&tSub03, ALL_EVENT_TYPES, &tPubB);
+
+    tPubA.generateEvent(99, "Msg a99");
+    tPubA.generateEvent(100, "Msg a100");
+    tPubA.generateEvent(101, "Msg a101");
+
+    tPubB.generateEvent(99, "Msg b99");
+    tPubB.generateEvent(100, "Msg b100");
+    tPubB.generateEvent(101, "Msg b101");
+
+    ThreadUtils::sleep(1);
+
+    log->logBANNER("BasicEventTest", "DONE");
+
+    log->logINFO("JobManager", "Job Queue len: " + QString::number(
+	    jMan->getWorkQueueLen()));
+
+    ThreadUtils::sleep(1);
+    log->logINFO("JobManager", "Job Queue len: " + QString::number(
+	    jMan->getWorkQueueLen()));
 
     return 0;
 }
