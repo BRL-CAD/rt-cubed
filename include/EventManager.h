@@ -45,8 +45,7 @@ public:
 	void submitEvent(Event* e);
 	void processEvent(Event* e);
 
-	void
-			subscribe(EventSubscriber* sub, quint32 eventType,
+	void subscribe(EventSubscriber* sub, quint32 eventType,
 					EventPublisher* pub);
 	void unsubscribe(EventSubscriber* sub, quint32 eventType,
 			EventPublisher* pub);
