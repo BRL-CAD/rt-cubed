@@ -61,6 +61,8 @@ private:
 	QList<AbstractJob*>* jobQueue;
 	QMutex* queueLock;
 	Logger* log;
+
+	bool acceptJobs;
 };
 
 #endif

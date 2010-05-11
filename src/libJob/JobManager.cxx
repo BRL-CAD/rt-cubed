@@ -36,8 +36,8 @@ JobManager::JobManager()
     this->log = Logger::getInstance();
     this->jobQueue = new QList<AbstractJob*> ();
     this->queueLock = new QMutex();
-
     this->jobWorkers = new QList<JobWorker*> ();
+    this->acceptJobs = false;
 
     QString text = "Startup.  MAX_JOBWORKERS: " + QString::number(
 	    MAX_JOBWORKERS);
@@ -72,13 +72,14 @@ void JobManager::startup()
     for (quint32 i = 0; i < MAX_JOBWORKERS; ++i) {
  	JobWorker* jw = this->jobWorkers->at(i);
  	jw->start();
-
- 	this->log->logINFO("JobManager", "Starting JobWorker with ID of " + jw->getWorkerIdAsQString());
      }
+    this->acceptJobs = true;
 }
 
 void JobManager::shutdown()
 {
+    this->acceptJobs = false;
+
     //loop through workers, shut them down individually, empty worker list
     while (!this->jobWorkers->isEmpty()) {
 	JobWorker* jw = this->jobWorkers->front();
@@ -102,6 +103,11 @@ JobManager* JobManager::getInstance()
 
 void JobManager::submitJob(AbstractJob* job)
 {
+    if (this->acceptJobs == false) {
+	log->logWARNING("JobManager", "Job not queued. JobWorkers are currently not working.");
+	return; //TODO perhaps return a bool??
+    }
+
     QMutexLocker locker(this->queueLock);
     this->jobQueue->append(job);
 }
