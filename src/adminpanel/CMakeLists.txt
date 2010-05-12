@@ -49,9 +49,6 @@ RT3_PROJECT_ADD_SOURCES (
 	ACPChatterBox.cxx
 	AdminControlPanel.cxx
 	CommandProcessor.cxx
-	ConnectJob.cxx
-	DisconnectJob.cxx
-	BuildNetMsgJob.cxx
 )
 
 #Set INST Headers
@@ -62,9 +59,6 @@ RT3_PROJECT_ADD_NOINST_HEADERS(
 	acpMain.h
 	ACPChatterBox.h
 	CommandProcessor.h
-	ConnectJob.h
-	DisconnectJob.h
-	BuildNetMsgJob.h
 )
 
 #Set QT INST headers
