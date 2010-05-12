@@ -39,26 +39,26 @@
 
 NetMsgFactory::NetMsgFactory()
 {
+    this->log = Logger::getInstance();
     this->portalName = "NotSetYet";
 
     this->intBuffer = new QBuffer();
     this->intBuffer->open(QIODevice::ReadWrite);
     this->limit = 0;
 
-    this->lock = new QMutex();
-    this->inbox = new QQueue<NetMsg*> ();
+    this->bufferLock = new QMutex();
 }
 
 NetMsgFactory::~NetMsgFactory()
 {
     //	this->intBuffer->close();
     //	delete this->intBuffer;
-    //	delete this->lock ;
+    delete this->bufferLock ;
 }
 
 bool NetMsgFactory::addData(QByteArray& data)
 {
-    QMutexLocker locker(this->lock);
+    QMutexLocker locker(this->bufferLock);
 
     //Copy data into internal buffer
     quint32 retVal = this->intBuffer->write(data);
@@ -74,20 +74,10 @@ bool NetMsgFactory::addData(QByteArray& data)
     }
 }
 
-void NetMsgFactory::attemptToMakeMsgs()
-{
-    quint32 failSafe = 0;
-    while (this->attemptToMakeMsg()) {
-	++failSafe;
-	if (failSafe > 10) {
-	    return;
-	}
-    }
-}
 
-bool NetMsgFactory::attemptToMakeMsg()
+NetMsg* NetMsgFactory::makeMsg()
 {
-    QMutexLocker(this->lock);
+    QMutexLocker(this->bufferLock);
 
     if (this->limit < 8) {
 	//dont have enough data in the buffer
@@ -111,7 +101,7 @@ bool NetMsgFactory::attemptToMakeMsg()
     if (this->limit < (len + 4)) {
 	//dont have enough data in the buffer
 	//std::cout << "Factory failed: Size < LEN + 4 (" << (len + 4) << "\n";
-	return false;
+	return NULL;
     }
 
     //reset
@@ -122,17 +112,11 @@ bool NetMsgFactory::attemptToMakeMsg()
     NetMsg* msg = this->buildMsgByType(msgType, qds, this->portalName);
 
     if (msg == NULL) {
-	std::cout << "Factory failed: msgType lookup Failure:" << msgType
-		<< "\n";
-	return false;
-    }
-    else {
-	this->inbox->append(msg);
-
+	log->logINFO("NetMsgFactory","Factory failed: msgType lookup Failure:" + QString::number(msgType));
+    } else {
 	this->compactBuffer();
-
-	return true;
     }
+    return msg;
 }
 void NetMsgFactory::printBufferStatus(bool extended)
 {
@@ -140,7 +124,6 @@ void NetMsgFactory::printBufferStatus(bool extended)
     std::cout << "Buffer pos: " << this->intBuffer->pos() << "\n";
     std::cout << "Buffer limit: " << this->limit << "\n";
     std::cout << "Buffer size: " << this->intBuffer->size() << "\n";
-    std::cout << "MsgQueue size: " << this->inbox->size() << "\n";
 
     if (extended) {
 	quint64 pos = this->intBuffer->pos();
@@ -232,34 +215,6 @@ NetMsg* NetMsgFactory::buildMsgByType(quint32 type, QDataStream* qds,
 
 }
 
-bool NetMsgFactory::hasMsgsAvailable()
-{
-    return (this->inbox->size() > 0);
-}
-
-NetMsg*
-NetMsgFactory::getNextMsg(bool peek)
-{
-    if (this->inbox->isEmpty()) {
-	std::cout << "Factory.getNextMsg() is returning NULL\n";
-	return NULL;
-    }
-
-    NetMsg* out = 0;
-
-    if (peek) {
-	out = this->inbox->first();
-    } else {
-	out = this->inbox->takeFirst();
-    }
-    return out;
-}
-
-quint32 NetMsgFactory::getInboxSize()
-{
-    return this->inbox->size();
-}
-
 void NetMsgFactory::setPortalName(QString portalName)
 {
     this->portalName = portalName;
@@ -269,6 +224,7 @@ QString NetMsgFactory::getPortalName()
 {
     return this->portalName;
 }
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

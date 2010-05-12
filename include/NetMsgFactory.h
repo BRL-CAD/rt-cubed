@@ -43,22 +43,16 @@ public:
 	virtual ~NetMsgFactory();
 
 	bool addData(QByteArray& data);
-	bool hasMsgsAvailable();
-	NetMsg* getNextMsg(bool peek = false);
-	void attemptToMakeMsgs();
-
-	bool attemptToMakeMsg();
+	NetMsg* makeMsg();
 	void printBufferStatus(bool extended);
 
-	quint32 getInboxSize();
 	void setPortalName(QString portalName);
 	QString getPortalName();
 private:
+	Logger* log;
 	QString portalName;
-	QMutex* lock;
 
-	QQueue<NetMsg*>* inbox;
-
+	QMutex* bufferLock;
 	QBuffer* intBuffer;
 	quint64 limit;
 

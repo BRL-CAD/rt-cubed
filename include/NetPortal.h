@@ -51,13 +51,10 @@ public:
 	void connectToNetHost(QHostAddress address, quint16 port);
 	void disconnectFromNetHost(quint8 reason = LOCAL_DISCONNECT_REQ);
 
-	void attemptToBuildMsg();
-
-	bool hasMsg();
-	NetMsg* getNextMsg(bool peek = false);
+	void checkFactory();
 
 	void send(NetMsg& msg);
-	void quickSend(quint32 opcode);
+	void sendOpcodeOnlyMsg(quint32 opcode);
 
 	QString getRemoteGSHostname();
 

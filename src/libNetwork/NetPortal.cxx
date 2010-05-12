@@ -138,47 +138,41 @@ void NetPortal::moveDataFromSocketBuffer()
 	QByteArray data = this->sock->readAll();
 	//put into factory buffer & attempt a msg build.
 	this->factory->addData(data);
-	this->attemptToBuildMsg();
+	this->checkFactory();
 }
 
-void NetPortal::attemptToBuildMsg()
+void NetPortal::checkFactory()
 {
-	this->factory->attemptToMakeMsgs();
+	NetMsg* msg = this->factory->makeMsg();
 
-	if (this->hasMsg())
-	{
+	while (msg != NULL) {
+	    quint32 type = msg->getMsgType();
 
-		switch (this->handshakeStatus)
-		{
+	    switch (this->handshakeStatus)
+	    {
 		case (NetPortal::Ready):
 		{
-			//Check to see if the Msg received is Portal Control
-			NetMsg* msg = this->getNextMsg(true);
-			if (msg != 0)
-			{
-				quint32 type = msg->getMsgType();
-				if (type == DISCONNECTREQ)
-				{
-					this->disconnectFromNetHost(REM_HOST_DISCONNECT);
-					break;
-				}
+		    //Check to see if the Msg received is Portal Control
+		    if (type == DISCONNECTREQ)
+		    {
+			    this->disconnectFromNetHost(REM_HOST_DISCONNECT);
+			    break;
+		    }
 
-				this->handler->handleNetMsg(msg, this);
+		    this->handler->handleNetMsg(msg, this);
 
-				//TODO replace this with the GS's Event System.
-				//Normally, just emit a signal.
-				emit msgReady();
-			}
+		    //TODO replace this with the GS's Event System.
+		    //Normally, just emit a signal.
+		    emit msgReady();
 
-			break;
+		    break;
 		}
 		case (NetPortal::NotConnected):
 		case (NetPortal::Handshaking):
 		{
 			this->updateHandshakeStatus(NetPortal::Handshaking);
-			NetMsg* msg = this->getNextMsg();
 
-			if (msg->getMsgType() != REMGSHOSTNAMESET)
+			if (type != REMGSHOSTNAMESET)
 			{
 				this->disconnectFromNetHost(PORTAL_HANDSHAKE_FAILURE);
 				delete msg;
@@ -216,6 +210,8 @@ void NetPortal::attemptToBuildMsg()
 			break;
 		}
 
+	    //Try to make another message and loop.
+	    msg = this->factory->makeMsg();
 	}
 	//    this->nspm->localLog(QString::number(this->factory->getInboxSize())
 	//	    + " Msgs in factory inbox.");
@@ -224,7 +220,7 @@ void NetPortal::attemptToBuildMsg()
 /**
  * This function is used to send an 'opcode only' style message.
  */
-void NetPortal::quickSend(quint32 opcode)
+void NetPortal::sendOpcodeOnlyMsg(quint32 opcode)
 {
 	NetMsg msg(opcode);
 	this->send(msg);
@@ -271,16 +267,6 @@ void NetPortal::send(NetMsg& msg)
 		}
 		totalSent += thisSend;
 	}
-}
-
-bool NetPortal::hasMsg()
-{
-	return this->factory->hasMsgsAvailable();
-}
-
-NetMsg* NetPortal::getNextMsg(bool peek)
-{
-	return this->factory->getNextMsg(peek);
 }
 
 QString NetPortal::getRemoteGSHostname()
