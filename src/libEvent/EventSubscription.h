@@ -26,6 +26,7 @@
 #ifndef __EVENTSUBSCRIPTION_H__
 #define __EVENTSUBSCRIPTION_H__
 
+#include "EventTypes.h"
 #include "EventSubscriber.h"
 #include "EventPublisher.h"
 #include "commonDefines.h"

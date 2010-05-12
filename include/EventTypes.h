@@ -1,4 +1,4 @@
-/*                 C O M M O N D E F I N E S . H
+/*                      E V E N T T Y P E S . H
  * BRLCAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,23 +17,29 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file commonDefines.h
+/** @file EventTypes.h
  *
- * A single place to put various defines.  No #include-ing of any files in this file!
+ * Brief description
  *
  */
 
-#ifndef __COMMONDEFINES_H__
-#define __COMMONDEFINES_H__
+#ifndef __EVENTTYPES_H__
+#define __EVENTTYPES_H__
 
-#define ALL_EVENT_PUBLISHERS	0
+//TODO replace DEFINES with dynamic type registration process.
 
-#endif /* __COMMONDEFINES_H__ */
+#define ALL_EVENT_TYPES	0
+#define EVENTTYPE_PORTAL_HANDSHAKE_COMPLETE	10
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+
+#endif /* __EVENTTYPES_H__ */
+
+/*
+ * Local Variables:
+ * tab-width: 8
+ * mode: C
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */
