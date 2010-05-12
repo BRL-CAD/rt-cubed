@@ -132,23 +132,23 @@ void NetMsg::serialize(QByteArray* ba)
 /*
  *Getters n Setters
  */
-quint32 NetMsg::getMsgLen()
+quint32 NetMsg::getMsgLen() const
 {
     return this->msgLen;
 }
-quint32 NetMsg::getMsgType()
+quint32 NetMsg::getMsgType() const
 {
     return this->msgType;
 }
-QUuid NetMsg::getMsgUUID()
+QUuid NetMsg::getMsgUUID() const
 {
     return this->msgUUID;
 }
-bool NetMsg::msgHasReUUID()
+bool NetMsg::msgHasReUUID() const
 {
     return this->hasReUUID;
 }
-QUuid NetMsg::getReUUID()
+QUuid NetMsg::getReUUID()  const
 {
     return this->reUUID;
 }
@@ -156,27 +156,39 @@ QUuid NetMsg::getReUUID()
 /*
  * Utilities
  */
-bool NetMsg::equals(NetMsg& msg)
+
+bool NetMsg::operator== (const NetMsg& other) const
 {
-    if (this->getMsgType() != msg.getMsgType()) {
+    return this->equals(other);
+}
+
+
+bool NetMsg::equals(const NetMsg& other) const
+{
+    if (this->getMsgType() != other.getMsgType()) {
 	return false;
     }
 
-    if (this->getMsgUUID() != msg.getMsgUUID()) {
+    if (this->getMsgUUID() != other.getMsgUUID()) {
 	return false;
     }
 
-    if (this->msgHasReUUID() != msg.msgHasReUUID()) {
+    if (this->msgHasReUUID() != other.msgHasReUUID()) {
 	return false;
     }
 
     if (this->msgHasReUUID()) {
-	if (this->getReUUID() != msg.getReUUID()) {
+	if (this->getReUUID() != other.getReUUID()) {
 	    return false;
 	}
     }
 
-    return this->_equals(msg);
+    return this->_equals(other);
+}
+
+bool NetMsg::_equals(const NetMsg& msg) const
+{
+    return false;
 }
 
 QString NetMsg::toString()

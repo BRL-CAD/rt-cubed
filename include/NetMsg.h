@@ -56,19 +56,21 @@ public:
 	/*
 	 *Getters n Setters
 	 */
-	quint32 getMsgLen();
-	quint32 getMsgType();
-	QUuid getMsgUUID();
-	bool msgHasReUUID();
-	QUuid getReUUID();
+	quint32 getMsgLen() const;
+	quint32 getMsgType() const;
+	QUuid getMsgUUID() const;
+	bool msgHasReUUID() const;
+	QUuid getReUUID() const;
 
 	/*
 	 * Utilities
 	 */
 	virtual QString toString();
 	virtual std::string toStdString();
-	virtual bool equals(NetMsg& msg);
+	virtual bool equals(const NetMsg& other) const;
 	void printMe();
+
+	bool operator== (const NetMsg& other) const;
 
 protected:
 	quint32 msgLen;
@@ -79,7 +81,7 @@ protected:
 	QString origin;
 
 	virtual bool _serialize(QDataStream* ds) = 0;
-	virtual bool _equals(NetMsg& msg) = 0;
+	virtual bool _equals(const NetMsg& msg) const;
 
 private:
 	/* Disable Default Constructor */
