@@ -64,9 +64,10 @@ int main(int argc, char* argv[])
     }
     quint16 listenPort = listenPortStr.toShort();
 
+    /*
     GeometryService gs(gsHostname);
-
     gs.startListening(listenAddress, listenPort);
+     */
 
     return 0;
 }

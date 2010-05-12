@@ -31,30 +31,29 @@ GeometryService::GeometryService(const QString gsHostname) :
 {
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", gsHostname + " is starting up...");
-    this->portalMan = new NetPortalManager(gsHostname, this);
 }
 
 GeometryService::~GeometryService()
 {
-    delete this->portalMan;
+//    delete this->portalMan;
 }
-
-void GeometryService::startListening(const QHostAddress& addy, quint16 port)
-{
-    this->log->logINFO("GeometryService", localGSHostname + " is listening on " + addy.toString() + ":" + QString::number(port));
-    this->portalMan->listen(addy, port);
-}
-
-void GeometryService::stopListening()
-{
-    this->log->logINFO("GeometryService", localGSHostname + " stopped listening.");
-    this->portalMan->close();
-}
-
-bool GeometryService::isListening() const
-{
-    return this->portalMan->isListening();
-}
+//
+//void GeometryService::startListening(const QHostAddress& addy, quint16 port)
+//{
+//    this->log->logINFO("GeometryService", localGSHostname + " is listening on " + addy.toString() + ":" + QString::number(port));
+//    this->portalMan->listen(addy, port);
+//}
+//
+//void GeometryService::stopListening()
+//{
+//    this->log->logINFO("GeometryService", localGSHostname + " stopped listening.");
+//    this->portalMan->close();
+//}
+//
+//bool GeometryService::isListening() const
+//{
+//    return this->portalMan->isListening();
+//}
 
 void GeometryService::handleNetMsg(NetMsg* msg, NetPortal* origin)
 {
