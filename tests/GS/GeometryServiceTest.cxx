@@ -67,18 +67,19 @@ public:
     bool stillRunning() const
     {
 	//For now, make the test simple
-	return this->gs->isListening();
+	//return this->gs->isListening();
+	return false;
     }
     void start(const QHostAddress& addy = QHostAddress::LocalHost, const quint16 port = DEFAULT_PORT)
     {
 	this->_port = port;
 	this->_addy = addy;
 
-	this->gs->startListening(this->_addy, this->_port);
+	//this->gs->startListening(this->_addy, this->_port);
     }
     void stop() const
     {
-	this->gs->stopListening();
+	//this->gs->stopListening();
     }
 };
 
@@ -91,8 +92,6 @@ class GeometryClient
 {
 private:
     QUuid testClientID;
-    NetPortalManager* portMan;
-    NetPortal* portal;
 
     bool exists(std::string object) const
     {
@@ -100,24 +99,15 @@ private:
 	    return false;
 
 	// ask server if object exists
-
 	return false;
     }
 public:
     GeometryClient()
     {
-	this->testClientID = QUuid::createUuid();
-
-	this->portMan = new NetPortalManager("GSTestClient - "
-		+ this->testClientID.toString());
-
-	this->portal = this->portMan->getNewPortal();
     }
 
     ~GeometryClient()
     {
-	delete this->portMan;
-	delete this->portal;
     }
 
     void connect(const QHostAddress address = QHostAddress::LocalHost, int port = DEFAULT_PORT) const
@@ -126,19 +116,15 @@ public:
 	    std::cerr << "Unexpected test harness state" << std::endl;
 	    exit(1);
 	}
-
-	this->portal->connectToNetHost(address, port);
-
     }
 
     void disconnect() const
     {
-	this->portal->disconnectFromNetHost();
     }
 
     bool connected() const
     {
-	return this->portal->isOpen();
+	return false;
     }
 
     //TODO implement 'getDirectory'

@@ -26,9 +26,9 @@
 #
 ##########################################################################
 
+ADD_SUBDIRECTORY(./libNetwork)
 ADD_SUBDIRECTORY(./GE)
 ADD_SUBDIRECTORY(./GS)
 ADD_SUBDIRECTORY(./utility)
-ADD_SUBDIRECTORY(./libNetwork)
 ADD_SUBDIRECTORY(./libJob)
 ADD_SUBDIRECTORY(./libEvent)

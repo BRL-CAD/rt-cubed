@@ -60,17 +60,24 @@ RT3_PROJECT_ADD_QT_NOINST_HEADERS(
 )
 
 #Build the project
-RT3_PROJECT_BUILD_LIB()
+#RT3_PROJECT_BUILD_LIB()
 
 ##########################################################################
 
 RT3_PROJECT(netMsgSerialTest)
 
 #Set Include Dirs
-RT3_PROJECT_ADD_INCLUDE_DIRS()
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
 
 #Set Libs
-RT3_PROJECT_ADD_LIBS( libNetworkTests )
+RT3_PROJECT_ADD_LIBS(
+    network
+    utility
+    job
+    ${QT_LIBRARIES}
+)
 
 #set Source files
 RT3_PROJECT_ADD_SOURCES ( netMsgSerialTest.cxx )
@@ -91,58 +98,3 @@ RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 RT3_PROJECT_BUILD_EXE()
 
 ##########################################################################
-
-RT3_PROJECT(netMsgFactoryTest)
-
-#Set Include Dirs
-RT3_PROJECT_ADD_INCLUDE_DIRS()
-
-#Set Libs
-RT3_PROJECT_ADD_LIBS( libNetworkTests )
-
-#set Source files
-RT3_PROJECT_ADD_SOURCES (netMsgFactoryTest.cxx)
-
-#Set INST Headers
-RT3_PROJECT_ADD_INST_HEADERS()
-
-#Set NOINST headers
-RT3_PROJECT_ADD_NOINST_HEADERS()
-
-#Set QT INST headers
-RT3_PROJECT_ADD_QT_INST_HEADERS()
-
-#Set QT NOINST headers
-RT3_PROJECT_ADD_QT_NOINST_HEADERS()
-
-#Build the project
-RT3_PROJECT_BUILD_EXE()
-
-##########################################################################
-
-RT3_PROJECT(netPortalManagerTest)
-
-#Set Include Dirs
-RT3_PROJECT_ADD_INCLUDE_DIRS()
-
-#Set Libs
-RT3_PROJECT_ADD_LIBS( libNetworkTests )
-
-#set Source files
-RT3_PROJECT_ADD_SOURCES (netPortalManagerTest.cxx)
-
-#Set INST Headers
-RT3_PROJECT_ADD_INST_HEADERS()
-
-#Set NOINST headers
-RT3_PROJECT_ADD_NOINST_HEADERS()
-
-#Set QT INST headers
-RT3_PROJECT_ADD_QT_INST_HEADERS()
-
-#Set QT NOINST headers
-RT3_PROJECT_ADD_QT_NOINST_HEADERS()
-
-#Build the project
-RT3_PROJECT_BUILD_EXE()
-
