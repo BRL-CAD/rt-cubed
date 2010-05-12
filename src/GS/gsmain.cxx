@@ -24,7 +24,6 @@
  */
 
 #include "GeometryService.h"
-#include "GeometryServiceApp.h"
 
 #include "libalf.h"
 #include "libutility.h"
@@ -66,9 +65,8 @@ int main(int argc, char* argv[])
     quint16 listenPort = listenPortStr.toShort();
 
     GeometryService gs(gsHostname);
-    GeometryServiceApp gsa(argc, argv, &gs);
 
     gs.startListening(listenAddress, listenPort);
 
-    return gsa.exec();
+    return 0;
 }
