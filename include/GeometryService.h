@@ -40,14 +40,13 @@ class GeometryService : public INetMsgHandler
 public:
 	GeometryService(const QString localGSHostname);
 	virtual ~GeometryService();
-	void startListening(const QHostAddress& addy, quint16 port);
-	void stopListening();
-	bool isListening() const;
+//	void startListening(const QHostAddress& addy, quint16 port);
+//	void stopListening();
+//	bool isListening() const;
 
 private:
 	Logger* log;
 	QString localGSHostname;
-	NetPortalManager* portalMan;
 
 	void handleNetMsg(NetMsg* msg, NetPortal* origin);
 };
