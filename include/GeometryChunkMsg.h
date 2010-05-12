@@ -32,15 +32,17 @@ class GeometryChunkMsg: public GenericMultiByteMsg
 {
 
 public:
-
-	//Normal Constructor
+	/* Normal Constructor */
 	GeometryChunkMsg(char* dataIn, quint32 dataInLen);
 
-	//Reply Constructor
+	/* Reply Constructor */
 	GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	GeometryChunkMsg(QDataStream* ds, QString origin);
+
+	/* Destructor */
+	virtual ~GeometryChunkMsg();
 
 };
 

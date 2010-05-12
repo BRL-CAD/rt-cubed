@@ -33,14 +33,17 @@ class SuccessMsg: public GenericOneByteMsg
 
 public:
 
-	//Normal Constructor
+	/* Normal Constructor */
 	SuccessMsg(quint8 successCode);
 
-	//Reply Constructor
+	/* Reply Constructor */
 	SuccessMsg(NetMsg* msg, quint8 successCode);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	SuccessMsg(QDataStream* ds, QString origin);
+
+	/* Destructor */
+	virtual ~SuccessMsg();
 
 	/*
 	 *Getters n Setters

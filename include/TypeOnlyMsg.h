@@ -1,4 +1,4 @@
-/*             N E W H O S T O N N E T M S G . C X X
+/*                 T Y P E O N L Y M S G . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,46 +17,39 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NewHostOnNetMsg.cxx
+/** @file TypeOnlyMsg.cxx
  *
  * Brief description
  *
  */
 
-#include "NetMsgTypes.h"
-#include "NewHostOnNetMsg.h"
-#include <sstream>
+#ifndef __TYPEONLYMSG_H__
+#define __TYPEONLYMSG_H__
 
-/* Normal Constructor */
-NewHostOnNetMsg::NewHostOnNetMsg(QString gsHostname) :
-    GenericOneStringMsg(REMGSHOSTNAMESET, gsHostname)
-{
-}
+#include "NetMsg.h"
 
-/* Reply Constructor */
-NewHostOnNetMsg::NewHostOnNetMsg(NetMsg* msg, QString gsHostname) :
-    GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
+class TypeOnlyMsg: public NetMsg
 {
-}
 
-/* Deserializing Constructor */
-NewHostOnNetMsg::NewHostOnNetMsg(QDataStream* ds, QString origin) :
-    GenericOneStringMsg(ds, origin)
-{
-}
+public:
+    /* Normal Constructor */
+    TypeOnlyMsg(quint32 msgType);
 
-/* Destructor */
-NewHostOnNetMsg::~NewHostOnNetMsg()
-{
-}
+    /* Reply Constructor */
+    TypeOnlyMsg(quint32 msgType, NetMsg* msg);
 
-/*
- *Getters n Setters
- */
-QString NewHostOnNetMsg::getNewGSHostname()
-{
-    return this->strData;
-}
+    /* Deserializing Constructors */
+    TypeOnlyMsg(QDataStream* ds, QString origin);
+
+    /* Destructor */
+    virtual ~TypeOnlyMsg();
+
+protected:
+    bool _serialize(QDataStream* ds);
+    bool _equals(NetMsg& msg);
+};
+
+#endif /* __TYPEONLYMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

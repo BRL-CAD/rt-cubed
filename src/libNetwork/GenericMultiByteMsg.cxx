@@ -26,7 +26,7 @@
 #include "GenericMultiByteMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, char* dataIn,
 	quint32 dataInLen) :
     NetMsg(type), dataLen(dataInLen)
@@ -39,10 +39,9 @@ GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, char* dataIn,
     }
 }
 
-//Reply Constructor
-GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, NetMsg* msg,
-	char* dataIn, quint32 dataInLen) :
-    NetMsg(type, msg), dataLen(dataInLen)
+/* Reply Constructor */
+GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn, quint32 dataInLen) :
+	NetMsg(type, msg), dataLen(dataInLen)
 {
     //Deep copy
     this->data = (char*) malloc(dataInLen);
@@ -50,10 +49,9 @@ GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, NetMsg* msg,
     for (quint32 i = 0; i < dataInLen; ++i) {
 	this->data[i] = dataIn[i];
     }
-
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 GenericMultiByteMsg::GenericMultiByteMsg(QDataStream* ds, QString origin) :
     NetMsg(ds, origin)
 {
@@ -68,7 +66,7 @@ GenericMultiByteMsg::GenericMultiByteMsg(QDataStream* ds, QString origin) :
 
 }
 
-//Destructor
+/* Destructor */
 GenericMultiByteMsg::~GenericMultiByteMsg()
 {
     free(this->data);

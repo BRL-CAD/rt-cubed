@@ -27,24 +27,28 @@
 #include "FailureMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 FailureMsg::FailureMsg(quint8 failureCode):
   GenericOneByteMsg(FAILURE, failureCode)
 {
 }
 
-//Reply  Constructor
-FailureMsg::FailureMsg(NetMsg* msg, quint8 failureCode):
-  GenericOneByteMsg(FAILURE, msg, failureCode)
+/* Reply Constructor */
+FailureMsg::FailureMsg(NetMsg* msg, quint8 failureCode) :
+  GenericOneByteMsg(SESSIONINFO, msg, failureCode)
 {
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 FailureMsg::FailureMsg(QDataStream* ds, QString origin):
   GenericOneByteMsg(ds, origin)
 {
 }
 
+/* Destructor */
+FailureMsg::~FailureMsg()
+{
+}
 /*
  *Getters n Setters
  */

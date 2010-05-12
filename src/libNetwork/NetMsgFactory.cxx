@@ -35,6 +35,7 @@
 #include "GeometryChunkMsg.h"
 #include "NewSessionReqMsg.h"
 #include "SessionInfoMsg.h"
+#include "TypeOnlyMsg.h"
 
 #include <QMutexLocker>
 
@@ -193,7 +194,7 @@ NetMsg* NetMsgFactory::buildMsgByType(quint32 type, QDataStream* qds,
     case REMGSHOSTNAMESET:
 	return new GenericOneStringMsg(qds, portalName);
     case DISCONNECTREQ:
-	return new NetMsg(qds, portalName);
+	return new TypeOnlyMsg(qds, portalName);
     case NEWHOSTONNET:
 	return new GenericOneStringMsg(qds, portalName);
 //    case FULLHOSTLISTREQ:

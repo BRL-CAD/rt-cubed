@@ -26,39 +26,30 @@
 #include "NetMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 NetMsg::NetMsg(quint32 mType) :
     msgLen(0), msgType(mType), hasReUUID(false), reUUID(NULL)
 {
     msgUUID = QUuid::createUuid();
 }
 
-//Reply Constructor
+/* Reply Constructor */
 NetMsg::NetMsg(quint32 mType, NetMsg* msg) :
     msgLen(0), msgType(mType)
 {
     if (msg->getMsgUUID() != NULL) {
-
 	QString strUUID = msg->getMsgUUID().toString();
-
 	QUuid uuid(strUUID);
-
 	this->reUUID = uuid;
-
 	this->hasReUUID = true;
-
-    }
-    else {
-
+    } else {
 	this->reUUID = NULL;
 	this->hasReUUID = false;
     }
-
     msgUUID = QUuid::createUuid();
-
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 NetMsg::NetMsg(QDataStream* ds, QString origin)
 {
     this->origin = origin;
@@ -82,7 +73,7 @@ NetMsg::NetMsg(QDataStream* ds, QString origin)
 
 }
 
-//Destructor
+/* Destructor */
 NetMsg::~NetMsg()
 {
 }
@@ -138,11 +129,6 @@ void NetMsg::serialize(QByteArray* ba)
     delete outBA;
 }
 
-bool NetMsg::_serialize(QDataStream* ds)
-{
-    return true;
-}
-
 /*
  *Getters n Setters
  */
@@ -191,11 +177,6 @@ bool NetMsg::equals(NetMsg& msg)
     }
 
     return this->_equals(msg);
-}
-
-bool NetMsg::_equals(NetMsg& msg)
-{
-    return true;
 }
 
 QString NetMsg::toString()

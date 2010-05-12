@@ -32,17 +32,16 @@ class NewHostOnNetMsg: public GenericOneStringMsg
 {
 
 public:
-
-	//Normal Constructor
+	/* Normal Constructor */
 	NewHostOnNetMsg(QString s);
 
-	//Reply Constructor
-	NewHostOnNetMsg(NewHostOnNetMsg* msg, QString s);
+	/* Reply Constructor */
+	NewHostOnNetMsg(NetMsg* msg, QString gsHostname);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	NewHostOnNetMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~NewHostOnNetMsg();
 
 	QString getNewGSHostname();

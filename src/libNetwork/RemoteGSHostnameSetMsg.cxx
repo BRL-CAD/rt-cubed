@@ -27,26 +27,25 @@
 #include "RemoteGSHostnameSetMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QString gsHostname) :
     GenericOneStringMsg(REMGSHOSTNAMESET, gsHostname)
 {
 }
 
-//Reply Constructor
-RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg,
-	QString gsHostname) :
-    GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
+/* Reply Constructor */
+RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(NetMsg* msg, QString gsHostname) :
+	GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
 {
 }
 
-//Deserializing Constructor
+/* Deserializing Constructor */
 RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QDataStream* ds, QString origin) :
     GenericOneStringMsg(ds, origin)
 {
 }
 
-//Destructor
+/* Destructor */
 RemoteGSHostnameSetMsg::~RemoteGSHostnameSetMsg()
 {
 }

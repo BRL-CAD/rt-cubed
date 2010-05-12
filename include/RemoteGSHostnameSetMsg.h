@@ -33,16 +33,16 @@ class RemoteGSHostnameSetMsg: public GenericOneStringMsg
 
 public:
 
-	//Normal Constructor
+	/* Normal Constructor */
 	RemoteGSHostnameSetMsg(QString s);
 
-	//Reply Constructor
-	RemoteGSHostnameSetMsg(RemoteGSHostnameSetMsg* msg, QString s);
+	/* Reply Constructor */
+	RemoteGSHostnameSetMsg(NetMsg* msg, QString gsHostname);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	RemoteGSHostnameSetMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~RemoteGSHostnameSetMsg();
 
 	QString getRemoteGSHostname();

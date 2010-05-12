@@ -32,20 +32,22 @@ class FailureMsg: public GenericOneByteMsg
 {
 
 public:
+    /* Normal Constructor */
+    FailureMsg(quint8 failureCode);
 
-	//Normal Constructor
-	FailureMsg(quint8 failureCode);
+    /* Reply Constructor */
+    FailureMsg(NetMsg* msg, quint8 failureCode);
 
-	//Reply Constructor
-	FailureMsg(NetMsg* msg, quint8 failureCode);
+    /* Deserializing Constructor */
+    FailureMsg(QDataStream* ds, QString origin);
 
-	//Deserializing Constructors
-	FailureMsg(QDataStream* ds, QString origin);
+    /* Destructor */
+    virtual ~FailureMsg();
 
-	/*
-	 *Getters n Setters
-	 */
-	quint8 getFailureCode();
+    /*
+     *Getters n Setters
+     */
+    quint8 getFailureCode();
 
 };
 

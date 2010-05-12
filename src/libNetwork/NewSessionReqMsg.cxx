@@ -27,19 +27,19 @@
 #include "NewSessionReqMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 NewSessionReqMsg::NewSessionReqMsg(QString uname, QString passwd) :
     NetMsg(NEWSESSIONREQ), uname(uname), passwd(passwd)
 {
 }
 
-//Reply Constructor
+/* Reply Constructor */
 NewSessionReqMsg::NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd) :
-    NetMsg(NEWSESSIONREQ, msg), uname(uname), passwd(passwd)
+	NetMsg(NEWSESSIONREQ, msg), uname(uname), passwd(passwd)
 {
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 NewSessionReqMsg::NewSessionReqMsg(QDataStream* ds, QString origin) :
     NetMsg(ds, origin)
 {
@@ -47,7 +47,7 @@ NewSessionReqMsg::NewSessionReqMsg(QDataStream* ds, QString origin) :
     this->passwd = *Utils::getString(ds);
 }
 
-//Destructor
+/* Destructor */
 NewSessionReqMsg::~NewSessionReqMsg()
 {
 }

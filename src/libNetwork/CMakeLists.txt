@@ -44,10 +44,12 @@ RT3_PROJECT_ADD_LIBS(
 
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
+	Gateway.cxx
 	NetPortal.cxx
 	NetPortalManager.cxx
 	NetMsgFactory.cxx
 	NetMsg.cxx
+	TypeOnlyMsg.cxx
 	GenericOneStringMsg.cxx
 	GenericOneByteMsg.cxx
 	GenericTwoBytesMsg.cxx
@@ -62,15 +64,15 @@ RT3_PROJECT_ADD_SOURCES (
 	GeometryReqMsg.cxx
 	GeometryManifestMsg.cxx
 	GeometryChunkMsg.cxx
-	Gateway.cxx
 )
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
 	Gateway.h
-	NetMsg.h
     NetMsgTypes.h
     INetMsgHandler.h
+    NetMsg.h
+	TypeOnlyMsg.h
 	RemoteGSHostnameSetMsg.h
 	GenericOneStringMsg.h
 	GenericOneByteMsg.h

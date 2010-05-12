@@ -37,20 +37,19 @@ class NetMsg
 {
 
 public:
-
-	//Normal Constructor
+	/* Normal Constructor */
 	NetMsg(quint32 mType);
 
-	//Reply Constructor
+	/* Reply Constructor */
 	NetMsg(quint32 mType, NetMsg* msg);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	NetMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~NetMsg();
 
-	//Serializers
+	/* Serializers */
 	QByteArray* serialize();
 	void serialize(QByteArray* ba);
 
@@ -79,10 +78,11 @@ protected:
 	QUuid reUUID;
 	QString origin;
 
-	virtual bool _serialize(QDataStream* ds);
-	virtual bool _equals(NetMsg& msg);
+	virtual bool _serialize(QDataStream* ds) = 0;
+	virtual bool _equals(NetMsg& msg) = 0;
 
-	//Disable Default Constructor
+private:
+	/* Disable Default Constructor */
 	NetMsg(){};
 };
 

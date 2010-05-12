@@ -36,13 +36,13 @@ public:
 	//Only Constructor
 	GeometryReqMsg(quint8 requestType, QString data);
 
-	//Reply Constructor
-	GeometryReqMsg(NetMsg* msg, quint8 requestType, QString s);
+	/* Reply Constructor */
+	GeometryReqMsg(NetMsg* msg, quint8 requestType, QString data);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	GeometryReqMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~GeometryReqMsg();
 
 	virtual QString toString();
@@ -59,7 +59,6 @@ private:
 
 	bool _serialize(QDataStream* ds);
 	bool _equals(NetMsg& msg);
-
 };
 
 #endif

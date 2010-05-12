@@ -26,6 +26,7 @@
 #include "NetPortal.h"
 #include "NetPortalManager.h"
 #include "NetMsgFactory.h"
+#include "TypeOnlyMsg.h"
 
 #include <QHostAddress>
 
@@ -217,7 +218,7 @@ void NetPortal::checkFactory()
  */
 void NetPortal::sendOpcodeOnlyMsg(quint32 opcode)
 {
-	NetMsg msg(opcode);
+	TypeOnlyMsg msg(opcode);
 	this->send(msg);
 }
 

@@ -32,17 +32,16 @@ class GenericTwoBytesMsg: public NetMsg
 {
 
 public:
-
-	//Normal Constructor
+	/* Normal Constructor */
 	GenericTwoBytesMsg(quint32 type, quint16 b);
 
-	//Reply Constructor
+	/* Reply Constructor */
 	GenericTwoBytesMsg(quint32 type, NetMsg* msg, quint16 b);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	GenericTwoBytesMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~GenericTwoBytesMsg();
 
 	/*
@@ -56,7 +55,6 @@ protected:
 
 	virtual bool _serialize(QDataStream* ds);
 	virtual bool _equals(NetMsg& msg);
-
 };
 
 #endif

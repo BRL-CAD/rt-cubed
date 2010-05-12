@@ -26,26 +26,26 @@
 #include "NetMsgTypes.h"
 #include "GeometryReqMsg.h"
 
-//Only Constructor
+/* Normal Constructor */
 GeometryReqMsg::GeometryReqMsg(quint8 requestType, QString data) :
     GenericOneStringMsg(GEOMETRYREQ, data), reqType(requestType)
 {
 }
 
-//Reply Constructor
+/* Reply Constructor */
 GeometryReqMsg::GeometryReqMsg(NetMsg* msg, quint8 requestType, QString data) :
-    GenericOneStringMsg(GEOMETRYREQ, msg, data), reqType(requestType)
+	GenericOneStringMsg(GEOMETRYREQ, msg, data), reqType(requestType)
 {
 }
 
-//Deserializing Constructor
+/* Deserializing Constructor */
 GeometryReqMsg::GeometryReqMsg(QDataStream* ds, QString origin) :
     GenericOneStringMsg(ds, origin)
 {
     *ds >> this->reqType;
 }
 
-//Destructor
+/* Destructor */
 GeometryReqMsg::~GeometryReqMsg()
 {
 }

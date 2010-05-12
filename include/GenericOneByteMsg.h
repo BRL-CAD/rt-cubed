@@ -33,16 +33,16 @@ class GenericOneByteMsg: public NetMsg
 
 public:
 
-	//Normal Constructor
+	/* Normal Constructor */
 	GenericOneByteMsg(quint32 type, quint8 b);
 
-	//Reply Constructor
+	/* Reply Constructor */
 	GenericOneByteMsg(quint32 type, NetMsg* msg, quint8 b);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	GenericOneByteMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~GenericOneByteMsg();
 
 	/*

@@ -26,26 +26,26 @@
 #include "GenericOneStringMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 GenericOneStringMsg::GenericOneStringMsg(quint32 type, QString s) :
     NetMsg(type), strData(s)
 {
 }
 
-//Reply Constructor
+/* Reply Constructor */
 GenericOneStringMsg::GenericOneStringMsg(quint32 type, NetMsg* msg, QString s) :
-    NetMsg(type, msg), strData(s)
+     NetMsg(type, msg), strData(s)
 {
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 GenericOneStringMsg::GenericOneStringMsg(QDataStream* ds, QString origin) :
     NetMsg(ds, origin)
 {
     this->strData = *Utils::getString(ds);
 }
 
-//Destructor
+/* Destructor */
 GenericOneStringMsg::~GenericOneStringMsg()
 {
 }

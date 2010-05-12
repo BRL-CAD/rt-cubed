@@ -26,7 +26,7 @@
 #include "NetMsgTypes.h"
 #include "GeometryManifestMsg.h"
 
-//Normal Constructor
+/* Normal Constructor */
 GeometryManifestMsg::GeometryManifestMsg(QList<QString>& items) :
     NetMsg(GEOMETRYMANIFEST)
 {
@@ -34,15 +34,15 @@ GeometryManifestMsg::GeometryManifestMsg(QList<QString>& items) :
     this->itemData->append(items);
 }
 
-//Reply Constructor
+/* Reply Constructor */
 GeometryManifestMsg::GeometryManifestMsg(NetMsg* msg, QList<QString>& items) :
-    NetMsg(GEOMETRYMANIFEST, msg)
+	NetMsg(GEOMETRYMANIFEST, msg)
 {
     this->itemData = new QList<QString> ();
     this->itemData->append(items);
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 GeometryManifestMsg::GeometryManifestMsg(QDataStream* ds, QString origin) :
     NetMsg(ds, origin)
 {
@@ -59,7 +59,7 @@ GeometryManifestMsg::GeometryManifestMsg(QDataStream* ds, QString origin) :
     }
 }
 
-//Destructor
+/* Destructor */
 GeometryManifestMsg::~GeometryManifestMsg()
 {
     delete this->itemData;
@@ -74,6 +74,15 @@ bool GeometryManifestMsg::_serialize(QDataStream* ds)
     }
 
     return true;
+}
+
+bool GeometryManifestMsg::_equals(NetMsg& msg)
+{
+    GeometryManifestMsg& gmsg = (GeometryManifestMsg&) msg;
+
+    //TODO implement this _equals!
+
+    return false;
 }
 
 QString GeometryManifestMsg::toString()

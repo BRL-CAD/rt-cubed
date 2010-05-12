@@ -26,26 +26,26 @@
 #include "GenericTwoBytesMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 GenericTwoBytesMsg::GenericTwoBytesMsg(quint32 type, quint16 b) :
     NetMsg(type), data(b)
 {
 }
 
-//Reply Constructor
+/* Reply Constructor */
 GenericTwoBytesMsg::GenericTwoBytesMsg(quint32 type, NetMsg* msg, quint16 b) :
-    NetMsg(type, msg), data(b)
+     NetMsg(type, msg), data(b)
 {
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 GenericTwoBytesMsg::GenericTwoBytesMsg(QDataStream* ds, QString origin) :
     NetMsg(ds, origin)
 {
     *ds >> this->data;
 }
 
-//Destructor
+/* Destructor */
 GenericTwoBytesMsg::~GenericTwoBytesMsg()
 {
 }

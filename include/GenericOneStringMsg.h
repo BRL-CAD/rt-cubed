@@ -33,16 +33,16 @@ class GenericOneStringMsg: public NetMsg
 
 public:
 
-	//Normal Constructor
+	/* Normal Constructor */
 	GenericOneStringMsg(quint32 type, QString s);
 
-	//Reply Constructor
+	/* Reply Constructor */
 	GenericOneStringMsg(quint32 type, NetMsg* msg, QString s);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	GenericOneStringMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~GenericOneStringMsg();
 
 	/*
@@ -56,7 +56,6 @@ protected:
 
 	virtual bool _serialize(QDataStream* ds);
 	virtual bool _equals(NetMsg& msg);
-
 };
 
 #endif

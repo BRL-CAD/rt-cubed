@@ -33,16 +33,16 @@ class SessionInfoMsg: public NetMsg
 
 public:
 
-	//Normal Constructor
+	/* Normal Constructor */
 	SessionInfoMsg(QUuid sessionID);
 
-	//Reply Constructor
+	/* Reply Constructor */
 	SessionInfoMsg(NetMsg* msg, QUuid sessionID);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	SessionInfoMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~SessionInfoMsg();
 
 	/*
@@ -54,7 +54,8 @@ public:
 protected:
 	QUuid sessionID;
 
-	virtual bool _serialize(QDataStream* ds);
+	bool _serialize(QDataStream* ds);
+	bool _equals(NetMsg& msg);
 
 };
 

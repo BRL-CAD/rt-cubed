@@ -26,26 +26,26 @@
 #include "GenericOneByteMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 GenericOneByteMsg::GenericOneByteMsg(quint32 type, quint8 b) :
     NetMsg(type), data(b)
 {
 }
 
-//Reply Constructor
+/* Reply Constructor */
 GenericOneByteMsg::GenericOneByteMsg(quint32 type, NetMsg* msg, quint8 b) :
-    NetMsg(type, msg), data(b)
+     NetMsg(type, msg), data(b)
 {
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 GenericOneByteMsg::GenericOneByteMsg(QDataStream* ds, QString origin) :
     NetMsg(ds, origin)
 {
     *ds >> this->data;
 }
 
-//Destructor
+/* Destructor */
 GenericOneByteMsg::~GenericOneByteMsg()
 {
 }
@@ -71,12 +71,7 @@ QString GenericOneByteMsg::toString()
 bool GenericOneByteMsg::_equals(NetMsg& msg)
 {
     GenericOneByteMsg& gmsg = (GenericOneByteMsg&) msg;
-
-    if (this->getData() != gmsg.getData()) {
-	return false;
-    }
-
-    return true;
+    return (this->getData() == gmsg.getData());
 }
 
 /*

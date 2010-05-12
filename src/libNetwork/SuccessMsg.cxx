@@ -27,21 +27,26 @@
 #include "SuccessMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 SuccessMsg::SuccessMsg(quint8 successCode) :
     GenericOneByteMsg(SUCCESS, successCode)
 {
 }
 
-//Reply  Constructor
+/* Reply Constructor */
 SuccessMsg::SuccessMsg(NetMsg* msg, quint8 successCode) :
-    GenericOneByteMsg(SUCCESS, msg, successCode)
+	GenericOneByteMsg(SUCCESS, msg, successCode)
 {
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 SuccessMsg::SuccessMsg(QDataStream* ds, QString origin) :
     GenericOneByteMsg(ds, origin)
+{
+}
+
+/* Destructor */
+SuccessMsg::~SuccessMsg()
 {
 }
 

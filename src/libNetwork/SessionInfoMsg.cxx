@@ -27,27 +27,26 @@
 #include "SessionInfoMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 SessionInfoMsg::SessionInfoMsg(QUuid sessionID) :
     NetMsg(SESSIONINFO), sessionID(sessionID)
 {
 }
 
-//Reply Constructor
+/* Reply Constructor */
 SessionInfoMsg::SessionInfoMsg(NetMsg* msg, QUuid sessionID) :
-    NetMsg(SESSIONINFO, msg), sessionID(sessionID)
+	NetMsg(SESSIONINFO, msg), sessionID(sessionID)
 {
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 SessionInfoMsg::SessionInfoMsg(QDataStream* ds, QString origin) :
     NetMsg(ds, origin)
 {
     this->sessionID = *Utils::getQUuid(ds);
-
 }
 
-//Destructor
+/* Destructor */
 SessionInfoMsg::~SessionInfoMsg()
 {
 }
@@ -69,6 +68,16 @@ QString SessionInfoMsg::toString()
     return out;
 }
 
+bool SessionInfoMsg::_equals(NetMsg& msg)
+{
+    SessionInfoMsg& gmsg = (SessionInfoMsg&) msg;
+
+    if (this->getSessionID() != gmsg.getSessionID()) {
+	return false;
+    }
+
+    return true;
+}
 
 /*
  *Getters n Setters

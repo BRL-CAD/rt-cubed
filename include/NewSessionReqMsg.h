@@ -33,16 +33,16 @@ class NewSessionReqMsg: public NetMsg
 
 public:
 
-	//Normal Constructor
+	/* Normal Constructor */
 	NewSessionReqMsg(QString uname, QString passwd);
 
-	//Reply Constructor
+	/* Reply Constructor */
 	NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	NewSessionReqMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~NewSessionReqMsg();
 
 	/*
@@ -58,7 +58,6 @@ protected:
 
 	virtual bool _serialize(QDataStream* ds);
 	virtual bool _equals(NetMsg& msg);
-
 };
 
 #endif //__NEWSESSIONREQMSG_H__

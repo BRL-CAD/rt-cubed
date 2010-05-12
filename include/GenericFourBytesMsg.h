@@ -32,17 +32,16 @@ class GenericFourBytesMsg: public NetMsg
 {
 
 public:
-
-	//Normal Constructor
+	/* Normal Constructor */
 	GenericFourBytesMsg(quint32 type, quint32 b);
 
-	//Reply Constructor
+	/* Reply Constructor */
 	GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b);
 
-	//Deserializing Constructors
+	/* Deserializing Constructor */
 	GenericFourBytesMsg(QDataStream* ds, QString origin);
 
-	//Destructor
+	/* Destructor */
 	virtual ~GenericFourBytesMsg();
 
 	/*

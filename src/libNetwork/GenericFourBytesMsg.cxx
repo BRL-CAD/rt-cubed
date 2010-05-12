@@ -26,26 +26,26 @@
 #include "GenericFourBytesMsg.h"
 #include <sstream>
 
-//Normal Constructor
+/* Normal Constructor */
 GenericFourBytesMsg::GenericFourBytesMsg(quint32 type, quint32 b) :
     NetMsg(type), data(b)
 {
 }
 
-//Reply Constructor
+/* Reply Constructor */
 GenericFourBytesMsg::GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b) :
-    NetMsg(type, msg), data(b)
+	NetMsg(type, msg), data(b)
 {
 }
 
-//Deserializing Constructors
+/* Deserializing Constructor */
 GenericFourBytesMsg::GenericFourBytesMsg(QDataStream* ds, QString origin) :
     NetMsg(ds, origin)
 {
     *ds >> this->data;
 }
 
-//Destructor
+/* Destructor */
 GenericFourBytesMsg::~GenericFourBytesMsg()
 {
 }
