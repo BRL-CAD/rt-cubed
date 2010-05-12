@@ -22,6 +22,7 @@
  * Brief description
  *
  */
+#include "NetMsgTypes.h"
 
 #include "NetMsgFactory.h"
 #include "GenericOneStringMsg.h"

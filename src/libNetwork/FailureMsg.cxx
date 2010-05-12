@@ -23,7 +23,7 @@
  *
  */
 
-
+#include "NetMsgTypes.h"
 #include "FailureMsg.h"
 #include <sstream>
 

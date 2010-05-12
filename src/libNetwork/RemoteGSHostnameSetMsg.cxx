@@ -23,6 +23,7 @@
  *
  */
 
+#include "NetMsgTypes.h"
 #include "RemoteGSHostnameSetMsg.h"
 #include <sstream>
 

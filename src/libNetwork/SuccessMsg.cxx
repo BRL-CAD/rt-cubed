@@ -23,6 +23,7 @@
  *
  */
 
+#include "NetMsgTypes.h"
 #include "SuccessMsg.h"
 #include <sstream>
 

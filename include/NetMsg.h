@@ -26,43 +26,6 @@
 #ifndef __NETMSG_H__
 #define __NETMSG_H__
 
-/*  NetMsg Types */
-
-#define	FAILURE          	0
-#define	SUCCESS          	5
-
-#define REMGSHOSTNAMESET	100
-
-#define	DISCONNECTREQ 		150
-
-#define NEWHOSTONNET     	200
-
-#define FULLHOSTLISTREQ		250
-#define FULLHOSTLIST		255
-
-#define NEWSESSIONREQ		300
-#define SESSIONINFO		305
-#define LOGOUTSESSION		310
-
-#define	GEOMETRYREQ		400
-#define ReqByUUID       	  10
-#define ReqByFilePath  		  11
-#define GEOMETRYMANIFEST	405
-#define GEOMETRYCHUNK		410
-
-/*  Failure Codes */
-#define UUIDNotFoundFailure      10
-#define FileNotFoundFailure      20
-
-#define PORTAL_HANDSHAKE_FAILURE   	30
-#define UNKNOWN_PORTAL_FAILURE		40
-#define PORTAL_WRITE_FAILURE		50
-#define PORTAL_READ_FAILURE		60
-#define REM_HOST_DISCONNECT		70
-#define LOCAL_DISCONNECT_REQ		80
-
-#define AUTHENTICATION_FAILED		90
-
 #include "IOException.h"
 #include "libutility.h"
 #include <QDataStream>

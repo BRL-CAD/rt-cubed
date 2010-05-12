@@ -26,11 +26,13 @@
 #ifndef __NETPORTAL_H__
 #define __NETPORTAL_H__
 
-#include "libutility.h"
-#include "libevent.h"
+#include "NetMsgTypes.h"
 #include "NetMsg.h"
 #include "NetMsgFactory.h"
 #include "RemoteGSHostnameSetMsg.h"
+
+#include "libutility.h"
+#include "libevent.h"
 
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>

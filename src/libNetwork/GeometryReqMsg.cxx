@@ -23,6 +23,7 @@
  *
  */
 
+#include "NetMsgTypes.h"
 #include "GeometryReqMsg.h"
 
 //Only Constructor

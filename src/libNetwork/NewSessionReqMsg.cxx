@@ -23,6 +23,7 @@
  *
  */
 
+#include "NetMsgTypes.h"
 #include "NewSessionReqMsg.h"
 #include <sstream>
 

@@ -23,6 +23,7 @@
  *
  */
 
+#include "NetMsgTypes.h"
 #include "NewHostOnNetMsg.h"
 #include <sstream>
 

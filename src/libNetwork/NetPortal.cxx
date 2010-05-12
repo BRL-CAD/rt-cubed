@@ -23,7 +23,6 @@
  *
  */
 
-
 #include "NetPortal.h"
 #include "NetPortalManager.h"
 
