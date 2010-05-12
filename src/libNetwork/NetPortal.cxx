@@ -159,11 +159,18 @@ void NetPortal::attemptToBuildMsg()
 				if (type == DISCONNECTREQ)
 				{
 					this->disconnectFromNetHost(REM_HOST_DISCONNECT);
+					break;
 				}
+
+				if (this->handler) {
+				    this->handler->handleNetMsg(msg, this);
+				}
+
+				//TODO replace this with the GS's Event System.
+				//Normally, just emit a signal.
+				emit msgReady();
 			}
 
-			//Normally, just emit a signal.
-			emit msgReady();
 			break;
 		}
 		case (NetPortal::NotConnected):
@@ -285,6 +292,16 @@ QString NetPortal::getRemoteGSHostname()
 bool NetPortal::isOpen() {
     return this->sock->isOpen();
 }
+
+INetMsgHandler* NetPortal::getNetMsgHandler()
+{
+    return this->handler;
+}
+void NetPortal::setNetMsgHandler(INetMsgHandler* handler)
+{
+    this->handler = handler;
+}
+
 
 // Local Variables: ***
 // mode: C++ ***

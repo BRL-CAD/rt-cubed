@@ -35,6 +35,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <QString>
 
+class INetMsgHandler;
 class NetPortalManager;
 
 class NetPortal: public QObject
@@ -62,12 +63,15 @@ public:
 
 	bool isOpen();
 
+	INetMsgHandler* getNetMsgHandler();
+	void setNetMsgHandler(INetMsgHandler* handler);
+
 	enum HandshakeStatus
 	{
 		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
 	};
 
-	signals:
+signals:
 	void msgReady();
 	void handshakeStatusUpdate(quint32 current, quint32 old);
 	void portalHandshakeComplete(NetPortal* portal);
@@ -92,6 +96,7 @@ private:
 	NetMsgFactory* factory;
 	HandshakeStatus handshakeStatus;
 	Logger* log;
+	INetMsgHandler* handler;
 
 	void constructorCommon(NetPortalManager* nspm);
 	void updateHandshakeStatus(HandshakeStatus newStatus);
