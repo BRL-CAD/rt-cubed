@@ -31,9 +31,7 @@ GeometryService::GeometryService(const QString gsHostname) :
 {
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", gsHostname + " is starting up...");
-    this->portalMan = new NetPortalManager(gsHostname);
-
-    QObject::connect(portalMan, SIGNAL(newIncomingConnection(NetPortal*)), this, SLOT(handleNewPortal(NetPortal*) ) );
+    this->portalMan = new NetPortalManager(gsHostname, this);
 }
 
 GeometryService::~GeometryService()
@@ -58,26 +56,6 @@ bool GeometryService::isListening() const
     return this->portalMan->isListening();
 }
 
-
-
-void GeometryService::handleNewPortal(NetPortal* nsp)
-{
-    this->log->logINFO("GeometryService",
-	    "New portal received from NetPortalManager");
-
-    QObject::connect(nsp, SIGNAL(msgReady()), this, SLOT(handleMsgReady()));
-}
-
-void GeometryService::handleMsgReady()
-{
-    NetPortal* np = (NetPortal*) QObject::sender();
-    NetMsg* msg = np->getNextMsg();
-
-    if (msg != NULL) {
-	this->handleNetMsg(msg, np);
-    }
-}
-
 void GeometryService::handleNetMsg(NetMsg* msg, NetPortal* origin)
 {
     quint32 msgType = msg->getMsgType();
@@ -97,9 +75,7 @@ void GeometryService::handleNetMsg(NetMsg* msg, NetPortal* origin)
 	    break;
 	}
     };
-
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

@@ -34,9 +34,8 @@
 #include <QStringList>
 #include <QCoreApplication>
 
-class GeometryService : public QObject, public INetMsgHandler
+class GeometryService : public INetMsgHandler
 {
-    Q_OBJECT
 
 public:
 	GeometryService(const QString localGSHostname);
@@ -44,10 +43,6 @@ public:
 	void startListening(const QHostAddress& addy, quint16 port);
 	void stopListening();
 	bool isListening() const;
-
-protected slots:
-    void handleNewPortal(NetPortal*);
-    void handleMsgReady();
 
 private:
 	Logger* log;

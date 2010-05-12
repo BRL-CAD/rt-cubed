@@ -25,9 +25,13 @@
 
 #include "GeometryService.h"
 #include "GeometryServiceApp.h"
+
 #include "libalf.h"
 #include "libutility.h"
+#include "libevent.h"
+
 #include <iostream>
+
 #include <QString>
 
 int main(int argc, char* argv[])

@@ -39,6 +39,7 @@ RT3_PROJECT_ADD_LIBS(
     ge
     job
     network
+    event
     ${QT_LIBRARIES}
 )
 

@@ -57,6 +57,7 @@ RT3_PROJECT_ADD_SOURCES (
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
+	GeometryService.h
 	GeometryServiceApp.h
 )
 
@@ -73,7 +74,6 @@ RT3_PROJECT_ADD_NOINST_HEADERS(
 
 #Set QT INST headers
 RT3_PROJECT_ADD_QT_INST_HEADERS(
-	GeometryService.h
 	GeometryServiceDaemon.h
 )
 
@@ -97,6 +97,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
+    event
     ${QT_LIBRARIES}
     gs
     network
