@@ -28,6 +28,7 @@
 
 #include "libutility.h"
 #include "NetMsg.h"
+#include "INetMsgHandler.h"
 
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QHostAddress>
@@ -51,6 +52,9 @@ public:
 	NetPortal* getPortalByRemoteGSHostname(QString remHostname);
 	void localLog(QString str);
 
+	INetMsgHandler* getNetMsgHandler();
+	void setNetMsgHandler(INetMsgHandler* handler);
+
 protected:
 	void incomingConnection(int socketDescriptor);
 
@@ -66,6 +70,7 @@ signals:
 private:
 	void registerPortal(NetPortal* portal);
 	void unregisterPortal(NetPortal* portal);
+	NetPortal* preparePortal();
 
 	QString localGSHostname;
 	Logger* log;
@@ -73,7 +78,7 @@ private:
 	QMap<QString, NetPortal*>* gsHostnameToPortalMap;
 	QList<NetPortal*>* portalList;
 
-	NetPortal* preparePortal();
+	INetMsgHandler* handler;
 };
 
 #endif

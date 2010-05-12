@@ -29,7 +29,7 @@
 #include <QTcpSocket>
 #include <iostream>
 
-NetPortalManager::NetPortalManager(QString localGSHostame, QObject* parent) :
+NetPortalManager::NetPortalManager(QString localGSHostame,  QObject* parent) :
     QTcpServer(parent), localGSHostname(localGSHostame)
 {
     this->log = Logger::getInstance();
@@ -51,6 +51,11 @@ NetPortal* NetPortalManager::getNewPortal(int socketDescriptor)
     }
     else {
 	portal = new NetPortal(this, socketDescriptor);
+    }
+
+    //If there is a default Handler defined, set the new portal's handler.
+    if (this->handler) {
+	portal->setNetMsgHandler(this->handler);
     }
 
     this->registerPortal(portal);
@@ -118,6 +123,17 @@ void NetPortalManager::localLog(QString str)
     QString nStr = "[" + this->localGSHostname + "] "+ str;
     this->log->logINFO("NetPortalManager", nStr);
 }
+
+INetMsgHandler* NetPortalManager::getNetMsgHandler()
+{
+    return this->handler;
+}
+void NetPortalManager::setNetMsgHandler(INetMsgHandler* handler)
+{
+    this->handler = handler;
+}
+
+
 // Local Variables:
 // tab-width: 8
 // mode: C++
