@@ -25,9 +25,10 @@
 
 #include "Gateway.h"
 
-Gateway::Gateway(QString gsHostname)
+Gateway::Gateway(QString gsHostname, INetMsgHandler* handler)
 {
-    this->portMan = new PortalManager(gsHostname);
+    this->log = Logger::getInstance();
+    this->portMan = new NetPortalManager(gsHostname, handler);
 }
 
 Gateway::~Gateway()
@@ -37,13 +38,45 @@ Gateway::~Gateway()
 
 void Gateway::run()
 {
-
+    this->exec();
 }
 
 void Gateway::stop()
 {
     this->quit();
 }
+
+void Gateway::listen(QHostAddress address, ushort port)
+{
+    if (this->isRunning() == false) {
+	this->log->logINFO("Gateway", "Attempted to Listen on a Gateway that is not running.");
+	return;
+    }
+    this->portMan->listen(address, port);
+}
+
+void Gateway::stopListening(QHostAddress address, ushort port)
+{
+    if (this->isRunning() == false) {
+        this->log->logINFO("Gateway", "Attempted to stop listening on a Gateway that is not running.");
+        return;
+    }
+
+}
+
+QList<QString> Gateway::getConnectedHostList()
+{
+}
+
+void Gateway::sendToHost(QString host, NetMsg* msg)
+{
+    if (this->isRunning() == false) {
+        this->log->logINFO("Gateway", "Attempted to sendToHost on a Gateway that is not running.");
+        return;
+    }
+
+}
+
 // Local Variables:
 // tab-width: 8
 // mode: C++

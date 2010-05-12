@@ -27,29 +27,36 @@
 #define __GATEWAY_H__
 
 #include "NetPortalManager.h"
+#include "INetMsgHandler.h"
+
+#include "libutility.h"
 
 #include <QThread>
+#include <QString>
+#include <QHostAddress>
+#include <QList>
 
 class Gateway: public QThread
 {
 public:
-    Gateway(QString gsHostname);
+    Gateway(QString gsHostname, INetMsgHandler* handler);
     virtual ~Gateway();
 
     void run();
     void stop();
 
-    void listen(QHostAddress address, ushort port, INetMsgHandler* handler);
+    void listen(QHostAddress address, ushort port);
     void stopListening(QHostAddress address, ushort port);
 
-    void connectToNetHost(QString netHostname, quint16 port);
-    void connectToNetHost(QHostAddress address, quint16 port);
-    void disconnectFromNetHost(quint8 reason = LOCAL_DISCONNECT_REQ);
-
+    QList<QString>
+    getConnectedHostList();
+    void sendToHost(QString host, NetMsg* msg);
 
 
 private:
     NetPortalManager* portMan;
+    Logger* log;
+
 };
 
 #endif /* __GATEWAY_H__ */
