@@ -27,6 +27,7 @@
 #define __NETPORTALMANAGER_H__
 
 #include "libutility.h"
+#include "libevent.h"
 #include "NetMsg.h"
 #include "INetMsgHandler.h"
 
@@ -39,9 +40,8 @@
 
 class NetPortal;
 
-class NetPortalManager: public QTcpServer
+class NetPortalManager: public QTcpServer, public EventSubscriber
 {
-Q_OBJECT
 
 public:
 	NetPortalManager(QString GSHostname, INetMsgHandler* handler, QObject* parent = 0);
@@ -52,18 +52,13 @@ public:
 	NetPortal* getPortalByRemoteGSHostname(QString remHostname);
 	void localLog(QString str);
 
+	void handleEvent(Event* e);
+
+	void mapPortalToGSHostname(NetPortal* portal);
+	void unmapPortalToGSHostname(NetPortal* portal);
 
 protected:
 	void incomingConnection(int socketDescriptor);
-
-protected slots:
-
-	void handlePortalDisconnect();
-	void mapPortalToGSHostname(NetPortal* portal);
-	void unmapPortalToGSHostname(QString gsHostname);
-
-signals:
-	void newIncomingConnection(NetPortal* nsp);
 
 private:
 	void registerPortal(NetPortal* portal);

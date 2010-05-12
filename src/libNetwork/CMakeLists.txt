@@ -38,6 +38,7 @@ RT3_PROJECT_ADD_LIBS(
     ge
     job
     utility
+    event
     ${QT_LIBRARIES}
 )
 
@@ -66,6 +67,7 @@ RT3_PROJECT_ADD_SOURCES (
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
+	NetPortalManager.h
     INetMsgHandler.h
 	NetMsgFactory.h
 	NetMsg.h
@@ -93,7 +95,6 @@ RT3_PROJECT_ADD_NOINST_HEADERS(
 #Set QT INST headers
 RT3_PROJECT_ADD_QT_INST_HEADERS(
 	NetPortal.h
-	NetPortalManager.h
 )
 
 #Set QT NOINST headers

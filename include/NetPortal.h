@@ -27,6 +27,7 @@
 #define __NETPORTAL_H__
 
 #include "libutility.h"
+#include "libevent.h"
 #include "NetMsg.h"
 #include "NetMsgFactory.h"
 #include "RemoteGSHostnameSetMsg.h"
@@ -38,7 +39,7 @@
 class INetMsgHandler;
 class NetPortalManager;
 
-class NetPortal: public QObject
+class NetPortal: public QObject, public EventPublisher
 {
 Q_OBJECT
 
@@ -65,16 +66,6 @@ public:
 		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
 	};
 
-signals:
-	void msgReady();
-	void handshakeStatusUpdate(quint32 current, quint32 old);
-	void portalHandshakeComplete(NetPortal* portal);
-
-	void portalConnected();
-	void portalDisconnected();
-	void socketError(QAbstractSocket::SocketError err);
-
-public slots:
 	void sendLocalGSHostnameToRemoteGSHost();
 
 protected slots:

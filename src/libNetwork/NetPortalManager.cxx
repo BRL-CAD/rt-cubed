@@ -29,8 +29,9 @@
 #include <QTcpSocket>
 #include <iostream>
 
-NetPortalManager::NetPortalManager(QString localGSHostame, INetMsgHandler* handler, QObject* parent) :
-    localGSHostname(localGSHostame), handler(handler),  QTcpServer(parent)
+NetPortalManager::NetPortalManager(QString localGSHostame,
+	INetMsgHandler* handler, QObject* parent) :
+    localGSHostname(localGSHostame), handler(handler), QTcpServer(parent)
 {
     this->log = Logger::getInstance();
     this->gsHostnameToPortalMap = new QMap<QString, NetPortal*> ();
@@ -55,10 +56,11 @@ NetPortal* NetPortalManager::getNewPortal(int socketDescriptor)
 
     this->registerPortal(portal);
 
-    QObject::connect(portal, SIGNAL(portalDisconnected()), this, SLOT(
-	    handlePortalDisconnect()));
+    EventManager::getInstance()->subscribe(this,
+	    EVENTTYPE_PORTAL_DISCONNECT, portal);
 
-    QObject::connect(portal, SIGNAL(portalHandshakeComplete(NetPortal*)), this, SLOT(mapPortalToGSHostname(NetPortal*)));
+    EventManager::getInstance()->subscribe(this,
+ 	    EVENTTYPE_PORTAL_HANDSHAKE_COMPLETE, portal);
 
     return portal;
 }
@@ -78,9 +80,9 @@ void NetPortalManager::unregisterPortal(NetPortal* portal)
     this->portalList->removeAll(portal);
 }
 
-void NetPortalManager::unmapPortalToGSHostname(QString hostname)
+void NetPortalManager::unmapPortalToGSHostname(NetPortal* portal)
 {
-    this->gsHostnameToPortalMap->remove(hostname);
+    this->gsHostnameToPortalMap->remove(portal->getRemoteGSHostname());
 }
 
 void NetPortalManager::incomingConnection(int socketDescriptor)
@@ -90,18 +92,8 @@ void NetPortalManager::incomingConnection(int socketDescriptor)
     //Send the localhostName to the Remote machine.
     nsp->sendLocalGSHostnameToRemoteGSHost();
 
-    emit newIncomingConnection(nsp);
 }
 
-void NetPortalManager::handlePortalDisconnect()
-{
-    NetPortal* nsp = (NetPortal*) sender();
-
-    //UnMap the NSP
-    this->unregisterPortal(nsp);
-    this->unmapPortalToGSHostname(nsp->getRemoteGSHostname());
-
-}
 
 NetPortal* NetPortalManager::getPortalByRemoteGSHostname(QString remGSHostname)
 {
@@ -115,8 +107,33 @@ QString NetPortalManager::getLocalGSHostname()
 
 void NetPortalManager::localLog(QString str)
 {
-    QString nStr = "[" + this->localGSHostname + "] "+ str;
+    QString nStr = "[" + this->localGSHostname + "] " + str;
     this->log->logINFO("NetPortalManager", nStr);
+}
+
+void NetPortalManager::handleEvent(Event* e)
+{
+    quint32 type = e->getEventType();
+
+    switch (type) {
+    case EVENTTYPE_PORTAL_HANDSHAKE_COMPLETE:
+ 	{
+ 	    NetPortal* np = (NetPortal*) e->getPublisher();
+ 	    this->mapPortalToGSHostname(np);
+ 	}
+ 	break;
+    case EVENTTYPE_PORTAL_DISCONNECT:
+ 	{
+ 	    NetPortal* np = (NetPortal*) e->getPublisher();
+ 	    this->unregisterPortal(np);
+ 	    this->unmapPortalToGSHostname(np);
+
+ 	}
+ 	break;
+     default:
+	//unhandled Event type;
+	return;
+    }
 }
 
 // Local Variables:

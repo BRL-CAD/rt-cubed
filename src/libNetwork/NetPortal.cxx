@@ -95,16 +95,16 @@ void NetPortal::relaySockConnected()
 {
 	this->sendLocalGSHostnameToRemoteGSHost();
 	this->updateHandshakeStatus(NetPortal::Handshaking);
-	emit portalConnected();
+	this->generateEvent(EVENTTYPE_PORTAL_CONNECT, "Received new connected.");
 }
 void NetPortal::relaySockDisconnected()
 {
 	this->updateHandshakeStatus(NetPortal::NotConnected);
-	emit portalDisconnected();
+	this->generateEvent(EVENTTYPE_PORTAL_DISCONNECT, this->remGSHostname + " has been disconnected.");
 }
 void NetPortal::relaySockError(QAbstractSocket::SocketError err)
 {
-	emit socketError(err);
+	log->logERROR("NetPortal", "Socket generated an error: " + QString::number(err));
 }
 
 /***************/
@@ -115,9 +115,8 @@ void NetPortal::updateHandshakeStatus(HandshakeStatus newStatus)
 {
 	if (this->handshakeStatus != newStatus)
 	{
-		HandshakeStatus oldStatus = this->handshakeStatus;
+		//HandshakeStatus oldStatus = this->handshakeStatus;
 		this->handshakeStatus = newStatus;
-		emit handshakeStatusUpdate(newStatus, oldStatus);
 	}
 }
 void NetPortal::sendLocalGSHostnameToRemoteGSHost()
@@ -161,10 +160,6 @@ void NetPortal::checkFactory()
 
 		    this->handler->handleNetMsg(msg, this);
 
-		    //TODO replace this with the GS's Event System.
-		    //Normally, just emit a signal.
-		    emit msgReady();
-
 		    break;
 		}
 		case (NetPortal::NotConnected):
@@ -200,7 +195,7 @@ void NetPortal::checkFactory()
 
 			this->remGSHostname = remoteHostname;
 			this->updateHandshakeStatus(NetPortal::Ready);
-			emit portalHandshakeComplete(this);
+			this->generateEvent(EVENTTYPE_PORTAL_HANDSHAKE_COMPLETE, remoteHostname + " has completed handshaking.");
 
 			break;
 		}
