@@ -46,7 +46,6 @@ RT3_PROJECT_ADD_SOURCES (
 	NetPortal.cxx
 	NetPortalManager.cxx
 	NetMsgFactory.cxx
-	NetMsgSubscriberRegistry.cxx
 	NetMsg.cxx
 	GenericOneStringMsg.cxx
 	GenericOneByteMsg.cxx
@@ -62,6 +61,7 @@ RT3_PROJECT_ADD_SOURCES (
 	GeometryReqMsg.cxx
 	GeometryManifestMsg.cxx
 	GeometryChunkMsg.cxx
+	Gateway.cxx
 )
 
 #Set INST Headers
@@ -87,7 +87,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 
 #Set NOINST headers
 RT3_PROJECT_ADD_NOINST_HEADERS(
-	NetMsgSubscriberRegistry.h
+	Gateway.h
 )
 
 #Set QT INST headers
