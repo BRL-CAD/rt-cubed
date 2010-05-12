@@ -35,7 +35,7 @@ class EventPublisher;
 class EventSubscriber
 {
 public:
-	virtual void handleEvent(Event* e) = 0;
+	virtual void handleEvent(Event* e);
 
 protected:
 	/**
