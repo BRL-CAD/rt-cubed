@@ -26,7 +26,6 @@
 #ifndef __GATEWAY_H__
 #define __GATEWAY_H__
 
-#include "NetPortalManager.h"
 #include "INetMsgHandler.h"
 
 #include "libutility.h"
@@ -35,6 +34,8 @@
 #include <QString>
 #include <QHostAddress>
 #include <QList>
+
+class NetPortalManager;
 
 class Gateway: public QThread
 {

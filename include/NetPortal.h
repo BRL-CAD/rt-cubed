@@ -28,7 +28,6 @@
 
 #include "NetMsgTypes.h"
 #include "NetMsg.h"
-#include "NetMsgFactory.h"
 #include "RemoteGSHostnameSetMsg.h"
 
 #include "libutility.h"
@@ -40,6 +39,7 @@
 
 class INetMsgHandler;
 class NetPortalManager;
+class NetMsgFactory;
 
 class NetPortal: public QObject, public EventPublisher
 {

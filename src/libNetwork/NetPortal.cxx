@@ -25,6 +25,7 @@
 
 #include "NetPortal.h"
 #include "NetPortalManager.h"
+#include "NetMsgFactory.h"
 
 #include <QHostAddress>
 

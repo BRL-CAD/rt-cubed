@@ -24,6 +24,7 @@
  */
 
 #include "Gateway.h"
+#include "NetPortalManager.h"
 
 Gateway::Gateway(QString gsHostname, INetMsgHandler* handler)
 {
