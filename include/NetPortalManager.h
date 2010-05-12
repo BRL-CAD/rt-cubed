@@ -44,7 +44,7 @@ class NetPortalManager: public QTcpServer
 Q_OBJECT
 
 public:
-	NetPortalManager(QString GSHostname, QObject* parent = 0);
+	NetPortalManager(QString GSHostname, INetMsgHandler* handler, QObject* parent = 0);
 	~NetPortalManager();
 
 	QString getLocalGSHostname();
@@ -52,8 +52,6 @@ public:
 	NetPortal* getPortalByRemoteGSHostname(QString remHostname);
 	void localLog(QString str);
 
-	INetMsgHandler* getNetMsgHandler();
-	void setNetMsgHandler(INetMsgHandler* handler);
 
 protected:
 	void incomingConnection(int socketDescriptor);

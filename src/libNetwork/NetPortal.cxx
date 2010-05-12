@@ -29,23 +29,24 @@
 
 #include <QHostAddress>
 
-NetPortal::NetPortal(NetPortalManager* nspm)
+NetPortal::NetPortal(NetPortalManager* nspm, INetMsgHandler* handler)
 {
-	this->constructorCommon(nspm);
+	this->constructorCommon(nspm, handler);
 	this->handshakeStatus = NotConnected;
 }
 
-NetPortal::NetPortal(NetPortalManager* nspm, int socketDescriptor)
+NetPortal::NetPortal(NetPortalManager* nspm, INetMsgHandler* handler, int socketDescriptor)
 {
-	this->constructorCommon(nspm);
+	this->constructorCommon(nspm, handler);
 	this->handshakeStatus = Handshaking;
 	this->sock->setSocketDescriptor(socketDescriptor);
 }
 
-void NetPortal::constructorCommon(NetPortalManager* nspm)
+void NetPortal::constructorCommon(NetPortalManager* nspm, INetMsgHandler* handler)
 {
 	this->log = Logger::getInstance();
 	this->nspm = nspm;
+	this->handler = handler;
 	this->sock = new QTcpSocket();
 	this->factory = new NetMsgFactory();
 
@@ -162,9 +163,7 @@ void NetPortal::attemptToBuildMsg()
 					break;
 				}
 
-				if (this->handler) {
-				    this->handler->handleNetMsg(msg, this);
-				}
+				this->handler->handleNetMsg(msg, this);
 
 				//TODO replace this with the GS's Event System.
 				//Normally, just emit a signal.
@@ -292,16 +291,6 @@ QString NetPortal::getRemoteGSHostname()
 bool NetPortal::isOpen() {
     return this->sock->isOpen();
 }
-
-INetMsgHandler* NetPortal::getNetMsgHandler()
-{
-    return this->handler;
-}
-void NetPortal::setNetMsgHandler(INetMsgHandler* handler)
-{
-    this->handler = handler;
-}
-
 
 // Local Variables: ***
 // mode: C++ ***

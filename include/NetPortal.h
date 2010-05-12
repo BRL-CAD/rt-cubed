@@ -43,8 +43,8 @@ class NetPortal: public QObject
 Q_OBJECT
 
 public:
-	NetPortal(NetPortalManager* parent);
-	NetPortal(NetPortalManager* parent, int socketDescriptor);
+	NetPortal(NetPortalManager* parent, INetMsgHandler* handler);
+	NetPortal(NetPortalManager* parent, INetMsgHandler* handler, int socketDescriptor);
 	virtual ~NetPortal();
 
 	void connectToNetHost(QString netHostname, quint16 port);
@@ -62,9 +62,6 @@ public:
 	QString getRemoteGSHostname();
 
 	bool isOpen();
-
-	INetMsgHandler* getNetMsgHandler();
-	void setNetMsgHandler(INetMsgHandler* handler);
 
 	enum HandshakeStatus
 	{
@@ -98,7 +95,7 @@ private:
 	Logger* log;
 	INetMsgHandler* handler;
 
-	void constructorCommon(NetPortalManager* nspm);
+	void constructorCommon(NetPortalManager* nspm, INetMsgHandler* handler);
 	void updateHandshakeStatus(HandshakeStatus newStatus);
 };
 
