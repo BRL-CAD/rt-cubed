@@ -71,7 +71,8 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	Gateway.h
     NetMsgTypes.h
     INetMsgHandler.h
-    NetMsg.h
+	NetMsgFactory.h
+	NetMsg.h
 	TypeOnlyMsg.h
 	RemoteGSHostnameSetMsg.h
 	GenericOneStringMsg.h
@@ -92,7 +93,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 #Set NOINST headers
 RT3_PROJECT_ADD_NOINST_HEADERS(
 	NetPortalManager.h
-	NetMsgFactory.h
+
 )
 
 #Set QT INST headers
