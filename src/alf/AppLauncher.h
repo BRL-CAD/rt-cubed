@@ -29,11 +29,12 @@
 #include <QString>
 #include <QUuid>
 
-class AppLauncher {
+class AppLauncher
+{
 
 public:
-	AppLauncher();
-	virtual ~AppLauncher();
+    AppLauncher();
+    virtual ~AppLauncher();
 
 private:
 

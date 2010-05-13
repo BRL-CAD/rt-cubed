@@ -25,7 +25,6 @@
 
 #include "BaseApp.h"
 
-
 BaseApp::BaseApp(int& argc, char* argv[]) :
     QCoreApplication(argc, argv)
 {

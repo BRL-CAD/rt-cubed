@@ -26,15 +26,18 @@
 #include <iostream>
 #include "AppLauncher.h"
 
-int main(int argc, char* argv[]) {
-	std::cout << "App Launcher";
-	return 0;
+int main(int argc, char* argv[])
+{
+    std::cout << "App Launcher";
+    return 0;
 }
 
-AppLauncher::AppLauncher() {
+AppLauncher::AppLauncher()
+{
 }
 
-AppLauncher::~AppLauncher() {
+AppLauncher::~AppLauncher()
+{
 }
 
 // Local Variables: ***
