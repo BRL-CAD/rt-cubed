@@ -187,6 +187,23 @@ NetMsg* NetMsgFactory::buildMsgByType(quint32 type, QDataStream* qds,
 	QString portalName)
 {
     switch (type) {
+
+    case TEST_GENERIC_4BYTE_MSG:
+	return new GenericFourBytesMsg(qds, portalName);
+
+    case TEST_GENERIC_2BYTE_MSG:
+	return new GenericTwoBytesMsg(qds, portalName);
+
+    case TEST_GENERIC_1BYTE_MSG:
+	return new GenericOneByteMsg(qds, portalName);
+
+    case TEST_GENERIC_MULTIBYTE_MSG:
+	return new GenericMultiByteMsg(qds, portalName);
+
+    case TEST_GENERIC_1STRING_MSG:
+	return new GenericOneStringMsg(qds, portalName);
+
+
     case FAILURE:
 	return new GenericOneByteMsg(qds, portalName);
     case SUCCESS:

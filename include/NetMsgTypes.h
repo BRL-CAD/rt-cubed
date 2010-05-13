@@ -28,8 +28,16 @@
 
 /*  NetMsg Types */
 
-#define	FAILURE          	0
-#define	SUCCESS          	5
+#define	TEST_GENERIC_4BYTE_MSG	20
+#define	TEST_GENERIC_2BYTE_MSG	21
+#define	TEST_GENERIC_1BYTE_MSG	22
+#define	TEST_GENERIC_MULTIBYTE_MSG	23
+
+#define	TEST_GENERIC_1STRING_MSG	24
+
+
+#define	FAILURE			50
+#define	SUCCESS          	51
 
 #define REMGSHOSTNAMESET	100
 
