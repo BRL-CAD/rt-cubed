@@ -54,8 +54,8 @@ protected:
 	QString getStrData();
 	QString strData;
 
-	bool _serialize(QDataStream* ds);
-	bool _equals(NetMsg& msg);
+	virtual bool _serialize(QDataStream* ds);
+	virtual bool _equals(const NetMsg& msg);
 };
 
 #endif

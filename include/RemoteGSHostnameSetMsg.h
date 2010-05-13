@@ -46,6 +46,7 @@ public:
 	virtual ~RemoteGSHostnameSetMsg();
 
 	QString getRemoteGSHostname();
+
 };
 
 #endif //__REMOTEGSHOSTNAMESETMSG_H__

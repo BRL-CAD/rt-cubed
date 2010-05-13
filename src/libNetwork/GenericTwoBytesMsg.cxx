@@ -68,7 +68,7 @@ QString GenericTwoBytesMsg::toString()
     return out;
 }
 
-bool GenericTwoBytesMsg::_equals(NetMsg& msg)
+bool GenericTwoBytesMsg::_equals(const NetMsg& msg)
 {
     GenericTwoBytesMsg& gmsg = (GenericTwoBytesMsg&) msg;
 

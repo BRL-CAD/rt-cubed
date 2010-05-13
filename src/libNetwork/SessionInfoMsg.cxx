@@ -68,7 +68,7 @@ QString SessionInfoMsg::toString()
     return out;
 }
 
-bool SessionInfoMsg::_equals(NetMsg& msg)
+bool SessionInfoMsg::_equals(const NetMsg& msg)
 {
     SessionInfoMsg& gmsg = (SessionInfoMsg&) msg;
 

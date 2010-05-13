@@ -58,7 +58,7 @@ protected:
 	char* data;
 
 	virtual bool _serialize(QDataStream* ds);
-	virtual bool _equals(NetMsg& msg);
+	virtual bool _equals(const NetMsg& msg);
 };
 
 #endif

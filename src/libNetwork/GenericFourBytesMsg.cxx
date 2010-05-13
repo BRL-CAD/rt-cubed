@@ -68,7 +68,7 @@ QString GenericFourBytesMsg::toString()
     return out;
 }
 
-bool GenericFourBytesMsg::_equals(NetMsg& msg)
+bool GenericFourBytesMsg::_equals(const NetMsg& msg)
 {
     GenericFourBytesMsg& gmsg = (GenericFourBytesMsg&) msg;
 

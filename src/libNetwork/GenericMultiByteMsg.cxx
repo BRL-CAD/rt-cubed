@@ -100,7 +100,7 @@ QString GenericMultiByteMsg::toString()
     return out;
 }
 
-bool GenericMultiByteMsg::_equals(NetMsg& msg)
+bool GenericMultiByteMsg::_equals(const NetMsg& msg)
 {
     GenericMultiByteMsg& gmsg = (GenericMultiByteMsg&) msg;
 

@@ -76,7 +76,7 @@ bool GeometryManifestMsg::_serialize(QDataStream* ds)
     return true;
 }
 
-bool GeometryManifestMsg::_equals(NetMsg& msg)
+bool GeometryManifestMsg::_equals(const NetMsg& msg)
 {
     GeometryManifestMsg& gmsg = (GeometryManifestMsg&) msg;
 

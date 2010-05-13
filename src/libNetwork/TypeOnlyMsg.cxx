@@ -54,8 +54,9 @@ bool TypeOnlyMsg::_serialize(QDataStream* ds)
 {
     return true;
 }
-bool TypeOnlyMsg::_equals(NetMsg& msg)
+bool TypeOnlyMsg::_equals(const NetMsg& msg)
 {
+    Logger::getInstance()->logINFO("TypeOnlyMsg", "In _equals");
     return true;
 }
 

@@ -71,7 +71,7 @@ QString GeometryReqMsg::toString()
     return out;
 }
 
-bool GeometryReqMsg::_equals(NetMsg& msg)
+bool GeometryReqMsg::_equals(const NetMsg& msg)
 {
     GeometryReqMsg& gmsg = (GeometryReqMsg&) msg;
 

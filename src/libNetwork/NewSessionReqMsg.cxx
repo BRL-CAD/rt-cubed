@@ -72,7 +72,7 @@ QString NewSessionReqMsg::toString()
     return out;
 }
 
-bool NewSessionReqMsg::_equals(NetMsg& msg)
+bool NewSessionReqMsg::_equals(const NetMsg& msg)
 {
     NewSessionReqMsg& gmsg = (NewSessionReqMsg&) msg;
 

@@ -58,7 +58,7 @@ private:
 	quint8 reqType;
 
 	bool _serialize(QDataStream* ds);
-	bool _equals(NetMsg& msg);
+	bool _equals(const NetMsg& msg);
 };
 
 #endif

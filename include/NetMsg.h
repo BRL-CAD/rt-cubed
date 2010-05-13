@@ -67,10 +67,10 @@ public:
 	 */
 	virtual QString toString();
 	virtual std::string toStdString();
-	virtual bool equals(const NetMsg& other) const;
+	virtual bool equals(const NetMsg& other);
 	void printMe();
 
-	bool operator== (const NetMsg& other) const;
+	bool operator== (const NetMsg& other);
 
 protected:
 	quint32 msgLen;
@@ -81,7 +81,7 @@ protected:
 	QString origin;
 
 	virtual bool _serialize(QDataStream* ds) = 0;
-	virtual bool _equals(const NetMsg& msg) const;
+	virtual bool _equals(const NetMsg& msg) = 0;
 
 private:
 	/* Disable Default Constructor */

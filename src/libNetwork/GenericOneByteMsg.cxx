@@ -68,7 +68,7 @@ QString GenericOneByteMsg::toString()
     return out;
 }
 
-bool GenericOneByteMsg::_equals(NetMsg& msg)
+bool GenericOneByteMsg::_equals(const NetMsg& msg)
 {
     GenericOneByteMsg& gmsg = (GenericOneByteMsg&) msg;
     return (this->getData() == gmsg.getData());

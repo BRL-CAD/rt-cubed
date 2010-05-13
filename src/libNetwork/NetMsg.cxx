@@ -157,28 +157,31 @@ QUuid NetMsg::getReUUID()  const
  * Utilities
  */
 
-bool NetMsg::operator== (const NetMsg& other) const
+bool NetMsg::operator== (const NetMsg& other)
 {
     return this->equals(other);
 }
 
-
-bool NetMsg::equals(const NetMsg& other) const
+bool NetMsg::equals(const NetMsg& other)
 {
     if (this->getMsgType() != other.getMsgType()) {
+	Logger::getInstance()->logINFO("NetMsg", "Failed on Type");
 	return false;
     }
 
     if (this->getMsgUUID() != other.getMsgUUID()) {
+	Logger::getInstance()->logINFO("NetMsg", "Failed on UUID");
 	return false;
     }
 
     if (this->msgHasReUUID() != other.msgHasReUUID()) {
+	Logger::getInstance()->logINFO("NetMsg", "Failed on HasReUUID");
 	return false;
     }
 
     if (this->msgHasReUUID()) {
 	if (this->getReUUID() != other.getReUUID()) {
+		Logger::getInstance()->logINFO("NetMsg", "Failed on ReUUID");
 	    return false;
 	}
     }
@@ -186,10 +189,7 @@ bool NetMsg::equals(const NetMsg& other) const
     return this->_equals(other);
 }
 
-bool NetMsg::_equals(const NetMsg& msg) const
-{
-    return false;
-}
+
 
 QString NetMsg::toString()
 {
