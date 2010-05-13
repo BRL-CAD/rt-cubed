@@ -35,7 +35,7 @@ FailureMsg::FailureMsg(quint8 failureCode):
 
 /* Reply Constructor */
 FailureMsg::FailureMsg(NetMsg* msg, quint8 failureCode) :
-  GenericOneByteMsg(SESSIONINFO, msg, failureCode)
+  GenericOneByteMsg(FAILURE, msg, failureCode)
 {
 }
 
