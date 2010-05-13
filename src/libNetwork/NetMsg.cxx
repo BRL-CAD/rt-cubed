@@ -165,31 +165,25 @@ bool NetMsg::operator== (const NetMsg& other)
 bool NetMsg::equals(const NetMsg& other)
 {
     if (this->getMsgType() != other.getMsgType()) {
-	Logger::getInstance()->logINFO("NetMsg", "Failed on Type");
 	return false;
     }
 
     if (this->getMsgUUID() != other.getMsgUUID()) {
-	Logger::getInstance()->logINFO("NetMsg", "Failed on UUID");
 	return false;
     }
 
     if (this->msgHasReUUID() != other.msgHasReUUID()) {
-	Logger::getInstance()->logINFO("NetMsg", "Failed on HasReUUID");
 	return false;
     }
 
     if (this->msgHasReUUID()) {
 	if (this->getReUUID() != other.getReUUID()) {
-		Logger::getInstance()->logINFO("NetMsg", "Failed on ReUUID");
 	    return false;
 	}
     }
 
     return this->_equals(other);
 }
-
-
 
 QString NetMsg::toString()
 {

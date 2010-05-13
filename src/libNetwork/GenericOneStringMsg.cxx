@@ -69,8 +69,6 @@ QString GenericOneStringMsg::toString()
 
 bool GenericOneStringMsg::_equals(const NetMsg& msg)
 {
-    Logger::getInstance()->logINFO("GenericOneStringMsg", "In _equals");
-
     GenericOneStringMsg& gmsg = (GenericOneStringMsg&) msg;
 
     if (this->getStrData() != gmsg.getStrData()) {
