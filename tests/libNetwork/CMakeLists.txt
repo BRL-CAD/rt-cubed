@@ -75,7 +75,6 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 RT3_PROJECT_ADD_LIBS(
     network
     utility
-    job
     ${QT_LIBRARIES}
 )
 
