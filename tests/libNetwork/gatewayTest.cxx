@@ -23,7 +23,8 @@
  *
  */
 
-#include "NetPortalManagerTester.h"
+#include "libnetwork.h"
+#include "libutility.h"
 #include "PrintingMsgHandler.h"
 
 #include <QCoreApplication>
@@ -38,8 +39,14 @@
  * =====================
  */
 
+
+
 int main(int argc, char* argv[])
 {
+    Logger* log = Logger::getInstance();
+
+    log->logBANNER("GatewayTest","GatewayTest");
+
     //Setup
     QHostAddress serverAddy = QHostAddress::LocalHost;
     quint16 serverPort = 6000;
