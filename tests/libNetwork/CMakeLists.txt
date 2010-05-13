@@ -106,6 +106,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS()
 #Set Libs
 RT3_PROJECT_ADD_LIBS( 
     network
+    alf
 )
 
 #set Source files

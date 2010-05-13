@@ -48,11 +48,12 @@ RT3_PROJECT_ADD_SOURCES (
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
     BaseApp.h
+    AppLauncher.h
 )
 
 #Set NOINST headers
 RT3_PROJECT_ADD_NOINST_HEADERS(
-    AppLauncher.h
+
 )
 
 #Set QT INST headers

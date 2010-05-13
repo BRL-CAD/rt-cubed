@@ -26,17 +26,23 @@
 #ifndef __BASEAPP_H__
 #define __BASEAPP_H__
 
-#include <QCoreApplication>
+#include <QThread>
 #include "libutility.h"
 
-class BaseApp: public QCoreApplication
+class BaseApp: public QThread
 {
 public:
-    BaseApp(int& argc, char* argv[]);
+    BaseApp();
     virtual ~BaseApp();
+
+    void run();
+    void stop(int exitCode = 0);
 
 protected:
     Logger* log;
+
+    /* Force subclasses to implement _run() */
+    virtual int _run() = 0;
 };
 
 #endif /* __BASEAPP_H__ */

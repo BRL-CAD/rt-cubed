@@ -26,13 +26,8 @@
 #include <iostream>
 #include "AppLauncher.h"
 
-int main(int argc, char* argv[])
-{
-    std::cout << "App Launcher";
-    return 0;
-}
-
-AppLauncher::AppLauncher()
+AppLauncher::AppLauncher(int& argc, char** argv, BaseApp* app) :
+QCoreApplication(argc, argv), _app(app)
 {
 }
 
@@ -40,6 +35,18 @@ AppLauncher::~AppLauncher()
 {
 }
 
+int AppLauncher::exec()
+{
+    /* Fire off the thread prior to entering the event loop */
+    this->_app->start();
+    return QCoreApplication::exec();
+}
+
+void AppLauncher::exit(int exitCode)
+{
+    Logger::getInstance()->logINFO("AppLauncher", "Stop CMD received.");
+    QCoreApplication::exit(exitCode);
+}
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

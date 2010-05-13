@@ -24,18 +24,30 @@
  */
 
 #include "BaseApp.h"
+#include "AppLauncher.h"
 
-BaseApp::BaseApp(int& argc, char* argv[]) :
-    QCoreApplication(argc, argv)
+BaseApp::BaseApp() : QThread()
 {
     //Make sure the logger is initialized
     this->log = Logger::getInstance();
-
 }
 
 BaseApp::~BaseApp()
 {
-    // TODO Auto-generated destructor stub
+}
+
+void BaseApp::run()
+{
+    this->log->logINFO("BaseApp", "Run CMD received.");
+    this->_run();
+    //this->exec();
+    AppLauncher::exit(0);
+}
+
+void BaseApp::stop(int exitCode)
+{
+    this->log->logINFO("BaseApp", "Stop CMD received.");
+    this->exit(exitCode);
 }
 
 // Local Variables:

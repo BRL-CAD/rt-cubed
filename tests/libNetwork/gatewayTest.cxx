@@ -25,11 +25,67 @@
 
 #include "libnetwork.h"
 #include "libutility.h"
+#include "libalf.h"
 #include "PrintingMsgHandler.h"
 
 #include <QCoreApplication>
 #include <QHostAddress>
 
+
+class GatewayTest: public BaseApp
+{
+public:
+    GatewayTest() :
+	BaseApp()
+    {
+	this->log->logBANNER("GatewayTest", "GatewayTest");
+
+	this->serverAddy = new QHostAddress(QHostAddress::LocalHost);
+	this->serverPort = 6000;
+
+	this->clientAddy = new QHostAddress(QHostAddress::LocalHost);
+	this->clientPort = 7000;
+
+	this->serverMsgHandler = new PrintingMsgHandler("ServerHandler");
+	this->serverGate = new Gateway("ImaServer", this->serverMsgHandler);
+
+	this->clientMsgHandler = new PrintingMsgHandler("ClientHandler");
+	this->clientGate = new Gateway("ImaClient", this->clientMsgHandler);
+    }
+    ~GatewayTest()
+    {
+    }
+
+protected:
+    int _run()
+    {
+	this->log->logINFO("GatewayTest", "Starting Server Gateway");
+
+	//Startup the server
+	serverGate->start();
+	serverGate->listen(*serverAddy, serverPort);
+
+	ThreadUtils::sleep(2);
+
+	serverGate->stopListening();
+
+	return 0;
+    }
+
+private:
+    QHostAddress* serverAddy;
+    quint16 serverPort;
+
+    QHostAddress* clientAddy;
+    quint16 clientPort;
+
+    PrintingMsgHandler* serverMsgHandler;
+    Gateway* serverGate;
+
+    PrintingMsgHandler* clientMsgHandler;
+    Gateway* clientGate;
+
+};
 
 /* 
  * =====================
@@ -40,39 +96,12 @@
  */
 
 
-
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
-    Logger* log = Logger::getInstance();
-
-    log->logBANNER("GatewayTest","GatewayTest");
-
-    //Setup
-    QHostAddress serverAddy = QHostAddress::LocalHost;
-    quint16 serverPort = 6000;
-
-    QHostAddress clientAddy = QHostAddress::LocalHost;
-    quint16 clientPort = 7000;
-
-    PrintingMsgHandler serverMsgHandler("ServerHandler");
-    Gateway serverGate("ImaServer", &serverMsgHandler);
-
-    PrintingMsgHandler clientMsgHandler("ClientHandler");
-    Gateway clientGate("ImaClient", &clientMsgHandler);
-
-    //Startup the server
-    serverGate.start();
-    serverGate.listen(serverAddy, serverPort);
-
-    ThreadUtils::sleep(2);
-
-
-    clientGate.stop();
-    serverGate.stopListening();
-
-    return 0;
+    GatewayTest* app = new GatewayTest();
+    AppLauncher al(argc, argv, app);
+    return al.exec();
 }
-
 
 // Local Variables:
 // tab-width: 8

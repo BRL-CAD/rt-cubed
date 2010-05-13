@@ -26,18 +26,23 @@
 #ifndef __APPLAUNCHER_H__
 #define __APPLAUNCHER_H__
 
+#include "BaseApp.h"
+
+#include <QCoreApplication>
 #include <QString>
 #include <QUuid>
 
-class AppLauncher
+class AppLauncher: public QCoreApplication
 {
 
 public:
-    AppLauncher();
+    AppLauncher(int& argc, char** argv, BaseApp* app);
     virtual ~AppLauncher();
+    int exec();
+    static void exit(int exitCode = 0);
 
 private:
-
+    BaseApp* _app;
 };
 
 #endif /* __APPLAUNCHER_H__ */
