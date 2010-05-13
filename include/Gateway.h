@@ -47,7 +47,7 @@ public:
     void stop();
 
     void listen(QHostAddress address, ushort port);
-    void stopListening(QHostAddress address, ushort port);
+    void stopListening();
 
     QList<QString>
     getConnectedHostList();

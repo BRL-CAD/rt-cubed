@@ -39,11 +39,13 @@ Gateway::~Gateway()
 
 void Gateway::run()
 {
+    this->log->logINFO("Gateway", "Run CMD received.");
     this->exec();
 }
 
 void Gateway::stop()
 {
+    this->log->logINFO("Gateway", "Stop CMD received.");
     this->quit();
 }
 
@@ -56,13 +58,13 @@ void Gateway::listen(QHostAddress address, ushort port)
     this->portMan->listen(address, port);
 }
 
-void Gateway::stopListening(QHostAddress address, ushort port)
+void Gateway::stopListening()
 {
     if (this->isRunning() == false) {
         this->log->logINFO("Gateway", "Attempted to stop listening on a Gateway that is not running.");
         return;
     }
-
+    this->portMan->close();
 }
 
 QList<QString> Gateway::getConnectedHostList()
