@@ -24,8 +24,11 @@
  */
 
 #include "NetPortalManagerTester.h"
+#include "PrintingMsgHandler.h"
 
 #include <QCoreApplication>
+#include <QHostAddress>
+
 
 /* 
  * =====================
@@ -38,32 +41,29 @@
 int main(int argc, char* argv[])
 {
     //Setup
-    QHostAddress netMan01Addy = QHostAddress::LocalHost;
-    quint16 netMan01Port = 6000;
+    QHostAddress serverAddy = QHostAddress::LocalHost;
+    quint16 serverPort = 6000;
 
-    QHostAddress netMan02Addy = QHostAddress::LocalHost;
-    quint16 netMan02Port = 7000;
+    QHostAddress clientAddy = QHostAddress::LocalHost;
+    quint16 clientPort = 7000;
 
-    //Core app
-    QCoreApplication coreApp(argc, argv);
+    PrintingMsgHandler serverMsgHandler("ServerHandler");
+    Gateway serverGate("ImaServer", &serverMsgHandler);
 
-    NetPortalManager netMan01("Gomer");
-    NetPortalManager netMan02("Kiaser");
+    PrintingMsgHandler clientMsgHandler("ClientHandler");
+    Gateway clientGate("ImaClient", &clientMsgHandler);
 
-    NetPortalManagerTester npmt01(&netMan01);
-    NetPortalManagerTester npmt02(&netMan02);
+    //Startup the server
+    serverGate.start();
+    serverGate.listen(serverAddy, serverPort);
 
-    netMan01.listen(netMan01Addy, netMan01Port);
-    netMan02.listen(netMan02Addy, netMan02Port);
+    ThreadUtils::sleep(2);
 
-    //Connect to netMan02
-    NetPortal* np01 = npmt01.getNewPortal();
-    NetPortal* np02 = npmt02.getNewPortal();
-    np01->connectToNetHost(netMan02Addy, netMan02Port);
 
-    np01->quickSend(12345677);
+    clientGate.stop();
+    serverGate.stopListening();
 
-    return coreApp.exec();
+    return 0;
 }
 
 
