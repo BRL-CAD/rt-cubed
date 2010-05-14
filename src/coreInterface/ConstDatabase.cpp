@@ -39,6 +39,7 @@
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
 #include <brlcad/Particle.h>
+#include <brlcad/Hyperboloid.h>
 #include <brlcad/EllipticalTorus.h>
 #include <brlcad/Combination.h>
 #include <brlcad/Unknown.h>
@@ -284,6 +285,10 @@ void ConstDatabase::Get
 
                         case ID_PARTICLE: // 16
                             callback(Particle(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
+
+                        case ID_EHY: // 20
+                            callback(Hyperboloid(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
                         case ID_ETO: // 21

@@ -38,6 +38,7 @@
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
 #include <brlcad/Particle.h>
+#include <brlcad/Hyperboloid.h>
 #include <brlcad/EllipticalTorus.h>
 #include <brlcad/Combination.h>
 #include <brlcad/Database.h>
@@ -149,6 +150,16 @@ bool Database::Add
 
                 BU_GETSTRUCT(rtInternal, rt_part_internal);
                 memcpy(rtInternal, particle->Internal(), sizeof(rt_part_internal));
+            }
+            else if (object.Type() == Hyperboloid::ClassName()) {
+                id = ID_EHY; // 20
+
+                const Hyperboloid* hyperboloid = dynamic_cast<const Hyperboloid*>(&object);
+
+                assert(hyperboloid != 0);
+
+                BU_GETSTRUCT(rtInternal, rt_ehy_internal);
+                memcpy(rtInternal, hyperboloid->Internal(), sizeof(rt_ehy_internal));
             }
             else if (object.Type() == EllipticalTorus::ClassName()) {
                 id = ID_ETO; // 21

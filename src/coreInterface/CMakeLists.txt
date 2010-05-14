@@ -1,23 +1,23 @@
 #########################################################################
 #
 #	BRL-CAD
-#	
+#
 #	Copyright (c) 2010 United States Government as represented by
 #	the U.S. Army Research Laboratory.
-#	
+#
 #	This library is free software; you can redistribute it and/or
 #	modify it under the terms of the GNU Lesser General Public License
 #	version 2.1 as published by the Free Software Foundation.
-#	
+#
 #	This library is distributed in the hope that it will be useful, but
 #	WITHOUT ANY WARRANTY; without even the implied warranty of
 #	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 #	Lesser General Public License for more details.
-#	
+#
 #	You should have received a copy of the GNU Lesser General Public
 #	License along with this file; see the file named COPYING for more
 #	information.
-#	
+#
 #########################################################################
 #	@file rt^3/src/coreInterface/CMakeLists.txt
 #
@@ -45,9 +45,9 @@ ENDIF(BRLCAD_VERSION)
 
 if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 
-    SET(PROJ_INCLUDE_DIRS 
+    SET(PROJ_INCLUDE_DIRS
         ${GLOBAL_INCLUDE_DIRS}
-		${BRLCAD_INCLUDE_DIRS}/openNURBS       
+		${BRLCAD_INCLUDE_DIRS}/openNURBS
     )
 
 	INCLUDE_DIRECTORIES(${PROJ_INCLUDE_DIRS} )
@@ -57,22 +57,23 @@ if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 
 	set(LIBCOREINTERFACE_SOURCES
 		Arb8.cpp
+		Combination.cpp
 		Cone.cpp
+		ConstDatabase.cpp
 		Database.cpp
+		Ellipsoid.cpp
 		EllipticalTorus.cpp
+		FileDatabase.cpp
 		globals.cpp
+		Halfspace.cpp
+		Hyperboloid.cpp
 		MemoryDatabase.cpp
+		Object.cpp
 		Particle.cpp
 		Torus.cpp
-		Combination.cpp
-		ConstDatabase.cpp
-		Ellipsoid.cpp
-		FileDatabase.cpp
-		Halfspace.cpp
-		Object.cpp
 		Unknown.cpp
 	)
-	
+
 	#Temporary fix fo the types.h vs unistd.h vs stdint.h vs pstdint.h declaration conflicts
 	#SET_SOURCE_FILES_PROPERTIES(${LIBCOREINTERFACE_SOURCES} PROPERTIES COMPILE_FLAGS "-DHAVE_STDINT_H")
 
