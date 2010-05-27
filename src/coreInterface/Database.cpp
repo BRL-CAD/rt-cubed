@@ -38,6 +38,7 @@
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
 #include <brlcad/Particle.h>
+#include <brlcad/Paraboloid.h>
 #include <brlcad/Hyperboloid.h>
 #include <brlcad/EllipticalTorus.h>
 #include <brlcad/Combination.h>
@@ -150,6 +151,16 @@ bool Database::Add
 
                 BU_GETSTRUCT(rtInternal, rt_part_internal);
                 memcpy(rtInternal, particle->Internal(), sizeof(rt_part_internal));
+            }
+            else if (object.Type() == Paraboloid::ClassName()) {
+                id = ID_EPA; // 19
+
+                const Paraboloid* paraboloid = dynamic_cast<const Paraboloid*>(&object);
+
+                assert(paraboloid != 0);
+
+                BU_GETSTRUCT(rtInternal, rt_epa_internal);
+                memcpy(rtInternal, paraboloid->Internal(), sizeof(rt_epa_internal));
             }
             else if (object.Type() == Hyperboloid::ClassName()) {
                 id = ID_EHY; // 20

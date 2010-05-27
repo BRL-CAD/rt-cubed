@@ -69,6 +69,7 @@ if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 		Hyperboloid.cpp
 		MemoryDatabase.cpp
 		Object.cpp
+		Paraboloid.cpp
 		Particle.cpp
 		Torus.cpp
 		Unknown.cpp
