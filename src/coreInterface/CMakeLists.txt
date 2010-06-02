@@ -66,6 +66,7 @@ if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 		FileDatabase.cpp
 		globals.cpp
 		Halfspace.cpp
+		HyperbolicCylinder.cpp
 		Hyperboloid.cpp
 		MemoryDatabase.cpp
 		Object.cpp
