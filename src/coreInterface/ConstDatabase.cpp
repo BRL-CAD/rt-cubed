@@ -39,6 +39,7 @@
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
 #include <brlcad/Particle.h>
+#include <brlcad/ParabolicCylinder.h>
 #include <brlcad/HyperbolicCylinder.h>
 #include <brlcad/Paraboloid.h>
 #include <brlcad/Hyperboloid.h>
@@ -287,6 +288,10 @@ void ConstDatabase::Get
 
                         case ID_PARTICLE: // 16
                             callback(Particle(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
+
+                        case ID_RPC: // 17
+                            callback(ParabolicCylinder(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
                         case ID_RHC: // 18

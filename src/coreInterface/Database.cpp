@@ -38,6 +38,7 @@
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
 #include <brlcad/Particle.h>
+#include <brlcad/ParabolicCylinder.h>
 #include <brlcad/HyperbolicCylinder.h>
 #include <brlcad/Paraboloid.h>
 #include <brlcad/Hyperboloid.h>
@@ -152,6 +153,16 @@ bool Database::Add
 
                 BU_GETSTRUCT(rtInternal, rt_part_internal);
                 memcpy(rtInternal, particle->Internal(), sizeof(rt_part_internal));
+            }
+            else if (object.Type() == ParabolicCylinder::ClassName()) {
+                id = ID_RPC; // 17
+
+                const ParabolicCylinder* parabolicCylinder = dynamic_cast<const ParabolicCylinder*>(&object);
+
+                assert(parabolicCylinder != 0);
+
+                BU_GETSTRUCT(rtInternal, rt_rpc_internal);
+                memcpy(rtInternal, parabolicCylinder->Internal(), sizeof(rt_rpc_internal));
             }
             else if (object.Type() == HyperbolicCylinder::ClassName()) {
                 id = ID_RHC; // 18
