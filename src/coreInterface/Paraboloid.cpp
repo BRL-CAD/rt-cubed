@@ -278,7 +278,7 @@ double          semiMinorAxisLength
 const Object& Paraboloid::operator=
 (
     const Object& original
-) throw() {
+) throw(bad_alloc) {
     const Paraboloid* epa = dynamic_cast<const Paraboloid*>(&original);
     assert(epa != 0);
 
