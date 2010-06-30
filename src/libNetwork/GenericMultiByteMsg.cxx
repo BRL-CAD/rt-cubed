@@ -25,6 +25,7 @@
 
 #include "GenericMultiByteMsg.h"
 #include <sstream>
+#include <cstdlib>
 
 /* Normal Constructor */
 GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, char* dataIn,
