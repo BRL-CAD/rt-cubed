@@ -27,7 +27,7 @@
 #
 #########################################################################
 
-PROJECT(COREINTERFACE)
+RT3_PROJECT(coreinterface)
 
 IF(BRLCAD_VERSION)
 	STRING(REGEX REPLACE "([0-9]+)\\.[0-9]+\\.[0-9]+" "\\1" BRLCAD_MAJOR_VERSION "${BRLCAD_VERSION}")
@@ -44,18 +44,18 @@ ENDIF(BRLCAD_VERSION)
 
 
 if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
+	#Set Include Dirs
+	RT3_PROJECT_ADD_INCLUDE_DIRS(
+	    ${BRLCAD_INCLUDE_DIRS}
+	)
 
-    SET(PROJ_INCLUDE_DIRS
-        ${GLOBAL_INCLUDE_DIRS}
-		${BRLCAD_INCLUDE_DIRS}/openNURBS
-    )
+	#Set Libs
+	RT3_PROJECT_ADD_LIBS(
+	    ${BRLCAD_LIBRARIES}
+	)
 
-	INCLUDE_DIRECTORIES(${PROJ_INCLUDE_DIRS} )
-
-    #Print
-    INCLUDE (${CMAKE_MODULE_PATH}/ProjectPrinter.cmake)
-
-	set(LIBCOREINTERFACE_SOURCES
+	#set Source files
+	RT3_PROJECT_ADD_SOURCES (
 		Arb8.cpp
 		Combination.cpp
 		Cone.cpp
@@ -80,9 +80,8 @@ if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 	#Temporary fix fo the types.h vs unistd.h vs stdint.h vs pstdint.h declaration conflicts
 	#SET_SOURCE_FILES_PROPERTIES(${LIBCOREINTERFACE_SOURCES} PROPERTIES COMPILE_FLAGS "-DHAVE_STDINT_H")
 
-	ADD_LIBRARY (coreInterface SHARED ${LIBCOREINTERFACE_SOURCES})
-
-	MESSAGE(STATUS "\tConfiguration for '${PROJECT_NAME}'... Done.")
+	#Build the project
+	RT3_PROJECT_BUILD_LIB()
 ELSE(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 	MESSAGE(STATUS "\tConfiguration for '${PROJECT_NAME}'...  Omitted.")
 ENDIF(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
