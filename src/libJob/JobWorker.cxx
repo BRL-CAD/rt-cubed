@@ -49,31 +49,33 @@ void JobWorker::run()
 
     this->status = WORKER_READY;
 
-    //TODO there must be a more dynamic way to have the workers idle other than a sleep
+    //TODO There MUST be a more dynamic way to have the workers idle other than a sleep
+    //NOTE Semaphore perhaps?  QT Signal?
     while (this->runCmd) {
+    	this->status = WORKER_READY;
+    	if (!jm->hasNextJob()) {
+    		//TODO put the 100ms sleep into preferences, or make it dynamic.
+    		this->msleep(100);
 
-	this->status = WORKER_READY;
-	if (!jm->hasJobsToWork()) {
-	    this->msleep(100);
-	}
-	else {
-	    this->status = WORKER_WORKING;
-	    AbstractJob* job = jm->getNextJob();
+    	} else {
+    		this->status = WORKER_WORKING;
+    		AbstractJob* job = jm->getNextJob();
 
-	    if (job == NULL) {
-		continue;
-	    }
+    		if (job == NULL) {
+    			//TODO put in an error trap here.  jm->hasNextJob() returned TRUE, but the job returned was NULL?!
+				continue;
+    		}
 
-//	    QString text = "JobWorker " + this->getWorkerIdAsQString()
+//	   	 	QString text = "JobWorker " + this->getWorkerIdAsQString()
 //		    + " is working Job with ID of " + QString::number(job->getJobId());
-//	    this->log->logINFO("JobWorker", text);
+//	   		 this->log->logINFO("JobWorker", text);
 
-	    JobResult result = job->doJob();
+    		JobResult result = job->doJob();
 
-	    //TODO log the result?
+    		//TODO log the result of the job for debugging?
+    	}
+    	this->status = WORKER_READY;
 
-	}
-	this->status = WORKER_READY;
     }
     this->status = WORKER_NOTREADY;
 }
@@ -95,12 +97,12 @@ QUuid JobWorker::getWorkerId()
 
 QString JobWorker::getWorkerIdAsQString()
 {
-    return this->workerId.toString();
+    return this->getWorkerId().toString();
 }
 
 std::string JobWorker::getWorkerIdAsStdString()
 {
-    return this->workerId.toString().toStdString();
+    return this->getWorkerIdAsQString().toStdString();
 }
 
 void JobWorker::shutdown()

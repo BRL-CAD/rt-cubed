@@ -17,17 +17,13 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file JobManager.cxx
- *
- * Singleton.
- *
- */
 
 #include "JobManager.h"
 #include "JobWorker.h"
 #include <QMutexLocker>
 #include <iostream>
 
+//Declares for statics.
 JobManager* JobManager::pInstance = NULL;
 QMutex* JobManager::singletonLock = new QMutex();
 
@@ -39,17 +35,16 @@ JobManager::JobManager()
     this->jobWorkers = new QList<JobWorker*> ();
     this->acceptJobs = false;
 
-    QString text = "Startup.  MAX_JOBWORKERS: " + QString::number(
-	    MAX_JOBWORKERS);
+    QString text = "Startup.  MAX_JOBWORKERS: " + QString::number(MAX_JOBWORKERS);
 
     this->log->logINFO("JobManager", text);
 
     for (quint32 i = 0; i < MAX_JOBWORKERS; ++i) {
-	JobWorker* jw = new JobWorker();
-	this->jobWorkers->append(jw);
+    	JobWorker* jw = new JobWorker();
+    	this->jobWorkers->append(jw);
 
-	text = "Created new JobWorker with ID of " + jw->getWorkerIdAsQString();
-	this->log->logINFO("JobManager", text);
+    	text = "Created new JobWorker with ID of " + jw->getWorkerIdAsQString();
+    	this->log->logINFO("JobManager", text);
     }
 
     text = "Created a total of " + QString::number(this->jobWorkers->size()) + " JobWorkers";
@@ -66,12 +61,13 @@ JobManager::~JobManager()
 
     delete jobWorkers;
 }
+
 void JobManager::startup()
 {
-    for (quint32 i = 0; i < MAX_JOBWORKERS; ++i) {
- 	JobWorker* jw = this->jobWorkers->at(i);
- 	jw->start();
-     }
+    for (quint32 i = 0; i < this->jobWorkers->size(); ++i) {
+    	JobWorker* jw = this->jobWorkers->at(i);
+    	jw->start();
+    }
     this->acceptJobs = true;
 }
 
@@ -84,24 +80,24 @@ void JobManager::shutdown(bool finishJobQueue)
     //TODO These should be moved to preferences eventually.
     quint32 maxWaitTimeSecs = 60;
     quint32 waitTimePerLoopSecs = 5;
-    quint32 maxPasses = maxWaitTimeSecs / waitTimePerLoopSecs;
+    quint32 maxPasses = (maxWaitTimeSecs / waitTimePerLoopSecs);
     quint32 curPasses = 0;
 
     while (this->jobQueue->size() != 0 && finishJobQueue) {
-	this->log->logINFO("JobManager", "Waiting for JobWorkers to process JobQueue. " + QString::number(this->jobQueue->size()) + " items remain...");
-	ThreadUtils::sleep(waitTimePerLoopSecs);
-	++curPasses;
-	if (curPasses >= maxPasses) {
-	    this->log->logINFO("JobManager", "Shutdown Wait time failsafe tripped.  Forcing Shutdown.");
-	    break;
-	}
+    	this->log->logINFO("JobManager", "Waiting for JobWorkers to process JobQueue. " + QString::number(this->jobQueue->size()) + " items remain...");
+    	ThreadUtils::sleep(waitTimePerLoopSecs);
+    	++curPasses;
+    	if (curPasses >= maxPasses) {
+    		this->log->logINFO("JobManager", "Shutdown Wait-time fail safe reached.  Forcing Shutdown.");
+    		break;
+    	}
     }
 
     //loop through workers, shut them down individually. Then empty worker list
     while (!this->jobWorkers->isEmpty()) {
-	JobWorker* jw = this->jobWorkers->front();
-	jw->shutdown();
-	this->jobWorkers->pop_front();
+    	JobWorker* jw = this->jobWorkers->front();
+		jw->shutdown();
+		this->jobWorkers->pop_front();
     }
 
     this->log->logINFO("JobManager", "All JobWorkers Stopped. " + QString::number(this->jobQueue->size()) + " items in jobQueue remain...");
@@ -112,7 +108,7 @@ JobManager* JobManager::getInstance()
     QMutexLocker locker(JobManager::singletonLock);
 
     if (!JobManager::pInstance) {
-	pInstance = new JobManager();
+    	pInstance = new JobManager();
     }
     return JobManager::pInstance;
 }
@@ -120,8 +116,9 @@ JobManager* JobManager::getInstance()
 void JobManager::submitJob(AbstractJob* job)
 {
     if (this->acceptJobs == false) {
-	log->logWARNING("JobManager", "Job not queued. JobWorkers are currently not working.");
-	return; //TODO perhaps return a bool??
+    	this->log->logWARNING("JobManager", "Job not queued. JobWorkers are currently not working.");
+		 //TODO perhaps return a bool??
+    	return;
     }
 
     QMutexLocker locker(this->queueLock);
@@ -132,14 +129,13 @@ AbstractJob* JobManager::getNextJob()
 {
     QMutexLocker locker(this->queueLock);
     if (!this->jobQueue->isEmpty()) {
-	return this->jobQueue->takeFirst();
-    }
-    else {
-	return NULL;
+    	return this->jobQueue->takeFirst();
+    } else {
+    	return NULL;
     }
 }
 
-bool JobManager::hasJobsToWork()
+bool JobManager::hasNextJob()
 {
     QMutexLocker locker(this->queueLock);
     return !this->jobQueue->isEmpty();
@@ -147,6 +143,7 @@ bool JobManager::hasJobsToWork()
 
 quint32 JobManager::getWorkQueueLen()
 {
+	QMutexLocker locker(this->queueLock);
     return this->jobQueue->size();
 }
 

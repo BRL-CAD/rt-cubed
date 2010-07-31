@@ -19,13 +19,15 @@
  */
 /** @file JobWorker.h
  *
- * Brief description
+ * Represents a single QThread implementation that is managed by the
+ * JobManager and executes AbstractJob objects.
  *
  */
 
 #ifndef __JOBWORKER_H__
 #define __JOBWORKER_H__
 
+//TODO Move this to preferences.
 #define MAX_JOBWORKERS 5
 
 #include "libutility.h"
@@ -33,26 +35,52 @@
 #include <QUuid>
 #include <string>
 
-enum JobWorkerStatus
-{
+enum JobWorkerStatus {
 	WORKER_NOTREADY, WORKER_READY, WORKER_WORKING
 };
 
-class JobWorker: public QThread
-{
+class JobWorker: public QThread {
 
 public:
+	/**
+	 * Standard Constructor.  Instantiates a new JobWorker with a unique ID.
+	 */
 	JobWorker();
 	virtual ~JobWorker();
 
+	/**
+	 * Override of QThread.run(). Starts JobWorker execution.
+	 */
 	void run();
 
+	/**
+	 * Returns the JobWorker's current status (WORKER_NOTREADY, WORKER_READY, WORKER_WORKING)
+	 */
 	JobWorkerStatus getStatus();
+
+	/**
+	 * Sets the JobWorker's runCmd flag to FALSE.
+	 */
 	void shutdown();
+
+	/**
+	 * Gets the UUID of the JobWorker.
+	 */
 	QUuid getWorkerId();
+
+	/**
+	 * Gets the UUID of the JobWorker as a QString.
+	 */
 	QString getWorkerIdAsQString();
+
+	/**
+	 * Gets the UUID of the JobWorker as a STL string.
+	 */
 	std::string getWorkerIdAsStdString();
 
+	/**
+	 * Returns TRUE if the JobWorker's status is currently WORKER_READY
+	 */
 	bool isIdle();
 
 private:
