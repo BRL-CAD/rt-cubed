@@ -41,16 +41,10 @@ RT3_PROJECT_ADD_LIBS(
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
 	GeometryEngine.cxx
-	exception/Exception.cxx
-	exception/Throwable.cxx
-	exception/IOException.cxx
 )
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
-	Throwable.h
-	Exception.h
-	IOException.h
 )
 
 #Set NOINST headers

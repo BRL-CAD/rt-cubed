@@ -26,7 +26,6 @@
 #ifndef __NETMSG_H__
 #define __NETMSG_H__
 
-#include "IOException.h"
 #include "libutility.h"
 #include <QDataStream>
 #include <QByteArray>

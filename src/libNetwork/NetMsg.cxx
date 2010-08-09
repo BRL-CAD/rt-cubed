@@ -54,7 +54,6 @@ NetMsg::NetMsg(QDataStream* ds, QString origin)
 {
     this->origin = origin;
 
-    try {
 	*ds >> this->msgLen;
 
 	*ds >> this->msgType;
@@ -66,11 +65,6 @@ NetMsg::NetMsg(QDataStream* ds, QString origin)
 	if (this->hasReUUID) {
 	    this->reUUID = *Utils::getQUuid(ds);
 	}
-
-    } catch (IOException ioe) {
-	std::cerr << "Error in NetMsg(): " << ioe.getMessage() << std::endl;
-    }
-
 }
 
 /* Destructor */
