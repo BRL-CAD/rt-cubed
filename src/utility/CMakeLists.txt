@@ -35,7 +35,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
-    tds
+
     ${QT_LIBRARIES}
 )
 
@@ -60,6 +60,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 #Set NOINST headers
 RT3_PROJECT_ADD_NOINST_HEADERS(
 	StringUtils.h
+	Singleton.h
 )
 
 #Set QT INST headers
