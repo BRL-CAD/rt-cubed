@@ -61,7 +61,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-#include "Singleton.h"
+#include "../utility/Singleton.h"
 
 
 /** @brief Class implementing logging facilities

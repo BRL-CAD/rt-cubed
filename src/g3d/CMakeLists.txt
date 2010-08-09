@@ -3,7 +3,7 @@ project(g3d)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../../cmake/")
 include(${CMAKE_MODULE_PATH}/UsePkgConfig.cmake)
-include(${CMAKE_MODULE_PATH}/UseBrlcadConfig.cmake)
+#include(${CMAKE_MODULE_PATH}/UseBrlcadConfig.cmake)
 
 set(PROGNAME "g3d")
 set(G3D_SOURCES
@@ -69,18 +69,29 @@ find_package(OGRE REQUIRED)
 include_directories(${OGRE_INCLUDE_DIRS})
 set(LIBS ${LIBS} ${OGRE_LIBRARIES})
 
-find_package(libged REQUIRED)
-include_directories(${libged_INCLUDE_DIRS})
-set(LIBS ${LIBS} ${libged_LIBRARIES})
+#find_package(libged REQUIRED)
+#include_directories(${libged_INCLUDE_DIRS})
+#set(LIBS ${LIBS} ${libged_LIBRARIES})
 
-find_package(libbu REQUIRED)
-include_directories(${libbu_INCLUDE_DIRS})
-set(LIBS ${LIBS} ${libbu_LIBRARIES})
+#find_package(libbu REQUIRED)
+#include_directories(${libbu_INCLUDE_DIRS})
+#set(LIBS ${LIBS} ${libbu_LIBRARIES})
 
 find_package(Qt4 REQUIRED)
 set(QT_USE_QTOPENGL 1)
 INCLUDE(${QT_USE_FILE})
 set(LIBS ${LIBS} ${QT_LIBRARIES})
+
+#Find BRLCAD
+include(${CMAKE_MODULE_PATH}/FindBRLCAD.cmake)
+FIND_PACKAGE ( BRLCAD REQUIRED )
+IF (NOT BRLCAD_FOUND)
+    MESSAGE(STATUS "\tDid not find BRLCAD!")
+	RETURN()
+ENDIF (NOT BRLCAD_FOUND)
+
+INCLUDE_DIRECTORIES(${BRLCAD_INCLUDE_DIRS})
+SET(LIBS ${LIBS} ${BRLCAD_LIBRARIES})
 
 
 find_library(zzip_LIBRARY

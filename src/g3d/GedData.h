@@ -33,7 +33,8 @@
 
 #include <brlcad/ged.h>
 
-#include "Singleton.h"
+#include "../utility/Singleton.h"
+
 
 
 struct db_i;
