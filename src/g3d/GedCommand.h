@@ -43,7 +43,7 @@
  * of commands.
  */
 
-#include <QString>
+#include <QtCore/QString>
 
 #include "GedData.h"
 

@@ -31,7 +31,7 @@
 
 #include <iostream>
 
-#include <QString>
+#include <QtCore/QString>
 
 int main(int argc, char* argv[])
 {

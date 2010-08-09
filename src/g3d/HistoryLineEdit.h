@@ -31,7 +31,7 @@
 
 #include <queue>
 
-#include <QLineEdit>
+#include <QtGui/QLineEdit>
 
 class HistoryLineEdit : public QLineEdit
 {

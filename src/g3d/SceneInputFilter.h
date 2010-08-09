@@ -29,8 +29,8 @@
 #ifndef __G3D_SCENEINPUTFILTER_H__
 #define __G3D_SCENEINPUTFILTER_H__
 
-#include <QObject>
-#include <QEvent>
+#include <QtCore/QObject>
+#include <QtCore/QEvent>
 
 #include "OgreGLWidget.h"
 

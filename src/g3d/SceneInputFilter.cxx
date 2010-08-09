@@ -28,7 +28,7 @@
 
 #include "SceneInputFilter.h"
 
-#include <QGraphicsSceneWheelEvent>
+#include <QtGui/QGraphicsSceneWheelEvent>
 
 SceneInputFilter::SceneInputFilter(OgreGLWidget *target) : _oglwidget(target)
 {

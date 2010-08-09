@@ -25,9 +25,9 @@
 #define __PRINTTOSTDOUTJOB_H__
 
 #include "AbstractJob.h"
-#include <QString>
-#include <QMutex>
-#include <QMutexLocker>
+#include <QtCore/QString>
+#include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
 
 class PrintToStdOutJob: public AbstractJob
 {

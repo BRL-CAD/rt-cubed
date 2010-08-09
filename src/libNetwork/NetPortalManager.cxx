@@ -26,7 +26,7 @@
 #include "NetPortalManager.h"
 #include "NetPortal.h"
 #include "RemoteGSHostnameSetMsg.h"
-#include <QTcpSocket>
+#include <QtNetwork/QTcpSocket>
 #include <iostream>
 
 NetPortalManager::NetPortalManager(QString localGSHostame,

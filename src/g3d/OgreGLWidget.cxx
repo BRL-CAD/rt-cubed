@@ -38,7 +38,7 @@
 #include <X11/Xlib.h>
 #elif defined(Q_WS_WIN)
 #include <windows.h>
-#include <QColormap>
+#include <QtGui/QColormap>
 #else
 #error OgreGLWidget is not currently supported on your OpenGL implementation.
 #endif

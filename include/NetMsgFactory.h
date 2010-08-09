@@ -29,10 +29,10 @@
 #include "libutility.h"
 #include "NetMsg.h"
 
-#include <QByteArray>
-#include <QQueue>
-#include <QBuffer>
-#include <QMutex>
+#include <QtCore/QByteArray>
+#include <QtCore/QQueue>
+#include <QtCore/QBuffer>
+#include <QtCore/QMutex>
 
 class NetMsgFactory
 {

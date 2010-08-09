@@ -26,7 +26,7 @@
  */
 
 #include "GeometryProcessor.h"
-#include <QMutexLocker>
+#include <QtCore/QMutexLocker>
 
 GeometryProcessor* GeometryProcessor::pInstance = NULL;
 

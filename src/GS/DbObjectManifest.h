@@ -29,7 +29,7 @@
 #include <list>
 #include <map>
 #include <string>
-#include <QUuid>
+#include <QtCore/QUuid>
 
 class DbObjectManifest
 {

@@ -28,7 +28,7 @@
 
 #include "HistoryLineEdit.h"
 
-#include <QKeyEvent>
+#include <QtGui/QKeyEvent>
 
 HistoryLineEdit::HistoryLineEdit(QWidget *parent) : QLineEdit(parent),
 						    history(1), historyIdx(0)

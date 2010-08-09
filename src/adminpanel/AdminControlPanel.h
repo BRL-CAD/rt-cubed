@@ -28,8 +28,8 @@
 
 #include "ACPChatterBox.h"
 
-#include <QLineEdit>
-#include <QWidget>
+#include <QtGui/QLineEdit>
+#include <QtGui/QWidget>
 
 class AdminControlPanel: public QObject
 {

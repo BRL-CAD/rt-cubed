@@ -26,10 +26,10 @@
 #ifndef __LOGGER_H__
 #define __LOGGER_H__
 
-#include <QThread>
-#include <QString>
-#include <QMutex>
-#include <QMutexLocker>
+#include <QtCore/QThread>
+#include <QtCore/QString>
+#include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
 
 #include <iostream>
 

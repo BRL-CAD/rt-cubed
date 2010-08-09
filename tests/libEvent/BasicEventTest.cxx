@@ -28,7 +28,7 @@
 #include "libjob.h"
 #include "commonDefines.h"
 
-#include <Qt>
+#include <QtCore/Qt>
 
 class TestSubscriber: public EventSubscriber
 {

@@ -26,10 +26,8 @@
  *      Graphics view for use with OgreGLWidget
  */
 
+#include <QtGui/QResizeEvent>
 #include "OgreGraphicsView.h"
-
-#include <QResizeEvent>
-
 #include "OgreGLWidget.h"
 
 void OgreGraphicsView::resizeEvent(QResizeEvent *event)

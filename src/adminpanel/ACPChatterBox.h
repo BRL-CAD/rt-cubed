@@ -26,9 +26,9 @@
 #ifndef __ACPCHATTERBOX_H__
 #define __ACPCHATTERBOX_H__
 
-#include <QTableView>
-#include <QString>
-#include <QStandardItemModel>
+#include <QtGui/QTableView>
+#include <QtCore/QString>
+#include <QtGui/QStandardItemModel>
 
 class ACPChatterBox: public QTableView
 {

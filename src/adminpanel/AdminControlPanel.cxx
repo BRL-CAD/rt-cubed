@@ -25,14 +25,14 @@
 
 #include "AdminControlPanel.h"
 
-#include <QApplication>
-#include <QLabel>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QTableView>
-#include <QStandardItemModel>
-#include <QStringList>
-#include <QHeaderView>
+#include <QtCore/QStringList>
+#include <QtGui/QApplication>
+#include <QtGui/QLabel>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QTableView>
+#include <QtGui/QStandardItemModel>
+#include <QtGui/QHeaderView>
 
 AdminControlPanel::AdminControlPanel()
 {

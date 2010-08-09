@@ -29,7 +29,7 @@
 
 #include <vector>
 
-#include <QStringList>
+#include <QtCore/QStringList>
 
 #include "CommandInterpreter.h"
 

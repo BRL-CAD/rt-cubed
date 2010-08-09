@@ -32,7 +32,7 @@
 
 #include "GedCommand.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 #include "GedData.h"
 

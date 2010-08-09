@@ -26,7 +26,7 @@
  *	Implementation of Command base class.
  */
 
-#include <QStringList>
+#include <QtCore/QStringList>
 
 #include "Command.h"
 

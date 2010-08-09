@@ -37,7 +37,7 @@
 #include "SessionInfoMsg.h"
 #include "TypeOnlyMsg.h"
 
-#include <QMutexLocker>
+#include <QtCore/QMutexLocker>
 
 NetMsgFactory::NetMsgFactory()
 {

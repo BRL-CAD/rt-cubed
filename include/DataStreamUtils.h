@@ -26,9 +26,9 @@
 #ifndef __DATASTREAMUTILS_H__
 #define __DATASTREAMUTILS_H__
 
-#include <QString>
-#include <QDataStream>
-#include <QUuid>
+#include <QtCore/QString>
+#include <QtCore/QDataStream>
+#include <QtCore/QUuid>
 #include <iostream>
 
 class Utils

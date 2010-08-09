@@ -26,7 +26,7 @@
 #ifndef __ABSTRACTJOB_H__
 #define __ABSTRACTJOB_H__
 
-#include <Qt>
+#include <QtCore/Qt>
 
 enum JobStatus
 {

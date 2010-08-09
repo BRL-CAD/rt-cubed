@@ -26,7 +26,6 @@
 // interface header
 #include "Timer.h"
 
-// XXX temp
 #include <iostream>
 
 using namespace Utility;

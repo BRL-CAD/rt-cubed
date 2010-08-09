@@ -29,8 +29,8 @@
 #ifndef __G3D_MAINWINDOW_H__
 #define __G3D_MAINWINDOW_H__
 
-#include <QWidget>
-#include <QGraphicsScene>
+#include <QtGui/QWidget>
+#include <QtGui/QGraphicsScene>
 
 #include "ui_mainwindow.h"
 

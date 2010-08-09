@@ -29,7 +29,7 @@
 #ifndef __G3D_GRAPHICSVIEW_H__
 #define __G3D_GRAPHICSVIEW_H__
 
-#include <QGraphicsView>
+#include <QtGui/QGraphicsView>
 
 class OgreGraphicsView : public QGraphicsView
 {

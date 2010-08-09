@@ -27,8 +27,8 @@
 #ifndef __DATAMANAGER_H__
 #define __DATAMANAGER_H__
 
-#include <QString>
-#include <QUuid>
+#include <QtCore/QString>
+#include <QtCore/QUuid>
 
 class DataManager {
 

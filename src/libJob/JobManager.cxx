@@ -20,7 +20,7 @@
 
 #include "JobManager.h"
 #include "JobWorker.h"
-#include <QMutexLocker>
+#include <QtCore/QMutexLocker>
 #include <iostream>
 
 //Declares for statics.

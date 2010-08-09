@@ -26,7 +26,7 @@
 #ifndef __ACCOUNT_H__
 #define __ACCOUNT_H__
 
-#include <QString>
+#include <QtCore/QString>
 
 class Account
 {

@@ -30,7 +30,7 @@
 #define __G3D_COMMAND_H__
 
 
-#include <QStringList>
+#include <QtCore/QStringList>
 
 
 /**

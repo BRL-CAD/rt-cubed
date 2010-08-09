@@ -28,8 +28,8 @@
 
 #include "MainWindow.h"
 
-#include <QString>
-#include <QGraphicsProxyWidget>
+#include <QtCore/QString>
+#include <QtGui/QGraphicsProxyWidget>
 
 MainWindow::MainWindow() : ogreView(new OgreGLWidget()),
 			   scene(new QGraphicsScene()),

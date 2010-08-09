@@ -32,7 +32,7 @@
 
 #include "Command.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 #if 0
 /** @brief Quit the application

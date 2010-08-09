@@ -28,9 +28,9 @@
 
 #include "BaseApp.h"
 
-#include <QCoreApplication>
-#include <QString>
-#include <QUuid>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QString>
+#include <QtCore/QUuid>
 
 class AppLauncher: public QCoreApplication
 {

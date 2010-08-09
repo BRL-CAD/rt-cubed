@@ -28,7 +28,7 @@
 #include "NetMsgFactory.h"
 #include "TypeOnlyMsg.h"
 
-#include <QHostAddress>
+#include <QtNetwork/QHostAddress>
 
 NetPortal::NetPortal(NetPortalManager* nspm, INetMsgHandler* handler)
 {

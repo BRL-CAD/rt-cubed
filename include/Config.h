@@ -27,8 +27,9 @@
 #define __CONFIG_H__
 
 #include "Logger.h"
-#include <QMap>
-#include <QString>
+#include <QtCore/QMap>
+#include <QtCore/QString>
+#include <QtCore/QMutex>
 
 class Config
 {

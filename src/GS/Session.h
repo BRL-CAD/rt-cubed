@@ -31,7 +31,7 @@
 #include <ios>
 #include <fstream>
 
-#include <QUuid>
+#include <QtCore/QUuid>
 
 class Session
 {

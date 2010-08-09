@@ -24,7 +24,7 @@
  */
 
 #include "Logger.h"
-#include <QTime>
+#include <QtCore/QTime>
 #include <iomanip>
 
 //Statics instantiation

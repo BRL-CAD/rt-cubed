@@ -25,10 +25,10 @@
 
 #include "ACPChatterBox.h"
 
-#include <QApplication>
-#include <QStandardItem>
-#include <QHeaderView>
-#include <QDateTime>
+#include <QtGui/QApplication>
+#include <QtGui/QStandardItem>
+#include <QtGui/QHeaderView>
+#include <QtCore/QDateTime>
 
 ACPChatterBox::ACPChatterBox()
 {

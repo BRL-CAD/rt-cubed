@@ -29,7 +29,7 @@
 #ifndef __G3D_COMMAND_H__
 #define __G3D_COMMAND_H__
 
-#include <QDialog>
+#include <QtCore/QDialog>
 
 #include "ui_commanddialog.h"
 

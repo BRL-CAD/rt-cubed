@@ -29,7 +29,7 @@
 #include "Session.h"
 #include "libnetwork.h"
 
-#include <QMap>
+#include <QtCore/QMap>
 
 class SessionManager: public INetMsgHandler
 {

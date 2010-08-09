@@ -35,7 +35,7 @@
 
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>
-#include <QString>
+#include <QtCore/QString>
 
 class INetMsgHandler;
 class NetPortalManager;

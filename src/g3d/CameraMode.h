@@ -34,8 +34,8 @@
 
 #include <brlcad/vmath.h>
 
-#include <QKeyEvent>
-#include <QMouseEvent>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QMouseEvent>
 
 
 namespace Ogre {

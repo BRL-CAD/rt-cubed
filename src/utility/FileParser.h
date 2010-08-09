@@ -28,7 +28,7 @@
 
 #include <iostream>
 
-//template<typename FileParserMethod, typename Container>
+template<typename FileParserMethod, typename Container>
 class FileParser: public FileParserMethod
 {
 protected:

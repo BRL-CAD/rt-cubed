@@ -69,6 +69,7 @@ RT3_PROJECT_ADD_SOURCES (
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
 	Gateway.h
+	NetPortalManager.h
     NetMsgTypes.h
     INetMsgHandler.h
 	NetMsgFactory.h
@@ -92,7 +93,6 @@ RT3_PROJECT_ADD_INST_HEADERS(
 
 #Set NOINST headers
 RT3_PROJECT_ADD_NOINST_HEADERS(
-	NetPortalManager.h
 
 )
 
