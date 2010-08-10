@@ -40,6 +40,10 @@ void ThreadUtils::sleep(unsigned long secs) {
     QThread::sleep(secs);
 }
 
+void ThreadUtils::msleep(unsigned long msecs) {
+    QThread::msleep(msecs);
+}
+
 void ThreadUtils::usleep(unsigned long usecs) {
     QThread::usleep(usecs);
 }

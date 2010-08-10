@@ -25,7 +25,7 @@
 #ifndef __THREADUTILS_H__
 #define __THREADUTILS_H__
 
-#include <QThread>
+#include <QtCore/QThread>
 
 class ThreadUtils: public QThread
 {
@@ -33,6 +33,7 @@ public:
 	virtual ~ThreadUtils();
 
 	void static sleep(unsigned long secs);
+	void static msleep(unsigned long msecs);
 	void static usleep(unsigned long usecs);
 
 private:
