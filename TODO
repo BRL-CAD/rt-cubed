@@ -4,8 +4,6 @@ traditional formalized TODO list of pending development actions
 intended for the general public.
 
 
-* Coreinterface is making cmake want to use Policy CMP0004.  Probably just some extra whitespace in the libs string, but needs investigating none the less.
-
 * Core Interface requires the use of brlcad-config to generate 'brlcadversion.h' via cmake.  brlcad-config is not present on windows brlcad builds, thus coreInterface will not build on windows.
 
 * Check for const-ness from top to bottom
