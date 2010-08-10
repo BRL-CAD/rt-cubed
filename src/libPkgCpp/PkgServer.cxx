@@ -24,7 +24,7 @@
 
 #include "PkgServer.h"
 
-PkgServer::PkgServer()
+PkgServer::PkgServer(QHostAddress address, quint16 port)
 {
     // TODO Auto-generated constructor stub
 
