@@ -24,15 +24,55 @@
 
 #include "PkgServer.h"
 
-PkgServer::PkgServer(QHostAddress address, quint16 port)
+PkgServer::PkgServer(pkg_switch callBackTableIn[])
 {
-    // TODO Auto-generated constructor stub
-
+  this->callBackTable = callBackTableIn;
 }
 
 PkgServer::~PkgServer()
 {
-    // TODO Auto-generated destructor stub
+}
+
+bool
+PkgServer::listen(unsigned short port)
+{
+  //Convert port -> char* to make libpkg happy.
+  char portname[5 + 1] = {0};
+  int fd;
+
+  snprintf(portname, 5, "%d", port);
+  fd = pkg_permserver(portname, "tcp", 0, 0);
+
+  if (fd < 0) {
+    return false;
+  }
+
+  this->listenFD = fd;
+  return true;
+}
+
+
+
+
+PkgClient*
+PkgServer::waitForClient()
+{
+  pkg_conn* clientStruct = pkg_getclient(this->listenFD, this->callBackTable,
+      NULL, 0);
+  if (clientStruct == PKC_NULL)
+    {
+      bu_log("Connection seems to be busy, waiting...\n");
+      return NULL;
+    }
+  else if (clientStruct == PKC_ERROR)
+    {
+      bu_log("Fatal error accepting client connection.\n");
+      pkg_close(clientStruct);
+      return NULL;
+    }
+
+  PkgClient* pkgClientObj = new PkgClient(clientStruct);
+  return pkgClientObj;
 }
 
 /*

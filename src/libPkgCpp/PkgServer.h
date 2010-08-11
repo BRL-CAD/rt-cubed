@@ -28,14 +28,16 @@
 class PkgServer
 {
 public:
-    PkgServer();
+    PkgServer(pkg_switch callbacks[]);
     virtual ~PkgServer();
 
+    bool listen(unsigned short port);
 
+    PkgClient* waitForClient();
 
 private:
     quint32 listenFD;
-
+    pkg_switch callBackTable[];
 };
 
 #endif /* __PKGSERVER_H__ */

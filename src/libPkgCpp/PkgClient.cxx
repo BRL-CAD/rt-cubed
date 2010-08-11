@@ -25,13 +25,36 @@
 
 PkgClient::PkgClient()
 {
-    // TODO Auto-generated constructor stub
+  // TODO Auto-generated constructor stub
 
+}
+
+PkgClient::PkgClient(pkg_conn* conn)
+{
+  this->conn = conn;
 }
 
 PkgClient::~PkgClient()
 {
-    // TODO Auto-generated destructor stub
+  if (this->conn != NULL)
+    {
+      this->_close();
+      delete this->conn;
+    }
+}
+
+int
+PkgClient::send(int opcode, const char* buffer, size_t bufferLen)
+{
+  //call the c function
+  return pkg_send(opcode, buffer, bufferLen, this->conn);
+}
+
+void
+PkgClient::_close()
+{
+  //call the c function
+  pkg_close(this->conn);
 }
 
 /*
