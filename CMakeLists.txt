@@ -53,7 +53,10 @@ MESSAGE(STATUS "System Version: ${CMAKE_SYSTEM_VERSION}")
 
 SET(RT3_PUBLIC_HEADER_DIR ${CMAKE_SOURCE_DIR}/include)
 
-#Start of global include var
+#
+# Global include var
+#
+
 SET(GLOBAL_INCLUDE_DIRS ${RT3_PUBLIC_HEADER_DIR} CACHE INTERNAL "")
 MESSAGE(STATUS "GLOBAL_INCLUDE_DIRS: ${GLOBAL_INCLUDE_DIRS}")
 MESSAGE(STATUS "")
@@ -69,8 +72,8 @@ SET (RT3_LAST_WARNING_MSG "" CACHE INTERNAL "")
 #Verbose option
 SET (RT3_VERBOSE_CMAKE_OUTPUT OFF CACHE BOOL "Verbose cmake output. When Set to ON, each project will print its include paths and libraries required for linking.")
 
-#Setup unit testing compilation flag
-SET (RT3_BUILD_TESTS OFF CACHE BOOL "Compile the Unit test suite?")
+#BRLCAD install prefix
+SET (BRLCAD_BASE_DIR CACHE FILEPATH "Used for specifying a non-standard install location.")
 
 MESSAGE(STATUS "Finding Required Dependancies...")
 
@@ -91,15 +94,6 @@ IF (NOT BRLCAD_FOUND)
     MESSAGE(STATUS "\tDid not find BRLCAD!")
 	RETURN()
 ENDIF (NOT BRLCAD_FOUND)
-
-#Find CPPUNIT if needed.
-#IF (RT3_BUILD_TESTS)
-#	FIND_PACKAGE ( CPPUNIT REQUIRED )
-#	IF (NOT CPPUNIT_FOUND)
-#        MESSAGE(STATUS "\tDid not find CPPUNIT!")
-#	    RETURN()
-#    ENDIF (NOT CPPUNIT_FOUND)
-#ENDIF (RT3_BUILD_TESTS)
 
 #Search for QT4
 MESSAGE(STATUS "\tSearching for QT4...")
