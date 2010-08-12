@@ -19,27 +19,45 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/src/CMakeLists.txt
+#	@file rt^3/src/libPkgCpp/CMakeLists.txt
 #
-#	$Revision:  $
-#	$Author:  $
+#    C++ layer for LibPkg Library
+#
 #
 ##########################################################################
 
-#Deps first
-#ADD_SUBDIRECTORY(./other/)
+RT3_PROJECT(pkgcpp)
 
-#Libs next
-ADD_SUBDIRECTORY(./date)
-ADD_SUBDIRECTORY(./GE)
-ADD_SUBDIRECTORY(./alf)
-ADD_SUBDIRECTORY(./utility)
-ADD_SUBDIRECTORY(./libJob)
-ADD_SUBDIRECTORY(./libEvent)
-ADD_SUBDIRECTORY(./libPkgCpp)
-ADD_SUBDIRECTORY(./libNetwork)
-ADD_SUBDIRECTORY(./coreInterface)
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${BRLCAD_INC_DIRS}
+)
 
-#Apps Last
-ADD_SUBDIRECTORY(./GS)
-ADD_SUBDIRECTORY(./adminpanel)
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
+    ${pkg_LIBRARY}
+)
+
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
+	PkgClient.cxx
+	PkgServer.cxx
+)
+
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS(
+	PkgClient.cxx
+	PkgServer.cxx
+)
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_LIB()
