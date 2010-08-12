@@ -23,8 +23,9 @@
  */
 
 #include "PkgServer.h"
+#include <stdio.h>
 
-PkgServer::PkgServer(pkg_switch callBackTableIn[])
+PkgServer::PkgServer(struct pkg_switch* callBackTableIn)
 {
   this->callBackTable = callBackTableIn;
 }
@@ -37,22 +38,21 @@ bool
 PkgServer::listen(unsigned short port)
 {
   //Convert port -> char* to make libpkg happy.
-  char portname[5 + 1] = {0};
+  char portname[5 + 1] =
+    { 0 };
   int fd;
 
   snprintf(portname, 5, "%d", port);
   fd = pkg_permserver(portname, "tcp", 0, 0);
 
-  if (fd < 0) {
-    return false;
-  }
+  if (fd < 0)
+    {
+      return false;
+    }
 
   this->listenFD = fd;
   return true;
 }
-
-
-
 
 PkgClient*
 PkgServer::waitForClient()
@@ -61,12 +61,12 @@ PkgServer::waitForClient()
       NULL, 0);
   if (clientStruct == PKC_NULL)
     {
-      bu_log("Connection seems to be busy, waiting...\n");
+      //Connection seems to be busy
       return NULL;
     }
   else if (clientStruct == PKC_ERROR)
     {
-      bu_log("Fatal error accepting client connection.\n");
+      //Fatal error accepting client connection
       pkg_close(clientStruct);
       return NULL;
     }

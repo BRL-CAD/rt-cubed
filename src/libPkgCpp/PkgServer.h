@@ -25,6 +25,9 @@
 #ifndef __PKGSERVER_H__
 #define __PKGSERVER_H__
 
+#include "brlcad/pkg.h"
+#include "PkgClient.h"
+
 class PkgServer
 {
 public:
@@ -36,8 +39,8 @@ public:
     PkgClient* waitForClient();
 
 private:
-    quint32 listenFD;
-    pkg_switch callBackTable[];
+    int listenFD;
+    pkg_switch* callBackTable;
 };
 
 #endif /* __PKGSERVER_H__ */
