@@ -31,11 +31,11 @@ class PkgClient
 {
 public:
     PkgClient();
+    PkgClient(pkg_conn* conn);
     virtual ~PkgClient();
 
 protected:
-    PkgClient(pkg_conn* conn);
-    int send(int opcode, const char* buffer, size_t bufferLen)
+    int send(int opcode, const char* buffer, size_t bufferLen);
 
 private:
     pkg_conn* conn;
