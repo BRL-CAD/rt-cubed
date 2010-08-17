@@ -75,6 +75,9 @@ SET (RT3_VERBOSE_CMAKE_OUTPUT OFF CACHE BOOL "Verbose cmake output. When Set to 
 #BRLCAD install prefix
 SET (BRLCAD_BASE_DIR CACHE FILEPATH "Used for specifying a non-standard install location.")
 
+SET (RT3_BUILD_TESTS ON CACHE BOOL "Build tests in /test dir")
+
+
 MESSAGE(STATUS "Finding Required Dependancies...")
 
 #
