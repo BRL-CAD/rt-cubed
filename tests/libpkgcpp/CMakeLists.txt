@@ -19,18 +19,45 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/tests/CMakeLists.txt
+#	@file rt^3/tests/pkgcpp/CMakeLists.txt
 #
 #	$Revision:  $
 #	$Author:  $
 #
 ##########################################################################
 
-ADD_SUBDIRECTORY(./libNetwork)
-ADD_SUBDIRECTORY(./GE)
-ADD_SUBDIRECTORY(./GS)
-ADD_SUBDIRECTORY(./utility)
-ADD_SUBDIRECTORY(./libJob)
-ADD_SUBDIRECTORY(./libpkgcpp)
-ADD_SUBDIRECTORY(./libEvent)
-ADD_SUBDIRECTORY(./coreInterface)
+RT3_PROJECT(pkgcppTests)
+
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+)
+
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
+    network
+    utility
+    ${QT_LIBRARIES}
+)
+
+#set Source files
+RT3_PROJECT_ADD_SOURCES (
+    pkgcppTest.cxx
+)
+
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS(
+)
+
+#Build the project
+RT3_PROJECT_BUILD_EXE()
+
