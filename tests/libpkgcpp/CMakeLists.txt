@@ -31,6 +31,7 @@ RT3_PROJECT(pkgcppTests)
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS(
     ${QT_INCLUDE_DIR}
+    ${BRLCAD_INC_DIRS}
 )
 
 #Set Libs
@@ -38,6 +39,7 @@ RT3_PROJECT_ADD_LIBS(
     network
     utility
     ${QT_LIBRARIES}
+    ${_BRLCAD_LIBRARY_pkg}
 )
 
 #set Source files
