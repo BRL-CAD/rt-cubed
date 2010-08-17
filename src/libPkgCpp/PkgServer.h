@@ -36,6 +36,9 @@ public:
 
     bool listen(unsigned short port);
 
+    /**
+     * This function blocks until a new connection
+     */
     PkgClient* waitForClient();
 
 private:
