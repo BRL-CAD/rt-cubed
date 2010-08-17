@@ -36,10 +36,11 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
-    network
+    ${_BRLCAD_LIBRARY_pkg}
+    pkgcpp
     utility
     ${QT_LIBRARIES}
-    ${_BRLCAD_LIBRARY_pkg}
+    ${_BRLCAD_LIBRARY_bu}
 )
 
 #set Source files
