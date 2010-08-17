@@ -24,10 +24,20 @@
  */
 
 #include "libpkgcpp.h"
+#include <stdio.h>
+#include <iostream>
 
-int main(int argc, char** argv)
+int
+main(int argc, char** argv)
 {
 
+}
+
+void
+printUsage()
+{
+  std::cout << "Usage: pkgcppTest Client|Server ipAddress port." << std::endl;
+  return;
 }
 
 // Local Variables:
