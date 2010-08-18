@@ -36,7 +36,7 @@
 /* simple network transport protocol. connection starts with a HELO,
  * then a variable number of GEOM/ARGS messages, then a CIAO to end.
  */
-#define MAGIC_ID        "PHIL"
+
 #define MSG_HELO        1
 #define MSG_DATA        2
 #define MSG_CIAO        3
@@ -145,9 +145,9 @@ runServer(int port)
   };
 
 
-  //convert the int to a char*
-  char portCStr[7] = {0};
-  snprintf(portCStr, 6, "%d", port);
+  PkgServer pkgServer(callbacks);
+  pkgServer.listen(port);
+
 
   //Setup vars
   struct pkg_conn* currentClient;
@@ -155,44 +155,41 @@ runServer(int port)
   int pkg_result  = 0;
   char* buffer;
 
-  //make our permserver
-  netfd = pkg_permserver(portCStr, ENET_PROTO, 0, 0);
-  if (netfd < 0) {
-      bu_bomb("Got a net file descriptor < 0.");
-  }
+  PkgClient* pkgClient = NULL;
 
   /* listen for a good client indefinitely.  this is a simple
    * handshake that waits for a HELO message from the client.  if it
    * doesn't get one, the server continues to wait.
    */
-  do {
-    currentClient = pkg_getclient(netfd, callbacks, NULL, 0);
-      if (currentClient == PKC_NULL) {
-          bu_log("Connection seems to be busy, waiting...\n");
-          sleep(10);
-          continue;
-      } else if (currentClient == PKC_ERROR) {
-          bu_log("Fatal error accepting client connection.\n");
-          pkg_close(currentClient);
-          currentClient = PKC_NULL;
-          continue;
-      }
+  do
+    {
+      pkgClient = pkgServer.waitForClient();
+
+      currentClient = pkg_getclient(netfd, callbacks, NULL, 0);
+      if (pkgClient == NULL)
+        continue;
 
       /* got a connection, process it */
-      buffer = pkg_bwaitfor (MSG_HELO, currentClient);
-      if (buffer == NULL) {
+      buffer = pkg_bwaitfor(MSG_HELO, currentClient);
+      if (buffer == NULL)
+        {
           bu_log("Failed to process the client connection, still waiting\n");
           pkg_close(currentClient);
           currentClient = PKC_NULL;
-      } else {
+        }
+      else
+        {
           /* validate magic header that client should have sent */
-          if (strcmp(buffer, MAGIC_ID) != 0) {
-              bu_log("Bizarre corruption, received a HELO without at matching MAGIC ID!\n");
-              pkg_close(currentClient);
-              currentClient = PKC_NULL;
-          }
-      }
-  } while (currentClient == PKC_NULL);
+//          if (strcmp(buffer, MAGIC_ID) != 0)
+//            {
+//              bu_log(
+//                  "Bizarre corruption, received a HELO without at matching MAGIC ID!\n");
+//              pkg_close(currentClient);
+//              currentClient = PKC_NULL;
+//            }
+        }
+    }
+  while (pkgClient == NULL);
 
   /* we got a validated client, process packets from the
    * connection.  boilerplate triple-call loop.
