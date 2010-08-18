@@ -22,7 +22,7 @@
 #ifndef __PKGCPPCOMMON_H__
 #define __PKGCPPCOMMON_H__
 
-#define MAGIC_ID "LPKG"
+#define PKG_HEADER_MAGIC "LPKG"
 
 #endif /* __PKGCPPCOMMON_H__ */
 
