@@ -46,6 +46,7 @@ RT3_PROJECT_ADD_SOURCES (
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
+    pkgcppcommon.h
 	PkgClient.h
 	PkgServer.h
 )
