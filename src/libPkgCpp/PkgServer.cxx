@@ -23,7 +23,10 @@
  */
 
 #include "PkgServer.h"
+#include "brlcad/bu.h"
+#include "brlcad/pkg.h"
 #include <stdio.h>
+#include <unistd.h>
 
 PkgServer::PkgServer(struct pkg_switch* callBackTableIn)
 {
@@ -38,17 +41,15 @@ bool
 PkgServer::listen(unsigned short port)
 {
   //Convert port -> char* to make libpkg happy.
-  char portname[5 + 1] =
-    { 0 };
+  char portname[7] = { 0 };
   int fd;
 
-  snprintf(portname, 5, "%d", port);
+  snprintf(portname, 6, "%d", port);
   fd = pkg_permserver(portname, "tcp", 0, 0);
+  //TODO Make this more robust.  TCP being hardcoded is bad.
 
   if (fd < 0)
-    {
-      return false;
-    }
+    return false;
 
   this->listenFD = fd;
   return true;
@@ -61,12 +62,14 @@ PkgServer::waitForClient()
       NULL, 0);
   if (clientStruct == PKC_NULL)
     {
-      //Connection seems to be busy
+      bu_log("Connection seems to be busy, waiting...\n");
+      sleep(10);
       return NULL;
     }
   else if (clientStruct == PKC_ERROR)
     {
       //Fatal error accepting client connection
+      bu_log("Fatal error accepting client connection.\n");
       pkg_close(clientStruct);
       return NULL;
     }
