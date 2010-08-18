@@ -22,11 +22,13 @@
  *
  */
 #include "PkgClient.h"
+#include "brlcad/bu.h"
+#include <string.h>
+
 
 PkgClient::PkgClient()
 {
-  // TODO Auto-generated constructor stub
-
+  this->conn = PKC_NULL;
 }
 
 PkgClient::PkgClient(pkg_conn* conn)
@@ -55,6 +57,30 @@ PkgClient::_close()
 {
   //call the c function
   pkg_close(this->conn);
+}
+
+char*
+PkgClient::waitForMsg(int opcode)
+{
+  char* buffer = pkg_bwaitfor(opcode, this->conn);
+  if (buffer == NULL)
+    {
+      bu_log("Failed to process the client connection, still waiting\n");
+      pkg_close(this->conn);
+      this->conn = PKC_NULL;
+    }
+  else
+    {
+      /* validate magic header that client should have sent */
+      if (strcmp(buffer, PKG_HEADER_MAGIC) != 0)
+        {
+          bu_log(
+              "Bizarre corruption, received a MSG without at matching PKG_HEADER_MAGIC!\n");
+          pkg_close(this->conn);
+          this->conn = PKC_NULL;
+        }
+    }
+
 }
 
 /*

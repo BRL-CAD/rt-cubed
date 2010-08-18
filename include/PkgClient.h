@@ -26,6 +26,7 @@
 #define __PKGCLIENT_H__
 
 #include "brlcad/pkg.h"
+#include "pkgcppcommon.h"
 
 class PkgClient
 {
@@ -33,6 +34,8 @@ public:
     PkgClient();
     PkgClient(pkg_conn* conn);
     virtual ~PkgClient();
+
+    char* waitForMsg(int opcode);
 
 protected:
     int send(int opcode, const char* buffer, size_t bufferLen);
