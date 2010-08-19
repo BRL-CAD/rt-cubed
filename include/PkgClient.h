@@ -33,49 +33,54 @@
 class PkgClient
 {
 public:
-    PkgClient(std::string proto, std::string ipOrHostname, int port);
-    PkgClient(std::string proto, pkg_conn* conn);
-    virtual ~PkgClient();
+  PkgClient(std::string proto, std::string ipOrHostname, int port);
+  PkgClient(std::string proto, pkg_conn* conn);
+  virtual
+  ~PkgClient();
 
-    bool hasGoodConnection();
+  bool
+  hasGoodConnection();
 
-    /*
-     * Blocks until a specific opcode has been received on the connection
-     */
-    char* waitForMsg(int opcode);
+  /*
+   * Blocks until a specific opcode has been received on the connection
+   */
+  char*
+  waitForMsg(int opcode);
 
-    /*
-     * Attempts to route data in buffer to the appropriate call back.
-     * Returns:
-     *          <0 on error
-     *          0 on EOF
-     *          >0 on success
-     */
-    int processData();
+  /*
+   * Attempts to route data in buffer to the appropriate call back.
+   * Returns:
+   *          <0 on error
+   *          0 on EOF
+   *          >0 on success
+   */
+  int
+  processData();
 
-    /*
-     * Attempts to pull data off of the associated
-     * socket and place it in the internal buffer
-     * Returns:
-     *          <0 on error
-     *          0 on EOF
-     *          >0 on success
-     */
-    int pullDataFromSocket();
+  /*
+   * Attempts to pull data off of the associated
+   * socket and place it in the internal buffer
+   * Returns:
+   *          <0 on error
+   *          0 on EOF
+   *          >0 on success
+   */
+  int
+  pullDataFromSocket();
 
-    void close();
+  void
+  close();
 
-    int send(int opcode, const char* buffer, size_t bufferLen);
+  int
+  send(int opcode, const char* buffer, size_t bufferLen);
 
 private:
-    std::string proto;
-    pkg_conn* conn;
-
+  std::string proto;
+  pkg_conn* conn;
 
 };
 
 #endif /* __PKGCLIENT_H__ */
-
 
 /*
  * Local Variables:

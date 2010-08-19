@@ -34,7 +34,8 @@ class PkgUdpClient : public PkgClient
 public:
   PkgUdpClient(std::string ipOrHostname, int port);
   PkgUdpClient(pkg_conn* conn);
-  virtual ~PkgUdpClient();
+  virtual
+  ~PkgUdpClient();
 };
 
 #endif /* __PKGUDPCLIENT_H__ */

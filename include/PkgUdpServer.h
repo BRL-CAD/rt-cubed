@@ -34,10 +34,12 @@ class PkgUdpServer : public PkgServer
 {
 public:
   PkgUdpServer(pkg_switch callbacks[]);
-  virtual ~PkgUdpServer();
+  virtual
+  ~PkgUdpServer();
 
 private:
-  PkgClient* getNewClient(pkg_conn* conn);
+  PkgClient*
+  getNewClient(pkg_conn* conn);
 
 };
 

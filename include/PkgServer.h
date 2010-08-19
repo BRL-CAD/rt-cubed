@@ -32,28 +32,30 @@
 class PkgServer
 {
 public:
-    PkgServer(std::string proto, pkg_switch callbacks[]);
-    virtual ~PkgServer();
+  PkgServer(std::string proto, pkg_switch callbacks[]);
+  virtual
+  ~PkgServer();
 
-    bool listen(unsigned short port);
+  bool
+  listen(unsigned short port);
 
-    /*
-     * This function blocks until a new connection
-     */
-    PkgClient* waitForClient();
-
+  /*
+   * This function blocks until a new connection
+   */
+  PkgClient*
+  waitForClient();
 
 private:
-    std::string proto;
-    int listenFD;
-    pkg_switch* callBackTable;
+  std::string proto;
+  int listenFD;
+  pkg_switch* callBackTable;
 
-    virtual PkgClient* getNewClient(pkg_conn* conn) = 0;
+  virtual PkgClient*
+  getNewClient(pkg_conn* conn) = 0;
 
 };
 
 #endif /* __PKGSERVER_H__ */
-
 
 /*
  * Local Variables:

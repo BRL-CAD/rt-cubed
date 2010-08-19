@@ -18,7 +18,6 @@
  * information.
  */
 
-
 #ifndef __PKGCPPCOMMON_H__
 #define __PKGCPPCOMMON_H__
 

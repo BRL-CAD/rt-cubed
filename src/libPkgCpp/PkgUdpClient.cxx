@@ -27,15 +27,14 @@
 #include "PkgUdpClient.h"
 
 PkgUdpClient::PkgUdpClient(std::string ipOrHostname, int port) :
-PkgClient(PKGCPP_PROTO_UDP, ipOrHostname, port)
+  PkgClient(PKGCPP_PROTO_UDP, ipOrHostname, port)
 {
 }
 
 PkgUdpClient::PkgUdpClient(pkg_conn* conn) :
-PkgClient(PKGCPP_PROTO_UDP, conn)
+  PkgClient(PKGCPP_PROTO_UDP, conn)
 {
 }
-
 
 PkgUdpClient::~PkgUdpClient()
 {

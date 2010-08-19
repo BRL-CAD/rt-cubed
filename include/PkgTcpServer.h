@@ -34,10 +34,12 @@ class PkgTcpServer : public PkgServer
 {
 public:
   PkgTcpServer(pkg_switch callbacks[]);
-  virtual ~PkgTcpServer();
+  virtual
+  ~PkgTcpServer();
 
 private:
-  PkgClient* getNewClient(pkg_conn* conn);
+  PkgClient*
+  getNewClient(pkg_conn* conn);
 
 };
 

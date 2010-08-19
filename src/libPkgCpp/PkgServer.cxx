@@ -42,7 +42,8 @@ bool
 PkgServer::listen(unsigned short port)
 {
   //Convert port -> char* to make libpkg happy.
-  char portCString[7] = { 0 };
+  char portCString[7] =
+    { 0 };
   int fd;
   snprintf(portCString, 6, "%d", port);
 
@@ -80,7 +81,6 @@ PkgServer::waitForClient()
   PkgClient* pkgClientObj = this->getNewClient(clientStruct);
   return pkgClientObj;
 }
-
 
 /*
  * Local Variables:

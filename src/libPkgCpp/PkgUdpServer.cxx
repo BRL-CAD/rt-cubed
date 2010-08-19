@@ -39,7 +39,8 @@ PkgUdpServer::~PkgUdpServer()
 }
 
 PkgClient*
-PkgUdpServer::getNewClient(pkg_conn* conn) {
+PkgUdpServer::getNewClient(pkg_conn* conn)
+{
   return new PkgUdpClient(conn);
 }
 

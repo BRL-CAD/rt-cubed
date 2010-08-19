@@ -29,12 +29,13 @@
 PkgClient::PkgClient(std::string proto, std::string ipOrHostname, int port)
 {
   this->proto = proto;
-  char portCString[7] = { 0 };
+  char portCString[7] =
+    { 0 };
   snprintf(portCString, 6, "%d", port);
 
   //TODO Make this more robust.  TCP being hardcoded is bad.
-  this->conn = pkg_open(ipOrHostname.c_str(), portCString, proto.c_str(), NULL, NULL,
-      NULL, NULL);
+  this->conn = pkg_open(ipOrHostname.c_str(), portCString, proto.c_str(), NULL,
+      NULL, NULL, NULL);
 }
 
 PkgClient::PkgClient(std::string proto, pkg_conn* conn)

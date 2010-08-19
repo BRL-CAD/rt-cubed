@@ -27,12 +27,12 @@
 #include "PkgTcpClient.h"
 
 PkgTcpClient::PkgTcpClient(std::string ipOrHostname, int port) :
-PkgClient(PKGCPP_PROTO_TCP, ipOrHostname, port)
+  PkgClient(PKGCPP_PROTO_TCP, ipOrHostname, port)
 {
 }
 
 PkgTcpClient::PkgTcpClient(pkg_conn* conn) :
-PkgClient(PKGCPP_PROTO_TCP, conn)
+  PkgClient(PKGCPP_PROTO_TCP, conn)
 {
 }
 
