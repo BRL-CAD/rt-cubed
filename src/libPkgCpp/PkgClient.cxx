@@ -49,6 +49,12 @@ PkgClient::~PkgClient()
     }
 }
 
+bool
+PkgClient::hasGoodConnection()
+{
+  return (this->conn != PKC_ERROR);
+}
+
 int
 PkgClient::send(int opcode, const char* buffer, size_t bufferLen)
 {

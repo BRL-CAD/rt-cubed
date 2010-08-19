@@ -37,6 +37,8 @@ public:
     PkgClient(pkg_conn* conn);
     virtual ~PkgClient();
 
+    bool hasGoodConnection();
+
     /*
      * Blocks until a specific opcode has been received on the connection
      */
