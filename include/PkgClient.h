@@ -64,7 +64,7 @@ public:
     int pullDataFromSocket();
 
     void close();
-protected:
+
     int send(int opcode, const char* buffer, size_t bufferLen);
 
 private:
