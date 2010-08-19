@@ -23,6 +23,8 @@
 #define __PKGCPPCOMMON_H__
 
 #define PKG_HEADER_MAGIC "LPKG"
+#define PKGCPP_PROTO_TCP "tcp"
+#define PKGCPP_PROTO_UDP "udp"
 
 #endif /* __PKGCPPCOMMON_H__ */
 
