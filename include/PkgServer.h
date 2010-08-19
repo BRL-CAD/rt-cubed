@@ -32,7 +32,7 @@
 class PkgServer
 {
 public:
-    PkgServer(pkg_switch callbacks[]);
+    PkgServer(std::string proto, pkg_switch callbacks[]);
     virtual ~PkgServer();
 
     bool listen(unsigned short port);
@@ -44,6 +44,7 @@ public:
 
 
 private:
+    std::string proto
     int listenFD;
     pkg_switch* callBackTable;
 };

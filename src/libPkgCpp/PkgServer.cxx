@@ -45,8 +45,7 @@ PkgServer::listen(unsigned short port)
   int fd;
   snprintf(portCString, 6, "%d", port);
 
-  fd = pkg_permserver(portCString, "tcp", 0, 0);
-  //TODO Make this more robust.  TCP being hardcoded is bad.
+  fd = pkg_permserver(portCString, this->proto, 0, 0);
 
   if (fd < 0)
     return false;
