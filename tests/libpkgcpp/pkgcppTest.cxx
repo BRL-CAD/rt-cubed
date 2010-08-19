@@ -32,29 +32,31 @@
 #define SERVER_NAME "ImaServer"
 #define CLIENT_NAME "ImaClient"
 #define ENET_PROTO "tcp"
+#define RAND_DATA_SIZE 1024
 
 /* simple network transport protocol. connection starts with a HELO,
  * then a variable number of GEOM/ARGS messages, then a CIAO to end.
  */
 
-#define MSG_HELO        1
-#define MSG_DATA        2
-#define MSG_CIAO        3
+#define PKGCPP_HELO        1
+#define PKGCPP_DATA        2
+#define PKGCPP_CIAO        3
 
 
 //Declares
 void printUsage(std::string customMsg);
 std::string getValidIpOrHostname(char* data);
 int getValidPort(char* data);
-
+int tryProcess(PkgClient* pkgClient);
 int runServer(int port);
 int runClient(std::string ipOrHostname, int port);
 
-void server_helo(struct pkg_conn* connection, char* buf);
-void server_data(struct pkg_conn* connection, char* buf);
-void server_ciao(struct pkg_conn* connection, char* buf);
+void server_helo(struct pkg_conn* c, char* buf);
+void server_data(struct pkg_conn* c, char* buf);
+void server_ciao(struct pkg_conn* c, char* buf);
 
-
+//global
+bool listenLoop = true;
 
 int
 main(int argc, char** argv)
@@ -138,9 +140,9 @@ runServer(int port)
 {
 
   struct pkg_switch callbacks[] = {
-       {MSG_HELO, server_helo, "HELO"},
-       {MSG_DATA, server_data, "DATA"},
-       {MSG_CIAO, server_ciao, "CIAO"},
+       {PKGCPP_HELO, server_helo, "HELO"},
+       {PKGCPP_DATA, server_data, "DATA"},
+       {PKGCPP_CIAO, server_ciao, "CIAO"},
        {0, 0, (char* )0}
   };
 
@@ -150,9 +152,6 @@ runServer(int port)
 
 
   //Setup vars
-  struct pkg_conn* currentClient;
-  int netfd;
-  int pkg_result  = 0;
   char* buffer;
 
   PkgClient* pkgClient = NULL;
@@ -163,86 +162,144 @@ runServer(int port)
    */
   do
     {
+    //Blocks
       pkgClient = pkgServer.waitForClient();
 
-      currentClient = pkg_getclient(netfd, callbacks, NULL, 0);
+      //TODO probably should failsafe this loop
       if (pkgClient == NULL)
         continue;
 
-      /* got a connection, process it */
-      buffer = pkg_bwaitfor(MSG_HELO, currentClient);
+/*      //Attempt to get a HELO msg... and do nothing with it
+      buffer = pkgClient->waitForMsg(PKGCPP_HELO);
+
+       validate magic header that client should have sent
+      if (strcmp(buffer, CLIENT_NAME) != 0)
+        {
+          bu_log("Data Error, received a PKGCPP_HELO without proper data!\n");
+          pkgClient->close();
+        }
+
+      //TODO probably should failsafe this loop also
       if (buffer == NULL)
-        {
-          bu_log("Failed to process the client connection, still waiting\n");
-          pkg_close(currentClient);
-          currentClient = PKC_NULL;
-        }
-      else
-        {
-          /* validate magic header that client should have sent */
-//          if (strcmp(buffer, MAGIC_ID) != 0)
-//            {
-//              bu_log(
-//                  "Bizarre corruption, received a HELO without at matching MAGIC ID!\n");
-//              pkg_close(currentClient);
-//              currentClient = PKC_NULL;
-//            }
-        }
+        continue;
+ */
     }
   while (pkgClient == NULL);
 
+  int counter = 0;
+  int itemsRemain = 0;
   /* we got a validated client, process packets from the
    * connection.  boilerplate triple-call loop.
    */
   bu_log("Processing data from client\n");
   do {
-      /* process packets potentially received in a processing callback */
-      pkg_result = pkg_process(currentClient);
-      if (pkg_result < 0) {
-          bu_log("Unable to process packets? Weird.\n");
-      } else {
-          bu_log("Processed %d packet%s\n", pkg_result, pkg_result == 1 ? "" : "s");
-      }
+      bu_log("Loop Pass #%d\n", counter);
+
+    /* process packets potentially received in a processing callback */
+      itemsRemain =  tryProcess(pkgClient);
 
       /* suck in data from the network */
-      pkg_result = pkg_suckin(currentClient);
+      int pkg_result = pkgClient->pullDataFromSocket();
       if (pkg_result < 0) {
           bu_log("Seemed to have trouble sucking in packets.\n");
           break;
       } else if (pkg_result == 0) {
           bu_log("Client closed the connection.\n");
-          break;
+          //usleep(100);
+          //break;
       }
 
+      bu_log("Last pass: %d bytes.\n", pkg_result);
+
       /* process new packets received */
-      pkg_result = pkg_process(currentClient);
-      if (pkg_result < 0) {
-          bu_log("Unable to process packets? Weird.\n");
-      } else {
-          bu_log("Processed %d packet%s\n", pkg_result, pkg_result == 1 ? "" : "s");
-      }
-  } while (currentClient != NULL);
+      itemsRemain = tryProcess(pkgClient);
+
+      counter++;
+  } while (pkgClient != NULL && itemsRemain!=0 && listenLoop);
+
+  bu_log("Done with client.  Closing connection.\n");
+
+  pkgClient->close();
+
+  sleep(1);
+  delete pkgClient;
+
   return 0;
 }
+
 
 int
 runClient(std::string ipOrHostname, int port)
 {
-  struct pkg_switch callbacks[] = {
-      {0, 0, (char* )0}
-  };
+  //Generate random data block.
+  char data[RAND_DATA_SIZE] = {0};
 
-  char portCStr[7] = {0};
-  snprintf(portCStr, 6, "%d", port);
-  pkg_conn* clientPkgConn = pkg_open(ipOrHostname.c_str(), portCStr, ENET_PROTO, NULL, NULL, NULL, NULL);
+  for (int i = 0; i<RAND_DATA_SIZE; ++i) {
+    data[i] = rand() % 0xFF;
+  }
 
-  PkgClient client;
+  //Create PkgClient obj and open new connection
+  PkgClient* connToServer = new PkgClient(ipOrHostname, port);
+
+  if (!connToServer->hasGoodConnection())
+    {
+      bu_log("Connection to '%s:%d' failed.\n", ipOrHostname.c_str(), port);
+      bu_bomb("ERROR: Unable to open a connection to the server\n");
+    }
+
+  bu_log("Sending HELO to server.\n");
+
+  long bytes = 0;
+
+  //Send a HELO
+  bytes = connToServer->send(PKGCPP_HELO, CLIENT_NAME, strlen(CLIENT_NAME) + 1);
+  if (bytes < 0) {
+      connToServer->close();
+      bu_log("Connection to %s, port %d, seems faulty.\n", ipOrHostname.c_str(), port);
+      bu_bomb("ERROR: Unable to communicate with the server\n");
+      return 1;
+  }
 
 
+  for (int i = 0; i < 2; ++i) {
+    bu_log("Sending %d bytes to server.\n", RAND_DATA_SIZE);
 
+    //Send Data
+    bytes = connToServer->send(PKGCPP_DATA, data, RAND_DATA_SIZE);
+    if (bytes < 0) {
+        connToServer->close();
+        bu_log("Connection to %s, port %d, seems faulty.\n", ipOrHostname.c_str(), port);
+        bu_bomb("ERROR: Unable to send data to the server\n");
+    }
+
+    bu_log("Sent %d bytes to server.\n", bytes);
+
+    sleep(1);
+  }
+
+  bu_log("Sending CIAO.\n");
+  /* let the server know we're done.  not necessary, but polite. */
+  bytes = connToServer->send(PKGCPP_CIAO, "CIAO", 4);
+  if (bytes < 0) {
+      bu_log("Unable to cleanly disconnect from %s, port %d.\n", ipOrHostname.c_str(), port);
+  }
+
+  sleep(5);
+  bu_log("Disconnecting.\n");
+  connToServer->close();
+  delete connToServer;
   return 0;
 }
 
+int
+tryProcess(PkgClient* pkgClient)
+{
+  int pkg_result = pkgClient->processData();
+  if (pkg_result < 0) {
+      bu_log("Unable to process packets? Weird.\n");
+  }
+  return pkg_result;
+}
 
 /**
  * callback when a HELO message packet is received.
@@ -252,11 +309,13 @@ runClient(std::string ipOrHostname, int port)
  * handshake setup.
  */
 void
-server_helo(struct pkg_conn* connection, char* buf)
+server_helo(struct pkg_conn* c, char* buf)
 {
-    connection=connection; /* quell */
-    bu_log("Unexpected HELO encountered\n");
-    free(buf);
+  c = c; /* quell */
+  int lenDataRecved = c->pkc_inend - sizeof(pkg_header);
+  std::string name (buf);
+  bu_log("HELO recv-ed from '%s':  %d bytes.\n", name.c_str(), lenDataRecved);
+  free(buf);
 }
 
 
@@ -264,11 +323,12 @@ server_helo(struct pkg_conn* connection, char* buf)
  * callback when a DATA message packet is received
  */
 void
-server_data(struct pkg_conn* connection, char* buf)
+server_data(struct pkg_conn* c, char* buf)
 {
-    connection=connection; /* quell */
-    bu_log("Received file data\n");
-    free(buf);
+  c = c; /* quell */
+  int lenDataRecved = c->pkc_inend - sizeof(pkg_header);
+  bu_log("DATA recv-ed:  %d bytes.\n", lenDataRecved);
+  free(buf);
 }
 
 
@@ -276,11 +336,13 @@ server_data(struct pkg_conn* connection, char* buf)
  * callback when a CIAO message packet is received
  */
 void
-server_ciao(struct pkg_conn* connection, char* buf)
+server_ciao(struct pkg_conn* c, char* buf)
 {
-    connection=connection; /* quell */
-    bu_log("CIAO encountered\n");
-    free(buf);
+  c = c; /* quell */
+  int lenDataRecved = c->pkc_inend - sizeof(pkg_header);
+  bu_log("CIAO recv-ed:  %d bytes.\n", lenDataRecved);
+  free(buf);
+  listenLoop = false;
 }
 
 /**
