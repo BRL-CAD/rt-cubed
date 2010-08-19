@@ -25,7 +25,7 @@
 #include "brlcad/bu.h"
 #include <string.h>
 
-
+//TODO Need a path for a callback table to get to this
 PkgClient::PkgClient(std::string ipOrHostname, int port)
 {
   char portCString[7] = { 0 };
@@ -79,17 +79,8 @@ PkgClient::waitForMsg(int opcode)
       pkg_close(this->conn);
       this->conn = PKC_NULL;
     }
-  else
-    {
-      /* validate magic header that client should have sent */
-      if (strcmp(buffer, PKG_HEADER_MAGIC) != 0)
-        {
-          bu_log(
-              "Bizarre corruption, received a MSG without at matching PKG_HEADER_MAGIC!\n");
-          pkg_close(this->conn);
-          this->conn = PKC_NULL;
-        }
-    }
+
+  return buffer;
 }
 
 int
