@@ -53,7 +53,7 @@ PkgClient::send(int opcode, const char* buffer, size_t bufferLen)
 }
 
 void
-PkgClient::_close()
+PkgClient::close()
 {
   //call the c function
   pkg_close(this->conn);
@@ -80,7 +80,6 @@ PkgClient::waitForMsg(int opcode)
           this->conn = PKC_NULL;
         }
     }
-
 }
 
 int
