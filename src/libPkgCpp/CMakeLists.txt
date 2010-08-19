@@ -41,6 +41,8 @@ RT3_PROJECT_ADD_LIBS(
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
 	PkgClient.cxx
+	PkgTcpClient.cxx
+	PkgUdpClient.cxx
 	PkgServer.cxx
 	PkgTcpServer.cxx
 	PkgUdpServer.cxx
@@ -50,6 +52,8 @@ RT3_PROJECT_ADD_SOURCES (
 RT3_PROJECT_ADD_INST_HEADERS(
     pkgcppcommon.h
 	PkgClient.h
+	PkgTcpClient.h
+	PkgUdpClient.h
 	PkgServer.h
 	PkgTcpServer.h
 	PkgUdpServer.h

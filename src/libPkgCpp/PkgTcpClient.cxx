@@ -1,4 +1,4 @@
-/*                  P K G U D P S E R V E R . H
+/*                P K G T C P C L I E N T . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,38 +17,35 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file PkgUdpServer.h
- * PkgUdpServer.h
+/** @file PkgTcpClient.cxx
+ * PkgTcpClient.cxx
  *
  *  Created on: Aug 19, 2010
  *      Author: dloman
  */
 
-#ifndef __PKGUDPSERVER_H__
-#define __PKGUDPSERVER_H__
+#include "PkgTcpClient.h"
 
-#include "PkgServer.h"
-#include "PkgUdpClient.h"
-
-class PkgUdpServer : public PkgServer
+PkgTcpClient::PkgTcpClient(std::string ipOrHostname, int port) :
+PkgClient(PKGCPP_PROTO_TCP, ipOrHostname, port)
 {
-public:
-  PkgUdpServer(pkg_switch callbacks[]);
-  virtual ~PkgUdpServer();
+}
 
-private:
-  PkgClient* getNewClient(pkg_conn* conn);
+PkgTcpClient::PkgTcpClient(pkg_conn* conn) :
+PkgClient(PKGCPP_PROTO_TCP, conn)
+{
+}
 
-};
+PkgTcpClient::~PkgTcpClient()
+{
+  // TODO Auto-generated destructor stub
+}
 
-#endif /* __PKGUDPSERVER_H__ */
-
-/*
- * Local Variables:
- * tab-width: 8
- * mode: C
- * indent-tabs-mode: t
- * c-file-style: "stroustrup"
- * End:
- * ex: shiftwidth=4 tabstop=8
- */
+// Local Variables:
+// tab-width: 8
+// mode: C++
+// c-basic-offset: 4
+// indent-tabs-mode: t
+// c-file-style: "stroustrup"
+// End:
+// ex: shiftwidth=4 tabstop=8

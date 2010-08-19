@@ -28,12 +28,17 @@
 #define __PKGTCPSERVER_H__
 
 #include "PkgServer.h"
+#include "PkgTcpClient.h"
 
 class PkgTcpServer : public PkgServer
 {
 public:
   PkgTcpServer(pkg_switch callbacks[]);
   virtual ~PkgTcpServer();
+
+private:
+  PkgClient* getNewClient(pkg_conn* conn);
+
 };
 
 #endif /* __PKGTCPSERVER_H__ */

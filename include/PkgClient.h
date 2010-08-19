@@ -33,8 +33,8 @@
 class PkgClient
 {
 public:
-    PkgClient(std::string ipOrHostname, int port);
-    PkgClient(pkg_conn* conn);
+    PkgClient(std::string proto, std::string ipOrHostname, int port);
+    PkgClient(std::string proto, pkg_conn* conn);
     virtual ~PkgClient();
 
     bool hasGoodConnection();
@@ -68,6 +68,7 @@ public:
     int send(int opcode, const char* buffer, size_t bufferLen);
 
 private:
+    std::string proto;
     pkg_conn* conn;
 
 

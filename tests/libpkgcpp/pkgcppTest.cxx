@@ -239,7 +239,7 @@ runClient(std::string ipOrHostname, int port)
   }
 
   //Create PkgClient obj and open new connection
-  PkgClient* connToServer = new PkgClient(ipOrHostname, port);
+  PkgTcpClient* connToServer = new PkgTcpClient(ipOrHostname, port);
 
   if (!connToServer->hasGoodConnection())
     {

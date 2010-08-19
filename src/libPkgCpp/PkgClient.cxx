@@ -26,19 +26,20 @@
 #include <string.h>
 
 //TODO Need a path for a callback table to get to this
-PkgClient::PkgClient(std::string ipOrHostname, int port)
+PkgClient::PkgClient(std::string proto, std::string ipOrHostname, int port)
 {
-  char portCString[7] =
-    { 0 };
+  this->proto = proto;
+  char portCString[7] = { 0 };
   snprintf(portCString, 6, "%d", port);
 
   //TODO Make this more robust.  TCP being hardcoded is bad.
-  this->conn = pkg_open(ipOrHostname.c_str(), portCString, "tcp", NULL, NULL,
+  this->conn = pkg_open(ipOrHostname.c_str(), portCString, proto.c_str(), NULL, NULL,
       NULL, NULL);
 }
 
-PkgClient::PkgClient(pkg_conn* conn)
+PkgClient::PkgClient(std::string proto, pkg_conn* conn)
 {
+  this->proto = proto;
   this->conn = conn;
 }
 

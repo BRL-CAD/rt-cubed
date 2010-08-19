@@ -77,7 +77,7 @@ PkgServer::waitForClient()
       return NULL;
     }
 
-  PkgClient* pkgClientObj = new PkgClient(clientStruct);
+  PkgClient* pkgClientObj = this->getNewClient(clientStruct);
   return pkgClientObj;
 }
 

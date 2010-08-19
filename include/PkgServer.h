@@ -47,6 +47,9 @@ private:
     std::string proto;
     int listenFD;
     pkg_switch* callBackTable;
+
+    virtual PkgClient* getNewClient(pkg_conn* conn) = 0;
+
 };
 
 #endif /* __PKGSERVER_H__ */

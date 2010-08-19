@@ -1,4 +1,4 @@
-/*                  P K G U D P S E R V E R . H
+/*                  P K G T C P C L I E N T . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,31 +17,28 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file PkgUdpServer.h
- * PkgUdpServer.h
+/** @file PkgTcpClient.h
+ * PkgTcpClient.h
  *
  *  Created on: Aug 19, 2010
  *      Author: dloman
  */
 
-#ifndef __PKGUDPSERVER_H__
-#define __PKGUDPSERVER_H__
+#ifndef __PKGTCPCLIENT_H__
+#define __PKGTCPCLIENT_H__
 
-#include "PkgServer.h"
-#include "PkgUdpClient.h"
+#include "PkgClient.h"
 
-class PkgUdpServer : public PkgServer
+class PkgTcpClient : public PkgClient
 {
 public:
-  PkgUdpServer(pkg_switch callbacks[]);
-  virtual ~PkgUdpServer();
-
-private:
-  PkgClient* getNewClient(pkg_conn* conn);
-
+  PkgTcpClient(std::string ipOrHostname, int port);
+  PkgTcpClient(pkg_conn* conn);
+  virtual
+  ~PkgTcpClient();
 };
 
-#endif /* __PKGUDPSERVER_H__ */
+#endif /* __PKGTCPCLIENT_H__ */
 
 /*
  * Local Variables:

@@ -38,6 +38,11 @@ PkgTcpServer::~PkgTcpServer()
   // TODO Auto-generated destructor stub
 }
 
+
+PkgClient*
+PkgTcpServer::getNewClient(pkg_conn* conn) {
+  return new PkgTcpClient(conn);
+}
 // Local Variables:
 // tab-width: 8
 // mode: C++
