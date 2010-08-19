@@ -26,9 +26,13 @@
 #include <string.h>
 
 
-PkgClient::PkgClient()
+PkgClient::PkgClient(std::string ipOrHostname, int port)
 {
-  this->conn = PKC_NULL;
+  char portCString[7] = { 0 };
+  snprintf(portCString, 6, "%d", port);
+
+  //TODO Make this more robust.  TCP being hardcoded is bad.
+  this->conn = pkg_open(ipOrHostname.c_str(), portCString, "tcp", NULL, NULL, NULL, NULL);
 }
 
 PkgClient::PkgClient(pkg_conn* conn)
@@ -40,7 +44,7 @@ PkgClient::~PkgClient()
 {
   if (this->conn != NULL)
     {
-      this->_close();
+      this->close();
       delete this->conn;
     }
 }

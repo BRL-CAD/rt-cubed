@@ -27,11 +27,13 @@
 
 #include "brlcad/pkg.h"
 #include "pkgcppcommon.h"
+#include <stdio.h>
+#include <iostream>
 
 class PkgClient
 {
 public:
-    PkgClient();
+    PkgClient(std::string ipOrHostname, int port);
     PkgClient(pkg_conn* conn);
     virtual ~PkgClient();
 
