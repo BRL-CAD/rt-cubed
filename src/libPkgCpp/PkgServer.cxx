@@ -41,11 +41,11 @@ bool
 PkgServer::listen(unsigned short port)
 {
   //Convert port -> char* to make libpkg happy.
-  char portname[7] = { 0 };
+  char portCString[7] = { 0 };
   int fd;
+  snprintf(portCString, 6, "%d", port);
 
-  snprintf(portname, 6, "%d", port);
-  fd = pkg_permserver(portname, "tcp", 0, 0);
+  fd = pkg_permserver(portCString, "tcp", 0, 0);
   //TODO Make this more robust.  TCP being hardcoded is bad.
 
   if (fd < 0)
