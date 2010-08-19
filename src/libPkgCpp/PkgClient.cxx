@@ -83,6 +83,18 @@ PkgClient::waitForMsg(int opcode)
 
 }
 
+int
+PkgClient::processData()
+{
+  return pkg_process(this->conn);
+}
+
+int
+PkgClient::pullDataFromSocket()
+{
+  return pkg_suckin(this->conn);
+}
+
 /*
  * Local Variables:
  * mode: C

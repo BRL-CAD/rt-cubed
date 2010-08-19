@@ -35,7 +35,29 @@ public:
     PkgClient(pkg_conn* conn);
     virtual ~PkgClient();
 
+    /*
+     * Blocks until a specific opcode has been received on the connection
+     */
     char* waitForMsg(int opcode);
+
+    /*
+     * Attempts to route data in buffer to the appropriate call back.
+     * Returns:
+     *          <0 on error
+     *          0 on EOF
+     *          >0 on success
+     */
+    int processData();
+
+    /*
+     * Attempts to pull data off of the associated
+     * socket and place it in the internal buffer
+     * Returns:
+     *          <0 on error
+     *          0 on EOF
+     *          >0 on success
+     */
+    int pullDataFromSocket();
 
 protected:
     int send(int opcode, const char* buffer, size_t bufferLen);
