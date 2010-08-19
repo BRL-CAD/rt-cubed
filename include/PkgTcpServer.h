@@ -33,8 +33,7 @@ class PkgTcpServer : public PkgServer
 {
 public:
   PkgTcpServer(pkg_switch callbacks[]);
-  virtual
-  ~PkgTcpServer();
+  virtual ~PkgTcpServer();
 };
 
 #endif /* __PKGTCPSERVER_H__ */

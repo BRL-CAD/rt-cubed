@@ -27,7 +27,7 @@
 #include "PkgUdpServer.h"
 
 PkgUdpServer::PkgUdpServer(pkg_switch callbacks[]) :
-PkgServer(PKGCPP_PROTO_UDP, callbacks)
+  PkgServer(PKGCPP_PROTO_UDP, callbacks)
 {
   // TODO Auto-generated constructor stub
 

@@ -44,7 +44,7 @@ public:
 
 
 private:
-    std::string proto
+    std::string proto;
     int listenFD;
     pkg_switch* callBackTable;
 };

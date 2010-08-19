@@ -28,8 +28,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-PkgServer::PkgServer(struct pkg_switch* callBackTableIn)
+PkgServer::PkgServer(std::string proto, struct pkg_switch* callBackTableIn)
 {
+  this->proto = proto;
   this->callBackTable = callBackTableIn;
 }
 
@@ -45,7 +46,7 @@ PkgServer::listen(unsigned short port)
   int fd;
   snprintf(portCString, 6, "%d", port);
 
-  fd = pkg_permserver(portCString, this->proto, 0, 0);
+  fd = pkg_permserver(portCString, this->proto.c_str(), 0, 0);
 
   if (fd < 0)
     return false;
