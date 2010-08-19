@@ -52,6 +52,9 @@ PkgServer::listen(unsigned short port)
     return false;
 
   this->listenFD = fd;
+
+  bu_log("Listening on port '%d'.\n", port);
+
   return true;
 }
 
@@ -63,7 +66,7 @@ PkgServer::waitForClient()
   if (clientStruct == PKC_NULL)
     {
       bu_log("Connection seems to be busy, waiting...\n");
-      sleep(10);
+      sleep(1);
       return NULL;
     }
   else if (clientStruct == PKC_ERROR)
