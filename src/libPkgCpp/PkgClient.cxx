@@ -28,11 +28,13 @@
 //TODO Need a path for a callback table to get to this
 PkgClient::PkgClient(std::string ipOrHostname, int port)
 {
-  char portCString[7] = { 0 };
+  char portCString[7] =
+    { 0 };
   snprintf(portCString, 6, "%d", port);
 
   //TODO Make this more robust.  TCP being hardcoded is bad.
-  this->conn = pkg_open(ipOrHostname.c_str(), portCString, "tcp", NULL, NULL, NULL, NULL);
+  this->conn = pkg_open(ipOrHostname.c_str(), portCString, "tcp", NULL, NULL,
+      NULL, NULL);
 }
 
 PkgClient::PkgClient(pkg_conn* conn)
@@ -42,11 +44,6 @@ PkgClient::PkgClient(pkg_conn* conn)
 
 PkgClient::~PkgClient()
 {
-  if (this->conn != NULL)
-    {
-      this->close();
-      delete this->conn;
-    }
 }
 
 bool
@@ -92,7 +89,8 @@ PkgClient::processData()
 int
 PkgClient::pullDataFromSocket()
 {
-  return pkg_suckin(this->conn);
+  int retVal = pkg_suckin(this->conn);
+  return retVal;
 }
 
 /*
