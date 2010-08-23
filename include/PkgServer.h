@@ -40,10 +40,10 @@ public:
   listen(unsigned short port);
 
   /*
-   * This function blocks until a new connection
+   * This function blocks if waitTime is set to '0'.  '0' is default.
    */
   PkgClient*
-  waitForClient();
+  waitForClient(int waitTime = 0);
 
 private:
   std::string proto;
