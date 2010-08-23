@@ -38,7 +38,7 @@ RT3_PROJECT_ADD_LIBS(
     gs
     ge
     job
-    network
+    net
     event
     ${QT_LIBRARIES}
 )

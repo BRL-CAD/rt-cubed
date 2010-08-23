@@ -27,7 +27,7 @@
 #define __SESSIONMANAGER_H__
 
 #include "Session.h"
-#include "libnetwork.h"
+#include "libnet.h"
 
 #include <QtCore/QMap>
 

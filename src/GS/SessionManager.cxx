@@ -25,7 +25,6 @@
 
 #include "SessionManager.h"
 #include "AccountManager.h"
-#include "libnetwork.h"
 #include "libutility.h"
 #include <QtCore/QMutexLocker>
 

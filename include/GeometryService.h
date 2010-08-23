@@ -26,7 +26,7 @@
 #ifndef __GEOMETRYSERVICE_H__
 #define __GEOMETRYSERVICE_H__
 
-#include "libnetwork.h"
+#include "libnet.h"
 #include "libutility.h"
 
 #include <QTcpSocket>

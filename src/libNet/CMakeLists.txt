@@ -26,7 +26,7 @@
 #
 ##########################################################################
 
-RT3_PROJECT(network)
+RT3_PROJECT(net)
 
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS(
@@ -48,22 +48,22 @@ RT3_PROJECT_ADD_SOURCES (
 	NetPortal.cxx
 	NetPortalManager.cxx
 	NetMsgFactory.cxx
-	NetMsg.cxx
-	TypeOnlyMsg.cxx
-	GenericOneStringMsg.cxx
-	GenericOneByteMsg.cxx
-	GenericTwoBytesMsg.cxx
-	GenericFourBytesMsg.cxx
-	GenericMultiByteMsg.cxx
-	FailureMsg.cxx
-	SuccessMsg.cxx
-	RemoteGSHostnameSetMsg.cxx
-    NewSessionReqMsg.cxx
-    SessionInfoMsg.cxx
-	NewHostOnNetMsg.cxx
-	GeometryReqMsg.cxx
-	GeometryManifestMsg.cxx
-	GeometryChunkMsg.cxx
+	netMsg/NetMsg.cxx
+	netMsg/TypeOnlyMsg.cxx
+	netMsg/GenericOneStringMsg.cxx
+	netMsg/GenericOneByteMsg.cxx
+	netMsg/GenericTwoBytesMsg.cxx
+	netMsg/GenericFourBytesMsg.cxx
+	netMsg/GenericMultiByteMsg.cxx
+	netMsg/FailureMsg.cxx
+	netMsg/SuccessMsg.cxx
+	netMsg/RemoteGSHostnameSetMsg.cxx
+ 	netMsg/NewSessionReqMsg.cxx
+ 	netMsg/SessionInfoMsg.cxx
+	netMsg/NewHostOnNetMsg.cxx
+	netMsg/GeometryReqMsg.cxx
+	netMsg/GeometryManifestMsg.cxx
+	netMsg/GeometryChunkMsg.cxx
 )
 
 #Set INST Headers

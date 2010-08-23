@@ -37,7 +37,7 @@ ADD_SUBDIRECTORY(./utility)
 ADD_SUBDIRECTORY(./libJob)
 ADD_SUBDIRECTORY(./libEvent)
 ADD_SUBDIRECTORY(./libPkgCpp)
-ADD_SUBDIRECTORY(./libNetwork)
+ADD_SUBDIRECTORY(./libNet)
 ADD_SUBDIRECTORY(./coreInterface)
 
 #Apps Last

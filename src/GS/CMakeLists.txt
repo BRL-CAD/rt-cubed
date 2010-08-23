@@ -37,7 +37,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 RT3_PROJECT_ADD_LIBS(
     ${QT_LIBRARIES}
     alf
-    network
+    net
     utility
 )
 
@@ -95,7 +95,7 @@ RT3_PROJECT_ADD_LIBS(
     event
     ${QT_LIBRARIES}
     gs
-    network
+    net
 )
 
 #set Source files
