@@ -33,7 +33,7 @@
 class PkgClient
 {
 public:
-  PkgClient(std::string proto, std::string ipOrHostname, int port);
+  PkgClient(std::string proto, std::string ipOrHostname, int port, struct pkg_switch* callBackTableIn);
   PkgClient(std::string proto, pkg_conn* conn);
   virtual
   ~PkgClient();

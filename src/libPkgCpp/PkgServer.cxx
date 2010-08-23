@@ -35,15 +35,13 @@ PkgServer::PkgServer(std::string proto, struct pkg_switch* callBackTableIn)
 }
 
 PkgServer::~PkgServer()
-{
-}
+{}
 
 bool
 PkgServer::listen(unsigned short port)
 {
   //Convert port -> char* to make libpkg happy.
-  char portCString[7] =
-    { 0 };
+  char portCString[7] = { 0 };
   int fd;
   snprintf(portCString, 6, "%d", port);
 

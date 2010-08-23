@@ -26,8 +26,8 @@
 
 #include "PkgUdpClient.h"
 
-PkgUdpClient::PkgUdpClient(std::string ipOrHostname, int port) :
-  PkgClient(PKGCPP_PROTO_UDP, ipOrHostname, port)
+PkgUdpClient::PkgUdpClient(std::string ipOrHostname, int port, struct pkg_switch* callBackTableIn) :
+  PkgClient(PKGCPP_PROTO_UDP, ipOrHostname, port, callBackTableIn)
 {}
 
 PkgUdpClient::PkgUdpClient(pkg_conn* conn) :

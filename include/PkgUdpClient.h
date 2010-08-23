@@ -32,7 +32,7 @@
 class PkgUdpClient : public PkgClient
 {
 public:
-  PkgUdpClient(std::string ipOrHostname, int port);
+  PkgUdpClient(std::string ipOrHostname, int port, struct pkg_switch* callBackTableIn);
   PkgUdpClient(pkg_conn* conn);
   virtual
   ~PkgUdpClient();

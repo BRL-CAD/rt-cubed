@@ -32,7 +32,7 @@
 class PkgTcpClient : public PkgClient
 {
 public:
-  PkgTcpClient(std::string ipOrHostname, int port);
+  PkgTcpClient(std::string ipOrHostname, int port, struct pkg_switch* callBackTableIn);
   PkgTcpClient(pkg_conn* conn);
   virtual
   ~PkgTcpClient();

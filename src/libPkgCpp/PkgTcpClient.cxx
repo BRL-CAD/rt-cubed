@@ -26,8 +26,8 @@
 
 #include "PkgTcpClient.h"
 
-PkgTcpClient::PkgTcpClient(std::string ipOrHostname, int port) :
-  PkgClient(PKGCPP_PROTO_TCP, ipOrHostname, port)
+PkgTcpClient::PkgTcpClient(std::string ipOrHostname, int port, struct pkg_switch* callBackTableIn) :
+  PkgClient(PKGCPP_PROTO_TCP, ipOrHostname, port, callBackTableIn)
 {}
 
 PkgTcpClient::PkgTcpClient(pkg_conn* conn) :
