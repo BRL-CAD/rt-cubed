@@ -65,7 +65,7 @@ PkgServer::waitForClient()
   if (clientStruct == PKC_NULL)
     {
       bu_log("Connection seems to be busy, waiting...\n");
-      sleep(1);
+      usleep(100);
       return NULL;
     }
   else if (clientStruct == PKC_ERROR)
