@@ -28,15 +28,10 @@
 
 PkgUdpServer::PkgUdpServer(pkg_switch callbacks[]) :
   PkgServer(PKGCPP_PROTO_UDP, callbacks)
-{
-  // TODO Auto-generated constructor stub
-
-}
+{}
 
 PkgUdpServer::~PkgUdpServer()
-{
-  // TODO Auto-generated destructor stub
-}
+{}
 
 PkgClient*
 PkgUdpServer::getNewClient(pkg_conn* conn)

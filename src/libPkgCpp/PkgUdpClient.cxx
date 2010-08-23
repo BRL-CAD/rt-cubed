@@ -28,18 +28,14 @@
 
 PkgUdpClient::PkgUdpClient(std::string ipOrHostname, int port) :
   PkgClient(PKGCPP_PROTO_UDP, ipOrHostname, port)
-{
-}
+{}
 
 PkgUdpClient::PkgUdpClient(pkg_conn* conn) :
   PkgClient(PKGCPP_PROTO_UDP, conn)
-{
-}
+{}
 
 PkgUdpClient::~PkgUdpClient()
-{
-  // TODO Auto-generated destructor stub
-}
+{}
 
 // Local Variables:
 // tab-width: 8

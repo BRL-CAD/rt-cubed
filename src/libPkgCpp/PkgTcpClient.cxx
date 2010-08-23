@@ -28,18 +28,14 @@
 
 PkgTcpClient::PkgTcpClient(std::string ipOrHostname, int port) :
   PkgClient(PKGCPP_PROTO_TCP, ipOrHostname, port)
-{
-}
+{}
 
 PkgTcpClient::PkgTcpClient(pkg_conn* conn) :
   PkgClient(PKGCPP_PROTO_TCP, conn)
-{
-}
+{}
 
 PkgTcpClient::~PkgTcpClient()
-{
-  // TODO Auto-generated destructor stub
-}
+{}
 
 // Local Variables:
 // tab-width: 8

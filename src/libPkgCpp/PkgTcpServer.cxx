@@ -28,15 +28,10 @@
 
 PkgTcpServer::PkgTcpServer(pkg_switch callbacks[]) :
   PkgServer(PKGCPP_PROTO_TCP, callbacks)
-{
-  // TODO Auto-generated constructor stub
-
-}
+{}
 
 PkgTcpServer::~PkgTcpServer()
-{
-  // TODO Auto-generated destructor stub
-}
+{}
 
 PkgClient*
 PkgTcpServer::getNewClient(pkg_conn* conn)
