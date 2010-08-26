@@ -35,7 +35,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
-    network
+    net
     utility
     ${QT_LIBRARIES}
 )
@@ -73,7 +73,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
-    network
+    net
     utility
     ${QT_LIBRARIES}
 )
@@ -105,7 +105,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS()
 
 #Set Libs
 RT3_PROJECT_ADD_LIBS( 
-    network
+    net
     alf
 )
 
