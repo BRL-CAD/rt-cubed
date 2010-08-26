@@ -26,7 +26,7 @@
 #
 ##########################################################################
 
-ADD_SUBDIRECTORY(./libNetwork)
+ADD_SUBDIRECTORY(./libNet)
 ADD_SUBDIRECTORY(./GE)
 ADD_SUBDIRECTORY(./GS)
 ADD_SUBDIRECTORY(./utility)

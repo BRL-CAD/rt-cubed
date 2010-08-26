@@ -19,7 +19,7 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/tests/libNetwork/CMakeLists.txt
+#	@file rt^3/tests/libNet/CMakeLists.txt
 #
 #	$Revision:  $
 #	$Author:  $
