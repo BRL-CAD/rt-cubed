@@ -46,6 +46,7 @@ RT3_PROJECT_ADD_SOURCES (
 	GSException.cxx
 	Logger.cxx
 	ThreadUtils.cxx
+	GSThread.cxx
 )
 
 #Set INST Headers
@@ -55,6 +56,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	GSException.h
 	Logger.h
 	ThreadUtils.h
+	GSThread.h
 )
 
 #Set NOINST headers
