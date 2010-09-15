@@ -29,10 +29,12 @@ QList<GSThread*> GSThread::threads;
 
 GSThread::GSThread()
 {
+  GSThread::addThread(this);
 }
 
 GSThread::~GSThread()
 {
+  GSThread::remThread(this);
 }
 
 void
