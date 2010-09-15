@@ -52,22 +52,5 @@ int main(int argc, char* argv[])
 
     log->logBANNER("GSMain", "Booting GeometryService: " + gsHostname);
 
-    QString listenAddressStr = c->getConfigValue("ListenAddress");
-    if (listenAddressStr == "") {
-	listenAddressStr = "localhost";
-    }
-    QHostAddress listenAddress(listenAddressStr);
-
-    QString listenPortStr = c->getConfigValue("ListenPort");
-    if (listenPortStr == "") {
-	listenPortStr = "5309";
-    }
-    quint16 listenPort = listenPortStr.toShort();
-
-    /*
-    GeometryService gs(gsHostname);
-    gs.startListening(listenAddress, listenPort);
-     */
-
     return 0;
 }

@@ -26,7 +26,6 @@
 #ifndef __GEOMETRYSERVICE_H__
 #define __GEOMETRYSERVICE_H__
 
-#include "libnet.h"
 #include "libutility.h"
 
 #include <QTcpSocket>
@@ -34,21 +33,15 @@
 #include <QStringList>
 #include <QCoreApplication>
 
-class GeometryService : public INetMsgHandler
+class GeometryService
 {
 
 public:
 	GeometryService(const QString localGSHostname);
 	virtual ~GeometryService();
-//	void startListening(const QHostAddress& addy, quint16 port);
-//	void stopListening();
-//	bool isListening() const;
-
 private:
 	Logger* log;
 	QString localGSHostname;
-
-	void handleNetMsg(NetMsg* msg, NetPortal* origin);
 };
 
 #endif

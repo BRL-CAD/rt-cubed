@@ -26,67 +26,11 @@
 #ifndef __NETPORTAL_H__
 #define __NETPORTAL_H__
 
-#include "NetMsgTypes.h"
-#include "NetMsg.h"
-#include "RemoteGSHostnameSetMsg.h"
-
-#include "libutility.h"
-#include "libevent.h"
-
-#include <QtNetwork/QTcpServer>
-#include <QtNetwork/QTcpSocket>
-#include <QtCore/QString>
-
-class INetMsgHandler;
-class NetPortalManager;
-class NetMsgFactory;
-
-class NetPortal: public QObject, public EventPublisher
+class NetPortal
 {
-Q_OBJECT
-
 public:
-	NetPortal(NetPortalManager* parent, INetMsgHandler* handler);
-	NetPortal(NetPortalManager* parent, INetMsgHandler* handler, int socketDescriptor);
+	NetPortal();
 	virtual ~NetPortal();
-
-	void connectToNetHost(QString netHostname, quint16 port);
-	void connectToNetHost(QHostAddress address, quint16 port);
-	void disconnectFromNetHost(quint8 reason = LOCAL_DISCONNECT_REQ);
-
-	void checkFactory();
-
-	void send(NetMsg& msg);
-	void sendOpcodeOnlyMsg(quint32 opcode);
-
-	QString getRemoteGSHostname();
-
-	bool isOpen();
-
-	enum HandshakeStatus
-	{
-		NotConnected = 0, Handshaking = 5, Ready = 10, Failed = 15,
-	};
-
-	void sendLocalGSHostnameToRemoteGSHost();
-
-protected slots:
-	void moveDataFromSocketBuffer();
-	void relaySockConnected();
-	void relaySockDisconnected();
-	void relaySockError(QAbstractSocket::SocketError err);
-
-private:
-	QTcpSocket* sock;
-	NetPortalManager* nspm;
-	QString remGSHostname;
-	NetMsgFactory* factory;
-	HandshakeStatus handshakeStatus;
-	Logger* log;
-	INetMsgHandler* handler;
-
-	void constructorCommon(NetPortalManager* nspm, INetMsgHandler* handler);
-	void updateHandshakeStatus(HandshakeStatus newStatus);
 };
 
 #endif

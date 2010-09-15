@@ -47,49 +47,7 @@ SessionManager* SessionManager::getInstance()
     return SessionManager::pInstance;
 }
 
-void SessionManager::handleNetMsg(NetMsg* msg, NetPortal* origin)
-{
-    quint32 msgType = msg->getMsgType();
 
-    switch (msgType) {
-
-    case (NEWSESSIONREQ):
-	{
-	    NewSessionReqMsg* nstMsg = (NewSessionReqMsg*) msg;
-
-	    QString uname = nstMsg->getUName();
-	    QString passwd = nstMsg->getPasswd();
-
-	    quint32 accountID =
-		    AccountManager::getInstance()->validateLoginCreds(uname,
-			    passwd);
-
-	    if (accountID > 0) {
-		Session* session = this->newSession(accountID);
-		this->sessionIdMap->insert(accountID, session);
-
-		// use reply cstr.
-		SessionInfoMsg siMsg(msg, session->getSessionID() );
-
-		//Send back reply
-		origin->send(siMsg);
-	    } else {
-		FailureMsg fMsg(msg, AUTHENTICATION_FAILED);
-
-		//Send back reply
-		origin->send(fMsg);
-	    }
-
-	    break;
-	}
-    default:
-	{
-	    throw new GSException("Does not handle this MsgType");
-	    break;
-	}
-    };
-
-}
 Session* SessionManager::newSession(quint32 accountID)
 {
     Session* s = new Session(accountID);

@@ -44,7 +44,6 @@ RT3_PROJECT_ADD_LIBS(
 
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
-	Gateway.cxx
 	NetPortal.cxx
 	NetPortalManager.cxx
 	NetMsgFactory.cxx
@@ -68,7 +67,7 @@ RT3_PROJECT_ADD_SOURCES (
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
-	Gateway.h
+	NetPortal.h
 	NetPortalManager.h
     NetMsgTypes.h
     INetMsgHandler.h
@@ -92,14 +91,10 @@ RT3_PROJECT_ADD_INST_HEADERS(
 )
 
 #Set NOINST headers
-RT3_PROJECT_ADD_NOINST_HEADERS(
-
-)
+RT3_PROJECT_ADD_NOINST_HEADERS()
 
 #Set QT INST headers
-RT3_PROJECT_ADD_QT_INST_HEADERS(
-	NetPortal.h
-)
+RT3_PROJECT_ADD_QT_INST_HEADERS()
 
 #Set QT NOINST headers
 RT3_PROJECT_ADD_QT_NOINST_HEADERS()

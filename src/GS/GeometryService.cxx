@@ -35,46 +35,9 @@ GeometryService::GeometryService(const QString gsHostname) :
 
 GeometryService::~GeometryService()
 {
-//    delete this->portalMan;
+
 }
-//
-//void GeometryService::startListening(const QHostAddress& addy, quint16 port)
-//{
-//    this->log->logINFO("GeometryService", localGSHostname + " is listening on " + addy.toString() + ":" + QString::number(port));
-//    this->portalMan->listen(addy, port);
-//}
-//
-//void GeometryService::stopListening()
-//{
-//    this->log->logINFO("GeometryService", localGSHostname + " stopped listening.");
-//    this->portalMan->close();
-//}
-//
-//bool GeometryService::isListening() const
-//{
-//    return this->portalMan->isListening();
-//}
 
-void GeometryService::handleNetMsg(NetMsg* msg, NetPortal* origin)
-{
-    quint32 msgType = msg->getMsgType();
-
-    switch (msgType) {
-
-    case (NEWSESSIONREQ):
-	{
-	    //Route to SessionManager
-	    SessionManager::getInstance()->handleNetMsg(msg, origin);
-
-	    break;
-	}
-    default:
-	{
-	    throw new GSException("Does not handle this MsgType");
-	    break;
-	}
-    };
-}
 
 // Local Variables: ***
 // mode: C++ ***

@@ -27,51 +27,14 @@
 #define __NETPORTALMANAGER_H__
 
 #include "libutility.h"
-#include "libevent.h"
-#include "NetMsg.h"
-#include "INetMsgHandler.h"
 
-#include <QtNetwork/QTcpServer>
-#include <QtNetwork/QHostAddress>
-#include <QMap>
-#include <QUuid>
-#include <QList>
-#include <QByteArray>
+#include <Qt>
 
-class NetPortal;
-
-class NetPortalManager: public QTcpServer, public EventSubscriber
+class NetPortalManager
 {
-
 public:
-	NetPortalManager(QString GSHostname, INetMsgHandler* handler, QObject* parent = 0);
+	NetPortalManager(quint32 port);
 	~NetPortalManager();
-
-	QString getLocalGSHostname();
-	NetPortal* getNewPortal(int socketDescriptor = 0);
-	NetPortal* getPortalByRemoteGSHostname(QString remHostname);
-	void localLog(QString str);
-
-	void handleEvent(Event* e);
-
-	void mapPortalToGSHostname(NetPortal* portal);
-	void unmapPortalToGSHostname(NetPortal* portal);
-
-protected:
-	void incomingConnection(int socketDescriptor);
-
-private:
-	void registerPortal(NetPortal* portal);
-	void unregisterPortal(NetPortal* portal);
-	NetPortal* preparePortal();
-
-	QString localGSHostname;
-	Logger* log;
-
-	QMap<QString, NetPortal*>* gsHostnameToPortalMap;
-	QList<NetPortal*>* portalList;
-
-	INetMsgHandler* handler;
 };
 
 #endif

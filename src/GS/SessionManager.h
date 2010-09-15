@@ -27,16 +27,14 @@
 #define __SESSIONMANAGER_H__
 
 #include "Session.h"
-#include "libnet.h"
 
 #include <QtCore/QMap>
 
-class SessionManager: public INetMsgHandler
+class SessionManager
 {
 public:
     static SessionManager* getInstance();
     virtual ~SessionManager();
-    void handleNetMsg(NetMsg* msg, NetPortal* origin);
 
 private:
     static SessionManager* pInstance;
