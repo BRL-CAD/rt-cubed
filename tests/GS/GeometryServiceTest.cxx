@@ -31,7 +31,7 @@
 #include <iomanip>
 
 #include "libgs.h"
-#include "libnetwork.h"
+#include "libnet.h"
 
 #include <QUuid>
 #include <QString>
