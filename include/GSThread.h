@@ -39,7 +39,12 @@ public:
   static void msleep (unsigned long msecs);
   static void usleep (unsigned long usecs);
 
-private:
+protected:
+
+  //For thread management
+  static QList<GSThread*> threads;
+  static void addThread(GSThread* thread);
+  static void remThread(GSThread* thread);
 
 };
 
