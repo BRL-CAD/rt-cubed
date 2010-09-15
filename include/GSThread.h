@@ -27,13 +27,20 @@
 #define __GSTHREAD_H__
 
 #include <QtCore/QThread>
+#include <QtCore/QList>
 
 class GSThread : public QThread
 {
 public:
   GSThread();
-  virtual
-  ~GSThread();
+  virtual ~GSThread();
+
+  static void sleep (unsigned long secs);
+  static void msleep (unsigned long msecs);
+  static void usleep (unsigned long usecs);
+
+private:
+
 };
 
 #endif /* __GSTHREAD_H__ */

@@ -33,6 +33,24 @@ GSThread::~GSThread()
 {
 }
 
+void
+GSThread::sleep(unsigned long secs)
+{
+  QThread::sleep(secs);
+}
+
+void
+GSThread::msleep(unsigned long msecs)
+{
+  QThread::msleep(msecs);
+}
+
+void
+GSThread::usleep(unsigned long usecs)
+{
+  QThread::usleep(usecs);
+}
+
 // Local Variables:
 // tab-width: 8
 // mode: C++
