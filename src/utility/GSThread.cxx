@@ -25,7 +25,7 @@
 
 #include "GSThread.h"
 
-QList<GSThread*> threads();
+QList<GSThread*> GSThread::threads;
 
 GSThread::GSThread()
 {

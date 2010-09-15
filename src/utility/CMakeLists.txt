@@ -45,7 +45,6 @@ RT3_PROJECT_ADD_SOURCES (
 	DataStreamUtils.cxx
 	GSException.cxx
 	Logger.cxx
-	ThreadUtils.cxx
 	GSThread.cxx
 )
 
@@ -55,7 +54,6 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	DataStreamUtils.h
 	GSException.h
 	Logger.h
-	ThreadUtils.h
 	GSThread.h
 )
 

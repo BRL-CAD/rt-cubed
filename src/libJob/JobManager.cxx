@@ -85,7 +85,7 @@ void JobManager::shutdown(bool finishJobQueue)
 
     while (this->jobQueue->size() != 0 && finishJobQueue) {
     	this->log->logINFO("JobManager", "Waiting for JobWorkers to process JobQueue. " + QString::number(this->jobQueue->size()) + " items remain...");
-    	ThreadUtils::sleep(waitTimePerLoopSecs);
+    	GSThread::sleep(waitTimePerLoopSecs);
     	++curPasses;
     	if (curPasses >= maxPasses) {
     		this->log->logINFO("JobManager", "Shutdown Wait-time fail safe reached.  Forcing Shutdown.");
