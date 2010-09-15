@@ -1,4 +1,4 @@
-/*                     N E T P O R T A L . H
+/*                        P O R T A L . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,20 +17,20 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NetPortal.h
+/** @file Portal.h
  *
  * Brief description
  *
  */
 
-#ifndef __NETPORTAL_H__
-#define __NETPORTAL_H__
+#ifndef __PORTAL_H__
+#define __PORTAL_H__
 
-class NetPortal
+class Portal
 {
 public:
-	NetPortal();
-	virtual ~NetPortal();
+	Portal();
+	virtual ~Portal();
 };
 
 #endif

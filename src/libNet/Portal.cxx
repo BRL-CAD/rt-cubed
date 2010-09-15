@@ -1,4 +1,4 @@
-/*               N E T P O R T A L . C X X
+/*                  P O R T A L . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,19 +17,19 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NetPortal.cxx
+/** @file Portal.cxx
  *
  * Brief description
  *
  */
 
-#include "NetPortal.h"
+#include "Portal.h"
 
-NetPortal::NetPortal()
+Portal::Portal()
 {
 }
 
-NetPortal::~NetPortal()
+Portal::~Portal()
 {
 }
 

@@ -1,4 +1,4 @@
-/*        N E T P O R T A L M A N A G E R . C X X
+/*                 P O R T A L M A N A G E R . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,26 +17,34 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NetPortalManager.cxx
+/** @file PortalManager.h
  *
  * Brief description
  *
  */
 
-#include "NetPortalManager.h"
+#ifndef __PORTALMANAGER_H__
+#define __PORTALMANAGER_H__
 
-NetPortalManager::NetPortalManager(quint32 port)
+#include "libutility.h"
+
+#include <Qt>
+
+class PortalManager
 {
-}
+public:
+	PortalManager(quint32 port);
+	~PortalManager();
+};
 
-NetPortalManager::~NetPortalManager()
-{
-}
+#endif
 
-// Local Variables:
-// tab-width: 8
-// mode: C++
-// c-basic-offset: 4
-// indent-tabs-mode: t
-// End:
-// ex: shiftwidth=4 tabstop=8
+/*
+ * Local Variables:
+ * tab-width: 8
+ * mode: C
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

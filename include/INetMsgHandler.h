@@ -29,11 +29,11 @@
 #define __INETMSGHANDLER_H__
 
 #include "NetMsg.h"
-#include "NetPortal.h"
+#include "Portal.h"
 
 class INetMsgHandler {
 public:
-	virtual void handleNetMsg(NetMsg* msg, NetPortal* origin) = 0;
+	virtual void handleNetMsg(NetMsg* msg, Portal* origin) = 0;
 };
 
 #endif /* __INETMSGHANDLER_H__ */
