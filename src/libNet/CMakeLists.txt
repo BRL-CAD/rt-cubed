@@ -40,6 +40,7 @@ RT3_PROJECT_ADD_LIBS(
     job
     utility
     event
+    pkgcpp
     ${QT_LIBRARIES}
 )
 
