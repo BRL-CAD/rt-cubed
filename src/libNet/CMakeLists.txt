@@ -31,6 +31,7 @@ RT3_PROJECT(net)
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS(
     ${QT_INCLUDE_DIR}
+    ${BRLCAD_INC_DIRS}
 )
 
 #Set Libs
