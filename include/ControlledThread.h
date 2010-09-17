@@ -49,12 +49,12 @@ protected:
   virtual bool preShutdownHook();
   virtual bool postShutdownHook();
 
-private:
   /* fields */
   QString threadName;
   bool runCmd;
   bool runStatus;
 
+private:
   GSThread* internalThread;
 };
 
