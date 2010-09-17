@@ -42,4 +42,4 @@ ADD_SUBDIRECTORY(./coreInterface)
 
 #Apps Last
 ADD_SUBDIRECTORY(./GS)
-ADD_SUBDIRECTORY(./adminpanel)
+#ADD_SUBDIRECTORY(./adminpanel)
