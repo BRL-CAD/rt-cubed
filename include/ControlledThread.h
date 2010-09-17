@@ -24,6 +24,9 @@
 #ifndef __CONTROLLEDTHREAD_H__
 #define __CONTROLLEDTHREAD_H__
 
+#include <Qt>
+#include "GSThread.h"
+
 class ControlledThread
 {
 public:
@@ -34,11 +37,17 @@ public:
   bool shutdown();
 
 protected:
-  virtual boolean preStartupHook() = 0;
-  virtual boolean postStartupHook() = 0;
+  virtual bool preStartupHook();
+  virtual bool postStartupHook();
 
-  virtual boolean preShutdownHook() = 0;
-  virtual boolean postShutdownHook() = 0;
+  virtual bool preRunHook();
+  void run();
+  virtual void _run();
+  virtual void _runLoopPass();
+  virtual bool postRunHook();
+
+  virtual bool preShutdownHook();
+  virtual bool postShutdownHook();
 
 private:
   /* fields */
@@ -46,6 +55,7 @@ private:
   bool runCmd;
   bool runStatus;
 
+  GSThread* internalThread;
 };
 
 #endif /* __CONTROLLEDTHREAD_H__ */
