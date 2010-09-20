@@ -26,8 +26,8 @@
 
 #include "PkgUdpServer.h"
 
-PkgUdpServer::PkgUdpServer(pkg_switch callbacks[]) :
-  PkgServer(PKGCPP_PROTO_UDP, callbacks)
+PkgUdpServer::PkgUdpServer() :
+  PkgServer(PKGCPP_PROTO_UDP)
 {}
 
 PkgUdpServer::~PkgUdpServer()

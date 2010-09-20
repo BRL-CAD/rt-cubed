@@ -33,7 +33,7 @@
 class PkgUdpServer : public PkgServer
 {
 public:
-  PkgUdpServer(pkg_switch callbacks[]);
+  PkgUdpServer();
   virtual
   ~PkgUdpServer();
 

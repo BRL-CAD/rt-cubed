@@ -26,8 +26,8 @@
 
 #include "PkgTcpServer.h"
 
-PkgTcpServer::PkgTcpServer(pkg_switch callbacks[]) :
-  PkgServer(PKGCPP_PROTO_TCP, callbacks)
+PkgTcpServer::PkgTcpServer() :
+  PkgServer(PKGCPP_PROTO_TCP)
 {}
 
 PkgTcpServer::~PkgTcpServer()
