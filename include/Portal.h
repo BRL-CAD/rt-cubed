@@ -26,11 +26,24 @@
 #ifndef __PORTAL_H__
 #define __PORTAL_H__
 
+#define PKG_MAGIC2      5309
+
+#include <QtCore/QString>
+#include "PkgTcpClient.h"
+#include "brlcad/pkg.h"
+
 class Portal
 {
 public:
-	Portal();
+	Portal(PkgTcpClient* client);
 	virtual ~Portal();
+
+	QString getRemoteNodeName();
+private:
+	PkgTcpClient* pkgClient;
+	QString remoteNodeName;
+
+	static void callbackSpringboard(struct pkg_conn* conn, char* buf);
 };
 
 #endif
