@@ -35,12 +35,10 @@ ControlledThread::ControlledThread(QString threadName)
     }
   this->runCmd = false;
   this->runStatus = false;
-  this->internalThread = new GSThread();
 }
 
 ControlledThread::~ControlledThread()
 {
-  delete this->internalThread;
 }
 
 bool

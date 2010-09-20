@@ -27,7 +27,7 @@
 #include <Qt>
 #include "GSThread.h"
 
-class ControlledThread
+class ControlledThread : public QThread
 {
 public:
   ControlledThread(QString threadname = "");
@@ -53,9 +53,6 @@ protected:
   QString threadName;
   bool runCmd;
   bool runStatus;
-
-private:
-  GSThread* internalThread;
 };
 
 #endif /* __CONTROLLEDTHREAD_H__ */
