@@ -28,10 +28,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-PkgServer::PkgServer(std::string proto, struct pkg_switch* callBackTableIn)
+PkgServer::PkgServer(std::string proto)
 {
   this->proto = proto;
-  this->callBackTable = callBackTableIn;
 }
 
 PkgServer::~PkgServer()
@@ -59,23 +58,26 @@ PkgServer::listen(unsigned short port)
 
 PkgClient*
 PkgServer::waitForClient(int waitTime) {
-	pkg_conn* clientStruct = pkg_getclient(this->listenFD, this->callBackTable,
-			NULL, waitTime);
-	if (clientStruct == PKC_NULL) {
-		if (waitTime == 0) {
-			bu_log("Connection seems to be busy, waiting...\n");
-			usleep(100);
-		}
-		return NULL;
-	} else if (clientStruct == PKC_ERROR) {
-		//Fatal error accepting client connection
-		bu_log("Fatal error accepting client connection.\n");
-		pkg_close(clientStruct);
-		return NULL;
-	}
+	pkg_conn* clientStruct = pkg_getclient(this->listenFD, NULL, NULL, waitTime);
+  if (clientStruct == PKC_NULL)
+    {
+      if (waitTime == 0)
+        {
+          bu_log("Connection seems to be busy, waiting...\n");
+          usleep(100);
+        }
+      return NULL;
+    }
+  else if (clientStruct == PKC_ERROR)
+    {
+      //Fatal error accepting client connection
+      bu_log("Fatal error accepting client connection.\n");
+      pkg_close(clientStruct);
+      return NULL;
+    }
 
-	PkgClient* pkgClientObj = this->getNewClient(clientStruct);
-	return pkgClientObj;
+  PkgClient* pkgClientObj = this->getNewClient(clientStruct);
+  return pkgClientObj;
 }
 
 /*

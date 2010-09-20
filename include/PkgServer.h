@@ -32,12 +32,10 @@
 class PkgServer
 {
 public:
-  PkgServer(std::string proto, pkg_switch callbacks[]);
-  virtual
-  ~PkgServer();
+  PkgServer(std::string proto);
+  virtual ~PkgServer();
 
-  bool
-  listen(unsigned short port);
+  bool listen(unsigned short port);
 
   /*
    * This function blocks if waitTime is set to '0'.  '0' is default.
@@ -48,7 +46,6 @@ public:
 private:
   std::string proto;
   int listenFD;
-  pkg_switch* callBackTable;
 
   virtual PkgClient*
   getNewClient(pkg_conn* conn) = 0;
