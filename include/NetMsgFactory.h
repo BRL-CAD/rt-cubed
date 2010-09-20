@@ -26,39 +26,25 @@
 #ifndef __NETMSGFACTORY_H__
 #define __NETMSGFACTORY_H__
 
+#include "brlcad/pkg.h"
 #include "libutility.h"
 #include "NetMsg.h"
 
+
 #include <QtCore/QByteArray>
-#include <QtCore/QQueue>
-#include <QtCore/QBuffer>
-#include <QtCore/QMutex>
+#include <QtCore/QString>
+#include <QtCore/QDataStream>
 
 class NetMsgFactory
 {
-
 public:
+  static NetMsgFactory* getInstance();
+  virtual  ~NetMsgFactory();
+  NetMsg* deserializeNetMsg(QByteArray& data, QString origin);
 
-	NetMsgFactory();
-	virtual ~NetMsgFactory();
-
-	bool addData(QByteArray& data);
-	NetMsg* makeMsg();
-	void printBufferStatus(bool extended);
-
-	void setPortalName(QString portalName);
-	QString getPortalName();
 private:
-	Logger* log;
-	QString portalName;
-
-	QMutex* bufferLock;
-	QBuffer* intBuffer;
-	quint64 limit;
-
-	void compactBuffer();
-	static NetMsg* buildMsgByType(quint32 type, QDataStream* qds,
-			QString portalName);
+  NetMsgFactory();
+  static NetMsgFactory* pInstance;
 };
 
 #endif
