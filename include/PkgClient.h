@@ -74,6 +74,7 @@ public:
   int
   send(int opcode, const char* buffer, size_t bufferLen);
 
+  void setCallBackTable(struct pkg_switch* callback);
 private:
   std::string proto;
   pkg_conn* conn;

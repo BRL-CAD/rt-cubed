@@ -92,6 +92,12 @@ PkgClient::pullDataFromSocket()
   return retVal;
 }
 
+void
+PkgClient::setCallBackTable(struct pkg_switch* callback)
+{
+  this->conn->pkc_switch = callback;
+}
+
 /*
  * Local Variables:
  * mode: C
