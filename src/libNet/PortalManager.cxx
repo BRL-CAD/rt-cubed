@@ -24,13 +24,37 @@
  */
 
 #include "PortalManager.h"
+#include "NetMsgFactory.h"
+#include "PkgTcpClient.h"
 
-PortalManager::PortalManager(quint32 port)
+PortalManager::PortalManager(quint32 port) : ControlledThread("PortalManager")
 {
+  this->port = port;
+
+
+  this->tcpServer = new PkgTcpServer();
+
 }
 
 PortalManager::~PortalManager()
 {
+}
+
+void
+ControlledThread::_run()
+{
+
+  while (this->runCmd)
+    {
+      this->_runLoopPass();
+    }
+}
+
+void
+PortalManager::_runLoopPass()
+{
+  PkgTcpClient* client = (PkgTcpClient*) this->tcpServer->waitForClient(123);
+
 }
 
 // Local Variables:

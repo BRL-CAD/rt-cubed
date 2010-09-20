@@ -29,12 +29,24 @@
 #include "libutility.h"
 
 #include <Qt>
+#include "ControlledThread.h"
+#include "PkgTcpServer.h"
 
-class PortalManager
+class PortalManager : public ControlledThread
 {
 public:
 	PortalManager(quint32 port);
 	~PortalManager();
+
+protected:
+	void _run();
+	void _runLoopPass();
+
+private:
+	quint32 port;
+	PkgTcpServer* tcpServer;
+
+	void makeFactoryJob(QByteArray* data);
 };
 
 #endif
