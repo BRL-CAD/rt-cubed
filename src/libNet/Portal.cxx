@@ -44,6 +44,41 @@ Portal::~Portal()
 {
 }
 
+int
+Portal::sendRecv(){
+  int retval = 0;
+
+  //recv first
+  retval = this->pkgClient->processData();
+  if (retval < 0){
+      bu_log("Unable to process packets? Weird.\n");
+      return retval;
+  }//TODO do we need to check for ==0 ?
+
+
+  retval = this->pkgClient->pullDataFromSocket();
+  if (retval < 0) {
+    bu_log("Seemed to have trouble pulling the data from the socket.\n");
+    return retval;
+
+  } else if (retval == 0) {
+    bu_log("Client closed the connection.\n");
+    return retval;
+  }
+
+  retval = this->pkgClient->processData();
+  if (retval < 0){
+      bu_log("Unable to process packets? Weird.\n");
+      return retval;
+  }//TODO do we need to check for ==0 ?
+
+
+  //Now do send.
+  //TODO do send
+
+  return 1;
+}
+
 QString
 Portal::getRemoteNodeName(){
   return this->remoteNodeName + "";

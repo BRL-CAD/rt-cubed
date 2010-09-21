@@ -35,15 +35,27 @@
 class Portal
 {
 public:
-	Portal(PkgTcpClient* client);
-	virtual ~Portal();
+  friend class PortalManager;
+  virtual ~Portal();
 
-	QString getRemoteNodeName();
+  /*
+   * Returns:
+   *          <0 on error
+   *          0 on EOF
+   *          >0 on success
+   */
+  int sendRecv();
+
+  QString getRemoteNodeName();
+
+protected:
+  Portal(PkgTcpClient* client);
+
 private:
-	PkgTcpClient* pkgClient;
-	QString remoteNodeName;
+  PkgTcpClient* pkgClient;
+  QString remoteNodeName;
 
-	static void callbackSpringboard(struct pkg_conn* conn, char* buf);
+  static void callbackSpringboard(struct pkg_conn* conn, char* buf);
 };
 
 #endif
