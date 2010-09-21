@@ -27,10 +27,13 @@
 #define __PORTALMANAGER_H__
 
 #include "libutility.h"
-
-#include <Qt>
 #include "ControlledThread.h"
 #include "PkgTcpServer.h"
+#include <Qt>
+#include <QtCore/QList>
+#include <QtCore/QMutex>
+
+class Portal;
 
 class PortalManager : public ControlledThread
 {
@@ -45,6 +48,9 @@ protected:
 private:
 	quint32 port;
 	PkgTcpServer* tcpServer;
+
+	QMutex* portalsLock;
+	QList<Portal*>* portals;
 };
 
 #endif

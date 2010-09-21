@@ -23,6 +23,7 @@
  *
  */
 
+#include "Portal.h"
 #include "PortalManager.h"
 #include "NetMsgFactory.h"
 #include "PkgTcpClient.h"
@@ -30,10 +31,9 @@
 PortalManager::PortalManager(quint32 port) : ControlledThread("PortalManager")
 {
   this->port = port;
-
-
   this->tcpServer = new PkgTcpServer();
-
+  this->portals = new QList<Portal*>();
+  this->portalsLock = new QMutex();
 }
 
 PortalManager::~PortalManager()
@@ -55,6 +55,33 @@ PortalManager::_runLoopPass()
 {
   PkgTcpClient* client = (PkgTcpClient*) this->tcpServer->waitForClient(123);
 
+  if (client == 0) {
+    //Handle failure here.
+    return;
+  } else {
+    Portal* newPortal = new Portal(client);
+
+    //Handle new client here.
+    this->portalsLock->lock();
+    this->portals->append(newPortal);
+    this->portalsLock->unlock();
+  }
+
+  QMutexLocker locker(this->portalsLock);
+
+  //Handle existing clients here
+
+  for (int i = 0; i < this->portals->size(); ++i) {
+    Portal* p = this->portals->at(i);
+
+    int retval = p->sendRecv();
+
+    if (retval <= 0) {
+      //disconnect
+      continue;
+    }
+
+  }
 }
 
 // Local Variables:
