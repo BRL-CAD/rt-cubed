@@ -28,48 +28,46 @@
 
 /*  NetMsg Types */
 
-#define	TEST_GENERIC_4BYTE_MSG	20
-#define	TEST_GENERIC_2BYTE_MSG	21
-#define	TEST_GENERIC_1BYTE_MSG	22
-#define	TEST_GENERIC_MULTIBYTE_MSG	23
+#define	TEST_GENERIC_4BYTE_MSG	        0x0020
+#define	TEST_GENERIC_2BYTE_MSG	        0x0021
+#define	TEST_GENERIC_1BYTE_MSG          0x0022
+#define	TEST_GENERIC_MULTIBYTE_MSG	0x0023
+#define	TEST_GENERIC_1STRING_MSG	0x0024
 
-#define	TEST_GENERIC_1STRING_MSG	24
+#define	FAILURE			        0x0050
+#define	SUCCESS          	        0x0051
 
+#define REMGSHOSTNAMESET	        0x0100
 
-#define	FAILURE			50
-#define	SUCCESS          	51
+#define	DISCONNECTREQ 		        0x0150
 
-#define REMGSHOSTNAMESET	100
+#define NEWHOSTONNET                    0x0200
 
-#define	DISCONNECTREQ 		150
+#define FULLHOSTLISTREQ		        0x0250
+#define FULLHOSTLIST		        0x0255
 
-#define NEWHOSTONNET     	200
+#define NEWSESSIONREQ		        0x0300
+#define SESSIONINFO		        0x0305
+#define LOGOUTSESSION		        0x0310
 
-#define FULLHOSTLISTREQ		250
-#define FULLHOSTLIST		255
-
-#define NEWSESSIONREQ		300
-#define SESSIONINFO		305
-#define LOGOUTSESSION		310
-
-#define	GEOMETRYREQ		400
-#define ReqByUUID       	  10
-#define ReqByFilePath  		  11
-#define GEOMETRYMANIFEST	405
-#define GEOMETRYCHUNK		410
+#define	GEOMETRYREQ		        0x0400
+#define ReqByUUID       	          0x0010
+#define ReqByFilePath  		          0x0011
+#define GEOMETRYMANIFEST	        0x0405
+#define GEOMETRYCHUNK		        0x0410
 
 /*  Failure Codes */
-#define UUIDNotFoundFailure      10
-#define FileNotFoundFailure      20
+#define UUIDNotFoundFailure             0x0010
+#define FileNotFoundFailure             0x0020
 
-#define PORTAL_HANDSHAKE_FAILURE   	30
-#define UNKNOWN_PORTAL_FAILURE		40
-#define PORTAL_WRITE_FAILURE		50
-#define PORTAL_READ_FAILURE		60
-#define REM_HOST_DISCONNECT		70
-#define LOCAL_DISCONNECT_REQ		80
+#define PORTAL_HANDSHAKE_FAILURE   	0x0030
+#define UNKNOWN_PORTAL_FAILURE		0x0040
+#define PORTAL_WRITE_FAILURE		0x0050
+#define PORTAL_READ_FAILURE		0x0060
+#define REM_HOST_DISCONNECT		0x0070
+#define LOCAL_DISCONNECT_REQ		0x0080
 
-#define AUTHENTICATION_FAILED		90
+#define AUTHENTICATION_FAILED		0x0090
 
 #endif /* __NETMSGTYPES_H__ */
 
