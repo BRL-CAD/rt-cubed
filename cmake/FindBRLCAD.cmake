@@ -36,7 +36,6 @@
 #########################################################################
 
 MESSAGE(STATUS "\tSearching for BRLCAD...")
-
 IF(RT3_VERBOSE_CMAKE_OUTPUT)   
     MESSAGE(STATUS "\t\tEnviornment Variable 'PATH': $ENV{PATH}")
 ENDIF(RT3_VERBOSE_CMAKE_OUTPUT)  
@@ -61,10 +60,14 @@ ELSE(BRLCAD_BASE_DIR)
 
     #Find include directories (aka more than one)
     SET(HEADERS_TO_SEARCH_FOR brlcad/bu.h bu.h opennurbs.h )
-       
+   
+	 SET(INCLUDE_PATH_LIST "$ENV{PATH}")
+	 STRING(REGEX REPLACE "bin" "include" INCLUDE_PATH_LIST "${INCLUDE_PATH_LIST}")	
+	 STRING(REGEX REPLACE ":" ";" INCLUDE_PATH_LIST "${INCLUDE_PATH_LIST}")	 
+
     FOREACH (tHead ${HEADERS_TO_SEARCH_FOR})
             
-        FIND_PATH(_HEADER_DIR_${tHead} ${tHead} "$ENV{PATH}")
+		 FIND_PATH(_HEADER_DIR_${tHead} ${tHead} ${INCLUDE_PATH_LIST})
     
         IF(RT3_VERBOSE_CMAKE_OUTPUT)   
             IF(_HEADER_DIR_${tHead})
@@ -75,30 +78,27 @@ ELSE(BRLCAD_BASE_DIR)
         ENDIF(RT3_VERBOSE_CMAKE_OUTPUT)       
        
         IF(_HEADER_DIR_${tHead})
-            SET(BRLCAD_INC_DIRS ${BRLCAD_INC_DIRS} ${_HEADER_DIR_${tHead}})
-            SET(BRLCAD_HEADERS_FOUND ${BRLCAD_HEADERS_FOUND} ${tHead})        
+            SET(BRLCAD_INC_DIRS "${BRLCAD_INC_DIRS} ${_HEADER_DIR_${tHead}}")
+            SET(BRLCAD_HEADERS_FOUND "${BRLCAD_HEADERS_FOUND} ${tHead}")        
         ELSE(_HEADER_DIR_${tHead})
-            SET(BRLCAD_HEADERS_NOTFOUND ${BRLCAD_HEADERS_NOTFOUND} ${tHead})        
+            SET(BRLCAD_HEADERS_NOTFOUND "${BRLCAD_HEADERS_NOTFOUND} ${tHead}")        
         ENDIF(_HEADER_DIR_${tHead})
     
     ENDFOREACH (tHead ${HEADERS_TO_SEARCH_FOR})
     
     IF(NOT BRLCAD_INC_DIRS)
-      	MESSAGE(STATUS "\t\tCould not find BRLCAD include directories anywhere in paths: $ENV{PATH}")
+		 MESSAGE(STATUS "\t\tCould not find BRLCAD include directories anywhere in paths: ${INCLUDE_PATH_LIST}")
     	RETURN()
     ENDIF(NOT BRLCAD_INC_DIRS)
-
-    #Find /lib
-    IF (UNIX)
-        SET(LIB_EXT ".so")
-    ELSE (UNIX)
-        SET(LIB_EXT ".lib")
-    ENDIF(UNIX)
-    
-    FIND_PATH(BRLCAD_LIB_DIR "libbu${LIB_EXT}")
+ 
+	 SET(LIB_PATH_LIST "$ENV{PATH}")
+	 STRING(REGEX REPLACE "bin" "lib" LIB_PATH_LIST "${LIB_PATH_LIST}")	
+	 STRING(REGEX REPLACE ":" ";" LIB_PATH_LIST "${LIB_PATH_LIST}")	 
+        
+	 FIND_PATH(BRLCAD_LIB_DIR "libbu${CMAKE_SHARED_LIBRARY_SUFFIX}" ${LIB_PATH_LIST})
     
     IF(NOT BRLCAD_LIB_DIR)
-    	MESSAGE(STATUS "\t\tCould not find brlcad library directory in: $ENV{PATH}")
+		 MESSAGE(STATUS "\t\tCould not find brlcad library directory in: ${LIB_PATH_LIST}")
     	RETURN()
     ENDIF(NOT BRLCAD_LIB_DIR)
 
