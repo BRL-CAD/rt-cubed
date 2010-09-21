@@ -78,10 +78,10 @@ ELSE(BRLCAD_BASE_DIR)
         ENDIF(RT3_VERBOSE_CMAKE_OUTPUT)       
        
         IF(_HEADER_DIR_${tHead})
-            SET(BRLCAD_INC_DIRS "${BRLCAD_INC_DIRS} ${_HEADER_DIR_${tHead}}")
-            SET(BRLCAD_HEADERS_FOUND "${BRLCAD_HEADERS_FOUND} ${tHead}")        
+            SET(BRLCAD_INC_DIRS ${BRLCAD_INC_DIRS} ${_HEADER_DIR_${tHead}})
+            SET(BRLCAD_HEADERS_FOUND ${BRLCAD_HEADERS_FOUND} ${tHead})        
         ELSE(_HEADER_DIR_${tHead})
-            SET(BRLCAD_HEADERS_NOTFOUND "${BRLCAD_HEADERS_NOTFOUND} ${tHead}")        
+            SET(BRLCAD_HEADERS_NOTFOUND ${BRLCAD_HEADERS_NOTFOUND} ${tHead})        
         ENDIF(_HEADER_DIR_${tHead})
 
     ENDFOREACH (tHead ${HEADERS_TO_SEARCH_FOR})
