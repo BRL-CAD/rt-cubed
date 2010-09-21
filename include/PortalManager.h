@@ -45,8 +45,6 @@ protected:
 private:
 	quint32 port;
 	PkgTcpServer* tcpServer;
-
-	void makeFactoryJob(QByteArray* data);
 };
 
 #endif
