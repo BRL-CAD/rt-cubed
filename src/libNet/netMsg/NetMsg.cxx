@@ -28,43 +28,41 @@
 
 /* Normal Constructor */
 NetMsg::NetMsg(quint32 mType) :
-    msgLen(0), msgType(mType), hasReUUID(false), reUUID(NULL)
+  msgType(mType), hasReUUID(false), reUUID(NULL)
 {
-    msgUUID = QUuid::createUuid();
+  msgUUID = QUuid::createUuid();
 }
 
 /* Reply Constructor */
 NetMsg::NetMsg(quint32 mType, NetMsg* msg) :
-    msgLen(0), msgType(mType)
+  msgType(mType)
 {
-    if (msg->getMsgUUID() != NULL) {
-	QString strUUID = msg->getMsgUUID().toString();
-	QUuid uuid(strUUID);
-	this->reUUID = uuid;
-	this->hasReUUID = true;
-    } else {
-	this->reUUID = NULL;
-	this->hasReUUID = false;
+  if (msg->getMsgUUID() != NULL)
+    {
+      QString strUUID = msg->getMsgUUID().toString();
+      QUuid uuid(strUUID);
+      this->reUUID = uuid;
+      this->hasReUUID = true;
     }
-    msgUUID = QUuid::createUuid();
+  else
+    {
+      this->reUUID = NULL;
+      this->hasReUUID = false;
+    }
+  msgUUID = QUuid::createUuid();
 }
 
 /* Deserializing Constructor */
 NetMsg::NetMsg(QDataStream* ds, QString origin)
 {
-    this->origin = origin;
-
-	*ds >> this->msgLen;
-
-	*ds >> this->msgType;
-
-	this->msgUUID = *Utils::getQUuid(ds);
-
-	*ds >> this->hasReUUID;
-
-	if (this->hasReUUID) {
-	    this->reUUID = *Utils::getQUuid(ds);
-	}
+  this->origin = origin;
+  *ds >> this->msgType;
+  this->msgUUID = *Utils::getQUuid(ds);
+  *ds >> this->hasReUUID;
+  if (this->hasReUUID)
+    {
+      this->reUUID = *Utils::getQUuid(ds);
+    }
 }
 
 /* Destructor */
@@ -73,141 +71,137 @@ NetMsg::~NetMsg()
 }
 
 //Serializers
-QByteArray* NetMsg::serialize()
+QByteArray*
+NetMsg::serialize()
 {
-    QByteArray* ba = new QByteArray();
+  QByteArray* ba = new QByteArray();
 
-    this->serialize(ba);
+  this->serialize(ba);
 
-    return ba;
+  return ba;
 }
 
-void NetMsg::serialize(QByteArray* ba)
+void
+NetMsg::serialize(QByteArray* ba)
 {
-    //Make a BA for the subclass
-    QByteArray* subBA = new QByteArray();
+  //Make a DS for the subclass
+  QDataStream subDS(ba, QIODevice::ReadWrite);
 
-    //Make a DS for the subclass
-    QDataStream* subDS = new QDataStream(subBA, QIODevice::ReadWrite);
+  //Serialize Header
+  subDS << this->msgType;
+  Utils::putQUuid(&subDS, this->msgUUID);
+  subDS << this->hasReUUID;
 
-    //Serialize Header
-    *subDS << this->msgType;
-    Utils::putQUuid(subDS, this->msgUUID);
-    *subDS << this->hasReUUID;
-
-    if (this->hasReUUID) {
-	Utils::putQUuid(subDS, this->reUUID);
+  if (this->hasReUUID)
+    {
+      Utils::putQUuid(&subDS, this->reUUID);
     }
 
-    //Call subclass serialize
-    if (!this->_serialize(subDS)) {
-	std::cerr << "A serialization Error in NetMsg::serialize() occurred.\n";
-	return;
+  //Call subclass serialize
+  if (!this->_serialize(&subDS))
+    {
+      std::cerr << "A serialization Error in NetMsg::serialize() occurred.\n";
+      return;
     }
-
-    //Make a DS & BA
-    QByteArray* outBA = new QByteArray();
-    QDataStream outDS(outBA, QIODevice::ReadWrite);
-
-    //write the length msgLen
-    outDS << subBA->size();
-
-    //Then add the entire contents of subBA
-    *outBA += *subBA;
-
-    //Finally, dump serialized object into the supplied BA:
-    *ba += *outBA;
-
-    delete subDS;
-    delete subBA;
-    delete outBA;
 }
 
 /*
  *Getters n Setters
  */
-quint32 NetMsg::getMsgLen() const
+quint32
+NetMsg::getMsgType() const
 {
-    return this->msgLen;
+  return this->msgType;
 }
-quint32 NetMsg::getMsgType() const
+QUuid
+NetMsg::getMsgUUID() const
 {
-    return this->msgType;
+  return this->msgUUID;
 }
-QUuid NetMsg::getMsgUUID() const
+bool
+NetMsg::msgHasReUUID() const
 {
-    return this->msgUUID;
+  return this->hasReUUID;
 }
-bool NetMsg::msgHasReUUID() const
+QUuid
+NetMsg::getReUUID() const
 {
-    return this->hasReUUID;
-}
-QUuid NetMsg::getReUUID()  const
-{
-    return this->reUUID;
+  return this->reUUID;
 }
 
 /*
  * Utilities
  */
 
-bool NetMsg::operator== (const NetMsg& other)
+bool
+NetMsg::operator==(const NetMsg& other)
 {
-    return this->equals(other);
+  return this->equals(other);
 }
 
-bool NetMsg::equals(const NetMsg& other)
+bool
+NetMsg::equals(const NetMsg& other)
 {
-    if (this->getMsgType() != other.getMsgType()) {
-	return false;
+  if (this->getMsgType() != other.getMsgType())
+    {
+      return false;
     }
 
-    if (this->getMsgUUID() != other.getMsgUUID()) {
-	return false;
+  if (this->getMsgUUID() != other.getMsgUUID())
+    {
+      return false;
     }
 
-    if (this->msgHasReUUID() != other.msgHasReUUID()) {
-	return false;
+  if (this->msgHasReUUID() != other.msgHasReUUID())
+    {
+      return false;
     }
 
-    if (this->msgHasReUUID()) {
-	if (this->getReUUID() != other.getReUUID()) {
-	    return false;
-	}
+  if (this->msgHasReUUID())
+    {
+      if (this->getReUUID() != other.getReUUID())
+        {
+          return false;
+        }
     }
 
-    return this->_equals(other);
+  return this->_equals(other);
 }
 
-QString NetMsg::toString()
+QString
+NetMsg::toString()
 {
-    QString out;
+  QString out;
 
-    out += "msgType: '" + QString::number(this->msgType);
+  out += "msgType: '" + QString::number(this->msgType);
 
-    if (this->msgUUID != NULL) {
-	out += "'\t msgUUID: '" + this->msgUUID.toString();
+  if (this->msgUUID != NULL)
+    {
+      out += "'\t msgUUID: '" + this->msgUUID.toString();
     }
 
-    out += "'\t hasReUUID: '" + QString::number(this->hasReUUID);
+  out += "'\t hasReUUID: '" + QString::number(this->hasReUUID);
 
-    if (this->reUUID != NULL) {
-	out += "'\t reUUID: '" + this->reUUID.toString();
+  if (this->reUUID != NULL)
+    {
+      out += "'\t reUUID: '" + this->reUUID.toString();
     }
 
-    out += "'";
+  out += "'";
 
-    return out;
+  return out;
 }
 
-std::string NetMsg::toStdString()
+std::string
+NetMsg::toStdString()
 {
-    return this->toString().toStdString();
+  return this->toString().toStdString();
 }
 
-void NetMsg::printMe()
+void
+NetMsg::printMe()
 {
-    std::cout << this->toStdString();
+  std::cout << this->toStdString();
 }
 
 // Local Variables: ***

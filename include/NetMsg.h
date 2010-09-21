@@ -55,7 +55,6 @@ public:
 	/*
 	 *Getters n Setters
 	 */
-	quint32 getMsgLen() const;
 	quint32 getMsgType() const;
 	QUuid getMsgUUID() const;
 	bool msgHasReUUID() const;
@@ -72,8 +71,7 @@ public:
 	bool operator== (const NetMsg& other);
 
 protected:
-	quint32 msgLen;
-	quint32 msgType;
+	quint16 msgType;
 	QUuid msgUUID;
 	bool hasReUUID;
 	QUuid reUUID;
