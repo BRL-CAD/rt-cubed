@@ -51,8 +51,8 @@
 #define LOGOUTSESSION		        0x0310
 
 #define	GEOMETRYREQ		        0x0400
-#define ReqByUUID       	          0x0010
-#define ReqByFilePath  		          0x0011
+#define ReqByUUID       	          0x00
+#define ReqByFilePath  		          0x01
 #define GEOMETRYMANIFEST	        0x0405
 #define GEOMETRYCHUNK		        0x0410
 
