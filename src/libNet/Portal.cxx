@@ -73,6 +73,7 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf)
   /* check to see if we deserialized the msg properly */
   if (msg == 0) {
     bu_log("WARNING!  NetMsg failed to deserialize properly.\n");
+    return;
   }
 
   /* Route */
