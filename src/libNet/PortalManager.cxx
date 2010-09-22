@@ -108,6 +108,9 @@ PortalManager::_run()
 						int newFD = newPortal->pkgClient->getFileDescriptor();
 						this->fdPortalMap->insert(newFD, newPortal);
 						this->portalsLock->unlock();
+						if (newFD > fdmax) {
+							fdmax = newFD;
+						}
 					}
 
 					//else we are plain reading.
