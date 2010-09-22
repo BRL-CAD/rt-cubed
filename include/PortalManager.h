@@ -31,6 +31,7 @@
 #include "PkgTcpServer.h"
 #include <QtCore/QList>
 #include <QtCore/QMutex>
+#include <QtCore/QString>
 
 class Portal;
 
@@ -49,6 +50,8 @@ private:
 
 	QMutex* portalsLock;
 	QMap<int, Portal*>* fdPortalMap;
+
+	void closeFD(int fd, QString logComment, fd_set* fdset = 0);
 
 };
 

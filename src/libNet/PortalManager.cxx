@@ -92,7 +92,7 @@ PortalManager::_run()
       for (int i = 0; i <= fdmax; ++i) {
 			if (FD_ISSET(i, &exceptionfds)) {
 				//TODO handle exceptions
-				perror("Exception on FIleDescriptor");
+				perror("Exception on FileDescriptor");
 			}
 			if (FD_ISSET(i, &readfds)) {
 				//If we are 'reading' on listener
@@ -118,25 +118,17 @@ PortalManager::_run()
 						int readResult = this->fdPortalMap->value(i)->read();
                         this->portalsLock->unlock();
 
-						if (readResult == 0) {
-							bu_log("Lost connection to remote host.\n");
-							close(i);
-							FD_CLR(i, &masterfds);
-							continue;
-
-						} else if (readResult < 0) {
-                            bu_log("Error on read, dropping connection to remote host.\n");
-							close(i);
-							FD_CLR(i, &masterfds);
-							continue;
-
-						}
+                        if (readResult == 0) {
+                                this->closeFD(i,"Lost connection to remote host.\n", &masterfds);
+                                continue;
+                        } else if (readResult < 0) {
+                                this->closeFD(i, "Error on read, dropping connection to remote host.\n", &masterfds);
+                                continue;
+                        }
 
 					} else {
-                        bu_log("Attempting to read from FD not associated with a Portal, dropping connection to remote host.\n");
-						//Deal with unmapped file Descriptor
-						close(i);
-						FD_CLR(i, &masterfds);
+                        //Deal with unmapped file Descriptor
+						this->closeFD(i,"Attempting to read from FD not associated with a Portal, dropping connection to remote host.\n", &masterfds);
 						continue;
 					}
 				}
@@ -149,34 +141,35 @@ PortalManager::_run()
 					this->portalsLock->unlock();
 
 					if (readResult == 0) {
-						bu_log("Lost connection to remote host.\n");
-						close(i);
-						FD_CLR(i, &masterfds);
+						this->closeFD(i,"Lost connection to remote host.\n", &masterfds);
 						continue;
-
 					} else if (readResult < 0) {
-						bu_log(
-								"Error on write, dropping connection to remote host.\n");
-						close(i);
-						FD_CLR(i, &masterfds);
+						this->closeFD(i, "Error on write, dropping connection to remote host.\n", &masterfds);
 						continue;
-
 					}
 
 				} else {
-					bu_log(
-							"Attempting to write to FD not associated with a Portal, dropping connection to remote host.\n");
-					//Deal with unmapped file Descriptor
-					close(i);
-					FD_CLR(i, &masterfds);
+                    //Deal with unmapped file Descriptor
+					this->closeFD(i,"Attempting to write to FD not associated with a Portal, dropping connection to remote host.", &masterfds);
 					continue;
 				}
 			}
 		} //end FOR
-
-
     } //end while
 }//end fn
+
+void
+PortalManager::closeFD(int fd, QString logComment, fd_set* fdset)
+{
+	close(fd);
+	if (fdset != 0) {
+		FD_CLR(fd, fdset);
+	}
+
+	logComment.append("\n");
+	bu_log(logComment.toStdString().c_str());
+}
+
 
 // Local Variables:
 // tab-width: 8
