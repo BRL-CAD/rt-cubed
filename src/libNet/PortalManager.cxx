@@ -22,17 +22,17 @@
  * Brief description
  *
  */
-
+#include "brlcad/bu.h"
 #include "Portal.h"
 #include "PortalManager.h"
 #include "NetMsgFactory.h"
 #include "PkgTcpClient.h"
 
-PortalManager::PortalManager(quint32 port) : ControlledThread("PortalManager")
+PortalManager::PortalManager(quint16 port) : ControlledThread("PortalManager")
 {
   this->port = port;
   this->tcpServer = new PkgTcpServer();
-  this->portals = new QList<Portal*>();
+  this->fdPortalMap = new QMap<int, Portal*>();
   this->portalsLock = new QMutex();
 }
 
@@ -41,43 +41,142 @@ PortalManager::~PortalManager()
 }
 
 void
-ControlledThread::_run()
+PortalManager::_run()
 {
+  fd_set masterfds;
+  fd_set readfds;
+  fd_set writefds;
+  fd_set exceptionfds;
+  int fdmax;
 
-  while (this->runCmd)
-    {
-      this->_runLoopPass();
-    }
-}
+  FD_ZERO(&masterfds);
+  FD_ZERO(&readfds);
+  FD_ZERO(&writefds);
+  FD_ZERO(&exceptionfds);
 
-void
-PortalManager::_runLoopPass()
-{
-  PkgTcpClient* client = (PkgTcpClient*) this->tcpServer->waitForClient(123);
 
-  if (client != 0) {
-    //Handle new client here.
-    Portal* newPortal = new Portal(client);
-    this->portalsLock->lock();
-    this->portals->append(newPortal);
-    this->portalsLock->unlock();
+  int listener = this->tcpServer->listen(this->port);
+  if (listener < 0) {
+      bu_log("PortalManager failed to listen\n");
+      return;
   }
 
-  //regardless of new client or not, process existing portals
-  QMutexLocker locker(this->portalsLock);
+  FD_SET(listener, &masterfds);
+  fdmax = listener;
 
-  for (int i = 0; i < this->portals->size(); ++i) {
-    Portal* p = this->portals->at(i);
+  while (this->runCmd) {
+    readfds = masterfds;
+    writefds = masterfds;
+    exceptionfds = masterfds;
 
-    int retval = p->sendRecv();
+    //Shelect!!
+    int retval = select(fdmax+1, &readfds, &writefds, &exceptionfds, NULL);
+    if(retval <0) {
+      //got a selector error
 
-    if (retval <= 0) {
-      //disconnect this portal
-      continue;
+/*      if(revtal == EABDF) {
+        bu_log("Selector Error: EBADF: An invalid file descriptor was given in one of the sets. (Perhaps a file descriptor that was already closed, or one on which an error has occurred.)\n");
+       } else if (retval == EINTR) {
+         bu_log("Selector Error: EINTR: A signal was caught.\n");
+       } else if (retval == EINVAL) {
+         bu_log("Selector Error: EINVAL: nfds is negative or the value contained within timeout is invalid.\n");
+       } else if (retval == ENOMEM) {
+         bu_log("Selector Error: ENOMEM: unable to allocate memory for internal tables.\n");
+       }*/
+
+      bu_log("Selector Error.\n");
+
+      break;
     }
 
-  }
-}
+      for (int i = 0; i <= fdmax; ++i) {
+			if (FD_ISSET(i, &exceptionfds)) {
+				//TODO handle exceptions
+				perror("Exception on FIleDescriptor");
+			}
+			if (FD_ISSET(i, &readfds)) {
+				//If we are 'reading' on listener
+				if (i == listener) {
+					PkgTcpClient* client = (PkgTcpClient*) this->tcpServer->waitForClient(42);
+
+					if (client == 0) {
+						bu_log("Error on accepting new client.\n");
+					} else {
+						//Handle new client here.
+						Portal* newPortal = new Portal(client);
+						this->portalsLock->lock();
+						int newFD = newPortal->pkgClient->getFileDescriptor();
+						this->fdPortalMap->insert(newFD, newPortal);
+						this->portalsLock->unlock();
+					}
+
+					//else we are plain reading.
+				} else {
+					//Portal->read here.
+					if (this->fdPortalMap->contains(i)) {
+                        this->portalsLock->lock();
+						int readResult = this->fdPortalMap->value(i)->read();
+                        this->portalsLock->unlock();
+
+						if (readResult == 0) {
+							bu_log("Lost connection to remote host.\n");
+							close(i);
+							FD_CLR(i, &masterfds);
+							continue;
+
+						} else if (readResult < 0) {
+                            bu_log("Error on read, dropping connection to remote host.\n");
+							close(i);
+							FD_CLR(i, &masterfds);
+							continue;
+
+						}
+
+					} else {
+                        bu_log("Attempting to read from FD not associated with a Portal, dropping connection to remote host.\n");
+						//Deal with unmapped file Descriptor
+						close(i);
+						FD_CLR(i, &masterfds);
+						continue;
+					}
+				}
+			}
+			if (FD_ISSET(i, &writefds)) {
+				//Portal->write here.
+				if (this->fdPortalMap->contains(i)) {
+					this->portalsLock->lock();
+					int readResult = this->fdPortalMap->value(i)->write();
+					this->portalsLock->unlock();
+
+					if (readResult == 0) {
+						bu_log("Lost connection to remote host.\n");
+						close(i);
+						FD_CLR(i, &masterfds);
+						continue;
+
+					} else if (readResult < 0) {
+						bu_log(
+								"Error on write, dropping connection to remote host.\n");
+						close(i);
+						FD_CLR(i, &masterfds);
+						continue;
+
+					}
+
+				} else {
+					bu_log(
+							"Attempting to write to FD not associated with a Portal, dropping connection to remote host.\n");
+					//Deal with unmapped file Descriptor
+					close(i);
+					FD_CLR(i, &masterfds);
+					continue;
+				}
+			}
+		} //end FOR
+
+
+    } //end while
+}//end fn
 
 // Local Variables:
 // tab-width: 8

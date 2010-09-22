@@ -37,19 +37,19 @@ class Portal;
 class PortalManager : public ControlledThread
 {
 public:
-	PortalManager(quint32 port);
+	PortalManager(quint16 port);
 	~PortalManager();
 
 protected:
 	void _run();
-	void _runLoopPass();
 
 private:
-	quint32 port;
+	quint16 port;
 	PkgTcpServer* tcpServer;
 
 	QMutex* portalsLock;
-	QList<Portal*>* portals;
+	QMap<int, Portal*>* fdPortalMap;
+
 };
 
 #endif
