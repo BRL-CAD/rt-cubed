@@ -28,36 +28,24 @@
 
 #define PKG_MAGIC2      5309
 
-#include <QtCore/QString>
 #include "PkgTcpClient.h"
+#include "NetMsg.h"
 #include "brlcad/pkg.h"
+
+#include <QtCore/QString>
 
 class Portal
 {
 public:
   friend class PortalManager;
   virtual ~Portal();
-
+  int send(NetMsg* msg);
 
   QString getRemoteNodeName();
 
 protected:
   Portal(PkgTcpClient* client);
 
-  /*
-    * Returns:
-    *          <0 on error
-    *          0 on EOF
-    *          1 on success
-    */
-   int readWrite();
-   /*
-      * Returns:
-      *          <0 on error
-      *          0 on EOF
-      *          1 on success
-      */
-   int write();
    /*
       * Returns:
       *          <0 on error

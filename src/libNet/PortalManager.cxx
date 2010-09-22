@@ -136,6 +136,9 @@ PortalManager::_run()
 					}
 				}
 			}
+			/*
+			 * Do we really need Write checking?
+			 *
 			if (FD_ISSET(i, &writefds)) {
 				//Portal->write here.
 				if (this->fdPortalMap->contains(i)) {
@@ -157,6 +160,7 @@ PortalManager::_run()
 					continue;
 				}
 			}
+			*/
 		} //end FOR
     } //end while
 }//end fn

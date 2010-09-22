@@ -46,13 +46,8 @@ Portal::~Portal()
 
 
 int
-Portal::readWrite(){
-	return 1;
-}
-
-int
-Portal::write(){
-	//this->pkgClient->send();
+Portal::send(NetMsg* msg){
+//	this->pkgClient->send(PKG_MAGIC2,);
 	return 1;
 }
 
