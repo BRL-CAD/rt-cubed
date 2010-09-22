@@ -42,7 +42,7 @@ public:
 	GeometryManifestMsg(NetMsg* msg, QList<QString>& items);
 
 	//Deserializing Constructor
-	GeometryManifestMsg(QDataStream* ds, QString origin);
+	GeometryManifestMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~GeometryManifestMsg();

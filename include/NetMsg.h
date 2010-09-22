@@ -27,23 +27,27 @@
 #define __NETMSG_H__
 
 #include "libutility.h"
+
 #include <QDataStream>
 #include <QByteArray>
 #include <QUuid>
+
 #include <sstream>
+
+class Portal;
 
 class NetMsg
 {
 
 public:
 	/* Normal Constructor */
-	NetMsg(quint32 mType);
+	NetMsg(quint16 mType);
 
 	/* Reply Constructor */
-	NetMsg(quint32 mType, NetMsg* msg);
+	NetMsg(quint16 mType, NetMsg* msg);
 
 	/* Deserializing Constructor */
-	NetMsg(QDataStream* ds, QString origin);
+	NetMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~NetMsg();
@@ -55,7 +59,7 @@ public:
 	/*
 	 *Getters n Setters
 	 */
-	quint32 getMsgType() const;
+	quint16 getMsgType() const;
 	QUuid getMsgUUID() const;
 	bool msgHasReUUID() const;
 	QUuid getReUUID() const;
@@ -75,7 +79,7 @@ protected:
 	QUuid msgUUID;
 	bool hasReUUID;
 	QUuid reUUID;
-	QString origin;
+	Portal* origin;
 
 	virtual bool _serialize(QDataStream* ds) = 0;
 	virtual bool _equals(const NetMsg& msg) = 0;

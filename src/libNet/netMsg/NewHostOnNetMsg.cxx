@@ -40,7 +40,7 @@ NewHostOnNetMsg::NewHostOnNetMsg(NetMsg* msg, QString gsHostname) :
 }
 
 /* Deserializing Constructor */
-NewHostOnNetMsg::NewHostOnNetMsg(QDataStream* ds, QString origin) :
+NewHostOnNetMsg::NewHostOnNetMsg(QDataStream* ds, Portal* origin) :
     GenericOneStringMsg(ds, origin)
 {
 }

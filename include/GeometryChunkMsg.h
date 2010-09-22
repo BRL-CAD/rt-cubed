@@ -39,7 +39,7 @@ public:
 	GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen);
 
 	/* Deserializing Constructor */
-	GeometryChunkMsg(QDataStream* ds, QString origin);
+	GeometryChunkMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~GeometryChunkMsg();

@@ -39,7 +39,7 @@ public:
     TypeOnlyMsg(quint32 msgType, NetMsg* msg);
 
     /* Deserializing Constructors */
-    TypeOnlyMsg(QDataStream* ds, QString origin);
+    TypeOnlyMsg(QDataStream* ds, Portal* origin);
 
     /* Destructor */
     virtual ~TypeOnlyMsg();

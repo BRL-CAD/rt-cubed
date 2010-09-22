@@ -40,7 +40,7 @@ FailureMsg::FailureMsg(NetMsg* msg, quint8 failureCode) :
 }
 
 /* Deserializing Constructor */
-FailureMsg::FailureMsg(QDataStream* ds, QString origin):
+FailureMsg::FailureMsg(QDataStream* ds, Portal* origin):
   GenericOneByteMsg(ds, origin)
 {
 }

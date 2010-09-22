@@ -105,11 +105,8 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf)
    }
   Portal* p = (Portal*)conn->pkc_user_data;
 
-  /* Construct String */
-  QString origin(p->getRemoteNodeName());
-
   /* Build a NetMsg */
-  NetMsg* msg  = NetMsgFactory::getInstance()->deserializeNetMsg(ba, origin);
+  NetMsg* msg  = NetMsgFactory::getInstance()->deserializeNetMsg(ba, p);
 
   /* check to see if we deserialized the msg properly */
   if (msg == 0) {

@@ -40,7 +40,7 @@ public:
 	RemoteGSHostnameSetMsg(NetMsg* msg, QString gsHostname);
 
 	/* Deserializing Constructor */
-	RemoteGSHostnameSetMsg(QDataStream* ds, QString origin);
+	RemoteGSHostnameSetMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~RemoteGSHostnameSetMsg();

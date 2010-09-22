@@ -40,7 +40,7 @@ public:
 	GeometryReqMsg(NetMsg* msg, quint8 requestType, QString data);
 
 	/* Deserializing Constructor */
-	GeometryReqMsg(QDataStream* ds, QString origin);
+	GeometryReqMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~GeometryReqMsg();

@@ -40,7 +40,7 @@ public:
 	NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd);
 
 	/* Deserializing Constructor */
-	NewSessionReqMsg(QDataStream* ds, QString origin);
+	NewSessionReqMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~NewSessionReqMsg();

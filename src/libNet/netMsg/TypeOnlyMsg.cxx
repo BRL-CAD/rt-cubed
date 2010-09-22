@@ -40,7 +40,7 @@ TypeOnlyMsg::TypeOnlyMsg(quint32 msgType, NetMsg* msg) :
 }
 
 /* Deserializing Constructor */
-TypeOnlyMsg::TypeOnlyMsg(QDataStream* ds, QString origin) :
+TypeOnlyMsg::TypeOnlyMsg(QDataStream* ds, Portal* origin) :
      NetMsg(ds, origin)
 {
 }

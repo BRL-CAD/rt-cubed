@@ -24,17 +24,18 @@
  */
 
 #include "NetMsg.h"
+#include "Portal.h"
 #include <sstream>
 
 /* Normal Constructor */
-NetMsg::NetMsg(quint32 mType) :
+NetMsg::NetMsg(quint16 mType) :
   msgType(mType), hasReUUID(false), reUUID(NULL)
 {
   msgUUID = QUuid::createUuid();
 }
 
 /* Reply Constructor */
-NetMsg::NetMsg(quint32 mType, NetMsg* msg) :
+NetMsg::NetMsg(quint16 mType, NetMsg* msg) :
   msgType(mType)
 {
   if (msg->getMsgUUID() != NULL)
@@ -53,7 +54,7 @@ NetMsg::NetMsg(quint32 mType, NetMsg* msg) :
 }
 
 /* Deserializing Constructor */
-NetMsg::NetMsg(QDataStream* ds, QString origin)
+NetMsg::NetMsg(QDataStream* ds, Portal* origin)
 {
   this->origin = origin;
   *ds >> this->msgType;
@@ -108,7 +109,7 @@ NetMsg::serialize(QByteArray* ba)
 /*
  *Getters n Setters
  */
-quint32
+quint16
 NetMsg::getMsgType() const
 {
   return this->msgType;

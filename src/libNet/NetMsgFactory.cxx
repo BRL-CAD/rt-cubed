@@ -58,7 +58,7 @@ NetMsgFactory::~NetMsgFactory()
 }
 
 NetMsg*
-NetMsgFactory::deserializeNetMsg(QByteArray& data, QString origin)
+NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
 {
   QDataStream* qds = new QDataStream(data);
 

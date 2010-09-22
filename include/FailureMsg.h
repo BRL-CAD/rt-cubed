@@ -39,7 +39,7 @@ public:
     FailureMsg(NetMsg* msg, quint8 failureCode);
 
     /* Deserializing Constructor */
-    FailureMsg(QDataStream* ds, QString origin);
+    FailureMsg(QDataStream* ds, Portal* origin);
 
     /* Destructor */
     virtual ~FailureMsg();

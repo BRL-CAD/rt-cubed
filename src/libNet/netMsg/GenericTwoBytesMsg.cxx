@@ -39,7 +39,7 @@ GenericTwoBytesMsg::GenericTwoBytesMsg(quint32 type, NetMsg* msg, quint16 b) :
 }
 
 /* Deserializing Constructor */
-GenericTwoBytesMsg::GenericTwoBytesMsg(QDataStream* ds, QString origin) :
+GenericTwoBytesMsg::GenericTwoBytesMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
     *ds >> this->data;

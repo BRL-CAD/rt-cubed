@@ -40,7 +40,7 @@ class NetMsgFactory
 public:
   static NetMsgFactory* getInstance();
   virtual  ~NetMsgFactory();
-  NetMsg* deserializeNetMsg(QByteArray& data, QString origin);
+  NetMsg* deserializeNetMsg(QByteArray& data, Portal* origin);
 
 private:
   NetMsgFactory();

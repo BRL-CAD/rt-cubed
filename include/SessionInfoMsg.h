@@ -40,7 +40,7 @@ public:
 	SessionInfoMsg(NetMsg* msg, QUuid sessionID);
 
 	/* Deserializing Constructor */
-	SessionInfoMsg(QDataStream* ds, QString origin);
+	SessionInfoMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~SessionInfoMsg();

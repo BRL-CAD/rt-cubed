@@ -40,7 +40,7 @@ public:
 	GenericOneStringMsg(quint32 type, NetMsg* msg, QString s);
 
 	/* Deserializing Constructor */
-	GenericOneStringMsg(QDataStream* ds, QString origin);
+	GenericOneStringMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~GenericOneStringMsg();

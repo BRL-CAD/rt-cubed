@@ -53,7 +53,7 @@ GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn
 }
 
 /* Deserializing Constructor */
-GenericMultiByteMsg::GenericMultiByteMsg(QDataStream* ds, QString origin) :
+GenericMultiByteMsg::GenericMultiByteMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
     *ds >> this->dataLen;

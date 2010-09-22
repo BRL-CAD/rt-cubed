@@ -43,7 +43,7 @@ GeometryManifestMsg::GeometryManifestMsg(NetMsg* msg, QList<QString>& items) :
 }
 
 /* Deserializing Constructor */
-GeometryManifestMsg::GeometryManifestMsg(QDataStream* ds, QString origin) :
+GeometryManifestMsg::GeometryManifestMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
     this->itemData = new QList<QString> ();

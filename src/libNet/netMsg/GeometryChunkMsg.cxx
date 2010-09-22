@@ -40,7 +40,7 @@ GeometryChunkMsg::GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen)
 }
 
 //Deserializing Constructor
-GeometryChunkMsg::GeometryChunkMsg(QDataStream* ds, QString origin) :
+GeometryChunkMsg::GeometryChunkMsg(QDataStream* ds, Portal* origin) :
     GenericMultiByteMsg(ds, origin)
 {
 }

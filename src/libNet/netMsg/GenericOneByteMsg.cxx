@@ -39,7 +39,7 @@ GenericOneByteMsg::GenericOneByteMsg(quint32 type, NetMsg* msg, quint8 b) :
 }
 
 /* Deserializing Constructor */
-GenericOneByteMsg::GenericOneByteMsg(QDataStream* ds, QString origin) :
+GenericOneByteMsg::GenericOneByteMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
     *ds >> this->data;

@@ -39,7 +39,7 @@ GenericFourBytesMsg::GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b) :
 }
 
 /* Deserializing Constructor */
-GenericFourBytesMsg::GenericFourBytesMsg(QDataStream* ds, QString origin) :
+GenericFourBytesMsg::GenericFourBytesMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
     *ds >> this->data;

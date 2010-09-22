@@ -39,7 +39,7 @@ public:
 	NewHostOnNetMsg(NetMsg* msg, QString gsHostname);
 
 	/* Deserializing Constructor */
-	NewHostOnNetMsg(QDataStream* ds, QString origin);
+	NewHostOnNetMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~NewHostOnNetMsg();

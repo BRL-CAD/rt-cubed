@@ -39,7 +39,7 @@ GeometryReqMsg::GeometryReqMsg(NetMsg* msg, quint8 requestType, QString data) :
 }
 
 /* Deserializing Constructor */
-GeometryReqMsg::GeometryReqMsg(QDataStream* ds, QString origin) :
+GeometryReqMsg::GeometryReqMsg(QDataStream* ds, Portal* origin) :
     GenericOneStringMsg(ds, origin)
 {
     *ds >> this->reqType;

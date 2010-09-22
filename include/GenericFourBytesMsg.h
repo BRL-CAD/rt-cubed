@@ -39,7 +39,7 @@ public:
 	GenericFourBytesMsg(quint32 type, NetMsg* msg, quint32 b);
 
 	/* Deserializing Constructor */
-	GenericFourBytesMsg(QDataStream* ds, QString origin);
+	GenericFourBytesMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~GenericFourBytesMsg();

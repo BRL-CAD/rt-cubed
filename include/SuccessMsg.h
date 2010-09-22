@@ -40,7 +40,7 @@ public:
 	SuccessMsg(NetMsg* msg, quint8 successCode);
 
 	/* Deserializing Constructor */
-	SuccessMsg(QDataStream* ds, QString origin);
+	SuccessMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
 	virtual ~SuccessMsg();

@@ -40,7 +40,7 @@ NewSessionReqMsg::NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd) :
 }
 
 /* Deserializing Constructor */
-NewSessionReqMsg::NewSessionReqMsg(QDataStream* ds, QString origin) :
+NewSessionReqMsg::NewSessionReqMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
     this->uname = *Utils::getString(ds);

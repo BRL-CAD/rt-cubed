@@ -40,7 +40,7 @@ SessionInfoMsg::SessionInfoMsg(NetMsg* msg, QUuid sessionID) :
 }
 
 /* Deserializing Constructor */
-SessionInfoMsg::SessionInfoMsg(QDataStream* ds, QString origin) :
+SessionInfoMsg::SessionInfoMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
     this->sessionID = *Utils::getQUuid(ds);
