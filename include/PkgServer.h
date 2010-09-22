@@ -40,8 +40,8 @@ public:
   /*
    * This function blocks if waitTime is set to '0'.  '0' is default.
    */
-  PkgClient*
-  waitForClient(int waitTime = 0);
+  PkgClient*  waitForClient(int waitTime = 0);
+  int getListeningFD();
 
 private:
   std::string proto;

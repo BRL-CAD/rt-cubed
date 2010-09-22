@@ -55,6 +55,11 @@ PkgServer::listen(unsigned short port)
 
   return true;
 }
+int
+PkgServer::getListeningFD()
+{
+  return this->listenFD;
+}
 
 PkgClient*
 PkgServer::waitForClient(int waitTime) {
