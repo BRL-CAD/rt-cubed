@@ -31,6 +31,7 @@
 PkgServer::PkgServer(std::string proto)
 {
   this->proto = proto;
+  this->listenFD = -1;
 }
 
 PkgServer::~PkgServer()
