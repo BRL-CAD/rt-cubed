@@ -98,6 +98,12 @@ PkgClient::setCallBackTable(struct pkg_switch* callback)
   this->conn->pkc_switch = callback;
 }
 
+int
+PkgClient::getFileDescriptor()
+{
+  return this->conn->pkc_fd;
+}
+
 /*
  * Local Variables:
  * mode: C

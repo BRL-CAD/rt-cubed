@@ -35,17 +35,14 @@ class PkgClient
 public:
   PkgClient(std::string proto, std::string ipOrHostname, int port, struct pkg_switch* callBackTableIn);
   PkgClient(std::string proto, pkg_conn* conn);
-  virtual
-  ~PkgClient();
+  virtual ~PkgClient();
 
-  bool
-  hasGoodConnection();
+  bool hasGoodConnection();
 
   /*
    * Blocks until a specific opcode has been received on the connection
    */
-  char*
-  waitForMsg(int opcode);
+  char* waitForMsg(int opcode);
 
   /*
    * Attempts to route data in buffer to the appropriate call back.
@@ -54,8 +51,7 @@ public:
    *          0 on EOF
    *          >0 on success
    */
-  int
-  processData();
+  int processData();
 
   /*
    * Attempts to pull data off of the associated
@@ -65,16 +61,16 @@ public:
    *          0 on EOF
    *          >0 on success
    */
-  int
-  pullDataFromSocket();
+  int pullDataFromSocket();
 
-  void
-  close();
+  void close();
 
-  int
-  send(int opcode, const char* buffer, size_t bufferLen);
+  int send(int opcode, const char* buffer, size_t bufferLen);
 
   void setCallBackTable(struct pkg_switch* callback);
+
+  int getFileDescriptor();
+
 private:
   std::string proto;
   pkg_conn* conn;
