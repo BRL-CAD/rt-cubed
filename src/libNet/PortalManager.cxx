@@ -55,21 +55,16 @@ PortalManager::_runLoopPass()
 {
   PkgTcpClient* client = (PkgTcpClient*) this->tcpServer->waitForClient(123);
 
-  if (client == 0) {
-    //Handle failure here.
-    return;
-  } else {
-    Portal* newPortal = new Portal(client);
-
+  if (client != 0) {
     //Handle new client here.
+    Portal* newPortal = new Portal(client);
     this->portalsLock->lock();
     this->portals->append(newPortal);
     this->portalsLock->unlock();
   }
 
+  //regardless of new client or not, process existing portals
   QMutexLocker locker(this->portalsLock);
-
-  //Handle existing clients here
 
   for (int i = 0; i < this->portals->size(); ++i) {
     Portal* p = this->portals->at(i);
@@ -77,7 +72,7 @@ PortalManager::_runLoopPass()
     int retval = p->sendRecv();
 
     if (retval <= 0) {
-      //disconnect
+      //disconnect this portal
       continue;
     }
 
