@@ -38,18 +38,34 @@ public:
   friend class PortalManager;
   virtual ~Portal();
 
-  /*
-   * Returns:
-   *          <0 on error
-   *          0 on EOF
-   *          >0 on success
-   */
-  int sendRecv();
 
   QString getRemoteNodeName();
 
 protected:
   Portal(PkgTcpClient* client);
+
+  /*
+    * Returns:
+    *          <0 on error
+    *          0 on EOF
+    *          1 on success
+    */
+   int readWrite();
+   /*
+      * Returns:
+      *          <0 on error
+      *          0 on EOF
+      *          1 on success
+      */
+   int write();
+   /*
+      * Returns:
+      *          <0 on error
+      *          0 on EOF
+      *          1 on success
+      */
+   int read();
+
 
 private:
   PkgTcpClient* pkgClient;

@@ -44,8 +44,20 @@ Portal::~Portal()
 {
 }
 
+
 int
-Portal::sendRecv(){
+Portal::readWrite(){
+
+}
+
+int
+Portal::write(){
+
+}
+
+int
+Portal::read(){
+
   int retval = 0;
 
   //recv first
@@ -71,10 +83,6 @@ Portal::sendRecv(){
       bu_log("Unable to process packets? Weird.\n");
       return retval;
   }//TODO do we need to check for ==0 ?
-
-
-  //Now do send.
-  //TODO do send
 
   return 1;
 }
