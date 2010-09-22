@@ -47,8 +47,10 @@ Portal::~Portal()
 
 int
 Portal::send(NetMsg* msg){
-//	this->pkgClient->send(PKG_MAGIC2,);
-	return 1;
+	QByteArray* ba = msg->serialize();
+	int retval = this->pkgClient->send(PKG_MAGIC2, ba->data(), ba->size());
+	delete ba;
+	return retval;
 }
 
 int
