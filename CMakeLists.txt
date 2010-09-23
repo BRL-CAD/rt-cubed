@@ -72,6 +72,37 @@ SVN_INCLUDE_FILE(unistd.h HAVE_UNISTD_H)
 SVN_FUNCTION_EXISTS(vprintf HAVE_VPRINTF)
 SVN_INCLUDE_FILE(zlib.h HAVE_ZLIB_H)
 
+# The following logic is what allows binaries to run successfully in 
+# the build directory AND install directory.  Thanks to plplot for 
+# identifying the necessity of setting CMAKE_INSTALL_NAME_DIR on OSX.
+
+# use, i.e. don't skip the full RPATH for the build tree
+SET(CMAKE_SKIP_BUILD_RPATH  FALSE)
+
+# when building, don't use the install RPATH already
+# (but later on when installing)
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+
+# the RPATH/INSTALL_NAME_DIR to be used when installing
+if (NOT APPLE)
+	SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+endif(NOT APPLE)
+SET(CMAKE_INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+
+# add the automatically determined parts of the RPATH which point to 
+# directories outside the build tree to the install RPATH
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+
+# Output directories - this is where built library and executable 
+# files will be placed after building but prior to install.
+IF(NOT LIBRARY_OUTPUT_PATH)
+	SET(LIBRARY_OUTPUT_PATH ${${CMAKE_PROJECT_NAME}_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all libraries.")
+ENDIF(NOT LIBRARY_OUTPUT_PATH)
+IF(NOT EXECUTABLE_OUTPUT_PATH)
+	SET(EXECUTABLE_OUTPUT_PATH ${${CMAKE_PROJECT_NAME}_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
+ENDIF(NOT EXECUTABLE_OUTPUT_PATH)
+
 
 # build shared libs by default
 OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON)
