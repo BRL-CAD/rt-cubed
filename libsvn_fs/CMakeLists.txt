@@ -9,5 +9,5 @@ SET(LIBSVN_FS
 )
 
 add_library(svn_fs SHARED ${LIBSVN_FS})
-target_link_libraries(svn_fs svn_subr svn_fs_util)
+target_link_libraries(svn_fs svn_subr svn_fs_util svn_fs_fs)
 install(TARGETS svn_fs LIBRARY DESTINATION lib)

@@ -12,5 +12,5 @@ SET(LIBSVN_RA
 )
 
 add_library(svn_ra SHARED ${LIBSVN_RA})
-target_link_libraries(svn_ra svn_subr svn_delta svn_ra_local)
+target_link_libraries(svn_ra svn_subr svn_delta svn_ra_local svn_ra_svn)
 install(TARGETS svn_ra LIBRARY DESTINATION lib)
