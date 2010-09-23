@@ -79,13 +79,13 @@ OPTION(BUILD_SHARED_LIBS "Build shared libraries" ON)
 # build static libs by default
 OPTION(BUILD_STATIC_LIBS "Build static libraries" ON)
 
-find_package(zlib)
-find_package(expat)
+find_package(ZLIB)
+find_package(EXPAT)
 
-FIND_LIBRARY(APR_LIBRARY NAMES apr-1.0 PATHS ${${CMAKE_PROJECT_NAME}_SOURCE_DIR}/../apr-install/lib NO_SYSTEM_PATH)
-FIND_LIBRARY(APR_UTIL_LIBRARY NAMES aprutil-1.0 PATHS ${${CMAKE_PROJECT_NAME}_SOURCE_DIR}/../apr-install/lib NO_SYSTEM_PATH)
+FIND_LIBRARY(APR_LIBRARY NAMES apr-1 apr-1.0 PATHS ${${CMAKE_PROJECT_NAME}_SOURCE_DIR}/../apr-install/lib NO_SYSTEM_PATH)
+FIND_LIBRARY(APR_UTIL_LIBRARY NAMES aprutil-1 aprutil-1.0 PATHS ${${CMAKE_PROJECT_NAME}_SOURCE_DIR}/../apr-install/lib NO_SYSTEM_PATH)
 
-find_package(sqlite3)
+find_package(SQLite3)
 IF(NOT SQLITE3_LIBRARIES)
 	FILE(APPEND ${SVN_CONFIG_H_FILE} "#define SVN_SQLITE_INLINE 1")
 ENDIF(NOT SQLITE3_LIBRARIES)
