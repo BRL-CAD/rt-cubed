@@ -123,7 +123,7 @@ warning_func(void *baton,
 {
   if (! err)
     return;
-  svn_handle_error2(err, stderr, FALSE, "svnadmin: ");
+  svn_handle_error2(err, stderr, FALSE, "svntest: ");
 }
 
 
@@ -166,26 +166,26 @@ static svn_opt_subcommand_t
 
 enum
   {
-    svnadmin__version = SVN_OPT_FIRST_LONGOPT_ID,
-    svnadmin__incremental,
-    svnadmin__deltas,
-    svnadmin__ignore_uuid,
-    svnadmin__force_uuid,
-    svnadmin__fs_type,
-    svnadmin__parent_dir,
-    svnadmin__bdb_txn_nosync,
-    svnadmin__bdb_log_keep,
-    svnadmin__config_dir,
-    svnadmin__bypass_hooks,
-    svnadmin__use_pre_commit_hook,
-    svnadmin__use_post_commit_hook,
-    svnadmin__use_pre_revprop_change_hook,
-    svnadmin__use_post_revprop_change_hook,
-    svnadmin__clean_logs,
-    svnadmin__wait,
-    svnadmin__pre_1_4_compatible,
-    svnadmin__pre_1_5_compatible,
-    svnadmin__pre_1_6_compatible
+    svntest__version = SVN_OPT_FIRST_LONGOPT_ID,
+    svntest__incremental,
+    svntest__deltas,
+    svntest__ignore_uuid,
+    svntest__force_uuid,
+    svntest__fs_type,
+    svntest__parent_dir,
+    svntest__bdb_txn_nosync,
+    svntest__bdb_log_keep,
+    svntest__config_dir,
+    svntest__bypass_hooks,
+    svntest__use_pre_commit_hook,
+    svntest__use_post_commit_hook,
+    svntest__use_pre_revprop_change_hook,
+    svntest__use_post_revprop_change_hook,
+    svntest__clean_logs,
+    svntest__wait,
+    svntest__pre_1_4_compatible,
+    svntest__pre_1_5_compatible,
+    svntest__pre_1_6_compatible
   };
 
 /* Option codes and descriptions.
@@ -200,74 +200,74 @@ static const apr_getopt_option_t options_table[] =
     {NULL,            '?', 0,
      N_("show help on a subcommand")},
 
-    {"version",       svnadmin__version, 0,
+    {"version",       svntest__version, 0,
      N_("show program version information")},
 
     {"revision",      'r', 1,
      N_("specify revision number ARG (or X:Y range)")},
 
-    {"incremental",   svnadmin__incremental, 0,
+    {"incremental",   svntest__incremental, 0,
      N_("dump incrementally")},
 
-    {"deltas",        svnadmin__deltas, 0,
+    {"deltas",        svntest__deltas, 0,
      N_("use deltas in dump output")},
 
-    {"bypass-hooks",  svnadmin__bypass_hooks, 0,
+    {"bypass-hooks",  svntest__bypass_hooks, 0,
      N_("bypass the repository hook system")},
 
     {"quiet",         'q', 0,
      N_("no progress (only errors) to stderr")},
 
-    {"ignore-uuid",   svnadmin__ignore_uuid, 0,
+    {"ignore-uuid",   svntest__ignore_uuid, 0,
      N_("ignore any repos UUID found in the stream")},
 
-    {"force-uuid",    svnadmin__force_uuid, 0,
+    {"force-uuid",    svntest__force_uuid, 0,
      N_("set repos UUID to that found in stream, if any")},
 
-    {"fs-type",       svnadmin__fs_type, 1,
+    {"fs-type",       svntest__fs_type, 1,
      N_("type of repository: 'fsfs' (default) or 'bdb'")},
 
-    {"parent-dir",    svnadmin__parent_dir, 1,
+    {"parent-dir",    svntest__parent_dir, 1,
      N_("load at specified directory in repository")},
 
-    {"bdb-txn-nosync", svnadmin__bdb_txn_nosync, 0,
+    {"bdb-txn-nosync", svntest__bdb_txn_nosync, 0,
      N_("disable fsync at transaction commit [Berkeley DB]")},
 
-    {"bdb-log-keep",  svnadmin__bdb_log_keep, 0,
+    {"bdb-log-keep",  svntest__bdb_log_keep, 0,
      N_("disable automatic log file removal [Berkeley DB]")},
 
-    {"config-dir",    svnadmin__config_dir, 1,
+    {"config-dir",    svntest__config_dir, 1,
      N_("read user configuration files from directory ARG")},
 
-    {"clean-logs",    svnadmin__clean_logs, 0,
+    {"clean-logs",    svntest__clean_logs, 0,
      N_("remove redundant Berkeley DB log files\n"
         "                             from source repository [Berkeley DB]")},
 
-    {"use-pre-commit-hook", svnadmin__use_pre_commit_hook, 0,
+    {"use-pre-commit-hook", svntest__use_pre_commit_hook, 0,
      N_("call pre-commit hook before committing revisions")},
 
-    {"use-post-commit-hook", svnadmin__use_post_commit_hook, 0,
+    {"use-post-commit-hook", svntest__use_post_commit_hook, 0,
      N_("call post-commit hook after committing revisions")},
 
-    {"use-pre-revprop-change-hook", svnadmin__use_pre_revprop_change_hook, 0,
+    {"use-pre-revprop-change-hook", svntest__use_pre_revprop_change_hook, 0,
      N_("call hook before changing revision property")},
 
-    {"use-post-revprop-change-hook", svnadmin__use_post_revprop_change_hook, 0,
+    {"use-post-revprop-change-hook", svntest__use_post_revprop_change_hook, 0,
      N_("call hook after changing revision property")},
 
-    {"wait",          svnadmin__wait, 0,
+    {"wait",          svntest__wait, 0,
      N_("wait instead of exit if the repository is in\n"
         "                             use by another process")},
 
-    {"pre-1.4-compatible",     svnadmin__pre_1_4_compatible, 0,
+    {"pre-1.4-compatible",     svntest__pre_1_4_compatible, 0,
      N_("use format compatible with Subversion versions\n"
         "                             earlier than 1.4")},
 
-    {"pre-1.5-compatible",     svnadmin__pre_1_5_compatible, 0,
+    {"pre-1.5-compatible",     svntest__pre_1_5_compatible, 0,
      N_("use format compatible with Subversion versions\n"
         "                             earlier than 1.5")},
 
-    {"pre-1.6-compatible",     svnadmin__pre_1_6_compatible, 0,
+    {"pre-1.6-compatible",     svntest__pre_1_6_compatible, 0,
      N_("use format compatible with Subversion versions\n"
         "                             earlier than 1.6")},
 
@@ -281,18 +281,18 @@ static const apr_getopt_option_t options_table[] =
 static const svn_opt_subcommand_desc2_t cmd_table[] =
 {
   {"create", subcommand_create, {0}, N_
-   ("usage: svnadmin create REPOS_PATH\n\n"
+   ("usage: svntest create REPOS_PATH\n\n"
     "Create a new, empty repository at REPOS_PATH.\n"),
-   {svnadmin__bdb_txn_nosync, svnadmin__bdb_log_keep,
-    svnadmin__config_dir, svnadmin__fs_type, svnadmin__pre_1_4_compatible,
-    svnadmin__pre_1_5_compatible, svnadmin__pre_1_6_compatible } },
+   {svntest__bdb_txn_nosync, svntest__bdb_log_keep,
+    svntest__config_dir, svntest__fs_type, svntest__pre_1_4_compatible,
+    svntest__pre_1_5_compatible, svntest__pre_1_6_compatible } },
 
   { NULL, NULL, {0}, NULL, {0} }
 };
 
 
 /* Baton for passing option/argument state to a subcommand function. */
-struct svnadmin_opt_state
+struct svntest_opt_state
 {
   const char *repository_path;
   const char *new_repository_path;                  /* hotcopy dest. path */
@@ -327,7 +327,7 @@ struct svnadmin_opt_state
 static svn_error_t *
 subcommand_create(apr_getopt_t *os, void *baton, apr_pool_t *pool)
 {
-  struct svnadmin_opt_state *opt_state = baton;
+  struct svntest_opt_state *opt_state = baton;
   svn_repos_t *repos;
   apr_hash_t *config;
   apr_hash_t *fs_config = apr_hash_make(pool);
@@ -381,7 +381,7 @@ main(int argc, const char *argv[])
   apr_pool_t *pool;
 
   const svn_opt_subcommand_desc2_t *subcommand = NULL;
-  struct svnadmin_opt_state opt_state;
+  struct svntest_opt_state opt_state;
   apr_getopt_t *os;
   int opt_id;
   apr_array_header_t *received_opts;
@@ -407,12 +407,12 @@ main(int argc, const char *argv[])
   /* Check library versions */
   err = check_lib_versions();
   if (err)
-    return svn_cmdline_handle_exit_error(err, pool, "svnadmin: ");
+    return svn_cmdline_handle_exit_error(err, pool, "svntest: ");
 
   /* Initialize the FS library. */
   err = svn_fs_initialize(pool);
   if (err)
-    return svn_cmdline_handle_exit_error(err, pool, "svnadmin: ");
+    return svn_cmdline_handle_exit_error(err, pool, "svntest: ");
 
   /* Initialize opt_state. */
   memset(&opt_state, 0, sizeof(opt_state));
@@ -434,8 +434,16 @@ main(int argc, const char *argv[])
   apr_signal(SIGXFSZ, SIG_IGN);
 #endif
 
+  char *repo_path = "./test_repository";
+  const char *full_path = svn_path_canonicalize(repo_path, pool);
+  opt_state.repository_path = full_path;
+
+  /* Check if it's already created - if it is, don't try to re-create it */
+  if(svn_repos_find_root_path(full_path, pool)){
+    printf("Repository %s already exists, continuing with test.\n", full_path);
+  } else {
   /* Run the subcommand. */
-  err = (*subcommand->cmd_func)(os, &opt_state, pool);
+  err = subcommand_create(os, &opt_state, pool);
   if (err)
     {
       /* For argument-related problems, suggest using the 'help'
@@ -444,23 +452,31 @@ main(int argc, const char *argv[])
           || err->apr_err == SVN_ERR_CL_ARG_PARSING_ERROR)
         {
           err = svn_error_quick_wrap(err,
-                                     _("Try 'svnadmin help' for more info"));
+                                     _("Try 'svntest help' for more info"));
         }
-      return svn_cmdline_handle_exit_error(err, pool, "svnadmin: ");
+      return svn_cmdline_handle_exit_error(err, pool, "svntest: ");
     }
   else
     {
-      svn_pool_destroy(pool);
-      /* Ensure that everything is written to stdout, so the user will
-         see any print errors. */
-      err = svn_cmdline_fflush(stdout);
-      if (err)
-        {
-          svn_handle_error2(err, stderr, FALSE, "svnadmin: ");
-          svn_error_clear(err);
-          return EXIT_FAILURE;
-        }
-      return EXIT_SUCCESS;
+      printf("Created repository: %s\n", full_path);
     }
+  }
+
+  /* Have repository, do something with it */
+
+
+  /* Done, now clean up */
+  svn_pool_destroy(pool);
+  /* Ensure that everything is written to stdout, so the user will
+     see any print errors. */
+  err = svn_cmdline_fflush(stdout);
+  if (err)
+  {
+	  svn_handle_error2(err, stderr, FALSE, "svntest: ");
+	  svn_error_clear(err);
+	  return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
+
 }
 
