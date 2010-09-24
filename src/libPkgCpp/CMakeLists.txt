@@ -35,7 +35,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
-    ${pkg_LIBRARY}
+    ${_BRLCAD_LIBRARY_pkg}
 )
 
 #set Source files
