@@ -168,7 +168,7 @@ runServer(int port)
       { PKGCPP_CIAO, server_ciao, "CIAO" },
       { 0, 0, (char*) 0 } };
 
-  PkgTcpServer pkgServer(callbacks);
+  PkgTcpServer pkgServer;
   pkgServer.listen(port);
 
   //Setup vars
@@ -205,6 +205,8 @@ runServer(int port)
        */
     }
   while (pkgClient == NULL);
+
+  pkgClient->setCallBackTable(callbacks);
 
   int counter = 0;
   int itemsRemain = 0;
@@ -264,7 +266,7 @@ runClient(std::string ipOrHostname, int port)
     }
 
   //Create PkgClient obj and open new connection
-  PkgTcpClient* connToServer = new PkgTcpClient(ipOrHostname, port);
+  PkgTcpClient* connToServer = new PkgTcpClient(ipOrHostname, port, NULL);
 
   if (!connToServer->hasGoodConnection())
     {
