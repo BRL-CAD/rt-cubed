@@ -15,6 +15,7 @@
 #include "svn_props.h"
 #include "svn_time.h"
 #include "svn_user.h"
+#include "svn_client.h"
 
 #include "private/svn_opt_private.h"
 
@@ -158,139 +159,6 @@ check_lib_versions(void)
 }
 
 
-
-/** Subcommands. **/
-
-static svn_opt_subcommand_t
-  subcommand_create;
-
-enum
-  {
-    svntest__version = SVN_OPT_FIRST_LONGOPT_ID,
-    svntest__incremental,
-    svntest__deltas,
-    svntest__ignore_uuid,
-    svntest__force_uuid,
-    svntest__fs_type,
-    svntest__parent_dir,
-    svntest__bdb_txn_nosync,
-    svntest__bdb_log_keep,
-    svntest__config_dir,
-    svntest__bypass_hooks,
-    svntest__use_pre_commit_hook,
-    svntest__use_post_commit_hook,
-    svntest__use_pre_revprop_change_hook,
-    svntest__use_post_revprop_change_hook,
-    svntest__clean_logs,
-    svntest__wait,
-    svntest__pre_1_4_compatible,
-    svntest__pre_1_5_compatible,
-    svntest__pre_1_6_compatible
-  };
-
-/* Option codes and descriptions.
- *
- * The entire list must be terminated with an entry of nulls.
- */
-static const apr_getopt_option_t options_table[] =
-  {
-    {"help",          'h', 0,
-     N_("show help on a subcommand")},
-
-    {NULL,            '?', 0,
-     N_("show help on a subcommand")},
-
-    {"version",       svntest__version, 0,
-     N_("show program version information")},
-
-    {"revision",      'r', 1,
-     N_("specify revision number ARG (or X:Y range)")},
-
-    {"incremental",   svntest__incremental, 0,
-     N_("dump incrementally")},
-
-    {"deltas",        svntest__deltas, 0,
-     N_("use deltas in dump output")},
-
-    {"bypass-hooks",  svntest__bypass_hooks, 0,
-     N_("bypass the repository hook system")},
-
-    {"quiet",         'q', 0,
-     N_("no progress (only errors) to stderr")},
-
-    {"ignore-uuid",   svntest__ignore_uuid, 0,
-     N_("ignore any repos UUID found in the stream")},
-
-    {"force-uuid",    svntest__force_uuid, 0,
-     N_("set repos UUID to that found in stream, if any")},
-
-    {"fs-type",       svntest__fs_type, 1,
-     N_("type of repository: 'fsfs' (default) or 'bdb'")},
-
-    {"parent-dir",    svntest__parent_dir, 1,
-     N_("load at specified directory in repository")},
-
-    {"bdb-txn-nosync", svntest__bdb_txn_nosync, 0,
-     N_("disable fsync at transaction commit [Berkeley DB]")},
-
-    {"bdb-log-keep",  svntest__bdb_log_keep, 0,
-     N_("disable automatic log file removal [Berkeley DB]")},
-
-    {"config-dir",    svntest__config_dir, 1,
-     N_("read user configuration files from directory ARG")},
-
-    {"clean-logs",    svntest__clean_logs, 0,
-     N_("remove redundant Berkeley DB log files\n"
-        "                             from source repository [Berkeley DB]")},
-
-    {"use-pre-commit-hook", svntest__use_pre_commit_hook, 0,
-     N_("call pre-commit hook before committing revisions")},
-
-    {"use-post-commit-hook", svntest__use_post_commit_hook, 0,
-     N_("call post-commit hook after committing revisions")},
-
-    {"use-pre-revprop-change-hook", svntest__use_pre_revprop_change_hook, 0,
-     N_("call hook before changing revision property")},
-
-    {"use-post-revprop-change-hook", svntest__use_post_revprop_change_hook, 0,
-     N_("call hook after changing revision property")},
-
-    {"wait",          svntest__wait, 0,
-     N_("wait instead of exit if the repository is in\n"
-        "                             use by another process")},
-
-    {"pre-1.4-compatible",     svntest__pre_1_4_compatible, 0,
-     N_("use format compatible with Subversion versions\n"
-        "                             earlier than 1.4")},
-
-    {"pre-1.5-compatible",     svntest__pre_1_5_compatible, 0,
-     N_("use format compatible with Subversion versions\n"
-        "                             earlier than 1.5")},
-
-    {"pre-1.6-compatible",     svntest__pre_1_6_compatible, 0,
-     N_("use format compatible with Subversion versions\n"
-        "                             earlier than 1.6")},
-
-    {NULL}
-  };
-
-
-/* Array of available subcommands.
- * The entire list must be terminated with an entry of nulls.
- */
-static const svn_opt_subcommand_desc2_t cmd_table[] =
-{
-  {"create", subcommand_create, {0}, N_
-   ("usage: svntest create REPOS_PATH\n\n"
-    "Create a new, empty repository at REPOS_PATH.\n"),
-   {svntest__bdb_txn_nosync, svntest__bdb_log_keep,
-    svntest__config_dir, svntest__fs_type, svntest__pre_1_4_compatible,
-    svntest__pre_1_5_compatible, svntest__pre_1_6_compatible } },
-
-  { NULL, NULL, {0}, NULL, {0} }
-};
-
-
 /* Baton for passing option/argument state to a subcommand function. */
 struct svntest_opt_state
 {
@@ -325,7 +193,7 @@ struct svntest_opt_state
 
 /* This implements `svn_opt_subcommand_t'. */
 static svn_error_t *
-subcommand_create(apr_getopt_t *os, void *baton, apr_pool_t *pool)
+subcommand_create(void *baton, apr_pool_t *pool)
 {
   struct svntest_opt_state *opt_state = baton;
   svn_repos_t *repos;
@@ -370,6 +238,7 @@ subcommand_create(apr_getopt_t *os, void *baton, apr_pool_t *pool)
 
 
 
+
 /** Main. **/
 
 int
@@ -382,9 +251,7 @@ main(int argc, const char *argv[])
 
   const svn_opt_subcommand_desc2_t *subcommand = NULL;
   struct svntest_opt_state opt_state;
-  apr_getopt_t *os;
   int opt_id;
-  apr_array_header_t *received_opts;
   int i;
 
   /* Initialize the app. */
@@ -401,8 +268,6 @@ main(int argc, const char *argv[])
 
   pool = svn_pool_create_ex(NULL, allocator);
   apr_allocator_owner_set(allocator, pool);
-
-  received_opts = apr_array_make(pool, SVN_OPT_MAX_OPTIONS, sizeof(int));
 
   /* Check library versions */
   err = check_lib_versions();
@@ -443,7 +308,7 @@ main(int argc, const char *argv[])
     printf("Repository %s already exists, continuing with test.\n", full_path);
   } else {
   /* Run the subcommand. */
-  err = subcommand_create(os, &opt_state, pool);
+  err = subcommand_create(&opt_state, pool);
   if (err)
     {
       /* For argument-related problems, suggest using the 'help'
@@ -464,6 +329,41 @@ main(int argc, const char *argv[])
 
   /* Have repository, do something with it */
 
+  svn_client_ctx_t *ctx;
+  if ((err = svn_client_create_context(&ctx, pool)))
+	  return svn_cmdline_handle_exit_error(err, pool, "svntest: ");
+  err = svn_config_get_config(&(ctx->config),
+		  opt_state.config_dir, pool);
+  if (err)
+  {
+	  /* Fallback to default config if the config directory isn't readable. */
+	  if (err->apr_err == APR_EACCES)
+	  {
+		  svn_handle_warning2(stderr, err, "svn: ");
+		  svn_error_clear(err);
+	  }
+	  else
+		  return svn_cmdline_handle_exit_error(err, pool, "svn: ");
+  }
+
+  const char *abs_path;
+  char full_repository_url[1024];
+  svn_path_get_absolute(&abs_path, repo_path, pool);
+  sprintf(full_repository_url,"file://localhost:%s", abs_path);
+  printf("full_repository_url: %s\n", full_repository_url);
+
+  char *checkout_path = "./test_checkout";
+  const char *full_checkout_path = svn_path_canonicalize(checkout_path, pool);
+  svn_opt_revision_t revision;
+  svn_opt_revision_t peg_revision;
+  revision.kind = svn_opt_revision_head;
+  peg_revision.kind = svn_opt_revision_unspecified;
+
+  apr_pool_t *subpool;
+  subpool = svn_pool_create(pool);
+  svn_pool_clear(subpool);
+  printf("svn checkout:  repo: %s, target: %s\n", full_repository_url, full_checkout_path);
+  svn_client_checkout3(NULL, full_repository_url, full_checkout_path, &peg_revision, &revision, svn_depth_infinity, 0, 0, ctx, subpool);
 
   /* Done, now clean up */
   svn_pool_destroy(pool);

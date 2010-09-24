@@ -8,5 +8,5 @@ SET(SVNTEST_SRCS
 )
 
 add_executable(svntest ${SVNTEST_SRCS})
-target_link_libraries(svntest svn_repos)
+target_link_libraries(svntest svn_client svn_repos)
 install(TARGETS svntest RUNTIME DESTINATION bin)
