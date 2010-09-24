@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 
     for (int i = 0; i< 30;++i) {
 	jm->submitJob(ptsoJob);
-	ThreadUtils::usleep(100);
+	GSThread::usleep(100);
     }
 
     delete jm;
