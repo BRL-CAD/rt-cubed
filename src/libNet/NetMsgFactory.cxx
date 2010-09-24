@@ -60,10 +60,12 @@ NetMsgFactory::~NetMsgFactory()
 NetMsg*
 NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
 {
-  QDataStream* qds = new QDataStream(data);
 
+  QDataStream temp(data);
   quint16 msgType = 0;
-  *qds >> msgType;
+  temp >> msgType;
+
+  QDataStream* qds = new QDataStream(data);
 
   //TODO Replace this with a map for registration scheme
   switch (msgType)
