@@ -29,6 +29,8 @@
 #include "libutility.h"
 #include "ControlledThread.h"
 #include "PkgTcpServer.h"
+#include <sys/select.h>
+
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 #include <QtCore/QString>
