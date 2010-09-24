@@ -41,6 +41,7 @@ RT3_PROJECT_ADD_LIBS(
     utility
     ${QT_LIBRARIES}
     ${_BRLCAD_LIBRARY_pkg}
+    ${_BRLCAD_LIBRARY_bu}
 )
 
 MESSAGE(STATUS "_BRLCAD_LIBRARY_pkg:    ${_BRLCAD_LIBRARY_pkg}")

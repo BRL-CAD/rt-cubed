@@ -40,6 +40,7 @@ RT3_PROJECT_ADD_LIBS(
     net
     ${QT_LIBRARIES}
     ${_BRLCAD_LIBRARY_pkg}
+    ${_BRLCAD_LIBRARY_bu}
 )
 
 #set Source files
