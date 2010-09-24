@@ -31,6 +31,7 @@ RT3_PROJECT(libNetworkTests)
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS(
     ${QT_INCLUDE_DIR}
+    ${BRLCAD_INC_DIRS}
 )
 
 #Set Libs
@@ -69,6 +70,7 @@ RT3_PROJECT(netMsgSerialTest)
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS(
     ${QT_INCLUDE_DIR}
+    ${BRLCAD_INC_DIRS}
 )
 
 #Set Libs
@@ -76,6 +78,7 @@ RT3_PROJECT_ADD_LIBS(
     net
     utility
     ${QT_LIBRARIES}
+    ${pkg_LIBRARY}
 )
 
 #set Source files
@@ -96,36 +99,4 @@ RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 #Build the project
 RT3_PROJECT_BUILD_EXE()
 
-##########################################################################
-
-RT3_PROJECT(gatewayTest)
-
-#Set Include Dirs
-RT3_PROJECT_ADD_INCLUDE_DIRS()
-
-#Set Libs
-RT3_PROJECT_ADD_LIBS( 
-    net
-    alf
-)
-
-#set Source files
-RT3_PROJECT_ADD_SOURCES (gatewayTest.cxx)
-
-#Set INST Headers
-RT3_PROJECT_ADD_INST_HEADERS()
-
-#Set NOINST headers
-RT3_PROJECT_ADD_NOINST_HEADERS(
-    PrintingMsgHandler.h
-)
-
-#Set QT INST headers
-RT3_PROJECT_ADD_QT_INST_HEADERS()
-
-#Set QT NOINST headers
-RT3_PROJECT_ADD_QT_NOINST_HEADERS()
-
-#Build the project
-RT3_PROJECT_BUILD_EXE()
 
