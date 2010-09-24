@@ -25,9 +25,9 @@
 #ifndef __PRINTINGMSGHANDLER_H__
 #define __PRINTINGMSGHANDLER_H__
 
-#include "libnetwork.h"
+#include "libnet.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 class PrintingMsgHandler: public INetMsgHandler
 {
