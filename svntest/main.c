@@ -346,14 +346,18 @@ main(int argc, const char *argv[])
 		  return svn_cmdline_handle_exit_error(err, pool, "svn: ");
   }
 
+  /* Next, check out a working copy */
+
   const char *abs_path;
   char full_repository_url[1024];
   svn_path_get_absolute(&abs_path, repo_path, pool);
   sprintf(full_repository_url,"file://localhost:%s", abs_path);
   printf("full_repository_url: %s\n", full_repository_url);
 
-  char *checkout_path = "./test_checkout";
-  const char *full_checkout_path = svn_path_canonicalize(checkout_path, pool);
+  char *checkout_path1 = "./test_checkout1";
+  char *checkout_path2 = "./test_checkout2";
+  const char *full_checkout_path1 = svn_path_canonicalize(checkout_path1, pool);
+  const char *full_checkout_path2 = svn_path_canonicalize(checkout_path2, pool);
   svn_opt_revision_t revision;
   svn_opt_revision_t peg_revision;
   revision.kind = svn_opt_revision_head;
@@ -362,8 +366,33 @@ main(int argc, const char *argv[])
   apr_pool_t *subpool;
   subpool = svn_pool_create(pool);
   svn_pool_clear(subpool);
-  printf("svn checkout:  repo: %s, target: %s\n", full_repository_url, full_checkout_path);
-  svn_client_checkout3(NULL, full_repository_url, full_checkout_path, &peg_revision, &revision, svn_depth_infinity, 0, 0, ctx, subpool);
+  printf("svn checkout:  repo: %s, target: %s\n", full_repository_url, full_checkout_path1);
+  svn_client_checkout3(NULL, full_repository_url, full_checkout_path1, &peg_revision, &revision, svn_depth_infinity, 0, 0, ctx, subpool);
+
+  svn_pool_clear(subpool);
+  printf("svn checkout:  repo: %s, target: %s\n", full_repository_url, full_checkout_path2);
+  svn_client_checkout3(NULL, full_repository_url, full_checkout_path2, &peg_revision, &revision, svn_depth_infinity, 0, 0, ctx, subpool);
+
+  /* Add a new file to the first working copy and svn add it to the repository */
+  char file_path[1024];
+  FILE *fp;
+  sprintf(file_path,"%s/test_file", full_checkout_path1);
+  printf("file_path: %s\n", file_path);
+  fp = fopen(file_path,"w");
+  if(fp != NULL){
+     fputs ("subversion test", fp);
+     fclose (fp);
+  } else {
+     printf("augh - no file written: %s\n", file_path);
+  }
+
+  svn_pool_clear(subpool);
+  svn_client_add4(file_path, svn_depth_empty, FALSE, FALSE, FALSE, ctx, subpool);
+
+
+  /* Commit the changes */
+
+  /* Perform an update operation on the second repository */
 
   /* Done, now clean up */
   svn_pool_destroy(pool);
