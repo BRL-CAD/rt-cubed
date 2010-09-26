@@ -25,111 +25,109 @@
 
 #include "Logger.h"
 #include <QtCore/QTime>
+#include "brlcad/bu.h"
 #include <iomanip>
+#include <sstream>
 
 //Statics instantiation
 Logger* Logger::instance;
 QMutex* Logger::lock = new QMutex();
 
 Logger::Logger() :
-	_verbose(false), _toFile(false), _toStdOut(true)
-{
+	verbose(false), printToFile(false), printToConsole(true) {
 }
 
-Logger* Logger::getInstance()
-{
-    QMutexLocker locker(Logger::lock);
+Logger* Logger::getInstance() {
+	QMutexLocker locker(Logger::lock);
 
-    if (Logger::instance == NULL) {
-	Logger::instance = new Logger();
-    }
-
-    return Logger::instance;
-}
-
-void Logger::logBANNER(QString origin, QString string)
-{
-    this->log(Logger::BANNER, origin, string);
-}
-
-void Logger::logDEBUG(QString origin, QString string)
-{
-    this->log(Logger::DEBUG, origin, string);
-}
-
-void Logger::logINFO(QString origin, QString string)
-{
-    this->log(Logger::INFO, origin, string);
-}
-
-void Logger::logWARNING(QString origin, QString string)
-{
-    this->log(Logger::WARNING, origin, string);
-}
-
-void Logger::logERROR(QString origin, QString string)
-{
-    this->log(Logger::ERROR, origin, string);
-}
-
-void Logger::logFATAL(QString origin, QString string)
-{
-    this->log(Logger::FATAL, origin, string);
-}
-
-void Logger::log(quint32 logLevel, QString origin, QString string)
-{
-    QString time("");
-
-    QString type("");
-
-    time += QTime::currentTime().toString();
-
-    switch (logLevel) {
-    case (Logger::FATAL):
-	type += "(FATAL) ";
-	break;
-    case (Logger::ERROR):
-	type += "(ERROR) ";
-	break;
-    case (Logger::WARNING):
-	type += "(WARNING) ";
-	break;
-    case (Logger::INFO):
- 	type += "(INFO) ";
- 	break;
-    case (Logger::BANNER):
- 	type += "(BANNER) ";
- 	break;
-    case (Logger::DEBUG):
-    default:
-	type += "(DEBUG) ";
-	break;
-    }
-
-    QMutexLocker locker(Logger::lock);
-
-    if (this->_toFile) {
-	    //TODO add file logging
-    }
-
-    if (this->_toStdOut) {
-	std::cout << std::setw(12) << std::setfill(' ') << std::left << time.toStdString();
-	std::cout << std::setw(20) << std::setfill(' ') << std::left << origin.toStdString();
-	std::cout << std::setw(12) << std::setfill(' ') << std::left << type.toStdString();
-
-	if (logLevel == Logger::BANNER) {
-	    std::cout << std::setfill(' ') << std::left << "======= " << string.toStdString() << " =======";
-	} else {
-	    std::cout << std::setfill(' ') << std::left << string.toStdString();
+	if (Logger::instance == NULL) {
+		Logger::instance = new Logger();
 	}
 
-	if (this->_verbose) {
-	    std::cout << std::setfill(' ') << " \t" << "STACK TRACE GOES HERE";
+	return Logger::instance;
+}
+
+void Logger::logBANNER(QString origin, QString string) {
+	this->log(Logger::BANNER, origin, string);
+}
+
+void Logger::logDEBUG(QString origin, QString string) {
+	this->log(Logger::DEBUG, origin, string);
+}
+
+void Logger::logINFO(QString origin, QString string) {
+	this->log(Logger::INFO, origin, string);
+}
+
+void Logger::logWARNING(QString origin, QString string) {
+	this->log(Logger::WARNING, origin, string);
+}
+
+void Logger::logERROR(QString origin, QString string) {
+	this->log(Logger::ERROR, origin, string);
+}
+
+void Logger::logFATAL(QString origin, QString string) {
+	this->log(Logger::FATAL, origin, string);
+}
+
+void Logger::log(quint32 logLevel, QString origin, QString string) {
+	std::string time("");
+
+	std::string type("");
+
+	time += QTime::currentTime().toString().toStdString();
+
+	switch (logLevel) {
+	case (Logger::FATAL):
+		type += "(FATAL) ";
+		break;
+	case (Logger::ERROR):
+		type += "(ERROR) ";
+		break;
+	case (Logger::WARNING):
+		type += "(WARNING) ";
+		break;
+	case (Logger::INFO):
+		type += "(INFO) ";
+		break;
+	case (Logger::BANNER):
+		type += "(BANNER) ";
+		break;
+	case (Logger::DEBUG):
+	default:
+		type += "(DEBUG) ";
+		break;
 	}
 
-	std::cout << std::endl;
-    }
+	QMutexLocker locker(Logger::lock);
+
+	if (this->printToFile) {
+		//TODO add file logging
+	}
+
+	std::ostringstream out("");
+
+	if (this->printToConsole) {
+		out << std::setw(12) << std::setfill(' ') << std::left << time;
+		out << std::setw(20) << std::setfill(' ') << std::left
+				<< origin.toStdString();
+		out << std::setw(12) << std::setfill(' ') << std::left << type;
+
+		if (logLevel == Logger::BANNER) {
+			out << std::setfill(' ') << std::left << "======= " << string.toStdString() << " =======";
+		} else {
+			out << std::setfill(' ') << std::left << string.toStdString();
+		}
+
+		if (this->verbose) {
+			out << std::setfill(' ') << " \t" << "STACK TRACE GOES HERE";
+		}
+
+		out << std::endl;
+
+		bu_log(out.str().c_str());
+	}
 }
 
 // Local Variables: ***

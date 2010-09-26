@@ -448,7 +448,7 @@ static void Disconnect(GeometryClient *gc, GeometryClient *gc2 = NULL,
 int main(int ac, char *av[])
 {
     //disable the logger for now.
-    Logger::getInstance()->disableLogToStdOut();
+    Logger::getInstance()->disableLogToConsole();
 
     std::vector<std::string> gcdir, gc2dir, gc3dir;
     std::string rep, rep2;
