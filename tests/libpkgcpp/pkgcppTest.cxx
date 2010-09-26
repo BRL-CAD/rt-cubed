@@ -28,6 +28,8 @@
 #include "libpkgcpp.h"
 #include <stdio.h>
 #include <iostream>
+#include <algorithm>
+#include <cstring>
 
 #define SERVER_NAME "ImaServer"
 #define CLIENT_NAME "ImaClient"
