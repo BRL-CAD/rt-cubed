@@ -16,6 +16,7 @@
 #include "svn_time.h"
 #include "svn_user.h"
 #include "svn_client.h"
+#include "svn_wc.h"
 
 #include "private/svn_opt_private.h"
 
@@ -391,6 +392,10 @@ main(int argc, const char *argv[])
 
 
   /* Commit the changes */
+  apr_array_header_t *targets = apr_array_make(pool, 5, sizeof(const char *));
+  APR_ARRAY_PUSH(targets, const char *) = file_path;
+  svn_pool_clear(subpool);
+  svn_client_commit4(NULL, targets, svn_depth_empty, FALSE, FALSE, NULL, NULL, ctx, subpool);
 
   /* Perform an update operation on the second repository */
 
