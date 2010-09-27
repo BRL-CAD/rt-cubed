@@ -46,7 +46,8 @@ ControlledThread::startup()
 {
   bool preRetVal = this->preStartupHook();
   this->runCmd = true;
-  bool postRetVal = this->preStartupHook();
+  this->start();
+  bool postRetVal = this->postStartupHook();
 }
 
 bool
@@ -54,7 +55,7 @@ ControlledThread::shutdown()
 {
   bool preRetVal = this->preShutdownHook();
   this->runCmd = false;
-  bool postRetVal = this->preShutdownHook();
+  bool postRetVal = this->postShutdownHook();
 }
 
 void
