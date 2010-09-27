@@ -27,6 +27,8 @@
 #include "brlcad/pkg.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <sstream>
 
 PkgServer::PkgServer(std::string proto)
 {
@@ -36,6 +38,25 @@ PkgServer::PkgServer(std::string proto)
 
 PkgServer::~PkgServer()
 {}
+
+/**
+ * Attempts to open a new connection to ipOrHostname:port.  Returns NULL if connection fails for any reason.
+ */
+PkgClient*
+PkgServer::connectToHost(std::string ipOrHostname, short port)
+{
+	std::stringstream ss;
+	ss << port;
+	std::string s_port = ss.str();
+
+	pkg_conn* conn = pkg_open(ipOrHostname.c_str(), s_port.c_str(), this->proto.c_str(), NULL, NULL, NULL, NULL);
+
+	if (conn == PKC_ERROR) {
+		bu_log("Connection to %s, port %d, failed.\n", ipOrHostname.c_str(), port);
+		return NULL;
+	}
+	return this->getNewClient(conn);
+}
 
 bool
 PkgServer::listen(unsigned short port)

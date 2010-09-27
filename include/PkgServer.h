@@ -36,6 +36,7 @@ public:
   virtual ~PkgServer();
 
   bool listen(unsigned short port);
+  PkgClient* connectToHost(std::string ipOrHostname, short port);
 
   /*
    * This function blocks if waitTime is set to '0'.  '0' is default.
