@@ -147,17 +147,13 @@ main(int argc, const char *argv[])
 
 				  /* Increment the file */
 				  char file_path[1024];
+				  sprintf(file_path, "%s/test_file", full_checkout_path);
 				  char file_numstr[60];
 				  int file_number;
 				  FILE *fp;
-				  sprintf(file_path,"%s/test_file", full_checkout_path);
-				  fp = fopen(file_path, "r");
-				  fgets(file_numstr, 50, fp);
-				  sscanf(file_numstr, "%d", &file_number);
-				  fclose(fp);
-				  sprintf(file_numstr,"%d", file_number + 1);
+				  sprintf(file_numstr,"%d", i);
 				  fp = fopen(file_path,"w");
-				  fputs (file_numstr, fp);
+				  fputs(file_numstr, fp);
 				  fclose (fp);
 
 				  /* Commit the change */
