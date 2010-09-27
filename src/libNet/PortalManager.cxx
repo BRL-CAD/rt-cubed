@@ -45,15 +45,22 @@ Portal*
 PortalManager::connectToHost(QString host, quint16 port)
 {
 	PkgTcpClient* pkgc = (PkgTcpClient* )this->tcpServer->connectToHost(host.toStdString(), port);
-	return this->makeNewPortal(pkgc);
+
+	if (pkgc == NULL) {
+		return NULL;
+	} else {
+		return this->makeNewPortal(pkgc);
+	}
 }
 
 void
 PortalManager::_run()
 {
+  struct timeval timeout;
   fd_set readfds;
   fd_set writefds;
   fd_set exceptionfds;
+  int listener;
 
   this->masterFDSLock.lock();
   FD_ZERO(&masterfds);
@@ -63,18 +70,24 @@ PortalManager::_run()
   FD_ZERO(&writefds);
   FD_ZERO(&exceptionfds);
 
-  int listener = this->tcpServer->listen(this->port);
-  if (listener < 0) {
-	  this->log->logERROR("PortalManager", "Failed to listen");
-      return;
-  }
+  if (this->port != 0) {
+		listener = this->tcpServer->listen(this->port);
+		if (listener < 0) {
+			this->log->logERROR("PortalManager", "Failed to listen");
+			return;
+		}
 
-  this->masterFDSLock.lock();
-  FD_SET(listener, &masterfds);
-  fdmax = listener;
-  this->masterFDSLock.unlock();
+		this->masterFDSLock.lock();
+		FD_SET(listener, &masterfds);
+		fdmax = listener;
+		this->masterFDSLock.unlock();
+	}
 
   while (this->runCmd) {
+	  //Set values EVERY loop since select() on *nix modifies this.
+	  timeout.tv_sec = 1;
+	  timeout.tv_usec = 0;
+
 
 	this->masterFDSLock.lock();
     readfds = masterfds;
@@ -83,7 +96,17 @@ PortalManager::_run()
     this->masterFDSLock.unlock();
 
     //Shelect!!
-    int retval = select(fdmax+1, &readfds, &writefds, &exceptionfds, NULL);
+    int retval = select(fdmax+1, &readfds, &writefds, NULL, &timeout);
+
+    QString out("Loop start.  Select returned: ");
+    out.append(QString::number(retval));
+    this->log->logINFO("PortalManager", out);
+
+    //Save time on the loop:
+    if (retval == 0) {
+    	continue;
+    }
+
     if(retval <0) {
       //got a selector error
 
@@ -103,14 +126,18 @@ PortalManager::_run()
     }
 
       for (int i = 0; i <= fdmax; ++i) {
+    	  /*
 			if (FD_ISSET(i, &exceptionfds)) {
 				//TODO handle exceptions
 				perror("Exception on FileDescriptor");
 			}
+*/
 
 			if (FD_ISSET(i, &readfds)) {
+				this->log->logINFO("PortalManager", "Read On Listener.");
+
 				//If we are 'reading' on listener
-				if (i == listener) {
+				if (port != 0 && i == listener) {
 					PkgTcpClient* client = (PkgTcpClient*) this->tcpServer->waitForClient(42);
 
 					if (client == 0) {
@@ -122,6 +149,7 @@ PortalManager::_run()
 
 					//else we are plain reading.
 				} else {
+					this->log->logINFO("PortalManager", "Read On Normal FD.");
 					//Portal->read here.
 					if (this->fdPortalMap->contains(i)) {
 						this->portalsLock->lock();
@@ -146,8 +174,11 @@ PortalManager::_run()
 
 			/*
 			 * Do we really need Write checking?
-			 *
+			 */
 			if (FD_ISSET(i, &writefds)) {
+			this->log->logINFO("PortalManager", "Write.");
+
+				/*
 				//Portal->write here.
 				if (this->fdPortalMap->contains(i)) {
 					this->portalsLock->lock();
@@ -167,8 +198,9 @@ PortalManager::_run()
 					this->closeFD(i,"Attempting to write to FD not associated with a Portal, dropping connection to remote host.", &masterfds);
 					continue;
 				}
+				*/
 			}
-			*/
+
 		} //end FOR
     } //end while
 }//end fn
