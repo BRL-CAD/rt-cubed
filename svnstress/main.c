@@ -163,15 +163,15 @@ main(int argc, const char *argv[])
 
 				  svn_commit_info_t *commit_info = NULL;
 				  svn_client_commit4(&commit_info, targets, svn_depth_empty, FALSE, FALSE, NULL, NULL, ctx, subpool);
-#if 0
-				  /* Perform an update operation on the second repository */
+				  
+				  /* Perform an update operation */
 				  svn_pool_clear(subpool);
 				  apr_array_header_t *update_targets = apr_array_make(pool, 5, sizeof(const char *));
-				  APR_ARRAY_PUSH(update_targets, const char *) = full_checkout_path2;
+				  APR_ARRAY_PUSH(update_targets, const char *) = file_path;
 				  svn_opt_revision_t svnrev;
 				  svnrev.kind = svn_opt_revision_unspecified;
 				  svn_client_update3(NULL, update_targets, &svnrev, svn_depth_unknown, 0, 0, 0, ctx, subpool);
-#endif
+
 				  /* Done, now clean up */
 				  svn_pool_destroy(pool);
 				  /* Ensure that everything is written to stdout, so the user will
