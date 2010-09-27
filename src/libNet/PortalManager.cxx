@@ -227,6 +227,7 @@ PortalManager::makeNewPortal(PkgTcpClient* client) {
 		this->masterFDSLock.unlock();
 	}
 
+	//Send our name
 	newPortal->sendGSNodeName();
 
 	return newPortal;

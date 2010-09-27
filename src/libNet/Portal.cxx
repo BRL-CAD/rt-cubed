@@ -65,6 +65,10 @@ Portal::sendGSNodeName()
 		localNodeName = QUuid::createUuid().toString();
 	}
 
+	QString s("Sending my localNodename: ");
+	s.append(localNodeName);
+	this->log->logDEBUG("Portal", s);
+
 	RemoteNodenameSetMsg* msg = new RemoteNodenameSetMsg(localNodeName);
 	this->send(msg);
 }
@@ -115,6 +119,11 @@ Portal::handleNetMsg(NetMsg* msg)
 		RemoteNodenameSetMsg* t = (RemoteNodenameSetMsg*)msg;
 		this->remoteNodeName = t->getRemoteNodename();
 		this->handshakeComplete = true;
+
+		QString s("Recv-ed a RemoteNodename: ");
+		s.append(this->remoteNodeName );
+		this->log->logDEBUG("Portal", s);
+
 		delete msg;
 		return true;
 	}
@@ -125,6 +134,8 @@ Portal::handleNetMsg(NetMsg* msg)
 void
 Portal::callbackSpringboard(struct pkg_conn* conn, char* buf)
 {
+	Logger::getInstance()->logBANNER("Portal","TEST!!!");
+
   /* Check to see if we got a good Buffer and Portal Object */
   if (buf == 0) {
     bu_bomb("pkg callback returned a NULL buffer!\n");
