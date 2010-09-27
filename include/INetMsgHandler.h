@@ -29,15 +29,16 @@
 #define __INETMSGHANDLER_H__
 
 #include "NetMsg.h"
-#include "Portal.h"
 
 class INetMsgHandler {
 public:
-	virtual void handleNetMsg(NetMsg* msg, Portal* origin) = 0;
+	/**
+	 * Handles a NetMsg.  Return value indicates whether the NetMsg has been fully handled and the memory released.
+	 */
+	virtual bool handleNetMsg(NetMsg* msg) = 0;
 };
 
 #endif /* __INETMSGHANDLER_H__ */
-
 
 // Local Variables: ***
 // mode: C++ ***
