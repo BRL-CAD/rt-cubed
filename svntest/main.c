@@ -390,12 +390,13 @@ main(int argc, const char *argv[])
   svn_pool_clear(subpool);
   svn_client_add4(file_path, svn_depth_empty, FALSE, FALSE, FALSE, ctx, subpool);
 
-
   /* Commit the changes */
   apr_array_header_t *targets = apr_array_make(pool, 5, sizeof(const char *));
   APR_ARRAY_PUSH(targets, const char *) = file_path;
   svn_pool_clear(subpool);
-  svn_client_commit4(NULL, targets, svn_depth_empty, FALSE, FALSE, NULL, NULL, ctx, subpool);
+
+  svn_commit_info_t *commit_info = NULL;
+  svn_client_commit4(&commit_info, targets, svn_depth_empty, FALSE, FALSE, NULL, NULL, ctx, subpool);
 
   /* Perform an update operation on the second repository */
 
