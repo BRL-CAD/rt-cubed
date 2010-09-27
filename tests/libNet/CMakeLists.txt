@@ -44,10 +44,47 @@ RT3_PROJECT_ADD_LIBS(
     ${_BRLCAD_LIBRARY_bu}
 )
 
-MESSAGE(STATUS "_BRLCAD_LIBRARY_pkg:    ${_BRLCAD_LIBRARY_pkg}")
-
 #set Source files
 RT3_PROJECT_ADD_SOURCES ( netMsgSerialTest.cxx )
+
+#Set INST Headers
+RT3_PROJECT_ADD_INST_HEADERS()
+
+#Set NOINST headers
+RT3_PROJECT_ADD_NOINST_HEADERS()
+
+#Set QT INST headers
+RT3_PROJECT_ADD_QT_INST_HEADERS()
+
+#Set QT NOINST headers
+RT3_PROJECT_ADD_QT_NOINST_HEADERS()
+
+#Build the project
+RT3_PROJECT_BUILD_EXE()
+
+
+##########################################################################
+
+RT3_PROJECT(libNetTest)
+
+#Set Include Dirs
+RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${QT_INCLUDE_DIR}
+    ${BRLCAD_INC_DIRS}
+)
+
+#Set Libs
+RT3_PROJECT_ADD_LIBS(
+    net
+    pkgcpp
+    utility
+    ${QT_LIBRARIES}
+    ${_BRLCAD_LIBRARY_pkg}
+    ${_BRLCAD_LIBRARY_bu}
+)
+
+#set Source files
+RT3_PROJECT_ADD_SOURCES ( libNetTest.cxx )
 
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS()
