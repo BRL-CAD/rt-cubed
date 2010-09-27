@@ -28,8 +28,8 @@
 
 #include <string>
 
-#include <QDataStream>
-#include <QString>
+#include <QtCore/QDataStream>
+#include <QtCore/QString>
 
 void logInfo(QString s) {
 	Logger::getInstance()->logINFO("NetMsgSerialTest", s);
@@ -57,8 +57,6 @@ void testMsg(NetMsg* msg01, QString typeName) {
 	}
 	delete msg02;
 }
-
-//TODO make the intentional Diff failing fn calls work.
 
 /* 
  * =====================
