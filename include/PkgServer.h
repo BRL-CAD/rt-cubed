@@ -35,7 +35,7 @@ public:
   PkgServer(std::string proto);
   virtual ~PkgServer();
 
-  bool listen(unsigned short port);
+  int listen(unsigned short port);
   PkgClient* connectToHost(std::string ipOrHostname, short port);
 
   /*

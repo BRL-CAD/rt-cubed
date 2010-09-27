@@ -58,7 +58,7 @@ PkgServer::connectToHost(std::string ipOrHostname, short port)
 	return this->getNewClient(conn);
 }
 
-bool
+int
 PkgServer::listen(unsigned short port)
 {
   //Convert port -> char* to make libpkg happy.
@@ -69,13 +69,13 @@ PkgServer::listen(unsigned short port)
   fd = pkg_permserver(portCString, this->proto.c_str(), 0, 0);
 
   if (fd < 0)
-    return false;
+    return fd;
 
   this->listenFD = fd;
 
   bu_log("Listening on port '%d'.\n", port);
 
-  return true;
+  return fd;
 }
 int
 PkgServer::getListeningFD()
