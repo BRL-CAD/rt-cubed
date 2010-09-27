@@ -43,17 +43,24 @@ public:
 	PortalManager(quint16 port);
 	~PortalManager();
 
+	Portal* connectToHost(QString host, quint16 port);
 protected:
 	void _run();
 
 private:
+	Logger* log;
 	quint16 port;
 	PkgTcpServer* tcpServer;
+
+	QMutex masterFDSLock;
+	fd_set masterfds;
+	int fdmax;
 
 	QMutex* portalsLock;
 	QMap<int, Portal*>* fdPortalMap;
 
-	void closeFD(int fd, QString logComment, fd_set* fdset = 0);
+	Portal* makeNewPortal(PkgTcpClient* client);
+	void closeFD(int fd, QString logComment);
 
 };
 

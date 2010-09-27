@@ -34,40 +34,53 @@ PortalManager::PortalManager(quint16 port) : ControlledThread("PortalManager")
   this->tcpServer = new PkgTcpServer();
   this->fdPortalMap = new QMap<int, Portal*>();
   this->portalsLock = new QMutex();
+  this->log = Logger::getInstance();
 }
 
 PortalManager::~PortalManager()
 {
 }
 
+Portal*
+PortalManager::connectToHost(QString host, quint16 port)
+{
+	PkgTcpClient* pkgc = (PkgTcpClient* )this->tcpServer->connectToHost(host.toStdString(), port);
+	return this->makeNewPortal(pkgc);
+}
+
 void
 PortalManager::_run()
 {
-  fd_set masterfds;
   fd_set readfds;
   fd_set writefds;
   fd_set exceptionfds;
-  int fdmax;
 
+  this->masterFDSLock.lock();
   FD_ZERO(&masterfds);
+  this->masterFDSLock.unlock();
+
   FD_ZERO(&readfds);
   FD_ZERO(&writefds);
   FD_ZERO(&exceptionfds);
 
-
   int listener = this->tcpServer->listen(this->port);
   if (listener < 0) {
-      bu_log("PortalManager failed to listen\n");
+	  this->log->logERROR("PortalManager", "Failed to listen");
       return;
   }
 
+  this->masterFDSLock.lock();
   FD_SET(listener, &masterfds);
   fdmax = listener;
+  this->masterFDSLock.unlock();
 
   while (this->runCmd) {
+
+	this->masterFDSLock.lock();
     readfds = masterfds;
     writefds = masterfds;
     exceptionfds = masterfds;
+    this->masterFDSLock.unlock();
 
     //Shelect!!
     int retval = select(fdmax+1, &readfds, &writefds, &exceptionfds, NULL);
@@ -84,7 +97,7 @@ PortalManager::_run()
          bu_log("Selector Error: ENOMEM: unable to allocate memory for internal tables.\n");
        }*/
 
-      bu_log("Selector Error.\n");
+      this->log->logERROR("PortalManager", "Selector Error.");
 
       break;
     }
@@ -94,48 +107,43 @@ PortalManager::_run()
 				//TODO handle exceptions
 				perror("Exception on FileDescriptor");
 			}
+
 			if (FD_ISSET(i, &readfds)) {
 				//If we are 'reading' on listener
 				if (i == listener) {
 					PkgTcpClient* client = (PkgTcpClient*) this->tcpServer->waitForClient(42);
 
 					if (client == 0) {
-						bu_log("Error on accepting new client.\n");
+						  this->log->logERROR("PortalManager", "Error on accepting new client.");
 					} else {
 						//Handle new client here.
-						Portal* newPortal = new Portal(client);
-						this->portalsLock->lock();
-						int newFD = newPortal->pkgClient->getFileDescriptor();
-						this->fdPortalMap->insert(newFD, newPortal);
-						this->portalsLock->unlock();
-						if (newFD > fdmax) {
-							fdmax = newFD;
-						}
+						this->makeNewPortal(client);
 					}
 
 					//else we are plain reading.
 				} else {
 					//Portal->read here.
 					if (this->fdPortalMap->contains(i)) {
-                        this->portalsLock->lock();
+						this->portalsLock->lock();
 						int readResult = this->fdPortalMap->value(i)->read();
-                        this->portalsLock->unlock();
+						this->portalsLock->unlock();
 
-                        if (readResult == 0) {
-                                this->closeFD(i,"Lost connection to remote host.\n", &masterfds);
-                                continue;
-                        } else if (readResult < 0) {
-                                this->closeFD(i, "Error on read, dropping connection to remote host.\n", &masterfds);
-                                continue;
-                        }
+						if (readResult == 0) {
+							this->closeFD(i, "Lost connection to remote host.");
+							continue;
+						} else if (readResult < 0) {
+							this->closeFD(i, "Error on read, dropping connection to remote host.");
+							continue;
+						}
 
 					} else {
-                        //Deal with unmapped file Descriptor
-						this->closeFD(i,"Attempting to read from FD not associated with a Portal, dropping connection to remote host.\n", &masterfds);
+						//Deal with unmapped file Descriptor
+						this->closeFD(i, "Attempting to read from FD not associated with a Portal, dropping connection to remote host.");
 						continue;
 					}
 				}
 			}
+
 			/*
 			 * Do we really need Write checking?
 			 *
@@ -165,16 +173,42 @@ PortalManager::_run()
     } //end while
 }//end fn
 
-void
-PortalManager::closeFD(int fd, QString logComment, fd_set* fdset)
-{
-	close(fd);
-	if (fdset != 0) {
-		FD_CLR(fd, fdset);
+
+Portal*
+PortalManager::makeNewPortal(PkgTcpClient* client) {
+	Portal* newPortal = new Portal(client);
+
+	if (newPortal == 0) {
+		return 0;
 	}
 
-	logComment.append("\n");
-	bu_log(logComment.toStdString().c_str());
+	//Obtain lock and then map this new portal
+	this->portalsLock->lock();
+	int newFD = newPortal->pkgClient->getFileDescriptor();
+	this->fdPortalMap->insert(newFD, newPortal);
+	this->portalsLock->unlock();
+
+	//Check maxFD and update if needed.
+	if (newFD > fdmax) {
+		this->masterFDSLock.lock();
+		fdmax = newFD;
+		this->masterFDSLock.unlock();
+	}
+	return newPortal;
+}
+
+void
+PortalManager::closeFD(int fd, QString logComment)
+{
+	close(fd);
+
+	this->masterFDSLock.lock();
+	if (FD_ISSET(fd, &this->masterfds)) {
+		FD_CLR(fd, &this->masterfds);
+	}
+	this->masterFDSLock.unlock();
+
+	this->log->logERROR("PortalManager", logComment);
 }
 
 
