@@ -176,7 +176,7 @@ PortalManager::_run()
 			 * Do we really need Write checking?
 			 */
 			if (FD_ISSET(i, &writefds)) {
-			this->log->logINFO("PortalManager", "Write.");
+				this->log->logINFO("PortalManager", "Write.");
 
 				/*
 				//Portal->write here.
@@ -226,6 +226,9 @@ PortalManager::makeNewPortal(PkgTcpClient* client) {
 		fdmax = newFD;
 		this->masterFDSLock.unlock();
 	}
+
+	newPortal->sendGSNodeName();
+
 	return newPortal;
 }
 

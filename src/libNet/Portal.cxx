@@ -27,6 +27,8 @@
 #include "Logger.h"
 #include "brlcad/bu.h"
 #include "NetMsgFactory.h"
+#include "NetMsgTypes.h"
+#include "RemoteGSHostnameSetMsg.h"
 
 Portal::Portal(PkgTcpClient* client)
 {
@@ -40,6 +42,7 @@ Portal::Portal(PkgTcpClient* client)
 
   this->pkgClient->setCallBackTable(table);
   this->log = Logger::getInstance();
+  this->handshakeComplete = false;
 }
 
 Portal::~Portal()
@@ -53,6 +56,17 @@ Portal::send(NetMsg* msg){
 	int retval = this->pkgClient->send(PKG_MAGIC2, ba->data(), ba->size());
 	delete ba;
 	return retval;
+}
+void
+Portal::sendGSNodeName()
+{
+	QString localNodeName = Config::getInstance()->getConfigValue("LocalGSNodeName");
+	if (localNodeName.length() == 0) {
+		localNodeName = QUuid::createUuid().toString();
+	}
+
+	RemoteGSHostnameSetMsg* msg = new RemoteGSHostnameSetMsg(localNodeName);
+	this->send(msg);
 }
 
 int
@@ -92,6 +106,22 @@ Portal::getRemoteNodeName(){
   return this->remoteNodeName + "";
 }
 
+bool
+Portal::handleNetMsg(NetMsg* msg)
+{
+	quint16 type = msg->getMsgType();
+
+	if (type == REMGSHOSTNAMESET) {
+		RemoteGSHostnameSetMsg* t = (RemoteGSHostnameSetMsg*)msg;
+		this->remoteNodeName = t->getRemoteGSHostname();
+		this->handshakeComplete = true;
+		delete msg;
+		return true;
+	}
+
+	return false;
+}
+
 void
 Portal::callbackSpringboard(struct pkg_conn* conn, char* buf)
 {
@@ -107,6 +137,9 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf)
    }
   Portal* p = (Portal*)conn->pkc_user_data;
 
+  //TODO Split the code here?  Fire off a Job?
+
+
   /* Build a NetMsg */
   NetMsg* msg  = NetMsgFactory::getInstance()->deserializeNetMsg(ba, p);
 
@@ -117,6 +150,12 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf)
   }
 
   /* Route */
+
+  //give the Portal first dibs on the netmsg
+  if (p->handleNetMsg(msg)){
+	  return;
+  }
+
   //TODO add in routing code.
 }
 

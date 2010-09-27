@@ -28,20 +28,23 @@
 
 #define PKG_MAGIC2      5309
 
+#include "INetMsgHandler.h"
 #include "PkgTcpClient.h"
 #include "NetMsg.h"
 #include "brlcad/pkg.h"
 
 #include <QtCore/QString>
 
-class Portal
+class Portal : public INetMsgHandler
 {
 public:
   friend class PortalManager;
   virtual ~Portal();
   int send(NetMsg* msg);
+  void sendGSNodeName();
 
   QString getRemoteNodeName();
+  bool handleNetMsg(NetMsg* msg);
 
 protected:
   Portal(PkgTcpClient* client);
@@ -59,6 +62,7 @@ private:
   PkgTcpClient* pkgClient;
   QString remoteNodeName;
   Logger* log;
+  bool handshakeComplete;
 
   static void callbackSpringboard(struct pkg_conn* conn, char* buf);
 };
