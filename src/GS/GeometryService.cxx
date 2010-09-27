@@ -26,11 +26,11 @@
 #include "GeometryService.h"
 #include "SessionManager.h"
 
-GeometryService::GeometryService(const QString gsHostname) :
-    localGSHostname(gsHostname)
+GeometryService::GeometryService(const QString localNodeName) :
+localNodeName(localNodeName)
 {
     this->log = Logger::getInstance();
-    this->log->logINFO("GeometryService", gsHostname + " is starting up...");
+    this->log->logINFO("GeometryService", localNodeName + " is starting up...");
 }
 
 GeometryService::~GeometryService()

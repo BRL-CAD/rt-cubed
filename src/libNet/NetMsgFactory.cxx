@@ -89,11 +89,11 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
     return new GenericOneByteMsg(qds, origin);
   case SUCCESS:
     return new GenericOneByteMsg(qds, origin);
-  case REMGSHOSTNAMESET:
+  case GS_REMOTE_NODENAME_SET:
     return new GenericOneStringMsg(qds, origin);
   case DISCONNECTREQ:
     return new TypeOnlyMsg(qds, origin);
-  case NEWHOSTONNET:
+  case NEWNODEONNET:
     return new GenericOneStringMsg(qds, origin);
     //    case FULLHOSTLISTREQ:
     //	return new NetMsg(qds, origin);

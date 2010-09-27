@@ -33,9 +33,9 @@
 #include "libgs.h"
 #include "libnet.h"
 
-#include <QUuid>
-#include <QString>
-#include <QHostAddress>
+#include <QtCore/QUuid>
+#include <QtCore/QString>
+#include <QtNetwork/QHostAddress>
 
 static const quint16 DEFAULT_PORT = 7777;
 

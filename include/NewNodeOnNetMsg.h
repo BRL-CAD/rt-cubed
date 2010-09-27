@@ -1,4 +1,4 @@
-/*             N E W H O S T O N N E T M S G . H
+/*               N E W N O D E O N N E T M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,34 +17,34 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NewHostOnNetMsg.h
+/** @file NewNodeOnNetMsg.h
  *
  * Brief description
  *
  */
 
-#ifndef __NEWHOSTONNETMSG_H__
-#define __NEWHOSTONNETMSG_H__
+#ifndef __NEWNODEONNETMSG_H__
+#define __NEWNODEONNETMSG_H__
 
 #include "GenericOneStringMsg.h"
 
-class NewHostOnNetMsg: public GenericOneStringMsg
+class NewNodeOnNetMsg: public GenericOneStringMsg
 {
 
 public:
 	/* Normal Constructor */
-	NewHostOnNetMsg(QString s);
+	NewNodeOnNetMsg(QString s);
 
 	/* Reply Constructor */
-	NewHostOnNetMsg(NetMsg* msg, QString gsHostname);
+	NewNodeOnNetMsg(NetMsg* msg, QString gsHostname);
 
 	/* Deserializing Constructor */
-	NewHostOnNetMsg(QDataStream* ds, Portal* origin);
+	NewNodeOnNetMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
-	virtual ~NewHostOnNetMsg();
+	virtual ~NewNodeOnNetMsg();
 
-	QString getNewGSHostname();
+	QString getNewNodename();
 };
 
 #endif

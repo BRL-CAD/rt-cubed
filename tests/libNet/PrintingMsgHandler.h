@@ -36,7 +36,7 @@ public:
 
     void handleNetMsg(NetMsg* msg, NetPortal* origin)
     {
-	Logger::getInstance()->logINFO(_name, "Received msg type '" + QString::number(msg->getMsgType()) + "' from '" + origin->getRemoteGSHostname() + "'");
+	Logger::getInstance()->logINFO(_name, "Received msg type '" + QString::number(msg->getMsgType()) + "' from '" + origin->getRemoteNodename() + "'");
     }
 
 private:

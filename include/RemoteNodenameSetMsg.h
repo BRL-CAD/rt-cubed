@@ -1,4 +1,4 @@
-/*             R E M O T E G S H O S T N A M E S E T M S G . C X X
+/*          R E M O T E N O D E N A M E S E T M S G . H
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,46 +17,39 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file RemoteGSHostnameSetMsg.cxx
+/** @file RemoteNodenameSetMsg.h
  *
  * Brief description
  *
  */
 
-#include "NetMsgTypes.h"
-#include "RemoteGSHostnameSetMsg.h"
-#include <sstream>
+#ifndef __REMOTENODENAMESETMSG_H__
+#define __REMOTENODENAMESETMSG_H__
 
-/* Normal Constructor */
-RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QString gsHostname) :
-    GenericOneStringMsg(REMGSHOSTNAMESET, gsHostname)
-{
-}
+#include "GenericOneStringMsg.h"
 
-/* Reply Constructor */
-RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(NetMsg* msg, QString gsHostname) :
-	GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
+class RemoteNodenameSetMsg: public GenericOneStringMsg
 {
-}
 
-/* Deserializing Constructor */
-RemoteGSHostnameSetMsg::RemoteGSHostnameSetMsg(QDataStream* ds, Portal* origin) :
-    GenericOneStringMsg(ds, origin)
-{
-}
+public:
 
-/* Destructor */
-RemoteGSHostnameSetMsg::~RemoteGSHostnameSetMsg()
-{
-}
+	/* Normal Constructor */
+	RemoteNodenameSetMsg(QString s);
 
-/*
- *Getters n Setters
- */
-QString RemoteGSHostnameSetMsg::getRemoteGSHostname()
-{
-    return this->strData;
-}
+	/* Reply Constructor */
+	RemoteNodenameSetMsg(NetMsg* msg, QString gsHostname);
+
+	/* Deserializing Constructor */
+	RemoteNodenameSetMsg(QDataStream* ds, Portal* origin);
+
+	/* Destructor */
+	virtual ~RemoteNodenameSetMsg();
+
+	QString getRemoteNodename();
+
+};
+
+#endif //__REMOTENODENAMESETMSG_H__
 
 // Local Variables: ***
 // mode: C++ ***

@@ -37,11 +37,11 @@
 #define	FAILURE			        	0x0050
 #define	SUCCESS          	        0x0051
 
-#define REMGSHOSTNAMESET	        0x0100
+#define GS_REMOTE_NODENAME_SET	        0x0100
 
 #define	DISCONNECTREQ 		        0x0150
 
-#define NEWHOSTONNET                0x0200
+#define NEWNODEONNET                0x0200
 
 #define FULLHOSTLISTREQ		        0x0250
 #define FULLHOSTLIST		        0x0255

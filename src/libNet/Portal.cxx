@@ -28,7 +28,7 @@
 #include "brlcad/bu.h"
 #include "NetMsgFactory.h"
 #include "NetMsgTypes.h"
-#include "RemoteGSHostnameSetMsg.h"
+#include "RemoteNodenameSetMsg.h"
 
 Portal::Portal(PkgTcpClient* client)
 {
@@ -65,7 +65,7 @@ Portal::sendGSNodeName()
 		localNodeName = QUuid::createUuid().toString();
 	}
 
-	RemoteGSHostnameSetMsg* msg = new RemoteGSHostnameSetMsg(localNodeName);
+	RemoteNodenameSetMsg* msg = new RemoteNodenameSetMsg(localNodeName);
 	this->send(msg);
 }
 
@@ -111,9 +111,9 @@ Portal::handleNetMsg(NetMsg* msg)
 {
 	quint16 type = msg->getMsgType();
 
-	if (type == REMGSHOSTNAMESET) {
-		RemoteGSHostnameSetMsg* t = (RemoteGSHostnameSetMsg*)msg;
-		this->remoteNodeName = t->getRemoteGSHostname();
+	if (type == GS_REMOTE_NODENAME_SET) {
+		RemoteNodenameSetMsg* t = (RemoteNodenameSetMsg*)msg;
+		this->remoteNodeName = t->getRemoteNodename();
 		this->handshakeComplete = true;
 		delete msg;
 		return true;

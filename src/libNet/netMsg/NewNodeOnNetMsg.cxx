@@ -1,4 +1,4 @@
-/*             N E W H O S T O N N E T M S G . C X X
+/*             N E W N O D E O N N E T M S G . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -17,43 +17,44 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file NewHostOnNetMsg.cxx
+/** @file NewNodeOnNetMsg.cxx
  *
  * Brief description
  *
  */
 
+
 #include "NetMsgTypes.h"
-#include "NewHostOnNetMsg.h"
+#include "NewNodeOnNetMsg.h"
 #include <sstream>
 
 /* Normal Constructor */
-NewHostOnNetMsg::NewHostOnNetMsg(QString gsHostname) :
-    GenericOneStringMsg(REMGSHOSTNAMESET, gsHostname)
+NewNodeOnNetMsg::NewNodeOnNetMsg(QString nodename) :
+    GenericOneStringMsg(GS_REMOTE_NODENAME_SET, nodename)
 {
 }
 
 /* Reply Constructor */
-NewHostOnNetMsg::NewHostOnNetMsg(NetMsg* msg, QString gsHostname) :
-    GenericOneStringMsg(REMGSHOSTNAMESET, msg, gsHostname)
+NewNodeOnNetMsg::NewNodeOnNetMsg(NetMsg* msg, QString nodename) :
+    GenericOneStringMsg(GS_REMOTE_NODENAME_SET, msg, nodename)
 {
 }
 
 /* Deserializing Constructor */
-NewHostOnNetMsg::NewHostOnNetMsg(QDataStream* ds, Portal* origin) :
+NewNodeOnNetMsg::NewNodeOnNetMsg(QDataStream* ds, Portal* origin) :
     GenericOneStringMsg(ds, origin)
 {
 }
 
 /* Destructor */
-NewHostOnNetMsg::~NewHostOnNetMsg()
+NewNodeOnNetMsg::~NewNodeOnNetMsg()
 {
 }
 
 /*
  *Getters n Setters
  */
-QString NewHostOnNetMsg::getNewGSHostname()
+QString NewNodeOnNetMsg::getNewNodename()
 {
     return this->strData;
 }

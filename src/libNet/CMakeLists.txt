@@ -19,7 +19,7 @@
 #	information.
 #	
 #########################################################################
-#	@file rt^3/src/libNetwork/CMakeLists.txt
+#	@file rt^3/src/libNet/CMakeLists.txt
 #
 #	$Revision:  $
 #	$Author:  $
@@ -58,10 +58,10 @@ RT3_PROJECT_ADD_SOURCES (
 	netMsg/GenericMultiByteMsg.cxx
 	netMsg/FailureMsg.cxx
 	netMsg/SuccessMsg.cxx
-	netMsg/RemoteGSHostnameSetMsg.cxx
+	netMsg/RemoteNodenameSetMsg.cxx
  	netMsg/NewSessionReqMsg.cxx
  	netMsg/SessionInfoMsg.cxx
-	netMsg/NewHostOnNetMsg.cxx
+	netMsg/NewNodeOnNetMsg.cxx
 	netMsg/GeometryReqMsg.cxx
 	netMsg/GeometryManifestMsg.cxx
 	netMsg/GeometryChunkMsg.cxx
@@ -76,7 +76,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	NetMsgFactory.h
 	NetMsg.h
 	TypeOnlyMsg.h
-	RemoteGSHostnameSetMsg.h
+	RemoteNodenameSetMsg.h
 	GenericOneStringMsg.h
 	GenericOneByteMsg.h
 	GenericTwoBytesMsg.h
@@ -86,7 +86,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	SuccessMsg.h
     NewSessionReqMsg.h
     SessionInfoMsg.h
-	NewHostOnNetMsg.h
+	NewNodeOnNetMsg.h
 	GeometryReqMsg.h
 	GeometryManifestMsg.h
 	GeometryChunkMsg.h

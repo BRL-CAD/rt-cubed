@@ -172,11 +172,11 @@ int main(int argc, char* argv[]) {
 	testMsg(&msg112, "GeometryReqMsg-Reply");
 
 	/* Test Normal */
-	NewHostOnNetMsg msg121("Kiaser Sose");
-	testMsg(&msg121, "NewHostOnNetMsg-Normal");
+	NewNodeOnNetMsg msg121("Kiaser Sose");
+	testMsg(&msg121, "NewNodeOnNetMsg-Normal");
 	/* Test Reply */
-	NewHostOnNetMsg msg122(&msg121, "Kiaser Sose");
-	testMsg(&msg122, "NewHostOnNetMsg-Reply");
+	NewNodeOnNetMsg msg122(&msg121, "Kiaser Sose");
+	testMsg(&msg122, "NewNodeOnNetMsg-Reply");
 
 	/* Test Normal */
 	NewSessionReqMsg msg131("Kiaser Sose", "YourMom");
@@ -186,11 +186,11 @@ int main(int argc, char* argv[]) {
 	testMsg(&msg132, "NewSessionReqMsg-Reply");
 
 	/* Test Normal */
-	RemoteGSHostnameSetMsg msg141("RogerRamJet");
-	testMsg(&msg141, "RemoteGSHostnameSetMsg-Normal");
+	RemoteNodenameSetMsg msg141("RogerRamJet");
+	testMsg(&msg141, "RemoteNodenameSetMsg-Normal");
 	/* Test Reply */
-	RemoteGSHostnameSetMsg msg142(&msg141, "RogerRamJet");
-	testMsg(&msg142, "RemoteGSHostnameSetMsg-Reply");
+	RemoteNodenameSetMsg msg142(&msg141, "RogerRamJet");
+	testMsg(&msg142, "RemoteNodenameSetMsg-Reply");
 
 	QUuid uuid = QUuid::createUuid();
 

@@ -37,11 +37,11 @@ class GeometryService
 {
 
 public:
-	GeometryService(const QString localGSHostname);
+	GeometryService(const QString localNodeName);
 	virtual ~GeometryService();
 private:
 	Logger* log;
-	QString localGSHostname;
+	QString localNodeName;
 };
 
 #endif
