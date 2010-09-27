@@ -26,6 +26,7 @@
 #include "Config.h"
 #include <QtCore/QFile>
 #include <QtCore/QStringList>
+#include <QtCore/QMutexLocker>
 
 Config* Config::pInstance = NULL;
 
@@ -108,9 +109,7 @@ void Config::processLine(QString line)
     QString value = list[1];
 
     //this->log->logINFO("Config", "Key: '" + key + "' Value: '" + value + "'");
-
-    this->configMap->insert(key, value);
-
+    this->updateValue(key, value);
 }
 
 void Config::removeAllOccurances(QString* data, QString search, QString replace)
@@ -123,12 +122,21 @@ void Config::removeAllOccurances(QString* data, QString search, QString replace)
 
 QString Config::getConfigValue(QString key)
 {
+	QMutexLocker(&this->mapLock);
     return this->configMap->value(key, "") + "";
+}
+
+void
+Config::updateValue(QString key, QString value)
+{
+	QMutexLocker(&this->mapLock);
+	this->configMap->insert(key, value);
 }
 
 QList<QString> Config::getAllKeys()
 {
-    return this->configMap->uniqueKeys();
+	QMutexLocker(&this->mapLock);
+	return this->configMap->uniqueKeys();
 }
 
 // Local Variables: ***

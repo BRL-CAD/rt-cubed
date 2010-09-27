@@ -40,18 +40,20 @@ public:
 
 	bool loadFile(QString pathAndFileName);
 	QString getConfigValue(QString key);
+	void updateValue(QString key, QString value);
 	QList<QString> getAllKeys();
 
 private:
 	Config(); //Turn off Default cstr
 	Config(const Config& c){}; //Turn off Copy cstr
 	Config& operator=(const Config& c){}; //Turn off equal oper
+
 	void processLine(QString line);
 	void removeAllOccurances(QString* data, QString search,
 			QString replace);
 
-	QMutex lock;
 	Logger* log;
+	QMutex mapLock;
 	QMap<QString, QString>* configMap;
 
 	static Config* pInstance;
