@@ -45,12 +45,12 @@ int main(int argc, char* argv[])
 	return 1;
     }
 
-    QString gsHostname = c->getConfigValue("GSHostName");
-    if (gsHostname == "") {
-	gsHostname = "DefaultGSHostname";
+    QString localNodename = c->getConfigValue("LocalNodeName");
+    if (localNodename == "") {
+    	localNodename = "DefaultGSNodename";
     }
 
-    log->logBANNER("GSMain", "Booting GeometryService: " + gsHostname);
+    log->logBANNER("GSMain", "Booting GeometryService: " + localNodename);
 
     return 0;
 }

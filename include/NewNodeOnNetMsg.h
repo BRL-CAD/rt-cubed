@@ -36,7 +36,7 @@ public:
 	NewNodeOnNetMsg(QString s);
 
 	/* Reply Constructor */
-	NewNodeOnNetMsg(NetMsg* msg, QString gsHostname);
+	NewNodeOnNetMsg(NetMsg* msg, QString gsNodename);
 
 	/* Deserializing Constructor */
 	NewNodeOnNetMsg(QDataStream* ds, Portal* origin);

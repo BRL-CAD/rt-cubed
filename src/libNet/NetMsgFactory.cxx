@@ -95,9 +95,9 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
     return new TypeOnlyMsg(qds, origin);
   case NEWNODEONNET:
     return new GenericOneStringMsg(qds, origin);
-    //    case FULLHOSTLISTREQ:
+    //    case FULL_NODE_LISTREQ:
     //	return new NetMsg(qds, origin);
-    //    case FULLHOSTLIST:
+    //    case FULL_NODE_LIST:
     //	return new NetMsg(qds, origin);
   case NEWSESSIONREQ:
     return new NewSessionReqMsg(qds, origin);

@@ -37,7 +37,7 @@ public:
 	RemoteNodenameSetMsg(QString s);
 
 	/* Reply Constructor */
-	RemoteNodenameSetMsg(NetMsg* msg, QString gsHostname);
+	RemoteNodenameSetMsg(NetMsg* msg, QString gsNodename);
 
 	/* Deserializing Constructor */
 	RemoteNodenameSetMsg(QDataStream* ds, Portal* origin);
