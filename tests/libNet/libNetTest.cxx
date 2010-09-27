@@ -23,12 +23,12 @@
  *
  */
 
-
+#include "brlcad/bu.h"
 #include "libnet.h"
 #include "libutility.h"
 
 #include <string>
-
+#include <sstream>
 #include <QtCore/QDataStream>
 #include <QtCore/QString>
 
@@ -37,6 +37,39 @@ void logInfo(QString s) {
 }
 void logBanner(QString s) {
 	Logger::getInstance()->logBANNER("libNetTest", s);
+}
+
+/**
+ * Prints the 'usage' statement to the console along with an optional message
+ */
+void printUsage(std::string customMsg) {
+
+	if (customMsg.length() > 0) {
+		customMsg += "\n";
+		QString s(customMsg.c_str());
+		logInfo(s);
+	}
+	logInfo("Usage for Client: pkgcppTest client ipAddress port.\n");
+	logInfo("Usage for Server: pkgcppTest server port.\n");
+
+	return;
+}
+
+/**
+ * Converts char* data to a valid port number
+ */
+int getValidPort(char* data) {
+	std::string portStr(data);
+	int port = atoi(data);
+
+	//Hardcode prolly not best for OS determined port range....
+	if (port > 0x0000 && port < 0xFFFF) {
+		//More validation goes here, if needed.
+	} else {
+		printUsage("Supplied Port '" + portStr + "' is invalid.");
+		bu_exit(1, "");
+	}
+	return port;
 }
 
 /* 
@@ -48,7 +81,74 @@ void logBanner(QString s) {
  */
 
 int main(int argc, char* argv[]) {
+	Logger::getInstance();
+	logBanner("libNetTest");
 
+	if (argc > 4 || argc < 3) {
+		printUsage("Incorrect ARG count.");
+		bu_exit(1, "");
+	}
+
+	bool isServer;
+	short port;
+	std::string ip("");
+
+	//Get app mode.  Either client or server
+	std::string cliServ(argv[1]);
+	std::transform(cliServ.begin(), cliServ.end(), cliServ.begin(), tolower);
+
+	if (cliServ == "client") {
+		isServer = false;
+		ip = argv[2];
+		port = getValidPort(argv[3]);
+	} else if (cliServ == "server") {
+		isServer = true;
+		port = getValidPort(argv[2]);
+	} else {
+		printUsage("Unknown mode: '" + cliServ + "'");
+		bu_exit(1, "");
+	}
+
+	QString s("Running in ");
+	s.append(cliServ.c_str());
+	s.append(" mode.");
+	logInfo(s);
+
+	if (isServer) {
+		PortalManager pm(port);
+		pm.startup();
+
+		s = "Listening on port: ";
+		s.append(port);
+		logInfo(s);
+
+		//listen for a loooong time.
+		GSThread::sleep(60 * 60); //1 hr
+		logInfo("Shutting down...");
+		pm.shutdown();
+
+	} else {
+		PortalManager pm;
+		pm.startup();
+
+		s = "Trying to connect to ";
+		s.append(ip.c_str());
+		s.append(":");
+		s.append(QString::number(port));
+		logInfo(s);
+
+		QString t(ip.c_str()); //this is dumb!
+		Portal* p = pm.connectToHost(t, port);
+
+		if (p != 0) {
+			GSThread::sleep(10);
+		}
+
+		logInfo("Shutting down...");
+		pm.shutdown();
+	}
+
+	GSThread::sleep(1);
 
 	return 0;
 }
