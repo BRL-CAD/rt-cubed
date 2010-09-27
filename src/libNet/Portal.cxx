@@ -24,6 +24,7 @@
  */
 
 #include "Portal.h"
+#include "Logger.h"
 #include "brlcad/bu.h"
 #include "NetMsgFactory.h"
 
@@ -38,6 +39,7 @@ Portal::Portal(PkgTcpClient* client)
   };
 
   this->pkgClient->setCallBackTable(table);
+  this->log = Logger::getInstance();
 }
 
 Portal::~Portal()
@@ -61,24 +63,24 @@ Portal::read(){
   //recv first
   retval = this->pkgClient->processData();
   if (retval < 0){
-      bu_log("Unable to process packets? Weird.\n");
+	  this->log->logERROR("Portal", "Unable to process packets? Weird.\n");
       return retval;
   }//TODO do we need to check for ==0 ?
 
 
   retval = this->pkgClient->pullDataFromSocket();
   if (retval < 0) {
-    bu_log("Seemed to have trouble pulling the data from the socket.\n");
+	  this->log->logERROR("Portal", "Seemed to have trouble pulling the data from the socket.\n");
     return retval;
 
   } else if (retval == 0) {
-    bu_log("Client closed the connection.\n");
+	  this->log->logERROR("Portal", "Client closed the connection.\n");
     return retval;
   }
 
   retval = this->pkgClient->processData();
   if (retval < 0){
-      bu_log("Unable to process packets? Weird.\n");
+	  this->log->logERROR("Portal", "Unable to process packets? Weird.\n");
       return retval;
   }//TODO do we need to check for ==0 ?
 

@@ -58,6 +58,7 @@ protected:
 private:
   PkgTcpClient* pkgClient;
   QString remoteNodeName;
+  Logger* log;
 
   static void callbackSpringboard(struct pkg_conn* conn, char* buf);
 };

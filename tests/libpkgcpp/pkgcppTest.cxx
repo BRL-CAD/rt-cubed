@@ -26,6 +26,7 @@
 #include "brlcad/bu.h"
 #include "brlcad/pkg.h"
 #include "libpkgcpp.h"
+#include "libutility.h"
 #include <stdio.h>
 #include <iostream>
 #include <algorithm>
@@ -197,7 +198,7 @@ runServer(int port)
        validate magic header that client should have sent
        if (strcmp(buffer, CLIENT_NAME) != 0)
        {
-       bu_log("Data Error, received a PKGCPP_HELO without proper data!\n");
+      Logger::getInstance()->logERROR(("Received a PKGCPP_HELO without proper data!\n");
        pkgClient->close();
        }
 
@@ -215,7 +216,7 @@ runServer(int port)
   /* we got a validated client, process packets from the
    * connection.  boilerplate triple-call loop.
    */
-  bu_log("Processing data from client\n");
+  Logger::getInstance()->logINFO("PkgCppTest", "Processing data from client\n");
   do
     {
       bu_log("Loop Pass #%d\n", counter);
@@ -227,12 +228,12 @@ runServer(int port)
       int pkg_result = pkgClient->pullDataFromSocket();
       if (pkg_result < 0)
         {
-          bu_log("Seemed to have trouble sucking in packets.\n");
+    	  Logger::getInstance()->logINFO("PkgCppTest", "Seemed to have trouble sucking in packets.\n");
           break;
         }
       else if (pkg_result == 0)
         {
-          bu_log("Client closed the connection.\n");
+    	  Logger::getInstance()->logINFO("PkgCppTest", "Client closed the connection.\n");
           //usleep(100);
           //break;
         }
@@ -246,7 +247,7 @@ runServer(int port)
     }
   while (pkgClient != NULL && itemsRemain != 0 && listenLoop);
 
-  bu_log("Done with client.  Closing connection.\n");
+  Logger::getInstance()->logINFO("PkgCppTest", "Done with client.  Closing connection.\n");
 
   pkgClient->close();
 
@@ -276,7 +277,7 @@ runClient(std::string ipOrHostname, int port)
       bu_bomb("ERROR: Unable to open a connection to the server\n");
     }
 
-  bu_log("Sending HELO to server.\n");
+  Logger::getInstance()->logINFO("PkgCppTest", "Sending HELO to server.\n");
 
   long bytes = 0;
 
@@ -310,7 +311,7 @@ runClient(std::string ipOrHostname, int port)
       sleep(1);
     }
 
-  bu_log("Sending CIAO.\n");
+  Logger::getInstance()->logINFO("PkgCppTest", "Sending CIAO.\n");
   /* let the server know we're done.  not necessary, but polite. */
   bytes = connToServer->send(PKGCPP_CIAO, "CIAO", 4);
   if (bytes < 0)
@@ -320,7 +321,7 @@ runClient(std::string ipOrHostname, int port)
     }
 
   sleep(5);
-  bu_log("Disconnecting.\n");
+  Logger::getInstance()->logINFO("PkgCppTest", "Disconnecting.\n");
   connToServer->close();
   delete connToServer;
   return 0;
@@ -332,7 +333,7 @@ tryProcess(PkgClient* pkgClient)
   int pkg_result = pkgClient->processData();
   if (pkg_result < 0)
     {
-      bu_log("Unable to process packets? Weird.\n");
+	  Logger::getInstance()->logINFO("PkgCppTest", "Unable to process packets? Weird.\n");
     }
   return pkg_result;
 }
