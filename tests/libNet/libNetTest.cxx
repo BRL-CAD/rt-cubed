@@ -25,6 +25,7 @@
 
 #include "brlcad/bu.h"
 #include "libnet.h"
+#include "libjob.h"
 #include "libutility.h"
 
 #include <string>
@@ -82,6 +83,8 @@ int getValidPort(char* data) {
 
 int main(int argc, char* argv[]) {
 	Logger::getInstance();
+	JobManager::getInstance()->startup();
+
 	logBanner("libNetTest");
 
 	if (argc > 4 || argc < 3) {
@@ -144,12 +147,14 @@ int main(int argc, char* argv[]) {
 			GSThread::sleep(10);
 		}
 
+		GSThread::sleep(1);
 		logInfo("Shutting down...");
 		pm.shutdown();
 	}
 
 	GSThread::sleep(1);
-
+	JobManager::getInstance()->shutdown(true);
+	GSThread::sleep(1);
 	return 0;
 }
 
