@@ -399,6 +399,12 @@ main(int argc, const char *argv[])
   svn_client_commit4(&commit_info, targets, svn_depth_empty, FALSE, FALSE, NULL, NULL, ctx, subpool);
 
   /* Perform an update operation on the second repository */
+  svn_pool_clear(subpool);
+  apr_array_header_t *update_targets = apr_array_make(pool, 5, sizeof(const char *));
+  APR_ARRAY_PUSH(update_targets, const char *) = full_checkout_path2;
+  svn_opt_revision_t svnrev;
+  svnrev.kind = svn_opt_revision_unspecified;
+  svn_client_update3(NULL, update_targets, &svnrev, svn_depth_unknown, 0, 0, 0, ctx, subpool);
 
   /* Done, now clean up */
   svn_pool_destroy(pool);
