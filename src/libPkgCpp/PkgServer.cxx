@@ -30,47 +30,41 @@
 #include <stdlib.h>
 #include <sstream>
 
-PkgServer::PkgServer(std::string proto)
-{
-  this->proto = proto;
-  this->listenFD = -1;
+PkgServer::PkgServer(std::string proto) {
+	this->proto = proto;
+	this->listenFD = -1;
 }
 
-PkgServer::~PkgServer()
-{}
-
-int
-PkgServer::listen(unsigned short port)
-{
-  //Convert port -> char* to make libpkg happy.
-  char portCString[7] = { 0 };
-  int fd;
-  snprintf(portCString, 6, "%d", port);
-
-  fd = pkg_permserver(portCString, this->proto.c_str(), 0, 0);
-
-  if (fd < 0)
-    return fd;
-
-  this->listenFD = fd;
-
- // bu_log("Listening on port '%d' (FD:%d).\n", port,fd);
-
-  return fd;
-}
-int
-PkgServer::getListeningFD()
-{
-  return this->listenFD;
+PkgServer::~PkgServer() {
 }
 
+int PkgServer::listen(unsigned short port) {
+	//Convert port -> char* to make libpkg happy.
+	char portCString[7] = { 0 };
+	int fd;
+	snprintf(portCString, 6, "%d", port);
+
+	fd = pkg_permserver(portCString, this->proto.c_str(), 0, 0);
+
+	if (fd < 0)
+		return fd;
+
+	this->listenFD = fd;
+
+	// bu_log("Listening on port '%d' (FD:%d).\n", port,fd);
+
+	return fd;
+}
+int PkgServer::getListeningFD() {
+	return this->listenFD;
+}
 
 /**
  * Attempts to open a new connection to ipOrHostname:port.  Returns NULL if connection fails for any reason.
  */
 PkgClient*
-PkgServer::connectToHost(std::string ipOrHostname, short port, struct pkg_switch* callbackTable)
-{
+PkgServer::connectToHost(std::string ipOrHostname, short port,
+		struct pkg_switch* callbackTable) {
 	std::stringstream ss;
 	ss << port;
 	std::string s_port = ss.str();
@@ -79,36 +73,33 @@ PkgServer::connectToHost(std::string ipOrHostname, short port, struct pkg_switch
 			this->proto.c_str(), NULL, NULL, callbackTable, NULL);
 
 	if (conn == PKC_ERROR) {
-		bu_log("Connection to %s, port %d, failed.\n", ipOrHostname.c_str(), port);
+		bu_log("Connection to %s, port %d, failed.\n", ipOrHostname.c_str(),
+				port);
 		return NULL;
 	}
 	return this->getNewClient(conn);
 }
 
-
 PkgClient*
 PkgServer::waitForClient(struct pkg_switch* callbackTable, int waitTime) {
-	pkg_conn* conn = pkg_getclient(this->listenFD, callbackTable, NULL, waitTime);
+	pkg_conn* conn = pkg_getclient(this->listenFD, callbackTable, NULL,
+			waitTime);
 
-  if (conn == PKC_NULL)
-    {
-      if (waitTime == 0)
-        {
-          bu_log("Connection seems to be busy, waiting...\n");
-          usleep(100);
-        }
-      return NULL;
-    }
-  else if (conn == PKC_ERROR)
-    {
-      //Fatal error accepting client connection
-      bu_log("Fatal error accepting client connection.\n");
-      pkg_close(conn);
-      return NULL;
-    }
+	if (conn == PKC_NULL) {
+		if (waitTime == 0) {
+			bu_log("Connection seems to be busy, waiting...\n");
+			usleep(100);
+		}
+		return NULL;
+	} else if (conn == PKC_ERROR) {
+		//Fatal error accepting client connection
+		bu_log("Fatal error accepting client connection.\n");
+		pkg_close(conn);
+		return NULL;
+	}
 
-  PkgClient* pkgClientObj = this->getNewClient(conn);
-  return pkgClientObj;
+	PkgClient* pkgClientObj = this->getNewClient(conn);
+	return pkgClientObj;
 }
 
 /*

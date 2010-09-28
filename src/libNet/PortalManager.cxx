@@ -28,22 +28,20 @@
 #include "NetMsgFactory.h"
 #include "PkgTcpClient.h"
 
-PortalManager::PortalManager(quint16 port) : ControlledThread("PortalManager")
-{
-  this->port = port;
-  this->tcpServer = new PkgTcpServer();
-  this->fdPortalMap = new QMap<int, Portal*>();
-  this->portalsLock = new QMutex();
-  this->log = Logger::getInstance();
+PortalManager::PortalManager(quint16 port) :
+	ControlledThread("PortalManager") {
+	this->port = port;
+	this->tcpServer = new PkgTcpServer();
+	this->fdPortalMap = new QMap<int, Portal*> ();
+	this->portalsLock = new QMutex();
+	this->log = Logger::getInstance();
 }
 
-PortalManager::~PortalManager()
-{
+PortalManager::~PortalManager() {
 }
 
 Portal*
-PortalManager::connectToHost(QString host, quint16 port)
-{
+PortalManager::connectToHost(QString host, quint16 port) {
 	struct pkg_switch* table = this->makeNewSwitchTable();
 
 	PkgTcpClient* pkgc = (PkgTcpClient*) this->tcpServer->connectToHost(
@@ -57,8 +55,7 @@ PortalManager::connectToHost(QString host, quint16 port)
 	}
 }
 
-void
-PortalManager::_run() {
+void PortalManager::_run() {
 	struct timeval timeout;
 	fd_set readfds;
 	fd_set writefds;
@@ -95,7 +92,7 @@ PortalManager::_run() {
 	while (this->runCmd) {
 		//Set values EVERY loop since select() on *nix modifies this.
 		timeout.tv_sec = 0;
-		timeout.tv_usec = 500*1000 * 2;
+		timeout.tv_usec = 500 * 1000 * 2;
 
 		this->masterFDSLock.lock();
 		readfds = masterfds;
@@ -104,8 +101,7 @@ PortalManager::_run() {
 		this->masterFDSLock.unlock();
 
 		//Shelect!!
-		int retval =
-				select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
+		int retval = select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
 
 		QString out("Select returned: ");
 		out.append(QString::number(retval));
@@ -175,18 +171,15 @@ PortalManager::_run() {
 			log->logDEBUG("PortalManager", s);
 
 			//If nothing to do, then continue;
-			if (!readyRead && !readyWrite && !readyAccept && ! readyException){
+			if (!readyRead && !readyWrite && !readyAccept && !readyException) {
 				continue;
 			}
-
 
 			//Handle exceptions
 			if (readyException) {
 				//TODO handle exceptions
 				perror("Exception on FileDescriptor");
 			}
-
-
 
 			Portal* p = NULL;
 			//Accept new connections:
@@ -196,7 +189,8 @@ PortalManager::_run() {
 				struct pkg_switch* table = this->makeNewSwitchTable();
 
 				PkgTcpClient* client =
-						(PkgTcpClient*) this->tcpServer->waitForClient(table, 42);
+						(PkgTcpClient*) this->tcpServer->waitForClient(table,
+								42);
 
 				if (client == 0) {
 					log->logERROR("PortalManager",
@@ -230,23 +224,23 @@ PortalManager::_run() {
 				this->closeFD(i, s);
 				continue;
 			}
-/*
-			  const pkg_switch* table = p->pkgClient->getCallBackTable();
-			  pkg_switch sw = table[0];
-			  bu_log("PM(3.1): Route[0] type: %d\n", sw.pks_type);
-			  bu_log("PM(3.1): Route[0] callback: %d\n", sw.pks_handler);
-			  bu_log("PM(3.1): Route[0] user_data: %d\n", sw.pks_user_data);
-*/
+			/*
+			 const pkg_switch* table = p->pkgClient->getCallBackTable();
+			 pkg_switch sw = table[0];
+			 bu_log("PM(3.1): Route[0] type: %d\n", sw.pks_type);
+			 bu_log("PM(3.1): Route[0] callback: %d\n", sw.pks_handler);
+			 bu_log("PM(3.1): Route[0] user_data: %d\n", sw.pks_user_data);
+			 */
 			//read
 			if (readyRead) {
 				this->log->logINFO("PortalManager", "Read");
 
 				int readResult = p->read();
 
-				  QString s("Got ");
-				  s.append(QString::number(readResult));
-				  s.append(" bytes.");
-				  Logger::getInstance()->logINFO("PortalManager", s);
+				QString s("Got ");
+				s.append(QString::number(readResult));
+				s.append(" bytes.");
+				Logger::getInstance()->logINFO("PortalManager", s);
 
 				if (readResult == 0) {
 					this->closeFD(i, "Lost connection.");
@@ -288,7 +282,7 @@ PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
 	this->fdPortalMap->insert(newFD, newPortal);
 	this->portalsLock->unlock();
 
-	QString s ("New Portal with FD: ");
+	QString s("New Portal with FD: ");
 	s.append(QString::number(newFD));
 	log->logDEBUG("PortalManager", s);
 
@@ -303,8 +297,7 @@ PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
 }
 
 struct pkg_switch*
-PortalManager::makeNewSwitchTable()
-{
+PortalManager::makeNewSwitchTable() {
 	struct pkg_switch* table = new pkg_switch[2];
 
 	table[0].pks_type = PKG_MAGIC2;
@@ -314,15 +307,13 @@ PortalManager::makeNewSwitchTable()
 
 	table[1].pks_type = 0;
 	table[1].pks_handler = 0;
-	table[1].pks_title = (char*)0;
+	table[1].pks_title = (char*) 0;
 	table[1].pks_user_data = 0;
 
 	return table;
 }
 
-void
-PortalManager::closeFD(int fd, QString logComment)
-{
+void PortalManager::closeFD(int fd, QString logComment) {
 	close(fd);
 
 	this->masterFDSLock.lock();
@@ -333,7 +324,6 @@ PortalManager::closeFD(int fd, QString logComment)
 
 	this->log->logERROR("PortalManager", logComment);
 }
-
 
 // Local Variables:
 // tab-width: 8

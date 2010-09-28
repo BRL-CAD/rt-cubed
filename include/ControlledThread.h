@@ -27,32 +27,31 @@
 #include <Qt>
 #include "GSThread.h"
 
-class ControlledThread : public QThread
-{
+class ControlledThread: public QThread {
 public:
-  ControlledThread(QString threadname = "");
-  virtual ~ControlledThread();
+	ControlledThread(QString threadname = "");
+	virtual ~ControlledThread();
 
-  bool startup();
-  bool shutdown();
+	bool startup();
+	bool shutdown();
 
 protected:
-  virtual bool preStartupHook();
-  virtual bool postStartupHook();
+	virtual bool preStartupHook();
+	virtual bool postStartupHook();
 
-  virtual bool preRunHook();
-  void run();
-  virtual void _run();
-  virtual void _runLoopPass();
-  virtual bool postRunHook();
+	virtual bool preRunHook();
+	void run();
+	virtual void _run();
+	virtual void _runLoopPass();
+	virtual bool postRunHook();
 
-  virtual bool preShutdownHook();
-  virtual bool postShutdownHook();
+	virtual bool preShutdownHook();
+	virtual bool postShutdownHook();
 
-  /* fields */
-  QString threadName;
-  bool runCmd;
-  bool runStatus;
+	/* fields */
+	QString threadName;
+	bool runCmd;
+	bool runStatus;
 };
 
 #endif /* __CONTROLLEDTHREAD_H__ */

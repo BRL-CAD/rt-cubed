@@ -30,8 +30,7 @@
 #include "NetMsgTypes.h"
 #include "RemoteNodenameSetMsg.h"
 
-Portal::Portal(PkgTcpClient* client, struct pkg_switch* table)
-{
+Portal::Portal(PkgTcpClient* client, struct pkg_switch* table) {
 	this->remoteNodeName = "NotSetYet-" + QUuid::createUuid().toString();
 	this->pkgClient = client;
 	this->callbackTable = table;
@@ -42,14 +41,11 @@ Portal::Portal(PkgTcpClient* client, struct pkg_switch* table)
 	this->handshakeComplete = false;
 }
 
-Portal::~Portal()
-{
+Portal::~Portal() {
 	delete callbackTable;
 }
 
-
-int
-Portal::send(NetMsg* msg){
+int Portal::send(NetMsg* msg) {
 	QByteArray* ba = msg->serialize();
 
 	QString s("Sending msg.  Type: ");
@@ -60,7 +56,7 @@ Portal::send(NetMsg* msg){
 
 	int retval = this->pkgClient->send(PKG_MAGIC2, ba->data(), ba->size());
 
-	s="Sent ";
+	s = "Sent ";
 	s.append(QString::number(retval));
 	s.append(" bytes.");
 	log->logDEBUG("Portal", s);
@@ -68,10 +64,9 @@ Portal::send(NetMsg* msg){
 	delete ba;
 	return retval;
 }
-void
-Portal::sendGSNodeName()
-{
-	QString localNodeName = Config::getInstance()->getConfigValue("LocalGSNodeName");
+void Portal::sendGSNodeName() {
+	QString localNodeName = Config::getInstance()->getConfigValue(
+			"LocalGSNodeName");
 	if (localNodeName.length() == 0) {
 		localNodeName = QUuid::createUuid().toString();
 	}
@@ -84,70 +79,68 @@ Portal::sendGSNodeName()
 	this->send(msg);
 }
 
-int
-Portal::flush(){
+int Portal::flush() {
 	return this->pkgClient->flush();
 }
-int
-Portal::read(){
-  int retval = 0;
+int Portal::read() {
+	int retval = 0;
 	this->log->logINFO("Portal", "Read");
-/*
-  const pkg_switch* table = this->pkgClient->getCallBackTable();
-  pkg_switch sw = table[0];
-  bu_log("P(1.1): Route[0] type: %d\n", sw.pks_type);
-  bu_log("P(1.1): Route[0] callback: %d\n", sw.pks_handler);
-  bu_log("P(1.1): Route[0] user_data: %d\n", sw.pks_user_data);
-*/
+	/*
+	 const pkg_switch* table = this->pkgClient->getCallBackTable();
+	 pkg_switch sw = table[0];
+	 bu_log("P(1.1): Route[0] type: %d\n", sw.pks_type);
+	 bu_log("P(1.1): Route[0] callback: %d\n", sw.pks_handler);
+	 bu_log("P(1.1): Route[0] user_data: %d\n", sw.pks_user_data);
+	 */
 
-//recv first
-  retval = this->pkgClient->processData();
-  if (retval < 0){
-	  this->log->logERROR("Portal", "Unable to process packets? Weird. (1) \n");
-      return retval;
-  }//TODO do we need to check for ==0 ?
+	//recv first
+	retval = this->pkgClient->processData();
+	if (retval < 0) {
+		this->log->logERROR("Portal",
+				"Unable to process packets? Weird. (1) \n");
+		return retval;
+	}//TODO do we need to check for ==0 ?
 
 
-retval = this->pkgClient->pullDataFromSocket();
-  if (retval < 0) {
-	  this->log->logERROR("Portal", "Seemed to have trouble pulling the data from the socket.\n");
-    return retval;
+	retval = this->pkgClient->pullDataFromSocket();
+	if (retval < 0) {
+		this->log->logERROR("Portal",
+				"Seemed to have trouble pulling the data from the socket.\n");
+		return retval;
 
-  } else if (retval == 0) {
-	  this->log->logERROR("Portal", "Client closed the connection.\n");
-    return retval;
-  }
-  bu_log("Sucked in %d bytes.", retval);
+	} else if (retval == 0) {
+		this->log->logERROR("Portal", "Client closed the connection.\n");
+		return retval;
+	}
+	bu_log("Sucked in %d bytes.\n", retval);
 
-  retval = this->pkgClient->processData();
-  if (retval < 0){
-	  this->log->logERROR("Portal", "Unable to process packets? Weird. (2)\n");
-      return retval;
-  }//TODO do we need to check for ==0 ?
+	retval = this->pkgClient->processData();
+	if (retval < 0) {
+		this->log->logERROR("Portal", "Unable to process packets? Weird. (2)\n");
+		return retval;
+	}//TODO do we need to check for ==0 ?
 
-  return 1;
+	return 1;
 }
 
-QString
-Portal::getRemoteNodeName(){
-  return this->remoteNodeName + "";
+QString Portal::getRemoteNodeName() {
+	return this->remoteNodeName + "";
 }
 
-bool
-Portal::handleNetMsg(NetMsg* msg)
-{
+bool Portal::handleNetMsg(NetMsg* msg) {
 	quint16 type = msg->getMsgType();
 
 	if (type == GS_REMOTE_NODENAME_SET) {
 		if (this->handshakeComplete) {
-			this->log->logDEBUG("Portal", "Recv-ed a RemoteNodename, but that is already set!");
+			this->log->logDEBUG("Portal",
+					"Recv-ed a RemoteNodename, but that is already set!");
 		} else {
-			RemoteNodenameSetMsg* t = (RemoteNodenameSetMsg*)msg;
+			RemoteNodenameSetMsg* t = (RemoteNodenameSetMsg*) msg;
 			this->remoteNodeName = t->getRemoteNodename();
 			this->handshakeComplete = true;
 
 			QString s("Recv-ed a RemoteNodename: ");
-			s.append(this->remoteNodeName );
+			s.append(this->remoteNodeName);
 			this->log->logDEBUG("Portal", s);
 
 			//reply
@@ -160,51 +153,49 @@ Portal::handleNetMsg(NetMsg* msg)
 	return false;
 }
 
-void
-Portal::callbackSpringboard(struct pkg_conn* conn, char* buf)
-{
-  /* Check to see if we got a good Buffer and Portal Object */
-  if (buf == 0) {
-    bu_bomb("pkg callback returned a NULL buffer!\n");
-  }
+void Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
+	/* Check to see if we got a good Buffer and Portal Object */
+	if (buf == 0) {
+		bu_bomb("pkg callback returned a NULL buffer!\n");
+	}
 
-  QByteArray ba(buf);
+	QByteArray ba(buf);
 
-  QString s("Got ");
-  s.append(QString::number(ba.size()));
-  s.append(" bytes.");
-  Logger::getInstance()->logINFO("Portal(s)", s);
+	QString s("Got ");
+	s.append(QString::number(ba.size()));
+	s.append(" bytes.");
+	Logger::getInstance()->logINFO("Portal(s)", s);
 
-   if (conn->pkc_user_data == 0) {
-     bu_bomb("pkg callback returned a NULL user_data pointer!\n");
-   }
+	if (conn->pkc_user_data == 0) {
+		bu_bomb("pkg callback returned a NULL user_data pointer!\n");
+	}
 
-  Portal* p = (Portal*)conn->pkc_user_data;
+	Portal* p = (Portal*) conn->pkc_user_data;
 
-  if (p == 0) {
-	   bu_log("WARNING!  NetMsg failed to deserialize properly.\n");
-  }
+	if (p == 0) {
+		bu_log("WARNING!  NetMsg failed to deserialize properly.\n");
+	}
 
-  //TODO Split the code here?  Fire off a Job?
+	//TODO Split the code here?  Fire off a Job?
 
 
-  /* Build a NetMsg */
-  NetMsg* msg  = NetMsgFactory::getInstance()->deserializeNetMsg(ba, p);
+	/* Build a NetMsg */
+	NetMsg* msg = NetMsgFactory::getInstance()->deserializeNetMsg(ba, p);
 
-  /* check to see if we deserialized the msg properly */
-  if (msg == 0) {
-    bu_log("WARNING!  NetMsg failed to deserialize properly.\n");
-    return;
-  }
+	/* check to see if we deserialized the msg properly */
+	if (msg == 0) {
+		bu_log("WARNING!  NetMsg failed to deserialize properly.\n");
+		return;
+	}
 
-  /* Route */
+	/* Route */
 
-  //give the Portal first dibs on the netmsg
-  if (p->handleNetMsg(msg)){
-	  return;
-  }
+	//give the Portal first dibs on the netmsg
+	if (p->handleNetMsg(msg)) {
+		return;
+	}
 
-  //TODO add in routing code.
+	//TODO add in routing code.
 }
 
 // Local Variables: ***

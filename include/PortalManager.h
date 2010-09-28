@@ -37,8 +37,7 @@
 
 class Portal;
 
-class PortalManager : public ControlledThread
-{
+class PortalManager: public ControlledThread {
 public:
 	PortalManager(quint16 port = 0);
 	~PortalManager();

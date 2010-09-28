@@ -23,111 +23,82 @@
 
 #include "ControlledThread.h"
 
-ControlledThread::ControlledThread(QString threadName)
-{
-  if (threadName.length() <= 0)
-    {
-      this->threadName = "DEFAULT_THREAD_NAME";
-    }
-  else
-    {
-      this->threadName = threadName;
-    }
-  this->runCmd = false;
-  this->runStatus = false;
+ControlledThread::ControlledThread(QString threadName) {
+	if (threadName.length() <= 0) {
+		this->threadName = "DEFAULT_THREAD_NAME";
+	} else {
+		this->threadName = threadName;
+	}
+	this->runCmd = false;
+	this->runStatus = false;
 }
 
-ControlledThread::~ControlledThread()
-{
+ControlledThread::~ControlledThread() {
 }
 
-bool
-ControlledThread::startup()
-{
-  bool preRetVal = this->preStartupHook();
-  this->runCmd = true;
-  this->start();
-  bool postRetVal = this->postStartupHook();
+bool ControlledThread::startup() {
+	bool preRetVal = this->preStartupHook();
+	this->runCmd = true;
+	this->start();
+	bool postRetVal = this->postStartupHook();
 }
 
-bool
-ControlledThread::shutdown()
-{
-  bool preRetVal = this->preShutdownHook();
-  this->runCmd = false;
-  bool postRetVal = this->postShutdownHook();
+bool ControlledThread::shutdown() {
+	bool preRetVal = this->preShutdownHook();
+	this->runCmd = false;
+	bool postRetVal = this->postShutdownHook();
 }
 
-void
-ControlledThread::run()
-{
-  this->preRunHook();
-  this->runStatus = true;
+void ControlledThread::run() {
+	this->preRunHook();
+	this->runStatus = true;
 
-  this->_run();
+	this->_run();
 
-  this->postRunHook();
-  this->runStatus = true;
+	this->postRunHook();
+	this->runStatus = true;
 }
 
-void
-ControlledThread::_run()
-{
-  while (this->runCmd)
-    {
-      this->_runLoopPass();
-    }
+void ControlledThread::_run() {
+	while (this->runCmd) {
+		this->_runLoopPass();
+	}
 }
 
-void
-ControlledThread::_runLoopPass()
-{
-  //DOES NOTHING BY DEFAULT
-  GSThread::msleep(123);
+void ControlledThread::_runLoopPass() {
+	//DOES NOTHING BY DEFAULT
+	GSThread::msleep(123);
 }
 
 /**
  * User hook.  Called immediately after ControlledThread::startup() is called but prior to 'runCmd' being set to true;
  */
-bool
-ControlledThread::preStartupHook()
-{
-  return true;
+bool ControlledThread::preStartupHook() {
+	return true;
 }
 
 /**
  * User hook.  Called immediately after 'runCmd' is set to true;
  */
-bool
-ControlledThread::postStartupHook()
-{
-  return true;
+bool ControlledThread::postStartupHook() {
+	return true;
 }
 
-bool
-ControlledThread::preRunHook()
-{
-  return true;
+bool ControlledThread::preRunHook() {
+	return true;
 }
 
-bool
-ControlledThread::postRunHook()
-{
-  return true;
+bool ControlledThread::postRunHook() {
+	return true;
 }
 
-bool
-ControlledThread::preShutdownHook()
-{
-  return true;
+bool ControlledThread::preShutdownHook() {
+	return true;
 }
 
-bool
-ControlledThread::postShutdownHook()
-{
-  return true;
+bool ControlledThread::postShutdownHook() {
+	return true;
 }
-
 
 // Local Variables:
 // tab-width: 8
