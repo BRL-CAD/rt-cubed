@@ -73,8 +73,8 @@ namespace BRLCAD {
             const char*          Name(void) const throw();         ///< the name of the operand object in a leaf
             const double*        Matrix(void) const throw();       ///< the transformation matrix of the operand object in a leaf
 
-        protected:
             tree* m_tree;
+        protected:
 
             ConstTreeNode(void) throw() : m_tree(0) {}
             ConstTreeNode(tree* original) throw() : m_tree(original) {}
