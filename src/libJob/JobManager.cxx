@@ -43,8 +43,8 @@ JobManager::JobManager()
     	JobWorker* jw = new JobWorker();
     	this->jobWorkers->append(jw);
 
-    	text = "Created new JobWorker with ID of " + jw->getWorkerIdAsQString();
-    	this->log->logINFO("JobManager", text);
+    	//text = "Created new JobWorker with ID of " + jw->getWorkerIdAsQString();
+    	//this->log->logINFO("JobManager", text);
     }
 
     text = "Created a total of " + QString::number(this->jobWorkers->size()) + " JobWorkers";
