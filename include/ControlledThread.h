@@ -33,7 +33,7 @@ public:
 	virtual ~ControlledThread();
 
 	bool startup();
-	bool shutdown();
+	bool shutdown(bool block=true);
 
 protected:
 	virtual bool preStartupHook();

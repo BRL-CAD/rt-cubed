@@ -43,9 +43,15 @@ bool ControlledThread::startup() {
 	bool postRetVal = this->postStartupHook();
 }
 
-bool ControlledThread::shutdown() {
+bool ControlledThread::shutdown(bool block) {
 	bool preRetVal = this->preShutdownHook();
 	this->runCmd = false;
+
+	if (block)
+		while (this->isRunning()) {
+			GSThread::msleep(100);
+		}
+
 	bool postRetVal = this->postShutdownHook();
 }
 
@@ -56,7 +62,7 @@ void ControlledThread::run() {
 	this->_run();
 
 	this->postRunHook();
-	this->runStatus = true;
+	this->runStatus = false;
 }
 
 void ControlledThread::_run() {
