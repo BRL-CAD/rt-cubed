@@ -231,7 +231,7 @@ void PortalManager::_run() {
 				int readResult = p->read();
 
 				if (readResult == 0) {
-					this->closeFD(i, "Lost connection.");
+					this->closeFD(i, "");
 					continue;
 				} else if (readResult < 0) {
 					this->closeFD(i, "Error on read, dropping connection.");
@@ -301,7 +301,13 @@ void PortalManager::closeFD(int fd, QString logComment) {
 	}
 	this->masterFDSLock.unlock();
 
-	this->log->logERROR("PortalManager", logComment);
+	this->portalsLock->lock();
+	this->fdPortalMap->remove(fd);
+	this->portalsLock->unlock();
+
+	if (logComment.length() >0) {
+		this->log->logERROR("PortalManager", logComment);
+	}
 }
 
 // Local Variables:
