@@ -43,7 +43,7 @@ JobWorker::~JobWorker()
 void JobWorker::run()
 {
 
-    this->log->logINFO("JobWorker", "Starting JobWorker. ID: " + this->getWorkerIdAsQString());
+    //this->log->logINFO("JobWorker", "Starting JobWorker. ID: " + this->getWorkerIdAsQString());
 
     JobManager* jm = JobManager::getInstance();
 
@@ -108,9 +108,11 @@ std::string JobWorker::getWorkerIdAsStdString()
 void JobWorker::shutdown()
 {
     this->runCmd = false;
+    /*
     QString text = "JobWorker " + this->getWorkerIdAsQString()
 	    + " received Shutdown Command.";
     this->log->logINFO("JobWorker", text);
+    */
 }
 
 // Local Variables: ***
