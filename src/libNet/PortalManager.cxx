@@ -179,7 +179,7 @@ void PortalManager::_run() {
 			Portal* p = NULL;
 			//Accept new connections:
 			if (readyAccept) {
-				log->logINFO("PortalManager", "Accept");
+				//log->logINFO("PortalManager", "Accept");
 
 				struct pkg_switch* table = this->makeNewSwitchTable();
 
@@ -226,7 +226,7 @@ void PortalManager::_run() {
 			 */
 			//read
 			if (readyRead) {
-				this->log->logINFO("PortalManager", "Read");
+				//this->log->logINFO("PortalManager", "Read");
 
 				int readResult = p->read();
 
