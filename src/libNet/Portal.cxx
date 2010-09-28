@@ -84,7 +84,7 @@ int Portal::flush() {
 }
 int Portal::read() {
 	int retval = 0;
-	this->log->logINFO("Portal", "Read");
+
 	/*
 	 const pkg_switch* table = this->pkgClient->getCallBackTable();
 	 pkg_switch sw = table[0];
@@ -97,7 +97,7 @@ int Portal::read() {
 	retval = this->pkgClient->processData();
 	if (retval < 0) {
 		this->log->logERROR("Portal",
-				"Unable to process packets? Weird. (1) \n");
+				"Unable to process packets? Weird. (1) ");
 		return retval;
 	}//TODO do we need to check for ==0 ?
 
@@ -105,17 +105,17 @@ int Portal::read() {
 	retval = this->pkgClient->pullDataFromSocket();
 	if (retval < 0) {
 		this->log->logERROR("Portal",
-				"Seemed to have trouble pulling the data from the socket.\n");
+				"Seemed to have trouble pulling the data from the socket.");
 		return retval;
 
 	} else if (retval == 0) {
-		this->log->logERROR("Portal", "Client closed the connection.\n");
+		this->log->logERROR("Portal", "Client closed the connection.");
 		return retval;
 	}
 
 	retval = this->pkgClient->processData();
 	if (retval < 0) {
-		this->log->logERROR("Portal", "Unable to process packets? Weird. (2)\n");
+		this->log->logERROR("Portal", "Unable to process packets? Weird. (2)");
 		return retval;
 	}//TODO do we need to check for ==0 ?
 
@@ -162,13 +162,9 @@ void Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 
 	QByteArray ba(buf, len);
 
-	QString s("Got ");
-	s.append(QString::number(len));
-	s.append(" bytes.");
-	Logger::getInstance()->logINFO("Portal(s)", s);
-
 	if (conn->pkc_user_data == 0) {
-		bu_bomb("pkg callback returned a NULL user_data pointer!\n");
+		bu_log("pkg callback returned a NULL user_data pointer!\n");
+
 	}
 
 	Portal* p = (Portal*) conn->pkc_user_data;
