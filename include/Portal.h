@@ -43,6 +43,7 @@ public:
   int send(NetMsg* msg);
   void sendGSNodeName();
 
+  int flush();
   QString getRemoteNodeName();
   bool handleNetMsg(NetMsg* msg);
 

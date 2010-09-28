@@ -35,12 +35,10 @@ Portal::Portal(PkgTcpClient* client)
   this->remoteNodeName = "NotSetYet-" + QUuid::createUuid().toString();
   this->pkgClient = client;
 
-  struct pkg_switch table[] = {
-      {PKG_MAGIC2, &(Portal::callbackSpringboard), "SpringBoard", this},
-      {0,0, (char*)0,0}
-  };
+  //set the struct's userdata
+  struct pkg_switch* table = (struct pkg_switch*)this->pkgClient->getCallBackTable();
+  table[0].pks_user_data = this;
 
-  this->pkgClient->setCallBackTable(table);
   this->log = Logger::getInstance();
   this->handshakeComplete = false;
 }
@@ -53,7 +51,20 @@ Portal::~Portal()
 int
 Portal::send(NetMsg* msg){
 	QByteArray* ba = msg->serialize();
+
+	QString s("Sending msg.  Type: ");
+	s.append(QString::number(msg->getMsgType()));
+	s.append(" len: ");
+	s.append(QString::number(ba->size()));
+	log->logDEBUG("Portal", s);
+
 	int retval = this->pkgClient->send(PKG_MAGIC2, ba->data(), ba->size());
+
+	s="Sent ";
+	s.append(QString::number(retval));
+	s.append(" bytes.");
+	log->logDEBUG("Portal", s);
+
 	delete ba;
 	return retval;
 }
@@ -74,14 +85,19 @@ Portal::sendGSNodeName()
 }
 
 int
+Portal::flush(){
+	return this->pkgClient->flush();
+}
+int
 Portal::read(){
 
+	Logger::getInstance()->logDEBUG("Portal", "Portal::read()!!!!");
   int retval = 0;
 
   //recv first
   retval = this->pkgClient->processData();
   if (retval < 0){
-	  this->log->logERROR("Portal", "Unable to process packets? Weird.\n");
+	  this->log->logERROR("Portal", "Unable to process packets? Weird. (1) \n");
       return retval;
   }//TODO do we need to check for ==0 ?
 
@@ -98,7 +114,7 @@ Portal::read(){
 
   retval = this->pkgClient->processData();
   if (retval < 0){
-	  this->log->logERROR("Portal", "Unable to process packets? Weird.\n");
+	  this->log->logERROR("Portal", "Unable to process packets? Weird. (2)\n");
       return retval;
   }//TODO do we need to check for ==0 ?
 
@@ -116,14 +132,20 @@ Portal::handleNetMsg(NetMsg* msg)
 	quint16 type = msg->getMsgType();
 
 	if (type == GS_REMOTE_NODENAME_SET) {
-		RemoteNodenameSetMsg* t = (RemoteNodenameSetMsg*)msg;
-		this->remoteNodeName = t->getRemoteNodename();
-		this->handshakeComplete = true;
+		if (this->handshakeComplete) {
+			this->log->logDEBUG("Portal", "Recv-ed a RemoteNodename, but that is already set!");
+		} else {
+			RemoteNodenameSetMsg* t = (RemoteNodenameSetMsg*)msg;
+			this->remoteNodeName = t->getRemoteNodename();
+			this->handshakeComplete = true;
 
-		QString s("Recv-ed a RemoteNodename: ");
-		s.append(this->remoteNodeName );
-		this->log->logDEBUG("Portal", s);
+			QString s("Recv-ed a RemoteNodename: ");
+			s.append(this->remoteNodeName );
+			this->log->logDEBUG("Portal", s);
 
+			//reply
+			this->sendGSNodeName();
+		}
 		delete msg;
 		return true;
 	}
@@ -134,8 +156,6 @@ Portal::handleNetMsg(NetMsg* msg)
 void
 Portal::callbackSpringboard(struct pkg_conn* conn, char* buf)
 {
-	Logger::getInstance()->logBANNER("Portal","TEST!!!");
-
   /* Check to see if we got a good Buffer and Portal Object */
   if (buf == 0) {
     bu_bomb("pkg callback returned a NULL buffer!\n");
