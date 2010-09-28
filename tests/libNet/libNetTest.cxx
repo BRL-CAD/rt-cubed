@@ -30,6 +30,7 @@
 
 #include <string>
 #include <sstream>
+#include <algorithm>
 #include <QtCore/QDataStream>
 #include <QtCore/QString>
 
