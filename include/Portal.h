@@ -48,7 +48,7 @@ public:
   bool handleNetMsg(NetMsg* msg);
 
 protected:
-  Portal(PkgTcpClient* client);
+  Portal(PkgTcpClient* client, struct pkg_switch* table);
 
    /*
       * Returns:
@@ -60,6 +60,7 @@ protected:
 
 
 private:
+  struct pkg_switch* callbackTable;
   PkgTcpClient* pkgClient;
   QString remoteNodeName;
   Logger* log;

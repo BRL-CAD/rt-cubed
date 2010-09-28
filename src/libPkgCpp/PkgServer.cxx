@@ -39,26 +39,6 @@ PkgServer::PkgServer(std::string proto)
 PkgServer::~PkgServer()
 {}
 
-/**
- * Attempts to open a new connection to ipOrHostname:port.  Returns NULL if connection fails for any reason.
- */
-PkgClient*
-PkgServer::connectToHost(std::string ipOrHostname, short port, struct pkg_switch* callbackTable)
-{
-	std::stringstream ss;
-	ss << port;
-	std::string s_port = ss.str();
-
-	pkg_conn* conn = pkg_open(ipOrHostname.c_str(), s_port.c_str(),
-			this->proto.c_str(), NULL, NULL, callbackTable, NULL);
-
-	if (conn == PKC_ERROR) {
-		bu_log("Connection to %s, port %d, failed.\n", ipOrHostname.c_str(), port);
-		return NULL;
-	}
-	return this->getNewClient(conn);
-}
-
 int
 PkgServer::listen(unsigned short port)
 {
@@ -84,10 +64,33 @@ PkgServer::getListeningFD()
   return this->listenFD;
 }
 
+
+/**
+ * Attempts to open a new connection to ipOrHostname:port.  Returns NULL if connection fails for any reason.
+ */
+PkgClient*
+PkgServer::connectToHost(std::string ipOrHostname, short port, struct pkg_switch* callbackTable)
+{
+	std::stringstream ss;
+	ss << port;
+	std::string s_port = ss.str();
+
+	pkg_conn* conn = pkg_open(ipOrHostname.c_str(), s_port.c_str(),
+			this->proto.c_str(), NULL, NULL, callbackTable, NULL);
+
+	if (conn == PKC_ERROR) {
+		bu_log("Connection to %s, port %d, failed.\n", ipOrHostname.c_str(), port);
+		return NULL;
+	}
+	return this->getNewClient(conn);
+}
+
+
 PkgClient*
 PkgServer::waitForClient(struct pkg_switch* callbackTable, int waitTime) {
-	pkg_conn* clientStruct = pkg_getclient(this->listenFD, callbackTable, NULL, waitTime);
-  if (clientStruct == PKC_NULL)
+	pkg_conn* conn = pkg_getclient(this->listenFD, callbackTable, NULL, waitTime);
+
+  if (conn == PKC_NULL)
     {
       if (waitTime == 0)
         {
@@ -96,15 +99,15 @@ PkgServer::waitForClient(struct pkg_switch* callbackTable, int waitTime) {
         }
       return NULL;
     }
-  else if (clientStruct == PKC_ERROR)
+  else if (conn == PKC_ERROR)
     {
       //Fatal error accepting client connection
       bu_log("Fatal error accepting client connection.\n");
-      pkg_close(clientStruct);
+      pkg_close(conn);
       return NULL;
     }
 
-  PkgClient* pkgClientObj = this->getNewClient(clientStruct);
+  PkgClient* pkgClientObj = this->getNewClient(conn);
   return pkgClientObj;
 }
 

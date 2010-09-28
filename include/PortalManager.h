@@ -59,7 +59,8 @@ private:
 	QMutex* portalsLock;
 	QMap<int, Portal*>* fdPortalMap;
 
-	Portal* makeNewPortal(PkgTcpClient* client);
+	Portal* makeNewPortal(PkgTcpClient* client, struct pkg_switch* table);
+	struct pkg_switch* makeNewSwitchTable();
 	void closeFD(int fd, QString logComment);
 
 };

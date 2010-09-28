@@ -30,22 +30,21 @@
 #include "NetMsgTypes.h"
 #include "RemoteNodenameSetMsg.h"
 
-Portal::Portal(PkgTcpClient* client)
+Portal::Portal(PkgTcpClient* client, struct pkg_switch* table)
 {
-  this->remoteNodeName = "NotSetYet-" + QUuid::createUuid().toString();
-  this->pkgClient = client;
+	this->remoteNodeName = "NotSetYet-" + QUuid::createUuid().toString();
+	this->pkgClient = client;
+	this->callbackTable = table;
+	//set the struct's userdata
+	this->callbackTable[0].pks_user_data = this;
 
-  //set the struct's userdata
-  const struct pkg_switch* table = this->pkgClient->getCallBackTable();
-  pkg_switch sw = table[0];
-  sw.pks_user_data = this;
-
-  this->log = Logger::getInstance();
-  this->handshakeComplete = false;
+	this->log = Logger::getInstance();
+	this->handshakeComplete = false;
 }
 
 Portal::~Portal()
 {
+	delete callbackTable;
 }
 
 
@@ -92,8 +91,16 @@ Portal::flush(){
 int
 Portal::read(){
   int retval = 0;
+	this->log->logINFO("Portal", "Read");
+/*
+  const pkg_switch* table = this->pkgClient->getCallBackTable();
+  pkg_switch sw = table[0];
+  bu_log("P(1.1): Route[0] type: %d\n", sw.pks_type);
+  bu_log("P(1.1): Route[0] callback: %d\n", sw.pks_handler);
+  bu_log("P(1.1): Route[0] user_data: %d\n", sw.pks_user_data);
+*/
 
-  //recv first
+//recv first
   retval = this->pkgClient->processData();
   if (retval < 0){
 	  this->log->logERROR("Portal", "Unable to process packets? Weird. (1) \n");
@@ -101,7 +108,7 @@ Portal::read(){
   }//TODO do we need to check for ==0 ?
 
 
-  retval = this->pkgClient->pullDataFromSocket();
+retval = this->pkgClient->pullDataFromSocket();
   if (retval < 0) {
 	  this->log->logERROR("Portal", "Seemed to have trouble pulling the data from the socket.\n");
     return retval;
@@ -110,6 +117,7 @@ Portal::read(){
 	  this->log->logERROR("Portal", "Client closed the connection.\n");
     return retval;
   }
+  bu_log("Sucked in %d bytes.", retval);
 
   retval = this->pkgClient->processData();
   if (retval < 0){
@@ -162,10 +170,20 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf)
 
   QByteArray ba(buf);
 
-  if (conn->pkc_user_data == 0) {
+  QString s("Got ");
+  s.append(QString::number(ba.size()));
+  s.append(" bytes.");
+  Logger::getInstance()->logINFO("Portal(s)", s);
+
+   if (conn->pkc_user_data == 0) {
      bu_bomb("pkg callback returned a NULL user_data pointer!\n");
    }
+
   Portal* p = (Portal*)conn->pkc_user_data;
+
+  if (p == 0) {
+	   bu_log("WARNING!  NetMsg failed to deserialize properly.\n");
+  }
 
   //TODO Split the code here?  Fire off a Job?
 

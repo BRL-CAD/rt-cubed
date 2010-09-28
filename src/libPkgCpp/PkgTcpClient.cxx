@@ -25,6 +25,7 @@
  */
 
 #include "PkgTcpClient.h"
+#include "brlcad/bu.h"
 
 PkgTcpClient::PkgTcpClient(std::string ipOrHostname, int port, struct pkg_switch* callBackTableIn) :
   PkgClient(PKGCPP_PROTO_TCP, ipOrHostname, port, callBackTableIn)

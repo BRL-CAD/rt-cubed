@@ -44,17 +44,16 @@ PortalManager::~PortalManager()
 Portal*
 PortalManager::connectToHost(QString host, quint16 port)
 {
-	  struct pkg_switch table[] = {
-	      {PKG_MAGIC2, &(Portal::callbackSpringboard), "SpringBoard", NULL},
-	      {0,0, (char*)0,0}
-	  };
+	struct pkg_switch* table = this->makeNewSwitchTable();
 
-	PkgTcpClient* pkgc = (PkgTcpClient* )this->tcpServer->connectToHost(host.toStdString(), port, table);
+	PkgTcpClient* pkgc = (PkgTcpClient*) this->tcpServer->connectToHost(
+			host.toStdString(), port, table);
 
 	if (pkgc == NULL) {
 		return NULL;
 	} else {
-		return this->makeNewPortal(pkgc);
+		Portal* p = this->makeNewPortal(pkgc, table);
+		return p;
 	}
 }
 
@@ -96,7 +95,7 @@ PortalManager::_run() {
 	while (this->runCmd) {
 		//Set values EVERY loop since select() on *nix modifies this.
 		timeout.tv_sec = 0;
-		timeout.tv_usec = 500*1000;
+		timeout.tv_usec = 500*1000 * 2;
 
 		this->masterFDSLock.lock();
 		readfds = masterfds;
@@ -105,11 +104,10 @@ PortalManager::_run() {
 		this->masterFDSLock.unlock();
 
 		//Shelect!!
-		this->log->logINFO("PortalManager", "At Select.");
 		int retval =
 				select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
 
-		QString out("Loop start.  Select returned: ");
+		QString out("Select returned: ");
 		out.append(QString::number(retval));
 		out.append(". FD count: ");
 		out.append(QString::number(this->fdPortalMap->keys().size()));
@@ -176,31 +174,37 @@ PortalManager::_run() {
 
 			log->logDEBUG("PortalManager", s);
 
+			//If nothing to do, then continue;
+			if (!readyRead && !readyWrite && !readyAccept && ! readyException){
+				continue;
+			}
+
+
 			//Handle exceptions
 			if (readyException) {
 				//TODO handle exceptions
 				perror("Exception on FileDescriptor");
 			}
 
-			Portal* p;
+
+
+			Portal* p = NULL;
 			//Accept new connections:
 			if (readyAccept) {
 				log->logINFO("PortalManager", "Accept");
 
-				struct pkg_switch table[] = { { PKG_MAGIC2,
-						&(Portal::callbackSpringboard), "SpringBoard", NULL },
-						{ 0, 0, (char*) 0, 0 } };
+				struct pkg_switch* table = this->makeNewSwitchTable();
 
 				PkgTcpClient* client =
-						(PkgTcpClient*) this->tcpServer->waitForClient(table,
-								42);
+						(PkgTcpClient*) this->tcpServer->waitForClient(table, 42);
 
 				if (client == 0) {
 					log->logERROR("PortalManager",
 							"Error on accepting new client.");
 				} else {
 					//Handle new client here.
-					p = this->makeNewPortal(client);
+					p = this->makeNewPortal(client, table);
+					GSThread::sleep(2);
 					p->sendGSNodeName();
 				}
 			}
@@ -226,12 +230,23 @@ PortalManager::_run() {
 				this->closeFD(i, s);
 				continue;
 			}
-
+/*
+			  const pkg_switch* table = p->pkgClient->getCallBackTable();
+			  pkg_switch sw = table[0];
+			  bu_log("PM(3.1): Route[0] type: %d\n", sw.pks_type);
+			  bu_log("PM(3.1): Route[0] callback: %d\n", sw.pks_handler);
+			  bu_log("PM(3.1): Route[0] user_data: %d\n", sw.pks_user_data);
+*/
 			//read
 			if (readyRead) {
 				this->log->logINFO("PortalManager", "Read");
 
 				int readResult = p->read();
+
+				  QString s("Got ");
+				  s.append(QString::number(readResult));
+				  s.append(" bytes.");
+				  Logger::getInstance()->logINFO("PortalManager", s);
 
 				if (readResult == 0) {
 					this->closeFD(i, "Lost connection.");
@@ -260,8 +275,8 @@ PortalManager::_run() {
 
 
 Portal*
-PortalManager::makeNewPortal(PkgTcpClient* client) {
-	Portal* newPortal = new Portal(client);
+PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
+	Portal* newPortal = new Portal(client, table);
 
 	if (newPortal == 0) {
 		return 0;
@@ -285,6 +300,24 @@ PortalManager::makeNewPortal(PkgTcpClient* client) {
 		this->masterFDSLock.unlock();
 	}
 	return newPortal;
+}
+
+struct pkg_switch*
+PortalManager::makeNewSwitchTable()
+{
+	struct pkg_switch* table = new pkg_switch[2];
+
+	table[0].pks_type = PKG_MAGIC2;
+	table[0].pks_handler = &(Portal::callbackSpringboard);
+	table[0].pks_title = "SpringBoard";
+	table[0].pks_user_data = 0;
+
+	table[1].pks_type = 0;
+	table[1].pks_handler = 0;
+	table[1].pks_title = (char*)0;
+	table[1].pks_user_data = 0;
+
+	return table;
 }
 
 void

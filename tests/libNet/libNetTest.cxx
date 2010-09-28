@@ -131,6 +131,8 @@ int main(int argc, char* argv[]) {
 		PortalManager pm;
 		pm.startup();
 
+		GSThread::sleep(3);
+
 		s = "Trying to connect to ";
 		s.append(ip.c_str());
 		s.append(":");
