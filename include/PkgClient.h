@@ -63,11 +63,20 @@ public:
    */
   int pullDataFromSocket();
 
+  /**
+   * Empty the stream buffer of any queued messages.
+   *
+   * Flush any pending data in the pkc_stream buffer.
+   *
+   * Returns < 0 on failure, else number of bytes sent.
+   */
+  int flush();
+
   void close();
 
   int send(int opcode, const char* buffer, size_t bufferLen);
 
-  void setCallBackTable(struct pkg_switch* callback);
+  const struct pkg_switch* getCallBackTable();
 
   int getFileDescriptor();
 

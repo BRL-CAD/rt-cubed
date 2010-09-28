@@ -52,6 +52,13 @@ PkgClient::hasGoodConnection()
 }
 
 int
+PkgClient::flush()
+{
+  //call the c function
+  return pkg_flush(this->conn);
+}
+
+int
 PkgClient::send(int opcode, const char* buffer, size_t bufferLen)
 {
   //call the c function
@@ -92,10 +99,10 @@ PkgClient::pullDataFromSocket()
   return retVal;
 }
 
-void
-PkgClient::setCallBackTable(struct pkg_switch* callback)
+const struct pkg_switch*
+PkgClient::getCallBackTable()
 {
-  this->conn->pkc_switch = callback;
+	return this->conn->pkc_switch;
 }
 
 int
