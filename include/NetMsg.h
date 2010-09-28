@@ -28,9 +28,9 @@
 
 #include "libutility.h"
 
-#include <QDataStream>
-#include <QByteArray>
-#include <QUuid>
+#include <QtCore/QDataStream>
+#include <QtCore/QByteArray>
+#include <QtCore/QUuid>
 
 #include <sstream>
 
