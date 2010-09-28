@@ -33,6 +33,7 @@
 
 #include <QtCore/QMap>
 #include <QtCore/QList>
+#include <QtCore/QMutex>
 
 class NetMsgRouter {
 public:
@@ -46,7 +47,16 @@ private:
 	static NetMsgRouter* pInstance;
 	NetMsgRouter();
 
+	/*
+	 * Gets a list of INetMsgHandler pointers associated with
+	 * this msgType.  If no Mapping or list exists, one is made.
+	 */
+	QList<INetMsgHandler*>* getListOfHandlers(quint16 type);
+
+
+	QMutex mapLock;
 	QMap<quint16,QList<INetMsgHandler*>*>* routingTable;
+
 
 };
 

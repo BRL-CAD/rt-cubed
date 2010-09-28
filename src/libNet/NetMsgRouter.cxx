@@ -24,6 +24,7 @@
  */
 
 #include "NetMsgRouter.h"
+#include <QtCore/QMutexLocker>
 
 NetMsgRouter* NetMsgRouter::pInstance = NULL;
 
@@ -36,23 +37,44 @@ NetMsgRouter::getInstance() {
 }
 
 NetMsgRouter::NetMsgRouter() {
-	this->routingTable = new QMap<quint16,QList<INetMsgHandler*>*>();
+	this->routingTable = new QMap<quint16, QList<INetMsgHandler*>*> ();
 }
 
 NetMsgRouter::~NetMsgRouter() {
 	delete routingTable;
 }
 
+bool NetMsgRouter::registerType(quint16 type, INetMsgHandler* handler) {
+	//First get the appropriate list:
+	QList<INetMsgHandler*>* list = this->getListOfHandlers(type);
+	list->append(handler);
 
-bool
-NetMsgRouter::registerType(quint16 type, INetMsgHandler* handler) {
-
-
+	return true;
 }
 
-bool
-NetMsgRouter::routeMsg(NetMsg* msg) {
+bool NetMsgRouter::routeMsg(NetMsg* msg) {
+	//First get the appropriate list:
+	QList<INetMsgHandler*>* list = this->getListOfHandlers(msg->getMsgType());
 
+	for (int i = 0; i < list->length(); ++i) {
+		list->at(i)->handleNetMsg(msg);
+	}
+
+	//Now delete msg
+	delete msg;
+}
+
+QList<INetMsgHandler*>*
+NetMsgRouter::getListOfHandlers(quint16 type) {
+	QMutexLocker(&this->mapLock);
+
+	QList<INetMsgHandler*>* l = this->routingTable->value(type);
+
+	if (l == 0) {
+		l = new QList<INetMsgHandler*> ();
+		this->routingTable->insert(type, l);
+	}
+	return l;
 }
 
 // Local Variables:
