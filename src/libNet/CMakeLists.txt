@@ -49,6 +49,7 @@ RT3_PROJECT_ADD_SOURCES (
 	Portal.cxx
 	PortalManager.cxx
 	NetMsgFactory.cxx
+	NetMsgRouter.cxx
 	netMsg/NetMsg.cxx
 	netMsg/TypeOnlyMsg.cxx
 	netMsg/GenericOneStringMsg.cxx
@@ -74,6 +75,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
     NetMsgTypes.h
     INetMsgHandler.h
 	NetMsgFactory.h
+	NetMsgRouter.h
 	NetMsg.h
 	TypeOnlyMsg.h
 	RemoteNodenameSetMsg.h
