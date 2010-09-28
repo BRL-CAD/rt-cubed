@@ -130,6 +130,12 @@ NetMsg::getReUUID() const
   return this->reUUID;
 }
 
+Portal*
+NetMsg::getOrigin() const
+{
+	return this->origin;
+}
+
 /*
  * Utilities
  */

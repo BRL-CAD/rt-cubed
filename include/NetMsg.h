@@ -63,6 +63,7 @@ public:
 	QUuid getMsgUUID() const;
 	bool msgHasReUUID() const;
 	QUuid getReUUID() const;
+	Portal* getOrigin() const;
 
 	/*
 	 * Utilities
