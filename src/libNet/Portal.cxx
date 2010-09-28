@@ -169,7 +169,6 @@ void Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 	QByteArray ba(buf, len);
 
 
-
 	if (conn->pkc_user_data == 0) {
 		bu_log("pkg callback returned a NULL user_data pointer!\n");
 
