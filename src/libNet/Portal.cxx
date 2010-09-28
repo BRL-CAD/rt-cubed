@@ -29,6 +29,7 @@
 #include "NetMsgFactory.h"
 #include "NetMsgTypes.h"
 #include "RemoteNodenameSetMsg.h"
+#include "TypeOnlyMsg.h"
 
 Portal::Portal(PkgTcpClient* client, struct pkg_switch* table) {
 	this->remoteNodeName = "NotSetYet-" + QUuid::createUuid().toString();
@@ -149,7 +150,7 @@ bool Portal::handleNetMsg(NetMsg* msg) {
 		return true;
 	} else if (type == RUALIVE) {
 		TypeOnlyMsg tom(IMALIVE);
-		p->send(&tom);
+		this->send(&tom);
 		delete msg;
 		return true;
 	}
@@ -166,6 +167,8 @@ void Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 	int len = conn->pkc_inend - sizeof(pkg_header);
 
 	QByteArray ba(buf, len);
+
+
 
 	if (conn->pkc_user_data == 0) {
 		bu_log("pkg callback returned a NULL user_data pointer!\n");
