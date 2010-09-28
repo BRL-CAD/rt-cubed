@@ -122,10 +122,6 @@ int main(int argc, char* argv[]) {
 		PortalManager pm(port);
 		pm.startup();
 
-		s = "Listening on port: ";
-		s.append(QString::number(port));
-		logInfo(s);
-
 		//listen for a loooong time.
 		GSThread::sleep(60 * 60); //1 hr
 		logInfo("Shutting down...");
