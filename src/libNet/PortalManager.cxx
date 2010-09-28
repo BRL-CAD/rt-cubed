@@ -44,7 +44,12 @@ PortalManager::~PortalManager()
 Portal*
 PortalManager::connectToHost(QString host, quint16 port)
 {
-	PkgTcpClient* pkgc = (PkgTcpClient* )this->tcpServer->connectToHost(host.toStdString(), port);
+	  struct pkg_switch table[] = {
+	      {PKG_MAGIC2, &(Portal::callbackSpringboard), "SpringBoard", NULL},
+	      {0,0, (char*)0,0}
+	  };
+
+	PkgTcpClient* pkgc = (PkgTcpClient* )this->tcpServer->connectToHost(host.toStdString(), port, table);
 
 	if (pkgc == NULL) {
 		return NULL;
@@ -54,27 +59,32 @@ PortalManager::connectToHost(QString host, quint16 port)
 }
 
 void
-PortalManager::_run()
-{
-  struct timeval timeout;
-  fd_set readfds;
-  fd_set writefds;
-  fd_set exceptionfds;
-  int listener;
+PortalManager::_run() {
+	struct timeval timeout;
+	fd_set readfds;
+	fd_set writefds;
+	fd_set exceptionfds;
+	int listener = -1;
 
-  this->masterFDSLock.lock();
-  FD_ZERO(&masterfds);
-  this->masterFDSLock.unlock();
+	this->masterFDSLock.lock();
+	FD_ZERO(&masterfds);
+	this->masterFDSLock.unlock();
 
-  FD_ZERO(&readfds);
-  FD_ZERO(&writefds);
-  FD_ZERO(&exceptionfds);
+	FD_ZERO(&readfds);
+	FD_ZERO(&writefds);
+	FD_ZERO(&exceptionfds);
 
-  if (this->port != 0) {
+	if (this->port != 0) {
 		listener = this->tcpServer->listen(this->port);
 		if (listener < 0) {
 			this->log->logERROR("PortalManager", "Failed to listen");
 			return;
+		} else {
+			QString s("Listening on port: ");
+			s.append(QString::number(port));
+			s.append(" FD:");
+			s.append(QString::number(listener));
+			this->log->logERROR("PortalManager", s);
 		}
 
 		this->masterFDSLock.lock();
@@ -83,126 +93,169 @@ PortalManager::_run()
 		this->masterFDSLock.unlock();
 	}
 
-  while (this->runCmd) {
-	  //Set values EVERY loop since select() on *nix modifies this.
-	  timeout.tv_sec = 1;
-	  timeout.tv_usec = 0;
+	while (this->runCmd) {
+		//Set values EVERY loop since select() on *nix modifies this.
+		timeout.tv_sec = 0;
+		timeout.tv_usec = 500*1000;
 
+		this->masterFDSLock.lock();
+		readfds = masterfds;
+		//writefds = masterfds;
+		exceptionfds = masterfds;
+		this->masterFDSLock.unlock();
 
-	this->masterFDSLock.lock();
-    readfds = masterfds;
-    writefds = masterfds;
-    exceptionfds = masterfds;
-    this->masterFDSLock.unlock();
+		//Shelect!!
+		this->log->logINFO("PortalManager", "At Select.");
+		int retval =
+				select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
 
-    //Shelect!!
-    int retval = select(fdmax+1, &readfds, &writefds, NULL, &timeout);
+		QString out("Loop start.  Select returned: ");
+		out.append(QString::number(retval));
+		out.append(". FD count: ");
+		out.append(QString::number(this->fdPortalMap->keys().size()));
+		out.append(". MAX FD: ");
+		out.append(QString::number(fdmax));
+		this->log->logINFO("PortalManager", out);
 
-    QString out("Loop start.  Select returned: ");
-    out.append(QString::number(retval));
-    this->log->logINFO("PortalManager", out);
+		//Save time on the loop:
+		if (retval == 0) {
+			//continue;
+		}
 
-    //Save time on the loop:
-    if (retval == 0) {
-    	continue;
-    }
+		if (retval < 0) {
+			//got a selector error
 
-    if(retval <0) {
-      //got a selector error
+			/*      if(revtal == EABDF) {
+			 bu_log("Selector Error: EBADF: An invalid file descriptor was given in one of the sets. (Perhaps a file descriptor that was already closed, or one on which an error has occurred.)\n");
+			 } else if (retval == EINTR) {
+			 bu_log("Selector Error: EINTR: A signal was caught.\n");
+			 } else if (retval == EINVAL) {
+			 bu_log("Selector Error: EINVAL: nfds is negative or the value contained within timeout is invalid.\n");
+			 } else if (retval == ENOMEM) {
+			 bu_log("Selector Error: ENOMEM: unable to allocate memory for internal tables.\n");
+			 }*/
 
-/*      if(revtal == EABDF) {
-        bu_log("Selector Error: EBADF: An invalid file descriptor was given in one of the sets. (Perhaps a file descriptor that was already closed, or one on which an error has occurred.)\n");
-       } else if (retval == EINTR) {
-         bu_log("Selector Error: EINTR: A signal was caught.\n");
-       } else if (retval == EINVAL) {
-         bu_log("Selector Error: EINVAL: nfds is negative or the value contained within timeout is invalid.\n");
-       } else if (retval == ENOMEM) {
-         bu_log("Selector Error: ENOMEM: unable to allocate memory for internal tables.\n");
-       }*/
+			this->log->logERROR("PortalManager", "Selector Error.");
 
-      this->log->logERROR("PortalManager", "Selector Error.");
+			break;
+		}
 
-      break;
-    }
+		for (int i = 0; i <= fdmax; ++i) {
+			bool isaFD = FD_ISSET(i, &masterfds);
 
-      for (int i = 0; i <= fdmax; ++i) {
-    	  /*
-			if (FD_ISSET(i, &exceptionfds)) {
+			//Don't muck with an FD that isn't ours!
+			if (!isaFD) {
+				continue;
+			}
+
+			//Simplify switching later with bools now
+			bool isListener = (i == listener);
+			bool readyRead = FD_ISSET(i, &readfds) && !isListener;
+			bool readyWrite = FD_ISSET(i, &writefds);
+			bool readyAccept = FD_ISSET(i, &readfds) && isListener;
+			bool readyException = FD_ISSET(i, &exceptionfds);
+
+			QString s("FD:");
+			s.append(QString::number(i));
+
+			if (isListener) {
+				s.append(" is the listener and");
+			}
+
+			s.append(" is on the: masterFDS");
+
+			if (readyRead) {
+				s.append(", readFDS");
+			}
+			if (readyWrite) {
+				s.append(", writeFDS");
+			}
+			if (readyException) {
+				s.append(", exceptionFDS");
+			}
+
+			log->logDEBUG("PortalManager", s);
+
+			//Handle exceptions
+			if (readyException) {
 				//TODO handle exceptions
 				perror("Exception on FileDescriptor");
 			}
-*/
 
-			if (FD_ISSET(i, &readfds)) {
-				this->log->logINFO("PortalManager", "Read On Listener.");
+			Portal* p;
+			//Accept new connections:
+			if (readyAccept) {
+				log->logINFO("PortalManager", "Accept");
 
-				//If we are 'reading' on listener
-				if (port != 0 && i == listener) {
-					PkgTcpClient* client = (PkgTcpClient*) this->tcpServer->waitForClient(42);
+				struct pkg_switch table[] = { { PKG_MAGIC2,
+						&(Portal::callbackSpringboard), "SpringBoard", NULL },
+						{ 0, 0, (char*) 0, 0 } };
 
-					if (client == 0) {
-						  this->log->logERROR("PortalManager", "Error on accepting new client.");
-					} else {
-						//Handle new client here.
-						this->makeNewPortal(client);
-					}
+				PkgTcpClient* client =
+						(PkgTcpClient*) this->tcpServer->waitForClient(table,
+								42);
 
-					//else we are plain reading.
+				if (client == 0) {
+					log->logERROR("PortalManager",
+							"Error on accepting new client.");
 				} else {
-					this->log->logINFO("PortalManager", "Read On Normal FD.");
-					//Portal->read here.
-					if (this->fdPortalMap->contains(i)) {
-						this->portalsLock->lock();
-						int readResult = this->fdPortalMap->value(i)->read();
-						this->portalsLock->unlock();
-
-						if (readResult == 0) {
-							this->closeFD(i, "Lost connection to remote host.");
-							continue;
-						} else if (readResult < 0) {
-							this->closeFD(i, "Error on read, dropping connection to remote host.");
-							continue;
-						}
-
-					} else {
-						//Deal with unmapped file Descriptor
-						this->closeFD(i, "Attempting to read from FD not associated with a Portal, dropping connection to remote host.");
-						continue;
-					}
+					//Handle new client here.
+					p = this->makeNewPortal(client);
+					p->sendGSNodeName();
 				}
 			}
 
-			/*
-			 * Do we really need Write checking?
-			 */
-			if (FD_ISSET(i, &writefds)) {
-				this->log->logINFO("PortalManager", "Write.");
+			//the only thing we want to do on the listener loop is accept
+			if (isListener) {
+				continue;
+			}
 
-				/*
-				//Portal->write here.
-				if (this->fdPortalMap->contains(i)) {
-					this->portalsLock->lock();
-					int readResult = this->fdPortalMap->value(i)->write();
-					this->portalsLock->unlock();
+			//If we didnt get a portal from accepting, then get one from the map
+			if (p == 0 && this->fdPortalMap->contains(i)) {
+				this->portalsLock->lock();
+				p = this->fdPortalMap->value(i);
+				this->portalsLock->unlock();
+			}
 
-					if (readResult == 0) {
-						this->closeFD(i,"Lost connection to remote host.\n", &masterfds);
-						continue;
-					} else if (readResult < 0) {
-						this->closeFD(i, "Error on write, dropping connection to remote host.\n", &masterfds);
-						continue;
-					}
+			//Check, again, if we have a good portal.
+			if (p == 0) {
+				//Deal with unmapped file Descriptor
+				QString s("FD ");
+				s.append(QString::number(i));
+				s.append(" not associated with a Portal, dropping connection.");
+				this->closeFD(i, s);
+				continue;
+			}
 
-				} else {
-                    //Deal with unmapped file Descriptor
-					this->closeFD(i,"Attempting to write to FD not associated with a Portal, dropping connection to remote host.", &masterfds);
+			//read
+			if (readyRead) {
+				this->log->logINFO("PortalManager", "Read");
+
+				int readResult = p->read();
+
+				if (readResult == 0) {
+					this->closeFD(i, "Lost connection.");
+					continue;
+				} else if (readResult < 0) {
+					this->closeFD(i, "Error on read, dropping connection.");
 					continue;
 				}
-				*/
 			}
 
+			//write
+			if (readyWrite) {
+				this->log->logINFO("PortalManager", "Write.");
+
+				int retVal = p->flush();
+				bu_log("Flushed %d bytes.", retVal);
+
+				if (retVal < 0) {
+					this->closeFD(i, "Error on write, dropping connection.");
+					continue;
+				}
+			}
 		} //end FOR
-    } //end while
+	} //end while
 }//end fn
 
 
@@ -220,16 +273,17 @@ PortalManager::makeNewPortal(PkgTcpClient* client) {
 	this->fdPortalMap->insert(newFD, newPortal);
 	this->portalsLock->unlock();
 
+	QString s ("New Portal with FD: ");
+	s.append(QString::number(newFD));
+	log->logDEBUG("PortalManager", s);
+
 	//Check maxFD and update if needed.
 	if (newFD > fdmax) {
 		this->masterFDSLock.lock();
+		FD_SET(newFD, &masterfds);
 		fdmax = newFD;
 		this->masterFDSLock.unlock();
 	}
-
-	//Send our name
-	newPortal->sendGSNodeName();
-
 	return newPortal;
 }
 
