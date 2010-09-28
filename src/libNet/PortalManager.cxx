@@ -78,7 +78,7 @@ void PortalManager::_run() {
 			s.append(QString::number(port));
 			s.append(" FD:");
 			s.append(QString::number(listener));
-			this->log->logERROR("PortalManager", s);
+			this->log->logINFO("PortalManager", s);
 		}
 
 		this->masterFDSLock.lock();
@@ -165,7 +165,7 @@ void PortalManager::_run() {
 			log->logDEBUG("PortalManager", s);
 */
 			//If nothing to do, then continue;
-			if (!readyRead && !readyWrite && !readyAccept && !readyException) {
+			if (!readyRead && !readyAccept && !readyException) {
 				continue;
 			}
 
@@ -239,6 +239,7 @@ void PortalManager::_run() {
 			}
 		} //end FOR
 	} //end while
+	this->log->logINFO("PortalManager", "Shutdown");
 }//end fn
 
 
