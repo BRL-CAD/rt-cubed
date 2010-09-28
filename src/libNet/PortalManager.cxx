@@ -198,8 +198,6 @@ void PortalManager::_run() {
 				} else {
 					//Handle new client here.
 					p = this->makeNewPortal(client, table);
-					GSThread::sleep(2);
-					p->sendGSNodeName();
 				}
 			}
 
@@ -237,11 +235,6 @@ void PortalManager::_run() {
 
 				int readResult = p->read();
 
-				QString s("Got ");
-				s.append(QString::number(readResult));
-				s.append(" bytes.");
-				Logger::getInstance()->logINFO("PortalManager", s);
-
 				if (readResult == 0) {
 					this->closeFD(i, "Lost connection.");
 					continue;
@@ -270,16 +263,16 @@ void PortalManager::_run() {
 
 Portal*
 PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
-	Portal* newPortal = new Portal(client, table);
+	Portal* p = new Portal(client, table);
 
-	if (newPortal == 0) {
+	if (p == 0) {
 		return 0;
 	}
 
 	//Obtain lock and then map this new portal
 	this->portalsLock->lock();
-	int newFD = newPortal->pkgClient->getFileDescriptor();
-	this->fdPortalMap->insert(newFD, newPortal);
+	int newFD = p->pkgClient->getFileDescriptor();
+	this->fdPortalMap->insert(newFD, p);
 	this->portalsLock->unlock();
 
 	QString s("New Portal with FD: ");
@@ -293,7 +286,10 @@ PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
 		fdmax = newFD;
 		this->masterFDSLock.unlock();
 	}
-	return newPortal;
+
+	p->sendGSNodeName();
+
+	return p;
 }
 
 struct pkg_switch*

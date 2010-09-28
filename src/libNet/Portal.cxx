@@ -112,7 +112,6 @@ int Portal::read() {
 		this->log->logERROR("Portal", "Client closed the connection.\n");
 		return retval;
 	}
-	bu_log("Sucked in %d bytes.\n", retval);
 
 	retval = this->pkgClient->processData();
 	if (retval < 0) {
@@ -144,7 +143,7 @@ bool Portal::handleNetMsg(NetMsg* msg) {
 			this->log->logDEBUG("Portal", s);
 
 			//reply
-			this->sendGSNodeName();
+			//this->sendGSNodeName();
 		}
 		delete msg;
 		return true;
@@ -159,10 +158,12 @@ void Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 		bu_bomb("pkg callback returned a NULL buffer!\n");
 	}
 
-	QByteArray ba(buf);
+	int len = conn->pkc_inend - sizeof(pkg_header);
+
+	QByteArray ba(buf, len);
 
 	QString s("Got ");
-	s.append(QString::number(ba.size()));
+	s.append(QString::number(len));
 	s.append(" bytes.");
 	Logger::getInstance()->logINFO("Portal(s)", s);
 
@@ -173,7 +174,7 @@ void Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 	Portal* p = (Portal*) conn->pkc_user_data;
 
 	if (p == 0) {
-		bu_log("WARNING!  NetMsg failed to deserialize properly.\n");
+		bu_log("WARNING!  NULL Portal.\n");
 	}
 
 	//TODO Split the code here?  Fire off a Job?

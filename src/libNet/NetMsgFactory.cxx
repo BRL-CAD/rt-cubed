@@ -70,7 +70,7 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
   s.append(" len: ");
   s.append(QString::number(data.size()));
   Logger::getInstance()->logDEBUG("NetMsgFactory", s);
-
+/*
   QString dstr("Bytes: ");
 
   data.data();
@@ -81,6 +81,7 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
 	  dstr.append(", ");
   }
   Logger::getInstance()->logDEBUG("NetMsgFactory", dstr);
+*/
 
   QDataStream* qds = new QDataStream(data);
 
