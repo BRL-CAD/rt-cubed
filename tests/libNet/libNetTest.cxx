@@ -123,7 +123,7 @@ int main(int argc, char* argv[]) {
 		pm.startup();
 
 		s = "Listening on port: ";
-		s.append(port);
+		s.append(QString::number(port));
 		logInfo(s);
 
 		//listen for a loooong time.
