@@ -49,18 +49,18 @@ Portal::~Portal() {
 int Portal::send(NetMsg* msg) {
 	QByteArray* ba = msg->serialize();
 
-	QString s("Sending msg.  Type: ");
-	s.append(QString::number(msg->getMsgType()));
-	s.append(" len: ");
-	s.append(QString::number(ba->size()));
-	log->logDEBUG("Portal", s);
+//	QString s("Sending msg.  Type: ");
+//	s.append(QString::number(msg->getMsgType()));
+//	s.append(" len: ");
+//	s.append(QString::number(ba->size()));
+//	log->logDEBUG("Portal", s);
 
 	int retval = this->pkgClient->send(PKG_MAGIC2, ba->data(), ba->size());
 
-	s = "Sent ";
-	s.append(QString::number(retval));
-	s.append(" bytes.");
-	log->logDEBUG("Portal", s);
+//	s = "Sent ";
+//	s.append(QString::number(retval));
+//	s.append(" bytes.");
+//	log->logDEBUG("Portal", s);
 
 	delete ba;
 	return retval;
@@ -72,9 +72,9 @@ void Portal::sendGSNodeName() {
 		localNodeName = QUuid::createUuid().toString();
 	}
 
-	QString s("Sending my localNodename: ");
-	s.append(localNodeName);
-	this->log->logDEBUG("Portal", s);
+//	QString s("Sending my localNodename: ");
+//	s.append(localNodeName);
+//	this->log->logDEBUG("Portal", s);
 
 	RemoteNodenameSetMsg* msg = new RemoteNodenameSetMsg(localNodeName);
 	this->send(msg);
