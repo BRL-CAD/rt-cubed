@@ -32,6 +32,7 @@ NetMsgRouter*
 NetMsgRouter::getInstance() {
 	if (NetMsgRouter::pInstance == NULL) {
 		NetMsgRouter::pInstance = new NetMsgRouter();
+		NetMsgRouter::pInstance->registerInternalTypes();
 	}
 	return NetMsgRouter::pInstance;
 }
@@ -75,6 +76,13 @@ NetMsgRouter::getListOfHandlers(quint16 type) {
 		this->routingTable->insert(type, l);
 	}
 	return l;
+}
+
+
+void
+NetMsgRouter::registerInternalTypes()
+{
+	//TODO add in any type<->Handler associations that should be automatically mapped here.
 }
 
 // Local Variables:

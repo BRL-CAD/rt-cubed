@@ -47,6 +47,7 @@ private:
 	static NetMsgRouter* pInstance;
 	NetMsgRouter();
 
+	static void registerInternalTypes();
 	/*
 	 * Gets a list of INetMsgHandler pointers associated with
 	 * this msgType.  If no Mapping or list exists, one is made.
