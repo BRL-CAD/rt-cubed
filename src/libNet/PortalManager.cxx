@@ -35,6 +35,7 @@ PortalManager::PortalManager(quint16 port) :
 	this->fdPortalMap = new QMap<int, Portal*> ();
 	this->portalsLock = new QMutex();
 	this->log = Logger::getInstance();
+	this->fdmax = 0;
 }
 
 PortalManager::~PortalManager() {
@@ -56,6 +57,7 @@ PortalManager::connectToHost(QString host, quint16 port) {
 }
 
 void PortalManager::_run() {
+	this->log->logINFO("PortalManager", "Running");
 	struct timeval timeout;
 	fd_set readfds;
 	fd_set exceptionfds;
@@ -144,8 +146,7 @@ void PortalManager::_run() {
 			bool readyRead = FD_ISSET(i, &readfds) && !isListener;
 			bool readyAccept = FD_ISSET(i, &readfds) && isListener;
 			bool readyException = FD_ISSET(i, &exceptionfds);
-
-			/*
+/*
 			QString s("FD:");
 			s.append(QString::number(i));
 
