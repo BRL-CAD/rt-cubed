@@ -58,7 +58,6 @@ PortalManager::connectToHost(QString host, quint16 port) {
 void PortalManager::_run() {
 	struct timeval timeout;
 	fd_set readfds;
-	fd_set writefds;
 	fd_set exceptionfds;
 	int listener = -1;
 
@@ -67,7 +66,6 @@ void PortalManager::_run() {
 	this->masterFDSLock.unlock();
 
 	FD_ZERO(&readfds);
-	FD_ZERO(&writefds);
 	FD_ZERO(&exceptionfds);
 
 	if (this->port != 0) {
@@ -96,13 +94,12 @@ void PortalManager::_run() {
 
 		this->masterFDSLock.lock();
 		readfds = masterfds;
-		//writefds = masterfds;
 		exceptionfds = masterfds;
 		this->masterFDSLock.unlock();
 
 		//Shelect!!
 		int retval = select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
-
+/*
 		QString out("Select returned: ");
 		out.append(QString::number(retval));
 		out.append(". FD count: ");
@@ -110,7 +107,7 @@ void PortalManager::_run() {
 		out.append(". MAX FD: ");
 		out.append(QString::number(fdmax));
 		this->log->logINFO("PortalManager", out);
-
+*/
 		//Save time on the loop:
 		if (retval == 0) {
 			//continue;
@@ -145,10 +142,10 @@ void PortalManager::_run() {
 			//Simplify switching later with bools now
 			bool isListener = (i == listener);
 			bool readyRead = FD_ISSET(i, &readfds) && !isListener;
-			bool readyWrite = FD_ISSET(i, &writefds);
 			bool readyAccept = FD_ISSET(i, &readfds) && isListener;
 			bool readyException = FD_ISSET(i, &exceptionfds);
 
+			/*
 			QString s("FD:");
 			s.append(QString::number(i));
 
@@ -161,15 +158,12 @@ void PortalManager::_run() {
 			if (readyRead) {
 				s.append(", readFDS");
 			}
-			if (readyWrite) {
-				s.append(", writeFDS");
-			}
 			if (readyException) {
 				s.append(", exceptionFDS");
 			}
 
 			log->logDEBUG("PortalManager", s);
-
+*/
 			//If nothing to do, then continue;
 			if (!readyRead && !readyWrite && !readyAccept && !readyException) {
 				continue;
@@ -240,19 +234,6 @@ void PortalManager::_run() {
 					continue;
 				} else if (readResult < 0) {
 					this->closeFD(i, "Error on read, dropping connection.");
-					continue;
-				}
-			}
-
-			//write
-			if (readyWrite) {
-				this->log->logINFO("PortalManager", "Write.");
-
-				int retVal = p->flush();
-				bu_log("Flushed %d bytes.", retVal);
-
-				if (retVal < 0) {
-					this->closeFD(i, "Error on write, dropping connection.");
 					continue;
 				}
 			}
