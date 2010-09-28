@@ -103,8 +103,10 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
   case TEST_GENERIC_1STRING_MSG:
     return new GenericOneStringMsg(qds, origin);
 
-  case KEEPALIVE:
-    return new GenericOneByteMsg(qds, origin);
+  case RUALIVE:
+    return new TypeOnlyMsg(qds, origin);
+  case IMALIVE:
+    return new TypeOnlyMsg(qds, origin);
 
   case FAILURE:
     return new GenericOneByteMsg(qds, origin);

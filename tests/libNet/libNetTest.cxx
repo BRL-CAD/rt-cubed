@@ -143,7 +143,10 @@ int main(int argc, char* argv[]) {
 		Portal* p = pm.connectToHost(t, port);
 
 		if (p != 0) {
-			GSThread::sleep(10);
+			GSThread::sleep(2);
+			TypeOnlyMsg tom(RUALIVE);
+			p->send(&tom);
+			GSThread::sleep(1);
 		}
 
 		GSThread::sleep(1);

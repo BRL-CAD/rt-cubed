@@ -147,6 +147,11 @@ bool Portal::handleNetMsg(NetMsg* msg) {
 		}
 		delete msg;
 		return true;
+	} else if (type == RUALIVE) {
+		TypeOnlyMsg tom(IMALIVE);
+		p->send(&tom);
+		delete msg;
+		return true;
 	}
 
 	return false;
