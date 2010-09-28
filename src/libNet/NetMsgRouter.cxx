@@ -25,6 +25,7 @@
 
 #include "NetMsgRouter.h"
 #include <QtCore/QMutexLocker>
+#include "Portal.h"
 
 NetMsgRouter* NetMsgRouter::pInstance = NULL;
 
@@ -56,6 +57,17 @@ bool NetMsgRouter::registerType(quint16 type, INetMsgHandler* handler) {
 bool NetMsgRouter::routeMsg(NetMsg* msg) {
 	//First get the appropriate list:
 	QList<INetMsgHandler*>* list = this->getListOfHandlers(msg->getMsgType());
+
+	QString s("Got a message whos origin is Portal: ");
+	Portal* origin = msg->getOrigin();
+	if (origin != 0) {
+		s.append(origin->getRemoteNodeName());
+	} else {
+		s.append("NULL origin!");
+	}
+	s.append(" and type: ");
+	s.append(QString::number(msg->getMsgType()));
+	Logger::getInstance()->logINFO("NetMsgRouter", s);
 
 	for (int i = 0; i < list->length(); ++i) {
 		list->at(i)->handleNetMsg(msg);
