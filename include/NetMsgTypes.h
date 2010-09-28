@@ -34,6 +34,8 @@
 #define	TEST_GENERIC_MULTIBYTE_MSG		0x0023
 #define	TEST_GENERIC_1STRING_MSG		0x0024
 
+#define	KEEPALIVE					0x0042
+
 #define	FAILURE			        	0x0050
 #define	SUCCESS          	        0x0051
 
