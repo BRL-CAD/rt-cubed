@@ -47,7 +47,6 @@ RT3_PROJECT_ADD_LIBS(
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
 	Portal.cxx
-    PortalProxy.cxx
 	PortalManager.cxx
 	NetMsgFactory.cxx
 	netMsg/NetMsg.cxx
@@ -71,7 +70,6 @@ RT3_PROJECT_ADD_SOURCES (
 #Set INST Headers
 RT3_PROJECT_ADD_INST_HEADERS(
 	Portal.h
-	PortalProxy.h
 	PortalManager.h
     NetMsgTypes.h
     INetMsgHandler.h
