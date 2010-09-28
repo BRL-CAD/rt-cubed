@@ -36,8 +36,9 @@ Portal::Portal(PkgTcpClient* client)
   this->pkgClient = client;
 
   //set the struct's userdata
-  struct pkg_switch* table = (struct pkg_switch*)this->pkgClient->getCallBackTable();
-  table[0].pks_user_data = this;
+  const struct pkg_switch* table = this->pkgClient->getCallBackTable();
+  pkg_switch sw = table[0];
+  sw.pks_user_data = this;
 
   this->log = Logger::getInstance();
   this->handshakeComplete = false;
@@ -90,8 +91,6 @@ Portal::flush(){
 }
 int
 Portal::read(){
-
-	Logger::getInstance()->logDEBUG("Portal", "Portal::read()!!!!");
   int retval = 0;
 
   //recv first
