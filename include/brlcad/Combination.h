@@ -45,6 +45,8 @@ namespace BRLCAD {
         virtual ~Combination(void) throw();
 
         const Combination&    operator=(const Combination& original) throw(bad_alloc);
+        
+        class TreeNode; // part 1/2 of a work-around a bug in i686-apple-darwin9-gcc-4.0.1 (GCC) 4.0.1 (Apple Inc. build 5465)
 
         class BRLCAD_COREINTERFACE_EXPORT ConstTreeNode {
         public:
@@ -79,6 +81,7 @@ namespace BRLCAD {
             ConstTreeNode(void) throw() : m_tree(0) {}
             ConstTreeNode(tree* original) throw() : m_tree(original) {}
 
+            friend class TreeNode; // part 2/2 of a work-around a bug in i686-apple-darwin9-gcc-4.0.1 (GCC) 4.0.1 (Apple Inc. build 5465)
             friend class Combination;
         };
 
