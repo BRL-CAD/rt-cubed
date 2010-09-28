@@ -28,6 +28,7 @@
 #include "brlcad/bu.h"
 #include "NetMsgFactory.h"
 #include "NetMsgTypes.h"
+#include "NetMsgRouter.h"
 #include "RemoteNodenameSetMsg.h"
 #include "TypeOnlyMsg.h"
 
@@ -199,7 +200,8 @@ void Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 		return;
 	}
 
-	//TODO add in routing code.
+	//Route
+	NetMsgRouter::getInstance()->routeMsg(msg);
 }
 
 // Local Variables: ***
