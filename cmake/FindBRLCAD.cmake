@@ -78,7 +78,7 @@ ELSE(BRLCAD_BASE_DIR)
         ENDIF(RT3_VERBOSE_CMAKE_OUTPUT)       
        
         IF(_HEADER_DIR_${tHead})
-            SET(BRLCAD_INC_DIRS ${BRLCAD_INC_DIRS} ${_HEADER_DIR_${tHead}})
+			  SET(BRLCAD_INC_DIRS ${BRLCAD_INC_DIRS} ${_HEADER_DIR_${tHead}} ${_HEADER_DIR_${tHead}}/brlcad ${_HEADER_DIR_${tHead}}/openNURBS)
             SET(BRLCAD_HEADERS_FOUND ${BRLCAD_HEADERS_FOUND} ${tHead})        
         ELSE(_HEADER_DIR_${tHead})
             SET(BRLCAD_HEADERS_NOTFOUND ${BRLCAD_HEADERS_NOTFOUND} ${tHead})        
