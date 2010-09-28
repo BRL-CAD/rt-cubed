@@ -186,7 +186,7 @@ runServer(int port)
   do
     {
       //Blocks
-      pkgClient = pkgServer.waitForClient();
+      pkgClient = pkgServer.waitForClient(callbacks);
 
       //TODO probably should failsafe this loop
       if (pkgClient == NULL)
@@ -208,8 +208,6 @@ runServer(int port)
        */
     }
   while (pkgClient == NULL);
-
-  pkgClient->setCallBackTable(callbacks);
 
   int counter = 0;
   int itemsRemain = 0;
