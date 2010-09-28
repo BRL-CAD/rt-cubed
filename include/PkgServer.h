@@ -36,12 +36,12 @@ public:
   virtual ~PkgServer();
 
   int listen(unsigned short port);
-  PkgClient* connectToHost(std::string ipOrHostname, short port);
+  PkgClient* connectToHost(std::string ipOrHostname, short port, struct pkg_switch* callbackTable);
 
   /*
    * This function blocks if waitTime is set to '0'.  '0' is default.
    */
-  PkgClient*  waitForClient(int waitTime = 0);
+  PkgClient*  waitForClient(struct pkg_switch* callbackTable, int waitTime = 0);
   int getListeningFD();
 
 private:

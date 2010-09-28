@@ -43,13 +43,14 @@ PkgServer::~PkgServer()
  * Attempts to open a new connection to ipOrHostname:port.  Returns NULL if connection fails for any reason.
  */
 PkgClient*
-PkgServer::connectToHost(std::string ipOrHostname, short port)
+PkgServer::connectToHost(std::string ipOrHostname, short port, struct pkg_switch* callbackTable)
 {
 	std::stringstream ss;
 	ss << port;
 	std::string s_port = ss.str();
 
-	pkg_conn* conn = pkg_open(ipOrHostname.c_str(), s_port.c_str(), this->proto.c_str(), NULL, NULL, NULL, NULL);
+	pkg_conn* conn = pkg_open(ipOrHostname.c_str(), s_port.c_str(),
+			this->proto.c_str(), NULL, NULL, callbackTable, NULL);
 
 	if (conn == PKC_ERROR) {
 		bu_log("Connection to %s, port %d, failed.\n", ipOrHostname.c_str(), port);
@@ -73,7 +74,7 @@ PkgServer::listen(unsigned short port)
 
   this->listenFD = fd;
 
-  bu_log("Listening on port '%d'.\n", port);
+ // bu_log("Listening on port '%d' (FD:%d).\n", port,fd);
 
   return fd;
 }
@@ -84,8 +85,8 @@ PkgServer::getListeningFD()
 }
 
 PkgClient*
-PkgServer::waitForClient(int waitTime) {
-	pkg_conn* clientStruct = pkg_getclient(this->listenFD, NULL, NULL, waitTime);
+PkgServer::waitForClient(struct pkg_switch* callbackTable, int waitTime) {
+	pkg_conn* clientStruct = pkg_getclient(this->listenFD, callbackTable, NULL, waitTime);
   if (clientStruct == PKC_NULL)
     {
       if (waitTime == 0)
