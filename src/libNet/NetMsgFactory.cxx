@@ -114,18 +114,22 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
     return new GenericOneByteMsg(qds, origin);
   case GS_REMOTE_NODENAME_SET:
     return new GenericOneStringMsg(qds, origin);
+
   case DISCONNECTREQ:
     return new TypeOnlyMsg(qds, origin);
+
   case NEWNODEONNET:
     return new GenericOneStringMsg(qds, origin);
     //    case FULL_NODE_LISTREQ:
     //	return new NetMsg(qds, origin);
     //    case FULL_NODE_LIST:
     //	return new NetMsg(qds, origin);
+
   case NEWSESSIONREQ:
     return new NewSessionReqMsg(qds, origin);
   case SESSIONINFO:
     return new SessionInfoMsg(qds, origin);
+
   case GEOMETRYREQ:
     return new GeometryReqMsg(qds, origin);
   case GEOMETRYMANIFEST:

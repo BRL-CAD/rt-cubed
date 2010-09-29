@@ -51,7 +51,6 @@
 
 #define NEWSESSIONREQ		        0x0300
 #define SESSIONINFO		        	0x0305
-#define LOGOUTSESSION		        0x0310
 
 #define	GEOMETRYREQ		        	0x0400
 #define ReqByUUID       	          0x00
