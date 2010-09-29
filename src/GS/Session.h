@@ -27,6 +27,8 @@
 #define __SESSION_H__
 
 #include "Account.h"
+#include "SessionInfoMsg.h"
+
 #include <cstdlib>
 #include <iostream>
 #include <ios>
@@ -46,6 +48,8 @@ public:
 
     time_t getInactivityTime();
     void stampLastAccess();
+
+    SessionInfoMsg* generateSessionInfoMsg();
 
 private:
     Session(Account* a);

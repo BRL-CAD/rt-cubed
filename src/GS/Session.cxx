@@ -33,7 +33,6 @@ Session::Session(Account* a)
 
 Session::~Session()
 {
-    std::cout << "End Session\n\n";
 }
 
 QUuid Session::getSessionID()
@@ -60,6 +59,13 @@ Session::getInactivityTime()
 
 	return now - this->lastAccess;
 }
+
+SessionInfoMsg*
+Session::generateSessionInfoMsg()
+{
+	return new SessionInfoMsg(this->sessionID);
+}
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***
