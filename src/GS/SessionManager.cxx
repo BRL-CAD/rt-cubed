@@ -151,7 +151,7 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 	//validate incoming data
 	if (origin == 0) {
 		//TODO Figure out how to how to handle NULL Portal
-		log->logERROR("SessionManager", "NULL Portal!");
+		log->logERROR("SessionManager", "handleNewSessionReMsg(): NULL Portal!");
 		return;
 	}
 
@@ -184,7 +184,23 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 void
 SessionManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 {
+	Portal* origin = msg->getOrigin();
 
+	//validate incoming data
+	if (origin == 0) {
+		//TODO Figure out how to how to handle NULL Portal
+		log->logERROR("SessionManager", "handleDisconnectReqMsg(): NULL Portal!");
+		return;
+	}
+
+	Session* s = this->getSession(origin);
+
+	if (s == NULL) {
+		//no mapping.  Odd.  Kick 'em.
+		origin->disconnect();
+	}
+
+	this->remCache(s);
 }
 
 // Local Variables: ***
