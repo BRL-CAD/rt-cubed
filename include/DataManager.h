@@ -27,21 +27,32 @@
 #ifndef __DATAMANAGER_H__
 #define __DATAMANAGER_H__
 
+#include "INetMsgHandler.h"
+#include "IDataSource.h"
+
 #include <QtCore/QString>
 #include <QtCore/QUuid>
+#include <QtCore/QMutex>
 
-class DataManager {
+class DataManager :  public INetMsgHandler
+{
 
 public:
 	static DataManager* getInstance();
 	virtual ~DataManager();
+    bool handleNetMsg(NetMsg* msg);
 
 	QString getDbObjectByURL(QString url);
 	QString getDbObjectByUUID(QUuid& uuid);
 
+	void addDataSource(IDataSource* source);
+
 private:
 	static DataManager* pInstance;
 	DataManager();
+
+	QMutex sourceLock;
+	QList<IDataSource*> datasources;
 
 };
 

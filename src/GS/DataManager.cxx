@@ -25,6 +25,9 @@
  */
 
 #include "DataManager.h"
+#include "NetMsgTypes.h"
+
+#include <QtCore/QMutexLocker>
 
 DataManager* DataManager::pInstance = NULL;
 
@@ -42,6 +45,28 @@ QString DataManager::getDbObjectByURL(QString url)
 
 QString DataManager::getDbObjectByUUID(QUuid& uuid)
 {
+}
+
+void
+DataManager::addDataSource(IDataSource* source)
+{
+	QMutexLocker lock (&this->sourceLock);
+	this->datasources.append(source);
+}
+
+bool
+DataManager::handleNetMsg(NetMsg* msg)
+{
+	quint16 type = msg->getMsgType();
+	switch(type) {
+	case GEOMETRYREQ:
+		return true;
+	case GEOMETRYMANIFEST:
+		return true;
+	case GEOMETRYCHUNK:
+		return true;
+	}
+	return false;
 }
 
 DataManager* DataManager::getInstance()
