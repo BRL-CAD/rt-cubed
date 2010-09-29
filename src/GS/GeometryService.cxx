@@ -65,6 +65,8 @@ GeometryService::registerMsgRoutes()
 
 	router->registerType(CMD_SHUTDOWN, this);
 
+	router->registerType(GEOMETRYREQ, this->dm);
+	router->registerType(GEOMETRYCHUNK, this->dm);
 }
 
 bool
