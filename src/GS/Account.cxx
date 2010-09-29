@@ -38,6 +38,11 @@ Account::getUname() {
 	return this->uname;
 }
 
+Portal*
+Account::getPortal() {
+	return this->portal;
+}
+
 quint32
 Account::getID()
 {

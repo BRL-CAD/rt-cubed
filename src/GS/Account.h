@@ -40,6 +40,7 @@ public:
   time_t getInactivityTime();
   void stampLastAccess();
   quint32 getID();
+  Portal* getPortal();
   
 private:
   quint32 id;
