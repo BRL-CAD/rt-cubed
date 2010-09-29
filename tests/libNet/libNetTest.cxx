@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
 
 	if (isServer) {
 		PortalManager pm(port);
-		pm.startup();
+		pm.start();
 
 		//listen for a loooong time.
 		GSThread::sleep(60 * 60); //1 hr
@@ -129,7 +129,7 @@ int main(int argc, char* argv[]) {
 
 	} else {
 		PortalManager pm;
-		pm.startup();
+		pm.start();
 
 		GSThread::sleep(3);
 

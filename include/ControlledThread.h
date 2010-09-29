@@ -32,7 +32,7 @@ public:
 	ControlledThread(QString threadname = "");
 	virtual ~ControlledThread();
 
-	bool startup();
+	void start();
 	bool shutdown(bool block=true);
 	QString getThreadName();
 

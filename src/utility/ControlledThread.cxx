@@ -36,10 +36,10 @@ ControlledThread::ControlledThread(QString threadName) {
 ControlledThread::~ControlledThread() {
 }
 
-bool ControlledThread::startup() {
+void ControlledThread::start() {
 	bool preRetVal = this->preStartupHook();
 	this->runCmd = true;
-	this->start();
+	QThread::start(); //call super class start
 	bool postRetVal = this->postStartupHook();
 }
 

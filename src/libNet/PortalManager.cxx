@@ -56,7 +56,8 @@ PortalManager::connectToHost(QString host, quint16 port) {
 	}
 }
 
-void PortalManager::_run() {
+void
+PortalManager::_run() {
 	this->log->logINFO("PortalManager", "Running");
 	struct timeval timeout;
 	fd_set readfds;
