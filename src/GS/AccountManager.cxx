@@ -68,11 +68,11 @@ Account* AccountManager::login(QString uname, QString passwd, Portal* p)
 		return NULL;
 	}
 
-	QMutexLocker locker(&this->accountListLock);
 	Account* acc = new Account(uname,p);
 
-
 	//TODO cache account here.
+	QMutexLocker locker(&this->accountListLock);
+	this->accounts->append(acc);
 
 	return acc;
 }
