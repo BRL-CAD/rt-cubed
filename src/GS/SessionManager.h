@@ -28,6 +28,8 @@
 
 #include "Session.h"
 #include "INetMsgHandler.h"
+#include "NewSessionReqMsg.h"
+
 #include <QtCore/QMap>
 #include <QtCore/QMutex>
 
@@ -45,6 +47,8 @@ private:
 
     QMutex sesIDMapLock;
     QMap<quint32, Session*>* sessionIdMap;
+
+    void handleNewSessionReqMsg(NewSessionReqMsg* msg);
 };
 
 #endif

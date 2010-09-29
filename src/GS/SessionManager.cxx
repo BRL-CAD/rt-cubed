@@ -25,7 +25,9 @@
 
 #include "SessionManager.h"
 #include "AccountManager.h"
+#include "NetMsgTypes.h"
 #include "libutility.h"
+
 #include <QtCore/QMutexLocker>
 
 SessionManager* SessionManager::pInstance = NULL;
@@ -61,8 +63,31 @@ SessionManager::newSession(Account* a)
 bool
 SessionManager::handleNetMsg(NetMsg* msg)
 {
+	quint16 type = msg->getMsgType();
+	switch(type) {
+	case NEWSESSIONREQ:
+		break;
+	case SESSIONINFO:
+		//Dunno why someone would be sending the GS this message!
+		break;
+	case LOGOUTSESSION:
+		break;
+
+	}
+}
+
+/*
+ * Msg Handlers
+ */
+void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
+{
+	Account* a = AccountManager::getInstance()->login(msg->getUName(), msg->getPasswd(), msg->getOrigin());
+	Session* s = this->newSession(a);
+
+
 
 }
+
 
 // Local Variables: ***
 // mode: C++ ***
