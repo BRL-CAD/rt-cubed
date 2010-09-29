@@ -39,7 +39,7 @@ ControlledThread::~ControlledThread() {
 void ControlledThread::start() {
 	bool preRetVal = this->preStartupHook();
 	this->runCmd = true;
-	QThread::start(); //call super class start
+	GSThread::start(); //call super class start
 	bool postRetVal = this->postStartupHook();
 }
 

@@ -27,7 +27,7 @@
 #include <QtCore/QString>
 #include "GSThread.h"
 
-class ControlledThread: public QThread {
+class ControlledThread: public GSThread {
 public:
 	ControlledThread(QString threadname = "");
 	virtual ~ControlledThread();
