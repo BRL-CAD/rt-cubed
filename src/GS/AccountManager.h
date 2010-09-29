@@ -45,11 +45,10 @@ private:
     static AccountManager* pInstance;
     AccountManager();
 
-
     QMutex accountListLock;
     QList<Account*>* accounts;
-    quint32 validateLoginCreds(QString uname, QString passwd);
 
+    quint32 validateLoginCreds(QString uname, QString passwd);
 };
 
 #endif
