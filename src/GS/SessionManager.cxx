@@ -66,9 +66,9 @@ SessionManager::newSession(Account* a)
 		s = new Session(a);
 
 		//cache
-		this->mapsLock.lock();
+		this->listLock.lock();
 		this->sessionList.append(s);
-		this->mapsLock.unlock();
+		this->listLock.unlock();
 
     }
     return s;
@@ -76,7 +76,7 @@ SessionManager::newSession(Account* a)
 
 Session*
 SessionManager::getSession(Account* a) {
-	QMutexLocker locker(&this->mapsLock);
+	QMutexLocker locker(&this->listLock);
 	for (int i = 0; i < this->sessionList.size(); ++i) {
 		Session* s = this->sessionList[i];
 		if (s->getAccount() == a)
@@ -88,7 +88,7 @@ SessionManager::getSession(Account* a) {
 //TODO need to verify the QUuid == QUuid works.
 Session*
 SessionManager::getSession(QUuid sessID) {
-	QMutexLocker locker(&this->mapsLock);
+	QMutexLocker locker(&this->listLock);
 	for (int i = 0; i < this->sessionList.size(); ++i) {
 		Session* s = this->sessionList[i];
 		if (s->getSessionID() == sessID)
@@ -99,7 +99,7 @@ SessionManager::getSession(QUuid sessID) {
 
 Session*
 SessionManager::getSession(Portal* p) {
-	QMutexLocker locker(&this->mapsLock);
+	QMutexLocker locker(&this->listLock);
 	for (int i = 0; i < this->sessionList.size(); ++i) {
 		Session* s = this->sessionList[i];
 		if (s->getAccount()->getPortal() == p)

@@ -52,7 +52,7 @@ private:
 
     Logger* log;
 
-    QMutex mapsLock;
+    QMutex listLock;
     QList<Session*> sessionList;
 
     Session* newSession(Account* a);
