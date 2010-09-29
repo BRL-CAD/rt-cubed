@@ -47,6 +47,7 @@ RT3_PROJECT_ADD_SOURCES (
 	GeometryService.cxx
 	DataManager.cxx
 	DbObjectManifest.cxx
+	DbObject.cxx
 	GeometryProcessor.cxx
 	Session.cxx
 	SessionManager.cxx
@@ -60,9 +61,10 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	SessionManager.h
 	Account.h
 	AccountManager.h
-	DataManager.h
 	GeometryService.h
+	DataManager.h
     IDataSource.h
+	DbObject.h
 )
 
 #Set NOINST headers
