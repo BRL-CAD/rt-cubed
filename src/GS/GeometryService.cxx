@@ -49,7 +49,7 @@ GeometryService::registerMsgRoutes()
 
 	router->registerType(NEWSESSIONREQ, SessionManager::getInstance());
 	router->registerType(SESSIONINFO, SessionManager::getInstance());
-	router->registerType(LOGOUTSESSION, SessionManager::getInstance());
+	router->registerType(DISCONNECTREQ, SessionManager::getInstance());
 
 }
 
