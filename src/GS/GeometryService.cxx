@@ -74,6 +74,8 @@ GeometryService::_run() {
 	while (this->runCmd) {
 		GSThread::sleep(100);
 	}
+
+	this->pm->shutdown();
 }
 
 bool
