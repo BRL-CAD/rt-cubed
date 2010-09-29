@@ -28,6 +28,8 @@
 
 #include "IDataSource.h"
 
+#include <QtCore/QMutex>
+
 class FileDataSource: public IDataSource {
 public:
 	FileDataSource(QString repoPath);
@@ -43,6 +45,12 @@ public:
 
 private:
 	QString repoPath;
+
+	QMutex lockLock;
+	QList<QString> pathLocks;
+	bool hasPathLock(QString path);
+	void setPathLock(QString path);
+	void remPathLock(QString path);
 
 };
 

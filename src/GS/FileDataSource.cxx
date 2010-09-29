@@ -25,39 +25,108 @@
 
 #include "FileDataSource.h"
 
-FileDataSource::FileDataSource(QString repoPath):repoPath(repoPath)
-{
+#include <QtCore/QMutexLocker>
+#include <QtCore/QFile>
+
+FileDataSource::FileDataSource(QString repoPath) :
+	repoPath(repoPath) {
+
 }
 
 FileDataSource::~FileDataSource() {
 }
 
-bool
-FileDataSource::lock(DbObject* obj, Account* a)
-{
+bool FileDataSource::lock(DbObject* obj, Account* a) {
 }
-bool
-FileDataSource::hasLock(DbObject* obj, Account* a)
-{
+bool FileDataSource::hasLock(DbObject* obj, Account* a) {
 }
-bool
-FileDataSource::unlock(DbObject* obj)
-{
+bool FileDataSource::unlock(DbObject* obj) {
 }
 
 DbObject*
-FileDataSource::getByPath(QString path)
-{
-}
-DbObject*
-FileDataSource::getByID(QUuid id)
-{
-}
-bool
-FileDataSource::putObject(DbObject* obj)
-{
+FileDataSource::getByPath(QString path) {
+
+	//See if there is a file lock on this path
+	bool hasLock = this->hasPathLock(path);
+
+	//TODO failsafe this loop!
+	while (hasLock) {
+		GSThread::msleep(567);
+		hasLock = this->hasPathLock(path);
+	}
+
+	//lock it
+	this->setPathLock(path);
+
+	QFile f(this->repoPath + "/" + path);
+
+	if (f.exists()) {
+		QByteArray* data = new QByteArray(f.readAll());
+		DbObject* object = new DbObject(path, data);
+
+		f.close();
+
+		//unlock it
+		this->remPathLock(path);
+
+		return object;
+	}
+
+	f.close();
+
+	//unlock it
+	this->remPathLock(path);
+
+	return NULL;
 }
 
+DbObject*
+FileDataSource::getByID(QUuid id) {
+	return NULL;
+}
+
+bool FileDataSource::putObject(DbObject* obj) {
+	QString path = obj->getPath();
+
+	//See if there is a file lock on this path
+	bool hasLock = this->hasPathLock(path);
+
+	//TODO failsafe this loop!
+	while (hasLock) {
+		GSThread::msleep(567);
+		hasLock = this->hasPathLock(path);
+	}
+
+	//lock it
+	this->setPathLock(path);
+
+	QFile f(this->repoPath + "/" + path);
+	f.write(*obj->getData());
+
+	f.close();
+
+	//unlock it
+	this->remPathLock(path);
+
+	return true;
+}
+
+bool FileDataSource::hasPathLock(QString path) {
+	QMutexLocker(&this->lockLock);
+	return this->pathLocks.contains(path);
+}
+
+void FileDataSource::setPathLock(QString path) {
+	QMutexLocker(&this->lockLock);
+	if (!this->pathLocks.contains(path)) {
+		this->pathLocks.append(path);
+	}
+}
+
+void FileDataSource::remPathLock(QString path) {
+	QMutexLocker(&this->lockLock);
+	this->pathLocks.append(path);
+}
 
 // Local Variables:
 // tab-width: 8
