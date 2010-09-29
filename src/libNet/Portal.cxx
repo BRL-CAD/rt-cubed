@@ -32,6 +32,7 @@
 #include "NetMsgRouter.h"
 #include "RemoteNodenameSetMsg.h"
 #include "TypeOnlyMsg.h"
+#include "RouteMsgJob.h"
 
 Portal::Portal(PortalManager* pm, PkgTcpClient* client, struct pkg_switch* table):
 pm(pm), pkgClient(client), callbackTable(table), log(Logger::getInstance()), handshakeComplete(false)
@@ -189,8 +190,6 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 		bu_log("WARNING!  NULL Portal.\n");
 	}
 
-	//TODO Split the code here?  Fire off a Job?
-
 
 	/* Build a NetMsg */
 	NetMsg* msg = NetMsgFactory::getInstance()->deserializeNetMsg(ba, p);
@@ -208,8 +207,10 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 		return;
 	}
 
-	//Route
-	NetMsgRouter::getInstance()->routeMsg(msg);
+	//Fire off a Job.  This keeps the selector loop from
+	//delivering all the Msg copies personally.
+	RouteMsgJob* job = new RouteMsgJob(msg);
+	job->submit();
 }
 
 void
