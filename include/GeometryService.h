@@ -31,12 +31,13 @@
 
 #include <QtCore/QString>
 
-class GeometryService : public ControlledThread
+class GeometryService : public ControlledThread, public INetMsgHandler
 {
 
 public:
 	GeometryService(const QString localNodeName, const quint16 listenPort);
 	virtual ~GeometryService();
+    bool handleNetMsg(NetMsg* msg);
 
 protected:
 	bool preRunHook();

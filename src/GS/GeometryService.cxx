@@ -54,6 +54,8 @@ GeometryService::registerMsgRoutes()
 
 	router->registerType(DISCONNECTREQ, this->pm);
 
+	router->registerType(CMD_SHUTDOWN, this);
+
 }
 
 bool
@@ -79,6 +81,20 @@ GeometryService::postRunHook() {
 	this->log->logINFO("GeometryService", "Shutdown");
 
 	return true;
+}
+
+
+bool
+GeometryService::handleNetMsg(NetMsg* msg)
+{
+	quint16 type = msg->getMsgType();
+	switch(type) {
+	case CMD_SHUTDOWN:
+		log->logINFO("GeometryService", "Remote Shutdown Initiated.");
+		this->shutdown();
+		return true;
+	}
+	return false;
 }
 
 // Local Variables: ***
