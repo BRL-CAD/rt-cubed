@@ -1,4 +1,4 @@
-/*                       G M A I N . C X X
+/*                     G E O S E R V . C X X
  * BRL-CAD
  *
  * Copyright (c) 2010 United States Government as represented by
@@ -25,7 +25,6 @@
 
 #include "GeometryService.h"
 
-#include "libalf.h"
 #include "libutility.h"
 #include "libevent.h"
 
