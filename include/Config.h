@@ -38,7 +38,7 @@ public:
 	~Config();
 	static Config* getInstance();
 
-	bool loadFile(QString pathAndFileName);
+	bool loadFile(QString pathAndFileName, bool verbose = false);
 	QString getConfigValue(QString key);
 	void updateValue(QString key, QString value);
 	QList<QString> getAllKeys();
@@ -48,7 +48,7 @@ private:
 	Config(const Config& c){}; //Turn off Copy cstr
 	Config& operator=(const Config& c){}; //Turn off equal oper
 
-	void processLine(QString line);
+	QString processLine(QString line);
 	void removeAllOccurances(QString* data, QString search,
 			QString replace);
 

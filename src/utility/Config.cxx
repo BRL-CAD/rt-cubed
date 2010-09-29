@@ -25,6 +25,7 @@
 
 #include "Config.h"
 #include <QtCore/QFile>
+#include <QtCore/QFileInfo>
 #include <QtCore/QStringList>
 #include <QtCore/QMutexLocker>
 
@@ -49,7 +50,7 @@ Config* Config::getInstance()
     return Config::pInstance;
 }
 
-bool Config::loadFile(QString pathAndFileName)
+bool Config::loadFile(QString pathAndFileName, bool verbose)
 {
     QString msg;
     msg = "Attemping to load config from: " + pathAndFileName + ".";
@@ -60,31 +61,39 @@ bool Config::loadFile(QString pathAndFileName)
 
     //verify & open
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
-	msg = "Loading config from: " + pathAndFileName + " FAILED.";
-	this->log->logFATAL("Config", msg);
-	return false;
+		msg = "Loading config from: " + pathAndFileName + " FAILED.";
+		this->log->logFATAL("Config", msg);
+		return false;
     }
 
     while (!f.atEnd()) {
-	QByteArray lineBytes = f.readLine();
+		QByteArray lineBytes = f.readLine();
 
-	QString line(lineBytes);
+		QString line(lineBytes);
 
-	//Rem newline:
-	this->removeAllOccurances(&line, "\n", "");
+		//Rem newline:
+		this->removeAllOccurances(&line, "\n", "");
 
-	//Check for comments
-	if (line[0] == '#') {
-	    //log->logINFO("Config", "Ignoring Comment. (" + line + ")");
-	}
-	else {
-	    this->processLine(line);
-	}
+		//Check for comments
+		if (line[0] == '#') {
+			//log->logINFO("Config", "Ignoring Comment. (" + line + ")");
+		} else {
+			QString key = this->processLine(line);
+
+			if (verbose && key != NULL && key.length() > 0) {
+				QString value = this->configMap->value(key);
+				log->logINFO("Config", "Read key/value: '" + key + "'->'" + value + "'");
+			}
+
+		}
     }
-    log->logINFO("Config", "Done loading config from: " + f.fileName());
+    QFileInfo info(f);
+
+    log->logINFO("Config", "Done loading config from: " + info.absoluteFilePath());
 }
 
-void Config::processLine(QString line)
+QString
+Config::processLine(QString line)
 {
     //Process the string, clean it up.
 
@@ -94,7 +103,7 @@ void Config::processLine(QString line)
     //Check for blankline
     if (line == "" || line == " ") {
 	//this->log->logDEBUG("Config", "Empty Line");
-	return;
+	return "";
     }
 
     QStringList list = line.split(" ");
@@ -102,14 +111,14 @@ void Config::processLine(QString line)
 	this->log->logERROR("Config",
 		"Not enough elements for Key/Value pair on Config Line: "
 			+ line);
-	return;
+	return "";
     }
 
     QString key = list[0];
     QString value = list[1];
 
-    //this->log->logINFO("Config", "Key: '" + key + "' Value: '" + value + "'");
     this->updateValue(key, value);
+    return key;
 }
 
 void Config::removeAllOccurances(QString* data, QString search, QString replace)
