@@ -58,9 +58,7 @@ ENDMACRO(THIRD_PARTY_SUBDIR)
 include(ExternalProject)
 
 MACRO(THIRD_PARTY_CONFIGURE_EXTERNAL_PROJECT upper projname projpath srcpath extraopts)
-	MESSAGE("${CMAKE_PROJECT_NAME}_BUILD_LOCAL_${upper}: ${${CMAKE_PROJECT_NAME}_BUILD_LOCAL_${upper}}")
 	IF(${CMAKE_PROJECT_NAME}_BUILD_LOCAL_${upper} AND NOT ${CMAKE_PROJECT_NAME}-ENABLE_SYSTEM_LIBS_ONLY)
-		MESSAGE("got this far ${projname}")
 		ExternalProject_Add(
 			${projname}
 			DOWNLOAD_COMMAND ""
