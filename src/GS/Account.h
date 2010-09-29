@@ -34,13 +34,15 @@ class Account
 {
 
 public:
-  Account(QString uname, Portal* portal);
+  Account(QString uname, Portal* portal, quint32 id);
   virtual ~Account();
   QString getUname();
   time_t getInactivityTime();
   void stampLastAccess();
+  quint32 getID();
   
 private:
+  quint32 id;
   QString uname;
   Portal* portal;
 

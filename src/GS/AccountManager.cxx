@@ -91,7 +91,7 @@ Account* AccountManager::login(QString uname, QString passwd, Portal* p)
 
 	log->logINFO("AccountManager", "Authenticated user: '" + uname + "'");
 
-	Account* acc = new Account(uname,p);
+	Account* acc = new Account(uname, p, id);
 
 	//TODO cache account here.
 	QMutexLocker locker(&this->accountListLock);
