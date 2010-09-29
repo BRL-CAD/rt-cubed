@@ -136,6 +136,11 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
     return new GeometryManifestMsg(qds, origin);
   case GEOMETRYCHUNK:
     return new GeometryChunkMsg(qds, origin);
+
+    //Admin commands
+  case CMD_SHUTDOWN:
+    return new TypeOnlyMsg(qds, origin);
+
   default:
     return NULL;
     }
