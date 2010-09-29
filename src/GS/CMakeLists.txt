@@ -46,6 +46,7 @@ RT3_PROJECT_ADD_LIBS(
 RT3_PROJECT_ADD_SOURCES (
 	GeometryService.cxx
 	DataManager.cxx
+	FileDataSource.cxx
 	DbObjectManifest.cxx
 	DbObject.cxx
 	GeometryProcessor.cxx
@@ -64,6 +65,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	GeometryService.h
 	DataManager.h
     IDataSource.h
+    FileDataSource.h
 	DbObject.h
 )
 
