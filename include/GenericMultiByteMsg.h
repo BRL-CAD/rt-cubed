@@ -27,6 +27,7 @@
 #define __GENERICMULTIBYTEMSG_H__
 
 #include "NetMsg.h"
+#include <QtCore/QByteArray>
 
 class GenericMultiByteMsg: public NetMsg
 {
@@ -49,6 +50,7 @@ public:
 	 * Utilities
 	 */
 	virtual QString toString();
+	QByteArray* getQByteArray();
 
 protected:
 	quint32 getDataLen();

@@ -131,6 +131,13 @@ quint32 GenericMultiByteMsg::getDataLen()
     return this->dataLen;
 }
 
+QByteArray*
+GenericMultiByteMsg::getQByteArray()
+{
+	QByteArray* data = new QByteArray(this->data, this->dataLen);
+	return data;
+}
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***
