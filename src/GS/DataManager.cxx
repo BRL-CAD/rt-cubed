@@ -25,7 +25,7 @@
  */
 
 #include "DataManager.h"
-#include "NetMsgTypes.h"
+#include "libnet.h"
 
 #include <QtCore/QMutexLocker>
 
@@ -33,6 +33,7 @@ DataManager* DataManager::pInstance = NULL;
 
 DataManager::DataManager()
 {
+	this->log = Logger::getInstance();
 }
 
 DataManager::~DataManager()
@@ -60,6 +61,7 @@ DataManager::handleNetMsg(NetMsg* msg)
 	quint16 type = msg->getMsgType();
 	switch(type) {
 	case GEOMETRYREQ:
+		this->handleGeometryReqMsg((GeometryReqMsg*)msg);
 		return true;
 	case GEOMETRYMANIFEST:
 		return true;
@@ -68,6 +70,33 @@ DataManager::handleNetMsg(NetMsg* msg)
 	}
 	return false;
 }
+
+void
+DataManager::handleGeometryReqMsg(GeometryReqMsg* msg)
+{
+	quint8 reqType = msg->getRequestType();
+	QString data = msg->getData();
+	Portal* origin = msg->getOrigin();
+
+	//validate incoming data
+	if (origin == 0) {
+		//TODO Figure out how to how to handle NULL Portal
+		log->logERROR("DataManager", "handleGeometryReqMsg(): NULL Portal!");
+		return;
+	}
+
+	if (reqType == REQ_BY_PATH){
+
+	} else if (reqType == REQ_BY_UUID) {
+		//Not implemented!!!
+
+	} else {
+		//Not implemented!!!
+
+	}
+
+}
+
 
 DataManager* DataManager::getInstance()
 {

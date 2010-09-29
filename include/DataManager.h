@@ -29,6 +29,8 @@
 
 #include "INetMsgHandler.h"
 #include "IDataSource.h"
+#include "GeometryReqMsg.h"
+#include "Logger.h"
 
 #include <QtCore/QString>
 #include <QtCore/QUuid>
@@ -51,8 +53,11 @@ private:
 	static DataManager* pInstance;
 	DataManager();
 
+	Logger* log;
 	QMutex sourceLock;
 	QList<IDataSource*> datasources;
+
+	void handleGeometryReqMsg(GeometryReqMsg* msg);
 
 };
 
