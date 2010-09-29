@@ -39,6 +39,7 @@ public:
 
 	virtual DbObject* getByPath(QString path) = 0;
 	virtual DbObject* getByID(QUuid id) = 0;
+	virtual bool putObject(DbObject* obj) = 0;
 
 
 
