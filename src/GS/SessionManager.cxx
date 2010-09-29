@@ -90,7 +90,8 @@ SessionManager::handleNetMsg(NetMsg* msg)
 	case SESSIONINFO:
 		//Dunno why someone would be sending the GS this message!
 		break;
-	case LOGOUTSESSION:
+	case DISCONNECTREQ:
+		this->handleDisconnectReqMsg((TypeOnlyMsg*)msg);
 		break;
 
 	}
@@ -138,6 +139,11 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 
 }
 
+void
+SessionManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
+{
+
+}
 
 // Local Variables: ***
 // mode: C++ ***

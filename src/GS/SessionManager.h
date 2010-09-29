@@ -30,6 +30,7 @@
 #include "Session.h"
 #include "INetMsgHandler.h"
 #include "NewSessionReqMsg.h"
+#include "TypeOnlyMsg.h"
 
 #include <QtCore/QMap>
 #include <QtCore/QMutex>
@@ -53,6 +54,7 @@ private:
 
     Session* newSession(Account* a);
     void handleNewSessionReqMsg(NewSessionReqMsg* msg);
+    void handleDisconnectReqMsg(TypeOnlyMsg* msg);
 };
 
 #endif
