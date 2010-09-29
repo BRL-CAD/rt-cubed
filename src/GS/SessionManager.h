@@ -26,6 +26,7 @@
 #ifndef __SESSIONMANAGER_H__
 #define __SESSIONMANAGER_H__
 
+#include "Logger.h"
 #include "Session.h"
 #include "INetMsgHandler.h"
 #include "NewSessionReqMsg.h"
@@ -45,6 +46,7 @@ private:
     static SessionManager* pInstance;
     SessionManager();
 
+    Logger* log;
     QMutex sesIDMapLock;
     QMap<quint32, Session*>* sessionIdMap;
 
