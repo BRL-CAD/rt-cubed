@@ -26,13 +26,33 @@
 
 #include "DbObject.h"
 
-DbObject::DbObject() {
-	// TODO Auto-generated constructor stub
+DbObject::DbObject(QString path, QByteArray* data) : path(path), id(NULL), data(data)
+{
+}
 
+DbObject::DbObject(QUuid id, QByteArray* data) : path(""), id(id), data(data)
+{
 }
 
 DbObject::~DbObject() {
-	// TODO Auto-generated destructor stub
+}
+
+QString
+DbObject::getPath()
+{
+	return this->path;
+}
+
+QUuid
+DbObject::getID()
+{
+	return this->id;
+}
+
+QByteArray*
+DbObject::getData()
+{
+	return this->data;
 }
 
 // Local Variables:
