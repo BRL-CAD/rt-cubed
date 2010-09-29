@@ -146,10 +146,12 @@ int main(int argc, char* argv[]) {
 			GSThread::sleep(2);
 			TypeOnlyMsg tom(RUALIVE);
 			p->send(&tom);
-			GSThread::sleep(1);
+			GSThread::sleep(2);
+			logInfo("Shutting down...");
+			p->disconnect();
 		}
 
-		GSThread::sleep(1);
+		GSThread::sleep(2);
 		logInfo("Shutting down...");
 		pm.shutdown();
 	}
