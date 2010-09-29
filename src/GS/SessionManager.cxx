@@ -128,15 +128,15 @@ SessionManager::handleNetMsg(NetMsg* msg)
 	switch(type) {
 	case NEWSESSIONREQ:
 		this->handleNewSessionReqMsg((NewSessionReqMsg*)msg);
-		break;
+		return true;
 	case SESSIONINFO:
 		//Dunno why someone would be sending the GS this message!
-		break;
+		return true;
 	case DISCONNECTREQ:
 		this->handleDisconnectReqMsg((TypeOnlyMsg*)msg);
-		break;
-
+		return true;
 	}
+	return false;
 }
 
 /*
@@ -194,13 +194,8 @@ SessionManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 	}
 
 	Session* s = this->getSession(origin);
-
-	if (s == NULL) {
-		//no mapping.  Odd.  Kick 'em.
-		origin->disconnect();
-	}
-
 	this->remCache(s);
+
 }
 
 // Local Variables: ***
