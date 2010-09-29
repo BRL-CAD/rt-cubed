@@ -27,7 +27,9 @@
 #define __ACCOUNTMANAGER_H__
 
 #include "Logger.h"
+#include "Account.h"
 #include "Session.h"
+#include "Portal.h"
 #include "INetMsgHandler.h"
 
 #include <QtCore/QString>
@@ -51,6 +53,7 @@ private:
     QList<Account*>* accounts;
 
     quint32 validateLoginCreds(QString uname, QString passwd);
+    Account* newAccount(QString uname, Portal* p, quint32 id);
 };
 
 #endif

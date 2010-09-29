@@ -91,13 +91,43 @@ Account* AccountManager::login(QString uname, QString passwd, Portal* p)
 
 	log->logINFO("AccountManager", "Authenticated user: '" + uname + "'");
 
-	Account* acc = new Account(uname, p, id);
+	Account* acc = this->newAccount(uname, p, id);
 
 	//TODO cache account here.
 	QMutexLocker locker(&this->accountListLock);
 	this->accounts->append(acc);
 
 	return acc;
+}
+
+
+Account*
+AccountManager::newAccount(QString uname, Portal* p, quint32 id)
+{
+	Account* a = NULL;
+
+	//check to see if its already cached.
+	this->accountListLock.lock();
+    int index = this->accounts->indexOf(a);
+    if (a>=0) {
+    	a = this->accounts->at(index);
+    }
+    this->accountListLock.unlock();
+
+    if (a != NULL ) {
+
+    	a->stampLastAccess();
+    } else {
+    	//New
+		a = new Account(uname, p, id);
+
+		//cache
+		this->accountListLock.lock();
+		this->accounts->append(a);
+		this->accountListLock.unlock();
+
+    }
+    return a;
 }
 
 bool
