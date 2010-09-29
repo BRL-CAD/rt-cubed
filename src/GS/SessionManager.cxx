@@ -27,6 +27,7 @@
 #include "AccountManager.h"
 #include "NetMsgTypes.h"
 #include "libutility.h"
+#include "GenericOneByteMsg.h"
 
 #include <QtCore/QMutexLocker>
 
@@ -35,6 +36,7 @@ SessionManager* SessionManager::pInstance = NULL;
 SessionManager::SessionManager()
 {
     this->sessionIdMap = new QMap<quint32, Session*> ();
+    this->log = Logger::getInstance();
 }
 
 SessionManager::~SessionManager()
@@ -81,7 +83,26 @@ SessionManager::handleNetMsg(NetMsg* msg)
  */
 void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 {
+	Portal* origin = msg->getOrigin();
+	QString uname = msg->getUName();
+	QString passwd = msg->getPasswd();
+
+	if (origin == 0) {
+		//How to handle??
+
+		return;
+	}
+
+
 	Account* a = AccountManager::getInstance()->login(msg->getUName(), msg->getPasswd(), msg->getOrigin());
+
+	if (a == 0) {
+		//Account validation failed
+		GenericOneByteMsg* fail = new GenericOneByteMsg(FAILURE, ACCOUNT_VALIDATION_FAIL);
+
+
+	}
+
 	Session* s = this->newSession(a);
 
 
