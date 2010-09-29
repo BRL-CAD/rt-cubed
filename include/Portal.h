@@ -42,6 +42,7 @@ public:
   virtual ~Portal();
   int send(NetMsg* msg);
   void sendGSNodeName();
+  void disconnect();
 
   int flush();
   QString getRemoteNodeName();

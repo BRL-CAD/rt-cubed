@@ -47,7 +47,8 @@ Portal::~Portal() {
 	delete callbackTable;
 }
 
-int Portal::send(NetMsg* msg) {
+int
+Portal::send(NetMsg* msg) {
 	QByteArray* ba = msg->serialize();
 
 //	QString s("Sending msg.  Type: ");
@@ -66,7 +67,9 @@ int Portal::send(NetMsg* msg) {
 	delete ba;
 	return retval;
 }
-void Portal::sendGSNodeName() {
+
+void
+Portal::sendGSNodeName() {
 	QString localNodeName = Config::getInstance()->getConfigValue(
 			"LocalGSNodeName");
 	if (localNodeName.length() == 0) {
@@ -81,10 +84,13 @@ void Portal::sendGSNodeName() {
 	this->send(msg);
 }
 
-int Portal::flush() {
+int
+Portal::flush() {
 	return this->pkgClient->flush();
 }
-int Portal::read() {
+
+int
+Portal::read() {
 	int retval = 0;
 
 	/*
@@ -124,11 +130,13 @@ int Portal::read() {
 	return 1;
 }
 
-QString Portal::getRemoteNodeName() {
+QString
+Portal::getRemoteNodeName() {
 	return this->remoteNodeName + "";
 }
 
-bool Portal::handleNetMsg(NetMsg* msg) {
+bool
+Portal::handleNetMsg(NetMsg* msg) {
 	quint16 type = msg->getMsgType();
 
 	if (type == GS_REMOTE_NODENAME_SET) {
@@ -159,7 +167,8 @@ bool Portal::handleNetMsg(NetMsg* msg) {
 	return false;
 }
 
-void Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
+void
+Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 	/* Check to see if we got a good Buffer and Portal Object */
 	if (buf == 0) {
 		bu_bomb("pkg callback returned a NULL buffer!\n");
@@ -204,6 +213,11 @@ void Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 	NetMsgRouter::getInstance()->routeMsg(msg);
 }
 
+void
+Portal::disconnect()
+{
+	close(this->pkgClient->getFileDescriptor());
+}
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***
