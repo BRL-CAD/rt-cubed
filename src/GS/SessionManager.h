@@ -39,7 +39,6 @@ class SessionManager: public INetMsgHandler
 public:
     static SessionManager* getInstance();
     virtual ~SessionManager();
-    Session* newSession(Account* a);
     bool handleNetMsg(NetMsg* msg);
 
 private:
@@ -52,6 +51,7 @@ private:
     QMap<QUuid, Session*>* sessionIdMap;
     QMap<quint32, Session*>* accountIdMap;
 
+    Session* newSession(Account* a);
     void handleNewSessionReqMsg(NewSessionReqMsg* msg);
 };
 
