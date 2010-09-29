@@ -77,9 +77,13 @@ int main(int argc, char* argv[])
     GeometryService* gs = new GeometryService(localNodename, port);
 
     if (daemon){
-    	gs->start();
+    	gs->start(); //will exit
+    } else {
+    	gs->run(); //blocks
     }
 
 
+	log->logINFO("geoserv", "Exiting...");
+    delete gs;
     return 0;
 }
