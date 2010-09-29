@@ -41,10 +41,14 @@ protected:
 	bool preRunHook();
 	void _run();
 	bool postRunHook();
+
 private:
 	Logger* log;
 	QString localNodeName;
 	quint16 listenPort;
+
+	void registerMsgRoutes();
+
 };
 
 #endif

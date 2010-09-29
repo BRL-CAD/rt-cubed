@@ -25,16 +25,31 @@
 
 #include "GeometryService.h"
 #include "SessionManager.h"
+#include "libnet.h"
 
 GeometryService::GeometryService(const QString localNodeName, quint16 listenPort) :
 localNodeName(localNodeName), listenPort(listenPort)
 {
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", localNodeName + " is starting up...");
+
+    this->registerMsgRoutes();
+
 }
 
 GeometryService::~GeometryService()
 {
+
+}
+
+void
+GeometryService::registerMsgRoutes()
+{
+	NetMsgRouter* router = NetMsgRouter::getInstance();
+
+	router->registerType(NEWSESSIONREQ, SessionManager::getInstance());
+	router->registerType(SESSIONINFO, SessionManager::getInstance());
+	router->registerType(LOGOUTSESSION, SessionManager::getInstance());
 
 }
 
