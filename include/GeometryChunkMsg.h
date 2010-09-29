@@ -24,7 +24,7 @@
  */
 
 #ifndef __GEOMETRYCHUNKMSG_H__
-#define __GEOMETRYCHUCKMSG_H__
+#define __GEOMETRYCHUNKMSG_H__
 
 #include "GenericMultiByteMsg.h"
 
@@ -46,7 +46,7 @@ public:
 
 };
 
-#endif
+#endif /* __GEOMETRYCHUNKMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***
