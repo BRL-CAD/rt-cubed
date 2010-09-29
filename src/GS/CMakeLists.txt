@@ -99,7 +99,7 @@ RT3_PROJECT_ADD_LIBS(
 
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
-	gsmain.cxx
+	geoserv.cxx
 )
 
 #Set INST Headers
