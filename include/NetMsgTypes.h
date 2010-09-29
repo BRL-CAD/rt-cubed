@@ -60,17 +60,9 @@
 #define GEOMETRYCHUNK		        0x0410
 
 /*  Failure Codes */
-#define UUIDNotFoundFailure         0x0010
-#define FileNotFoundFailure         0x0020
+const char ACCOUNT_VALIDATION_FAIL = 0x01;
 
-#define PORTAL_HANDSHAKE_FAILURE   	0x0030
-#define UNKNOWN_PORTAL_FAILURE		0x0040
-#define PORTAL_WRITE_FAILURE		0x0050
-#define PORTAL_READ_FAILURE			0x0060
-#define REM_NODE_DISCONNECT			0x0070
-#define LOCAL_DISCONNECT_REQ		0x0080
 
-#define AUTHENTICATION_FAILED		0x0090
 
 #endif /* __NETMSGTYPES_H__ */
 
