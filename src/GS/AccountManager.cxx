@@ -53,11 +53,30 @@ AccountManager* AccountManager::getInstance()
  */
 quint32 AccountManager::validateLoginCreds(QString uname, QString passwd)
 {
-	//TODO stub in account validation here.
-    if (uname == "Kiaser" && passwd == "Sose") {
-    	return true;
+	//TODO put in REAL account validation here.
+    if (uname == "Guest" && passwd == "Guest") {
+    	return 0;
     }
-    return false;
+    if (uname == "Keyser" && passwd == "Soze") {
+    	return 1;
+    }
+    if (uname == "Dean" && passwd == "Keaton") {
+    	return 2;
+    }
+    if (uname == "Michael" && passwd == "McManus") {
+    	return 3;
+    }
+    if (uname == "Fred" && passwd == "Fenster") {
+    	return 4;
+    }
+    if (uname == "Todd" && passwd == "Hockney") {
+    	return 5;
+    }
+    if (uname == "Roger" && passwd == "Kint") {
+    	return 6;    static quint32 nextID;
+    }
+
+    return -1;
 }
 
 Account* AccountManager::login(QString uname, QString passwd, Portal* p)
