@@ -93,7 +93,7 @@ PortalManager::_run() {
 	while (this->runCmd) {
 		//Set values EVERY loop since select() on *nix modifies this.
 		timeout.tv_sec = 0;
-		timeout.tv_usec = 500 * 1000 * 2;
+		timeout.tv_usec = 50 * 1000;
 
 		this->masterFDSLock.lock();
 		readfds = masterfds;
