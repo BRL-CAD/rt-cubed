@@ -26,8 +26,8 @@
 #include "GeometryService.h"
 #include "SessionManager.h"
 
-GeometryService::GeometryService(const QString localNodeName) :
-localNodeName(localNodeName)
+GeometryService::GeometryService(const QString localNodeName, quint16 listenPort) :
+localNodeName(localNodeName), listenPort(listenPort)
 {
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", localNodeName + " is starting up...");
@@ -38,6 +38,28 @@ GeometryService::~GeometryService()
 
 }
 
+bool
+GeometryService::preRunHook() {
+	//Do initi stuff here
+	this->log->logINFO("GeometryService", "Running");
+
+	return true;
+}
+
+void
+GeometryService::_run() {
+
+	GSThread::sleep(2);
+
+}
+
+bool
+GeometryService::postRunHook() {
+	//Do teardown stuff here
+	this->log->logINFO("GeometryService", "Shutdown");
+
+	return true;
+}
 
 // Local Variables: ***
 // mode: C++ ***

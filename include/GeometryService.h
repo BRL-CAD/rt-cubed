@@ -28,20 +28,23 @@
 
 #include "libutility.h"
 
-#include <QTcpSocket>
-#include <QString>
-#include <QStringList>
-#include <QCoreApplication>
+#include <QtCore/QString>
 
-class GeometryService
+class GeometryService : public ControlledThread
 {
 
 public:
-	GeometryService(const QString localNodeName);
+	GeometryService(const QString localNodeName, const quint16 listenPort);
 	virtual ~GeometryService();
+
+protected:
+	bool preRunHook();
+	void _run();
+	bool postRunHook();
 private:
 	Logger* log;
 	QString localNodeName;
+	quint16 listenPort;
 };
 
 #endif
