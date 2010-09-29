@@ -38,7 +38,7 @@ class AccountManager : public INetMsgHandler
 public:
     virtual ~AccountManager();
     static AccountManager* getInstance();
-    Session* login(QString uname, QString passwd, Portal* p);
+    Account* login(QString uname, QString passwd, Portal* p);
     bool handleNetMsg(NetMsg* msg);
 
 private:
@@ -46,6 +46,7 @@ private:
     AccountManager();
 
 
+    QMutex accountListLock;
     QList<Account*>* accounts;
     quint32 validateLoginCreds(QString uname, QString passwd);
 

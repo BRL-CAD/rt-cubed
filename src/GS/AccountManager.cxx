@@ -53,13 +53,14 @@ AccountManager* AccountManager::getInstance()
  */
 quint32 AccountManager::validateLoginCreds(QString uname, QString passwd)
 {
+	//TODO stub in account validation here.
     if (uname == "Kiaser" && passwd == "Sose") {
-	return true;
+    	return true;
     }
     return false;
 }
 
-Session* AccountManager::login(QString uname, QString passwd, Portal* p)
+Account* AccountManager::login(QString uname, QString passwd, Portal* p)
 {
 	quint32 id = this->validateLoginCreds(uname, passwd);
 
@@ -67,9 +68,13 @@ Session* AccountManager::login(QString uname, QString passwd, Portal* p)
 		return NULL;
 	}
 
+	QMutexLocker locker(&this->accountListLock);
 	Account* acc = new Account(uname,p);
 
-	return SessionManager::getInstance()->newSession(acc);
+
+	//TODO cache account here.
+
+	return acc;
 }
 
 bool
