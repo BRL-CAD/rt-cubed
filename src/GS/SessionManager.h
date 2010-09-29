@@ -27,20 +27,23 @@
 #define __SESSIONMANAGER_H__
 
 #include "Session.h"
-
+#include "INetMsgHandler.h"
 #include <QtCore/QMap>
+#include <QtCore/QMutex>
 
-class SessionManager
+class SessionManager: public INetMsgHandler
 {
 public:
     static SessionManager* getInstance();
     virtual ~SessionManager();
+    Session* newSession(Account* a);
+    bool handleNetMsg(NetMsg* msg);
 
 private:
     static SessionManager* pInstance;
     SessionManager();
-    Session* newSession(quint32 accountID);
 
+    QMutex sesIDMapLock;
     QMap<quint32, Session*>* sessionIdMap;
 };
 

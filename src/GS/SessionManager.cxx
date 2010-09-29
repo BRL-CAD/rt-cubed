@@ -42,17 +42,26 @@ SessionManager::~SessionManager()
 SessionManager* SessionManager::getInstance()
 {
     if (!SessionManager::pInstance) {
-	pInstance = new SessionManager();
+    	pInstance = new SessionManager();
     }
     return SessionManager::pInstance;
 }
 
 
-Session* SessionManager::newSession(quint32 accountID)
+Session*
+SessionManager::newSession(Account* a)
 {
-    Session* s = new Session(accountID);
+    Session* s = new Session(a);
+
+
 
     return s;
+}
+
+bool
+SessionManager::handleNetMsg(NetMsg* msg)
+{
+
 }
 
 // Local Variables: ***

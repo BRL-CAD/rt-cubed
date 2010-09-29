@@ -24,22 +24,26 @@
  */
 
 #include "AccountManager.h"
+#include "SessionManager.h"
+
 #include <cstdlib>
 
 AccountManager* AccountManager::pInstance = NULL;
 
 AccountManager::AccountManager()
 {
+	this->accounts = new QList<Account*>();
 }
 
 AccountManager::~AccountManager()
 {
+	delete this->accounts;
 }
 
 AccountManager* AccountManager::getInstance()
 {
     if (!AccountManager::pInstance) {
-	pInstance = new AccountManager();
+    	pInstance = new AccountManager();
     }
     return AccountManager::pInstance;
 }
@@ -53,6 +57,25 @@ quint32 AccountManager::validateLoginCreds(QString uname, QString passwd)
 	return true;
     }
     return false;
+}
+
+Session* AccountManager::login(QString uname, QString passwd, Portal* p)
+{
+	quint32 id = this->validateLoginCreds(uname, passwd);
+
+	if (id <= 0) {
+		return NULL;
+	}
+
+	Account* acc = new Account(uname,p);
+
+	return SessionManager::getInstance()->newSession(acc);
+}
+
+bool
+AccountManager::handleNetMsg(NetMsg* msg)
+{
+
 }
 
 // Local Variables: ***

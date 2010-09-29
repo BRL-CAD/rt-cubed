@@ -26,19 +26,28 @@
 #ifndef __ACCOUNTMANAGER_H__
 #define __ACCOUNTMANAGER_H__
 
-#include <QtCore/QString>
+#include "Session.h"
+#include "INetMsgHandler.h"
 
-class AccountManager
+#include <QtCore/QString>
+#include <QtCore/QList>
+
+class AccountManager : public INetMsgHandler
 {
 
 public:
     virtual ~AccountManager();
     static AccountManager* getInstance();
-    quint32 validateLoginCreds(QString uname, QString passwd);
+    Session* login(QString uname, QString passwd, Portal* p);
+    bool handleNetMsg(NetMsg* msg);
 
 private:
     static AccountManager* pInstance;
     AccountManager();
+
+
+    QList<Account*>* accounts;
+    quint32 validateLoginCreds(QString uname, QString passwd);
 
 };
 

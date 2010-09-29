@@ -25,16 +25,15 @@
 
 #include "Account.h"
 
-Account::Account()
-{
+Account::Account(QString uname, Portal* portal) :
+	uname(uname), portal(portal) {
 }
 
-Account::~Account()
-{ 
+Account::~Account() {
 }
 
-QString Account::getUname(){
-    return this->uname;
+QString Account::getUname() {
+	return this->uname;
 }
 
 // Local Variables: ***

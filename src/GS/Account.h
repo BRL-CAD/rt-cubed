@@ -26,19 +26,20 @@
 #ifndef __ACCOUNT_H__
 #define __ACCOUNT_H__
 
+#include "Portal.h"
 #include <QtCore/QString>
 
 class Account
 {
 
 public:
-  Account();
+  Account(QString uname, Portal* portal);
   virtual ~Account();
   QString getUname();
   
 private:
   QString uname;
-
+  Portal* portal;
 };
 
 #endif /* __ACCOUNT_H__ */

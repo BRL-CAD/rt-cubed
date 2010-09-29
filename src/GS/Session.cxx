@@ -25,10 +25,10 @@
 
 #include "Session.h"
 
-Session::Session(quint32 accountID)
+Session::Session(Account* a)
 {
     this->sessionID = QUuid::createUuid();
-    this->accountID = accountID;
+    this->a = a;
 }
 
 Session::~Session()
@@ -41,9 +41,9 @@ QUuid Session::getSessionID()
     return this->sessionID;
 }
 
-quint32 Session::getAccountID()
+Account*  Session::getAccount()
 {
-    return this->accountID;
+    return this->a;
 }
 
 // Local Variables: ***

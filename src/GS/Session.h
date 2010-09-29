@@ -26,6 +26,7 @@
 #ifndef __SESSION_H__
 #define __SESSION_H__
 
+#include "Account.h"
 #include <cstdlib>
 #include <iostream>
 #include <ios>
@@ -35,17 +36,18 @@
 
 class Session
 {
-
+friend class SessionManager;
 public:
-    Session(quint32 accountID);
     virtual ~Session();
 
     QUuid getSessionID();
-    quint32 getAccountID();
+    Account*  getAccount();
 
 private:
+    Session(Account* a);
+
     QUuid sessionID;
-    quint32 accountID;
+    Account* a;
 };
 
 #endif
