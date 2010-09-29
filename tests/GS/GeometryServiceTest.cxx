@@ -55,7 +55,7 @@ public:
     GeometryServer(const QHostAddress& addy = QHostAddress::LocalHost, const quint16 port = DEFAULT_PORT)
     {
 
-	this->gs = new GeometryService("GSTester");
+	//this->gs = new GeometryService("GSTester");
 
 	if (port > 0)
 	    start(addy, port);
