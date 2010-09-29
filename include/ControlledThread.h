@@ -33,7 +33,10 @@ public:
 	virtual ~ControlledThread();
 
 	void start();
-	bool shutdown(bool block=true);
+
+	void shutdown();
+	void terminate();
+	void terminate(bool block);
 	QString getThreadName();
 
 protected:

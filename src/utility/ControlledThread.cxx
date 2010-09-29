@@ -43,13 +43,23 @@ void ControlledThread::start() {
 	bool postRetVal = this->postStartupHook();
 }
 
-bool ControlledThread::shutdown(bool block) {
+void
+ControlledThread::shutdown() {
+	this->terminate();
+}
+
+void
+ControlledThread::terminate() {
+	this->terminate(true);
+}
+
+void ControlledThread::terminate(bool block) {
 	bool preRetVal = this->preShutdownHook();
 	this->runCmd = false;
 
 	if (block)
 		while (this->isRunning()) {
-			GSThread::msleep(100);
+			GSThread::msleep(100); //TODO need a failsafe here.
 		}
 
 	bool postRetVal = this->postShutdownHook();
