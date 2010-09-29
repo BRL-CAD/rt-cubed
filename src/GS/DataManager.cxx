@@ -66,9 +66,26 @@ DataManager::handleNetMsg(NetMsg* msg)
 	case GEOMETRYMANIFEST:
 		return true;
 	case GEOMETRYCHUNK:
-		return true;
+		this->handleGeometryChunkMsg((GeometryChunkMsg*)msg);
+	return true;
 	}
 	return false;
+}
+
+void
+DataManager::handleGeometryChunkMsg(GeometryChunkMsg* msg)
+{
+	Portal* origin = msg->getOrigin();
+
+	//validate incoming data
+	if (origin == 0) {
+		//TODO Figure out how to how to handle NULL Portal
+		log->logERROR("DataManager", "handleGeometryChunkMsg(): NULL Portal!");
+		return;
+	}
+
+
+
 }
 
 void

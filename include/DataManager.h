@@ -30,6 +30,7 @@
 #include "INetMsgHandler.h"
 #include "IDataSource.h"
 #include "GeometryReqMsg.h"
+#include "GeometryChunkMsg.h"
 #include "Logger.h"
 
 #include <QtCore/QString>
@@ -58,7 +59,7 @@ private:
 	QList<IDataSource*> datasources;
 
 	void handleGeometryReqMsg(GeometryReqMsg* msg);
-
+	void handleGeometryChunkMsg(GeometryChunkMsg* msg);
 };
 
 #endif /* __DATAMANAGER_H__ */
