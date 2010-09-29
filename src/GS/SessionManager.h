@@ -42,6 +42,10 @@ public:
     virtual ~SessionManager();
     bool handleNetMsg(NetMsg* msg);
 
+    Session* getSession(Account* a);
+    Session* getSession(QUuid sessID);
+    Session* getSession(Portal* p);
+
 private:
     static SessionManager* pInstance;
     SessionManager();
@@ -49,8 +53,7 @@ private:
     Logger* log;
 
     QMutex mapsLock;
-    QMap<QUuid, Session*>* sessionIdMap;
-    QMap<quint32, Session*>* accountIdMap;
+    QList<Session*> sessionList;
 
     Session* newSession(Account* a);
     void handleNewSessionReqMsg(NewSessionReqMsg* msg);

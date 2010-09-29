@@ -35,8 +35,6 @@ SessionManager* SessionManager::pInstance = NULL;
 
 SessionManager::SessionManager()
 {
-    this->sessionIdMap = new QMap<QUuid, Session*> ();
-    this->accountIdMap = new QMap<quint32, Session*> ();
     this->log = Logger::getInstance();
 }
 
@@ -59,9 +57,7 @@ SessionManager::newSession(Account* a)
 	Session* s = NULL;
 
 	//check to see if its already cached.
-	this->mapsLock.lock();
-    s = this->accountIdMap->value(a->getID());
-    this->mapsLock.unlock();
+    s = this->getSession(a);
 
     if (s != 0) {
     	s->stampLastAccess();
@@ -71,12 +67,45 @@ SessionManager::newSession(Account* a)
 
 		//cache
 		this->mapsLock.lock();
-		this->sessionIdMap->insert(s->getSessionID(),s);
-		this->accountIdMap->insert(s->getAccount()->getID(),s);
+		this->sessionList.append(s);
 		this->mapsLock.unlock();
 
     }
     return s;
+}
+
+Session*
+SessionManager::getSession(Account* a) {
+	QMutexLocker locker(&this->mapsLock);
+	for (int i = 0; i < this->sessionList.size(); ++i) {
+		Session* s = this->sessionList[i];
+		if (s->getAccount() == a)
+			return s;
+	}
+	return NULL;
+}
+
+//TODO need to verify the QUuid == QUuid works.
+Session*
+SessionManager::getSession(QUuid sessID) {
+	QMutexLocker locker(&this->mapsLock);
+	for (int i = 0; i < this->sessionList.size(); ++i) {
+		Session* s = this->sessionList[i];
+		if (s->getSessionID() == sessID)
+			return s;
+	}
+	return NULL;
+}
+
+Session*
+SessionManager::getSession(Portal* p) {
+	QMutexLocker locker(&this->mapsLock);
+	for (int i = 0; i < this->sessionList.size(); ++i) {
+		Session* s = this->sessionList[i];
+		if (s->getAccount()->getPortal() == p)
+			return s;
+	}
+	return NULL;
 }
 
 bool
