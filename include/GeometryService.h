@@ -28,6 +28,7 @@
 
 #include "libutility.h"
 #include "libnet.h"
+#include "DataManager.h"
 
 #include <QtCore/QString>
 
@@ -35,7 +36,7 @@ class GeometryService : public ControlledThread, public INetMsgHandler
 {
 
 public:
-	GeometryService(const QString localNodeName, const quint16 listenPort);
+	GeometryService(const QString localNodeName, const quint16 listenPort,QString fileRepoPath);
 	virtual ~GeometryService();
     bool handleNetMsg(NetMsg* msg);
 
@@ -48,7 +49,11 @@ private:
 	Logger* log;
 	QString localNodeName;
 	quint16 listenPort;
+	QString fileRepoPath;
+
 	PortalManager* pm;
+	DataManager* dm;
+
 	void registerMsgRoutes();
 
 };

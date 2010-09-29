@@ -25,17 +25,19 @@
 
 #include "GeometryService.h"
 #include "SessionManager.h"
+#include "FileDataSource.h"
 
-GeometryService::GeometryService(const QString localNodeName, quint16 listenPort) :
-localNodeName(localNodeName), listenPort(listenPort)
+GeometryService::GeometryService(const QString localNodeName, quint16 listenPort, QString fileRepoPath) :
+localNodeName(localNodeName), listenPort(listenPort), fileRepoPath(fileRepoPath)
 {
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", localNodeName + " is starting up...");
 
     this->pm = new PortalManager(listenPort);
-
     this->registerMsgRoutes();
 
+    this->dm = DataManager::getInstance();
+    FileDataSource* fds = new FileDataSource(fileRepoPath);
 }
 
 GeometryService::~GeometryService()
