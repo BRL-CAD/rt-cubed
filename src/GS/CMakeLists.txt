@@ -95,6 +95,7 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 RT3_PROJECT_ADD_LIBS(
     ${QT_LIBRARIES}
     utility
+    gs
 )
 
 #set Source files
