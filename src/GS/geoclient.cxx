@@ -83,7 +83,7 @@ void processIn(std::string in) {
 		return;
 	}
     if(cmd == "sendshutdown") {
-    	std::cout << list.size() << std::endl;
+
     	if (list.size() !=2 ) {
     		logInfo("useage: sendshutdown ip port");
     		return;

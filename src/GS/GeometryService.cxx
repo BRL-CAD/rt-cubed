@@ -72,7 +72,7 @@ GeometryService::_run() {
 	this->pm->start();
 
 	while (this->runCmd) {
-		GSThread::sleep(100);
+		GSThread::msleep(100);
 	}
 
 	this->pm->shutdown();
@@ -94,7 +94,7 @@ GeometryService::handleNetMsg(NetMsg* msg)
 	switch(type) {
 	case CMD_SHUTDOWN:
 		log->logINFO("GeometryService", "Remote Shutdown Initiated.");
-		this->shutdown();
+		this->terminate(false);
 		return true;
 	}
 	return false;

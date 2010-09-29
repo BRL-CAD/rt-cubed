@@ -36,6 +36,10 @@
 int main(int argc, char* argv[])
 {
     std::cout << std::endl << std::endl;
+
+    Logger::getInstance();
+	JobManager::getInstance()->startup();
+
     Logger* log = Logger::getInstance();
     log->logBANNER("geoserv", "GeometryService Config Loader");
 
