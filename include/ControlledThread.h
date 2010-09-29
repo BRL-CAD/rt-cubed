@@ -33,6 +33,7 @@ public:
 	virtual ~ControlledThread();
 
 	void start();
+	void run();
 
 	void shutdown();
 	void terminate();
@@ -44,7 +45,6 @@ protected:
 	virtual bool postStartupHook();
 
 	virtual bool preRunHook();
-	void run();
 	virtual void _run();
 	virtual void _runLoopPass();
 	virtual bool postRunHook();
