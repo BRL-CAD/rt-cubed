@@ -84,17 +84,55 @@ DataManager::handleGeometryReqMsg(GeometryReqMsg* msg)
 		log->logERROR("DataManager", "handleGeometryReqMsg(): NULL Portal!");
 		return;
 	}
+	if (data.length() == 0) {
+		TypeOnlyMsg* tom = new TypeOnlyMsg(BAD_REQUEST, msg);
+		origin->send(tom);
+		return;
+	}
 
 	if (reqType == REQ_BY_PATH){
+		//TODO remove hardcoded FileDataSource
+		if (this->datasources.length() > 0) {
+			IDataSource* ds = this->datasources.at(0);
+
+			DbObject* obj = ds->getByPath(data);
+
+			if (obj == NULL) {
+				TypeOnlyMsg* tom = new TypeOnlyMsg(COULD_NOT_FIND_GEOMETRY, msg);
+				origin->send(tom);
+				return;
+			}
+
+			QList<QString> items;
+			QByteArray* data = obj->getData();
+
+			GeometryChunkMsg* chunk = new GeometryChunkMsg(data->data(), data->length());
+			items.append(obj->getPath());
+
+			GeometryManifestMsg* manifest = new GeometryManifestMsg(items);
+			origin->send(manifest);
+
+			origin->send(chunk);
+			return;
+
+		} else {
+			TypeOnlyMsg* tom = new TypeOnlyMsg(OPERATION_NOT_AVAILABLE, msg);
+			origin->send(tom);
+			return;
+		}
+
 
 	} else if (reqType == REQ_BY_UUID) {
 		//Not implemented!!!
-
+		TypeOnlyMsg* tom = new TypeOnlyMsg(OPERATION_NOT_AVAILABLE, msg);
+		origin->send(tom);
+		return;
 	} else {
 		//Not implemented!!!
-
+		TypeOnlyMsg* tom = new TypeOnlyMsg(OPERATION_NOT_AVAILABLE, msg);
+		origin->send(tom);
+		return;
 	}
-
 }
 
 
