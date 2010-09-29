@@ -125,12 +125,6 @@ AccountManager::newAccount(QString uname, Portal* p, quint32 id)
     return a;
 }
 
-bool
-AccountManager::handleNetMsg(NetMsg* msg)
-{
-
-}
-
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

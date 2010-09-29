@@ -30,19 +30,17 @@
 #include "Account.h"
 #include "Session.h"
 #include "Portal.h"
-#include "INetMsgHandler.h"
 
 #include <QtCore/QString>
 #include <QtCore/QList>
 
-class AccountManager : public INetMsgHandler
+class AccountManager
 {
 
 public:
     virtual ~AccountManager();
     static AccountManager* getInstance();
     Account* login(QString uname, QString passwd, Portal* p);
-    bool handleNetMsg(NetMsg* msg);
 
 private:
     static AccountManager* pInstance;
