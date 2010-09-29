@@ -44,6 +44,8 @@ public:
 	~PortalManager();
 
 	Portal* connectToHost(QString host, quint16 port);
+	void disconnect(Portal* p);
+
 protected:
 	void _run();
 
