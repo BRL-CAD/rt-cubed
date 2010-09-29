@@ -106,6 +106,11 @@ bool ControlledThread::postShutdownHook() {
 	return true;
 }
 
+QString
+ControlledThread::getThreadName()
+{
+	return this->threadName;
+}
 // Local Variables:
 // tab-width: 8
 // mode: C++

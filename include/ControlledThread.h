@@ -24,7 +24,7 @@
 #ifndef __CONTROLLEDTHREAD_H__
 #define __CONTROLLEDTHREAD_H__
 
-#include <Qt>
+#include <QtCore/QString>
 #include "GSThread.h"
 
 class ControlledThread: public QThread {
@@ -34,6 +34,7 @@ public:
 
 	bool startup();
 	bool shutdown(bool block=true);
+	QString getThreadName();
 
 protected:
 	virtual bool preStartupHook();
