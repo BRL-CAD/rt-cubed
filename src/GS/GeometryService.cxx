@@ -51,6 +51,8 @@ GeometryService::registerMsgRoutes()
 	router->registerType(SESSIONINFO, SessionManager::getInstance());
 	router->registerType(DISCONNECTREQ, SessionManager::getInstance());
 
+	//TODO need to register the PortalManager so it can recv DISCONNECTREQ msg also.
+
 }
 
 bool
