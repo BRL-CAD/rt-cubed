@@ -24,6 +24,7 @@
  */
 
 #include "GeometryService.h"
+#include "FileDataSource.h"
 
 #include "libutility.h"
 #include "libevent.h"
@@ -75,9 +76,28 @@ int main(int argc, char* argv[])
     	return 1;
     }
 
+
     bool daemon = false;
 
     GeometryService* gs = new GeometryService(localNodename, port);
+
+
+    //DataManager elements.
+    QString useFileRepo = c->getConfigValue("UseFileRepo").toLower();
+     if (useFileRepo == "yes" || useFileRepo == "true"){
+    	QString fileRepoPath = c->getConfigValue("FileRepoPath").toLower();
+
+    	if (fileRepoPath.length() == 0) {
+         	log->logERROR("geoserv", "FileRepo was flagged for use, but no 'FilePathRepo' var was configured.");
+    		return 1;
+    	}
+
+     	log->logINFO("geoserv", "FileDataSouce being used.");
+        FileDataSource* fds = new FileDataSource(fileRepoPath);
+        gs->getDataManager()->addDataSource(fds);
+     }
+
+
 
     if (daemon){
     	gs->start(); //will exit
