@@ -129,11 +129,12 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 		return;
 	}
 
+	//Make new session
 	Session* s = this->newSession(a);
 
-	//Cache
-
-
+	//tell client about it.
+	SessionInfoMsg* info = s->generateSessionInfoMsg();
+	origin->send(info);
 
 }
 
