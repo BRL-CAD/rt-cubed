@@ -36,9 +36,10 @@ class GeometryService : public ControlledThread, public INetMsgHandler
 {
 
 public:
-	GeometryService(const QString localNodeName, const quint16 listenPort,QString fileRepoPath);
+	GeometryService(const QString localNodeName, const quint16 listenPort);
 	virtual ~GeometryService();
     bool handleNetMsg(NetMsg* msg);
+    DataManager* getDataManager();
 
 protected:
 	bool preRunHook();
@@ -49,7 +50,6 @@ private:
 	Logger* log;
 	QString localNodeName;
 	quint16 listenPort;
-	QString fileRepoPath;
 
 	PortalManager* pm;
 	DataManager* dm;
