@@ -32,7 +32,6 @@
 
 class IDataSource {
 public:
-
 	virtual bool lock(DbObject* obj, Account* a) = 0;
 	virtual bool hasLock(DbObject* obj, Account* a) = 0;
 	virtual bool unlock(DbObject* obj) = 0;
@@ -40,9 +39,6 @@ public:
 	virtual DbObject* getByPath(QString path) = 0;
 	virtual DbObject* getByID(QUuid id) = 0;
 	virtual bool putObject(DbObject* obj) = 0;
-
-
-
 };
 
 #endif /* __IDATASOURCE_H__ */
