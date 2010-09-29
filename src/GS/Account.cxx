@@ -27,7 +27,7 @@
 
 Account::Account(QString uname, Portal* portal) :
 	uname(uname), portal(portal) {
-	//TODO need time/date stamping for creation/last access.
+	this->stampLastAccess();
 }
 
 Account::~Account() {
