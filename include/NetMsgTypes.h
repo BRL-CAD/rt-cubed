@@ -65,7 +65,8 @@
 const char UNHANDLED_MSG_TYPE 	   = 0x01;
 const char OPERATION_NOT_AVAILABLE = 0x02;
 const char BAD_REQUEST			   = 0x03;
-const char ACCOUNT_VALIDATION_FAIL = 0x04;
+const char COULD_NOT_FIND_GEOMETRY = 0x04;
+const char ACCOUNT_VALIDATION_FAIL = 0x05;
 
 
 
