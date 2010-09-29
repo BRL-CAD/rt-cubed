@@ -30,8 +30,20 @@
 
 class FileDataSource: public IDataSource {
 public:
-	FileDataSource();
+	FileDataSource(QString repoPath);
 	virtual ~FileDataSource();
+
+	bool lock(DbObject* obj, Account* a);
+	bool hasLock(DbObject* obj, Account* a);
+	bool unlock(DbObject* obj);
+
+	DbObject* getByPath(QString path);
+	DbObject* getByID(QUuid id);
+	bool putObject(DbObject* obj);
+
+private:
+	QString repoPath;
+
 };
 
 #endif /* __FILEDATASOURCE_H__ */

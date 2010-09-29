@@ -23,14 +23,41 @@
  *
  */
 
-
 #include "FileDataSource.h"
 
-FileDataSource::FileDataSource() {
+FileDataSource::FileDataSource(QString repoPath):repoPath(repoPath)
+{
 }
 
 FileDataSource::~FileDataSource() {
 }
+
+bool
+FileDataSource::lock(DbObject* obj, Account* a)
+{
+}
+bool
+FileDataSource::hasLock(DbObject* obj, Account* a)
+{
+}
+bool
+FileDataSource::unlock(DbObject* obj)
+{
+}
+
+DbObject*
+FileDataSource::getByPath(QString path)
+{
+}
+DbObject*
+FileDataSource::getByID(QUuid id)
+{
+}
+bool
+FileDataSource::putObject(DbObject* obj)
+{
+}
+
 
 // Local Variables:
 // tab-width: 8
