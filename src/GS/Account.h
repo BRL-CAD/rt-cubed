@@ -28,6 +28,7 @@
 
 #include "Portal.h"
 #include <QtCore/QString>
+#include <ctime>
 
 class Account
 {
@@ -36,10 +37,14 @@ public:
   Account(QString uname, Portal* portal);
   virtual ~Account();
   QString getUname();
+  time_t getInactivityTime();
   
 private:
   QString uname;
   Portal* portal;
+
+  time_t lastAccess;
+  void stampLastAccess();
 };
 
 #endif /* __ACCOUNT_H__ */

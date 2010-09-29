@@ -27,6 +27,7 @@
 
 Account::Account(QString uname, Portal* portal) :
 	uname(uname), portal(portal) {
+	//TODO need time/date stamping for creation/last access.
 }
 
 Account::~Account() {
@@ -35,6 +36,19 @@ Account::~Account() {
 QString Account::getUname() {
 	return this->uname;
 }
+
+void
+Account::stampLastAccess()
+{
+	this->lastAccess = time (NULL);
+}
+
+time_t
+Account::getInactivityTime()
+{
+	return this->lastAccess;
+}
+
 
 // Local Variables: ***
 // mode: C++ ***
