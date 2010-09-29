@@ -26,6 +26,7 @@
 #include "NetMsgRouter.h"
 #include <QtCore/QMutexLocker>
 #include "Portal.h"
+#include "TypeOnlyMsg.h"
 
 NetMsgRouter* NetMsgRouter::pInstance = NULL;
 
@@ -73,7 +74,7 @@ bool NetMsgRouter::routeMsg(NetMsg* msg) {
 		//If no routing table, send back an error
 		TypeOnlyMsg* tom = new TypeOnlyMsg(UNHANDLED_MSG_TYPE);
 		origin->send(tom);
-		return;
+		return false;
 
 	} else {
 		for (int i = 0; i < list->length(); ++i) {
@@ -82,6 +83,7 @@ bool NetMsgRouter::routeMsg(NetMsg* msg) {
 	}
 	//Now delete msg
 	delete msg;
+	return true;
 }
 
 QList<INetMsgHandler*>*
