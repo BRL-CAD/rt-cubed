@@ -54,22 +54,13 @@ SessionManager* SessionManager::getInstance()
 Session*
 SessionManager::newSession(Account* a)
 {
-	Session* s = NULL;
-
-	//check to see if its already cached.
-    s = this->getSession(a);
+	Session* s = this->getSession(a);
 
     if (s != 0) {
     	s->stampLastAccess();
     } else {
-    	//New
 		s = new Session(a);
-
-		//cache
-		this->listLock.lock();
-		this->sessionList.append(s);
-		this->listLock.unlock();
-
+		this->putCache(s);
     }
     return s;
 }
@@ -106,6 +97,28 @@ SessionManager::getSession(Portal* p) {
 			return s;
 	}
 	return NULL;
+}
+
+void
+SessionManager::putCache(Session* s)
+{
+	QMutexLocker locker(&this->listLock);
+	if (this->sessionList.contains(s)) {
+		log->logWARNING("SessionManager", "Attempted to cache an already cached Session.");
+	} else {
+		this->sessionList.append(s);
+	}
+}
+
+void
+SessionManager::remCache(Session* s)
+{
+	QMutexLocker locker(&this->listLock);
+	if (this->sessionList.contains(s)) {
+		this->sessionList.removeAll(s);
+	} else {
+		log->logWARNING("SessionManager", "Attempted to remove a Session that wasn't cached.");
+	}
 }
 
 bool

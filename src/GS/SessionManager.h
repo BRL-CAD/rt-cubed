@@ -56,6 +56,9 @@ private:
     QList<Session*> sessionList;
 
     Session* newSession(Account* a);
+    void putCache(Session* s);
+    void remCache(Session* s);
+
     void handleNewSessionReqMsg(NewSessionReqMsg* msg);
     void handleDisconnectReqMsg(TypeOnlyMsg* msg);
 };
