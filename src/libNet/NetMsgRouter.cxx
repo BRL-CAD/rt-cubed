@@ -69,10 +69,17 @@ bool NetMsgRouter::routeMsg(NetMsg* msg) {
 	s.append(QString::number(msg->getMsgType()));
 	Logger::getInstance()->logINFO("NetMsgRouter", s);
 
-	for (int i = 0; i < list->length(); ++i) {
-		list->at(i)->handleNetMsg(msg);
-	}
+	if (list->length() == 0) {
+		//If no routing table, send back an error
+		TypeOnlyMsg* tom = new TypeOnlyMsg(UNHANDLED_MSG_TYPE);
+		origin->send(tom);
+		return;
 
+	} else {
+		for (int i = 0; i < list->length(); ++i) {
+			list->at(i)->handleNetMsg(msg);
+		}
+	}
 	//Now delete msg
 	delete msg;
 }

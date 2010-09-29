@@ -62,8 +62,9 @@
 #define CMD_SHUTDOWN				0x9000
 
 /*  Failure Codes */
-const char OPERATION_NOT_AVAILABLE = 0x01;
-const char ACCOUNT_VALIDATION_FAIL = 0x02;
+const char UNHANDLED_MSG_TYPE = 0x01;
+const char OPERATION_NOT_AVAILABLE = 0x02;
+const char ACCOUNT_VALIDATION_FAIL = 0x03;
 
 
 
