@@ -90,6 +90,12 @@ quint8 GeometryReqMsg::getRequestType()
     return this->reqType;
 }
 
+QString
+GeometryReqMsg::getData()
+{
+    return this->strData;
+}
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***
