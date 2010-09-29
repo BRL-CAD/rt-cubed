@@ -164,10 +164,10 @@ int main(int argc, char* argv[]) {
 	testMsg(&msg102, "GeometryManifestMsg-Reply");
 
 	/* Test Normal */
-	GeometryReqMsg msg111(ReqByFilePath, "/path/to/a/geometry/resource");
+	GeometryReqMsg msg111(REQ_BY_PATH, "/path/to/a/geometry/resource");
 	testMsg(&msg111, "GeometryReqMsg-Normal");
 	/* Test Reply */
-	GeometryReqMsg msg112(&msg111, ReqByFilePath,
+	GeometryReqMsg msg112(&msg111, REQ_BY_PATH,
 			"/path/to/a/geometry/resource");
 	testMsg(&msg112, "GeometryReqMsg-Reply");
 
