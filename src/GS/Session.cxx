@@ -29,6 +29,7 @@ Session::Session(Account* a)
 {
     this->sessionID = QUuid::createUuid();
     this->a = a;
+	this->stampLastAccess();
 }
 
 Session::~Session()
