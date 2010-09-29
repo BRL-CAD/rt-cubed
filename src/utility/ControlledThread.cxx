@@ -70,6 +70,7 @@ void ControlledThread::run() {
 		return;
 
 	this->runStatus = true;
+	this->runCmd = true;
 	this->_run();
 	this->runStatus = false;
 
