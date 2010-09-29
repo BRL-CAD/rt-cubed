@@ -96,6 +96,7 @@ RT3_PROJECT_ADD_LIBS(
     ${QT_LIBRARIES}
     utility
     gs
+    net
 )
 
 #set Source files
