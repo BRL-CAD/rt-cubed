@@ -27,6 +27,7 @@
 #define __GEOMETRYSERVICE_H__
 
 #include "libutility.h"
+#include "libnet.h"
 
 #include <QtCore/QString>
 
@@ -46,7 +47,7 @@ private:
 	Logger* log;
 	QString localNodeName;
 	quint16 listenPort;
-
+	PortalManager* pm;
 	void registerMsgRoutes();
 
 };
