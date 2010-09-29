@@ -56,13 +56,15 @@ bool ControlledThread::shutdown(bool block) {
 }
 
 void ControlledThread::run() {
-	this->preRunHook();
+	if(!this->preRunHook())
+		return;
+
 	this->runStatus = true;
-
 	this->_run();
-
-	this->postRunHook();
 	this->runStatus = false;
+
+	if(!this->postRunHook())
+		return;
 }
 
 void ControlledThread::_run() {
