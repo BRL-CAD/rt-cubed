@@ -33,6 +33,7 @@ AccountManager* AccountManager::pInstance = NULL;
 AccountManager::AccountManager()
 {
 	this->accounts = new QList<Account*>();
+	this->log = Logger::getInstance();
 }
 
 AccountManager::~AccountManager()

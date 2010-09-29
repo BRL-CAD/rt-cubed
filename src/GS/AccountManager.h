@@ -26,6 +26,7 @@
 #ifndef __ACCOUNTMANAGER_H__
 #define __ACCOUNTMANAGER_H__
 
+#include "Logger.h"
 #include "Session.h"
 #include "INetMsgHandler.h"
 
@@ -45,6 +46,7 @@ private:
     static AccountManager* pInstance;
     AccountManager();
 
+    Logger* log;
     QMutex accountListLock;
     QList<Account*>* accounts;
 
