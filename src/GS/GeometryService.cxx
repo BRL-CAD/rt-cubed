@@ -71,8 +71,9 @@ GeometryService::_run() {
 	this->log->logINFO("GeometryService", "Starting PortalManager");
 	this->pm->start();
 
-	GSThread::sleep(2);
-
+	while (this->runCmd) {
+		GSThread::sleep(100);
+	}
 }
 
 bool
