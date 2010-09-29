@@ -46,7 +46,9 @@ Account::stampLastAccess()
 time_t
 Account::getInactivityTime()
 {
-	return this->lastAccess;
+	time_t now = time(NULL);
+
+	return now - this->lastAccess;
 }
 
 

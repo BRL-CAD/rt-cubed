@@ -38,13 +38,13 @@ public:
   virtual ~Account();
   QString getUname();
   time_t getInactivityTime();
+  void stampLastAccess();
   
 private:
   QString uname;
   Portal* portal;
 
   time_t lastAccess;
-  void stampLastAccess();
 };
 
 #endif /* __ACCOUNT_H__ */
