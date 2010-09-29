@@ -31,8 +31,8 @@
 #define MAX_JOBWORKERS 5
 
 #include "libutility.h"
-#include <QThread>
-#include <QUuid>
+#include <QtCore/QThread>
+#include <QtCore/QUuid>
 #include <string>
 
 enum JobWorkerStatus {

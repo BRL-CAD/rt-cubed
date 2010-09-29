@@ -30,7 +30,7 @@
 #include "libutility.h"
 #include "commonDefines.h"
 
-#include <QMutex>
+#include <QtCore/QMutex>
 
 class EventSubscriber;
 class EventSubscription;

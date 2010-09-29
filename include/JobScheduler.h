@@ -27,7 +27,7 @@
 #ifndef __JOBSCHEDULER_H__
 #define __JOBSCHEDULER_H__
 
-#include <QMutex>
+#include <QtCore/QMutex>
 
 class JobScheduler
 {

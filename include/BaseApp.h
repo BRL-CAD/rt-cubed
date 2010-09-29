@@ -26,7 +26,7 @@
 #ifndef __BASEAPP_H__
 #define __BASEAPP_H__
 
-#include <QThread>
+#include <QtCore/QThread>
 #include "libutility.h"
 
 class BaseApp: public QThread

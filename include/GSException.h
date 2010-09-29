@@ -26,7 +26,7 @@
 #define __GSEXCEPTION_H__
 
 #include <exception>
-#include <QString>
+#include <QtCore/QString>
 
 class GSException: public std::exception
 {

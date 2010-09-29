@@ -28,7 +28,7 @@
 #include "DeliverEventJob.h"
 #include "SubmitEventJob.h"
 
-#include <QMutexLocker>
+#include <QtCore/QMutexLocker>
 
 EventManager* EventManager::pInstance = NULL;
 

@@ -26,7 +26,7 @@
 #ifndef __EVENTPUBLISHER_H__
 #define __EVENTPUBLISHER_H__
 
-#include <QString>
+#include <QtCore/QString>
 
 class EventPublisher
 {

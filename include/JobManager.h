@@ -28,8 +28,8 @@
 
 #include "AbstractJob.h"
 #include "libutility.h"
-#include <QList>
-#include <QMutex>
+#include <QtCore/QList>
+#include <QtCore/QMutex>
 
 //Forward Decl
 class JobWorker;

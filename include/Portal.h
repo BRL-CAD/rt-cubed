@@ -34,6 +34,7 @@
 #include "brlcad/pkg.h"
 
 #include <QtCore/QString>
+
 class PortalManager;
 
 class Portal : public INetMsgHandler
