@@ -47,8 +47,12 @@ private:
     SessionManager();
 
     Logger* log;
+
     QMutex sesIDMapLock;
-    QMap<quint32, Session*>* sessionIdMap;
+    QMap<QUuid, Session*>* sessionIdMap;
+
+    QMutex accountIDMapLock;
+    QMap<quint32, Session*>* accountIdMap;
 
     void handleNewSessionReqMsg(NewSessionReqMsg* msg);
 };
