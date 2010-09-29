@@ -48,10 +48,8 @@ private:
 
     Logger* log;
 
-    QMutex sesIDMapLock;
+    QMutex mapsLock;
     QMap<QUuid, Session*>* sessionIdMap;
-
-    QMutex accountIDMapLock;
     QMap<quint32, Session*>* accountIdMap;
 
     void handleNewSessionReqMsg(NewSessionReqMsg* msg);

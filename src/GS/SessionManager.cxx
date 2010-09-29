@@ -35,7 +35,8 @@ SessionManager* SessionManager::pInstance = NULL;
 
 SessionManager::SessionManager()
 {
-    this->sessionIdMap = new QMap<quint32, Session*> ();
+    this->sessionIdMap = new QMap<QUuid, Session*> ();
+    this->accountIdMap = new QMap<quint32, Session*> ();
     this->log = Logger::getInstance();
 }
 
@@ -55,10 +56,26 @@ SessionManager* SessionManager::getInstance()
 Session*
 SessionManager::newSession(Account* a)
 {
-    Session* s = new Session(a);
+	Session* s = NULL;
 
+	//check to see if its already cached.
+	this->mapsLock.lock();
+    s = this->accountIdMap->value(a->getID());
+    this->mapsLock.unlock();
 
+    if (s != 0) {
+    	s->stampLastAccess();
+    } else {
+    	//New
+		s = new Session(a);
 
+		//cache
+		this->mapsLock.lock();
+		this->sessionIdMap->insert(s->getSessionID(),s);
+		this->accountIdMap->insert(s->getAccount()->getID(),s);
+		this->mapsLock.unlock();
+
+    }
     return s;
 }
 
@@ -68,6 +85,7 @@ SessionManager::handleNetMsg(NetMsg* msg)
 	quint16 type = msg->getMsgType();
 	switch(type) {
 	case NEWSESSIONREQ:
+		this->handleNewSessionReqMsg((NewSessionReqMsg*)msg);
 		break;
 	case SESSIONINFO:
 		//Dunno why someone would be sending the GS this message!
@@ -87,23 +105,33 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 	QString uname = msg->getUName();
 	QString passwd = msg->getPasswd();
 
+	//validate incoming data
 	if (origin == 0) {
-		//How to handle??
-
+		//TODO Figure out how to how to handle NULL Portal
+		log->logERROR("SessionManager", "NULL Portal!");
 		return;
 	}
 
+	if (uname.length() <=0 || passwd.length() <= 0) {
+		log->logINFO("SessionManager", "Auth FAILED.  Zero len uname or passwd.");
+		GenericOneByteMsg* fail = new GenericOneByteMsg(FAILURE, ACCOUNT_VALIDATION_FAIL);
+		origin->send(fail);
+		return;
+	}
 
+	//try to validate creds
 	Account* a = AccountManager::getInstance()->login(msg->getUName(), msg->getPasswd(), msg->getOrigin());
 
 	if (a == 0) {
 		//Account validation failed
 		GenericOneByteMsg* fail = new GenericOneByteMsg(FAILURE, ACCOUNT_VALIDATION_FAIL);
-
-
+		origin->send(fail);
+		return;
 	}
 
 	Session* s = this->newSession(a);
+
+	//Cache
 
 
 
