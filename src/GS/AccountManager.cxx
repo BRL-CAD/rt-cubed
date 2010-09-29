@@ -85,8 +85,11 @@ Account* AccountManager::login(QString uname, QString passwd, Portal* p)
 	quint32 id = this->validateLoginCreds(uname, passwd);
 
 	if (id <= 0) {
+		log->logINFO("AccountManager", "Authentication FAILED. User: '" + uname + "'");
 		return NULL;
 	}
+
+	log->logINFO("AccountManager", "Authenticated user: '" + uname + "'");
 
 	Account* acc = new Account(uname,p);
 
