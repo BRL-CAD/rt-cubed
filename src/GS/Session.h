@@ -31,6 +31,7 @@
 #include <iostream>
 #include <ios>
 #include <fstream>
+#include <ctime>
 
 #include <QtCore/QUuid>
 
@@ -41,13 +42,17 @@ public:
     virtual ~Session();
 
     QUuid getSessionID();
-    Account*  getAccount();
+    Account* getAccount();
+
+    time_t getInactivityTime();
+    void stampLastAccess();
 
 private:
     Session(Account* a);
 
     QUuid sessionID;
     Account* a;
+    time_t lastAccess;
 };
 
 #endif

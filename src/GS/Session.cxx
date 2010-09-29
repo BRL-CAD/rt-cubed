@@ -46,6 +46,20 @@ Account*  Session::getAccount()
     return this->a;
 }
 
+
+void
+Session::stampLastAccess()
+{
+	this->lastAccess = time (NULL);
+}
+
+time_t
+Session::getInactivityTime()
+{
+	time_t now = time(NULL);
+
+	return now - this->lastAccess;
+}
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***
