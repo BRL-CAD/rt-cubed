@@ -29,6 +29,9 @@
 #include "libutility.h"
 #include "ControlledThread.h"
 #include "PkgTcpServer.h"
+#include "INetMsgHandler.h"
+#include "TypeOnlyMsg.h"
+
 #include <sys/select.h>
 
 #include <QtCore/QList>
@@ -37,7 +40,7 @@
 
 class Portal;
 
-class PortalManager : public ControlledThread
+class PortalManager : public ControlledThread, public INetMsgHandler
 {
 public:
 	PortalManager(quint16 port = 0);
@@ -45,6 +48,7 @@ public:
 
 	Portal* connectToHost(QString host, quint16 port);
 	void disconnect(Portal* p);
+    bool handleNetMsg(NetMsg* msg);
 
 protected:
 	void _run();
@@ -64,7 +68,7 @@ private:
 	Portal* makeNewPortal(PkgTcpClient* client, struct pkg_switch* table);
 	struct pkg_switch* makeNewSwitchTable();
 	void closeFD(int fd, QString logComment);
-
+    void handleDisconnectReqMsg(TypeOnlyMsg* msg);
 };
 
 #endif

@@ -27,6 +27,7 @@
 #include "PortalManager.h"
 #include "NetMsgFactory.h"
 #include "PkgTcpClient.h"
+#include "NetMsgTypes.h"
 
 #include <stdio.h>
 #include <errno.h>
@@ -323,6 +324,33 @@ PortalManager::disconnect(Portal* p)
 	this->closeFD(fd, "Disconnect requested.");
 }
 
+
+bool
+PortalManager::handleNetMsg(NetMsg* msg)
+{
+	quint16 type = msg->getMsgType();
+	switch(type) {
+	case DISCONNECTREQ:
+		this->handleDisconnectReqMsg((TypeOnlyMsg*)msg);
+		return true;
+	}
+	return false;
+}
+
+void
+PortalManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
+{
+	Portal* origin = msg->getOrigin();
+
+	//validate incoming data
+	if (origin == 0) {
+		//TODO Figure out how to how to handle NULL Portal
+		log->logERROR("PortalManager", "handleDisconnectReqMsg(): NULL Portal!");
+		return;
+	}
+
+	this->disconnect(origin);
+}
 // Local Variables:
 // tab-width: 8
 // mode: C++
