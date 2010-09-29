@@ -24,6 +24,7 @@
  */
 
 #include "Portal.h"
+#include "PortalManager.h"
 #include "Logger.h"
 #include "brlcad/bu.h"
 #include "NetMsgFactory.h"
@@ -32,15 +33,13 @@
 #include "RemoteNodenameSetMsg.h"
 #include "TypeOnlyMsg.h"
 
-Portal::Portal(PkgTcpClient* client, struct pkg_switch* table) {
+Portal::Portal(PortalManager* pm, PkgTcpClient* client, struct pkg_switch* table):
+pm(pm), pkgClient(client), callbackTable(table), log(Logger::getInstance()), handshakeComplete(false)
+{
 	this->remoteNodeName = "NotSetYet-" + QUuid::createUuid().toString();
-	this->pkgClient = client;
-	this->callbackTable = table;
+
 	//set the struct's userdata
 	this->callbackTable[0].pks_user_data = this;
-
-	this->log = Logger::getInstance();
-	this->handshakeComplete = false;
 }
 
 Portal::~Portal() {
@@ -216,8 +215,9 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 void
 Portal::disconnect()
 {
-	close(this->pkgClient->getFileDescriptor());
+	this->pm->disconnect(this);
 }
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

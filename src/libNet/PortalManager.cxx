@@ -28,6 +28,9 @@
 #include "NetMsgFactory.h"
 #include "PkgTcpClient.h"
 
+#include <stdio.h>
+#include <errno.h>
+
 PortalManager::PortalManager(quint16 port) :
 	ControlledThread("PortalManager") {
 	this->port = port;
@@ -129,7 +132,8 @@ PortalManager::_run() {
 			 bu_log("Selector Error: ENOMEM: unable to allocate memory for internal tables.\n");
 			 }*/
 
-			this->log->logERROR("PortalManager", "Selector Error.");
+///			this->log->logERROR("PortalManager", "Selector Error.");
+			bu_log("Selector error: %d\n", errno);
 
 			break;
 		}
@@ -247,7 +251,7 @@ PortalManager::_run() {
 
 Portal*
 PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
-	Portal* p = new Portal(client, table);
+	Portal* p = new Portal(this, client, table);
 
 	if (p == 0) {
 		return 0;
@@ -293,7 +297,8 @@ PortalManager::makeNewSwitchTable() {
 	return table;
 }
 
-void PortalManager::closeFD(int fd, QString logComment) {
+void
+PortalManager::closeFD(int fd, QString logComment) {
 	close(fd);
 
 	this->masterFDSLock.lock();
@@ -309,6 +314,13 @@ void PortalManager::closeFD(int fd, QString logComment) {
 	if (logComment.length() >0) {
 		this->log->logERROR("PortalManager", logComment);
 	}
+}
+
+void
+PortalManager::disconnect(Portal* p)
+{
+	int fd = p->pkgClient->getFileDescriptor();
+	this->closeFD(fd, "Disconnect requested.");
 }
 
 // Local Variables:

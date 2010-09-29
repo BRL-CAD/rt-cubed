@@ -34,6 +34,7 @@
 #include "brlcad/pkg.h"
 
 #include <QtCore/QString>
+class PortalManager;
 
 class Portal : public INetMsgHandler
 {
@@ -49,7 +50,7 @@ public:
   bool handleNetMsg(NetMsg* msg);
 
 protected:
-  Portal(PkgTcpClient* client, struct pkg_switch* table);
+  Portal(PortalManager* pm, PkgTcpClient* client, struct pkg_switch* table);
 
    /*
       * Returns:
@@ -61,6 +62,7 @@ protected:
 
 
 private:
+  PortalManager* pm;
   struct pkg_switch* callbackTable;
   PkgTcpClient* pkgClient;
   QString remoteNodeName;
