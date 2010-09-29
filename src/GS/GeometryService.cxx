@@ -25,7 +25,6 @@
 
 #include "GeometryService.h"
 #include "SessionManager.h"
-#include "libnet.h"
 
 GeometryService::GeometryService(const QString localNodeName, quint16 listenPort) :
 localNodeName(localNodeName), listenPort(listenPort)
@@ -33,13 +32,15 @@ localNodeName(localNodeName), listenPort(listenPort)
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", localNodeName + " is starting up...");
 
+    this->pm = new PortalManager(listenPort);
+
     this->registerMsgRoutes();
 
 }
 
 GeometryService::~GeometryService()
 {
-
+	delete pm;
 }
 
 void
@@ -51,7 +52,7 @@ GeometryService::registerMsgRoutes()
 	router->registerType(SESSIONINFO, SessionManager::getInstance());
 	router->registerType(DISCONNECTREQ, SessionManager::getInstance());
 
-	//TODO need to register the PortalManager so it can recv DISCONNECTREQ msg also.
+	router->registerType(DISCONNECTREQ, this->pm);
 
 }
 
@@ -65,6 +66,8 @@ GeometryService::preRunHook() {
 
 void
 GeometryService::_run() {
+	this->log->logINFO("GeometryService", "Starting PortalManager");
+	this->pm->start();
 
 	GSThread::sleep(2);
 
