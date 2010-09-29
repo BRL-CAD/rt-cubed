@@ -66,6 +66,7 @@ RT3_PROJECT_ADD_SOURCES (
 	netMsg/GeometryReqMsg.cxx
 	netMsg/GeometryManifestMsg.cxx
 	netMsg/GeometryChunkMsg.cxx
+	RouteMsgJob.cxx
 )
 
 #Set INST Headers
@@ -92,6 +93,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	GeometryReqMsg.h
 	GeometryManifestMsg.h
 	GeometryChunkMsg.h
+	RouteMsgJob.h
 )
 
 #Set NOINST headers
