@@ -27,18 +27,15 @@
 
 #include <iostream>
 
-
 RtApplication::RtApplication(int argc, char *argv[]) : Utility::Application(argc, argv)
 {
   std::cout << "starting the rtapplication" << std::endl;
 }
 
-
 RtApplication::~RtApplication() 
 {
   std::cout << "destroying the rtapplication" << std::endl;
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

@@ -68,8 +68,7 @@ NetMsg::NetMsg(QDataStream* ds, Portal* origin)
 
 /* Destructor */
 NetMsg::~NetMsg()
-{
-}
+{}
 
 //Serializers
 QByteArray*

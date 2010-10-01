@@ -37,12 +37,10 @@ JobWorker::JobWorker()
 }
 
 JobWorker::~JobWorker()
-{
-}
+{}
 
 void JobWorker::run()
 {
-
     //this->log->logINFO("JobWorker", "Starting JobWorker. ID: " + this->getWorkerIdAsQString());
 
     JobManager* jm = JobManager::getInstance();

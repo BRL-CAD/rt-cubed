@@ -27,16 +27,15 @@
 #include "PkgTcpServer.h"
 
 PkgTcpServer::PkgTcpServer() :
-	PkgServer(PKGCPP_PROTO_TCP) {
-}
+	PkgServer(PKGCPP_PROTO_TCP) {}
 
-PkgTcpServer::~PkgTcpServer() {
-}
+PkgTcpServer::~PkgTcpServer() {}
 
 PkgClient*
 PkgTcpServer::getNewClient(pkg_conn* conn) {
 	return new PkgTcpClient(conn);
 }
+
 // Local Variables:
 // tab-width: 8
 // mode: C++

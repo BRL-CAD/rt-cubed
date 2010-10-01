@@ -20,8 +20,10 @@
 
 #include "JobManager.h"
 #include "JobWorker.h"
-#include <QtCore/QMutexLocker>
+
 #include <iostream>
+
+#include <QtCore/QMutexLocker>
 
 //Declares for statics.
 JobManager* JobManager::pInstance = NULL;

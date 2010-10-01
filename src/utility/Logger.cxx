@@ -34,8 +34,7 @@ Logger* Logger::instance;
 QMutex* Logger::lock = new QMutex();
 
 Logger::Logger() :
-	verbose(false), printToFile(false), printToConsole(true) {
-}
+	verbose(false), printToFile(false), printToConsole(true) {}
 
 Logger* Logger::getInstance() {
 	QMutexLocker locker(Logger::lock);

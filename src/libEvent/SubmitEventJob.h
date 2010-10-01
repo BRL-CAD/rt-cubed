@@ -29,7 +29,7 @@
 #include "libjob.h"
 #include "Event.h"
 
-class SubmitEventJob: public AbstractJob
+class SubmitEventJob : public AbstractJob
 {
 public:
     SubmitEventJob(Event* e);

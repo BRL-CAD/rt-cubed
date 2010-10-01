@@ -30,14 +30,12 @@
 /* Normal Constructor */
 SessionInfoMsg::SessionInfoMsg(QUuid sessionID) :
     NetMsg(SESSIONINFO), sessionID(sessionID)
-{
-}
+{}
 
 /* Reply Constructor */
 SessionInfoMsg::SessionInfoMsg(NetMsg* msg, QUuid sessionID) :
 	NetMsg(SESSIONINFO, msg), sessionID(sessionID)
-{
-}
+{}
 
 /* Deserializing Constructor */
 SessionInfoMsg::SessionInfoMsg(QDataStream* ds, Portal* origin) :
@@ -48,8 +46,7 @@ SessionInfoMsg::SessionInfoMsg(QDataStream* ds, Portal* origin) :
 
 /* Destructor */
 SessionInfoMsg::~SessionInfoMsg()
-{
-}
+{}
 
 bool SessionInfoMsg::_serialize(QDataStream* ds)
 {

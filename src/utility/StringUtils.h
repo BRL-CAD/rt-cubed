@@ -28,7 +28,6 @@
 #include <QtCore/QString>
 
 class StringUtils {
-
 public:
     static QString addWSRight(QString str, quint32 desiredLen) {
     	quint32 len = str.length();

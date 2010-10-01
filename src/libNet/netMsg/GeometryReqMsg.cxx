@@ -29,14 +29,12 @@
 /* Normal Constructor */
 GeometryReqMsg::GeometryReqMsg(quint8 requestType, QString data) :
     GenericOneStringMsg(GEOMETRYREQ, data), reqType(requestType)
-{
-}
+{}
 
 /* Reply Constructor */
 GeometryReqMsg::GeometryReqMsg(NetMsg* msg, quint8 requestType, QString data) :
 	GenericOneStringMsg(GEOMETRYREQ, msg, data), reqType(requestType)
-{
-}
+{}
 
 /* Deserializing Constructor */
 GeometryReqMsg::GeometryReqMsg(QDataStream* ds, Portal* origin) :
@@ -47,8 +45,7 @@ GeometryReqMsg::GeometryReqMsg(QDataStream* ds, Portal* origin) :
 
 /* Destructor */
 GeometryReqMsg::~GeometryReqMsg()
-{
-}
+{}
 
 bool GeometryReqMsg::_serialize(QDataStream* ds)
 {

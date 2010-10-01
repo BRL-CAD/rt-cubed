@@ -126,7 +126,6 @@ void Config::removeAllOccurances(QString* data, QString search, QString replace)
     while (data->contains(search)) {
 	*data = (*data).replace(search, replace);
     }
-
 }
 
 QString Config::getConfigValue(QString key)

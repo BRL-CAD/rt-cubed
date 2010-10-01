@@ -81,7 +81,6 @@ bool GeometryManifestMsg::_equals(const NetMsg& msg)
     GeometryManifestMsg& gmsg = (GeometryManifestMsg&) msg;
 
     for (quint32 i = 0; i < this->itemData->size(); ++i) {
-
 	if (this->itemData->at(i) != gmsg.itemData->at(i)) {
 	    return false;
 	}
@@ -106,7 +105,6 @@ QString GeometryManifestMsg::toString()
     out.append("\n");
 
     return out;
-
 }
 
 /*

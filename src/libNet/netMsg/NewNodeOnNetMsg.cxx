@@ -23,7 +23,6 @@
  *
  */
 
-
 #include "NetMsgTypes.h"
 #include "NewNodeOnNetMsg.h"
 #include <sstream>
@@ -31,25 +30,21 @@
 /* Normal Constructor */
 NewNodeOnNetMsg::NewNodeOnNetMsg(QString nodename) :
     GenericOneStringMsg(GS_REMOTE_NODENAME_SET, nodename)
-{
-}
+{}
 
 /* Reply Constructor */
 NewNodeOnNetMsg::NewNodeOnNetMsg(NetMsg* msg, QString nodename) :
     GenericOneStringMsg(GS_REMOTE_NODENAME_SET, msg, nodename)
-{
-}
+{}
 
 /* Deserializing Constructor */
 NewNodeOnNetMsg::NewNodeOnNetMsg(QDataStream* ds, Portal* origin) :
     GenericOneStringMsg(ds, origin)
-{
-}
+{}
 
 /* Destructor */
 NewNodeOnNetMsg::~NewNodeOnNetMsg()
-{
-}
+{}
 
 /*
  *Getters n Setters

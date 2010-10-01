@@ -30,25 +30,21 @@
 /* Normal Constructor */
 TypeOnlyMsg::TypeOnlyMsg(quint32 msgType) :
     NetMsg(msgType)
-{
-}
+{}
 
 /* Reply Constructor */
 TypeOnlyMsg::TypeOnlyMsg(quint32 msgType, NetMsg* msg) :
 	NetMsg(msgType, msg)
-{
-}
+{}
 
 /* Deserializing Constructor */
 TypeOnlyMsg::TypeOnlyMsg(QDataStream* ds, Portal* origin) :
      NetMsg(ds, origin)
-{
-}
+{}
 
 /* Destructor */
 TypeOnlyMsg::~TypeOnlyMsg()
-{
-}
+{}
 
 bool TypeOnlyMsg::_serialize(QDataStream* ds)
 {

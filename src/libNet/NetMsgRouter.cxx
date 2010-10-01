@@ -99,7 +99,6 @@ NetMsgRouter::getListOfHandlers(quint16 type) {
 	return l;
 }
 
-
 void
 NetMsgRouter::registerInternalTypes()
 {

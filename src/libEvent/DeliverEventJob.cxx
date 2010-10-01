@@ -27,12 +27,10 @@
 
 DeliverEventJob::DeliverEventJob(EventSubscriber* sub, Event* e) :
     _sub(sub), _e(e)
-{
-}
+{}
 
 DeliverEventJob::~DeliverEventJob()
-{
-}
+{}
 
 JobResult DeliverEventJob::_doJob()
 {

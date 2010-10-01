@@ -30,25 +30,21 @@
 /* Normal Constructor */
 GeometryChunkMsg::GeometryChunkMsg(char* dataIn, quint32 dataInLen) :
     GenericMultiByteMsg(GEOMETRYCHUNK, dataIn, dataInLen)
-{
-}
+{}
 
 /* Reply Constructor */
 GeometryChunkMsg::GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen) :
 	GenericMultiByteMsg(GEOMETRYCHUNK, msg, dataIn, dataInLen)
-{
-}
+{}
 
 //Deserializing Constructor
 GeometryChunkMsg::GeometryChunkMsg(QDataStream* ds, Portal* origin) :
     GenericMultiByteMsg(ds, origin)
-{
-}
+{}
 
 /* Destructor */
 GeometryChunkMsg::~GeometryChunkMsg()
-{
-}
+{}
 
 // Local Variables: ***
 // mode: C++ ***

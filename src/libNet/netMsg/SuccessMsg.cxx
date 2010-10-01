@@ -30,25 +30,21 @@
 /* Normal Constructor */
 SuccessMsg::SuccessMsg(quint8 successCode) :
     GenericOneByteMsg(SUCCESS, successCode)
-{
-}
+{}
 
 /* Reply Constructor */
 SuccessMsg::SuccessMsg(NetMsg* msg, quint8 successCode) :
 	GenericOneByteMsg(SUCCESS, msg, successCode)
-{
-}
+{}
 
 /* Deserializing Constructor */
 SuccessMsg::SuccessMsg(QDataStream* ds, Portal* origin) :
     GenericOneByteMsg(ds, origin)
-{
-}
+{}
 
 /* Destructor */
 SuccessMsg::~SuccessMsg()
-{
-}
+{}
 
 /*
  *Getters n Setters

@@ -30,25 +30,21 @@
 /* Normal Constructor */
 RemoteNodenameSetMsg::RemoteNodenameSetMsg(QString localNodename) :
     GenericOneStringMsg(GS_REMOTE_NODENAME_SET, localNodename)
-{
-}
+{}
 
 /* Reply Constructor */
 RemoteNodenameSetMsg::RemoteNodenameSetMsg(NetMsg* msg, QString localNodename) :
 	GenericOneStringMsg(GS_REMOTE_NODENAME_SET, msg, localNodename)
-{
-}
+{}
 
 /* Deserializing Constructor */
 RemoteNodenameSetMsg::RemoteNodenameSetMsg(QDataStream* ds, Portal* origin) :
     GenericOneStringMsg(ds, origin)
-{
-}
+{}
 
 /* Destructor */
 RemoteNodenameSetMsg::~RemoteNodenameSetMsg()
-{
-}
+{}
 
 /*
  *Getters n Setters

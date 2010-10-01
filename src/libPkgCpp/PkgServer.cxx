@@ -35,8 +35,7 @@ PkgServer::PkgServer(std::string proto) {
 	this->listenFD = -1;
 }
 
-PkgServer::~PkgServer() {
-}
+PkgServer::~PkgServer() {}
 
 int PkgServer::listen(unsigned short port) {
 	//Convert port -> char* to make libpkg happy.

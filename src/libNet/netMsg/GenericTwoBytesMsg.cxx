@@ -29,14 +29,12 @@
 /* Normal Constructor */
 GenericTwoBytesMsg::GenericTwoBytesMsg(quint32 type, quint16 b) :
     NetMsg(type), data(b)
-{
-}
+{}
 
 /* Reply Constructor */
 GenericTwoBytesMsg::GenericTwoBytesMsg(quint32 type, NetMsg* msg, quint16 b) :
      NetMsg(type, msg), data(b)
-{
-}
+{}
 
 /* Deserializing Constructor */
 GenericTwoBytesMsg::GenericTwoBytesMsg(QDataStream* ds, Portal* origin) :
@@ -47,8 +45,7 @@ GenericTwoBytesMsg::GenericTwoBytesMsg(QDataStream* ds, Portal* origin) :
 
 /* Destructor */
 GenericTwoBytesMsg::~GenericTwoBytesMsg()
-{
-}
+{}
 
 bool GenericTwoBytesMsg::_serialize(QDataStream* ds)
 {

@@ -68,7 +68,6 @@ using std::atexit;
  */
 template < typename T >
 class Singleton {
-
 private:
 
   static T* _instance;

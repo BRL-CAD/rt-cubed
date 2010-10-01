@@ -42,8 +42,7 @@ PortalManager::PortalManager(quint16 port) :
 	this->fdmax = 0;
 }
 
-PortalManager::~PortalManager() {
-}
+PortalManager::~PortalManager() {}
 
 Portal*
 PortalManager::connectToHost(QString host, quint16 port) {
@@ -249,7 +248,6 @@ PortalManager::_run() {
 	this->log->logINFO("PortalManager", "Shutdown");
 }//end fn
 
-
 Portal*
 PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
 	Portal* p = new Portal(this, client, table);
@@ -324,7 +322,6 @@ PortalManager::disconnect(Portal* p)
 	this->closeFD(fd, "Disconnect requested.");
 }
 
-
 bool
 PortalManager::handleNetMsg(NetMsg* msg)
 {
@@ -351,6 +348,7 @@ PortalManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 
 	this->disconnect(origin);
 }
+
 // Local Variables:
 // tab-width: 8
 // mode: C++

@@ -29,14 +29,12 @@
 /* Normal Constructor */
 GenericOneStringMsg::GenericOneStringMsg(quint32 type, QString s) :
     NetMsg(type), strData(s)
-{
-}
+{}
 
 /* Reply Constructor */
 GenericOneStringMsg::GenericOneStringMsg(quint32 type, NetMsg* msg, QString s) :
      NetMsg(type, msg), strData(s)
-{
-}
+{}
 
 /* Deserializing Constructor */
 GenericOneStringMsg::GenericOneStringMsg(QDataStream* ds, Portal* origin) :
@@ -47,8 +45,7 @@ GenericOneStringMsg::GenericOneStringMsg(QDataStream* ds, Portal* origin) :
 
 /* Destructor */
 GenericOneStringMsg::~GenericOneStringMsg()
-{
-}
+{}
 
 bool GenericOneStringMsg::_serialize(QDataStream* ds)
 {

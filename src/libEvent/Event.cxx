@@ -28,17 +28,14 @@
 
 Event::Event(EventPublisher* pub, quint32 eventType) :
     _pub(pub), _eventType(eventType), _message("")
-{
-}
+{}
 
 Event::Event(EventPublisher* pub, quint32 eventType, QString message) :
     _pub(pub), _eventType(eventType), _message(message)
-{
-}
+{}
 
 Event::~Event()
-{
-}
+{}
 
 EventPublisher* Event::getPublisher() const
 {

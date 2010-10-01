@@ -28,12 +28,10 @@
 EventSubscription::EventSubscription(EventSubscriber* sub, quint32 eventType,
 	EventPublisher* pub) :
     _sub(sub), _eventType(eventType), _pub(pub)
-{
-}
+{}
 
 EventSubscription::~EventSubscription()
-{
-}
+{}
 
 EventPublisher* EventSubscription::getPublisher()
 {

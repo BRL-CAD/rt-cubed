@@ -33,8 +33,7 @@ AbstractJob::AbstractJob()
 }
 
 AbstractJob::~AbstractJob()
-{
-}
+{}
 
 JobResult AbstractJob::doJob()
 {

@@ -28,11 +28,9 @@
 
 RouteMsgJob::RouteMsgJob(NetMsg* msg) :
 	msg(msg)
-{
-}
+{}
 
-RouteMsgJob::~RouteMsgJob() {
-}
+RouteMsgJob::~RouteMsgJob() {}
 
 JobResult RouteMsgJob::_doJob()
 {

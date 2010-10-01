@@ -66,7 +66,6 @@ int main()
 #else
 int main(int argc, char *argv[])
 {
-
   std::cout << "            triangle is: " << sizeof(Geometry::Triangle) << std::endl;
   std::cout << "     robust triangle is: " << sizeof(Geometry::RobustTriangle) << std::endl;
   std::cout << "traditional triangle is: " << sizeof(Geometry::TraditionalTriangle) << std::endl;
@@ -98,7 +97,6 @@ int main(int argc, char *argv[])
   primitives = factory->getScene()->getGeometry();
 
   std::cout << "Found " << primitives.size() << " primitives total" <<  std::endl;
-
 
   Image::Pixel p;
   Image::PixelImage pi;

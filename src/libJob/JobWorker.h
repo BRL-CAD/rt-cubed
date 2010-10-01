@@ -39,8 +39,7 @@ enum JobWorkerStatus {
 	WORKER_NOTREADY, WORKER_READY, WORKER_WORKING
 };
 
-class JobWorker: public QThread {
-
+class JobWorker : public QThread {
 public:
 	/**
 	 * Standard Constructor.  Instantiates a new JobWorker with a unique ID.

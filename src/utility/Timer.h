@@ -29,7 +29,6 @@
 #include <ctime>
 
 namespace Utility {
-
   /** Low-resolution (hundredth of a second) timer class
    */
   class Timer
@@ -55,9 +54,7 @@ namespace Utility {
 
     bool running();
   };
-
 }
-
 
 #endif
 

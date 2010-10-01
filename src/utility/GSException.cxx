@@ -32,8 +32,7 @@ GSException::GSException(QString reason)
 }
 
 GSException::~GSException() throw ()
-{
-}
+{}
 
 QString GSException::getReason()
 {

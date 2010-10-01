@@ -25,7 +25,6 @@
 
 #include "DataStreamUtils.h"
 
-
 QUuid* 
 Utils::getQUuid(QDataStream* ds)
 {
@@ -45,7 +44,6 @@ Utils::putQUuid(QDataStream* ds, QUuid uuid)
 {
   Utils::putString(ds, uuid.toString());
 }
-
 
 QString* Utils::getString(QDataStream* ds)
 {
@@ -93,7 +91,6 @@ void Utils::putString(QDataStream* ds, QString str)
       quint16 shrt = str.at(i).unicode();
       *ds << str.at(i).unicode();
     }
-
 }
 
 void Utils::printQByteArray(QByteArray* ba) 
@@ -115,7 +112,6 @@ void Utils::printQByteArray(QByteArray* ba)
     }
   std::cout << std::endl << std::endl;
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

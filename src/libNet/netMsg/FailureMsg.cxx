@@ -30,25 +30,21 @@
 /* Normal Constructor */
 FailureMsg::FailureMsg(quint8 failureCode):
   GenericOneByteMsg(FAILURE, failureCode)
-{
-}
+{}
 
 /* Reply Constructor */
 FailureMsg::FailureMsg(NetMsg* msg, quint8 failureCode) :
   GenericOneByteMsg(FAILURE, msg, failureCode)
-{
-}
+{}
 
 /* Deserializing Constructor */
 FailureMsg::FailureMsg(QDataStream* ds, Portal* origin):
   GenericOneByteMsg(ds, origin)
-{
-}
+{}
 
 /* Destructor */
 FailureMsg::~FailureMsg()
-{
-}
+{}
 /*
  *Getters n Setters
  */

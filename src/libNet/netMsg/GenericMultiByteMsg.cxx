@@ -64,7 +64,6 @@ GenericMultiByteMsg::GenericMultiByteMsg(QDataStream* ds, Portal* origin) :
 	*ds >> c;
 	this->data[i] = c;
     }
-
 }
 
 /* Destructor */

@@ -33,8 +33,7 @@ ControlledThread::ControlledThread(QString threadName) {
 	this->runStatus = false;
 }
 
-ControlledThread::~ControlledThread() {
-}
+ControlledThread::~ControlledThread() {}
 
 void ControlledThread::start() {
 	bool preRetVal = this->preStartupHook();
@@ -124,6 +123,7 @@ ControlledThread::getThreadName()
 {
 	return this->threadName;
 }
+
 // Local Variables:
 // tab-width: 8
 // mode: C++

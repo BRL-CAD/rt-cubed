@@ -30,7 +30,7 @@
 #include "EventSubscriber.h"
 #include "Event.h"
 
-class DeliverEventJob: public AbstractJob
+class DeliverEventJob : public AbstractJob
 {
 public:
     DeliverEventJob(EventSubscriber* sub, Event* e);
@@ -45,7 +45,6 @@ protected:
 private:
     EventSubscriber* _sub;
     Event* _e;
-
 };
 
 #endif /* __DELIVEREVENTJOB_H__ */

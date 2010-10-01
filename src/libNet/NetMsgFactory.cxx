@@ -50,17 +50,14 @@ NetMsgFactory::getInstance()
 }
 
 NetMsgFactory::NetMsgFactory()
-{
-}
+{}
 
 NetMsgFactory::~NetMsgFactory()
-{
-}
+{}
 
 NetMsg*
 NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
 {
-
   QDataStream temp(data);
   quint16 msgType = 0;
   temp >> msgType;
@@ -144,7 +141,6 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
   default:
     return NULL;
     }
-
 }
 
 // Local Variables: ***

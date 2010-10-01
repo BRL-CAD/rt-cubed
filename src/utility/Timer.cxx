@@ -23,7 +23,7 @@
  *
  */
 
-// interface header
+/* interface header */
 #include "Timer.h"
 
 #include <iostream>
@@ -40,16 +40,13 @@ double Timer::elapsedSinceStart()
   return ((double)clock() - (double)_start) / (double)CLOCKS_PER_SEC;
 }
 
-
 /* public */
 
 Timer::Timer() :
   _running(false),
   _started(false),
   _accumulated(0.0)
-{
-}
-
+{}
 
 Timer::Timer(const Timer& timer)
 {
@@ -59,11 +56,8 @@ Timer::Timer(const Timer& timer)
   _accumulated = timer._accumulated;
 }
 
-
 Timer::~Timer()
-{
-}
-
+{}
 
 void Timer::start()
 {
@@ -75,7 +69,6 @@ void Timer::start()
   _start = clock();
 }
 
-
 void Timer::stop()
 {
   if (!_running) {
@@ -86,13 +79,11 @@ void Timer::stop()
   _accumulated += elapsedSinceStart();
 }
 
-
 void Timer::reset()
 {
   _accumulated = 0.0;
   _start = clock();
 }
-
 
 double Timer::elapsed()
 {

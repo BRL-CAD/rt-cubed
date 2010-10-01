@@ -109,7 +109,6 @@ Portal::read() {
 		return retval;
 	}//TODO do we need to check for ==0 ?
 
-
 	retval = this->pkgClient->pullDataFromSocket();
 	if (retval < 0) {
 		this->log->logERROR("Portal",
@@ -178,7 +177,6 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 
 	QByteArray ba(buf, len);
 
-
 	if (conn->pkc_user_data == 0) {
 		bu_log("pkg callback returned a NULL user_data pointer!\n");
 
@@ -189,7 +187,6 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 	if (p == 0) {
 		bu_log("WARNING!  NULL Portal.\n");
 	}
-
 
 	/* Build a NetMsg */
 	NetMsg* msg = NetMsgFactory::getInstance()->deserializeNetMsg(ba, p);

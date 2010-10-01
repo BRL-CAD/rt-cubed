@@ -30,14 +30,12 @@
 /* Normal Constructor */
 NewSessionReqMsg::NewSessionReqMsg(QString uname, QString passwd) :
     NetMsg(NEWSESSIONREQ), uname(uname), passwd(passwd)
-{
-}
+{}
 
 /* Reply Constructor */
 NewSessionReqMsg::NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd) :
 	NetMsg(NEWSESSIONREQ, msg), uname(uname), passwd(passwd)
-{
-}
+{}
 
 /* Deserializing Constructor */
 NewSessionReqMsg::NewSessionReqMsg(QDataStream* ds, Portal* origin) :
@@ -49,8 +47,7 @@ NewSessionReqMsg::NewSessionReqMsg(QDataStream* ds, Portal* origin) :
 
 /* Destructor */
 NewSessionReqMsg::~NewSessionReqMsg()
-{
-}
+{}
 
 bool NewSessionReqMsg::_serialize(QDataStream* ds)
 {

@@ -55,7 +55,6 @@ GSThread::usleep(unsigned long usecs)
   QThread::usleep(usecs);
 }
 
-
 void
 GSThread::addThread(GSThread* thread)
 {

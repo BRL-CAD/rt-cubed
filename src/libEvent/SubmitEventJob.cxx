@@ -28,12 +28,10 @@
 
 SubmitEventJob::SubmitEventJob(Event* e) :
     e(e)
-{
-}
+{}
 
 SubmitEventJob::~SubmitEventJob()
-{
-}
+{}
 
 JobResult SubmitEventJob::_doJob()
 {

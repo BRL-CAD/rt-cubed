@@ -29,12 +29,10 @@
 JobScheduler* JobScheduler::pInstance = NULL;
 
 JobScheduler::JobScheduler()
-{
-}
+{}
 
 JobScheduler::~JobScheduler()
-{
-}
+{}
 
 JobScheduler* JobScheduler::getInstance()
 {
@@ -44,7 +42,6 @@ JobScheduler* JobScheduler::getInstance()
 	}
 	return JobScheduler::pInstance;
 }
-
 
 
 // Local Variables: ***

@@ -34,7 +34,6 @@ protected:
 public:
   RtApplication(int argc=0, char*argv[]=0);
   ~RtApplication();
-
 };
 
 #endif  /* __RTAPPLICATION_H__ */
