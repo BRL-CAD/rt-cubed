@@ -28,11 +28,9 @@
 
 #include "NetMsg.h"
 
-class NewSessionReqMsg: public NetMsg
+class NewSessionReqMsg : public NetMsg
 {
-
 public:
-
 	/* Normal Constructor */
 	NewSessionReqMsg(QString uname, QString passwd);
 
@@ -60,7 +58,8 @@ protected:
 	virtual bool _equals(const NetMsg& msg);
 };
 
-#endif //__NEWSESSIONREQMSG_H__
+#endif /* __NEWSESSIONREQMSG_H__ */
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

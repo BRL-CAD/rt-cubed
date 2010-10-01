@@ -28,11 +28,9 @@
 
 #include "NetMsg.h"
 
-class GenericOneStringMsg: public NetMsg
+class GenericOneStringMsg : public NetMsg
 {
-
 public:
-
 	/* Normal Constructor */
 	GenericOneStringMsg(quint32 type, QString s);
 
@@ -58,7 +56,7 @@ protected:
 	virtual bool _equals(const NetMsg& msg);
 };
 
-#endif
+#endif /* __GENERICONESTRINGMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

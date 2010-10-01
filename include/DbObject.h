@@ -24,14 +24,15 @@
  *      Author: dloman
  */
 
-#ifndef DBOBJECT_H_
-#define DBOBJECT_H_
+#ifndef __DBOBJECT_H__
+#define __DBOBJECT_H__
 
 #include <QtCore/QString>
 #include <QtCore/QUuid>
 #include <QtCore/QByteArray>
 
-class DbObject {
+class DbObject
+{
 public:
 	DbObject(QString path, QByteArray* data);
 	DbObject(QUuid id, QByteArray* data);
@@ -47,7 +48,7 @@ private:
 	QByteArray* data;
 };
 
-#endif /* DBOBJECT_H_ */
+#endif /* __DBOBJECT_H__ */
 
 /*
  * Local Variables:

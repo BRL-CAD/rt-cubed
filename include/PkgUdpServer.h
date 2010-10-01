@@ -40,7 +40,6 @@ public:
 private:
   PkgClient*
   getNewClient(pkg_conn* conn);
-
 };
 
 #endif /* __PKGUDPSERVER_H__ */

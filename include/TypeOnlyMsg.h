@@ -28,9 +28,8 @@
 
 #include "NetMsg.h"
 
-class TypeOnlyMsg: public NetMsg
+class TypeOnlyMsg : public NetMsg
 {
-
 public:
     /* Normal Constructor */
     TypeOnlyMsg(quint32 msgType);

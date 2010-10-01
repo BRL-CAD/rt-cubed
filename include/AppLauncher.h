@@ -32,9 +32,8 @@
 #include <QtCore/QString>
 #include <QtCore/QUuid>
 
-class AppLauncher: public QCoreApplication
+class AppLauncher : public QCoreApplication
 {
-
 public:
     AppLauncher(int& argc, char** argv, BaseApp* app);
     virtual ~AppLauncher();

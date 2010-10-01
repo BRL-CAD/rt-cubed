@@ -28,11 +28,9 @@
 
 #include "GenericOneStringMsg.h"
 
-class RemoteNodenameSetMsg: public GenericOneStringMsg
+class RemoteNodenameSetMsg : public GenericOneStringMsg
 {
-
 public:
-
 	/* Normal Constructor */
 	RemoteNodenameSetMsg(QString s);
 
@@ -46,10 +44,9 @@ public:
 	virtual ~RemoteNodenameSetMsg();
 
 	QString getRemoteNodename();
-
 };
 
-#endif //__REMOTENODENAMESETMSG_H__
+#endif /* __REMOTENODENAMESETMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

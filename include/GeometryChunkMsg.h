@@ -28,9 +28,8 @@
 
 #include "GenericMultiByteMsg.h"
 
-class GeometryChunkMsg: public GenericMultiByteMsg
+class GeometryChunkMsg : public GenericMultiByteMsg
 {
-
 public:
 	/* Normal Constructor */
 	GeometryChunkMsg(char* dataIn, quint32 dataInLen);
@@ -43,7 +42,6 @@ public:
 
 	/* Destructor */
 	virtual ~GeometryChunkMsg();
-
 };
 
 #endif /* __GEOMETRYCHUNKMSG_H__ */

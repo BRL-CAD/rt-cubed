@@ -23,7 +23,6 @@
  *
  */
 
-
 #ifndef __NETMSGROUTER_H__
 #define __NETMSGROUTER_H__
 
@@ -35,7 +34,8 @@
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 
-class NetMsgRouter {
+class NetMsgRouter
+{
 public:
 	static NetMsgRouter* getInstance();
 	virtual ~NetMsgRouter();
@@ -54,11 +54,8 @@ private:
 	 */
 	QList<INetMsgHandler*>* getListOfHandlers(quint16 type);
 
-
 	QMutex mapLock;
 	QMap<quint16,QList<INetMsgHandler*>*>* routingTable;
-
-
 };
 
 #endif /* __NETMSGROUTER_H__ */

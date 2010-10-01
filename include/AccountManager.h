@@ -36,7 +36,6 @@
 
 class AccountManager
 {
-
 public:
     virtual ~AccountManager();
     static AccountManager* getInstance();
@@ -54,7 +53,7 @@ private:
     Account* newAccount(QString uname, Portal* p, quint32 id);
 };
 
-#endif
+#endif /* __ACCOUNTMANAGER_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

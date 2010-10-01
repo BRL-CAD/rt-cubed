@@ -39,9 +39,7 @@ enum JobResult
 
 class AbstractJob
 {
-
 public:
-
 	AbstractJob();
 	virtual ~AbstractJob();
 
@@ -56,10 +54,9 @@ protected:
 
 	quint32 jobID;
 	JobStatus status;
-
 };
 
-#endif
+#endif /* __ABSTRACTJOB_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

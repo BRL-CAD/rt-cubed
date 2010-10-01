@@ -28,6 +28,7 @@
 
 #include "AbstractJob.h"
 #include "libutility.h"
+
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 
@@ -36,11 +37,10 @@ class JobWorker;
 
 class JobManager
 {
-
 public:
-/**
- * Provides controlled access to the singleton JobManager object.
- */
+	/**
+	 * Provides controlled access to the singleton JobManager object.
+	 */
 	static JobManager* getInstance();
 
 	virtual ~JobManager();
@@ -95,7 +95,7 @@ private:
 	bool acceptJobs;
 };
 
-#endif
+#endif /* __JOBMANAGER_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

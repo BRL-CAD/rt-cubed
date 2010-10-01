@@ -71,7 +71,7 @@ private:
     void handleDisconnectReqMsg(TypeOnlyMsg* msg);
 };
 
-#endif
+#endif /* __PORTALMANAGER_H__ */
 
 /*
  * Local Variables:

@@ -34,32 +34,32 @@
 #define	TEST_GENERIC_MULTIBYTE_MSG		0x0023
 #define	TEST_GENERIC_1STRING_MSG		0x0024
 
-#define	RUALIVE					0x0042
-#define	IMALIVE					0x0043
+#define	RUALIVE							0x0042
+#define	IMALIVE							0x0043
 
-#define	FAILURE			        	0x0050
-#define	SUCCESS          	        0x0051
+#define	FAILURE			        		0x0050
+#define	SUCCESS          	        	0x0051
 
 #define GS_REMOTE_NODENAME_SET	        0x0100
 
-#define	DISCONNECTREQ 		        0x0150
+#define	DISCONNECTREQ 		        	0x0150
 
-#define NEWNODEONNET                0x0200
+#define NEWNODEONNET                	0x0200
 
-#define FULLNODELISTREQ		        0x0250
-#define FULL_NODE_LIST		        0x0255
+#define FULLNODELISTREQ		        	0x0250
+#define FULL_NODE_LIST		        	0x0255
 
-#define NEWSESSIONREQ		        0x0300
-#define SESSIONINFO		        	0x0305
+#define NEWSESSIONREQ		        	0x0300
+#define SESSIONINFO		        		0x0305
 
-#define	GEOMETRYREQ		        	0x0400
-#define  REQ_BY_UUID       	          0x00
-#define  REQ_BY_PATH	  		      0x01
-#define GEOMETRYMANIFEST	        0x0405
-#define GEOMETRYCHUNK		        0x0410
+#define	GEOMETRYREQ		        		0x0400
+#define  REQ_BY_UUID       	        	  0x00
+#define  REQ_BY_PATH	  		    	  0x01
+#define GEOMETRYMANIFEST	        	0x0405
+#define GEOMETRYCHUNK		        	0x0410
 
 //Admin commands
-#define CMD_SHUTDOWN				0x9000
+#define CMD_SHUTDOWN					0x9000
 
 /*  Failure Codes */
 const char UNHANDLED_MSG_TYPE 	   = 0x01;
@@ -67,7 +67,6 @@ const char OPERATION_NOT_AVAILABLE = 0x02;
 const char BAD_REQUEST			   = 0x03;
 const char COULD_NOT_FIND_GEOMETRY = 0x04;
 const char ACCOUNT_VALIDATION_FAIL = 0x05;
-
 
 
 #endif /* __NETMSGTYPES_H__ */

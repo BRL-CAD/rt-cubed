@@ -28,11 +28,9 @@
 
 #include "GenericOneByteMsg.h"
 
-class SuccessMsg: public GenericOneByteMsg
+class SuccessMsg : public GenericOneByteMsg
 {
-
 public:
-
 	/* Normal Constructor */
 	SuccessMsg(quint8 successCode);
 
@@ -49,10 +47,9 @@ public:
 	 *Getters n Setters
 	 */
 	quint8 getSuccessCode();
-
 };
 
-#endif
+#endif /* __SUCCESSMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

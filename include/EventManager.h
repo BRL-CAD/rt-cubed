@@ -62,7 +62,6 @@ private:
 
 	QMutex* subscriptionsLock;
 	QList<EventSubscription*>* subscriptions;
-
 };
 
 #endif /* __EVENTMANAGER_H__ */

@@ -31,10 +31,8 @@
 
 class JobScheduler
 {
-
 public:
 	static JobScheduler* getInstance();
-
 	virtual ~JobScheduler();
 
 private:
@@ -44,10 +42,9 @@ private:
 	//Disable copy cstr and =operator
 	JobScheduler(JobScheduler const&){};
 	JobScheduler& operator=(JobScheduler const&){};
-
 };
 
-#endif //__JOBSCHEDULER_H__ //
+#endif /*__JOBSCHEDULER_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

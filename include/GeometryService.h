@@ -34,7 +34,6 @@
 
 class GeometryService : public ControlledThread, public INetMsgHandler
 {
-
 public:
 	GeometryService(const QString localNodeName, const quint16 listenPort);
 	virtual ~GeometryService();
@@ -55,10 +54,9 @@ private:
 	DataManager* dm;
 
 	void registerMsgRoutes();
-
 };
 
-#endif
+#endif /* __GEOMETRYSERVICE_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

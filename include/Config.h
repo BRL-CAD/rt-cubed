@@ -27,13 +27,13 @@
 #define __CONFIG_H__
 
 #include "Logger.h"
+
 #include <QtCore/QMap>
 #include <QtCore/QString>
 #include <QtCore/QMutex>
 
 class Config
 {
-
 public:
 	~Config();
 	static Config* getInstance();
@@ -57,10 +57,9 @@ private:
 	QMap<QString, QString>* configMap;
 
 	static Config* pInstance;
-
 };
 
-#endif
+#endif /* __CONFIG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

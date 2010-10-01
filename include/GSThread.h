@@ -45,7 +45,6 @@ protected:
   static QList<GSThread*> threads;
   static void addThread(GSThread* thread);
   static void remThread(GSThread* thread);
-
 };
 
 #endif /* __GSTHREAD_H__ */

@@ -28,12 +28,11 @@
 
 #include "GenericOneStringMsg.h"
 
-class GeometryReqMsg: public GenericOneStringMsg
+class GeometryReqMsg : public GenericOneStringMsg
 {
-
 public:
 
-	//Only Constructor
+	/* Only Constructor */
 	GeometryReqMsg(quint8 requestType, QString data);
 
 	/* Reply Constructor */
@@ -61,7 +60,7 @@ private:
 	bool _equals(const NetMsg& msg);
 };
 
-#endif
+#endif /* __GEOMETRYREQMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

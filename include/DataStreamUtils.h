@@ -40,10 +40,8 @@ public:
 	static void putQUuid(QDataStream* ds, QUuid str);
 	static void printQByteArray(QByteArray* ba);
 
-
 private:
 	Utils(){}
-
 };
 
 #endif /* __DATASTREAMUTILS_H__ */

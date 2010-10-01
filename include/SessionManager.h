@@ -35,7 +35,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QMutex>
 
-class SessionManager: public INetMsgHandler
+class SessionManager : public INetMsgHandler
 {
 public:
     static SessionManager* getInstance();
@@ -63,7 +63,7 @@ private:
     void handleDisconnectReqMsg(TypeOnlyMsg* msg);
 };
 
-#endif
+#endif /* __SESSIONMANAGER_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

@@ -29,11 +29,9 @@
 #include "NetMsg.h"
 #include <QtCore/QByteArray>
 
-class GenericMultiByteMsg: public NetMsg
+class GenericMultiByteMsg : public NetMsg
 {
-
 public:
-
 	/* Normal Constructor */
 	GenericMultiByteMsg(quint32 type, char* dataIn, quint32 dataInLen);
 
@@ -63,7 +61,7 @@ protected:
 	virtual bool _equals(const NetMsg& msg);
 };
 
-#endif
+#endif /* __GENERICMULTIBYTEMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

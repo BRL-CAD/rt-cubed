@@ -25,10 +25,11 @@
 #ifndef __GSEXCEPTION_H__
 #define __GSEXCEPTION_H__
 
-#include <exception>
 #include <QtCore/QString>
 
-class GSException: public std::exception
+#include <exception>
+
+class GSException : public std::exception
 {
 public:
 	GSException(QString reason);

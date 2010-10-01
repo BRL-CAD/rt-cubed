@@ -30,7 +30,8 @@
 
 #include <QtCore/QMutex>
 
-class FileDataSource: public IDataSource {
+class FileDataSource : public IDataSource
+{
 public:
 	FileDataSource(QString repoPath);
 	virtual ~FileDataSource();
@@ -51,7 +52,6 @@ private:
 	bool hasPathLock(QString path);
 	void setPathLock(QString path);
 	void remPathLock(QString path);
-
 };
 
 #endif /* __FILEDATASOURCE_H__ */

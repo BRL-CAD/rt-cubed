@@ -28,17 +28,16 @@
 
 #include "libutility.h"
 
+#include <sstream>
+
 #include <QtCore/QDataStream>
 #include <QtCore/QByteArray>
 #include <QtCore/QUuid>
-
-#include <sstream>
 
 class Portal;
 
 class NetMsg
 {
-
 public:
 	/* Normal Constructor */
 	NetMsg(quint16 mType);
@@ -90,7 +89,7 @@ private:
 	NetMsg(){};
 };
 
-#endif
+#endif /* __NETMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

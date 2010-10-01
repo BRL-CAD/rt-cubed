@@ -26,13 +26,12 @@
 #ifndef __GEOMETRYMANIFESTMSG_H__
 #define __GEOMETRYMANIFESTMSG_H__
 
-#include <vector>
-
 #include "NetMsg.h"
 
-class GeometryManifestMsg: public NetMsg
-{
+#include <vector>
 
+class GeometryManifestMsg : public NetMsg
+{
 public:
 
 	/* Normal Constructor */
@@ -41,7 +40,7 @@ public:
 	/* Reply Constructor */
 	GeometryManifestMsg(NetMsg* msg, QList<QString>& items);
 
-	//Deserializing Constructor
+	/* Deserializing Constructor */
 	GeometryManifestMsg(QDataStream* ds, Portal* origin);
 
 	/* Destructor */
@@ -60,10 +59,9 @@ private:
 
 	bool _serialize(QDataStream* ds);
 	bool _equals(const NetMsg& msg);
-
 };
 
-#endif
+#endif /* __GEOMETRYMANIFESTMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

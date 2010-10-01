@@ -39,7 +39,6 @@
 
 class DataManager :  public INetMsgHandler
 {
-
 public:
 	static DataManager* getInstance();
 	virtual ~DataManager();

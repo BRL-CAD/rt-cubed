@@ -31,6 +31,7 @@
 #include "INetMsgHandler.h"
 #include "PkgTcpClient.h"
 #include "NetMsg.h"
+
 #include "brlcad/pkg.h"
 
 #include <QtCore/QString>
@@ -61,7 +62,6 @@ protected:
       */
    int read();
 
-
 private:
   PortalManager* pm;
   struct pkg_switch* callbackTable;
@@ -73,7 +73,7 @@ private:
   static void callbackSpringboard(struct pkg_conn* conn, char* buf);
 };
 
-#endif
+#endif /* __PORTAL_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

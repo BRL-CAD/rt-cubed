@@ -25,8 +25,10 @@
 #ifndef __PKGCLIENT_H__
 #define __PKGCLIENT_H__
 
-#include "brlcad/pkg.h"
 #include "pkgcppcommon.h"
+
+#include "brlcad/pkg.h"
+
 #include <stdio.h>
 #include <iostream>
 
@@ -83,7 +85,6 @@ public:
 private:
   std::string proto;
   pkg_conn* conn;
-
 };
 
 #endif /* __PKGCLIENT_H__ */

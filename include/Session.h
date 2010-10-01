@@ -59,7 +59,7 @@ private:
     time_t lastAccess;
 };
 
-#endif
+#endif /* __SESSION_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

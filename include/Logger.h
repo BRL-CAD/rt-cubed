@@ -26,16 +26,15 @@
 #ifndef __LOGGER_H__
 #define __LOGGER_H__
 
+#include <iostream>
+
 #include <QtCore/QThread>
 #include <QtCore/QString>
 #include <QtCore/QMutex>
 #include <QtCore/QMutexLocker>
 
-#include <iostream>
-
 class Logger
 {
-
 public:
 	static Logger* getInstance();
 	virtual ~Logger(){};
@@ -90,11 +89,10 @@ private:
 	Logger(const Logger& logger){};
 	Logger& operator=(const Logger& log){};
 
-
 	void log(quint32 logLevel, QString origin, QString string);
 };
 
-#endif
+#endif /* __LOGGER_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

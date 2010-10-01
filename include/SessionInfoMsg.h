@@ -28,11 +28,9 @@
 
 #include "NetMsg.h"
 
-class SessionInfoMsg: public NetMsg
+class SessionInfoMsg : public NetMsg
 {
-
 public:
-
 	/* Normal Constructor */
 	SessionInfoMsg(QUuid sessionID);
 
@@ -56,10 +54,10 @@ protected:
 
 	bool _serialize(QDataStream* ds);
 	bool _equals(const NetMsg& msg);
-
 };
 
-#endif //__SESSIONINFOMSG_H__
+#endif /* __SESSIONINFOMSG_H__ */
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

@@ -26,10 +26,11 @@
 #ifndef __BASEAPP_H__
 #define __BASEAPP_H__
 
-#include <QtCore/QThread>
 #include "libutility.h"
 
-class BaseApp: public QThread
+#include <QtCore/QThread>
+
+class BaseApp : public QThread
 {
 public:
     BaseApp();

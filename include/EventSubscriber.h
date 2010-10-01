@@ -28,6 +28,7 @@
 
 #include "Event.h"
 #include "EventManager.h"
+
 #include <QtCore/QString>
 
 class EventPublisher;

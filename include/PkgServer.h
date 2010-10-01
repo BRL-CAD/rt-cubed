@@ -50,7 +50,6 @@ private:
 
   virtual PkgClient*
   getNewClient(pkg_conn* conn) = 0;
-
 };
 
 #endif /* __PKGSERVER_H__ */

@@ -26,10 +26,10 @@
 #ifndef __NETMSGFACTORY_H__
 #define __NETMSGFACTORY_H__
 
-#include "brlcad/pkg.h"
 #include "libutility.h"
 #include "NetMsg.h"
 
+#include "brlcad/pkg.h"
 
 #include <QtCore/QByteArray>
 #include <QtCore/QString>
@@ -47,7 +47,7 @@ private:
   static NetMsgFactory* pInstance;
 };
 
-#endif
+#endif /* __NETMSGFACTORY_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

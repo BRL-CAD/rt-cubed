@@ -28,9 +28,8 @@
 
 #include "NetMsg.h"
 
-class GenericFourBytesMsg: public NetMsg
+class GenericFourBytesMsg : public NetMsg
 {
-
 public:
 	/* Normal Constructor */
 	GenericFourBytesMsg(quint32 type, quint32 b);
@@ -57,7 +56,7 @@ protected:
 	virtual bool _equals(const NetMsg& msg);
 };
 
-#endif
+#endif /* __GENERICFOURBYTESMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

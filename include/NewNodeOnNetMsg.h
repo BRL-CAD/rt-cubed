@@ -28,9 +28,8 @@
 
 #include "GenericOneStringMsg.h"
 
-class NewNodeOnNetMsg: public GenericOneStringMsg
+class NewNodeOnNetMsg : public GenericOneStringMsg
 {
-
 public:
 	/* Normal Constructor */
 	NewNodeOnNetMsg(QString s);
@@ -47,7 +46,7 @@ public:
 	QString getNewNodename();
 };
 
-#endif
+#endif /* __NEWNODEONNETMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

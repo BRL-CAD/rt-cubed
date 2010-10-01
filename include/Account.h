@@ -27,12 +27,13 @@
 #define __ACCOUNT_H__
 
 #include "Portal.h"
-#include <QtCore/QString>
+
 #include <ctime>
+
+#include <QtCore/QString>
 
 class Account
 {
-
 public:
   Account(QString uname, Portal* portal, quint32 id);
   virtual ~Account();

@@ -24,10 +24,12 @@
 #ifndef __CONTROLLEDTHREAD_H__
 #define __CONTROLLEDTHREAD_H__
 
-#include <QtCore/QString>
 #include "GSThread.h"
 
-class ControlledThread: public GSThread {
+#include <QtCore/QString>
+
+class ControlledThread : public GSThread
+{
 public:
 	ControlledThread(QString threadname = "");
 	virtual ~ControlledThread();

@@ -28,9 +28,8 @@
 
 #include "GenericOneByteMsg.h"
 
-class FailureMsg: public GenericOneByteMsg
+class FailureMsg : public GenericOneByteMsg
 {
-
 public:
     /* Normal Constructor */
     FailureMsg(quint8 failureCode);
@@ -48,10 +47,9 @@ public:
      *Getters n Setters
      */
     quint8 getFailureCode();
-
 };
 
-#endif
+#endif /* __FAILUREMSG_H__ */
 
 // Local Variables: ***
 // mode: C++ ***
