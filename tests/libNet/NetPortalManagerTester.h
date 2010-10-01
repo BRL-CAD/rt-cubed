@@ -31,7 +31,7 @@
 
 #include <QObject>
 
-class NetPortalManagerTester: public QObject
+class NetPortalManagerTester : public QObject
 {
 Q_OBJECT
 

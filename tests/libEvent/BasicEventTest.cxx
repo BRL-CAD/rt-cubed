@@ -30,7 +30,7 @@
 
 #include <QtCore/Qt>
 
-class TestSubscriber: public EventSubscriber
+class TestSubscriber : public EventSubscriber
 {
 public:
     TestSubscriber(QString name) :
@@ -51,7 +51,7 @@ private:
     QString _name;
 };
 
-class TestPublisher: public EventPublisher
+class TestPublisher : public EventPublisher
 {
 public:
     TestPublisher(QString name) : _name(name){};

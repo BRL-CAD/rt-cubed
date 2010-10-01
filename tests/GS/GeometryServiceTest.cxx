@@ -54,7 +54,6 @@ private:
 public:
     GeometryServer(const QHostAddress& addy = QHostAddress::LocalHost, const quint16 port = DEFAULT_PORT)
     {
-
 	//this->gs = new GeometryService("GSTester");
 
 	if (port > 0)
@@ -247,35 +246,30 @@ public:
 	switch (representation) {
 	case WIREFRAME:
 	    {
-
 		// get wireframe representation from server, return true
 
 		break;
 	    }
 	case TRIANGLES:
 	    {
-
 		// get triangle mesh representation from server, return true
 
 		break;
 	    }
 	case POINTS:
 	    {
-
 		// get point-cloud representation from server, return true
 
 		break;
 	    }
 	case NURBS:
 	    {
-
 		// get NURBS representation from server, return true
 
 		break;
 	    }
 	case CAD:
 	    {
-
 		// get .g representation from server, return true
 
 		break;

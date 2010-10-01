@@ -39,7 +39,6 @@
 
 #include <brlcad/ConstDatabase.h>
 
-
 int main
 (
     int   argc,

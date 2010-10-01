@@ -72,7 +72,6 @@ bool listenLoop = true;
 int
 main(int argc, char** argv)
 {
-
   if (argc > 4 || argc < 3)
     {
       printUsage("Incorrect ARG count.");
@@ -163,7 +162,6 @@ getValidPort(char* data)
 int
 runServer(int port)
 {
-
   struct pkg_switch callbacks[] =
     {
       { PKGCPP_HELO, server_helo, "HELO" },
@@ -384,7 +382,6 @@ server_ciao(struct pkg_conn* c, char* buf)
 void
 printUsage(std::string customMsg)
 {
-
   if (customMsg.length() > 0)
     {
       std::cout << customMsg << std::endl;

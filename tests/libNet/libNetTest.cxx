@@ -45,7 +45,6 @@ void logBanner(QString s) {
  * Prints the 'usage' statement to the console along with an optional message
  */
 void printUsage(std::string customMsg) {
-
 	if (customMsg.length() > 0) {
 		customMsg += "\n";
 		QString s(customMsg.c_str());

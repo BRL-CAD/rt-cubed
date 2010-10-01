@@ -29,7 +29,7 @@
 
 #include <QtCore/QString>
 
-class PrintingMsgHandler: public INetMsgHandler
+class PrintingMsgHandler : public INetMsgHandler
 {
 public:
     PrintingMsgHandler(QString name): _name(name) {}

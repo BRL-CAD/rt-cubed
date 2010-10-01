@@ -35,17 +35,14 @@ int main(int argc, char* argv[])
 
 	c->loadFile("test.config");
 
-
 	QList<QString> keys = c->getAllKeys();
 
 	 for (int i = 0; i < keys.size(); ++i) {
-
 	     QString key = keys.at(i);
 	     QString value = c->getConfigValue(key);
 
 	     log->logINFO("ConfigTest", "Read " + key + " value: " + value);
 	 }
-
 
 	return 0;
 }

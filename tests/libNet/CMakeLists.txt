@@ -62,7 +62,6 @@ RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 #Build the project
 RT3_PROJECT_BUILD_EXE()
 
-
 ##########################################################################
 
 RT3_PROJECT(libNetTest)
@@ -100,5 +99,4 @@ RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 
 #Build the project
 RT3_PROJECT_BUILD_EXE()
-
 

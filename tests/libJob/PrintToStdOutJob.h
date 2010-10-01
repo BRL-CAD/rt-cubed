@@ -29,7 +29,7 @@
 #include <QtCore/QMutex>
 #include <QtCore/QMutexLocker>
 
-class PrintToStdOutJob: public AbstractJob
+class PrintToStdOutJob : public AbstractJob
 {
 public:
     PrintToStdOutJob(QString text);
@@ -41,7 +41,6 @@ protected:
 private:
     QString text;
     QMutex* streamLock;
-
 };
 
 #endif /* __PRINTTOSTDOUTJOB_H__ */

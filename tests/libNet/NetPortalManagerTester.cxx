@@ -61,7 +61,6 @@ void NetPortalManagerTester::handleHandshakeStatusUpdate(quint32 current,
 {
     this->portMan->localLog("Handshake status update: " + QString::number(old)
 	    + "->" + QString::number(current));
-
 }
 void NetPortalManagerTester::handleHandshakeComplete(NetPortal* portal)
 {
