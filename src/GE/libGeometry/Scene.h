@@ -33,7 +33,6 @@
 #include "Geometry/View.h"
 
 namespace Geometry {
-
   class Scene
   {
   private:
@@ -50,10 +49,9 @@ namespace Geometry {
     std::vector<Triangle*> getGeometry() const;
     std::vector<View*> getViews() const;
   };
-
 }
 
-#endif
+#endif /* __SCENE_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

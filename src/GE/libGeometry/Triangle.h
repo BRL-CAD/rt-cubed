@@ -29,9 +29,8 @@
 // system headers
 #include <iostream>
 
-// interface headers
+/* interface headers */
 #include "Geometry/Primitive.h"
-
 
 #define EPSILON 0.000001
 #define CROSS(dest,v1,v2) \
@@ -44,10 +43,7 @@ dest[0]=v1[0]-v2[0]; \
 dest[1]=v1[1]-v2[1]; \
 dest[2]=v1[2]-v2[2]; 
 
-
 namespace Geometry {
-
-
   // 128 uint8_ts
   typedef struct _triangle
   {
@@ -123,10 +119,9 @@ namespace Geometry {
     *t = DOT(edge2, qvec) * inv_det;
     return 1;
   }
-
 }
 
-#endif
+#endif /* __TRIANGLE_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

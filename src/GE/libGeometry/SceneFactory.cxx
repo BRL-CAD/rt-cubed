@@ -23,16 +23,16 @@
  *
  */
 
-// interface header
+/* interface header */
 #include "Geometry/SceneFactory.h"
 
-// standard library
+/* standard library */
 #include <algorithm>
 
-// external interface headers
+/* external interface headers */
 #include "libutility.h"
 
-// library-specific headers
+/* library-specific headers */
 #include "NFFFileParser.h"
 #include "DXFFileParser.h"
 
@@ -46,12 +46,10 @@ SceneFactory::SceneFactory(std::string filename) :
   }
 }
 
-
 SceneFactory::~SceneFactory()
 {
   delete _scene;
 }
-
 
 bool SceneFactory::loadFromFile(std::string filename)
 {
@@ -84,7 +82,6 @@ bool SceneFactory::loadFromFile(std::string filename)
 
   return true;
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

@@ -23,7 +23,7 @@
  *
  */
 
-// interface header
+/* interface header */
 #include "Image/PixelImage.h"
 
 using namespace Image;

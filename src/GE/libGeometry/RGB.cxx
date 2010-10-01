@@ -45,16 +45,19 @@ double RGB::getBlue(){
   ////cout << "RGB::getBlue" << endl;
   return val[2];
 }
+
 double RGB::getGreen(){
  //returns green value
  //// cout << "RGB::getGreen" << endl;
   return val[1];
 }
+
 double RGB::getRed(){
  //returns red value
  //// cout << "RGB::getRed" << endl;
   return val[0];
 }
+
 void RGB::setColor(double r, double g, double b){
   //sets RGB colors
     val[0]=r;
@@ -62,6 +65,7 @@ void RGB::setColor(double r, double g, double b){
     val[2]=b;    
  //// cout << "RGB::setColor" << endl;
 }
+
 void RGB::add(RGB & p, RGB & q){
 
         val[0]= p.val[0] + q.val[0];
@@ -70,6 +74,7 @@ void RGB::add(RGB & p, RGB & q){
         
 // adds two RGBs componentwise and stores in current object
 }
+
 void RGB::scale(double k, RGB & p  ){
     
     val[0] = k*p.val[0];
@@ -79,10 +84,16 @@ void RGB::scale(double k, RGB & p  ){
 //scales an RGB using componentwise multiplication with a scalar.
 }
 
-
-
 std::ostream&
 operator<<(std::ostream& s, const RGB& rgb)
 {
     return s << rgb.val[0] << " " << rgb.val[1] << " " << rgb.val[2] << " ";
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

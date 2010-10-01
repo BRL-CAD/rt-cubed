@@ -32,9 +32,7 @@
 #include "Geometry/Triangle.h"
 #include "Geometry/View.h"
 
-
 namespace Geometry {
-
   class View
   {
   private:
@@ -55,12 +53,10 @@ namespace Geometry {
       _x = x;
       _y = y;
     }
-
   };
-
 }
 
-#endif
+#endif /* __VIEW_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

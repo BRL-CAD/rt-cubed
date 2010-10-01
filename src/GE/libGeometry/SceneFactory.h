@@ -26,15 +26,14 @@
 #ifndef __SCENEFACTORY_H__
 #define __SCENEFACTORY_H__
 
-// system headers
+/* system headers */
 #include <iostream>
 #include <vector>
 
-// interface headers
+/* interface headers */
 #include "Scene.h"
 
 namespace Geometry {
-
   class SceneFactory
   {
   private:
@@ -57,10 +56,9 @@ namespace Geometry {
       return _scene;
     }
   };
-
 }
 
-#endif
+#endif /* __SCENEFACTORY_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

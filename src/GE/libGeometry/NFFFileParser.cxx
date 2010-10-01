@@ -32,7 +32,6 @@ using namespace Geometry;
 #include "Geometry/Triangle.h"
 #include "Geometry/View.h"
 
-
 Scene* NFFFileParser::parse(std::string filename) 
 {
   Scene *scene = new Scene();
@@ -192,7 +191,6 @@ Scene* NFFFileParser::parse(std::string filename)
   return scene;
 }
 
-
 void NFFFileParser::look_from_at(Point &p) {
    split(a_line, rt_tokens);
    
@@ -201,7 +199,6 @@ void NFFFileParser::look_from_at(Point &p) {
            atof(rt_tokens[3].c_str())
            );
 }
-
 
 void NFFFileParser::look_up(Vec &v) {
    split(a_line, rt_tokens);
@@ -212,13 +209,11 @@ void NFFFileParser::look_up(Vec &v) {
            );
 }
 
-
 void NFFFileParser::look_angle(double &angle) {
    split(a_line, rt_tokens);
    
    angle = atof(rt_tokens[1].c_str());
 }
-
 
 void NFFFileParser::look_hither(double &hither) {
    split(a_line, rt_tokens);
@@ -226,14 +221,12 @@ void NFFFileParser::look_hither(double &hither) {
    hither = atof(rt_tokens[1].c_str());
 }
 
-
 void NFFFileParser::look_res(unsigned int &x_res, unsigned int &y_res) {
    split(a_line, rt_tokens);
    
    x_res = atoi(rt_tokens[1].c_str());
    y_res = atoi(rt_tokens[2].c_str());
 }
-
 
 void NFFFileParser:: background_color (RGB &c) {   
    split(a_line, rt_tokens);
@@ -243,7 +236,6 @@ void NFFFileParser:: background_color (RGB &c) {
               atof(rt_tokens[3].c_str())
               );
 }
-
 
 void NFFFileParser::pos_light_loc(Point &p, RGB &c) {
    
@@ -264,7 +256,6 @@ void NFFFileParser::pos_light_loc(Point &p, RGB &c) {
       c.setColor(1.0, 1.0, 1.0);
    }
 }
-
 
 void NFFFileParser::obj_mater_prop(RGB &c, double &Kd, double &Ks, double &s, double &T, double &ir) {
    // default values
@@ -301,7 +292,6 @@ void NFFFileParser::obj_mater_prop(RGB &c, double &Kd, double &Ks, double &s, do
       ir = atof(rt_tokens[8].c_str());
    }
 }
-
 
 void NFFFileParser::polygon_prim(Point &v1, Point &v2, Point &v3) {
 
@@ -347,7 +337,6 @@ void NFFFileParser::polygon_prim(Point &v1, Point &v2, Point &v3) {
    }
 }
 
-
 void NFFFileParser::split(const std::string &str, std::vector<std::string> &tokens) {
 
    const std::string DELIMITERS = " ";
@@ -370,11 +359,9 @@ void NFFFileParser::split(const std::string &str, std::vector<std::string> &toke
    }
 }
 
-
 NFFFileParser::NFFFileParser(std::string filename)
 {
 }
-
 
 NFFFileParser::~NFFFileParser()
 {

@@ -29,7 +29,6 @@ GeometryEngine::GeometryEngine()
 {
 }
 
-
 GeometryEngine::~GeometryEngine()
 {
 }

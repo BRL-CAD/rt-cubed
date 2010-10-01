@@ -28,7 +28,6 @@
 
 namespace Image
 {
-
   class Pixel
   {
   protected:
@@ -38,12 +37,9 @@ namespace Image
     ~Pixel();
 
   };
-
 }
 
-
-
-#endif
+#endif /* __PIXEL_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

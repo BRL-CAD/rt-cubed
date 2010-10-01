@@ -62,7 +62,7 @@ namespace Image
 
 }
 
-#endif
+#endif /* __PIXELIMAGE_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

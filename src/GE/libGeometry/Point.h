@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef POINT_H
-#define POINT_H
+#ifndef __POINT_H__
+#define __POINT_H__
 
 #include <iostream>
 #include "Vec.h"
@@ -32,12 +32,12 @@
 using std::cout;
 using std::endl;
 
-
 /**
  *  Stores a point consisting of x,y, and z components; has methods to get x,y,z values,
  *  to set x,y,z values and to add or subtract two points componentwise.
  */
-class Point {
+class Point
+{
  public:
   /** Creates a point at (0,0,0) */
   Point();
@@ -48,17 +48,13 @@ class Point {
     return Z;
   }
 
-
   inline double getY() {
     return Y;
   }
 
-
   inline double getX() {
     return X;
   }
-
-
 
 #if 0
   /** gets x value */
@@ -88,4 +84,12 @@ class Point {
 };
 #else
 class Point;
-#endif //POINT_H
+#endif //__POINT_H__
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

@@ -32,8 +32,7 @@ namespace Raytrace {
 
 #include "Raytrace/Ray.h"
 
-
-#endif
+#endif /* __RAYTRACE_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

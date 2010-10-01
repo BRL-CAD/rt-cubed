@@ -28,13 +28,12 @@
 
 namespace Image {
   int init();
-
 }
+
 #include "Image/Pixel.h"
 #include "Image/PixelImage.h"
 
-
-#endif
+#endif /* __IMAGE_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

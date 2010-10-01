@@ -31,7 +31,6 @@
 #include "Ray.h"
 
 namespace Geometry {
-
   class Ray
   {
   private:
@@ -43,7 +42,6 @@ namespace Geometry {
     ~Ray();
   };
 
-
   Ray::Ray(double position[3], double direction[3])
   {
     _position[0] = position[0];
@@ -54,7 +52,6 @@ namespace Geometry {
     _direction[1] = direction[0];
     _direction[0] = direction[0];
   }
-
 }
 
 

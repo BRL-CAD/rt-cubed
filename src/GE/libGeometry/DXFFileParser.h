@@ -30,14 +30,12 @@
 #include <iostream>
 #include <vector>
 
-// interface headers
+/* interface headers */
 #include "Geometry/Scene.h"
 
-
 namespace Geometry {
-
-  class DXFFileParser {
-
+  class DXFFileParser
+  {
   private:
 
     typedef struct {
@@ -53,9 +51,7 @@ namespace Geometry {
     ~DXFFileParser();
 
     Scene* parse(std::string filename);
-
   };
-
 }
 
 #endif  /* __DXFFILEPARSER_H__ */

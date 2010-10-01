@@ -31,17 +31,15 @@
 #include <fstream>
 #include <vector>
 
-// interface headers
+/* interface header */
 #include "Geometry/Scene.h"
 #include "Point.h"
 #include "Vec.h"
 #include "RGB.h"
 
-
 namespace Geometry {
-
-  class NFFFileParser {
-
+  class NFFFileParser
+  {
   private:
     std::ifstream input;
     std::string a_line;
@@ -67,7 +65,6 @@ namespace Geometry {
     Scene* parse(std::string filename);
 
   };
-
 }
 
 #endif  /* __NFFFILEPARSER_H__ */

@@ -29,7 +29,6 @@
 #include <iostream>
 
 namespace Geometry {
-
   class Primitive
   {
   private:
@@ -40,10 +39,9 @@ namespace Geometry {
   public:
     virtual bool intersect(double position[3], double direction[3], double *t, double *u, double *v) = 0;
   };
-
 }
 
-#endif
+#endif /* __PRIMITIVE_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

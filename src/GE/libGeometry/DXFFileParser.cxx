@@ -31,7 +31,6 @@ using namespace Geometry;
 #include <stdlib.h>
 #include "Geometry/Triangle.h"
 
-
 void DXFFileParser::nextLine(char *B, FILE *FH)
 {
   int	i= 0;
@@ -41,7 +40,6 @@ void DXFFileParser::nextLine(char *B, FILE *FH)
   } while (B[i++] != 10);
   B[i-1]= 0;
 }
-
 
 Scene* DXFFileParser::parse(std::string F) 
 {
@@ -120,18 +118,15 @@ Scene* DXFFileParser::parse(std::string F)
   return scene;
 }
 
-
 DXFFileParser::DXFFileParser(std::string filename)
 {
   //  load(filename);
 }
 
-
 DXFFileParser::~DXFFileParser()
 {
   //  _filename = "";
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

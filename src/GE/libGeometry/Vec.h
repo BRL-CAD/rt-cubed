@@ -23,8 +23,8 @@
  *
  */
 
-#ifndef VEC_H
-#define VEC_H
+#ifndef __VEC_H__
+#define __VEC_H__
 
 #include <iostream>
 #include "Point.h"
@@ -100,4 +100,14 @@ class Vec {
 
 class Vec;
 
-#endif //VEC_H
+#endif /* __VEC_H__ */
+
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8
+

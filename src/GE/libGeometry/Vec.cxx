@@ -38,13 +38,11 @@ Vec::Vec() {
   Z= 0;
 }
 
-
 Vec::Vec(double x, double y, double z) {
   X= x;
   Y= y;
   Z= z;
 }
-
 
 Vec::Vec(Point A, Point B) {
   X= A.X-B.X;
@@ -52,15 +50,11 @@ Vec::Vec(Point A, Point B) {
   Z= A.Z-B.Z;
 }
 
-
 void Vec::setVec(double x, double y, double z) {
   X= x;
   Y= y;
   Z= z;
 }
-
-
-
 
 double Vec::dot(Vec v2) {
   return(X * v2.X + Y * v2.Y + Z * v2.Z);
@@ -72,7 +66,6 @@ void Vec::cross(Vec v1, Vec v2){
   Z= v1.X * v2.Y - v1.Y * v2.X;
 }
 
-
 void Vec::unitize() {
   double	L;
 
@@ -81,7 +74,6 @@ void Vec::unitize() {
   Y/= L;
   Z/= L;
 }
-
 
 void Vec::add(Vec v1) {
   X+= v1.X;
@@ -96,9 +88,17 @@ void Vec::sub(Vec v1) {
   Z-= v1.Z;
 }
 
-
 void Vec::mult(double s) {
   X*= s;
   Y*= s;
   Z*= s;
 }
+
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8
+

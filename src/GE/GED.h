@@ -26,15 +26,14 @@
 #ifndef __GED_H__
 #define __GED_H__
 
-class GED {
-
+class GED
+{
 public:
 	GED();
 	virtual ~GED();
-
 };
 
-#endif
+#endif /* __GED_H__ *
 
 // Local Variables: ***
 // mode: C++ ***

@@ -23,7 +23,7 @@
  *
  */
 
-//interface header
+/* interface header */
 #include "Geometry/Scene.h"
 
 using namespace Geometry;
@@ -32,12 +32,10 @@ Scene::Scene()
 {
 }
 
-
 Scene::~Scene()
 {
   // XXX delete the geometry and scene pointers
 }
-
 
 void Scene::add(Scene& scene)
 {
@@ -51,7 +49,6 @@ void Scene::add(Scene& scene)
   }
 }
 
-
 void Scene::add(std::vector<Triangle*> geometry)
 {
   for (int i=0; i < geometry.size(); i++) {
@@ -61,7 +58,6 @@ void Scene::add(std::vector<Triangle*> geometry)
   //  std::cout << "geometry size is " << _geometry.size() << std::endl;
 }
 
-
 void Scene::add(std::vector<View*> views)
 {
   for (int i=0; i < views.size(); i++) {
@@ -70,19 +66,15 @@ void Scene::add(std::vector<View*> views)
   //  std::cout << "Added " << views.size() << " views" << std::endl;
 }
 
-
 std::vector<Triangle*> Scene::getGeometry() const
 {
   return _geometry;
 }
 
-
 std::vector<View*> Scene::getViews() const
 {
   return _views;
 }
-
-
 
 // Local Variables: ***
 // mode: C++ ***

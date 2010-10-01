@@ -35,7 +35,6 @@ namespace Geometry {
 #include "Geometry/Scene.h"
 #include "Geometry/Primitive.h"
 
-
 #endif  /* __GEOMETRY_H__ */
 
 // Local Variables: ***

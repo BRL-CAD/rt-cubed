@@ -23,7 +23,7 @@
  *
  */
 
-// interface header
+/* interface header */
 #include "Geometry/View.h"
 
 using namespace Geometry;
@@ -43,7 +43,6 @@ View::View(double from[3], double at[3], double up[3], double angle, double hith
   _hither = hither;
 }
 
-
 View::~View()
 {
   _from[0] = 0.0;
@@ -58,8 +57,6 @@ View::~View()
   _angle = 0.0;
   _hither = 0.0;
 }
-
-
 
 // Local Variables: ***
 // mode: C++ ***

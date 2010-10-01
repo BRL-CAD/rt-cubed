@@ -23,18 +23,16 @@
  *
  */
 
-#ifndef RGB_H
-#define RGB_H
+#ifndef __RGB_H__
+#define __RGB_H__
 #include <iostream>
 //using std::cout;
 //using std::endl;
 /** Implements methods to manipulate colors */
 class RGB {
-
 public:
  friend std::ostream&
      operator<<(std::ostream&, const RGB&);
-
 
     RGB();
     RGB(double r, double g, double b);
@@ -54,8 +52,14 @@ public:
 private:    
     /** Stores the red-green-blue values */
     double val[3];
-
 };
 
+#endif //__RGB_H__
 
-#endif //RGB_H
+// Local Variables: ***
+// mode: C++ ***
+// tab-width: 8 ***
+// c-basic-offset: 2 ***
+// indent-tabs-mode: t ***
+// End: ***
+// ex: shiftwidth=2 tabstop=8

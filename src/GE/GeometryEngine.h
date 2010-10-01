@@ -28,14 +28,12 @@
 
 class GeometryEngine
 {
-
 public:
 	GeometryEngine();
 	virtual ~GeometryEngine();
-
 };
 
-#endif
+#endif /* __GEOMETRYENGINE_H__ */
 
 // Local Variables: ***
 // mode: C++ ***
