@@ -32,14 +32,12 @@
 using std::cout;
 using std::endl;
 
-
 /**
  * Stores 3D vector, makes components accessible, and has cross and dot methods.
  */
 class Vec {
  friend std::ostream&
      operator<<(std::ostream&, const Vec&);
-
 
   public:
     Vec();
@@ -101,7 +99,6 @@ class Vec {
 class Vec;
 
 #endif /* __VEC_H__ */
-
 
 // Local Variables: ***
 // mode: C++ ***

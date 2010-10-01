@@ -26,16 +26,16 @@
 
 #include "DbObject.h"
 
-DbObject::DbObject(QString path, QByteArray* data) : path(path), id(NULL), data(data)
-{
-}
+DbObject::DbObject(QString path, QByteArray* data) :
+	path(path), id(NULL), data(data)
+{}
 
-DbObject::DbObject(QUuid id, QByteArray* data) : path(""), id(id), data(data)
-{
-}
+DbObject::DbObject(QUuid id, QByteArray* data) :
+	path(""), id(id), data(data)
+{}
 
-DbObject::~DbObject() {
-}
+DbObject::~DbObject()
+{}
 
 QString
 DbObject::getPath()

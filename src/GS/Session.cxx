@@ -33,8 +33,7 @@ Session::Session(Account* a)
 }
 
 Session::~Session()
-{
-}
+{}
 
 QUuid Session::getSessionID()
 {
@@ -45,7 +44,6 @@ Account*  Session::getAccount()
 {
     return this->a;
 }
-
 
 void
 Session::stampLastAccess()

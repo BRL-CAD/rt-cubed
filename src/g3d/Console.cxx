@@ -63,7 +63,6 @@ Console::Console(QWidget *parent) : QWidget(parent),
     entry->installEventFilter(this);
     prompt->installEventFilter(this);
 
-
     QObject::connect(entry, SIGNAL(returnPressed()),
 		     this, SLOT(evalCmd()));
 
@@ -73,7 +72,6 @@ Console::Console(QWidget *parent) : QWidget(parent),
     QObject::connect(outputArea->verticalScrollBar(), SIGNAL(rangeChanged(int,int)),
 		     this, SLOT(homeOutput()));
 }
-
 
 bool Console::eventFilter(QObject *, QEvent *event) 
 {
@@ -103,7 +101,6 @@ void Console::evalCmd()
     emit commandRan(entry->text());
     entry->entryComplete();
 }
-
 
 void Console::pushOutput(const QString &str) 
 {

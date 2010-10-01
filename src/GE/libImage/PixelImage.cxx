@@ -31,14 +31,10 @@ using namespace Image;
 PixelImage::PixelImage(unsigned long int width, unsigned long int height) :
   _width(width),
   _height(height)
-{
-}
-
+{}
 
 PixelImage::~PixelImage()
-{
-}
-
+{}
 
 // Local Variables: ***
 // mode: C++ ***

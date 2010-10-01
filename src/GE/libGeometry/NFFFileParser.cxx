@@ -294,7 +294,6 @@ void NFFFileParser::obj_mater_prop(RGB &c, double &Kd, double &Ks, double &s, do
 }
 
 void NFFFileParser::polygon_prim(Point &v1, Point &v2, Point &v3) {
-
    int p_size;
    double x_v, y_v, z_v;
    
@@ -338,7 +337,6 @@ void NFFFileParser::polygon_prim(Point &v1, Point &v2, Point &v3) {
 }
 
 void NFFFileParser::split(const std::string &str, std::vector<std::string> &tokens) {
-
    const std::string DELIMITERS = " ";
 
    // Skip delimiters at beginning.
@@ -360,12 +358,10 @@ void NFFFileParser::split(const std::string &str, std::vector<std::string> &toke
 }
 
 NFFFileParser::NFFFileParser(std::string filename)
-{
-}
+{}
 
 NFFFileParser::~NFFFileParser()
-{
-}
+{}
 
 // Local Variables: ***
 // mode: C++ ***

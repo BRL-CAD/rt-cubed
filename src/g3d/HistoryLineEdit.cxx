@@ -32,8 +32,7 @@
 
 HistoryLineEdit::HistoryLineEdit(QWidget *parent) : QLineEdit(parent),
 						    history(1), historyIdx(0)
-{
-}
+{}
 
 void HistoryLineEdit::keyPressEvent(QKeyEvent *event)
 {
@@ -67,7 +66,6 @@ void HistoryLineEdit::entryComplete()
     historyIdx = 0;
     clear();
 }
-
 
 /*
  * Local Variables:

@@ -54,7 +54,6 @@ namespace Geometry {
   }
 }
 
-
 #endif  /* __RAY_H__ */
 
 // Local Variables: ***

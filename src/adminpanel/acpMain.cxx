@@ -23,9 +23,9 @@
  *
  */
 
-#include <iostream>
-
 #include "AdminControlPanel.h"
+
+#include <iostream>
 
 #include <QtGui/QApplication>
 
@@ -37,6 +37,7 @@ int main(int argc, char* argv[])
 
 	return app.exec();
 }
+
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

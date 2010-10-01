@@ -48,12 +48,10 @@
 #ifndef __G3D_LOGGER_H__
 #define __G3D_LOGGER_H__
 
-
 /// If not using GCC, elide __attribute__
 #ifndef __GNUC__
 #define __attribute__(x)	/* nothing */
 #endif
-
 
 #include <string>
 #include <vector>
@@ -62,7 +60,6 @@
 #include <QtCore/QString>
 
 #include "../utility/Singleton.h"
-
 
 /** @brief Class implementing logging facilities
  *
@@ -117,7 +114,6 @@ private:
   /** Attribute to save the logging level desired */
   static Level _levelFilter;
 
-
   /** Default constructor */
   Logger();
 
@@ -126,7 +122,6 @@ private:
 };
 
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

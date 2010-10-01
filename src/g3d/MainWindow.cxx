@@ -94,7 +94,6 @@ MainWindow::~MainWindow()
     delete ogreView;
 }
 
-
 void MainWindow::resizeEvent(QResizeEvent *event) 
 {
     // Just large enough not to cause scrollbars to appear.

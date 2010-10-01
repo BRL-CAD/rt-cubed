@@ -37,7 +37,6 @@ RT3_PROJECT_ADD_INCLUDE_DIRS(
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
     ${QT_LIBRARIES}
-    alf
     net
     utility
 )
@@ -83,7 +82,6 @@ RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 
 #Build the project
 RT3_PROJECT_BUILD_LIB()
-
 
 ##############
 ##############

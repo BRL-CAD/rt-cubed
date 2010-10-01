@@ -53,7 +53,6 @@ SceneFactory::~SceneFactory()
 
 bool SceneFactory::loadFromFile(std::string filename)
 {
-
   // filename should presently be at least X.EXT == size 5"
   if (filename.size() <= 5) {
     std::cerr << "filename is too short?" << std::endl;
@@ -64,12 +63,10 @@ bool SceneFactory::loadFromFile(std::string filename)
   //  std::cout << "filename is " << filename << " and the extension is " << extension << std::endl;
 
   if (std::equal(extension.begin(), extension.end(), std::string(".dxf").begin(), SceneFactory::noCaseCompare)) {
-
     Utility::FileParser<DXFFileParser, Scene> *dxfparser = new Utility::FileParser<DXFFileParser, Scene>(filename);
     _scene->add(dxfparser->getContainer());
 
   } else if (std::equal(extension.begin(), extension.end(), std::string(".nff").begin(), SceneFactory::noCaseCompare)) {
-
     Utility::FileParser<NFFFileParser, Scene> *nffparser = new Utility::FileParser<NFFFileParser, Scene>(filename);
     _scene->add(nffparser->getContainer());
 

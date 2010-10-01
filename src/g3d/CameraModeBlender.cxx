@@ -33,7 +33,6 @@
 
 #include "Logger.h"
 
-
 /*******************************************************************************
  * CameraModeBlender
  ******************************************************************************/
@@ -47,8 +46,7 @@ CameraModeBlender::CameraModeBlender() :
   _dragModeOriginX(0), _dragModeOriginY(0),
   _dragOriginalHorizontalRotation(0.0f), _dragOriginalVerticalRotation(0.0f),
   _panModeEnabled(false)
-{
-}
+{}
 
 bool CameraModeBlender::injectKeyPressed(QKeyEvent *e)
 {
@@ -177,7 +175,6 @@ bool CameraModeBlender::injectMouseReleased(QMouseEvent *e)
   }
 }
 
-
 bool CameraModeBlender::injectMouseScrolled(Direction direction)
 {
   switch (direction) {
@@ -293,7 +290,6 @@ void CameraModeBlender::doZoomOut()
 {
   multiplyVarWithLimit(_radius, ZOOM_STEP, RADIUS_MAX_DISTANCE);
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

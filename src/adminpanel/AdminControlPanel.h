@@ -31,7 +31,7 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QWidget>
 
-class AdminControlPanel: public QObject
+class AdminControlPanel : public QObject
 {
 Q_OBJECT
 
@@ -48,7 +48,7 @@ private:
 	ACPChatterBox *chatter;
 };
 
-#endif
+#endif /* __ADMINCONTROLPANEL_H__ */
 
 // Local Variables:
 // mode: C++ 

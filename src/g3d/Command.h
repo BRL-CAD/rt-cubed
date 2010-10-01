@@ -29,9 +29,7 @@
 #ifndef __G3D_COMMAND_H__
 #define __G3D_COMMAND_H__
 
-
 #include <QtCore/QStringList>
-
 
 /**
  * @brief Messages related with command processing
@@ -56,7 +54,6 @@ public:
   /** Message (name+content should be self-explanatory) */
   static const char* ONE_ARGUMENT;
 };
-
 
 /**
  * @brief Command abstract class
@@ -105,7 +102,6 @@ protected:
 };
 
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

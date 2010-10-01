@@ -63,7 +63,6 @@ int main(int argc, char** argv)
   return ret;
 }
 
-
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

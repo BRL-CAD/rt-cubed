@@ -30,14 +30,12 @@
 
 #include "Command.h"
 
-
 /*******************************************************************************
  * CommandMessages
  ******************************************************************************/
 const char* CommandMessages::NO_ARGUMENTS = "Command doesn't accept arguments";
 const char* CommandMessages::ZERO_OR_ONE_ARGUMENTS = "This command needs exactly zero or one argument";
 const char* CommandMessages::ONE_ARGUMENT = "This command needs exactly one argument";
-
 
 /*******************************************************************************
  * Command
@@ -46,8 +44,7 @@ Command::Command(const QString& name,
 		 const QString& shortDescr,
 		 const QString& extraDescr) :
   _name(name), _shortDescription(shortDescr), _extraDescription(extraDescr)
-{
-}
+{}
 
 const QString& Command::getName() const
 {
@@ -77,7 +74,6 @@ QString Command::getSyntax() const
   }
   return line;
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

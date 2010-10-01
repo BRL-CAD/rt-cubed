@@ -35,7 +35,6 @@
 
 #include "Logger.h"
 
-
 /*******************************************************************************
  * CameraMode
  ******************************************************************************/
@@ -262,7 +261,6 @@ float CameraMode::degreesToRadians(float degrees)
   return (degrees*M_PI)/180.0f;
 }
 
-
 void CameraMode::circularIncrement(float& var, float value, float limit) 
 {
   var += value;
@@ -272,7 +270,6 @@ void CameraMode::circularIncrement(float& var, float value, float limit)
     var += 2*limit;
   }
 }
-
 
 void CameraMode::multiplyVarWithLimit(float& var, float value, float limit)
 {
@@ -300,7 +297,6 @@ float CameraMode::getVarWithinLimits(float var, float min, float max)
     return var;
   }
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

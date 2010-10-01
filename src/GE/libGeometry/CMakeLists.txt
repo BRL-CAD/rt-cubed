@@ -26,7 +26,6 @@
 #
 ##########################################################################
 
-
 PROJECT(LibGeometry)
 
 #Add additional include dirs to INCLUDE_DIRS as needed

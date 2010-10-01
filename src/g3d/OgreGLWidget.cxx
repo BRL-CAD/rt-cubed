@@ -90,12 +90,10 @@ OgreGLWidget::~OgreGLWidget()
     Logger::logDEBUG("OGRE shutdown complete.");
 }
 
-
 CameraMode& OgreGLWidget::getCameraMode() const
 {
     return *_cameraCtl;
 }
-
 
 void OgreGLWidget::initializeGL() 
 {   
@@ -226,7 +224,6 @@ void OgreGLWidget::paintGL()
     
     makeCurrent();
 }
-
 
 void OgreGLWidget::setProjection(int type) 
 {

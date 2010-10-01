@@ -29,7 +29,6 @@
 #ifndef __G3D_COMMANDS_H__
 #define __G3D_COMMANDS_H__
 
-
 #include "Command.h"
 
 #include <QtCore/QString>
@@ -57,7 +56,6 @@ public:
 };
 #endif
 
-
 /** @brief Set log message level.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -77,7 +75,6 @@ public:
     if (args.length() != 1) {
       return CommandMessages::ONE_ARGUMENT;
     } else {
-
       Logger::Level l = static_cast<Logger::Level>(0); // invalid level
       const QChar firstChar = args[0][0];
       if (firstChar == 'D') {
@@ -137,7 +134,6 @@ public:
   }
 };
 
-
 /** @brief Set Camera projection type.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -169,7 +165,6 @@ public:
   }
 };
 
-
 /** @brief Cycle Camera mode.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -194,7 +189,6 @@ public:
 #endif // #if 0
 
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

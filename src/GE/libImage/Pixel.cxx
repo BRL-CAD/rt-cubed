@@ -23,19 +23,16 @@
  *
  */
 
-
 /* interface header */
 #include "Image/Pixel.h"
 
 using namespace Image;
 
 Pixel::Pixel()
-{
-}
+{}
 
 Pixel::~Pixel()
-{
-}
+{}
 
 // Local Variables: ***
 // mode: C++ ***

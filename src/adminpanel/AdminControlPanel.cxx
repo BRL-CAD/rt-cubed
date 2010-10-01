@@ -71,9 +71,7 @@ AdminControlPanel::AdminControlPanel()
 }
 
 AdminControlPanel::~AdminControlPanel()
-{
-
-}
+{}
 
 void AdminControlPanel::addNew()
 {

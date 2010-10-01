@@ -29,8 +29,7 @@
 using namespace Geometry;
 
 Scene::Scene()
-{
-}
+{}
 
 Scene::~Scene()
 {

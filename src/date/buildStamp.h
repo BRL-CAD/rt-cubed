@@ -5,7 +5,6 @@
 extern const char *buildDate;
 extern const char *buildTime;
 
-
 // Local Variables: ***
 // mode: C++ ***
 // tab-width: 8 ***

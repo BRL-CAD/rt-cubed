@@ -41,7 +41,8 @@ AccountManager::~AccountManager()
 	delete this->accounts;
 }
 
-AccountManager* AccountManager::getInstance()
+AccountManager*
+AccountManager::getInstance()
 {
     if (!AccountManager::pInstance) {
     	pInstance = new AccountManager();
@@ -52,7 +53,8 @@ AccountManager* AccountManager::getInstance()
 /**
  * returns 0 for bad login.  Positive number is the accountID
  */
-quint32 AccountManager::validateLoginCreds(QString uname, QString passwd)
+quint32
+AccountManager::validateLoginCreds(QString uname, QString passwd)
 {
 	//TODO put in REAL account validation here.
     if (uname == "Guest" && passwd == "Guest") {
@@ -80,7 +82,8 @@ quint32 AccountManager::validateLoginCreds(QString uname, QString passwd)
     return -1;
 }
 
-Account* AccountManager::login(QString uname, QString passwd, Portal* p)
+Account*
+AccountManager::login(QString uname, QString passwd, Portal* p)
 {
 	quint32 id = this->validateLoginCreds(uname, passwd);
 
@@ -94,7 +97,6 @@ Account* AccountManager::login(QString uname, QString passwd, Portal* p)
 	Account* acc = this->newAccount(uname, p, id);
 	return acc;
 }
-
 
 Account*
 AccountManager::newAccount(QString uname, Portal* p, quint32 id)
@@ -110,7 +112,6 @@ AccountManager::newAccount(QString uname, Portal* p, quint32 id)
     this->accountListLock.unlock();
 
     if (a != NULL ) {
-
     	a->stampLastAccess();
     } else {
     	//New

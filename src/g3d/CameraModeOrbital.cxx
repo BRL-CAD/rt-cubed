@@ -31,14 +31,12 @@
 
 #include "Logger.h"
 
-
 /*******************************************************************************
  * CameraModeOrbital
  ******************************************************************************/
 CameraModeOrbital::CameraModeOrbital() :
   CameraMode("Orbital")
-{
-}
+{}
 
 bool CameraModeOrbital::injectKeyPressed(QKeyEvent *e)
 {
@@ -174,7 +172,6 @@ void CameraModeOrbital::cameraControlCenterReleased()
 {
   setResetToCenter(true);
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

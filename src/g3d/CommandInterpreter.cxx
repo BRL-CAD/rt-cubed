@@ -39,7 +39,6 @@
 #include "GedCommand.h"
 #include "GedCommands.h"
 
-
 /*******************************************************************************
  * CommandInterpreter
  ******************************************************************************/
@@ -232,7 +231,6 @@ QStringList CommandInterpreter::parseCommandLine(const QString& cL)
 {
   return cL.trimmed().split(" ", QString::SkipEmptyParts);
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

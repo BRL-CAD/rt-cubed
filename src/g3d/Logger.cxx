@@ -32,7 +32,6 @@
 
 #include "Logger.h"
 
-
 /// Max length for log messages
 const int LOGSTR_LENGTH = 255;
 /// Max length for timestamps (until Y10K, that is :) )
@@ -45,7 +44,6 @@ const size_t TIMESTAMP_LENGTH = sizeof("YYYYmmdd HH:MM:SS");
   vsnprintf(formatBuffer, sizeof(formatBuffer), msg, arg);\
   va_end(arg);
 
-
 /*******************************************************************************
  * Logger
  ******************************************************************************/
@@ -54,8 +52,7 @@ template <> Logger* Singleton<Logger>::_instance = 0;
 Logger::Level Logger::_levelFilter = Logger::DEBUG;
 
 Logger::Logger()
-{
-}
+{}
 
 void Logger::setLevelFilter(Level level)
 {
@@ -136,7 +133,6 @@ const char* Logger::translateToString(Level level)
       return "INVALID LEVEL";
   }
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

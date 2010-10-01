@@ -34,7 +34,6 @@ void OgreGraphicsView::resizeEvent(QResizeEvent *event)
 {
     static_cast<OgreGLWidget *>(viewport())->resizeGL(event->size().width(), event->size().height());
     QGraphicsView::resizeEvent(event);
-
 }
 
 void OgreGraphicsView::drawBackground(QPainter *, const QRectF &) 
@@ -47,7 +46,6 @@ void OgreGraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem 
     QGraphicsView::drawItems(painter, numItems, items, options);
     static_cast<OgreGLWidget *>(viewport())->swapBuffers();
 }
-
 
 /*
  * Local Variables:

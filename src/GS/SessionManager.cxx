@@ -39,8 +39,7 @@ SessionManager::SessionManager()
 }
 
 SessionManager::~SessionManager()
-{
-}
+{}
 
 SessionManager* SessionManager::getInstance()
 {
@@ -49,7 +48,6 @@ SessionManager* SessionManager::getInstance()
     }
     return SessionManager::pInstance;
 }
-
 
 Session*
 SessionManager::newSession(Account* a)
@@ -178,7 +176,6 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 	//tell client about it.
 	SessionInfoMsg* info = s->generateSessionInfoMsg();
 	origin->send(info);
-
 }
 
 void
@@ -195,7 +192,6 @@ SessionManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 
 	Session* s = this->getSession(origin);
 	this->remCache(s);
-
 }
 
 // Local Variables: ***

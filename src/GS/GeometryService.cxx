@@ -37,7 +37,6 @@ localNodeName(localNodeName), listenPort(listenPort)
     this->registerMsgRoutes();
 
     this->dm = DataManager::getInstance();
-
 }
 
 GeometryService::~GeometryService()
@@ -50,7 +49,6 @@ GeometryService::getDataManager()
 {
 	return this->dm;
 }
-
 
 void
 GeometryService::registerMsgRoutes()
@@ -96,7 +94,6 @@ GeometryService::postRunHook() {
 
 	return true;
 }
-
 
 bool
 GeometryService::handleNetMsg(NetMsg* msg)

@@ -37,11 +37,9 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMouseEvent>
 
-
 namespace Ogre {
   class Camera;
 }
-
 
 /** @brief Base class for camera mode
  *
@@ -238,9 +236,7 @@ protected:
   vect_t _center;
 };
 
-
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

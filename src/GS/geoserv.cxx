@@ -56,7 +56,6 @@ int main(int argc, char* argv[])
     	localNodename = "DefaultGSNodename";
     }
 
-
     log->logBANNER("geoserv", "Booting GeometryService: " + localNodename);
 
     QString sport = c->getConfigValue("ListenPort");
@@ -76,11 +75,9 @@ int main(int argc, char* argv[])
     	return 1;
     }
 
-
     bool daemon = false;
 
     GeometryService* gs = new GeometryService(localNodename, port);
-
 
     //DataManager elements.
     QString useFileRepo = c->getConfigValue("UseFileRepo").toLower();
@@ -97,14 +94,11 @@ int main(int argc, char* argv[])
         gs->getDataManager()->addDataSource(fds);
      }
 
-
-
     if (daemon){
     	gs->start(); //will exit
     } else {
     	gs->run(); //blocks
     }
-
 
 	log->logINFO("geoserv", "Exiting...");
     delete gs;

@@ -30,13 +30,12 @@
 
 GeometryProcessor* GeometryProcessor::pInstance = NULL;
 
-GeometryProcessor::GeometryProcessor() {
-}
+GeometryProcessor::GeometryProcessor() {}
 
-GeometryProcessor::~GeometryProcessor() {
-}
+GeometryProcessor::~GeometryProcessor() {}
 
-GeometryProcessor* GeometryProcessor::getInstance() {
+GeometryProcessor*
+GeometryProcessor::getInstance() {
 	if (!GeometryProcessor::pInstance) {
 		pInstance = new GeometryProcessor();
 	}

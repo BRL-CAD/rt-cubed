@@ -30,7 +30,7 @@
 #include <QtCore/QString>
 #include <QtGui/QStandardItemModel>
 
-class ACPChatterBox: public QTableView
+class ACPChatterBox : public QTableView
 {
 public:
 	ACPChatterBox();

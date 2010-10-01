@@ -29,13 +29,11 @@
 #ifndef __G3D_GEDCOMMANDS_H__
 #define __G3D_GEDCOMMANDS_H__
 
-
 #include "GedCommand.h"
 
 #include <QtCore/QString>
 
 #include "GedData.h"
-
 
 /** @brief Dump a full copy of the database
  *
@@ -54,7 +52,6 @@ public:
     }
 };
 
-
 /** @brief Open a database for editing
  */
 class CommandGedOpenDB : public GedCommand
@@ -69,7 +66,6 @@ public:
       _argNames.push_back("filename");
     }
 };
-
 
 /** @brief Solids on ray
  *
@@ -86,7 +82,6 @@ public:
     {
     }
 };
-
 
 /** @brief Get libged database file summary.
  *
@@ -105,7 +100,6 @@ public:
     }
 };
 
-
 /** @brief Get/Set libged DB title.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -123,7 +117,6 @@ public:
     }
 };
 
-
 /** @brief Get libged database file version.
  *
  * @author Manuel A. Fernandez Montecelo <mafm@users.sourceforge.net>
@@ -139,7 +132,6 @@ public:
     {
     }
 };
-
 
 /** @brief Erase all currently displayed geometry
  *
@@ -158,7 +150,6 @@ public:
 };
 
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

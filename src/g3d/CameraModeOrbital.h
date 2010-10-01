@@ -30,9 +30,7 @@
 #ifndef __G3D_CAMERAMODEORBITAL_H__
 #define __G3D_CAMERAMODEORBITAL_H__
 
-
 #include "CameraMode.h"
-
 
 /** @brief Orbital camera mode
  *
@@ -83,9 +81,7 @@ public:
   virtual void cameraControlCenterReleased();
 };
 
-
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

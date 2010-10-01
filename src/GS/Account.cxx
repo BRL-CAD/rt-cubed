@@ -30,16 +30,18 @@ Account::Account(QString uname, Portal* portal, quint32 id) :
 	this->stampLastAccess();
 }
 
-Account::~Account() {
-}
+Account::~Account()
+{}
 
 QString
-Account::getUname() {
+Account::getUname()
+{
 	return this->uname;
 }
 
 Portal*
-Account::getPortal() {
+Account::getPortal()
+{
 	return this->portal;
 }
 
@@ -62,7 +64,6 @@ Account::getInactivityTime()
 
 	return now - this->lastAccess;
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

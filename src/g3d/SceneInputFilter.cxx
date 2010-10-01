@@ -31,8 +31,7 @@
 #include <QtGui/QGraphicsSceneWheelEvent>
 
 SceneInputFilter::SceneInputFilter(OgreGLWidget *target) : _oglwidget(target)
-{
-}
+{}
 
 bool SceneInputFilter::maybeUpdate(bool value) 
 {

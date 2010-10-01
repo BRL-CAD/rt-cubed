@@ -29,11 +29,11 @@
 #include <list>
 #include <map>
 #include <string>
+
 #include <QtCore/QUuid>
 
 class DbObjectManifest
 {
-
 public:
 	DbObjectManifest();
 	virtual ~DbObjectManifest();
@@ -41,10 +41,9 @@ public:
 private:
 	std::list<QUuid> DbObjectList;
 	std::map<QUuid, std::string > DbObjectMap;
-
 };
 
-#endif
+#endif /* __DBOBJECTMANIFEST_H__ */
 
 // Local Variables: ***
 // mode: C++ ***

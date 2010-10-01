@@ -47,8 +47,7 @@ ACPChatterBox::ACPChatterBox()
 }
 
 ACPChatterBox::~ACPChatterBox()
-{
-}
+{}
 
 void ACPChatterBox::addC2S(QString type, QString data)
 {
@@ -85,8 +84,8 @@ void ACPChatterBox::addCommon(QString type, QString dir, QString data)
 	item.append(qsi03);
 
 	this->internalModel->insertRow(0, item);
-
 }
+
 // Local Variables:
 // mode: C++
 // tab-width: 8

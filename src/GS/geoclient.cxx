@@ -24,7 +24,6 @@
  */
 
 #include "GeometryService.h"
-
 #include "libjob.h"
 #include "libutility.h"
 #include "libevent.h"
@@ -37,14 +36,18 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
-
 bool stayRun = true;
 std::string prompt ="geoclient> ";
 
-void logInfo(QString s) {
+void
+logInfo(QString s)
+{
 	Logger::getInstance()->logINFO("geoclient", s);
 }
-void logBanner(QString s) {
+
+void
+logBanner(QString s)
+{
 	Logger::getInstance()->logBANNER("geoclient", s);
 }
 
@@ -52,7 +55,6 @@ void logBanner(QString s) {
  * Prints the 'usage' statement to the console along with an optional message
  */
 void printUsage(std::string customMsg) {
-
 	if (customMsg.length() > 0) {
 		customMsg += "\n";
 		QString s(customMsg.c_str());
@@ -83,7 +85,6 @@ void processIn(std::string in) {
 		return;
 	}
     if(cmd == "sendshutdown") {
-
     	if (list.size() !=2 ) {
     		logInfo("useage: sendshutdown ip port");
     		return;
@@ -111,6 +112,7 @@ void processIn(std::string in) {
 		}
 
 		//Authenticate
+		//TODO Make session AUTH
 
 		//Send Shutdown
 		TypeOnlyMsg* tom = new TypeOnlyMsg(CMD_SHUTDOWN);
@@ -122,7 +124,6 @@ void processIn(std::string in) {
 		delete p;
 		return;
     }
-
 }
 
 /*
@@ -132,7 +133,6 @@ void processIn(std::string in) {
  *
  * =====================
  */
-
 
 int main(int argc, char* argv[])
 {
@@ -155,3 +155,12 @@ int main(int argc, char* argv[])
 	logInfo("Exiting.");
     return 0;
 }
+
+// Local Variables:
+// tab-width: 8
+// mode: C++
+// c-basic-offset: 4
+// indent-tabs-mode: t
+// c-file-style: "stroustrup"
+// End:
+// ex: shiftwidth=4 tabstop=8

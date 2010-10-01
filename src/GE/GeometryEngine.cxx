@@ -26,12 +26,10 @@
 #include "GeometryEngine.h"
 
 GeometryEngine::GeometryEngine()
-{
-}
+{}
 
 GeometryEngine::~GeometryEngine()
-{
-}
+{}
 
 // Local Variables: ***
 // mode: C++ ***

@@ -30,9 +30,7 @@
 #ifndef __G3D_CAMERAMODEBLENDER_H__
 #define __G3D_CAMERAMODEBLENDER_H__
 
-
 #include "CameraMode.h"
-
 
 /** @brief Blender camera mode
  *
@@ -111,7 +109,6 @@ private:
   /** Mode */
   bool _panModeEnabled;
 
-
   /** Common functionality for all places needing it */
   void panUp();
   /** Common functionality for all places needing it */
@@ -126,9 +123,7 @@ private:
   void doZoomOut();
 };
 
-
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

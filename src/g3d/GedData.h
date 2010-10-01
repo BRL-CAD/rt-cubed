@@ -30,17 +30,14 @@
 #ifndef __G3D_GEDDATA_H__
 #define __G3D_GEDDATA_H__
 
-
 #include <brlcad/ged.h>
 
 #include "../utility/Singleton.h"
 
 
-
 struct db_i;
 struct rt_wdb;
 struct ged;
-
 
 /** @brief Class containing libged-related data
  *
@@ -67,14 +64,11 @@ private:
   /** GED context */
   struct ged* _ged;
 
-
   /** Default constructor */
   GedData();
 };
 
-
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

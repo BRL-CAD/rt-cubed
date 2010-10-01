@@ -30,15 +30,12 @@ RGB::RGB(){
     val[1]=0;
     val[2]=0;
 ////  cout << "   RGB::RGB()" << endl;
-
 }
 RGB:: RGB(double r, double g, double b){
-
     val[0]=r;
     val[1]=g;
     val[2]=b;
 ////    cout << "   RGB::RGB(r,g,b)" << endl; 
-
 }
 double RGB::getBlue(){
   //returns blue value
@@ -67,7 +64,6 @@ void RGB::setColor(double r, double g, double b){
 }
 
 void RGB::add(RGB & p, RGB & q){
-
         val[0]= p.val[0] + q.val[0];
         val[1]= p.val[1] + q.val[1];
         val[2]= p.val[2] + q.val[2];

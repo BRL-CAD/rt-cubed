@@ -30,7 +30,6 @@
 
 namespace Image 
 {
-
   class PixelImage
   {
   protected:
@@ -59,7 +58,6 @@ namespace Image
   {
     return _height;
   }
-
 }
 
 #endif /* __PIXELIMAGE_H__ */

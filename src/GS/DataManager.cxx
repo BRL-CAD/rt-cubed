@@ -37,16 +37,13 @@ DataManager::DataManager()
 }
 
 DataManager::~DataManager()
-{
-}
+{}
 
 QString DataManager::getDbObjectByURL(QString url)
-{
-}
+{}
 
 QString DataManager::getDbObjectByUUID(QUuid& uuid)
-{
-}
+{}
 
 void
 DataManager::addDataSource(IDataSource* source)
@@ -83,9 +80,6 @@ DataManager::handleGeometryChunkMsg(GeometryChunkMsg* msg)
 		log->logERROR("DataManager", "handleGeometryChunkMsg(): NULL Portal!");
 		return;
 	}
-
-
-
 }
 
 void
@@ -138,7 +132,6 @@ DataManager::handleGeometryReqMsg(GeometryReqMsg* msg)
 			return;
 		}
 
-
 	} else if (reqType == REQ_BY_UUID) {
 		//Not implemented!!!
 		TypeOnlyMsg* tom = new TypeOnlyMsg(OPERATION_NOT_AVAILABLE, msg);
@@ -151,7 +144,6 @@ DataManager::handleGeometryReqMsg(GeometryReqMsg* msg)
 		return;
 	}
 }
-
 
 DataManager* DataManager::getInstance()
 {

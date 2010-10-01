@@ -29,9 +29,7 @@
 #ifndef __G3D_GEDCOMMAND_H__
 #define __G3D_GEDCOMMAND_H__
 
-
 #include "Command.h"
-
 
 /**
  * @brief Command for invoking libged functions
@@ -68,7 +66,6 @@ private:
 };
 
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

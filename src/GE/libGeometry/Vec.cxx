@@ -81,7 +81,6 @@ void Vec::add(Vec v1) {
   Z+= v1.Z;
 }
 
-
 void Vec::sub(Vec v1) {
   X-= v1.X;
   Y-= v1.Y;

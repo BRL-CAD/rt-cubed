@@ -32,7 +32,6 @@
 
 #include "Logger.h"
 
-
 /*******************************************************************************
  * GedCommand
  ******************************************************************************/
@@ -41,9 +40,7 @@ GedCommand::GedCommand(const GedFunc func,
 		       const QString& shortDescr,
 		       const QString& extraDescr) :
   Command(name, shortDescr, extraDescr), _gedFunc(func)
-{
-}
-
+{}
 
 QString GedCommand::execute(const QStringList& args) 
 {

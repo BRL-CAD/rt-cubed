@@ -36,7 +36,6 @@
 
 #include "Logger.h"
 
-
 /*******************************************************************************
  * CameraModeMGED
  ******************************************************************************/
@@ -406,7 +405,6 @@ void CameraModeMGED::panRight()
 {
   pan(-(_camera->getOrthoWindowWidth()/PAN_FRACTION), 0);
 }
-
 
 // Local Variables: ***
 // mode: C++ ***

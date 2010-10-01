@@ -39,11 +39,9 @@ NetMsg* CommandProcessor::parseCommand(QStringList cmdList)
 	QString cmd = cmdList[0];
 
 	if (cmd == "connect") {
-
 	} else {
 		//return new UnknownCommand(this->box, cmd);
 	}
-
 }
 
 // Local Variables:

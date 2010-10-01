@@ -30,9 +30,7 @@
 #ifndef __G3D_CAMERAMODEMGED_H__
 #define __G3D_CAMERAMODEMGED_H__
 
-
 #include "CameraMode.h"
-
 
 /** @brief MGED camera mode
  *
@@ -150,9 +148,7 @@ private:
   void panRight();
 };
 
-
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

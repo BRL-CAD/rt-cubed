@@ -37,10 +37,8 @@
 
 #include "../utility/Singleton.h"
 
-
 class Command;
 class CommandOutput;
-
 
 /**
  * @brief Command Interpreter class
@@ -109,7 +107,6 @@ private:
 };
 
 #endif
-
 
 // Local Variables: ***
 // mode: C++ ***

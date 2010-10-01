@@ -26,12 +26,10 @@
 #include "GED.h"
 
 GED::GED()
-{
-}
+{}
 
 GED::~GED()
-{
-}
+{}
 
 // Local Variables: ***
 // mode: C++ ***
