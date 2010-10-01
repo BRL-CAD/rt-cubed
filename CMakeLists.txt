@@ -77,7 +77,6 @@ SET (BRLCAD_BASE_DIR CACHE FILEPATH "Used for specifying a non-standard install 
 
 SET (RT3_BUILD_TESTS ON CACHE BOOL "Build tests in /test dir")
 
-
 MESSAGE(STATUS "Finding Required Dependancies...")
 
 #
@@ -137,7 +136,6 @@ ENDIF (RT3_BUILD_TESTS)
 #################################
 INCLUDE (./cmake/PrintFooter.cmake)
 #################################
-
 
 IF (RT3_COMPILE_WARNINGS)
     MESSAGE(STATUS "There were some Build Config Errors!")

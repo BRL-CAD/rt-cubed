@@ -26,7 +26,6 @@ testing
 -------
 tests			- automation tests
 
-
 Coding Standards
 ================
 
@@ -287,7 +286,6 @@ Violations of these rules in the existing code are not excuses to
 follow suit.  If code is seen that doesn't conform, it may and should
 be fixed.
 
-
 Generic Code
 ------------
 
@@ -308,7 +306,6 @@ If there is a question as to what might comprise a generic version,
 and it is something not covered by POSIX, facilities provided by
 either BSD or GNU are acceptable alternatives.  If there is not an
 alternative facility, figure out another way.
-
 
 Version Numbers
 ===============
@@ -332,7 +329,6 @@ previous versions.
 any previous version.
 
 3.12.5 is a production version with 5 released patches
-
 
 References
 ==========

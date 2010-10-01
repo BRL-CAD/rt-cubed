@@ -6,12 +6,10 @@ this out, it's expected that you are a competent developer.  Please
 direct all feedback to the BRL-CAD developer mailing list.  Thank you
 for your patience and understanding.
 
-
 Compilation & Installation (mafm, GSoC 2008 WIP)
 ------------------------------------------------
 
 Read INSTALL and skip the rest of this file for now.
-
 
 Compilation & Installation
 --------------------------
@@ -28,18 +26,15 @@ default settings, run the following commands:
 make
 sudo make install
 
-
 Known Bugs
 ----------
 
 See BUGS
 
-
 Contributors
 ------------
 
 See AUTHORS
-
 
 Development
 -----------

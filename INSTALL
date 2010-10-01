@@ -18,14 +18,12 @@ compilation and linking automatically.
 imaging libraries for OGRE (in example DevIL) -- but maybe also others
 depending on your system.
 
-
 Please note that the support for this experimental branch is not very
 strong (we even had to create CMake and pkg-config files to smooth the
 process, because of some annoying rough edges), and at the moment
 it'll probably only compile in Unix-like systems with GCC compiler --
 for other systems you'll probably have to tweak things and install
 parts by hand.
-
 
 Building
 --------
@@ -42,7 +40,6 @@ SGI IRIX 6.5+
 Support for additional systems may be considered with sufficient
 encouragement or justification.  That stated, the build is constantly
 tested on a variety of systems.
-
 
 Quick Start
 -----------
@@ -61,7 +58,6 @@ them installed in the system for some reason, you can do
 NOTE: Ogre won't work with stable releases so far (as of July 2008),
 so if you don't want to use the one shipped in 'src/other' you need to
 check out SVN trunk head.
-
 
 * To compile g3d with cmake && make as usual, you have to do:
 
