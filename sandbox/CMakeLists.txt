@@ -42,7 +42,6 @@ MESSAGE(STATUS "Finding Required Dependancies...")
 # Required packages
 #
 
-
 #Find BRLCAD
 FIND_PACKAGE ( BRLCAD REQUIRED )
 IF (NOT BRLCAD_FOUND)
@@ -71,7 +70,6 @@ MESSAGE(STATUS "\t\tInclude dirs: \t${QT_INCLUDE_DIR}")
 MESSAGE(STATUS "\t\tQt Version: \t${QT_VERSION}")
 MESSAGE(STATUS "All Dependancies Found")
 MESSAGE(STATUS "")
-
 
 ##############################################################
 

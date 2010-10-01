@@ -24,51 +24,48 @@
 #import <QtCore/QThread>
 #import <iostream>
 
-class TestThread: public QThread
+class TestThread : public QThread
 {
 public:
     static void msleep(unsigned long int msec) {
-	QThread::msleep(msec);
+    	QThread::msleep(msec);
     }
 protected:
     void run()
     {
-	TestThread::msleep(1500);
-	std::cout << "Burp.\n";
+    	TestThread::msleep(1500);
+    	std::cout << "Burp.\n";
     }
 };
 
-class RelayThread: public QThread
+class RelayThread : public QThread
 {
 public:
     RelayThread(QThread* thread) {
-	this->thread = thread;
+    	this->thread = thread;
     }
-    static void msleep(unsigned long int msec) {
-	QThread::msleep(msec);
+	static void msleep(unsigned long int msec) {
+		QThread::msleep(msec);
     }
 
 protected:
     void run()
     {
-	RelayThread::msleep(153);
-	this->thread->start();
+    	RelayThread::msleep(153);
+    	this->thread->start();
     }
 private:
     QThread* thread;
 };
-
 
 /**
  * main application
  */
 int main(int argc, char *argv[])
 {
-
     TestThread* t1 = new TestThread();
     TestThread* t2 = new TestThread();
     TestThread* t3 = new TestThread();
-
 
     RelayThread r1(t1);
     RelayThread r2(t2);
