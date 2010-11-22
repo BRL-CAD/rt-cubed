@@ -285,7 +285,7 @@ PortalManager::makeNewSwitchTable() {
 
 	table[0].pks_type = PKG_MAGIC2;
 	table[0].pks_handler = &(Portal::callbackSpringboard);
-	table[0].pks_title = "SpringBoard";
+	table[0].pks_title = (char* )"SpringBoard";
 	table[0].pks_user_data = 0;
 
 	table[1].pks_type = 0;
