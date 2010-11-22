@@ -128,7 +128,7 @@ void Logger::log(quint32 logLevel, QString origin, QString string) {
 		std::string std_string = out.str();
 		const char* c_string = std_string.c_str();
 
-		bu_log(c_string, "");
+		bu_log("%s", c_string);
 	}
 }
 
