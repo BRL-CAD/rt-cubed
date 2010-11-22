@@ -164,9 +164,9 @@ runServer(int port)
 {
   struct pkg_switch callbacks[] =
     {
-      { PKGCPP_HELO, server_helo, "HELO" },
-      { PKGCPP_DATA, server_data, "DATA" },
-      { PKGCPP_CIAO, server_ciao, "CIAO" },
+      { PKGCPP_HELO, server_helo,  (char*)"HELO" },
+      { PKGCPP_DATA, server_data,  (char*)"DATA" },
+      { PKGCPP_CIAO, server_ciao,  (char*)"CIAO" },
       { 0, 0, (char*) 0 } };
 
   PkgTcpServer pkgServer;
