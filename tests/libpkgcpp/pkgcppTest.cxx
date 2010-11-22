@@ -275,7 +275,7 @@ runClient(std::string ipOrHostname, int port)
 
   Logger::getInstance()->logINFO("PkgCppTest", "Sending HELO to server.\n");
 
-  long bytes = 0;
+  int bytes = 0;
 
   //Send a HELO
   bytes = connToServer->send(PKGCPP_HELO, CLIENT_NAME, strlen(CLIENT_NAME) + 1);
