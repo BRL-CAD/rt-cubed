@@ -93,10 +93,15 @@ PortalManager::_run() {
 		this->masterFDSLock.unlock();
 	}
 
+	bool isListener = false;
+	bool readyRead = false;
+	bool readyAccept = false;
+	bool readyException = false;
+
 	while (this->runCmd) {
 		//Set values EVERY loop since select() on *nix modifies this.
 		timeout.tv_sec = 0;
-		timeout.tv_usec = 50 * 1000;
+		timeout.tv_usec = 50 * 1000 * 2;
 
 		this->masterFDSLock.lock();
 		readfds = masterfds;
@@ -104,36 +109,28 @@ PortalManager::_run() {
 		this->masterFDSLock.unlock();
 
 		//Shelect!!
-		int retval = select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
-/*
+		int retVal = select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
+
+
+		if (retVal != 0) {
 		QString out("Select returned: ");
-		out.append(QString::number(retval));
+		out.append(QString::number(retVal));
 		out.append(". FD count: ");
 		out.append(QString::number(this->fdPortalMap->keys().size()));
 		out.append(". MAX FD: ");
 		out.append(QString::number(fdmax));
 		this->log->logINFO("PortalManager", out);
-*/
+		}
+
 		//Save time on the loop:
-		if (retval == 0) {
+		if (retVal == 0) {
 			//continue;
 		}
 
-		if (retval < 0) {
+		if (retVal < 0) {
 			//got a selector error
 
-			/*      if(revtal == EABDF) {
-			 bu_log("Selector Error: EBADF: An invalid file descriptor was given in one of the sets. (Perhaps a file descriptor that was already closed, or one on which an error has occurred.)\n");
-			 } else if (retval == EINTR) {
-			 bu_log("Selector Error: EINTR: A signal was caught.\n");
-			 } else if (retval == EINVAL) {
-			 bu_log("Selector Error: EINVAL: nfds is negative or the value contained within timeout is invalid.\n");
-			 } else if (retval == ENOMEM) {
-			 bu_log("Selector Error: ENOMEM: unable to allocate memory for internal tables.\n");
-			 }*/
-
-///			this->log->logERROR("PortalManager", "Selector Error.");
-			bu_log("Selector error: %d\n", errno);
+			this->log->logERROR("PortalManager", "Selector Error: " + QString::number(errno));
 
 			break;
 		}
@@ -147,29 +144,12 @@ PortalManager::_run() {
 			}
 
 			//Simplify switching later with bools now
-			bool isListener = (i == listener);
-			bool readyRead = FD_ISSET(i, &readfds) && !isListener;
-			bool readyAccept = FD_ISSET(i, &readfds) && isListener;
-			bool readyException = FD_ISSET(i, &exceptionfds);
-/*
-			QString s("FD:");
-			s.append(QString::number(i));
+			isListener = (i == listener);
+//			readyRead = FD_ISSET(i, &readfds) && !isListener;
+			readyRead = true; //Hotwire for now.
+			readyAccept = FD_ISSET(i, &readfds) && isListener;
+			readyException = FD_ISSET(i, &exceptionfds);
 
-			if (isListener) {
-				s.append(" is the listener and");
-			}
-
-			s.append(" is on the: masterFDS");
-
-			if (readyRead) {
-				s.append(", readFDS");
-			}
-			if (readyException) {
-				s.append(", exceptionFDS");
-			}
-
-			log->logDEBUG("PortalManager", s);
-*/
 			//If nothing to do, then continue;
 			if (!readyRead && !readyAccept && !readyException) {
 				continue;
@@ -222,13 +202,7 @@ PortalManager::_run() {
 				this->closeFD(i, s);
 				continue;
 			}
-			/*
-			 const pkg_switch* table = p->pkgClient->getCallBackTable();
-			 pkg_switch sw = table[0];
-			 bu_log("PM(3.1): Route[0] type: %d\n", sw.pks_type);
-			 bu_log("PM(3.1): Route[0] callback: %d\n", sw.pks_handler);
-			 bu_log("PM(3.1): Route[0] user_data: %d\n", sw.pks_user_data);
-			 */
+
 			//read
 			if (readyRead) {
 				//this->log->logINFO("PortalManager", "Read");
