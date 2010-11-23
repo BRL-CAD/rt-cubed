@@ -39,7 +39,7 @@ pm(pm), pkgClient(client), callbackTable(table), log(Logger::getInstance()), han
 {
 	this->remoteNodeName = "NotSetYet-" + QUuid::createUuid().toString();
 
-	//set the struct's userdata
+	/* set the struct's userdata */
 	this->callbackTable[0].pks_user_data = this;
 }
 
@@ -87,13 +87,13 @@ int
 Portal::read() {
 	int retval = 0;
 
-	//recv first
+	/* recv first */
 	retval = this->pkgClient->processData();
 	if (retval < 0) {
 		this->log->logERROR("Portal",
 				"Unable to process packets? Weird. (1) ");
 		return retval;
-	}//TODO do we need to check for ==0 ?
+	}/* TODO do we need to check for ==0 ? */
 
 	retval = this->pkgClient->pullDataFromSocket();
 	if (retval < 0) {
@@ -110,7 +110,7 @@ Portal::read() {
 	if (retval < 0) {
 		this->log->logERROR("Portal", "Unable to process packets? Weird. (2)");
 		return retval;
-	}//TODO do we need to check for ==0 ?
+	}/* TODO do we need to check for ==0 ? */
 
 	return 1;
 }
@@ -136,8 +136,8 @@ Portal::handleNetMsg(NetMsg* msg) {
 			QString s("Recv-ed a RemoteNodename: ");
 			s.append(this->remoteNodeName);
 			this->log->logDEBUG("Portal", s);
-
 		}
+
 		delete msg;
 		return true;
 	} else if (type == RUALIVE) {
@@ -157,7 +157,7 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 	/* Check to see if we got a good Buffer and Portal Object */
 	if (buf == 0) {
 		log->logERROR("Portal", "pkg callback returned a NULL buffer!");
-		//	bu_bomb("pkg callback returned a NULL buffer!\n");
+		/*	bu_bomb("pkg callback returned a NULL buffer!\n"); */
 		return;
 	}
 
@@ -187,13 +187,13 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 
 	/* Route */
 
-	//give the Portal first dibs on the netmsg
+	/* give the Portal first dibs on the netmsg */
 	if (p->handleNetMsg(msg)) {
 		return;
 	}
 
-	//Fire off a Job.  This keeps the selector loop from
-	//delivering all the Msg copies personally.
+	/* Fire off a Job.  This keeps the selector loop from */
+	/* delivering all the Msg copies personally.*/
 	RouteMsgJob* job = new RouteMsgJob(msg);
 	job->submit();
 }
@@ -204,10 +204,12 @@ Portal::disconnect()
 	this->pm->disconnect(this);
 }
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables:
+ * mode: C
+ * tab-width: 8
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

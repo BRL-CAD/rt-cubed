@@ -48,7 +48,7 @@ NetMsgRouter::~NetMsgRouter() {
 }
 
 bool NetMsgRouter::registerType(quint16 type, INetMsgHandler* handler) {
-	//First get the appropriate list:
+	/* First get the appropriate list: */
 	QList<INetMsgHandler*>* list = this->getListOfHandlers(type);
 	list->append(handler);
 
@@ -56,7 +56,7 @@ bool NetMsgRouter::registerType(quint16 type, INetMsgHandler* handler) {
 }
 
 bool NetMsgRouter::routeMsg(NetMsg* msg) {
-	//First get the appropriate list:
+	/* First get the appropriate list: */
 	QList<INetMsgHandler*>* list = this->getListOfHandlers(msg->getMsgType());
 
 	QString s("Got a message whos origin is Portal: ");
@@ -71,7 +71,7 @@ bool NetMsgRouter::routeMsg(NetMsg* msg) {
 	Logger::getInstance()->logINFO("NetMsgRouter", s);
 
 	if (list->length() == 0) {
-		//If no routing table, send back an error
+		/* If no routing table, send back an error */
 		TypeOnlyMsg* tom = new TypeOnlyMsg(UNHANDLED_MSG_TYPE);
 		origin->send(tom);
 		return false;
@@ -81,7 +81,7 @@ bool NetMsgRouter::routeMsg(NetMsg* msg) {
 			list->at(i)->handleNetMsg(msg);
 		}
 	}
-	//Now delete msg
+	/* Now delete msg */
 	delete msg;
 	return true;
 }
@@ -102,14 +102,16 @@ NetMsgRouter::getListOfHandlers(quint16 type) {
 void
 NetMsgRouter::registerInternalTypes()
 {
-	//TODO add in any type<->Handler associations that should be automatically mapped here.
+	/* TODO add in any type<->Handler associations that should be automatically mapped here. */
 }
 
-// Local Variables:
-// tab-width: 8
-// mode: C++
-// c-basic-offset: 4
-// indent-tabs-mode: t
-// c-file-style: "stroustrup"
-// End:
-// ex: shiftwidth=4 tabstop=8
+/*
+ * Local Variables:
+ * mode: C
+ * tab-width: 8
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */
+

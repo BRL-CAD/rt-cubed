@@ -82,7 +82,7 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
 
   QDataStream* qds = new QDataStream(data);
 
-  //TODO Replace this with a map for registration scheme
+  /* TODO Replace this with a map for registration scheme */
   switch (msgType)
     {
   case TEST_GENERIC_4BYTE_MSG:
@@ -117,10 +117,10 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
 
   case NEWNODEONNET:
     return new GenericOneStringMsg(qds, origin);
-    //    case FULL_NODE_LISTREQ:
-    //	return new NetMsg(qds, origin);
-    //    case FULL_NODE_LIST:
-    //	return new NetMsg(qds, origin);
+    /*     case FULL_NODE_LISTREQ: */
+    /* 	return new NetMsg(qds, origin); */
+    /*     case FULL_NODE_LIST: */
+    /* 	return new NetMsg(qds, origin); */
 
   case NEWSESSIONREQ:
     return new NewSessionReqMsg(qds, origin);
@@ -134,7 +134,7 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
   case GEOMETRYCHUNK:
     return new GeometryChunkMsg(qds, origin);
 
-    //Admin commands
+    /* Admin commands */
   case CMD_SHUTDOWN:
     return new TypeOnlyMsg(qds, origin);
 
@@ -143,10 +143,12 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
     }
 }
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables:
+ * mode: C
+ * tab-width: 8
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

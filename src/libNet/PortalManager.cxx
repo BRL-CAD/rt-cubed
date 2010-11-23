@@ -99,7 +99,7 @@ PortalManager::_run() {
 	bool readyException = false;
 
 	while (this->runCmd) {
-		//Set values EVERY loop since select() on *nix modifies this.
+		/* Set values EVERY loop since select() on *nix modifies this. */
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 50 * 1000 * 2;
 
@@ -108,7 +108,7 @@ PortalManager::_run() {
 		exceptionfds = masterfds;
 		this->masterFDSLock.unlock();
 
-		//Shelect!!
+		/* Shelect!! */
 		int retVal = select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
 
 
@@ -122,13 +122,8 @@ PortalManager::_run() {
 		this->log->logINFO("PortalManager", out);
 		}
 
-		//Save time on the loop:
-		if (retVal == 0) {
-			//continue;
-		}
-
 		if (retVal < 0) {
-			//got a selector error
+			/* got a selector error */
 
 			this->log->logERROR("PortalManager", "Selector Error: " + QString::number(errno));
 
@@ -138,33 +133,33 @@ PortalManager::_run() {
 		for (int i = 0; i <= fdmax; ++i) {
 			bool isaFD = FD_ISSET(i, &masterfds);
 
-			//Don't muck with an FD that isn't ours!
+			/* Don't muck with an FD that isn't ours!*/
 			if (!isaFD) {
 				continue;
 			}
 
-			//Simplify switching later with bools now
+			/* Simplify switching later with bools now*/
 			isListener = (i == listener);
-//			readyRead = FD_ISSET(i, &readfds) && !isListener;
-			readyRead = true; //Hotwire for now.
+/* 			readyRead = FD_ISSET(i, &readfds) && !isListener;*/
+			readyRead = true; /* Hotwire for now.*/
 			readyAccept = FD_ISSET(i, &readfds) && isListener;
 			readyException = FD_ISSET(i, &exceptionfds);
 
-			//If nothing to do, then continue;
+			/* If nothing to do, then continue;*/
 			if (!readyRead && !readyAccept && !readyException) {
 				continue;
 			}
 
-			//Handle exceptions
+			/* Handle exceptions */
 			if (readyException) {
-				//TODO handle exceptions
+				/* TODO handle exceptions */
 				perror("Exception on FileDescriptor");
 			}
 
 			Portal* p = NULL;
-			//Accept new connections:
+			/* Accept new connections: */
 			if (readyAccept) {
-				//log->logINFO("PortalManager", "Accept");
+				/* log->logINFO("PortalManager", "Accept"); */
 
 				struct pkg_switch* table = this->makeNewSwitchTable();
 
@@ -176,26 +171,26 @@ PortalManager::_run() {
 					log->logERROR("PortalManager",
 							"Error on accepting new client.");
 				} else {
-					//Handle new client here.
+					/* Handle new client here. */
 					p = this->makeNewPortal(client, table);
 				}
 			}
 
-			//the only thing we want to do on the listener loop is accept
+			/* the only thing we want to do on the listener loop is accept */
 			if (isListener) {
 				continue;
 			}
 
-			//If we didnt get a portal from accepting, then get one from the map
+			/* If we didnt get a portal from accepting, then get one from the map */
 			if (p == 0 && this->fdPortalMap->contains(i)) {
 				this->portalsLock->lock();
 				p = this->fdPortalMap->value(i);
 				this->portalsLock->unlock();
 			}
 
-			//Check, again, if we have a good portal.
+			/* Check, again, if we have a good portal. */
 			if (p == 0) {
-				//Deal with unmapped file Descriptor
+				/* Deal with unmapped file Descriptor */
 				QString s("FD ");
 				s.append(QString::number(i));
 				s.append(" not associated with a Portal, dropping connection.");
@@ -203,9 +198,9 @@ PortalManager::_run() {
 				continue;
 			}
 
-			//read
+			/* read */
 			if (readyRead) {
-				//this->log->logINFO("PortalManager", "Read");
+				/* this->log->logINFO("PortalManager", "Read"); */
 
 				int readResult = p->read();
 
@@ -217,10 +212,10 @@ PortalManager::_run() {
 					continue;
 				}
 			}
-		} //end FOR
-	} //end while
+		} /* end FOR */
+	} /* end while */
 	this->log->logINFO("PortalManager", "Shutdown");
-}//end fn
+}/* end fn */
 
 Portal*
 PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
@@ -230,7 +225,7 @@ PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
 		return 0;
 	}
 
-	//Obtain lock and then map this new portal
+	/* Obtain lock and then map this new portal */
 	this->portalsLock->lock();
 	int newFD = p->pkgClient->getFileDescriptor();
 	this->fdPortalMap->insert(newFD, p);
@@ -240,7 +235,7 @@ PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
 	s.append(QString::number(newFD));
 	log->logDEBUG("PortalManager", s);
 
-	//Check maxFD and update if needed.
+	/* Check maxFD and update if needed. */
 	if (newFD > fdmax) {
 		this->masterFDSLock.lock();
 		FD_SET(newFD, &masterfds);
@@ -313,20 +308,21 @@ PortalManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 {
 	Portal* origin = msg->getOrigin();
 
-	//validate incoming data
+	/* validate incoming data */
 	if (origin == 0) {
-		//TODO Figure out how to how to handle NULL Portal
+		/* TODO Figure out how to how to handle NULL Portal */
 		log->logERROR("PortalManager", "handleDisconnectReqMsg(): NULL Portal!");
 		return;
 	}
 
 	this->disconnect(origin);
 }
-
-// Local Variables:
-// tab-width: 8
-// mode: C++
-// c-basic-offset: 4
-// indent-tabs-mode: t
-// End:
-// ex: shiftwidth=4 tabstop=8
+/*
+ * Local Variables:
+ * mode: C
+ * tab-width: 8
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */
