@@ -285,7 +285,7 @@ PortalManager::closeFD(int fd, QString logComment) {
 	this->portalsLock->unlock();
 
 	if (logComment.length() >0) {
-		this->log->logERROR("PortalManager", logComment);
+		this->log->logINFO("PortalManager", logComment);
 	}
 }
 
