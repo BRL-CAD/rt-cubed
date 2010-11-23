@@ -51,11 +51,11 @@ int
 Portal::send(NetMsg* msg) {
 	QByteArray* ba = msg->serialize();
 
-//	QString s("Sending msg.  Type: ");
-//	s.append(QString::number(msg->getMsgType()));
-//	s.append(" len: ");
-//	s.append(QString::number(ba->size()));
-//	log->logDEBUG("Portal", s);
+	QString s("Sending msg.  Type: ");
+	s.append(QString::number(msg->getMsgType()));
+	s.append(" len: ");
+	s.append(QString::number(ba->size()));
+	log->logDEBUG("Portal", s);
 
 	int retval = this->pkgClient->send(PKG_MAGIC2, ba->data(), ba->size());
 
@@ -92,14 +92,6 @@ Portal::flush() {
 int
 Portal::read() {
 	int retval = 0;
-
-	/*
-	 const pkg_switch* table = this->pkgClient->getCallBackTable();
-	 pkg_switch sw = table[0];
-	 bu_log("P(1.1): Route[0] type: %d\n", sw.pks_type);
-	 bu_log("P(1.1): Route[0] callback: %d\n", sw.pks_handler);
-	 bu_log("P(1.1): Route[0] user_data: %d\n", sw.pks_user_data);
-	 */
 
 	//recv first
 	retval = this->pkgClient->processData();
@@ -168,6 +160,8 @@ Portal::handleNetMsg(NetMsg* msg) {
 
 void
 Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
+	Logger* log = 		Logger::getInstance();
+
 	/* Check to see if we got a good Buffer and Portal Object */
 	if (buf == 0) {
 		bu_bomb("pkg callback returned a NULL buffer!\n");
@@ -178,14 +172,14 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 	QByteArray ba(buf, len);
 
 	if (conn->pkc_user_data == 0) {
-		bu_log("pkg callback returned a NULL user_data pointer!\n");
-
+		log->logERROR("Portal", "pkg callback returned a NULL user_data pointer!");
+		return;
 	}
 
 	Portal* p = (Portal*) conn->pkc_user_data;
 
 	if (p == 0) {
-		bu_log("WARNING!  NULL Portal.\n");
+		log->logERROR("Portal", "WARNING!  NULL Portal.");
 	}
 
 	/* Build a NetMsg */
@@ -193,7 +187,7 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 
 	/* check to see if we deserialized the msg properly */
 	if (msg == 0) {
-		bu_log("WARNING!  NetMsg failed to deserialize properly.\n");
+		log->logERROR("Portal", "WARNING!  NetMsg failed to deserialize properly.\n");
 		return;
 	}
 
