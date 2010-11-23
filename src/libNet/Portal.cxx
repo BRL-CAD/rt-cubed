@@ -51,18 +51,15 @@ int
 Portal::send(NetMsg* msg) {
 	QByteArray* ba = msg->serialize();
 
+/*
 	QString s("Sending msg.  Type: ");
 	s.append(QString::number(msg->getMsgType()));
 	s.append(" len: ");
 	s.append(QString::number(ba->size()));
 	log->logDEBUG("Portal", s);
+*/
 
 	int retval = this->pkgClient->send(PKG_MAGIC2, ba->data(), ba->size());
-
-//	s = "Sent ";
-//	s.append(QString::number(retval));
-//	s.append(" bytes.");
-//	log->logDEBUG("Portal", s);
 
 	delete ba;
 	return retval;
@@ -76,9 +73,6 @@ Portal::sendGSNodeName() {
 		localNodeName = QUuid::createUuid().toString();
 	}
 
-//	QString s("Sending my localNodename: ");
-//	s.append(localNodeName);
-//	this->log->logDEBUG("Portal", s);
 
 	RemoteNodenameSetMsg* msg = new RemoteNodenameSetMsg(localNodeName);
 	this->send(msg);
@@ -143,8 +137,6 @@ Portal::handleNetMsg(NetMsg* msg) {
 			s.append(this->remoteNodeName);
 			this->log->logDEBUG("Portal", s);
 
-			//reply
-			//this->sendGSNodeName();
 		}
 		delete msg;
 		return true;
@@ -164,7 +156,9 @@ Portal::callbackSpringboard(struct pkg_conn* conn, char* buf) {
 
 	/* Check to see if we got a good Buffer and Portal Object */
 	if (buf == 0) {
-		bu_bomb("pkg callback returned a NULL buffer!\n");
+		log->logERROR("Portal", "pkg callback returned a NULL buffer!");
+		//	bu_bomb("pkg callback returned a NULL buffer!\n");
+		return;
 	}
 
 	int len = conn->pkc_inend - sizeof(pkg_header);
