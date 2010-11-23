@@ -61,9 +61,7 @@ NetMsg::NetMsg(QDataStream* ds, Portal* origin)
   this->msgUUID = *Utils::getQUuid(ds);
   *ds >> this->hasReUUID;
   if (this->hasReUUID)
-    {
       this->reUUID = *Utils::getQUuid(ds);
-    }
 }
 
 /* Destructor */
@@ -75,9 +73,7 @@ QByteArray*
 NetMsg::serialize()
 {
   QByteArray* ba = new QByteArray();
-
   this->serialize(ba);
-
   return ba;
 }
 
@@ -145,57 +141,40 @@ NetMsg::operator==(const NetMsg& other)
   return this->equals(other);
 }
 
-bool
-NetMsg::equals(const NetMsg& other)
-{
-  if (this->getMsgType() != other.getMsgType())
-    {
-      return false;
-    }
+bool NetMsg::equals(const NetMsg& other) {
+	if (this->getMsgType() != other.getMsgType())
+		return false;
 
-  if (this->getMsgUUID() != other.getMsgUUID())
-    {
-      return false;
-    }
+	if (this->getMsgUUID() != other.getMsgUUID())
+		return false;
 
-  if (this->msgHasReUUID() != other.msgHasReUUID())
-    {
-      return false;
-    }
+	if (this->msgHasReUUID() != other.msgHasReUUID())
+		return false;
 
-  if (this->msgHasReUUID())
-    {
-      if (this->getReUUID() != other.getReUUID())
-        {
-          return false;
-        }
-    }
+	if (this->msgHasReUUID())
+		if (this->getReUUID() != other.getReUUID())
+			return false;
 
-  return this->_equals(other);
+	return this->_equals(other);
 }
 
-QString
-NetMsg::toString()
+QString NetMsg::toString()
 {
-  QString out;
+	QString out;
 
-  out += "msgType: '" + QString::number(this->msgType);
+	out += "msgType: '" + QString::number(this->msgType);
 
-  if (this->msgUUID != NULL)
-    {
-      out += "'\t msgUUID: '" + this->msgUUID.toString();
-    }
+	if (this->msgUUID != NULL)
+		out += "'\t msgUUID: '" + this->msgUUID.toString();
 
-  out += "'\t hasReUUID: '" + QString::number(this->hasReUUID);
+	out += "'\t hasReUUID: '" + QString::number(this->hasReUUID);
 
-  if (this->reUUID != NULL)
-    {
-      out += "'\t reUUID: '" + this->reUUID.toString();
-    }
+	if (this->reUUID != NULL)
+		out += "'\t reUUID: '" + this->reUUID.toString();
 
-  out += "'";
+	out += "'";
 
-  return out;
+	return out;
 }
 
 std::string
