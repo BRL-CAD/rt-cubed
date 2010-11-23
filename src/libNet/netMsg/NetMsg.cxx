@@ -70,7 +70,7 @@ NetMsg::NetMsg(QDataStream* ds, Portal* origin)
 NetMsg::~NetMsg()
 {}
 
-//Serializers
+/* Serializers */
 QByteArray*
 NetMsg::serialize()
 {
@@ -84,10 +84,10 @@ NetMsg::serialize()
 void
 NetMsg::serialize(QByteArray* ba)
 {
-  //Make a DS for the subclass
+  /* Make a DS for the subclass */
   QDataStream subDS(ba, QIODevice::ReadWrite);
 
-  //Serialize Header
+  /* Serialize Header */
   subDS << this->msgType;
   Utils::putQUuid(&subDS, this->msgUUID);
   subDS << this->hasReUUID;
@@ -97,7 +97,7 @@ NetMsg::serialize(QByteArray* ba)
       Utils::putQUuid(&subDS, this->reUUID);
     }
 
-  //Call subclass serialize
+  /* Call subclass serialize */
   if (!this->_serialize(&subDS))
     {
       std::cerr << "A serialization Error in NetMsg::serialize() occurred.\n";
@@ -210,10 +210,12 @@ NetMsg::printMe()
   std::cout << this->toStdString();
 }
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables:
+ * mode: C
+ * tab-width: 8
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

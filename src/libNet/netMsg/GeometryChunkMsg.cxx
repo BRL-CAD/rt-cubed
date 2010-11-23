@@ -37,7 +37,7 @@ GeometryChunkMsg::GeometryChunkMsg(NetMsg* msg, char* dataIn, quint32 dataInLen)
 	GenericMultiByteMsg(GEOMETRYCHUNK, msg, dataIn, dataInLen)
 {}
 
-//Deserializing Constructor
+/* Deserializing Constructor */
 GeometryChunkMsg::GeometryChunkMsg(QDataStream* ds, Portal* origin) :
     GenericMultiByteMsg(ds, origin)
 {}
@@ -46,10 +46,12 @@ GeometryChunkMsg::GeometryChunkMsg(QDataStream* ds, Portal* origin) :
 GeometryChunkMsg::~GeometryChunkMsg()
 {}
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables:
+ * mode: C
+ * tab-width: 8
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */

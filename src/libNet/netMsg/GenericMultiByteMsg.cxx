@@ -32,7 +32,7 @@ GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, char* dataIn,
 	quint32 dataInLen) :
     NetMsg(type), dataLen(dataInLen)
 {
-    //Deep copy
+    /* Deep copy */
     this->data = (char*) malloc(dataInLen);
 
     for (quint32 i = 0; i < dataInLen; ++i) {
@@ -44,7 +44,7 @@ GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, char* dataIn,
 GenericMultiByteMsg::GenericMultiByteMsg(quint32 type, NetMsg* msg, char* dataIn, quint32 dataInLen) :
 	NetMsg(type, msg), dataLen(dataInLen)
 {
-    //Deep copy
+    /* Deep copy */
     this->data = (char*) malloc(dataInLen);
 
     for (quint32 i = 0; i < dataInLen; ++i) {
@@ -76,8 +76,9 @@ bool GenericMultiByteMsg::_serialize(QDataStream* ds)
 {
     *ds << this->dataLen;
     for (quint32 i = 0; i < this->dataLen; ++i) {
-	//Oddness, the DataStream won't detect this is a quint8
-	//Therefore you MUST cast it.
+
+	/* Oddness, the DataStream won't detect this is a quint8 */
+	/* Therefore you MUST cast it. */
 	*ds << (quint8) this->data[i];
     }
     return true;
@@ -137,10 +138,12 @@ GenericMultiByteMsg::getQByteArray()
 	return data;
 }
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables:
+ * mode: C
+ * tab-width: 8
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */
