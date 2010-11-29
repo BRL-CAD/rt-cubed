@@ -63,9 +63,9 @@ int getValidPort(char* data) {
 	std::string portStr(data);
 	int port = atoi(data);
 
-	//Hardcode prolly not best for OS determined port range....
+	/* Hardcode prolly not best for OS determined port range.... */
 	if (port > 0x0000 && port < 0xFFFF) {
-		//More validation goes here, if needed.
+		/* More validation goes here, if needed. */
 	} else {
 		printUsage("Supplied Port '" + portStr + "' is invalid.");
 		bu_exit(1, "");
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 	short port;
 	std::string ip("");
 
-	//Get app mode.  Either client or server
+	/* Get app mode.  Either client or server */
 	std::string cliServ(argv[1]);
 	std::transform(cliServ.begin(), cliServ.end(), cliServ.begin(), tolower);
 
@@ -121,8 +121,8 @@ int main(int argc, char* argv[]) {
 		PortalManager pm(port);
 		pm.start();
 
-		//listen for a loooong time.
-		GSThread::sleep(60 * 60); //1 hr
+		/* listen for a loooong time. */
+		GSThread::sleep(60 * 60); /* 1 hr */
 		logInfo("Shutting down...");
 		pm.shutdown();
 
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
 		PortalManager pm;
 		pm.start();
 
-		GSThread::sleep(3);
+		GSThread::sleep(2);
 
 		s = "Trying to connect to ";
 		s.append(ip.c_str());
@@ -138,33 +138,35 @@ int main(int argc, char* argv[]) {
 		s.append(QString::number(port));
 		logInfo(s);
 
-		QString t(ip.c_str()); //this is dumb!
+		QString t(ip.c_str()); /* this is dumb! */
 		Portal* p = pm.connectToHost(t, port);
 
 		if (p != 0) {
-			GSThread::sleep(2);
+			GSThread::sleep(3);
 			TypeOnlyMsg tom(RUALIVE);
 			p->send(&tom);
 			GSThread::sleep(2);
-			logInfo("Shutting down...");
+			logInfo("Disconnecting...");
 			p->disconnect();
 		}
 
 		GSThread::sleep(2);
-		logInfo("Shutting down...");
+		logInfo("Shutting down Portal Manager...");
 		pm.shutdown();
 	}
 
 	GSThread::sleep(1);
+	logInfo("Shutting down JobManager...");
 	JobManager::getInstance()->shutdown(true);
 	GSThread::sleep(1);
 	return 0;
 }
-
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables:
+ * mode: C
+ * tab-width: 8
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */
