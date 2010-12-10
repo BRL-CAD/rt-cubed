@@ -160,6 +160,3 @@ RT3_PROJECT_ADD_QT_NOINST_HEADERS()
 
 #Build the project
 RT3_PROJECT_BUILD_EXE()
-
-#Copy the config file to the same directory as the binary
-configure_file(geoserve.config ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/geoserve.config COPYONLY)

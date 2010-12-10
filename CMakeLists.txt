@@ -41,22 +41,6 @@ SET(RT3_ROOT ${CMAKE_SOURCE_DIR})
 #Set path for cmake modules.
 SET(CMAKE_MODULE_PATH "${RT3_ROOT}/cmake")
 
-PROJECT(RT3)
-
-#---------------------------------------------------------------------
-# Output directories - this is where built library and executable 
-# files will be placed after building but prior to install.
-IF(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-	SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${RT3_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all libraries.")
-ENDIF(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-IF(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-	SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${RT3_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all archives.")
-ENDIF(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-IF(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RT3_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
-ENDIF(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-
-
 INCLUDE (cmake/rt3commons.cmake)
 
 #
