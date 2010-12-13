@@ -43,17 +43,49 @@ public:
 	AbstractJob();
 	virtual ~AbstractJob();
 
+	/**
+	 * Submits this job to the JobManager.  (Dangerous, need to remove)
+	 */
 	void submit();
 
+	/**
+	 * Executes the code in _doJob().  This function performs status setup and sanity checks prior to executing subclass code.
+	 */
 	JobResult doJob();
+
+	/**
+	 * Returns the current JobStatus of this Job.
+	 */
 	JobStatus getStatus();
+
+	/**
+	 * Returns the JobID for this job.  JobID is a 32bit integer value.
+	 */
 	quint32 getJobId();
 
 protected:
+
+	/**
+	 * Mandates subclass implementation of _doJob().  This function provides the actual
+	 * functionality that defines the subclass.
+	 */
 	virtual JobResult _doJob() = 0;
 
+	/**
+	 * Internal field for storing Job's ID.
+	 */
 	quint32 jobID;
+
+	/**
+	 * Internal field for storing Job's current status.
+	 */
 	JobStatus status;
+
+private:
+	/* Disable copy cstr and =operator */
+	AbstractJob(AbstractJob const&){};
+	AbstractJob& operator=(AbstractJob const&){};
+
 };
 
 #endif /* __ABSTRACTJOB_H__ */
