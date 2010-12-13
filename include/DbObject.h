@@ -47,7 +47,7 @@ private:
 	QUuid id;
 	QByteArray* data;
 
-	//Disable copy cstr and =operator
+	/* Disable copy cstr and =operator */
 	DbObject(DbObject const&){};
 	DbObject& operator=(DbObject const&){};
 

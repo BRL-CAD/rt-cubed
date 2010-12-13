@@ -52,7 +52,7 @@ private:
 
 
 private:
-	//Disable copy cstr and =operator
+	/* Disable copy cstr and =operator */
 	Account(Account const&){};
 	Account& operator=(Account const&){};
 

@@ -60,7 +60,7 @@ protected:
 	bool runStatus;
 
 private:
-	//Disable copy cstr and =operator
+	/* Disable copy cstr and =operator */
 	ControlledThread(ControlledThread const&){};
 	ControlledThread& operator=(ControlledThread const&){};
 

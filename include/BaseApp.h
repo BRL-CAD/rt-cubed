@@ -47,7 +47,7 @@ protected:
 
 
 private:
-	//Disable copy cstr and =operator
+	/* Disable copy cstr and =operator */
     BaseApp(BaseApp const&){};
     BaseApp& operator=(BaseApp const&){};
 

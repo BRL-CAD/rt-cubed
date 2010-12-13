@@ -43,7 +43,7 @@ public:
 private:
 	Utils(){};
 
-	//Disable copy cstr and =operator
+	/* Disable copy cstr and =operator */
 	Utils(Utils const&){};
 	Utils& operator=(Utils const&){};
 };

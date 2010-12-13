@@ -92,7 +92,7 @@ private:
 
 	bool acceptJobs;
 
-	//Disable copy cstr and =operator
+	/* Disable copy cstr and =operator */
 	JobManager(JobManager const&){};
 	JobManager& operator=(JobManager const&){};
 

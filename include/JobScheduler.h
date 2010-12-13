@@ -39,7 +39,7 @@ private:
 	static JobScheduler* pInstance;
 	JobScheduler();
 
-	//Disable copy cstr and =operator
+	/* Disable copy cstr and =operator */
 	JobScheduler(JobScheduler const&){};
 	JobScheduler& operator=(JobScheduler const&){};
 };
