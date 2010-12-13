@@ -46,6 +46,11 @@ private:
 	QString path;
 	QUuid id;
 	QByteArray* data;
+
+	//Disable copy cstr and =operator
+	DbObject(DbObject const&){};
+	DbObject& operator=(DbObject const&){};
+
 };
 
 #endif /* __DBOBJECT_H__ */

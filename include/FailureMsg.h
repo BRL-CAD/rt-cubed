@@ -47,6 +47,12 @@ public:
      *Getters n Setters
      */
     quint8 getFailureCode();
+
+private:
+	/* Disable copy cstr and =operator */
+	FailureMsg(FailureMsg const&):GenericOneByteMsg(0,(quint8)0){};
+	FailureMsg& operator=(FailureMsg const&){};
+
 };
 
 #endif /* __FAILUREMSG_H__ */

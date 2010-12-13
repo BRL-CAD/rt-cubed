@@ -45,6 +45,10 @@ private:
 	EventPublisher* _pub;
 	quint32 _eventType;
 	QString _message;
+
+	/* Disable copy cstr and =operator */
+	Event(Event const&){};
+	Event& operator=(Event const&){};
 };
 
 #endif /* __EVENT_H__ */

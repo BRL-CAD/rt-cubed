@@ -62,6 +62,10 @@ private:
 
 	QMutex* subscriptionsLock;
 	QList<EventSubscription*>* subscriptions;
+
+	/* Disable copy cstr and =operator */
+	EventManager(EventManager const&){};
+	EventManager& operator=(EventManager const&){};
 };
 
 #endif /* __EVENTMANAGER_H__ */

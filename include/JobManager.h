@@ -84,8 +84,6 @@ private:
 	JobManager();
 	static QMutex* singletonLock;
 
-	JobManager(JobManager const&){};
-	JobManager& operator=(JobManager const&){};
 
 	QList<JobWorker*>* jobWorkers;
 	QList<AbstractJob*>* jobQueue;
@@ -93,6 +91,11 @@ private:
 	Logger* log;
 
 	bool acceptJobs;
+
+	//Disable copy cstr and =operator
+	JobManager(JobManager const&){};
+	JobManager& operator=(JobManager const&){};
+
 };
 
 #endif /* __JOBMANAGER_H__ */

@@ -59,6 +59,11 @@ private:
 
 	bool _serialize(QDataStream* ds);
 	bool _equals(const NetMsg& msg);
+
+	/* Disable copy cstr and =operator */
+	GeometryManifestMsg(GeometryManifestMsg const&):NetMsg(0){};
+	GeometryManifestMsg& operator=(GeometryManifestMsg const&){};
+
 };
 
 #endif /* __GEOMETRYMANIFESTMSG_H__ */

@@ -54,6 +54,11 @@ private:
 	DataManager* dm;
 
 	void registerMsgRoutes();
+
+	/* Disable copy cstr and =operator */
+	GeometryService(GeometryService const&){};
+	GeometryService& operator=(GeometryService const&){};
+
 };
 
 #endif /* __GEOMETRYSERVICE_H__ */

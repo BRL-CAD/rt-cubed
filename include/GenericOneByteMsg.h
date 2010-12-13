@@ -54,6 +54,12 @@ protected:
 
 	virtual bool _serialize(QDataStream* ds);
 	virtual bool _equals(const NetMsg& msg);
+
+private:
+	/* Disable copy cstr and =operator */
+	GenericOneByteMsg(GenericOneByteMsg const&): NetMsg(0){};
+	GenericOneByteMsg& operator=(GenericOneByteMsg const&){};
+
 };
 
 #endif /* __GENERICONEBYTEMSG_H__ */

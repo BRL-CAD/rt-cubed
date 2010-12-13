@@ -58,6 +58,12 @@ protected:
 	QString threadName;
 	bool runCmd;
 	bool runStatus;
+
+private:
+	//Disable copy cstr and =operator
+	ControlledThread(ControlledThread const&){};
+	ControlledThread& operator=(ControlledThread const&){};
+
 };
 
 #endif /* __CONTROLLEDTHREAD_H__ */

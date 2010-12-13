@@ -59,6 +59,10 @@ private:
 
 	void handleGeometryReqMsg(GeometryReqMsg* msg);
 	void handleGeometryChunkMsg(GeometryChunkMsg* msg);
+
+	//Disable copy cstr and =operator
+	DataManager(DataManager const&){};
+	DataManager& operator=(DataManager const&){};
 };
 
 #endif /* __DATAMANAGER_H__ */

@@ -42,6 +42,10 @@ public:
 
 private:
     BaseApp* _app;
+
+	//Disable copy cstr and =operator
+    AppLauncher(AppLauncher const&){};
+    AppLauncher& operator=(AppLauncher const&){};
 };
 
 #endif /* __APPLAUNCHER_H__ */

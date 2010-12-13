@@ -58,6 +58,10 @@ private:
 
 	bool _serialize(QDataStream* ds);
 	bool _equals(const NetMsg& msg);
+
+	/* Disable copy cstr and =operator */
+	GeometryReqMsg(GeometryReqMsg const&):GenericOneStringMsg(0,""){};
+	GeometryReqMsg& operator=(GeometryReqMsg const&){};
 };
 
 #endif /* __GEOMETRYREQMSG_H__ */

@@ -41,7 +41,11 @@ public:
 	static void printQByteArray(QByteArray* ba);
 
 private:
-	Utils(){}
+	Utils(){};
+
+	//Disable copy cstr and =operator
+	Utils(Utils const&){};
+	Utils& operator=(Utils const&){};
 };
 
 #endif /* __DATASTREAMUTILS_H__ */

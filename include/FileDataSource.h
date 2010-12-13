@@ -52,6 +52,10 @@ private:
 	bool hasPathLock(QString path);
 	void setPathLock(QString path);
 	void remPathLock(QString path);
+
+	/* Disable copy cstr and =operator */
+	FileDataSource(FileDataSource const&){};
+	FileDataSource& operator=(FileDataSource const&){};
 };
 
 #endif /* __FILEDATASOURCE_H__ */

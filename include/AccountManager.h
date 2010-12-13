@@ -51,6 +51,11 @@ private:
 
     quint32 validateLoginCreds(QString uname, QString passwd);
     Account* newAccount(QString uname, Portal* p, quint32 id);
+
+	//Disable copy cstr and =operator
+    AccountManager(AccountManager const&){};
+    AccountManager& operator=(AccountManager const&){};
+
 };
 
 #endif /* __ACCOUNTMANAGER_H__ */

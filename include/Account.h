@@ -49,6 +49,13 @@ private:
   Portal* portal;
 
   time_t lastAccess;
+
+
+private:
+	//Disable copy cstr and =operator
+	Account(Account const&){};
+	Account& operator=(Account const&){};
+
 };
 
 #endif /* __ACCOUNT_H__ */

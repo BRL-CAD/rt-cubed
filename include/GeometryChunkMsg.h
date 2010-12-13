@@ -42,6 +42,11 @@ public:
 
 	/* Destructor */
 	virtual ~GeometryChunkMsg();
+
+private:
+	/* Disable copy cstr and =operator */
+	GeometryChunkMsg(GeometryChunkMsg const&):GenericMultiByteMsg(0,NULL){};
+	GeometryChunkMsg& operator=(GeometryChunkMsg const&){};
 };
 
 #endif /* __GEOMETRYCHUNKMSG_H__ */
