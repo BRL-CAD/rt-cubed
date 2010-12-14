@@ -29,12 +29,13 @@ SET (RT3_FILE_AUTOGEN_STATEMENT "
 
 
 SET (RT3_FILE_FOOTER "/*
- * Local Variables: ***
- * mode: C++ ***
- * tab-width: 8 ***
- * c-basic-offset: 2 ***
- * indent-tabs-mode: t ***
- * End: ***
+ * Local Variables:
+ * mode: C++
+ * tab-width: 8
+ * c-basic-offset: 2
+ * indent-tabs-mode: t
+ * c-file-style: \"stroustrup\"
+ * End:
  * ex: shiftwidth=2 tabstop=8
  */
 ")
