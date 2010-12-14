@@ -72,7 +72,7 @@ public:
 	void startup();
 
 	/**
-	 * Sets the JobManager's AcceptJObs flag to false and shuts down all the JobWorkers associated
+	 * Sets the JobManager's AcceptJobs flag to false and shuts down all the JobWorkers associated
 	 * with the JobManager.  Optionally, this function will block until all AbstractJobs in the JobManager's
 	 * internal FIFO Queue are executed.  There is a fail-safe built into the optional wait that will prevent a
 	 * stalled job from preventing a JobManager.  Should the fail-safe be tripped a Log entry will be made.
