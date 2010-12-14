@@ -63,15 +63,16 @@ private:
 	/* Disable copy cstr and =operator */
 	GeometryManifestMsg(GeometryManifestMsg const&):NetMsg(0){};
 	GeometryManifestMsg& operator=(GeometryManifestMsg const&){};
-
 };
 
 #endif /* __GEOMETRYMANIFESTMSG_H__ */
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables: ***
+ * mode: C++ ***
+ * tab-width: 8 ***
+ * c-basic-offset: 2 ***
+ * indent-tabs-mode: t ***
+ * End: ***
+ * ex: shiftwidth=2 tabstop=8
+*/

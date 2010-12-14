@@ -85,7 +85,6 @@ private:
 	/* Disable copy cstr and =operator */
 	AbstractJob(AbstractJob const&){};
 	AbstractJob& operator=(AbstractJob const&){};
-
 };
 
 #endif /* __ABSTRACTJOB_H__ */

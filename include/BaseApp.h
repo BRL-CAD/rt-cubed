@@ -45,12 +45,10 @@ protected:
     /* Force subclasses to implement _run() */
     virtual int _run() = 0;
 
-
 private:
 	/* Disable copy cstr and =operator */
     BaseApp(BaseApp const&){};
     BaseApp& operator=(BaseApp const&){};
-
 };
 
 #endif /* __BASEAPP_H__ */

@@ -40,6 +40,10 @@ public:
 
 private:
 	QString reason;
+
+	/* Disable copy cstr and =operator */
+	GSException(GSException const&){};
+	GSException& operator=(GSException const&){};
 };
 
 #endif /* __GSEXCEPTION_H__ */

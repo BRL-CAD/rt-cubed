@@ -54,14 +54,21 @@ protected:
 
 	virtual bool _serialize(QDataStream* ds);
 	virtual bool _equals(const NetMsg& msg);
+
+private:
+	/* Disable copy cstr and =operator */
+	GenericFourBytesMsg(GenericFourBytesMsg const&):NetMsg(0){};
+	GenericFourBytesMsg& operator=(GenericFourBytesMsg const&){};
 };
 
 #endif /* __GENERICFOURBYTESMSG_H__ */
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables: ***
+ * mode: C++ ***
+ * tab-width: 8 ***
+ * c-basic-offset: 2 ***
+ * indent-tabs-mode: t ***
+ * End: ***
+ * ex: shiftwidth=2 tabstop=8
+*/

@@ -68,7 +68,6 @@ const char BAD_REQUEST			   = 0x03;
 const char COULD_NOT_FIND_GEOMETRY = 0x04;
 const char ACCOUNT_VALIDATION_FAIL = 0x05;
 
-
 #endif /* __NETMSGTYPES_H__ */
 
 /*

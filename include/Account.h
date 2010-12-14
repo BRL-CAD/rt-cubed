@@ -50,20 +50,20 @@ private:
 
   time_t lastAccess;
 
-
 private:
 	/* Disable copy cstr and =operator */
 	Account(Account const&){};
 	Account& operator=(Account const&){};
-
 };
 
 #endif /* __ACCOUNT_H__ */
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables: ***
+ * mode: C++ ***
+ * tab-width: 8 ***
+ * c-basic-offset: 2 ***
+ * indent-tabs-mode: t ***
+ * End: ***
+ * ex: shiftwidth=2 tabstop=8
+*/

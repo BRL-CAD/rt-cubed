@@ -64,15 +64,16 @@ private:
 	/* Disable copy cstr and =operator */
 	GenericMultiByteMsg(GenericMultiByteMsg const&):NetMsg(0){};
 	GenericMultiByteMsg& operator=(GenericMultiByteMsg const&){};
-
 };
 
 #endif /* __GENERICMULTIBYTEMSG_H__ */
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables: ***
+ * mode: C++ ***
+ * tab-width: 8 ***
+ * c-basic-offset: 2 ***
+ * indent-tabs-mode: t ***
+ * End: ***
+ * ex: shiftwidth=2 tabstop=8
+*/

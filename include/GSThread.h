@@ -41,10 +41,15 @@ public:
 
 protected:
 
-  //For thread management
+  /* For thread management */
   static QList<GSThread*> threads;
   static void addThread(GSThread* thread);
   static void remThread(GSThread* thread);
+
+private:
+	/* Disable copy cstr and =operator */
+	GSThread(GSThread const&){};
+	GSThread& operator=(GSThread const&){};
 };
 
 #endif /* __GSTHREAD_H__ */

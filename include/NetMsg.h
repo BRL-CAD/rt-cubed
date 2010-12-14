@@ -91,7 +91,6 @@ private:
 	/* Disable copy cstr and =operator */
 	NetMsg(NetMsg const&){};
 	NetMsg& operator=(NetMsg const&){};
-
 };
 
 #endif /* __NETMSG_H__ */
