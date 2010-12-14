@@ -40,7 +40,7 @@ GenericOneStringMsg::GenericOneStringMsg(quint32 type, NetMsg* msg, QString s) :
 GenericOneStringMsg::GenericOneStringMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
-    this->strData = *Utils::getString(ds);
+    this->strData = *DataStreamUtils::getString(ds);
 }
 
 /* Destructor */
@@ -49,7 +49,7 @@ GenericOneStringMsg::~GenericOneStringMsg()
 
 bool GenericOneStringMsg::_serialize(QDataStream* ds)
 {
-    Utils::putString(ds, this->strData);
+    DataStreamUtils::putString(ds, this->strData);
     return true;
 }
 

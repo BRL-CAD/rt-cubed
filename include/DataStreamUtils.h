@@ -31,7 +31,7 @@
 #include <QtCore/QUuid>
 #include <iostream>
 
-class Utils
+class DataStreamUtils
 {
 public:
 	static QString* getString(QDataStream* ds);
@@ -41,11 +41,11 @@ public:
 	static void printQByteArray(QByteArray* ba);
 
 private:
-	Utils(){};
+	DataStreamUtils(){};
 
 	/* Disable copy cstr and =operator */
-	Utils(Utils const&){};
-	Utils& operator=(Utils const&){};
+	DataStreamUtils(DataStreamUtils const&){};
+	DataStreamUtils& operator=(DataStreamUtils const&){};
 };
 
 #endif /* __DATASTREAMUTILS_H__ */

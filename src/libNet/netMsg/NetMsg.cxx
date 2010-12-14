@@ -58,10 +58,10 @@ NetMsg::NetMsg(QDataStream* ds, Portal* origin)
 {
   this->origin = origin;
   *ds >> this->msgType;
-  this->msgUUID = *Utils::getQUuid(ds);
+  this->msgUUID = *DataStreamUtils::getQUuid(ds);
   *ds >> this->hasReUUID;
   if (this->hasReUUID)
-      this->reUUID = *Utils::getQUuid(ds);
+      this->reUUID = *DataStreamUtils::getQUuid(ds);
 }
 
 /* Destructor */
@@ -85,12 +85,12 @@ NetMsg::serialize(QByteArray* ba)
 
   /* Serialize Header */
   subDS << this->msgType;
-  Utils::putQUuid(&subDS, this->msgUUID);
+  DataStreamUtils::putQUuid(&subDS, this->msgUUID);
   subDS << this->hasReUUID;
 
   if (this->hasReUUID)
     {
-      Utils::putQUuid(&subDS, this->reUUID);
+      DataStreamUtils::putQUuid(&subDS, this->reUUID);
     }
 
   /* Call subclass serialize */

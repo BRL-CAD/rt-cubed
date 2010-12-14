@@ -41,7 +41,7 @@ SessionInfoMsg::SessionInfoMsg(NetMsg* msg, QUuid sessionID) :
 SessionInfoMsg::SessionInfoMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
-    this->sessionID = *Utils::getQUuid(ds);
+    this->sessionID = *DataStreamUtils::getQUuid(ds);
 }
 
 /* Destructor */
@@ -50,7 +50,7 @@ SessionInfoMsg::~SessionInfoMsg()
 
 bool SessionInfoMsg::_serialize(QDataStream* ds)
 {
-    Utils::putQUuid(ds, this->sessionID);
+    DataStreamUtils::putQUuid(ds, this->sessionID);
     return true;
 }
 

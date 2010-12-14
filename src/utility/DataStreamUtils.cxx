@@ -26,9 +26,9 @@
 #include "DataStreamUtils.h"
 
 QUuid* 
-Utils::getQUuid(QDataStream* ds)
+DataStreamUtils::getQUuid(QDataStream* ds)
 {
-  QString* strUUID = Utils::getString(ds);
+  QString* strUUID = DataStreamUtils::getString(ds);
 
   //std::cout << strUUID->toStdString();
 
@@ -40,12 +40,12 @@ Utils::getQUuid(QDataStream* ds)
 }
 
 void
-Utils::putQUuid(QDataStream* ds, QUuid uuid)
+DataStreamUtils::putQUuid(QDataStream* ds, QUuid uuid)
 {
-  Utils::putString(ds, uuid.toString());
+  DataStreamUtils::putString(ds, uuid.toString());
 }
 
-QString* Utils::getString(QDataStream* ds)
+QString* DataStreamUtils::getString(QDataStream* ds)
 {
   
   quint32 len;
@@ -76,7 +76,7 @@ QString* Utils::getString(QDataStream* ds)
   
 }
 
-void Utils::putString(QDataStream* ds, QString str)
+void DataStreamUtils::putString(QDataStream* ds, QString str)
 {
   /*
   std::cout << "\nputString:" << std::endl;
@@ -93,7 +93,7 @@ void Utils::putString(QDataStream* ds, QString str)
     }
 }
 
-void Utils::printQByteArray(QByteArray* ba) 
+void DataStreamUtils::printQByteArray(QByteArray* ba) 
 {
   std::cout << std::endl;
 

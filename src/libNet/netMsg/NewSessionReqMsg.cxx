@@ -41,8 +41,8 @@ NewSessionReqMsg::NewSessionReqMsg(NetMsg* msg, QString uname, QString passwd) :
 NewSessionReqMsg::NewSessionReqMsg(QDataStream* ds, Portal* origin) :
     NetMsg(ds, origin)
 {
-    this->uname = *Utils::getString(ds);
-    this->passwd = *Utils::getString(ds);
+    this->uname = *DataStreamUtils::getString(ds);
+    this->passwd = *DataStreamUtils::getString(ds);
 }
 
 /* Destructor */
@@ -51,8 +51,8 @@ NewSessionReqMsg::~NewSessionReqMsg()
 
 bool NewSessionReqMsg::_serialize(QDataStream* ds)
 {
-    Utils::putString(ds, this->uname);
-    Utils::putString(ds, this->passwd);
+    DataStreamUtils::putString(ds, this->uname);
+    DataStreamUtils::putString(ds, this->passwd);
     return true;
 }
 

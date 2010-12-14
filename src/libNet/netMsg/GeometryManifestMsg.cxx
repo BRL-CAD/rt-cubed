@@ -52,7 +52,7 @@ GeometryManifestMsg::GeometryManifestMsg(QDataStream* ds, Portal* origin) :
     *ds >> numOfItems;
 
     for (quint32 i = 0; i < numOfItems; ++i) {
-	QString* tString = Utils::getString(ds);
+	QString* tString = DataStreamUtils::getString(ds);
 	QString newStr;
 	newStr.append(*tString);
 	this->itemData->push_back(newStr);
@@ -70,7 +70,7 @@ bool GeometryManifestMsg::_serialize(QDataStream* ds)
     *ds << this->itemData->size();
 
     for (quint32 i = 0; i < this->itemData->size(); ++i) {
-	Utils::putString(ds, this->itemData->at(i));
+	DataStreamUtils::putString(ds, this->itemData->at(i));
     }
 
     return true;
