@@ -44,9 +44,9 @@ public:
 	QList<QString> getAllKeys();
 
 private:
-	Config(); //Turn off Default cstr
-	Config(const Config& c){}; //Turn off Copy cstr
-	Config& operator=(const Config& c){}; //Turn off equal oper
+	Config(); /* Turn off Default cstr */
+	Config(const Config& c){}; /* Turn off Copy cstr */
+	Config& operator=(const Config& c){}; /* Turn off equal oper */
 
 	QString processLine(QString line);
 	void removeAllOccurances(QString* data, QString search,
@@ -61,10 +61,12 @@ private:
 
 #endif /* __CONFIG_H__ */
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables: ***
+ * mode: C++ ***
+ * tab-width: 8 ***
+ * c-basic-offset: 2 ***
+ * indent-tabs-mode: t ***
+ * End: ***
+ * ex: shiftwidth=2 tabstop=8
+*/
