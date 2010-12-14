@@ -56,6 +56,13 @@ protected:
 
 	virtual bool _serialize(QDataStream* ds);
 	virtual bool _equals(const NetMsg& msg);
+
+
+private:
+	/* Disable copy cstr and =operator */
+	NewSessionReqMsg(NewSessionReqMsg const&):NetMsg(0){};
+	NewSessionReqMsg& operator=(NewSessionReqMsg const&){};
+
 };
 
 #endif /* __NEWSESSIONREQMSG_H__ */

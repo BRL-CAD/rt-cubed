@@ -34,12 +34,14 @@ class PkgTcpServer : public PkgServer
 {
 public:
   PkgTcpServer();
-  virtual
-  ~PkgTcpServer();
+  virtual ~PkgTcpServer();
 
 private:
-  PkgClient*
-  getNewClient(pkg_conn* conn);
+  PkgClient* getNewClient(pkg_conn* conn);
+
+	/* Disable copy cstr and =operator */
+	PkgTcpServer(PkgTcpServer const&):PkgServer(""){};
+	PkgTcpServer& operator=(PkgTcpServer const&){};
 };
 
 #endif /* __PKGTCPSERVER_H__ */

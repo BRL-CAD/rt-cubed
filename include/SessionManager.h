@@ -61,6 +61,10 @@ private:
 
     void handleNewSessionReqMsg(NewSessionReqMsg* msg);
     void handleDisconnectReqMsg(TypeOnlyMsg* msg);
+
+	/* Disable copy cstr and =operator */
+	SessionManager(SessionManager const&){};
+	SessionManager& operator=(SessionManager const&){};
 };
 
 #endif /* __SESSIONMANAGER_H__ */

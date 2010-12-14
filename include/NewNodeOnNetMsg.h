@@ -44,6 +44,11 @@ public:
 	virtual ~NewNodeOnNetMsg();
 
 	QString getNewNodename();
+
+private:
+	/* Disable copy cstr and =operator */
+	NewNodeOnNetMsg(NewNodeOnNetMsg const&):GenericOneStringMsg(0,""){};
+	NewNodeOnNetMsg& operator=(NewNodeOnNetMsg const&){};
 };
 
 #endif /* __NEWNODEONNETMSG_H__ */

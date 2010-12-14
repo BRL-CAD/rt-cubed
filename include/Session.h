@@ -57,6 +57,10 @@ private:
     QUuid sessionID;
     Account* a;
     time_t lastAccess;
+
+	/* Disable copy cstr and =operator */
+	Session(Session const&){};
+	Session& operator=(Session const&){};
 };
 
 #endif /* __SESSION_H__ */

@@ -48,8 +48,12 @@ private:
   std::string proto;
   int listenFD;
 
-  virtual PkgClient*
-  getNewClient(pkg_conn* conn) = 0;
+  virtual PkgClient*  getNewClient(pkg_conn* conn) = 0;
+
+	/* Disable copy cstr and =operator */
+	PkgServer(PkgServer const&){};
+	PkgServer& operator=(PkgServer const&){};
+
 };
 
 #endif /* __PKGSERVER_H__ */

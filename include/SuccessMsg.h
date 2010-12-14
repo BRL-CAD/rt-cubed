@@ -47,6 +47,11 @@ public:
 	 *Getters n Setters
 	 */
 	quint8 getSuccessCode();
+
+private:
+	/* Disable copy cstr and =operator */
+	SuccessMsg(SuccessMsg const&):GenericOneByteMsg(0, (quint8)0){};
+	SuccessMsg& operator=(SuccessMsg const&){};
 };
 
 #endif /* __SUCCESSMSG_H__ */

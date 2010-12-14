@@ -54,6 +54,11 @@ protected:
 
 	bool _serialize(QDataStream* ds);
 	bool _equals(const NetMsg& msg);
+
+private:
+	/* Disable copy cstr and =operator */
+	SessionInfoMsg(SessionInfoMsg const&):NetMsg(0){};
+	SessionInfoMsg& operator=(SessionInfoMsg const&){};
 };
 
 #endif /* __SESSIONINFOMSG_H__ */

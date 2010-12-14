@@ -85,9 +85,9 @@ private:
 	bool printToConsole;
 	bool printToFile;
 
-	Logger();
-	Logger(const Logger& logger){};
-	Logger& operator=(const Logger& log){};
+	Logger(); /* Disable Default cstr */
+	Logger(const Logger& logger){}; /* Disable Copy cstr */
+	Logger& operator=(const Logger& log){}; /* Disable equals operator */
 
 	void log(quint32 logLevel, QString origin, QString string);
 };

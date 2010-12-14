@@ -56,6 +56,10 @@ private:
 
 	QMutex mapLock;
 	QMap<quint16,QList<INetMsgHandler*>*>* routingTable;
+
+	/* Disable copy cstr and =operator */
+	NetMsgRouter(NetMsgRouter const&){};
+	NetMsgRouter& operator=(NetMsgRouter const&){};
 };
 
 #endif /* __NETMSGROUTER_H__ */

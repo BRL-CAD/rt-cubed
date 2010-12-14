@@ -45,6 +45,10 @@ public:
 private:
   NetMsgFactory();
   static NetMsgFactory* pInstance;
+
+	/* Disable copy cstr and =operator */
+	NetMsgFactory(NetMsgFactory const&){};
+	NetMsgFactory& operator=(NetMsgFactory const&){};
 };
 
 #endif /* __NETMSGFACTORY_H__ */

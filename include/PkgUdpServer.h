@@ -34,12 +34,14 @@ class PkgUdpServer : public PkgServer
 {
 public:
   PkgUdpServer();
-  virtual
-  ~PkgUdpServer();
+  virtual  ~PkgUdpServer();
 
 private:
-  PkgClient*
-  getNewClient(pkg_conn* conn);
+  PkgClient*  getNewClient(pkg_conn* conn);
+
+	/* Disable copy cstr and =operator */
+	PkgUdpServer(PkgUdpServer const&):PkgServer(""){};
+	PkgUdpServer& operator=(PkgUdpServer const&){};
 };
 
 #endif /* __PKGUDPSERVER_H__ */

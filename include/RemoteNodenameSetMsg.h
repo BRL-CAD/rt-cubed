@@ -44,6 +44,11 @@ public:
 	virtual ~RemoteNodenameSetMsg();
 
 	QString getRemoteNodename();
+
+private:
+	/* Disable copy cstr and =operator */
+	RemoteNodenameSetMsg(RemoteNodenameSetMsg const&):GenericOneStringMsg(0, ""){};
+	RemoteNodenameSetMsg& operator=(RemoteNodenameSetMsg const&){};
 };
 
 #endif /* __REMOTENODENAMESETMSG_H__ */

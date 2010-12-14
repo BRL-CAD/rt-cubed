@@ -40,6 +40,10 @@ protected:
 
 private:
 	NetMsg* msg;
+
+	/* Disable copy cstr and =operator */
+	RouteMsgJob(RouteMsgJob const&){};
+	RouteMsgJob& operator=(RouteMsgJob const&){};
 };
 
 #endif /* __ROUTEMSGJOB_H__ */

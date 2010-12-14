@@ -69,6 +69,10 @@ private:
 	struct pkg_switch* makeNewSwitchTable();
 	void closeFD(int fd, QString logComment);
     void handleDisconnectReqMsg(TypeOnlyMsg* msg);
+
+	/* Disable copy cstr and =operator */
+	PortalManager(PortalManager const&){};
+	PortalManager& operator=(PortalManager const&){};
 };
 
 #endif /* __PORTALMANAGER_H__ */

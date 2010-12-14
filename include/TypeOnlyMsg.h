@@ -46,6 +46,11 @@ public:
 protected:
     bool _serialize(QDataStream* ds);
     bool _equals(const NetMsg& msg);
+
+private:
+	/* Disable copy cstr and =operator */
+	TypeOnlyMsg(TypeOnlyMsg const&):NetMsg(0){};
+	TypeOnlyMsg& operator=(TypeOnlyMsg const&){};
 };
 
 #endif /* __TYPEONLYMSG_H__ */

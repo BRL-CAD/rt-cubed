@@ -34,8 +34,12 @@ class PkgUdpClient : public PkgClient
 public:
   PkgUdpClient(std::string ipOrHostname, int port, struct pkg_switch* callBackTableIn);
   PkgUdpClient(pkg_conn* conn);
-  virtual
-  ~PkgUdpClient();
+  virtual ~PkgUdpClient();
+
+private:
+	/* Disable copy cstr and =operator */
+	PkgUdpClient(PkgUdpClient const&):PkgClient("",NULL){};
+	PkgUdpClient& operator=(PkgUdpClient const&){};
 };
 
 #endif /* __PKGUDPCLIENT_H__ */

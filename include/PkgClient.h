@@ -85,6 +85,11 @@ public:
 private:
   std::string proto;
   pkg_conn* conn;
+
+  /* Disable copy cstr and =operator */
+  PkgClient(PkgClient const&){};
+  PkgClient& operator=(PkgClient const&){};
+
 };
 
 #endif /* __PKGCLIENT_H__ */

@@ -34,8 +34,14 @@ class PkgTcpClient : public PkgClient
 public:
   PkgTcpClient(std::string ipOrHostname, int port, struct pkg_switch* callBackTableIn);
   PkgTcpClient(pkg_conn* conn);
-  virtual
-  ~PkgTcpClient();
+  virtual ~PkgTcpClient();
+
+
+private:
+	/* Disable copy cstr and =operator */
+	PkgTcpClient(PkgTcpClient const&):PkgClient("",NULL){};
+	PkgTcpClient& operator=(PkgTcpClient const&){};
+
 };
 
 #endif /* __PKGTCPCLIENT_H__ */
