@@ -45,7 +45,7 @@ Config::~Config()
 Config* Config::getInstance()
 {
     if (!Config::pInstance) {
-	pInstance = new Config();
+    	pInstance = new Config();
     }
     return Config::pInstance;
 }
@@ -53,15 +53,22 @@ Config* Config::getInstance()
 bool Config::loadFile(QString pathAndFileName, bool verbose)
 {
     QString msg;
-    msg = "Attemping to load config from: " + pathAndFileName + ".";
+    msg = "Attemping to load config from: '" + pathAndFileName + "'.";
     this->log->logINFO("Config", msg);
 
     //init file object
     QFile f(pathAndFileName);
 
+    if (f.exists() == false) {
+		msg = "Could not find file: '" + pathAndFileName + "'.";
+		this->log->logFATAL("Config", msg);
+		return false;
+    }
+
+
     //verify & open
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		msg = "Loading config from: " + pathAndFileName + " FAILED.";
+		msg = "Loading config from: '" + pathAndFileName + "' FAILED.";
 		this->log->logFATAL("Config", msg);
 		return false;
     }
