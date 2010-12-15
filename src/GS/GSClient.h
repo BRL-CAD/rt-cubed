@@ -22,8 +22,8 @@
  *
  */
 
-#ifndef GSCLIENT_H_
-#define GSCLIENT_H_
+#ifndef __GSCLIENT_H__
+#define __GSCLIENT_H__
 
 #include <QtCore/QString>
 
@@ -39,7 +39,7 @@ private:
 
 };
 
-#endif /* GSCLIENT_H_ */
+#endif /* __GSCLIENT_H__ */
 
 /*
  * Local Variables:
