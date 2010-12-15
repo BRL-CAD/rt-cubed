@@ -142,38 +142,49 @@ SessionManager::handleNetMsg(NetMsg* msg)
  */
 void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 {
+	log->logINFO("SessionManager", "Recv'ed NewSessionReqMsg.");
+
+	/* Check for a good pointer to msg */
+	if (msg == NULL) {
+		log->logERROR("SessionManager", "handleNewSessionReMsg(): NULL NewSessionReqMsg!");
+		return;
+	}
+
+	/* Get values from msg */
 	Portal* origin = msg->getOrigin();
 	QString uname = msg->getUName();
 	QString passwd = msg->getPasswd();
 
-	//validate incoming data
+	/* Validate data */
 	if (origin == 0) {
 		//TODO Figure out how to how to handle NULL Portal
 		log->logERROR("SessionManager", "handleNewSessionReMsg(): NULL Portal!");
 		return;
 	}
 
+	/* Quick LEN check on strings. */
 	if (uname.length() <=0 || passwd.length() <= 0) {
-		log->logINFO("SessionManager", "Auth FAILED.  Zero len uname or passwd.");
+		log->logINFO("SessionManager", "Auth FAILED.  Zero len uname or passwd. Disconnecting.");
 		GenericOneByteMsg* fail = new GenericOneByteMsg(FAILURE, ACCOUNT_VALIDATION_FAIL);
-		origin->send(fail);
+		origin->sendThenDisconnect(fail);
 		return;
 	}
 
-	//try to validate creds
-	Account* a = AccountManager::getInstance()->login(msg->getUName(), msg->getPasswd(), msg->getOrigin());
+	/* Attempt to validate creds */
+	Account* a = AccountManager::getInstance()->login(uname, passwd, origin);
 
 	if (a == 0) {
-		//Account validation failed
+		/* Account validation failed */
+		log->logINFO("SessionManager", "Auth FAILED.  Bad uname or passwd. Disconnecting.");
 		GenericOneByteMsg* fail = new GenericOneByteMsg(FAILURE, ACCOUNT_VALIDATION_FAIL);
-		origin->send(fail);
+		origin->sendThenDisconnect(fail);
 		return;
 	}
 
-	//Make new session
+	/* Make new session */
 	Session* s = this->newSession(a);
 
-	//tell client about it.
+	/* Tell client about it. */
 	SessionInfoMsg* info = s->generateSessionInfoMsg();
 	origin->send(info);
 }
@@ -183,15 +194,21 @@ SessionManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 {
 	Portal* origin = msg->getOrigin();
 
-	//validate incoming data
+	/* validate incoming data */
 	if (origin == 0) {
 		//TODO Figure out how to how to handle NULL Portal
 		log->logERROR("SessionManager", "handleDisconnectReqMsg(): NULL Portal!");
 		return;
 	}
 
+	/* Remove Session */
 	Session* s = this->getSession(origin);
 	this->remCache(s);
+
+	/* Remove Account */
+	Account* a = s->getAccount();
+	AccountManager::getInstance()->logout(a);
+	delete a;
 }
 
 // Local Variables: ***
