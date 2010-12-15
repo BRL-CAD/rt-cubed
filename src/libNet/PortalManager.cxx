@@ -101,7 +101,7 @@ PortalManager::_run() {
 	while (this->runCmd) {
 		/* Set values EVERY loop since select() on *nix modifies this. */
 		timeout.tv_sec = 0;
-		timeout.tv_usec = 50 * 1000 * 2;
+		timeout.tv_usec = 100 * 1000;
 
 		this->masterFDSLock.lock();
 		readfds = masterfds;
@@ -111,15 +111,14 @@ PortalManager::_run() {
 		/* Shelect!! */
 		int retVal = select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
 
-
 		if (retVal != 0) {
-		QString out("Select returned: ");
-		out.append(QString::number(retVal));
-		out.append(". FD count: ");
-		out.append(QString::number(this->fdPortalMap->keys().size()));
-		out.append(". MAX FD: ");
-		out.append(QString::number(fdmax));
-		this->log->logINFO("PortalManager", out);
+			QString out("Select returned: ");
+			out.append(QString::number(retVal));
+			out.append(". FD count: ");
+			out.append(QString::number(this->fdPortalMap->keys().size()));
+			out.append(". MAX FD: ");
+			out.append(QString::number(fdmax));
+			this->log->logINFO("PortalManager", out);
 		}
 
 		if (retVal < 0) {
@@ -140,8 +139,7 @@ PortalManager::_run() {
 
 			/* Simplify switching later with bools now*/
 			isListener = (i == listener);
-/* 			readyRead = FD_ISSET(i, &readfds) && !isListener;*/
-			readyRead = true; /* Hotwire for now.*/
+ 			readyRead = FD_ISSET(i, &readfds) && !isListener;
 			readyAccept = FD_ISSET(i, &readfds) && isListener;
 			readyException = FD_ISSET(i, &exceptionfds);
 
