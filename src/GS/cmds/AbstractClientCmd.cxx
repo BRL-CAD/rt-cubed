@@ -25,7 +25,9 @@
 #include "AbstractClientCmd.h"
 
 AbstractClientCmd::AbstractClientCmd(QString cmd) : cmd(cmd)
-{}
+{
+	this->log = Logger::getInstance();
+}
 
 AbstractClientCmd::AbstractClientCmd(AbstractClientCmd* acCmd) : cmd(acCmd->getCmd())
 {}

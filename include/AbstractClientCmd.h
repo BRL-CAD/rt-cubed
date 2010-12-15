@@ -25,6 +25,8 @@
 #ifndef __ABSTRACTCLIENTCMD_H__
 #define __ABSTRACTCLIENTCMD_H__
 
+#include "Logger.h"
+
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
@@ -34,11 +36,16 @@ public:
 	bool exec(QStringList args);
 
 	QString getCmd();
+	virtual QString getUsage() = 0;
+	virtual QString getHelp() = 0;
+
 protected:
 	AbstractClientCmd(QString cmd);
 	AbstractClientCmd(AbstractClientCmd* acCmd);
 
 	virtual bool _exec(QStringList args) = 0;
+
+	Logger* log;
 
 private:
 	QString cmd;
