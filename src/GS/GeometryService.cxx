@@ -33,21 +33,21 @@ localNodeName(localNodeName), listenPort(listenPort)
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", localNodeName + " is starting up...");
 
-    this->pm = new PortalManager(listenPort);
+    this->portalMan = new PortalManager(listenPort);
     this->registerMsgRoutes();
 
-    this->dm = DataManager::getInstance();
+    this->dataMan = DataManager::getInstance();
 }
 
 GeometryService::~GeometryService()
 {
-	delete pm;
+	delete portalMan;
 }
 
 DataManager*
 GeometryService::getDataManager()
 {
-	return this->dm;
+	return this->dataMan;
 }
 
 void
@@ -59,12 +59,12 @@ GeometryService::registerMsgRoutes()
 	router->registerType(SESSIONINFO, SessionManager::getInstance());
 	router->registerType(DISCONNECTREQ, SessionManager::getInstance());
 
-	router->registerType(DISCONNECTREQ, this->pm);
+	router->registerType(DISCONNECTREQ, this->portalMan);
 
 	router->registerType(CMD_SHUTDOWN, this);
 
-	router->registerType(GEOMETRYREQ, this->dm);
-	router->registerType(GEOMETRYCHUNK, this->dm);
+	router->registerType(GEOMETRYREQ, this->dataMan);
+	router->registerType(GEOMETRYCHUNK, this->dataMan);
 }
 
 bool
@@ -78,13 +78,13 @@ GeometryService::preRunHook() {
 void
 GeometryService::_run() {
 	this->log->logINFO("GeometryService", "Starting PortalManager");
-	this->pm->start();
+	this->portalMan->start();
 
 	while (this->runCmd) {
 		GSThread::msleep(100);
 	}
 
-	this->pm->shutdown();
+	this->portalMan->shutdown();
 }
 
 bool

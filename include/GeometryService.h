@@ -50,8 +50,8 @@ private:
 	QString localNodeName;
 	quint16 listenPort;
 
-	PortalManager* pm;
-	DataManager* dm;
+	PortalManager* portalMan;
+	DataManager* dataMan;
 
 	void registerMsgRoutes();
 
