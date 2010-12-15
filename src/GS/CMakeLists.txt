@@ -69,6 +69,8 @@ RT3_PROJECT_ADD_INST_HEADERS(
     IDataSource.h
     FileDataSource.h
 	DbObject.h
+	ClientCmdRegistry.h
+	AbstractClientCmd.h
 )
 
 #Set NOINST headers
@@ -76,8 +78,6 @@ RT3_PROJECT_ADD_NOINST_HEADERS(
 	DbObjectManifest.h
 	GeometryProcessor.h
 	GSClient.h
-	cmds/ClientCmdRegistry.h
-	cmds/AbstractClientCmd.h
 )
 
 #Set QT INST headers
