@@ -54,6 +54,8 @@ RT3_PROJECT_ADD_SOURCES (
 	Account.cxx
 	AccountManager.cxx
 	GSClient.cxx
+	cmds/ClientCmdRegistry.cxx
+	cmds/AbstractClientCmd.cxx
 )
 
 #Set INST Headers
@@ -74,6 +76,8 @@ RT3_PROJECT_ADD_NOINST_HEADERS(
 	DbObjectManifest.h
 	GeometryProcessor.h
 	GSClient.h
+	cmds/ClientCmdRegistry.h
+	cmds/AbstractClientCmd.h
 )
 
 #Set QT INST headers
