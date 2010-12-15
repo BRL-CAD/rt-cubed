@@ -56,7 +56,7 @@ AccountManager::getInstance()
 quint32
 AccountManager::validateLoginCreds(QString uname, QString passwd)
 {
-	//TODO put in REAL account validation here.
+	/* TODO put in REAL account validation here. */
     if (uname == "Guest" && passwd == "Guest") {
     	return 0;
     }
@@ -76,7 +76,7 @@ AccountManager::validateLoginCreds(QString uname, QString passwd)
     	return 5;
     }
     if (uname == "Roger" && passwd == "Kint") {
-    	return 6;    static quint32 nextID;
+    	return 6;
     }
 
     return -1;
@@ -96,6 +96,11 @@ AccountManager::login(QString uname, QString passwd, Portal* p)
 
 	Account* acc = this->newAccount(uname, p, id);
 	return acc;
+}
+
+void
+AccountManager::logout(Account* a) {
+	this->remAccount(a);
 }
 
 Account*
@@ -124,6 +129,13 @@ AccountManager::newAccount(QString uname, Portal* p, quint32 id)
 
     }
     return a;
+}
+
+void
+AccountManager::remAccount(Account* a) {
+	this->accountListLock.lock();
+	this->accounts->removeAll(a); /* TODO Removes matches to mem address only, upgrade this logic. */
+	this->accountListLock.unlock();
 }
 
 // Local Variables: ***

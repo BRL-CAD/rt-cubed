@@ -17,7 +17,7 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file Account.cxx
+/** @file Account.h
  *
  * Class that represents a user's account information.
  *
