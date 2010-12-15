@@ -111,7 +111,8 @@ AccountManager::newAccount(QString uname, Portal* p, quint32 id)
 	//check to see if its already cached.
 	this->accountListLock.lock();
     int index = this->accounts->indexOf(a);
-    if (a>=0) {
+
+    if (index >= 0) {
     	a = this->accounts->at(index);
     }
     this->accountListLock.unlock();
