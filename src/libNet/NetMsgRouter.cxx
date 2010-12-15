@@ -26,7 +26,7 @@
 #include "NetMsgRouter.h"
 #include <QtCore/QMutexLocker>
 #include "Portal.h"
-#include "TypeOnlyMsg.h"
+#include "FailureMsg.h"
 
 NetMsgRouter* NetMsgRouter::pInstance = NULL;
 
@@ -72,8 +72,13 @@ bool NetMsgRouter::routeMsg(NetMsg* msg) {
 
 	if (list->length() == 0) {
 		/* If no routing table, send back an error */
-		TypeOnlyMsg* tom = new TypeOnlyMsg(UNHANDLED_MSG_TYPE);
-		origin->send(tom);
+/*		FailureMsg failMsg(UNHANDLED_MSG_TYPE);*/
+/*		origin->send(&failMsg);*/
+		s.clear();
+		s.append("Msg type: ");
+		s.append(QString::number(msg->getMsgType(),16).toUpper());
+		s.append(" has no routing information.");
+		Logger::getInstance()->logWARNING("NetMsgRouter",s);
 		return false;
 
 	} else {
