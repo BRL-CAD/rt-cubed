@@ -56,6 +56,7 @@ RT3_PROJECT_ADD_SOURCES (
 	GSClient.cxx
 	cmds/ClientCmdRegistry.cxx
 	cmds/AbstractClientCmd.cxx
+	cmds/ShutdownCmd.cxx
 )
 
 #Set INST Headers
@@ -71,6 +72,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	DbObject.h
 	ClientCmdRegistry.h
 	AbstractClientCmd.h
+	ShutdownCmd.h
 )
 
 #Set NOINST headers
