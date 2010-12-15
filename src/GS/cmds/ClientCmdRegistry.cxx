@@ -33,7 +33,6 @@ ClientCmdRegistry*
 ClientCmdRegistry::getInstance() {
 	if (ClientCmdRegistry::pInstance == NULL) {
 		ClientCmdRegistry::pInstance = new ClientCmdRegistry();
-		ClientCmdRegistry::pInstance->registerInternalCmds();
 	}
 	return ClientCmdRegistry::pInstance;
 }
@@ -74,12 +73,6 @@ ClientCmdRegistry::getListOfCmds() {
 	QList<QString>* keys = new QList<QString>(this->cmdMap->keys());
 
 	return keys;
-}
-
-void
-ClientCmdRegistry::registerInternalCmds()
-{
-	/* TODO add in any cmds that should be automatically mapped here. */
 }
 
 /*

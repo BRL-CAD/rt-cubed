@@ -49,9 +49,6 @@ public:
 private:
 	static ClientCmdRegistry* pInstance;
 	ClientCmdRegistry();
-
-	static void registerInternalCmds();
-
 	Logger* log;
 
 	QMutex mapLock;
