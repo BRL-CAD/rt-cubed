@@ -51,13 +51,11 @@ int
 Portal::send(NetMsg* msg) {
 	QByteArray* ba = msg->serialize();
 
-/*
 	QString s("Sending msg.  Type: ");
-	s.append(QString::number(msg->getMsgType()));
+	s.append(QString::number(msg->getMsgType(),16).toUpper());
 	s.append(" len: ");
 	s.append(QString::number(ba->size()));
 	log->logDEBUG("Portal", s);
-*/
 
 	int retval = this->pkgClient->send(PKG_MAGIC2, ba->data(), ba->size());
 

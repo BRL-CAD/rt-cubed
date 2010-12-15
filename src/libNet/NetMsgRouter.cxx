@@ -67,7 +67,7 @@ bool NetMsgRouter::routeMsg(NetMsg* msg) {
 		s.append("NULL origin!");
 	}
 	s.append(" and type: ");
-	s.append(QString::number(msg->getMsgType()));
+	s.append(QString::number(msg->getMsgType(),16).toUpper());
 	Logger::getInstance()->logINFO("NetMsgRouter", s);
 
 	if (list->length() == 0) {
