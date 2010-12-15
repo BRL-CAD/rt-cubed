@@ -64,6 +64,15 @@ Portal::send(NetMsg* msg) {
 	delete ba;
 	return retval;
 }
+int
+Portal::sendThenDisconnect(NetMsg* msg) {
+	int retval = this->send(msg);
+
+	/* TODO should we check to see if send actually sends first? */
+	this->disconnect();
+
+	return retval;
+}
 
 void
 Portal::sendGSNodeName() {

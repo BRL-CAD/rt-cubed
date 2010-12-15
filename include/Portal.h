@@ -44,6 +44,7 @@ public:
   friend class PortalManager;
   virtual ~Portal();
   int send(NetMsg* msg);
+  int sendThenDisconnect(NetMsg* msg);
   void sendGSNodeName();
   void disconnect();
 
