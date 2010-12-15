@@ -17,7 +17,7 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file AccountManager.cxx
+/** @file AccountManager.h
  *
  * Interface to the SVN user system.
  *
@@ -40,6 +40,7 @@ public:
     virtual ~AccountManager();
     static AccountManager* getInstance();
     Account* login(QString uname, QString passwd, Portal* p);
+    void logout(Account* a);
 
 private:
     static AccountManager* pInstance;
@@ -51,6 +52,7 @@ private:
 
     quint32 validateLoginCreds(QString uname, QString passwd);
     Account* newAccount(QString uname, Portal* p, quint32 id);
+    void remAccount(Account* a);
 
 	/* Disable copy cstr and =operator */
     AccountManager(AccountManager const&){};
