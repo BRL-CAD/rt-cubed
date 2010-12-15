@@ -111,6 +111,7 @@ PortalManager::_run() {
 		/* Shelect!! */
 		int retVal = select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
 
+		/*
 		if (retVal != 0) {
 			QString out("Select returned: ");
 			out.append(QString::number(retVal));
@@ -120,6 +121,7 @@ PortalManager::_run() {
 			out.append(QString::number(fdmax));
 			this->log->logINFO("PortalManager", out);
 		}
+		 */
 
 		if (retVal < 0) {
 			/* got a selector error */
