@@ -97,6 +97,7 @@ bool Config::loadFile(QString pathAndFileName, bool verbose)
     QFileInfo info(f);
 
     log->logINFO("Config", "Done loading config from: " + info.absoluteFilePath());
+    return true;
 }
 
 QString
