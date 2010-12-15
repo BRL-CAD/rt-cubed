@@ -34,6 +34,18 @@
 
 #include <QtCore/QString>
 
+int gsExit(int code)
+{
+	Logger* log = Logger::getInstance();
+    log->logBANNER("geoserv", "GeometryService is Shutting Down...");
+
+	JobManager::getInstance()->shutdown(true);
+
+	log->logINFO("geoserv", "Exiting.");
+	usleep(1000); /* Yeild main thread, let other threads finish unlocking */
+	exit(code);
+}
+
 int main(int argc, char* argv[])
 {
     std::cout << std::endl << std::endl;
@@ -46,10 +58,10 @@ int main(int argc, char* argv[])
 
     Config* c = Config::getInstance();
 
-    //TODO Configure system loads stuff here
-    if (c->loadFile("geoserve.config", true) == false) {
+    //TODO Configure system loads stuff here, could be prettier
+    if (c->loadFile("geoserv.config", true) == false) {
     	log->logERROR("geoserv","Failed to properly Load config File.  Exiting.");
-    	return 1;
+    	gsExit(1);
     }
 
     QString localNodename = c->getConfigValue("LocalNodeName");
@@ -62,11 +74,11 @@ int main(int argc, char* argv[])
     QString sport = c->getConfigValue("ListenPort");
     if (sport == NULL){
     	log->logERROR("geoserv", "Config File does not contain a 'ListenPort' parameter");
-    	return 1;
+    	gsExit(1);
     }
     if (sport.length() <= 0){
-    	log->logERROR("geoserv", "Config File contains a 'ListenPort' key, however the value was <= 0.");
-    	return 1;
+    	log->logERROR("geoserv", "Config File contains a 'ListenPort' key, however the value length was <= 0.");
+    	gsExit(1);
     }
 
     bool ok;
