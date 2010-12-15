@@ -192,6 +192,7 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 void
 SessionManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 {
+	log->logINFO("SessionManager", "Recv'ed DisconnectReqMsg.");
 	Portal* origin = msg->getOrigin();
 
 	/* validate incoming data */
