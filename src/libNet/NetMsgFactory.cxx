@@ -62,8 +62,8 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
   quint16 msgType = 0;
   temp >> msgType;
 
-  QString s("Got msg. type: ");
-  s.append(QString::number(msgType));
+  QString s("Got msg. type: 0x");
+  s.append(QString::number(msgType,16).toUpper());
   s.append(" len: ");
   s.append(QString::number(data.size()));
   Logger::getInstance()->logDEBUG("NetMsgFactory", s);
