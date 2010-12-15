@@ -47,8 +47,9 @@ int main(int argc, char* argv[])
     Config* c = Config::getInstance();
 
     //TODO Configure system loads stuff here
-    if (c->loadFile("geoserve.config", true)) {
-	return 1;
+    if (c->loadFile("geoserve.config", true) == false) {
+    	log->logERROR("geoserv","Failed to properly Load config File.  Exiting.");
+    	return 1;
     }
 
     QString localNodename = c->getConfigValue("LocalNodeName");
