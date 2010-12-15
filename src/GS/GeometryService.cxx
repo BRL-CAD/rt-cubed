@@ -56,7 +56,7 @@ GeometryService::registerMsgRoutes()
 	NetMsgRouter* router = NetMsgRouter::getInstance();
 
 	router->registerType(NEWSESSIONREQ, SessionManager::getInstance());
-	router->registerType(SESSIONINFO, SessionManager::getInstance());
+	//router->registerType(SESSIONINFO, SessionManager::getInstance());
 	router->registerType(DISCONNECTREQ, SessionManager::getInstance());
 
 	router->registerType(DISCONNECTREQ, this->portalMan);
@@ -102,6 +102,7 @@ GeometryService::handleNetMsg(NetMsg* msg)
 	switch(type) {
 	case CMD_SHUTDOWN:
 		log->logINFO("GeometryService", "Remote Shutdown Initiated.");
+		this->portalMan->terminate(false);
 		this->terminate(false);
 		return true;
 	}
