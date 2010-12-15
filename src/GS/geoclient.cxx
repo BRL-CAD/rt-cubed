@@ -54,7 +54,8 @@ logBanner(QString s)
 /**
  * Prints the 'usage' statement to the console along with an optional message
  */
-void printUsage(std::string customMsg) {
+void
+printUsage(std::string customMsg) {
 	if (customMsg.length() > 0) {
 		customMsg += "\n";
 		QString s(customMsg.c_str());
@@ -65,7 +66,46 @@ void printUsage(std::string customMsg) {
 	return;
 }
 
-void processIn(std::string in) {
+void
+handleSendShutdown(QString host, quint16 port, QString uname, QString passwd) {
+
+	/* Log */
+	QString s("Trying to connect to ");
+	s.append(host);
+	s.append(":");
+	s.append(QString::number(port));
+	logInfo(s);
+
+	PortalManager pm;
+	pm.start();
+	Portal* p = pm.connectToHost(host, port);
+	GSThread::msleep(250);
+
+	if (p == NULL){
+		pm.shutdown();
+		logInfo("Connection failed.");
+		return;
+	}
+
+	/* Authenticate */
+	/* TODO Make session AUTH */
+
+	NewSessionReqMsg nsrm(uname, passwd);
+	p->send(&nsrm);
+	GSThread::msleep(1250);
+
+	//Send Shutdown
+	TypeOnlyMsg tom(CMD_SHUTDOWN);
+	p->sendThenDisconnect(&tom);
+	GSThread::msleep(250);
+	pm.shutdown();
+
+	delete p;
+}
+
+
+void
+processIn(std::string in) {
 	QString qin(in.c_str());
 
 	//convert to lowercase
@@ -84,46 +124,38 @@ void processIn(std::string in) {
 		stayRun = false;
 		return;
 	}
+
+    if (cmd == "test01") {
+    	processIn("sendshutdown localhost 5309 guest guest");
+    	return;
+    }
+
+    if (cmd == "test02") {
+    	processIn("sendshutdown localhost 5309 g g");
+    	return;
+    }
+
     if(cmd == "sendshutdown") {
-    	if (list.size() !=2 ) {
-    		logInfo("useage: sendshutdown ip port");
+     	if (list.size() !=4 ) {
+     		logInfo("useage: sendshutdown ip port uname passwd");
+     		return;
+     	}
+
+     	QString host = list.at(0);
+     	quint16 port = atoi(list.at(1).toStdString().c_str());
+     	QString uname = list.at(2);
+     	QString passwd = list.at(3);
+
+    	if (port <=0 || host.length() == 0 || uname.length() == 0 || passwd.length() == 0){
+     		logInfo("useage: sendshutdown ip port uname passwd");
     		return;
     	}
 
-    	QString host = list.at(0);
-    	quint16 port = atoi(list.at(1).toStdString().c_str());
+    	handleSendShutdown(host, port, uname, passwd);
+ 		return;
+     }
 
-    	//Log
-		QString s("Trying to connect to ");
-		s.append(host);
-		s.append(":");
-		s.append(list.at(1));
-		logInfo(s);
-
-    	PortalManager pm;
-    	pm.start();
-    	Portal* p = pm.connectToHost(host, port);
-		GSThread::sleep(1);
-
-		if (p == NULL){
-			pm.shutdown();
-			logInfo("Connection failed.");
-			return;
-		}
-
-		//Authenticate
-		//TODO Make session AUTH
-
-		//Send Shutdown
-		TypeOnlyMsg* tom = new TypeOnlyMsg(CMD_SHUTDOWN);
-		p->send(tom);
-		GSThread::sleep(1);
-		p->disconnect();
-		pm.shutdown();
-
-		delete p;
-		return;
-    }
+	logInfo("\tunknown command: '" + cmd + "'");
 }
 
 /*
@@ -134,7 +166,8 @@ void processIn(std::string in) {
  * =====================
  */
 
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
 	Logger::getInstance();
 	JobManager::getInstance()->startup();
