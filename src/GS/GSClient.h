@@ -25,18 +25,33 @@
 #ifndef __GSCLIENT_H__
 #define __GSCLIENT_H__
 
+#include "ClientCmdRegistry.h"
+#include "Logger.h"
+#include "JobManager.h"
+
 #include <QtCore/QString>
+#include <QtCore/QStringList>
+
+#include <string>
+#include <iostream>
+#include <stdlib.h>
 
 class GSClient {
 public:
 	GSClient();
 	virtual ~GSClient();
 
-	bool hasCmd(QString cmd);
-	void execCmd(QString cmd, QString args[]);
+	int run();
+	bool execCmd(QString cmd, QStringList args);
 
 private:
+	ClientCmdRegistry* ccReg;
+	Logger* log;
+	JobManager* jobMan;
 
+	bool stayRun;
+	std::string prompt;
+	const static std::string defaultPrompt;
 };
 
 #endif /* __GSCLIENT_H__ */

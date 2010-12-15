@@ -40,7 +40,7 @@ AbstractClientCmd::getCmd()
 }
 
 bool
-AbstractClientCmd::exec(QString args[]) {
+AbstractClientCmd::exec(QStringList args) {
 	return this->_exec(args);
 }
 

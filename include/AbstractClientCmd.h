@@ -26,18 +26,19 @@
 #define __ABSTRACTCLIENTCMD_H__
 
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 
 class AbstractClientCmd {
 public:
 	virtual ~AbstractClientCmd();
-	bool exec(QString args[]);
+	bool exec(QStringList args);
 
 	QString getCmd();
 protected:
 	AbstractClientCmd(QString cmd);
 	AbstractClientCmd(AbstractClientCmd* acCmd);
 
-	virtual bool _exec(QString args[]) = 0;
+	virtual bool _exec(QStringList args) = 0;
 
 private:
 	QString cmd;
