@@ -27,7 +27,7 @@
 #include "AccountManager.h"
 #include "NetMsgTypes.h"
 #include "libutility.h"
-#include "GenericOneByteMsg.h"
+#include "FailureMsg.h"
 
 #include <QtCore/QMutexLocker>
 
@@ -165,8 +165,8 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 	/* Quick LEN check on strings. */
 	if (uname.length() <=0 || passwd.length() <= 0) {
 		log->logINFO("SessionManager", "Auth FAILED.  Zero len uname or passwd. Disconnecting.");
-		GenericOneByteMsg* fail = new GenericOneByteMsg(FAILURE, ACCOUNT_VALIDATION_FAIL);
-		origin->sendThenDisconnect(fail);
+		FailureMsg fail(msg, ACCOUNT_VALIDATION_FAIL);
+		origin->sendThenDisconnect(&fail);
 		return;
 	}
 
@@ -176,8 +176,8 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 	if (a == 0) {
 		/* Account validation failed */
 		log->logINFO("SessionManager", "Auth FAILED.  Bad uname or passwd. Disconnecting.");
-		GenericOneByteMsg* fail = new GenericOneByteMsg(FAILURE, ACCOUNT_VALIDATION_FAIL);
-		origin->sendThenDisconnect(fail);
+		FailureMsg fail(msg, ACCOUNT_VALIDATION_FAIL);
+		origin->sendThenDisconnect(&fail);
 		return;
 	}
 
