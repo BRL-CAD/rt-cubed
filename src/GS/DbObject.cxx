@@ -21,7 +21,7 @@
  * DbObject.cxx
  *
  *  Created on: Sep 29, 2010
- *      Author: dloman
+ *      
  */
 
 #include "DbObject.h"

@@ -21,7 +21,7 @@
  * PkgTcpServer.h
  *
  *  Created on: Aug 19, 2010
- *      Author: dloman
+ *      
  */
 
 #ifndef __PKGTCPSERVER_H__

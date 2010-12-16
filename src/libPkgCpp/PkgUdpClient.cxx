@@ -21,7 +21,7 @@
  * PkgUdpClient.cxx
  *
  *  Created on: Aug 19, 2010
- *      Author: dloman
+ *      
  */
 
 #include "PkgUdpClient.h"

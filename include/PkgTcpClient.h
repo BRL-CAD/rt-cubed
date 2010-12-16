@@ -21,7 +21,7 @@
  * PkgTcpClient.h
  *
  *  Created on: Aug 19, 2010
- *      Author: dloman
+ *      
  */
 
 #ifndef __PKGTCPCLIENT_H__

@@ -21,7 +21,7 @@
  * PkgTcpClient.cxx
  *
  *  Created on: Aug 19, 2010
- *      Author: dloman
+ *      
  */
 
 #include "PkgTcpClient.h"
