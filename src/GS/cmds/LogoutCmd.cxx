@@ -26,6 +26,7 @@
 
 #include "LogoutCmd.h"
 #include "PortalManager.h"
+#include "TypeOnlyMsg.h"
 
 LogoutCmd::LogoutCmd() : AbstractClientCmd("logout") {}
 LogoutCmd::~LogoutCmd() {}
@@ -42,8 +43,21 @@ LogoutCmd::getHelp() {
 
 bool
 LogoutCmd::_exec(GSClient* client, QStringList args){
-	PortalManager* pm = client->getPortMan();
+	Portal* p = client->getCurrentPortal();
 
+	/* Check to see if we are connected */
+	if (p == NULL) {
+		this->log->logWARNING("ShutdownCmd","Current Portal returned NULL.  Cannot send Shutdown Msg.");
+		return false;
+	}
+
+	TypeOnlyMsg msg(DISCONNECTREQ);
+	p->send(&msg);
+
+	/* This is an ugly way to do this, 'friend' is needed in GSClient.h */
+	client->currentPortal = NULL;
+
+	return true;
 }
 
 
