@@ -23,6 +23,11 @@
  */
 
 #include "GSClient.h"
+#include "AbstractClientCmd.h"
+#include "HelpCmd.h"
+#include "LoginCmd.h"
+#include "LogoutCmd.h"
+#include "ShutdownCmd.h"
 
 const std::string GSClient::defaultPrompt ="geoclient> ";
 
@@ -34,6 +39,12 @@ GSClient::GSClient() {
 
 	this->stayRun = true;
 	this->prompt = defaultPrompt;
+
+	/* Command Registrations */
+	this->ccReg->registerCmd(new HelpCmd());
+	this->ccReg->registerCmd(new LoginCmd());
+	this->ccReg->registerCmd(new LogoutCmd());
+	this->ccReg->registerCmd(new ShutdownCmd());
 }
 
 GSClient::~GSClient() {
@@ -93,6 +104,12 @@ PortalManager*
 GSClient::getPortMan()
 {
 	return this->portMan;
+}
+
+Portal*
+GSClient::getCurrentPortal()
+{
+	return this->currentPortal;
 }
 
 /*

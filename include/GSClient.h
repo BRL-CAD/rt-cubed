@@ -29,6 +29,7 @@
 #include "Logger.h"
 #include "JobManager.h"
 #include "PortalManager.h"
+#include "Portal.h"
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
@@ -45,6 +46,7 @@ public:
 	int run();
 	bool execCmd(QString cmd, QStringList args);
 	PortalManager* getPortMan();
+	Portal* getCurrentPortal();
 
 protected:
 
@@ -54,6 +56,7 @@ private:
 	JobManager* jobMan;
 
 	PortalManager* portMan;
+	Portal* currentPortal;
 
 	bool stayRun;
 	std::string prompt;
