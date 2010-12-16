@@ -41,12 +41,6 @@ ExitCmd::getHelp(){
 
 bool
 ExitCmd::_exec(GSClient* client, QStringList args){
-	Portal* p = client->getCurrentPortal();
-
-	/* Check to see if we are connected */
-	if (p != NULL)
-		p->disconnect();
-
 	/* set the run flag to false */
 	client->stopRun();
 }
