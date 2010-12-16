@@ -49,12 +49,12 @@ AbstractClientCmd::exec(GSClient* client, QStringList args) {
 
 void
 AbstractClientCmd::printUsage() {
-	this->log->logINFO(this->cmd, this->getUsage());
+	this->log->logINFO(this->cmd.toUpper(), this->getUsage());
 }
 
 void
 AbstractClientCmd::printHelp() {
-	this->log->logINFO(this->cmd, this->getHelp());
+	this->log->logINFO(this->cmd.toUpper(), this->getHelp());
 }
 
 /*
