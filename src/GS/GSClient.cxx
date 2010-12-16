@@ -23,6 +23,8 @@
  */
 
 #include "GSClient.h"
+#include "NetMsgRouter.h"
+
 #include "AbstractClientCmd.h"
 #include "ExitCmd.h"
 #include "HelpCmd.h"
@@ -42,6 +44,17 @@ GSClient::GSClient() {
 	this->stayRun = true;
 	this->prompt = defaultPrompt;
 
+	this->registerClientCmds();
+	this->registerMsgRoutes();
+}
+
+GSClient::~GSClient() {
+	delete this->portMan;
+}
+
+void
+GSClient::registerClientCmds()
+{
 	/* Command Registrations */
 	this->ccReg->registerCmd(new HelpCmd());
 	this->ccReg->registerCmd(new ExitCmd());
@@ -50,9 +63,28 @@ GSClient::GSClient() {
 	this->ccReg->registerCmd(new ShutdownCmd());
 }
 
-GSClient::~GSClient() {
-	delete this->portMan;
+void
+GSClient::registerMsgRoutes()
+{
+	NetMsgRouter* router = NetMsgRouter::getInstance();
+
+	router->registerType(DISCONNECTREQ, this->portMan);
+	router->registerType(SESSIONINFO, this);
 }
+
+bool
+GSClient::handleNetMsg(NetMsg* msg)
+{
+	quint16 type = msg->getMsgType();
+	switch(type) {
+	case SESSIONINFO:
+		QString data =((SessionInfoMsg*)msg)->toString();
+		log->logINFO("GSClient", "Received SessionInfo: " + data);
+		return true;
+	}
+	return false;
+}
+
 
 int
 GSClient::run()

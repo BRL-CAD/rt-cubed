@@ -26,10 +26,8 @@
 #define __GSCLIENT_H__
 
 #include "ClientCmdRegistry.h"
-#include "Logger.h"
-#include "JobManager.h"
-#include "PortalManager.h"
-#include "Portal.h"
+#include "libutility.h"
+#include "libnet.h"
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
@@ -38,7 +36,10 @@
 #include <iostream>
 #include <stdlib.h>
 
-class GSClient {
+class LoginCmd;
+class GSClient: public INetMsgHandler {
+	friend class LoginCmd;
+
 public:
 	GSClient();
 	virtual ~GSClient();
@@ -46,13 +47,18 @@ public:
 	int run();
 	void stopRun();
 
+    bool handleNetMsg(NetMsg* msg);
 	bool execCmd(QString cmd, QStringList args);
+
 	PortalManager* getPortMan();
 	Portal* getCurrentPortal();
 
 protected:
 
 private:
+	void registerClientCmds();
+	void registerMsgRoutes();
+
 	ClientCmdRegistry* ccReg;
 	Logger* log;
 	JobManager* jobMan;
