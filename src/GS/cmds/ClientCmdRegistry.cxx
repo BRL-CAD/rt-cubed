@@ -65,7 +65,12 @@ bool ClientCmdRegistry::registerCmd(AbstractClientCmd* cmd) {
 AbstractClientCmd*
 ClientCmdRegistry::getCmd(QString cmd)
 {
+	QMutexLocker(&this->mapLock);
 
+	if (this->cmdMap->contains(cmd) == false)
+		return NULL;
+
+	return this->cmdMap->value(cmd);
 }
 
 QList<QString>*
