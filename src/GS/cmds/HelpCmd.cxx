@@ -58,11 +58,8 @@ HelpCmd::_exec(GSClient* client, QStringList args){
 
 		this->log->logINFO("HelpCmd", "Available commands:");
 
-		QString out("");
+		QString out("\t");
 		for (int i = 0; i < cmds->length(); ++i) {
-
-			out.append("\t");
-
 			/* Append the new cmd name */
 			out.append(cmds->at(i));
 
@@ -73,7 +70,7 @@ HelpCmd::_exec(GSClient* client, QStringList args){
 			/* every 5th command, start a new line. */
 			if ((i+1) % 5 == 0) {
 				this->log->logINFO("HelpCmd", out);
-				out = ""; /* reset for next loop pass */
+				out = "\t"; /* reset for next loop pass */
 			}
 		}
 
