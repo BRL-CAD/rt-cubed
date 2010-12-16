@@ -25,6 +25,8 @@
 
 
 #include "ClientCmdRegistry.h"
+#include "AbstractClientCmd.h"
+
 #include <QtCore/QMutexLocker>
 
 ClientCmdRegistry* ClientCmdRegistry::pInstance = NULL;

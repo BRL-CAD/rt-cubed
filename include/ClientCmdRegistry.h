@@ -27,13 +27,14 @@
 #ifndef __CLIENTCMDREGISTRY_H__
 #define __CLIENTCMDREGISTRY_H__
 
-#include "AbstractClientCmd.h"
 #include "Logger.h"
 
 #include <QtCore/QString>
 #include <QtCore/QMap>
 #include <QtCore/QList>
 #include <QtCore/QMutex>
+
+class AbstractClientCmd;
 
 class ClientCmdRegistry
 {
