@@ -26,6 +26,7 @@
 
 #include "LoginCmd.h"
 #include "PortalManager.h"
+#include "NewSessionReqMsg.h"
 
 LoginCmd::LoginCmd() : AbstractClientCmd("login"){}
 LoginCmd::~LoginCmd() {}
@@ -49,6 +50,7 @@ LoginCmd::_exec(GSClient* client, QStringList args){
 		return false;
 	}
 
+	/* Convert args to proper types */
  	QString host = args.at(0);
  	quint16 port = atoi(args.at(1).toStdString().c_str());
  	QString uname = args.at(2);
@@ -62,6 +64,34 @@ LoginCmd::_exec(GSClient* client, QStringList args){
 
 	PortalManager* pm = client->getPortMan();
 
+	if (pm == NULL)	{
+		this->log->logERROR("LoginCmd", "NULL PortalManager, cannot connect.");
+		return false;
+	}
+
+	Portal* p = pm->connectToHost(host, port);
+
+	if (p == NULL) 	{
+		this->log->logERROR("LoginCmd", "Failed to open new Portal, cannot connect.");
+		return false;
+	}
+
+	/* Give the Portal some time to handshake. */
+	GSThread::msleep(100);
+
+	/* This is an ugly way to do this, 'friend' is needed in GSClient.h */
+	client->currentPortal = p;
+
+	/* Authenticate */
+	NewSessionReqMsg nsrm(uname, passwd);
+	p->send(&nsrm);
+
+	GSThread::msleep(100);
+
+	QString remNodename = p->getRemoteNodeName();
+	this->log->logINFO("LoginCmd", "Connected to: '" + remNodename+ "'.");
+
+	return true;
 }
 
 
