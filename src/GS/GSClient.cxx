@@ -24,6 +24,7 @@
 
 #include "GSClient.h"
 #include "AbstractClientCmd.h"
+#include "ExitCmd.h"
 #include "HelpCmd.h"
 #include "LoginCmd.h"
 #include "LogoutCmd.h"
@@ -42,6 +43,7 @@ GSClient::GSClient() {
 
 	/* Command Registrations */
 	this->ccReg->registerCmd(new HelpCmd());
+	this->ccReg->registerCmd(new ExitCmd());
 	this->ccReg->registerCmd(new LoginCmd());
 	this->ccReg->registerCmd(new LogoutCmd());
 	this->ccReg->registerCmd(new ShutdownCmd());
@@ -81,6 +83,17 @@ GSClient::run()
 
 		this->execCmd(cmd, list);
 	}
+
+	if (this->currentPortal != NULL)
+		this->currentPortal->disconnect();
+
+	if (this->portMan != NULL)
+		this->portMan->shutdown();
+
+	if (this->jobMan != NULL)
+		this->jobMan->shutdown();
+
+
 
 	this->log->logINFO("geoclient","Exiting.");
 	return 0;
