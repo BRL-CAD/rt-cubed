@@ -111,7 +111,7 @@ PortalManager::_run() {
 		/* Shelect!! */
 		int retVal = select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
 
-		/*
+		/**/
 		if (retVal != 0) {
 			QString out("Select returned: ");
 			out.append(QString::number(retVal));
@@ -121,7 +121,7 @@ PortalManager::_run() {
 			out.append(QString::number(fdmax));
 			this->log->logINFO("PortalManager", out);
 		}
-		 */
+		 /**/
 
 		if (retVal < 0) {
 			/* got a selector error */
@@ -141,7 +141,7 @@ PortalManager::_run() {
 
 			/* Simplify switching later with bools now*/
 			isListener = (i == listener);
- 			readyRead = FD_ISSET(i, &readfds) && !isListener;
+ 			readyRead = true; /*FD_ISSET(i, &readfds) && !isListener;*/
 			readyAccept = FD_ISSET(i, &readfds) && isListener;
 			readyException = FD_ISSET(i, &exceptionfds);
 
