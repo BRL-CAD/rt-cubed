@@ -56,14 +56,58 @@ HelpCmd::_exec(GSClient* client, QStringList args){
 		/* display list of cmds */
 		QList<QString>* cmds = ccReg->getListOfCmds();
 
+		this->log->logINFO("HelpCmd", "Available commands:");
+
+		QString out("");
+		for (int i = 0; i < cmds->length(); ++i) {
+
+			out.append("\t");
+
+			/* Append the new cmd name */
+			out.append(cmds->at(i));
+
+			/* as long as we are not the last command, append a comma */
+			if (i+1 < cmds->length())
+				out.append(", ");
+
+			/* every 5th command, start a new line. */
+			if ((i+1) % 5 == 0) {
+				this->log->logINFO("HelpCmd", out);
+				out = ""; /* reset for next loop pass */
+			}
+		}
+
+		/* flush if anything is left. */
+		if (out.length() != 0)
+			this->log->logINFO("HelpCmd", out);
 
 
 		delete cmds;
 		return true;
+	} else {
+		/* display specifics of a single cmd */
+		QString cmd = args.at(0);
+
+		if(cmd.length() == 0) {
+			this->log->logERROR("HelpCmd", "Zero Length Cmd provided to help.");
+			return false;
+		}
+
+		AbstractClientCmd* acc = ccReg->getCmd(cmd);
+
+		if(acc == NULL) {
+			this->log->logERROR("HelpCmd", "NULL AbstractClientCmd returned from ClientCmdRegistry for '" + cmd + "'.");
+			return false;
+		}
+
+		QString usage = acc->getUsage();
+		QString help = acc->getHelp();
+
+		this->log->logINFO("HelpCmd", usage);
+		this->log->logINFO("HelpCmd", help);
+
+		return true;
 	}
-
-
-
 
 }
 
