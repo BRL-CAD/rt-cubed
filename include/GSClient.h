@@ -44,6 +44,8 @@ public:
 	virtual ~GSClient();
 
 	int run();
+	void stopRun();
+
 	bool execCmd(QString cmd, QStringList args);
 	PortalManager* getPortMan();
 	Portal* getCurrentPortal();

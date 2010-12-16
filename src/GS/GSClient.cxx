@@ -80,7 +80,6 @@ GSClient::run()
 		QString cmd = list.takeFirst();
 
 		this->execCmd(cmd, list);
-
 	}
 
 	this->log->logINFO("geoclient","Exiting.");
@@ -110,6 +109,12 @@ Portal*
 GSClient::getCurrentPortal()
 {
 	return this->currentPortal;
+}
+
+void
+GSClient::stopRun()
+{
+	this->stayRun = false;
 }
 
 /*
