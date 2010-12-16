@@ -56,6 +56,9 @@ RT3_PROJECT_ADD_SOURCES (
 	GSClient.cxx
 	cmds/ClientCmdRegistry.cxx
 	cmds/AbstractClientCmd.cxx
+	cmds/HelpCmd.cxx
+	cmds/LoginCmd.cxx
+	cmds/LogoutCmd.cxx
 	cmds/ShutdownCmd.cxx
 )
 
@@ -70,8 +73,12 @@ RT3_PROJECT_ADD_INST_HEADERS(
     IDataSource.h
     FileDataSource.h
 	DbObject.h
+	GSClient.h
 	ClientCmdRegistry.h
 	AbstractClientCmd.h
+	HelpCmd.h
+	LoginCmd.h
+	LogoutCmd.h
 	ShutdownCmd.h
 )
 
@@ -79,7 +86,6 @@ RT3_PROJECT_ADD_INST_HEADERS(
 RT3_PROJECT_ADD_NOINST_HEADERS(
 	DbObjectManifest.h
 	GeometryProcessor.h
-	GSClient.h
 )
 
 #Set QT INST headers
