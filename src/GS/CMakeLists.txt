@@ -60,6 +60,7 @@ RT3_PROJECT_ADD_SOURCES (
 	cmds/LoginCmd.cxx
 	cmds/LogoutCmd.cxx
 	cmds/ShutdownCmd.cxx
+	cmds/ExitCmd.cxx
 )
 
 #Set INST Headers
@@ -80,6 +81,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	LoginCmd.h
 	LogoutCmd.h
 	ShutdownCmd.h
+	ExitCmd.h
 )
 
 #Set NOINST headers
