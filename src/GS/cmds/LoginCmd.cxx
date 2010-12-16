@@ -42,6 +42,24 @@ LoginCmd::getHelp() {
 
 bool
 LoginCmd::_exec(GSClient* client, QStringList args){
+	int argn = args.length();
+
+	if (argn != 4) {
+		this->printUsage();
+		return false;
+	}
+
+ 	QString host = args.at(0);
+ 	quint16 port = atoi(args.at(1).toStdString().c_str());
+ 	QString uname = args.at(2);
+ 	QString passwd = args.at(3);
+
+
+	if (port <=0 || host.length() == 0 || uname.length() == 0 || passwd.length() == 0){
+		this->printUsage();
+		return false;
+	}
+
 	PortalManager* pm = client->getPortMan();
 
 }

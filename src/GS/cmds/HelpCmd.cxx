@@ -46,7 +46,7 @@ HelpCmd::_exec(GSClient* client, QStringList args){
 	int argn = args.length();
 
 	if (argn < 0 || argn > 1) {
-		this->log->logERROR("HelpCmd", this->getUsage());
+		this->printUsage();
 		return false;
 	}
 
@@ -90,6 +90,7 @@ HelpCmd::_exec(GSClient* client, QStringList args){
 
 		if(cmd.length() == 0) {
 			this->log->logERROR("HelpCmd", "Zero Length Cmd provided to help.");
+			this->printUsage();
 			return false;
 		}
 
@@ -97,14 +98,14 @@ HelpCmd::_exec(GSClient* client, QStringList args){
 
 		if(acc == NULL) {
 			this->log->logERROR("HelpCmd", "NULL AbstractClientCmd returned from ClientCmdRegistry for '" + cmd + "'.");
+			this->printUsage();
 			return false;
 		}
 
-		QString usage = acc->getUsage();
-		QString help = acc->getHelp();
+		acc->printUsage();
+		acc->printHelp();
 
-		this->log->logINFO("HelpCmd", usage);
-		this->log->logINFO("HelpCmd", help);
+		/* NOTE:  Do NOT delete acc, its used by other objects */
 
 		return true;
 	}
