@@ -37,6 +37,7 @@ GSClient::GSClient() {
 	this->log = Logger::getInstance();
 	this->jobMan = JobManager::getInstance();
 	this->portMan = new PortalManager();
+	this->currentPortal = NULL;
 
 	this->stayRun = true;
 	this->prompt = defaultPrompt;
@@ -92,8 +93,6 @@ GSClient::run()
 
 	if (this->jobMan != NULL)
 		this->jobMan->shutdown();
-
-
 
 	this->log->logINFO("geoclient","Exiting.");
 	return 0;
