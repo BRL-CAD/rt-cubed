@@ -40,6 +40,9 @@ public:
 	virtual QString getUsage() = 0;
 	virtual QString getHelp() = 0;
 
+	void printUsage();
+	void printHelp();
+
 protected:
 	AbstractClientCmd(QString cmd);
 	AbstractClientCmd(AbstractClientCmd* acCmd);

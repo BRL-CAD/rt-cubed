@@ -47,6 +47,16 @@ AbstractClientCmd::exec(GSClient* client, QStringList args) {
 	return this->_exec(client, args);
 }
 
+void
+AbstractClientCmd::printUsage() {
+	this->log->logERROR(this->cmd, this->getUsage());
+}
+
+void
+AbstractClientCmd::printHelp() {
+	this->log->logERROR(this->cmd, this->getHelp());
+}
+
 /*
  * Local Variables:
  * tab-width: 8
