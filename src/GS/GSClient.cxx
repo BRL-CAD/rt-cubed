@@ -38,7 +38,12 @@ GSClient::GSClient() {
 	this->ccReg = ClientCmdRegistry::getInstance();
 	this->log = Logger::getInstance();
 	this->jobMan = JobManager::getInstance();
+	this->jobMan->startup();
+
 	this->portMan = new PortalManager();
+	this->portMan->start();
+	GSThread::msleep(100);
+
 	this->currentPortal = NULL;
 
 	this->stayRun = true;
@@ -101,6 +106,10 @@ GSClient::run()
 
 		/* make a qstring */
 		QString qin(in.c_str());
+
+		/* cathc zero length strings here */
+		if (qin.length() == 0)
+			continue;
 
 		/* convert to lowercase */
 		qin = qin.toLower();
