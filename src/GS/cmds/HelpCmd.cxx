@@ -94,7 +94,7 @@ HelpCmd::_exec(GSClient* client, QStringList args){
 		AbstractClientCmd* acc = ccReg->getCmd(cmd);
 
 		if(acc == NULL) {
-			this->log->logERROR("HelpCmd", "NULL AbstractClientCmd returned from ClientCmdRegistry for '" + cmd + "'.");
+			this->log->logINFO("HelpCmd", "Unknown command: '" + cmd + "'.");
 			this->printUsage();
 			return false;
 		}
