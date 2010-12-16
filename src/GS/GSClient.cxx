@@ -30,11 +30,14 @@ GSClient::GSClient() {
 	this->ccReg = ClientCmdRegistry::getInstance();
 	this->log = Logger::getInstance();
 	this->jobMan = JobManager::getInstance();
+	this->portMan = new PortalManager();
+
 	this->stayRun = true;
 	this->prompt = defaultPrompt;
 }
 
 GSClient::~GSClient() {
+	delete this->portMan;
 }
 
 int
@@ -83,9 +86,14 @@ GSClient::execCmd(QString cmd, QStringList args)
 		return false;
 	}
 
-	return acc->exec(args);
+	return acc->exec(this, args);
 }
 
+PortalManager*
+GSClient::getPortMan()
+{
+	return this->portMan;
+}
 
 /*
  * Local Variables:

@@ -28,6 +28,7 @@
 #include "ClientCmdRegistry.h"
 #include "Logger.h"
 #include "JobManager.h"
+#include "PortalManager.h"
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
@@ -43,11 +44,16 @@ public:
 
 	int run();
 	bool execCmd(QString cmd, QStringList args);
+	PortalManager* getPortMan();
+
+protected:
 
 private:
 	ClientCmdRegistry* ccReg;
 	Logger* log;
 	JobManager* jobMan;
+
+	PortalManager* portMan;
 
 	bool stayRun;
 	std::string prompt;

@@ -30,10 +30,12 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
+class GSClient;
+
 class AbstractClientCmd {
 public:
 	virtual ~AbstractClientCmd();
-	bool exec(QStringList args);
+	bool exec(GSClient* client, QStringList args);
 
 	QString getCmd();
 	virtual QString getUsage() = 0;
@@ -43,7 +45,7 @@ protected:
 	AbstractClientCmd(QString cmd);
 	AbstractClientCmd(AbstractClientCmd* acCmd);
 
-	virtual bool _exec(QStringList args) = 0;
+	virtual bool _exec(GSClient* client, QStringList args) = 0;
 
 	Logger* log;
 

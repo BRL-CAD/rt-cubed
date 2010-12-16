@@ -23,6 +23,7 @@
  */
 
 #include "AbstractClientCmd.h"
+#include "GSClient.h"
 
 AbstractClientCmd::AbstractClientCmd(QString cmd) : cmd(cmd)
 {
@@ -42,8 +43,8 @@ AbstractClientCmd::getCmd()
 }
 
 bool
-AbstractClientCmd::exec(QStringList args) {
-	return this->_exec(args);
+AbstractClientCmd::exec(GSClient* client, QStringList args) {
+	return this->_exec(client, args);
 }
 
 /*

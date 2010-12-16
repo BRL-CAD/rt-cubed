@@ -41,8 +41,7 @@ ShutdownCmd::getHelp(){
 }
 
 bool
-ShutdownCmd::_exec(QStringList args){
-
+ShutdownCmd::_exec(GSClient* client, QStringList args){
 
 
 }

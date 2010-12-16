@@ -39,7 +39,7 @@ public:
 	QString getHelp();
 
 protected:
-	bool _exec(QStringList args);
+	bool _exec(GSClient* client, QStringList args);
 
 };
 
