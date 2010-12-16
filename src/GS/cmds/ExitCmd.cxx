@@ -24,24 +24,31 @@
  */
 
 #include "ExitCmd.h"
+#include "Portal.h"
 
-ExitCmd::ExitCmd() : AbstractClientCmd("shutdown"){}
+ExitCmd::ExitCmd() : AbstractClientCmd("exit"){}
 ExitCmd::~ExitCmd() {}
 
 QString
 ExitCmd::getUsage(){
-	return "Usage: shutdown";
+	return "Usage: exit";
 }
 
 QString
 ExitCmd::getHelp(){
-	return "Sends a remote shutdown command to the GS server currently attached.";
+	return "Causes the application to exit.";
 }
 
 bool
 ExitCmd::_exec(GSClient* client, QStringList args){
+	Portal* p = client->getCurrentPortal();
 
+	/* Check to see if we are connected */
+	if (p != NULL)
+		p->disconnect();
 
+	/* set the run flag to false */
+	client->stopRun();
 }
 
 /*
