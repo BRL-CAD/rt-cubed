@@ -23,12 +23,10 @@
  */
 
 #include "ShutdownCmd.h"
+#include "NetMsgTypes.h"
 
-ShutdownCmd::ShutdownCmd() : AbstractClientCmd("shutdown")
-{}
-
-ShutdownCmd::~ShutdownCmd() {
-}
+ShutdownCmd::ShutdownCmd() : AbstractClientCmd("shutdown"){}
+ShutdownCmd::~ShutdownCmd() {}
 
 QString
 ShutdownCmd::getUsage(){
@@ -42,8 +40,19 @@ ShutdownCmd::getHelp(){
 
 bool
 ShutdownCmd::_exec(GSClient* client, QStringList args){
+	Portal* p = client->getCurrentPortal();
 
+	/* Check to see if we are connected */
+	if (p == NULL) {
+		this->log->logWARNING("ShutdownCmd","Current Portal returned NULL.  Cannot send Shutdown Msg.");
+		return false;
+	}
 
+	/* Send Shutdown Msg */
+	TypeOnlyMsg tom(CMD_SHUTDOWN);
+	p->send(&tom);
+
+	return true;
 }
 
 /*
