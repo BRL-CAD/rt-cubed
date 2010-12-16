@@ -26,11 +26,10 @@
 #define __ABSTRACTCLIENTCMD_H__
 
 #include "Logger.h"
+#include "GSClient.h"
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-
-class GSClient;
 
 class AbstractClientCmd {
 public:
