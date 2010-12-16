@@ -37,8 +37,10 @@
 #include <stdlib.h>
 
 class LoginCmd;
+class LogoutCmd;
 class GSClient: public INetMsgHandler {
 	friend class LoginCmd;
+	friend class LogoutCmd;
 
 public:
 	GSClient();
