@@ -51,7 +51,7 @@ int
 Portal::send(NetMsg* msg) {
 	QByteArray* ba = msg->serialize();
 
-	QString s("Sending msg.  Type: ");
+	QString s("Sending msg.  Type: 0x");
 	s.append(QString::number(msg->getMsgType(),16).toUpper());
 	s.append(" len: ");
 	s.append(QString::number(ba->size()));
