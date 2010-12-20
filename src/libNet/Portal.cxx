@@ -60,6 +60,15 @@ Portal::send(NetMsg* msg) {
 	int retval = this->pkgClient->send(PKG_MAGIC2, ba->data(), ba->size());
 
 	delete ba;
+
+	/* Process any data moved by the underlying Socket buffer copy. */
+	retval = this->pkgClient->processData();
+	if (retval < 0) {
+		this->log->logERROR("Portal",
+				"Unable to process packets? Weird. (1) ");
+		return retval;
+	}/* TODO do we need to check for ==0 ? */
+
 	return retval;
 }
 int
