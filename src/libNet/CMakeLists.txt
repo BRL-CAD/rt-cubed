@@ -66,6 +66,8 @@ RT3_PROJECT_ADD_SOURCES (
 	netMsg/GeometryReqMsg.cxx
 	netMsg/GeometryManifestMsg.cxx
 	netMsg/GeometryChunkMsg.cxx
+	netMsg/PingMsg.cxx
+	netMsg/PongMsg.cxx
 	RouteMsgJob.cxx
 )
 
@@ -93,6 +95,8 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	GeometryReqMsg.h
 	GeometryManifestMsg.h
 	GeometryChunkMsg.h
+	PingMsg.h
+	PongMsg.h
 	RouteMsgJob.h
 )
 
