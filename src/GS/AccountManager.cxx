@@ -92,7 +92,7 @@ AccountManager::login(QString uname, QString passwd, Portal* p)
 		return NULL;
 	}
 
-	log->logINFO("AccountManager", "Authenticated user: '" + uname + "'");
+	log->logINFO("AccountManager", "Authenticated user: '" + uname + "', accountID: " + QString::number(id));
 
 	Account* acc = this->newAccount(uname, p, id);
 	return acc;
