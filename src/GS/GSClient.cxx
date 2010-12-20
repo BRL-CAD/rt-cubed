@@ -124,9 +124,6 @@ GSClient::run()
 		if (qin.length() == 0)
 			continue;
 
-		/* convert to lowercase */
-		qin = qin.toLower();
-
 	    /* split string */
 		QStringList list = qin.split(" ");
 
@@ -134,7 +131,9 @@ GSClient::run()
 		if (list.length() <= 0) {
 			continue;
 		}
-		QString cmd = list.takeFirst();
+
+		/* convert to lowercase */
+		QString cmd = list.takeFirst().toLower();
 
 		this->execCmd(cmd, list);
 	}
