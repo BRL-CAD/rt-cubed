@@ -111,7 +111,7 @@ PortalManager::_run() {
 		/* Shelect!! */
 		int retVal = select(fdmax + 1, &readfds, NULL, &exceptionfds, &timeout);
 
-		/**/
+		/*  */
 		if (retVal != 0) {
 			QString out("Select returned: ");
 			out.append(QString::number(retVal));
@@ -121,7 +121,7 @@ PortalManager::_run() {
 			out.append(QString::number(fdmax));
 			this->log->logINFO("PortalManager", out);
 		}
-		 /**/
+		 /*  */
 
 		if (retVal < 0) {
 			/* got a selector error */
@@ -134,18 +134,18 @@ PortalManager::_run() {
 		for (int i = 0; i <= fdmax; ++i) {
 			bool isaFD = FD_ISSET(i, &masterfds);
 
-			/* Don't muck with an FD that isn't ours!*/
+			/* Don't muck with an FD that isn't ours! */
 			if (!isaFD) {
 				continue;
 			}
 
-			/* Simplify switching later with bools now*/
+			/* Simplify switching later with bools now */
 			isListener = (i == listener);
- 			readyRead = true; /*FD_ISSET(i, &readfds) && !isListener;*/
+ 			readyRead = true; /* FD_ISSET(i, &readfds) && !isListener; */
 			readyAccept = FD_ISSET(i, &readfds) && isListener;
 			readyException = FD_ISSET(i, &exceptionfds);
 
-			/* If nothing to do, then continue;*/
+			/* If nothing to do, then continue; */
 			if (!readyRead && !readyAccept && !readyException) {
 				continue;
 			}
@@ -237,11 +237,13 @@ PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
 
 	/* Check maxFD and update if needed. */
 	if (newFD > fdmax) {
-		this->masterFDSLock.lock();
-		FD_SET(newFD, &masterfds);
 		fdmax = newFD;
-		this->masterFDSLock.unlock();
 	}
+
+	/* Add to masterFDS. */
+	this->masterFDSLock.lock();
+	FD_SET(newFD, &masterfds);
+	this->masterFDSLock.unlock();
 
 	p->sendGSNodeName();
 
@@ -317,6 +319,7 @@ PortalManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 
 	this->disconnect(origin);
 }
+
 /*
  * Local Variables:
  * mode: C
