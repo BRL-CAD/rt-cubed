@@ -89,7 +89,7 @@ AccountManager::login(QString uname, QString passwd, Portal* p)
 
 	id = 	this->validateLoginCreds(uname, passwd);
 
-	if (id <= 0) {
+	if (id < 0) {
 		log->logINFO("AccountManager", "Authentication FAILED. User: '" + uname + "', accountID: " + QString::number(id));
 		return NULL;
 	}
