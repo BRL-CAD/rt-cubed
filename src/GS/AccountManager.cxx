@@ -53,7 +53,7 @@ AccountManager::getInstance()
 /**
  * returns 0 for bad login.  Positive number is the accountID
  */
-quint32
+qint32
 AccountManager::validateLoginCreds(QString uname, QString passwd)
 {
 	/* TODO put in REAL account validation here. */
@@ -85,10 +85,12 @@ AccountManager::validateLoginCreds(QString uname, QString passwd)
 Account*
 AccountManager::login(QString uname, QString passwd, Portal* p)
 {
-	quint32 id = this->validateLoginCreds(uname, passwd);
+	qint32 id = 0;
+
+	id = 	this->validateLoginCreds(uname, passwd);
 
 	if (id <= 0) {
-		log->logINFO("AccountManager", "Authentication FAILED. User: '" + uname + "'");
+		log->logINFO("AccountManager", "Authentication FAILED. User: '" + uname + "', accountID: " + QString::number(id));
 		return NULL;
 	}
 

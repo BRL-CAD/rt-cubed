@@ -50,7 +50,7 @@ private:
     QMutex accountListLock;
     QList<Account*>* accounts;
 
-    quint32 validateLoginCreds(QString uname, QString passwd);
+    qint32 validateLoginCreds(QString uname, QString passwd);
     Account* newAccount(QString uname, Portal* p, quint32 id);
     void remAccount(Account* a);
 
