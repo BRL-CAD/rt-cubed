@@ -75,6 +75,7 @@ GSClient::registerMsgRoutes()
 
 	router->registerType(DISCONNECTREQ, this->portMan);
 	router->registerType(SESSIONINFO, this);
+	router->registerType(FAILURE, this);
 }
 
 bool
@@ -83,9 +84,21 @@ GSClient::handleNetMsg(NetMsg* msg)
 	quint16 type = msg->getMsgType();
 	switch(type) {
 	case SESSIONINFO:
-		QString data =((SessionInfoMsg*)msg)->toString();
-		log->logINFO("GSClient", "Received SessionInfo: " + data);
-		return true;
+		{
+			QString data =((SessionInfoMsg*)msg)->toString();
+			log->logINFO("GSClient", "Recv'ed SessionInfo: " + data);
+			return true;
+		}
+	case FAILURE:
+		{
+			FailureMsg* fMsg = (FailureMsg*)msg;
+			quint8 fc = fMsg->getFailureCode();
+
+			QUuid re = fMsg->getReUUID();
+
+			log->logINFO("GSClient", "Recv'ed A FailureMsg with code: " +QString::number( fc) + " (" + QString::number(fc, 16)+ ")");
+			return true;
+		}
 	}
 	return false;
 }
