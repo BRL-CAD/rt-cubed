@@ -40,8 +40,8 @@
 #define	FAILURE			        		0x0050
 #define	SUCCESS          	        	0x0051
 
-#define	PING									0x0060
-#define	PONG		          	        	0x0062
+#define	PING							0x0060
+#define	PONG		                	0x0062
 
 #define GS_REMOTE_NODENAME_SET	        0x0100
 
