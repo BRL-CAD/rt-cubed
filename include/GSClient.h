@@ -43,7 +43,7 @@ class GSClient: public INetMsgHandler {
 	friend class LogoutCmd;
 
 public:
-	GSClient();
+	GSClient(QString localNodeName);
 	virtual ~GSClient();
 
 	int run();

@@ -43,17 +43,19 @@ class Portal;
 class PortalManager : public ControlledThread, public INetMsgHandler
 {
 public:
-	PortalManager(quint16 port = 0);
+	PortalManager(QString localNodeName, quint16 port = 0);
 	~PortalManager();
 
 	Portal* connectToHost(QString host, quint16 port);
 	void disconnect(Portal* p);
     bool handleNetMsg(NetMsg* msg);
+    QString getLocalNodeName();
 
 protected:
 	void _run();
 
 private:
+	QString localNodeName;
 	Logger* log;
 	quint16 port;
 	PkgTcpServer* tcpServer;

@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
 	logInfo(s);
 
 	if (isServer) {
-		PortalManager pm(port);
+		PortalManager pm("TestServer", port);
 		pm.start();
 
 		/* listen for a loooong time. */
@@ -127,7 +127,7 @@ int main(int argc, char* argv[]) {
 		pm.shutdown();
 
 	} else {
-		PortalManager pm;
+		PortalManager pm("TestClient");
 		pm.start();
 
 		GSThread::sleep(2);

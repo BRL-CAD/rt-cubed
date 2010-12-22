@@ -32,8 +32,9 @@
 #include <stdio.h>
 #include <errno.h>
 
-PortalManager::PortalManager(quint16 port) :
-	ControlledThread("PortalManager") {
+PortalManager::PortalManager(QString localNodeName, quint16 port) :
+	ControlledThread(localNodeName + "PortMan") {
+	this->localNodeName = localNodeName;
 	this->port = port;
 	this->tcpServer = new PkgTcpServer();
 	this->fdPortalMap = new QMap<int, Portal*> ();
@@ -314,6 +315,11 @@ PortalManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 	this->disconnect(origin);
 }
 
+QString
+PortalManager::getLocalNodeName()
+{
+	return this->localNodeName;
+}
 /*
  * Local Variables:
  * mode: C

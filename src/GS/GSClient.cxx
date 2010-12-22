@@ -35,13 +35,13 @@
 
 const std::string GSClient::defaultPrompt ="geoclient> ";
 
-GSClient::GSClient() {
+GSClient::GSClient(QString localNodeName) {
 	this->ccReg = ClientCmdRegistry::getInstance();
 	this->log = Logger::getInstance();
 	this->jobMan = JobManager::getInstance();
 	this->jobMan->startup();
 
-	this->portMan = new PortalManager();
+	this->portMan = new PortalManager(localNodeName);
 	this->portMan->start();
 	GSThread::msleep(100);
 

@@ -28,7 +28,7 @@
 int
 main(int argc, char* argv[])
 {
-	GSClient gsClient;
+	GSClient gsClient("TestingLocalNodeName");
     return gsClient.run();
 }
 

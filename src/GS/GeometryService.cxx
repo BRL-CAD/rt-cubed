@@ -36,7 +36,7 @@ localNodeName(localNodeName), listenPort(listenPort)
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", localNodeName + " is starting up...");
 
-    this->portalMan = new PortalManager(listenPort);
+    this->portalMan = new PortalManager(localNodeName, listenPort);
     this->registerMsgRoutes();
 
     this->dataMan = DataManager::getInstance();
