@@ -61,7 +61,7 @@
 #define GEOMETRYMANIFEST	        	0x0405
 #define GEOMETRYCHUNK		        	0x0410
 
-//Admin commands
+/* Admin commands */
 #define CMD_SHUTDOWN					0x9000
 
 /*  Failure Codes */
