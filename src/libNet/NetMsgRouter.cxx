@@ -59,6 +59,8 @@ bool NetMsgRouter::routeMsg(NetMsg* msg) {
 	/* First get the appropriate list: */
 	QList<INetMsgHandler*>* list = this->getListOfHandlers(msg->getMsgType());
 
+	QString s;
+/*
 	QString s("Got a message whos origin is Portal: ");
 	Portal* origin = msg->getOrigin();
 	if (origin != 0) {
@@ -69,11 +71,10 @@ bool NetMsgRouter::routeMsg(NetMsg* msg) {
 	s.append(" and type: ");
 	s.append(QString::number(msg->getMsgType(),16).toUpper());
 	Logger::getInstance()->logINFO("NetMsgRouter", s);
+*/
 
 	if (list->length() == 0) {
-		/* If no routing table, send back an error */
-/*		FailureMsg failMsg(UNHANDLED_MSG_TYPE);*/
-/*		origin->send(&failMsg);*/
+		/* If no routing table, print an error */
 		s.clear();
 		s.append("Msg type: ");
 		s.append(QString::number(msg->getMsgType(),16).toUpper());

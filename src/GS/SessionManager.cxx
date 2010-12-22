@@ -142,7 +142,7 @@ SessionManager::handleNetMsg(NetMsg* msg)
  */
 void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 {
-	log->logINFO("SessionManager", "Recv'ed NewSessionReqMsg.");
+/*	log->logINFO("SessionManager", "Recv'ed NewSessionReqMsg."); */
 
 	/* Check for a good pointer to msg */
 	if (msg == NULL) {
@@ -192,7 +192,7 @@ void SessionManager::handleNewSessionReqMsg(NewSessionReqMsg* msg)
 void
 SessionManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 {
-	log->logINFO("SessionManager", "Recv'ed DisconnectReqMsg.");
+/*	log->logINFO("SessionManager", "Recv'ed DisconnectReqMsg."); */
 	Portal* origin = msg->getOrigin();
 
 	/* validate incoming data */
@@ -212,10 +212,12 @@ SessionManager::handleDisconnectReqMsg(TypeOnlyMsg* msg)
 	delete a;
 }
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables: ***
+ * mode: C++ ***
+ * tab-width: 8 ***
+ * c-basic-offset: 2 ***
+ * indent-tabs-mode: t ***
+ * End: ***
+ * ex: shiftwidth=2 tabstop=8
+*/

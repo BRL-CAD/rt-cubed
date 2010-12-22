@@ -225,10 +225,11 @@ PortalManager::makeNewPortal(PkgTcpClient* client, struct pkg_switch* table) {
 	int newFD = p->pkgClient->getFileDescriptor();
 	this->fdPortalMap->insert(newFD, p);
 	this->portalsLock->unlock();
-
+/*
 	QString s("New Portal with FD: ");
 	s.append(QString::number(newFD));
 	log->logDEBUG("PortalManager", s);
+*/
 
 	/* Check maxFD and update if needed. */
 	if (newFD > fdmax) {

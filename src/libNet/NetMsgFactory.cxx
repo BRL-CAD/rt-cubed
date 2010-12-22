@@ -63,25 +63,13 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
   QDataStream temp(data);
   quint16 msgType = 0;
   temp >> msgType;
-
+/*
   QString s("Got msg. type: 0x");
   s.append(QString::number(msgType,16).toUpper());
-  s.append(" len: ");
-  s.append(QString::number(data.size()));
+  s.append(" (len: " + QString::number(data.size()));
+  s.append(") from node: '" + origin->getRemoteNodeName() + "'");
   Logger::getInstance()->logDEBUG("NetMsgFactory", s);
-/*
-  QString dstr("Bytes: ");
-
-  data.data();
-
-  for (int i = 0; i < data.size(); ++i) {
-	  quint8 b = data.data()[i];
-	  dstr.append(QString::number(b));
-	  dstr.append(", ");
-  }
-  Logger::getInstance()->logDEBUG("NetMsgFactory", dstr);
 */
-
   QDataStream* qds = new QDataStream(data);
 
   /* TODO Replace this with a map for registration scheme */
