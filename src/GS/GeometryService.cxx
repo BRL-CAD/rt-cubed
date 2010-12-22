@@ -26,6 +26,9 @@
 #include "GeometryService.h"
 #include "SessionManager.h"
 #include "FileDataSource.h"
+#include "PingMsg.h"
+#include "PongMsg.h"
+
 
 GeometryService::GeometryService(const QString localNodeName, quint16 listenPort) :
 localNodeName(localNodeName), listenPort(listenPort)
@@ -111,10 +114,10 @@ GeometryService::handleNetMsg(NetMsg* msg)
 		Portal* p = msg->getOrigin();
 
 		if (p != NULL) {
-			remNodeName = p->getRemoteNodeName();
+			QString remNodeName = p->getRemoteNodeName();
 			log->logINFO("GeometryService", "PING from: '" + remNodeName + "'");
 			PongMsg pongMsg((PingMsg*)msg);
-			p->send(pongMsg);
+			p->send(&pongMsg);
 		} else {
 			log->logINFO("GeometryService", "Can't return ping.  NULL Portal*");
 		}
