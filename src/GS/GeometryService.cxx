@@ -59,6 +59,7 @@ GeometryService::registerMsgRoutes()
 	NetMsgRouter* router = NetMsgRouter::getInstance();
 
 	router->registerType(PING, this);
+	router->registerType(PONG, this);
 
 	router->registerType(NEWSESSIONREQ, SessionManager::getInstance());
 	//router->registerType(SESSIONINFO, SessionManager::getInstance());

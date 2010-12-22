@@ -78,6 +78,8 @@ GSClient::registerMsgRoutes()
 	router->registerType(DISCONNECTREQ, this->portMan);
 	router->registerType(SESSIONINFO, this);
 	router->registerType(FAILURE, this);
+	router->registerType(PING, this);
+	router->registerType(PONG, this);
 }
 
 bool
