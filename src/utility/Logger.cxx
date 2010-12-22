@@ -25,7 +25,10 @@
 
 #include "Logger.h"
 #include <QtCore/QTime>
+
 #include "brlcad/bu.h"
+
+#include <sys/time.h>
 #include <iomanip>
 #include <sstream>
 
@@ -132,6 +135,14 @@ void Logger::log(quint32 logLevel, QString origin, QString string) {
 	}
 }
 
+quint64
+Logger::getCurrentTime()
+{
+	timeval tim;
+	gettimeofday(&tim, NULL);
+	quint64 now = (tim.tv_sec * 1000 ) + (tim.tv_usec/1000);
+	return now;
+}
 
 /*
  * Local Variables:
