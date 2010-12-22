@@ -110,6 +110,16 @@ GeometryService::handleNetMsg(NetMsg* msg)
 		this->portalMan->terminate(false);
 		this->terminate(false);
 		return true;
+	case FAILURE:
+		{
+			FailureMsg* fMsg = (FailureMsg*)msg;
+			quint8 fc = fMsg->getFailureCode();
+
+			QUuid re = fMsg->getReUUID();
+
+			log->logINFO("GeometryService", "Recv'ed A FailureMsg with code: " +QString::number( fc) + " (" + QString::number(fc, 16)+ ")");
+			return true;
+		}
 	case PING:
 		Portal* p = msg->getOrigin();
 
