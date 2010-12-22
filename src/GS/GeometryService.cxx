@@ -121,18 +121,20 @@ GeometryService::handleNetMsg(NetMsg* msg)
 			return true;
 		}
 	case PING:
-		Portal* p = msg->getOrigin();
+		{
+			Portal* p = msg->getOrigin();
 
-		if (p != NULL) {
-			QString remNodeName = p->getRemoteNodeName();
-			log->logINFO("GeometryService", "PING from: '" + remNodeName + "'");
-			PongMsg pongMsg((PingMsg*)msg);
-			p->send(&pongMsg);
-		} else {
-			log->logINFO("GeometryService", "Can't return ping.  NULL Portal*");
+			if (p != NULL) {
+				QString remNodeName = p->getRemoteNodeName();
+				log->logINFO("GeometryService", "PING from: '" + remNodeName + "'");
+				PongMsg pongMsg((PingMsg*)msg);
+				p->send(&pongMsg);
+			} else {
+				log->logINFO("GeometryService", "Can't return ping.  NULL Portal*");
+			}
+
+			return true;
 		}
-
-		return true;
 	}
 	return false;
 }
