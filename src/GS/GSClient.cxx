@@ -98,7 +98,7 @@ GSClient::handleNetMsg(NetMsg* msg)
 
 			QUuid re = fMsg->getReUUID();
 
-			log->logINFO("GeometryService", "Recv'ed A FailureMsg with code: " +QString::number( fc) + " (" + QString::number(fc, 16)+ ")");
+			log->logINFO("GSClient", "Recv'ed A FailureMsg with code: " +QString::number( fc) + " (" + QString::number(fc, 16)+ ")");
 			return true;
 		}
 	case PING:
@@ -107,14 +107,38 @@ GSClient::handleNetMsg(NetMsg* msg)
 
 			if (p != NULL) {
 				QString remNodeName = p->getRemoteNodeName();
-				log->logINFO("GeometryService", "PING from: '" + remNodeName + "'");
+				log->logINFO("GSClient", "PING from: '" + remNodeName + "'");
 				PongMsg pongMsg((PingMsg*)msg);
 				p->send(&pongMsg);
 			} else {
-				log->logINFO("GeometryService", "Can't return ping.  NULL Portal*");
+				log->logINFO("GSClient", "Can't return ping.  NULL Portal*");
 			}
 		}
+	case PONG:
+		{
+			Portal* p = msg->getOrigin();
+			PongMsg* pongMsg = (PongMsg*)msg;
 
+			/* calc current and differential times */
+			quint32 start = pongMsg->getStartTime();
+			timeval tim;
+			gettimeofday(&tim, NULL);
+			quint32 now=(tim.tv_sec * 1000 ) + (tim.tv_usec/1000);
+			quint32 diff = now -start;
+
+			log->logINFO("GSClient", "Start: " + QString::number(start) +
+					", now: " + QString::number(now) +
+					", diff: " + QString::number(diff) );
+
+			if (p != NULL) {
+				QString remNodeName = p->getRemoteNodeName();
+				log->logINFO("GSClient", "Pong from: '" + remNodeName + "'");
+			} else {
+				log->logINFO("GSClient", "Can't return ping.  NULL Portal*");
+			}
+
+			return true;
+		}
 	}
 	return false;
 }
