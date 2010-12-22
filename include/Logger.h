@@ -78,6 +78,8 @@ public:
 		BANNER, INFO, WARNING, ERROR, FATAL, DEBUG
 	};
 
+	static quint64 getCurrentTime();
+
 private:
 	static Logger* instance;
 	static QMutex* lock;
