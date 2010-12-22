@@ -70,69 +70,69 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
   s.append(") from node: '" + origin->getRemoteNodeName() + "'");
   Logger::getInstance()->logDEBUG("NetMsgFactory", s);
 */
-  QDataStream* qds = new QDataStream(data);
+  QDataStream qds(data);
 
   /* TODO Replace this with a map for registration scheme */
   switch (msgType)
     {
   case TEST_GENERIC_4BYTE_MSG:
-    return new GenericFourBytesMsg(qds, origin);
+    return new GenericFourBytesMsg(&qds, origin);
 
   case TEST_GENERIC_2BYTE_MSG:
-    return new GenericTwoBytesMsg(qds, origin);
+    return new GenericTwoBytesMsg(&qds, origin);
 
   case TEST_GENERIC_1BYTE_MSG:
-    return new GenericOneByteMsg(qds, origin);
+    return new GenericOneByteMsg(&qds, origin);
 
   case TEST_GENERIC_MULTIBYTE_MSG:
-    return new GenericMultiByteMsg(qds, origin);
+    return new GenericMultiByteMsg(&qds, origin);
 
   case TEST_GENERIC_1STRING_MSG:
-    return new GenericOneStringMsg(qds, origin);
+    return new GenericOneStringMsg(&qds, origin);
 
   case RUALIVE:
-    return new TypeOnlyMsg(qds, origin);
+    return new TypeOnlyMsg(&qds, origin);
   case IMALIVE:
-    return new TypeOnlyMsg(qds, origin);
+    return new TypeOnlyMsg(&qds, origin);
 
   case FAILURE:
-    return new GenericOneByteMsg(qds, origin);
+    return new GenericOneByteMsg(&qds, origin);
   case SUCCESS:
-    return new GenericOneByteMsg(qds, origin);
+    return new GenericOneByteMsg(&qds, origin);
   case GS_REMOTE_NODENAME_SET:
-    return new GenericOneStringMsg(qds, origin);
+    return new GenericOneStringMsg(&qds, origin);
 
   case DISCONNECTREQ:
-    return new TypeOnlyMsg(qds, origin);
+    return new TypeOnlyMsg(&qds, origin);
 
   case NEWNODEONNET:
-    return new GenericOneStringMsg(qds, origin);
+    return new GenericOneStringMsg(&qds, origin);
     /*     case FULL_NODE_LISTREQ: */
-    /* 	return new NetMsg(qds, origin); */
+    /* 	return new NetMsg(&qds, origin); */
     /*     case FULL_NODE_LIST: */
-    /* 	return new NetMsg(qds, origin); */
+    /* 	return new NetMsg(&qds, origin); */
 
   case NEWSESSIONREQ:
-    return new NewSessionReqMsg(qds, origin);
+    return new NewSessionReqMsg(&qds, origin);
   case SESSIONINFO:
-    return new SessionInfoMsg(qds, origin);
+    return new SessionInfoMsg(&qds, origin);
 
   case GEOMETRYREQ:
-    return new GeometryReqMsg(qds, origin);
+    return new GeometryReqMsg(&qds, origin);
   case GEOMETRYMANIFEST:
-    return new GeometryManifestMsg(qds, origin);
+    return new GeometryManifestMsg(&qds, origin);
   case GEOMETRYCHUNK:
-    return new GeometryChunkMsg(qds, origin);
+    return new GeometryChunkMsg(&qds, origin);
 
   case PING:
-    return new PingMsg(qds, origin);
+    return new PingMsg(&qds, origin);
   case PONG:
-    return new PongMsg(qds, origin);
+    return new PongMsg(&qds, origin);
 
 
     /* Admin commands */
   case CMD_SHUTDOWN:
-    return new TypeOnlyMsg(qds, origin);
+    return new TypeOnlyMsg(&qds, origin);
 
 
   default:
