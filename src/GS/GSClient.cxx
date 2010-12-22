@@ -96,9 +96,22 @@ GSClient::handleNetMsg(NetMsg* msg)
 
 			QUuid re = fMsg->getReUUID();
 
-			log->logINFO("GSClient", "Recv'ed A FailureMsg with code: " +QString::number( fc) + " (" + QString::number(fc, 16)+ ")");
+			log->logINFO("GeometryService", "Recv'ed A FailureMsg with code: " +QString::number( fc) + " (" + QString::number(fc, 16)+ ")");
 			return true;
 		}
+	case PING:
+		Portal* p = msg->getOrigin();
+
+		if (p != NULL) {
+			QString remNodeName = p->getRemoteNodeName();
+			log->logINFO("GeometryService", "PING from: '" + remNodeName + "'");
+			PongMsg pongMsg((PingMsg*)msg);
+			p->send(&pongMsg);
+		} else {
+			log->logINFO("GeometryService", "Can't return ping.  NULL Portal*");
+		}
+
+		return true;
 	}
 	return false;
 }
