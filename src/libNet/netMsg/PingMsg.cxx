@@ -27,7 +27,9 @@
 #include "PingMsg.h"
 #include <sys/time.h>
 
-PingMsg::PingMsg(quint64 startT):GenericEightBytesMsg(PONG, startT) {}
+PingMsg::PingMsg(quint64 startT):GenericEightBytesMsg(PING, startT) {}
+PingMsg::PingMsg(NetMsg* msg, quint64 startT):GenericEightBytesMsg(PING, msg, startT) {}
+PingMsg::PingMsg(QDataStream* ds, Portal* origin):GenericEightBytesMsg(ds, origin) {}
 
 PingMsg::~PingMsg() {}
 

@@ -26,11 +26,10 @@
 #include "NetMsgTypes.h"
 #include "PongMsg.h"
 
-PongMsg::PongMsg(PingMsg* ping) : GenericEightBytesMsg(PING, ping->getStartTime()){
-}
+PongMsg::PongMsg(PingMsg* ping): GenericEightBytesMsg(PONG, ping->getStartTime()){}
+PongMsg::PongMsg(QDataStream* ds, Portal* origin): GenericEightBytesMsg(ds, origin) {}
 
-PongMsg::~PongMsg() {
-}
+PongMsg::~PongMsg(){}
 
 quint64
 PongMsg::getStartTime(){

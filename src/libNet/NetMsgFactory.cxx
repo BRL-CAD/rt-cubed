@@ -37,6 +37,8 @@
 #include "NewSessionReqMsg.h"
 #include "SessionInfoMsg.h"
 #include "TypeOnlyMsg.h"
+#include "PingMsg.h"
+#include "PongMsg.h"
 
 NetMsgFactory* NetMsgFactory::pInstance = NULL;
 
@@ -134,9 +136,16 @@ NetMsgFactory::deserializeNetMsg(QByteArray& data, Portal* origin)
   case GEOMETRYCHUNK:
     return new GeometryChunkMsg(qds, origin);
 
+  case PING:
+    return new PingMsg(qds, origin);
+  case PONG:
+    return new PongMsg(qds, origin);
+
+
     /* Admin commands */
   case CMD_SHUTDOWN:
     return new TypeOnlyMsg(qds, origin);
+
 
   default:
     return NULL;

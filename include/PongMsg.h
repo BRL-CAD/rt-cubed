@@ -26,12 +26,20 @@
 #ifndef __PONGMSG_H__
 #define __PONGMSG_H__
 
-#include "PingMsg.h"
 #include "GenericEightBytesMsg.h"
+#include "PingMsg.h"
+
+#include <QtCore/QString>
 
 class PongMsg: public GenericEightBytesMsg {
 public:
+	/* Normal & Reply Constructor */
 	PongMsg(PingMsg* ping);
+
+	/* Deserializing Constructor */
+	PongMsg(QDataStream* ds, Portal* origin);
+
+	/* Destructor */
 	virtual ~PongMsg();
 
 	quint64 getStartTime();
