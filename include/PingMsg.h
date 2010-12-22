@@ -26,17 +26,15 @@
 #ifndef __PINGMSG_H__
 #define __PINGMSG_H__
 
-#include "GenericFourBytesMsg.h"
+#include "GenericEightBytesMsg.h"
 #include <QtCore/QString>
 
-class PingMsg: public GenericFourBytesMsg {
+class PingMsg: public GenericEightBytesMsg {
 public:
-	PingMsg(quint32 startT);
+	PingMsg(quint64 startT);
 	virtual ~PingMsg();
 
-	quint32 getStartTime();
-
-
+	quint64 getStartTime();
 };
 
 #endif /* __PINGMSG_H__ */

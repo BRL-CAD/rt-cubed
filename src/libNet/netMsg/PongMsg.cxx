@@ -26,13 +26,13 @@
 #include "NetMsgTypes.h"
 #include "PongMsg.h"
 
-PongMsg::PongMsg(PingMsg* ping) : GenericFourBytesMsg(PING, ping->getStartTime()){
+PongMsg::PongMsg(PingMsg* ping) : GenericEightBytesMsg(PING, ping->getStartTime()){
 }
 
 PongMsg::~PongMsg() {
 }
 
-quint32
+quint64
 PongMsg::getStartTime(){
 	return this->data;
 }

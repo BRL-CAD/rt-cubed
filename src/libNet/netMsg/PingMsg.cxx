@@ -27,18 +27,15 @@
 #include "PingMsg.h"
 #include <sys/time.h>
 
-PingMsg::PingMsg(quint32 startT):GenericFourBytesMsg(PONG, startT) {
-}
+PingMsg::PingMsg(quint64 startT):GenericEightBytesMsg(PONG, startT) {}
 
-PingMsg::~PingMsg() {
-}
+PingMsg::~PingMsg() {}
 
-quint32
+quint64
 PingMsg::getStartTime()
 {
 	return this->data;
 }
-
 
 /*
  * Local Variables:

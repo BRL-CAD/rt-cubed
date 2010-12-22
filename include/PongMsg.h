@@ -23,18 +23,18 @@
  *  Created on: Dec 20, 2010
  */
 
-#ifndef PONGMSG_H_
-#define PONGMSG_H_
+#ifndef __PONGMSG_H__
+#define __PONGMSG_H__
 
 #include "PingMsg.h"
-#include "GenericFourBytesMsg.h"
+#include "GenericEightBytesMsg.h"
 
-class PongMsg: public GenericFourBytesMsg {
+class PongMsg: public GenericEightBytesMsg {
 public:
 	PongMsg(PingMsg* ping);
 	virtual ~PongMsg();
 
-	quint32 getStartTime();
+	quint64 getStartTime();
 };
 
-#endif /* PONGMSG_H_ */
+#endif /* __PONGMSG_H__ */
