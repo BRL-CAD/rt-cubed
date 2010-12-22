@@ -84,14 +84,14 @@ Portal::sendThenDisconnect(NetMsg* msg) {
 void
 Portal::sendGSNodeName() {
 	QString localNodeName = Config::getInstance()->getConfigValue(
-			"LocalGSNodeName");
+			"LocalNodeName");
+
 	if (localNodeName.length() == 0) {
 		localNodeName = QUuid::createUuid().toString();
 	}
 
-
-	RemoteNodenameSetMsg* msg = new RemoteNodenameSetMsg(localNodeName);
-	this->send(msg);
+	RemoteNodenameSetMsg msg(localNodeName);
+	this->send(&msg);
 }
 
 int
