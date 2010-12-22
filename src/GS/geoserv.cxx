@@ -58,41 +58,44 @@ int main(int argc, char* argv[])
 
     Config* c = Config::getInstance();
 
-    //TODO Configure system loads stuff here, could be prettier
-    if (c->loadFile("geoserv.config", true) == false) {
+    /* Load configs from File */
+    bool goodLoad = c->loadFile("geoserv.config", true);
+
+    if ( ! goodLoad) {
     	log->logERROR("geoserv","Failed to properly Load config File.  Exiting.");
     	gsExit(1);
     }
 
-    QString localNodename = c->getConfigValue("LocalNodeName");
-    if (localNodename == "") {
-    	localNodename = "DefaultGSNodename";
-    }
+    /* Check for a local node name.  This is imperative to be set. */
+    QString localNodeName = c->getConfigValue("LocalNodeName");
+    if (localNodeName.length() == 0) {
+		log->logERROR("geoserv", "Config File does not contain a 'LocalNodeName' parameter");
+		gsExit(1);
+	}
 
-    log->logBANNER("geoserv", "Booting GeometryService: " + localNodename);
+    log->logBANNER("geoserv", "Booting GeometryService: " + localNodeName);
 
-    QString sport = c->getConfigValue("ListenPort");
-    if (sport == NULL){
+    QString sPort = c->getConfigValue("ListenPort");
+    if (sPort == NULL){
     	log->logERROR("geoserv", "Config File does not contain a 'ListenPort' parameter");
     	gsExit(1);
     }
-    if (sport.length() <= 0){
+    if (sPort.length() <= 0){
     	log->logERROR("geoserv", "Config File contains a 'ListenPort' key, however the value length was <= 0.");
     	gsExit(1);
     }
 
     bool ok;
-    quint16 port = sport.toUShort(&ok, 10);
+    quint16 port = sPort.toUShort(&ok, 10);
     if (!ok){
     	log->logERROR("geoserv", "Config File contains a 'ListenPort' key, however the value failed to parse to a valid number.");
     	return 1;
     }
 
-    bool daemon = false;
 
-    GeometryService* gs = new GeometryService(localNodename, port);
+    GeometryService gs (localNodeName, port);
 
-    //DataManager elements.
+    /* DataManager elements. */
     QString useFileRepo = c->getConfigValue("UseFileRepo").toLower();
      if (useFileRepo == "yes" || useFileRepo == "true"){
     	QString fileRepoPath = c->getConfigValue("FileRepoPath").toLower();
@@ -104,16 +107,12 @@ int main(int argc, char* argv[])
 
      	log->logINFO("geoserv", "FileDataSouce being used.");
         FileDataSource* fds = new FileDataSource(fileRepoPath);
-        gs->getDataManager()->addDataSource(fds);
+        gs.getDataManager()->addDataSource(fds);
      }
 
-    if (daemon){
-    	gs->start(); //will exit
-    } else {
-    	gs->run(); //blocks
-    }
+
+    gs.run(); /* blocks */
 
 	log->logINFO("geoserv", "Exiting...");
-    delete gs;
     return 0;
 }

@@ -24,11 +24,51 @@
  */
 
 #include "GSClient.h"
+#include "libutility.h"
+#include <QtCore/QString>
+#include <QtCore/QUuid>
+
+int gsExit(int code)
+{
+	Logger* log = Logger::getInstance();
+    log->logBANNER("geoclient", "GSClient is Shutting Down...");
+
+	JobManager::getInstance()->shutdown(true);
+
+	log->logINFO("geoclient", "Exiting.");
+	usleep(1000); /* Yeild main thread, let other threads finish unlocking */
+	exit(code);
+}
 
 int
 main(int argc, char* argv[])
 {
-	GSClient gsClient("TestingLocalNodeName");
+	std::cout << std::endl << std::endl;
+
+	Logger::getInstance();
+	JobManager::getInstance()->startup();
+
+	Logger* log = Logger::getInstance();
+	log->logBANNER("geoclient", "GSClient Config Loader");
+
+	Config* c = Config::getInstance();
+
+	/* Load configs from File */
+	bool goodLoad = c->loadFile("geoclient.config", true);
+
+	if ( ! goodLoad) {
+		log->logERROR("geoclient","Failed to properly Load config File.  Exiting.");
+		gsExit(1);
+	}
+
+	/* Check for a local node name.  This is imperative to be set. */
+	QString localNodeName = c->getConfigValue("LocalNodeName");
+	if (localNodeName.length() == 0) {
+		log->logERROR("geoclient", "Config File does not contain a 'LocalNodeName' parameter");
+		gsExit(1);
+	}
+
+	GSClient gsClient(localNodeName);
     return gsClient.run();
 }
 
