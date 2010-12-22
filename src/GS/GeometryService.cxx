@@ -136,6 +136,26 @@ GeometryService::handleNetMsg(NetMsg* msg)
 
 			return true;
 		}
+	case PONG:
+		{
+			Portal* p = msg->getOrigin();
+			PongMsg* pongMsg = (PongMsg*)msg;
+
+			/* calc current and differential times */
+			quint64 start = pongMsg->getStartTime();
+			quint64 now = Logger::getCurrentTime();
+			quint64 diff = now -start;
+
+			QString time = "roundtrip time: " + QString::number(diff) + "ms.";
+			QString remNodeName = "unknown";
+
+			if (p != NULL) {
+				remNodeName = p->getRemoteNodeName();
+			}
+
+			log->logINFO("GSClient", "Pong from: '" + remNodeName + "', " + time);
+			return true;
+		}
 	}
 	return false;
 }

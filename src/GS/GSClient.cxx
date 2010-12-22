@@ -115,6 +115,7 @@ GSClient::handleNetMsg(NetMsg* msg)
 			} else {
 				log->logINFO("GSClient", "Can't return ping.  NULL Portal*");
 			}
+			return true;
 		}
 	case PONG:
 		{
@@ -126,17 +127,14 @@ GSClient::handleNetMsg(NetMsg* msg)
 			quint64 now = Logger::getCurrentTime();
 			quint64 diff = now -start;
 
-			log->logINFO("GSClient", "Start: " + QString::number(start) +
-					", now: " + QString::number(now) +
-					", diff: " + QString::number(diff) );
+			QString time = "roundtrip time: " + QString::number(diff) + "ms.";
+			QString remNodeName = "unknown";
 
 			if (p != NULL) {
-				QString remNodeName = p->getRemoteNodeName();
-				log->logINFO("GSClient", "Pong from: '" + remNodeName + "'");
-			} else {
-				log->logINFO("GSClient", "Can't return ping.  NULL Portal*");
+				remNodeName = p->getRemoteNodeName();
 			}
 
+			log->logINFO("GSClient", "Pong from: '" + remNodeName + "', " + time);
 			return true;
 		}
 	}
