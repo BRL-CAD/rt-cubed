@@ -56,6 +56,7 @@ RT3_PROJECT_ADD_SOURCES (
 	netMsg/GenericOneByteMsg.cxx
 	netMsg/GenericTwoBytesMsg.cxx
 	netMsg/GenericFourBytesMsg.cxx
+	netMsg/GenericEightBytesMsg.cxx
 	netMsg/GenericMultiByteMsg.cxx
 	netMsg/FailureMsg.cxx
 	netMsg/SuccessMsg.cxx
@@ -86,6 +87,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
 	GenericOneByteMsg.h
 	GenericTwoBytesMsg.h
 	GenericFourBytesMsg.h
+	GenericEightBytesMsg.h
 	GenericMultiByteMsg.h
 	FailureMsg.h
 	SuccessMsg.h
