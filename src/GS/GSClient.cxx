@@ -31,6 +31,7 @@
 #include "LoginCmd.h"
 #include "LogoutCmd.h"
 #include "ShutdownCmd.h"
+#include "PingCmd.h"
 
 const std::string GSClient::defaultPrompt ="geoclient> ";
 
@@ -66,6 +67,7 @@ GSClient::registerClientCmds()
 	this->ccReg->registerCmd(new LoginCmd());
 	this->ccReg->registerCmd(new LogoutCmd());
 	this->ccReg->registerCmd(new ShutdownCmd());
+	this->ccReg->registerCmd(new PingCmd());
 }
 
 void
