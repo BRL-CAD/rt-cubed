@@ -55,6 +55,8 @@ GeometryService::registerMsgRoutes()
 {
 	NetMsgRouter* router = NetMsgRouter::getInstance();
 
+	router->registerType(PING, this);
+
 	router->registerType(NEWSESSIONREQ, SessionManager::getInstance());
 	//router->registerType(SESSIONINFO, SessionManager::getInstance());
 	router->registerType(DISCONNECTREQ, SessionManager::getInstance());
@@ -105,14 +107,29 @@ GeometryService::handleNetMsg(NetMsg* msg)
 		this->portalMan->terminate(false);
 		this->terminate(false);
 		return true;
+	case PING:
+		Portal* p = msg->getOrigin();
+
+		if (p != NULL) {
+			remNodeName = p->getRemoteNodeName();
+			log->logINFO("GeometryService", "PING from: '" + remNodeName + "'");
+			PongMsg pongMsg((PingMsg*)msg);
+			p->send(pongMsg);
+		} else {
+			log->logINFO("GeometryService", "Can't return ping.  NULL Portal*");
+		}
+
+		return true;
 	}
 	return false;
 }
 
-// Local Variables: ***
-// mode: C++ ***
-// tab-width: 8 ***
-// c-basic-offset: 2 ***
-// indent-tabs-mode: t ***
-// End: ***
-// ex: shiftwidth=2 tabstop=8
+/*
+ * Local Variables:
+ * tab-width: 8
+ * mode: C
+ * indent-tabs-mode: t
+ * c-file-style: "stroustrup"
+ * End:
+ * ex: shiftwidth=4 tabstop=8
+ */
