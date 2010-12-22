@@ -61,6 +61,7 @@ RT3_PROJECT_ADD_SOURCES (
 	cmds/LogoutCmd.cxx
 	cmds/ShutdownCmd.cxx
 	cmds/ExitCmd.cxx
+	cmds/PingCmd.cxx
 )
 
 #Set INST Headers
