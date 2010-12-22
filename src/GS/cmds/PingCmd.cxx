@@ -56,7 +56,6 @@ PingCmd::_exec(GSClient* client, QStringList args){
 	return true;
 }
 
-
 /*
  * Local Variables:
  * tab-width: 8
