@@ -22,8 +22,6 @@
  *
  */
 
-#include <sys/time.h>
-
 #include "GSClient.h"
 #include "NetMsgRouter.h"
 
@@ -120,11 +118,9 @@ GSClient::handleNetMsg(NetMsg* msg)
 			PongMsg* pongMsg = (PongMsg*)msg;
 
 			/* calc current and differential times */
-			quint32 start = pongMsg->getStartTime();
-			timeval tim;
-			gettimeofday(&tim, NULL);
-			quint32 now=(tim.tv_sec * 1000 ) + (tim.tv_usec/1000);
-			quint32 diff = now -start;
+			quint64 start = pongMsg->getStartTime();
+			quint64 now = Logger::getCurrentTime();
+			quint64 diff = now -start;
 
 			log->logINFO("GSClient", "Start: " + QString::number(start) +
 					", now: " + QString::number(now) +
