@@ -27,7 +27,7 @@
 ##########################################################################
 
 #Deps first
-#ADD_SUBDIRECTORY(./other/)
+ADD_SUBDIRECTORY(./other/)
 
 #Libs next
 ADD_SUBDIRECTORY(./date)
