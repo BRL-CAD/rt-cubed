@@ -35,7 +35,7 @@ public:
   PkgServer(std::string proto);
   virtual ~PkgServer();
 
-  int listen(unsigned short port);
+  int listen(unsigned short port, std::string ipOrHostname = "localhost");
   PkgClient* connectToHost(std::string ipOrHostname, short port, struct pkg_switch* callbackTable);
 
   /*

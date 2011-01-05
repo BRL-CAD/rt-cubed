@@ -37,13 +37,13 @@ PkgServer::PkgServer(std::string proto) {
 
 PkgServer::~PkgServer() {}
 
-int PkgServer::listen(unsigned short port) {
+int PkgServer::listen(unsigned short port, std::string ipOrHostname) {
 	//Convert port -> char* to make libpkg happy.
 	char portCString[7] = { 0 };
 	int fd;
 	snprintf(portCString, 6, "%d", port);
 
-	fd = pkg_permserver(portCString, this->proto.c_str(), 0, 0);
+	fd = pkg_permserver_ip(ipOrHostname.c_str(), portCString, this->proto.c_str(), 0, 0);
 
 	if (fd < 0)
 		return fd;
