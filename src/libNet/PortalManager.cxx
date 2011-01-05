@@ -101,7 +101,7 @@ PortalManager::_run() {
 	bool readyAccept = false;
 	bool readyException = false;
 
-	while (this->runCmd) {
+	while (this->getRunCmd()) {
 		/* Set values EVERY loop since select() on *nix modifies this. */
 		timeout.tv_sec = 0;
 		timeout.tv_usec = 50 * 1000;

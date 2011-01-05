@@ -27,6 +27,7 @@
 #include "GSThread.h"
 
 #include <QtCore/QString>
+#include <QtCore/QMutex>
 
 class ControlledThread : public GSThread
 {
@@ -42,6 +43,9 @@ public:
 	void terminate(bool block);
 	QString getThreadName();
 
+	bool getRunStatus();
+	bool getRunCmd();
+
 protected:
 	virtual bool preStartupHook();
 	virtual bool postStartupHook();
@@ -54,12 +58,20 @@ protected:
 	virtual bool preShutdownHook();
 	virtual bool postShutdownHook();
 
-	/* fields */
-	QString threadName;
-	bool runCmd;
-	bool runStatus;
+	void setRunCmd(bool newVal);
+	void setRunStatus(bool newVal);
 
 private:
+
+	/* fields */
+	QString threadName;
+
+	QMutex runCmdLock;
+	bool runCmd;
+
+	QMutex runStatusLock;
+	bool runStatus;
+
 	/* Disable copy cstr and =operator */
 	ControlledThread(ControlledThread const&){};
 	ControlledThread& operator=(ControlledThread const&){};

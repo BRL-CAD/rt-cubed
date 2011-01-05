@@ -22,6 +22,8 @@
  */
 
 #include "ControlledThread.h"
+#include "Logger.h"
+#include <QtCore/QMutexLocker>
 
 ControlledThread::ControlledThread(QString threadName) {
 	if (threadName.length() <= 0) {
@@ -29,16 +31,16 @@ ControlledThread::ControlledThread(QString threadName) {
 	} else {
 		this->threadName = threadName;
 	}
-	this->runCmd = false;
-	this->runStatus = false;
+	this->setRunCmd(false);
+	this->setRunStatus(false);
 }
 
 ControlledThread::~ControlledThread() {}
 
 void ControlledThread::start() {
 	bool preRetVal = this->preStartupHook();
-	this->runCmd = true;
-	GSThread::start(); //call super class start
+	this->setRunCmd(true);
+	GSThread::start(); /* call super class start */
 	bool postRetVal = this->postStartupHook();
 }
 
@@ -53,13 +55,27 @@ ControlledThread::terminate() {
 }
 
 void ControlledThread::terminate(bool block) {
-	bool preRetVal = this->preShutdownHook();
-	this->runCmd = false;
 
-	if (block)
-		while (this->isRunning()) {
+	bool preRetVal = this->preShutdownHook();
+	this->setRunCmd(false);
+
+	quint64 maxFailsafeTimeMS = 5 * 1000;
+
+	if (block) {
+
+		quint64 startT = Logger::getCurrentTime();
+		quint64 stopT = 0;
+		while (this->getRunStatus()) {
 			GSThread::msleep(100); //TODO need a failsafe here.
+			stopT = Logger::getCurrentTime();
+
+			if ((stopT - startT) >= maxFailsafeTimeMS) {
+				Logger::getInstance()->logWARNING("ControlledThread", "terminate(block=true) reached failsafe.  Forcefully stopping thread.");
+				GSThread::terminate();
+				break;
+			}
 		}
+	}
 
 	bool postRetVal = this->postShutdownHook();
 }
@@ -68,24 +84,24 @@ void ControlledThread::run() {
 	if(!this->preRunHook())
 		return;
 
-	this->runStatus = true;
-	this->runCmd = true;
+	this->setRunCmd(true);
+	this->setRunStatus(true);
 	this->_run();
-	this->runStatus = false;
+	this->setRunStatus(false);
 
 	if(!this->postRunHook())
 		return;
 }
 
 void ControlledThread::_run() {
-	while (this->runCmd) {
+	while (this->getRunCmd()) {
 		this->_runLoopPass();
 	}
 }
 
 void ControlledThread::_runLoopPass() {
 	//DOES NOTHING BY DEFAULT
-	GSThread::msleep(123);
+	GSThread::msleep(1);
 }
 
 /**
@@ -122,6 +138,32 @@ QString
 ControlledThread::getThreadName()
 {
 	return this->threadName;
+}
+
+bool
+ControlledThread::getRunCmd()
+{
+	QMutexLocker(&this->runCmdLock);
+	return this->runCmd;
+}
+
+bool
+ControlledThread::getRunStatus()
+{
+	QMutexLocker(&this->runStatusLock);
+	return this->runStatus;
+}
+
+void
+ControlledThread::setRunCmd(bool newVal) {
+	QMutexLocker(&this->runCmdLock);
+	this->runCmd = newVal;
+}
+
+void
+ControlledThread::setRunStatus(bool newVal) {
+	QMutexLocker(&this->runStatusLock);
+	this->runStatus = newVal;
 }
 
 /*

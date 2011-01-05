@@ -38,6 +38,12 @@ GSThread::~GSThread()
 }
 
 void
+GSThread::terminate()
+{
+	QThread::terminate();
+}
+
+void
 GSThread::sleep(unsigned long secs)
 {
   QThread::sleep(secs);

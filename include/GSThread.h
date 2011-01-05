@@ -39,6 +39,8 @@ public:
   static void msleep (unsigned long msecs);
   static void usleep (unsigned long usecs);
 
+  void terminate();
+
 protected:
 
   /* For thread management */
