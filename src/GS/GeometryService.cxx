@@ -31,7 +31,7 @@
 
 
 GeometryService::GeometryService(const QString localNodeName, const quint16 listenPort, const QHostAddress listenAddy) :
-localNodeName(localNodeName), listenPort(listenPort), listenAddy(listenAddy)
+ControlledThread(localNodeName), localNodeName(localNodeName), listenPort(listenPort), listenAddy(listenAddy)
 {
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", localNodeName + " is starting up...");
@@ -86,11 +86,11 @@ GeometryService::_run() {
 	this->log->logINFO("GeometryService", "Starting PortalManager");
 	this->portalMan->start();
 
-	while (this->getRunStatus()) {
-		GSThread::msleep(100);
+	while (this->getRunCmd() == true) {
+		this->msleep(50);
 	}
 
-	this->portalMan->shutdown();
+	this->portalMan->shutdown(true);
 }
 
 bool
@@ -108,8 +108,8 @@ GeometryService::handleNetMsg(NetMsg* msg)
 	switch(type) {
 	case CMD_SHUTDOWN:
 		log->logINFO("GeometryService", "Remote Shutdown Initiated.");
-		this->portalMan->terminate(false);
-		this->terminate(false);
+		this->portalMan->shutdown();
+		this->shutdown();
 		return true;
 	case FAILURE:
 		{
