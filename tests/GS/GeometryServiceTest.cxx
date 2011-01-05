@@ -37,7 +37,7 @@
 #include <QtCore/QString>
 #include <QtNetwork/QHostAddress>
 
-static const quint16 DEFAULT_PORT = 7777;
+static const quint16 DEFAULT_PORT = 5309;
 
 /**
  * wrapper server class for staring up an object that instantiates and
