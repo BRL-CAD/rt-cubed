@@ -31,56 +31,39 @@ ControlledThread::ControlledThread(QString threadName) {
 	} else {
 		this->threadName = threadName;
 	}
-	this->setRunCmd(false);
-	this->setRunStatus(false);
+	this->runCmd = false;
+	this->runStatus = false;
 }
 
 ControlledThread::~ControlledThread() {}
 
 void ControlledThread::start() {
 	bool preRetVal = this->preStartupHook();
-	this->setRunCmd(true);
 	GSThread::start(); /* call super class start */
 	bool postRetVal = this->postStartupHook();
+	GSThread::msleep(100);
 }
 
 void
-ControlledThread::shutdown() {
-	this->terminate();
-}
-
-void
-ControlledThread::terminate() {
-	this->terminate(true);
-}
-
-void ControlledThread::terminate(bool block) {
+ControlledThread::shutdown(bool block) {
 
 	bool preRetVal = this->preShutdownHook();
 	this->setRunCmd(false);
 
-	quint64 maxFailsafeTimeMS = 5 * 1000;
+	int maxFailsafeTimeMS = 5 * 1000;
 
-	if (block) {
-
-		quint64 startT = Logger::getCurrentTime();
-		quint64 stopT = 0;
-		while (this->getRunStatus()) {
-			GSThread::msleep(100); //TODO need a failsafe here.
-			stopT = Logger::getCurrentTime();
-
-			if ((stopT - startT) >= maxFailsafeTimeMS) {
-				Logger::getInstance()->logWARNING("ControlledThread", "terminate(block=true) reached failsafe.  Forcefully stopping thread.");
-				GSThread::terminate();
-				break;
-			}
-		}
+	/* Optionally block here until failsafe */
+	if (this->wait(maxFailsafeTimeMS) == false) {
+		std::cout << "Tripped " << this->threadName.toStdString() << "::terminate's failsafe." << std::endl;
 	}
-
 	bool postRetVal = this->postShutdownHook();
+	GSThread::msleep(10);
 }
 
-void ControlledThread::run() {
+void
+ControlledThread::run() {
+	QMutexLocker(&this->threadExitLock);
+
 	if(!this->preRunHook())
 		return;
 
@@ -157,12 +140,14 @@ ControlledThread::getRunStatus()
 void
 ControlledThread::setRunCmd(bool newVal) {
 	QMutexLocker(&this->runCmdLock);
+/*	std::cout << threadName.toStdString() << " Old RunCmd:" << this->runCmd << "\t New RunCmd:" << newVal << "\n"; */
 	this->runCmd = newVal;
 }
 
 void
 ControlledThread::setRunStatus(bool newVal) {
 	QMutexLocker(&this->runStatusLock);
+/*	std::cout << threadName.toStdString() << " Old runStatus:" << this->runStatus << "\t New runStatus:" << newVal << "\n"; */
 	this->runStatus = newVal;
 }
 

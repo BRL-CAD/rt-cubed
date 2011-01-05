@@ -38,9 +38,7 @@ public:
 	void start();
 	void run();
 
-	void shutdown();
-	void terminate();
-	void terminate(bool block);
+	void shutdown(bool block = true);
 	QString getThreadName();
 
 	bool getRunStatus();
@@ -67,10 +65,12 @@ private:
 	QString threadName;
 
 	QMutex runCmdLock;
-	bool runCmd;
+	volatile bool runCmd;
 
 	QMutex runStatusLock;
-	bool runStatus;
+	volatile bool runStatus;
+
+	QMutex threadExitLock;
 
 	/* Disable copy cstr and =operator */
 	ControlledThread(ControlledThread const&){};
