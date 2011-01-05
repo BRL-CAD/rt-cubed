@@ -31,11 +31,15 @@
 #include "DataManager.h"
 
 #include <QtCore/QString>
+#include <QtNetwork/QHostAddress>
+
+static const quint16 DEFAULT_LISTEN_PORT = 5309;
+static const QHostAddress DEFAULT_LISTEN_ADDY = QHostAddress::LocalHost;
 
 class GeometryService : public ControlledThread, public INetMsgHandler
 {
 public:
-	GeometryService(const QString localNodeName, const quint16 listenPort);
+	GeometryService(const QString localNodeName, const quint16 listenPort = DEFAULT_LISTEN_PORT, const QHostAddress listenAddy = DEFAULT_LISTEN_ADDY);
 	virtual ~GeometryService();
     bool handleNetMsg(NetMsg* msg);
     DataManager* getDataManager();
@@ -49,6 +53,7 @@ private:
 	Logger* log;
 	QString localNodeName;
 	quint16 listenPort;
+	QHostAddress listenAddy;
 
 	PortalManager* portalMan;
 	DataManager* dataMan;

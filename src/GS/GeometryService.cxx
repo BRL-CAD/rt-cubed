@@ -30,8 +30,8 @@
 #include "PongMsg.h"
 
 
-GeometryService::GeometryService(const QString localNodeName, quint16 listenPort) :
-localNodeName(localNodeName), listenPort(listenPort)
+GeometryService::GeometryService(const QString localNodeName, const quint16 listenPort, const QHostAddress listenAddy) :
+localNodeName(localNodeName), listenPort(listenPort), listenAddy(listenAddy)
 {
     this->log = Logger::getInstance();
     this->log->logINFO("GeometryService", localNodeName + " is starting up...");

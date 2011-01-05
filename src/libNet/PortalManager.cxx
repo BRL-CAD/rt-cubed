@@ -32,10 +32,10 @@
 #include <stdio.h>
 #include <errno.h>
 
-PortalManager::PortalManager(QString localNodeName, quint16 port) :
-	ControlledThread(localNodeName + "PortMan") {
-	this->localNodeName = localNodeName;
-	this->port = port;
+PortalManager::PortalManager(QString localNodeName, quint16 listenPort, QHostAddress listenAddress) :
+	ControlledThread(localNodeName + "PortMan"), localNodeName(localNodeName),
+	listenPort(listenPort), listenAddress(listenAddress) {
+
 	this->tcpServer = new PkgTcpServer();
 	this->fdPortalMap = new QMap<int, Portal*> ();
 	this->portalsLock = new QMutex();
@@ -75,14 +75,16 @@ PortalManager::_run() {
 	FD_ZERO(&readfds);
 	FD_ZERO(&exceptionfds);
 
-	if (this->port != 0) {
-		listener = this->tcpServer->listen(this->port);
+	if (this->listenPort != 0) {
+		listener = this->tcpServer->listen(this->listenPort, this->listenAddress.toString().toStdString());
+
 		if (listener < 0) {
 			this->log->logERROR("PortalManager", "Failed to listen");
 			return;
 		} else {
-			QString s("Listening on port: ");
-			s.append(QString::number(port));
+			QString s("Listening on: ");
+			s.append(this->listenAddress.toString() + ":");
+			s.append(QString::number(this->listenPort));
 			s.append(" FD:");
 			s.append(QString::number(listener));
 			this->log->logINFO("PortalManager", s);

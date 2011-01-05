@@ -37,13 +37,14 @@
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 #include <QtCore/QString>
+#include <QtNetwork/QHostAddress>
 
 class Portal;
 
 class PortalManager : public ControlledThread, public INetMsgHandler
 {
 public:
-	PortalManager(QString localNodeName, quint16 port = 0);
+	PortalManager(QString localNodeName, quint16 port = 0, QHostAddress address = QHostAddress::LocalHost);
 	~PortalManager();
 
 	Portal* connectToHost(QString host, quint16 port);
@@ -57,7 +58,9 @@ protected:
 private:
 	QString localNodeName;
 	Logger* log;
-	quint16 port;
+
+	quint16 listenPort;
+	QHostAddress listenAddress;
 	PkgTcpServer* tcpServer;
 
 	QMutex masterFDSLock;
