@@ -52,16 +52,17 @@ public:
   QString getRemoteNodeName();
   bool handleNetMsg(NetMsg* msg);
 
+  /*
+     * Returns:
+     *          <0 on error
+     *          0 on EOF
+     *          1 on success
+     */
+  int read();
+
 protected:
   Portal(PortalManager* pm, PkgTcpClient* client, struct pkg_switch* table);
 
-   /*
-      * Returns:
-      *          <0 on error
-      *          0 on EOF
-      *          1 on success
-      */
-   int read();
 
 private:
   PortalManager* pm;
