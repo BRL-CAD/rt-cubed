@@ -65,6 +65,10 @@ JobManager::~JobManager() {
 }
 
 void JobManager::startup() {
+
+	if (this->jobWorkers->size() > 0)
+		return;
+
 	for (quint32 i = 0; i < this->jobWorkers->size(); ++i) {
 		JobWorker* jw = this->jobWorkers->at(i);
 		jw->start();
