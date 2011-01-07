@@ -52,17 +52,18 @@ public:
   QString getRemoteNodeName();
   bool handleNetMsg(NetMsg* msg);
 
-  /*
+
+protected:
+  Portal(PortalManager* pm, PkgTcpClient* client, struct pkg_switch* table);
+
+
+	/* Not for public use since libPKG will block on this call.
      * Returns:
      *          <0 on error
      *          0 on EOF
      *          1 on success
      */
   int read();
-
-protected:
-  Portal(PortalManager* pm, PkgTcpClient* client, struct pkg_switch* table);
-
 
 private:
   PortalManager* pm;
