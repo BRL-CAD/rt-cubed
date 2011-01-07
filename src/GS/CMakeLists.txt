@@ -54,6 +54,7 @@ RT3_PROJECT_ADD_SOURCES (
 	Account.cxx
 	AccountManager.cxx
 	GSClient.cxx
+    GSCmdLineClient.cxx
 	cmds/ClientCmdRegistry.cxx
 	cmds/AbstractClientCmd.cxx
 	cmds/HelpCmd.cxx
@@ -76,6 +77,7 @@ RT3_PROJECT_ADD_INST_HEADERS(
     FileDataSource.h
 	DbObject.h
 	GSClient.h
+    GSCmdLineClient.h
 	ClientCmdRegistry.h
 	AbstractClientCmd.h
 	HelpCmd.h
