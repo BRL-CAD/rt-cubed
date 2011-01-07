@@ -27,12 +27,38 @@
 #define __GSCMDLINECLIENT_H__
 
 #include "GSClient.h"
+#include "ClientCmdRegistry.h"
+
 #include <QtCore/QString>
 
+#include <string>
+#include <iostream>
+#include <stdlib.h>
+
+class LoginCmd;
+class LogoutCmd;
 class GSCmdLineClient: public GSClient {
+	friend class LoginCmd;
+	friend class LogoutCmd;
 public:
 	GSCmdLineClient(QString localNodeName);
 	virtual ~GSCmdLineClient();
+
+	int run();
+	void stopRun();
+	bool execCmd(QString cmd, QStringList args);
+	Portal* getCurrentPortal();
+
+protected:
+	bool stayRun;
+	ClientCmdRegistry* ccReg;
+	std::string prompt;
+	Portal* currentPortal;
+	const static std::string defaultPrompt;
+
+	void registerClientCmds();
+	bool setCurrentPortal(Portal* p);
+
 };
 
 #endif /* __GSCMDLINECLIENT_H__ */

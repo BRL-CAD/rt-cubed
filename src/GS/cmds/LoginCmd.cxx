@@ -42,7 +42,7 @@ LoginCmd::getHelp() {
 }
 
 bool
-LoginCmd::_exec(GSClient* client, QStringList args){
+LoginCmd::_exec(GSCmdLineClient* client, QStringList args){
 	int argn = args.length();
 
 	if (argn != 4) {
@@ -79,8 +79,7 @@ LoginCmd::_exec(GSClient* client, QStringList args){
 	/* Give the Portal some time to handshake. */
 	GSThread::msleep(100);
 
-	/* This is an ugly way to do this, 'friend' is needed in GSClient.h */
-	client->currentPortal = p;
+	client->setCurrentPortal(p);
 
 	/* Authenticate */
 	NewSessionReqMsg nsrm(uname, passwd);

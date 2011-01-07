@@ -25,7 +25,6 @@
 #ifndef __GSCLIENT_H__
 #define __GSCLIENT_H__
 
-#include "ClientCmdRegistry.h"
 #include "libutility.h"
 #include "libnet.h"
 
@@ -36,41 +35,22 @@
 #include <iostream>
 #include <stdlib.h>
 
-class LoginCmd;
-class LogoutCmd;
 class GSClient: public INetMsgHandler {
-	friend class LoginCmd;
-	friend class LogoutCmd;
-
 public:
 	GSClient(QString localNodeName);
 	virtual ~GSClient();
 
-	int run();
-	void stopRun();
-
     bool handleNetMsg(NetMsg* msg);
-	bool execCmd(QString cmd, QStringList args);
 
 	PortalManager* getPortMan();
-	Portal* getCurrentPortal();
 
 protected:
-
-private:
-	void registerClientCmds();
 	void registerMsgRoutes();
 
-	ClientCmdRegistry* ccReg;
 	Logger* log;
 	JobManager* jobMan;
 
 	PortalManager* portMan;
-	Portal* currentPortal;
-
-	bool stayRun;
-	std::string prompt;
-	const static std::string defaultPrompt;
 };
 
 #endif /* __GSCLIENT_H__ */

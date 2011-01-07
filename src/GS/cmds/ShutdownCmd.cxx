@@ -39,12 +39,12 @@ ShutdownCmd::getHelp(){
 }
 
 bool
-ShutdownCmd::_exec(GSClient* client, QStringList args){
+ShutdownCmd::_exec(GSCmdLineClient* client, QStringList args){
 	Portal* p = client->getCurrentPortal();
 
 	/* Check to see if we are connected */
 	if (p == NULL) {
-		this->log->logWARNING("ShutdownCmd","Current Portal returned NULL.  Cannot send Shutdown Msg.");
+		this->log->logERROR("ShutdownCmd","Not connected to a Geometry Service.  Cannot send Shutdown Msg.");
 		return false;
 	}
 

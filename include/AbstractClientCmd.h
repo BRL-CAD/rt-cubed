@@ -26,7 +26,7 @@
 #define __ABSTRACTCLIENTCMD_H__
 
 #include "Logger.h"
-#include "GSClient.h"
+#include "GSCmdLineClient.h"
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
@@ -34,7 +34,7 @@
 class AbstractClientCmd {
 public:
 	virtual ~AbstractClientCmd();
-	bool exec(GSClient* client, QStringList args);
+	bool exec(GSCmdLineClient* client, QStringList args);
 
 	QString getCmd();
 	virtual QString getUsage() = 0;
@@ -47,7 +47,7 @@ protected:
 	AbstractClientCmd(QString cmd);
 	AbstractClientCmd(AbstractClientCmd* acCmd);
 
-	virtual bool _exec(GSClient* client, QStringList args) = 0;
+	virtual bool _exec(GSCmdLineClient* client, QStringList args) = 0;
 
 	Logger* log;
 

@@ -37,11 +37,11 @@ HelpCmd::getUsage() {
 
 QString
 HelpCmd::getHelp() {
-	return "If envoked without any arguments, help diplays a list of available commands.  If a command name is provided as an argument, the help for that command is displayed.";
+	return "If evoked without any arguments, help diplays a list of available commands.  If a command name is provided as an argument, the help for that command is displayed.";
 }
 
 bool
-HelpCmd::_exec(GSClient* client, QStringList args){
+HelpCmd::_exec(GSCmdLineClient* client, QStringList args){
 
 	int argn = args.length();
 

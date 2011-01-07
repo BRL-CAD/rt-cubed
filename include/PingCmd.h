@@ -37,7 +37,7 @@ public:
 	QString getHelp();
 
 protected:
-	bool _exec(GSClient* client, QStringList args);
+	bool _exec(GSCmdLineClient* client, QStringList args);
 
 };
 

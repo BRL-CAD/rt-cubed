@@ -40,7 +40,7 @@ ExitCmd::getHelp(){
 }
 
 bool
-ExitCmd::_exec(GSClient* client, QStringList args){
+ExitCmd::_exec(GSCmdLineClient* client, QStringList args){
 	/* set the run flag to false */
 	client->stopRun();
 }

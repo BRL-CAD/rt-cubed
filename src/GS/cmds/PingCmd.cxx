@@ -41,11 +41,11 @@ PingCmd::getHelp(){
 }
 
 bool
-PingCmd::_exec(GSClient* client, QStringList args){
+PingCmd::_exec(GSCmdLineClient* client, QStringList args){
 	Portal* p = client->getCurrentPortal();
 
 	if (p == NULL) 	{
-		this->log->logERROR("LoginCmd", "Current Portal is NULL.");
+		this->log->logERROR("PingCmd", "Not connected to a Geometry Service.");
 		return false;
 	}
 

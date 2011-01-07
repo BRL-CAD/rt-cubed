@@ -42,12 +42,12 @@ LogoutCmd::getHelp() {
 }
 
 bool
-LogoutCmd::_exec(GSClient* client, QStringList args){
+LogoutCmd::_exec(GSCmdLineClient* client, QStringList args){
 	Portal* p = client->getCurrentPortal();
 
 	/* Check to see if we are connected */
 	if (p == NULL) {
-		this->log->logWARNING("ShutdownCmd","Current Portal returned NULL.  Cannot send Shutdown Msg.");
+		this->log->logWARNING("Logout","Not connected to a Geometry Service.");
 		return false;
 	}
 

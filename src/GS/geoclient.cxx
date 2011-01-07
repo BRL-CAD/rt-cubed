@@ -24,6 +24,7 @@
  */
 
 #include "GSClient.h"
+#include "GSCmdLineClient.h"
 #include "libutility.h"
 #include <QtCore/QString>
 #include <QtCore/QUuid>
@@ -68,8 +69,12 @@ main(int argc, char* argv[])
 		gsExit(1);
 	}
 
-	GSClient gsClient(localNodeName);
-    return gsClient.run();
+	GSCmdLineClient gsClient(localNodeName);
+    int retVal =  gsClient.run();
+
+    JobManager::getInstance()->shutdown(true);
+
+    return retVal;
 }
 
 /*
