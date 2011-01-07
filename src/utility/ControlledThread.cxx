@@ -83,7 +83,7 @@ void ControlledThread::_run() {
 }
 
 void ControlledThread::_runLoopPass() {
-	//DOES NOTHING BY DEFAULT
+	/* DOES NOTHING BY DEFAULT */
 	GSThread::msleep(1);
 }
 
