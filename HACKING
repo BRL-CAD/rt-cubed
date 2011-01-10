@@ -3,7 +3,7 @@ The Hacker's Guide to Rt^3
 
 Source code lives in the following directories:
 
-platform independant libraries
+platform independent libraries
 ------------------------------
 src/libNumeric		- math library
 src/libUtility		- basic utility library
@@ -31,7 +31,7 @@ Coding Standards
 
 For anyone who plans on contributing code, the following conventions
 should be followed.  Contributions that do not conform will be
-rediculed and rejected until they do.
+ridiculed and rejected until they do.
 
 Code Organization
 -----------------
@@ -128,14 +128,14 @@ Encouraged:
 			  data and is relatively short
 
 Discouraged:
-  arrays		- acceptible for many cases but should not be
+  arrays		- acceptable for many cases but should not be
 			  used for containers with dynamically
 			  changing contents, C++ STL containers are
 			  preferred
   globals		- these are strictly prohibited outside of
 			  libraries and in public interfaces
   macro constants	- prefer static const data, using the
-			  proprocessor to define min, max, default
+			  preprocessor to define min, max, default
 			  values/bounds, etc.
   macro functions	- certain performance and build wrapping may
 			  be necessary, but alternatives are preferred
@@ -186,21 +186,21 @@ documented on their purpose, as should all public member functions and
 public data.  Comments are desired for all functions and classes
 regardless of their scope.  Javadoc-style comments for Doxygen++ are
 required for every public class, function, template, and interface.
-At a miniumum, a simple doxygen comment may be made by starting a
+At a minimum, a simple doxygen comment may be made by starting a
 comment block with a double asterisk (as is shown above in the
-preceeding example).
+preceding example).
 
 Classes may not have public data members.  Public data violates the
 encapsulation of a class and makes clients of the class directly tied
 to the implementation.  This does not mean that there should be
 "getters and setters" class functions.  Instead, pass around objects,
-create and use object managers, and rethink the logic away from a
+create and use object managers, and re-think the logic away from a
 data-driven methodology to an object-driven methodology.
 
 Class names, variables, and functions should be mixed upper- and
 lower-case.  Underscores should not be used.  Word boundaries should
 use upper-case letters.  It is preferred that symbols are spelled out
-instead of using abbreviations or acronyms.  Reability and
+instead of using abbreviations or acronyms.  Readability and
 meaningfulness is preferred over brevity and typing ease.  The first
 letter of classes and static constant member data must be capitalized.
 The first letter of other variables, data members, and functions must
@@ -217,7 +217,7 @@ be lower-case except for static constructor functions.
 
 Declare local variables near their usage.
 
-Private and protected data members should be preceeded with an
+Private and protected data members should be preceded with an
 underscore.
 
   int _someMember;   // ok
@@ -315,7 +315,7 @@ The application versions are in the format: Major.Minor.Patch
 The Major number is only updated when a release is made that is
 significantly not backwards compatible.  A Minor number designates
 whether a release is a development or production release.  Development
-versions use odd numbers, production versions use even onumbers.  Bug
+versions use odd numbers, production versions use even numbers.  Bug
 fix releases are optionally denoted with the Patch number.
 
 Examples:
