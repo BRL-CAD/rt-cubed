@@ -332,7 +332,7 @@ void Arb8::SetPoint
                 bool             alreadyThere = false;
 
                 for (size_t i = 0; i < 8; ++i) {
-                    if (VAPPROXEQUAL(point.coordinates, internalp->pt[i], SQRT_SMALL_FASTF)) {
+                    if (VNEAR_EQUAL(point.coordinates, internalp->pt[i], SQRT_SMALL_FASTF)) {
                         alreadyThere = true;
                         break;
                     }
