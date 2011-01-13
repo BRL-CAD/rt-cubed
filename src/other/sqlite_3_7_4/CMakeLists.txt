@@ -31,12 +31,6 @@ RT3_PROJECT(sqlite)
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS()
 
-#Set Libs
-RT3_PROJECT_ADD_LIBS(
-    pthread
-    dl
-)
-
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
 	sqlite3.c
@@ -66,11 +60,19 @@ RT3_PROJECT(sqlite3)
 RT3_PROJECT_ADD_INCLUDE_DIRS()
 
 #Set Libs
+if(LINUX)
 RT3_PROJECT_ADD_LIBS(
     pthread
     dl
     sqlite
 )
+else()
+RT3_PROJECT_ADD_LIBS(
+    pthread
+    sqlite
+)
+endif()
+
 
 #set Source files
 RT3_PROJECT_ADD_SOURCES (
