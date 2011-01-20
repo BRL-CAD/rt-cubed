@@ -43,6 +43,7 @@ ENDIF(BRLCAD_VERSION_FOUND)
 if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 	#Set Include Dirs
 	RT3_PROJECT_ADD_INCLUDE_DIRS(
+	    ${TCL_INCLUDE_DIRS}
 	    ${BRLCAD_INC_DIRS}
 	)
 

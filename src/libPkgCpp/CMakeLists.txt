@@ -30,13 +30,15 @@ RT3_PROJECT(pkgcpp)
 
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS(
+    ${TCL_INCLUDE_DIRS}
     ${BRLCAD_INC_DIRS}
 )
 
 #Set Libs
 RT3_PROJECT_ADD_LIBS(
+    ${TCL_LIBRARY}
     ${_BRLCAD_LIBRARY_pkg}
-	 ${_BRLCAD_LIBRARY_bu}
+    ${_BRLCAD_LIBRARY_bu}
 )
 
 #set Source files
