@@ -31,6 +31,7 @@ RT3_PROJECT(pkgcppTests)
 #Set Include Dirs
 RT3_PROJECT_ADD_INCLUDE_DIRS(
     ${QT_INCLUDE_DIR}
+    ${TCL_INCLUDE_DIRS}
     ${BRLCAD_INC_DIRS}
 )
 
