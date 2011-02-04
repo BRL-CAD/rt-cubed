@@ -54,31 +54,53 @@ private:
 public:
     GeometryServer(const QHostAddress& addy = QHostAddress::LocalHost, const quint16 port = DEFAULT_PORT)
     {
-	//this->gs = new GeometryService("GSTester");
-
-	if (port > 0)
-	    start(addy, port);
+		if (port > 0)
+			start(addy, port);
     }
+
     ~GeometryServer()
     {
-	delete this->gs;
+    	if (this->gs != NULL)
+    		delete this->gs;
     }
+
     bool stillRunning() const
     {
-	//For now, make the test simple
-	//return this->gs->isListening();
-	return false;
+        GSThread::sleep(1);
+        std::cout << "\tGS:" << this->gs << std::endl;
+
+    	if (this->gs == NULL)
+    		return false;
+
+    	bool isRun = this->gs->isRunning();
+
+    	GSThread::sleep(1);
+        std::cout << "\tisRun "<< isRun << std::endl;
+
+
+		return isRun;
     }
+
     void start(const QHostAddress& addy = QHostAddress::LocalHost, const quint16 port = DEFAULT_PORT)
     {
-	this->_port = port;
-	this->_addy = addy;
+    	/* FIXME Are these two internals really needed? */
+    	this->_port = port;
+    	this->_addy = addy;
 
-	//this->gs->startListening(this->_addy, this->_port);
+       	this->gs = new GeometryService("Athena", port, addy);
+
+       	this->gs->start();
     }
+
     void stop() const
     {
-	//this->gs->stopListening();
+    	if (this->gs == NULL) {
+    		return;
+    	}
+
+    	this->gs->shutdown();
+    	GSThread::msleep(100);
+    	delete this->gs;
     }
 };
 
@@ -91,6 +113,8 @@ class GeometryClient
 {
 private:
     QUuid testClientID;
+    GSClient* gsClient;
+    Portal* portal;
 
     bool exists(std::string object) const
     {
@@ -103,18 +127,44 @@ private:
 public:
     GeometryClient()
     {
+    	this->testClientID = QUuid::createUuid();
+    	this->gsClient = new GSClient(this->testClientID.toString());
+    	this->portal == NULL;
+		std::cerr << "Portal:" << this->portal << std::endl;
     }
 
     ~GeometryClient()
     {
+    	if (this->gsClient != NULL)
+    		delete gsClient;
     }
 
-    void connect(const QHostAddress address = QHostAddress::LocalHost, int port = DEFAULT_PORT) const
+    void connect(const QHostAddress address = QHostAddress::LocalHost, int port = DEFAULT_PORT)
     {
-	if (port < 0) {
-	    std::cerr << "Unexpected test harness state" << std::endl;
-	    exit(1);
-	}
+		if (port < 0) {
+			std::cerr << "Unexpected test harness state: port<0" << std::endl;
+			exit(1);
+		}
+		if (this->gsClient == NULL) {
+			std::cerr << "Unexpected test harness state: Null GSClient" << std::endl;
+			exit(1);
+		}
+
+		PortalManager* clientPortMan = this->gsClient->getPortMan();
+
+		if (clientPortMan == NULL) {
+			std::cerr << "Unexpected test harness state: Null PortalManager" << std::endl;
+			exit(1);
+		}
+
+		Portal* p = clientPortMan->connectToHost("localhost", 12345);
+
+		if (p == NULL) {
+			std::cerr << "Unexpected test harness state: Failure on ConnectToHost.  Portal:" << this->portal << std::endl;
+			return;
+		}
+
+		this->portal = p;
     }
 
     void disconnect() const
@@ -123,7 +173,7 @@ public:
 
     bool connected() const
     {
-	return false;
+    	return (this->portal != NULL);
     }
 
     //TODO implement 'getDirectory'
@@ -441,6 +491,9 @@ static void Disconnect(GeometryClient *gc, GeometryClient *gc2 = NULL,
 
 int main(int ac, char *av[])
 {
+	Logger::getInstance();
+	JobManager::getInstance();
+
     //disable the logger for now.
     Logger::getInstance()->disableLogToConsole();
 
@@ -473,12 +526,42 @@ int main(int ac, char *av[])
     REQUIREMENT("Server restarts");
 
     gs->stop();
+    GSThread::sleep(1);
+    std::cout << "\t1\n";
+
     GAS(!gs->stillRunning(), "Server shutting down");
+    GSThread::sleep(1);
+    std::cout << "\t2\n";
+
     gc->connect();
+    GSThread::sleep(1);
+    std::cout << "\t3\n";
+
     GAS(!gc->connected(), "Client prevented from connecting");
+    GSThread::sleep(1);
+    std::cout << "\t4\n";
+
     gs->start();
+    GSThread::sleep(1);
+    std::cout << "\t5\n";
+
 
     RESULT();
+
+/* cleanup */
+GSThread::msleep(1000 * 3);
+gs->stop();
+
+//TODO BOOKMARK
+
+/* delete gc3; */
+/* delete gc2; */
+delete gc;
+delete gs;
+
+JobManager::getInstance()->shutdown(true);
+
+return 0;
 
     /**********************************************/
     /* MAKE SURE A CLIENT CAN CONNECT TO A SERVER */
@@ -799,6 +882,8 @@ int main(int ac, char *av[])
     delete gc2;
     delete gc;
     delete gs;
+
+    JobManager::getInstance()->shutdown(true);
 
     return 0;
 }
