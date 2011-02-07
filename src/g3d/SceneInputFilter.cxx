@@ -1,7 +1,7 @@
 /*                  S C E N E I N P U T F I L T E R . C X X
  * BRL-CAD
  *
- * Copyright (c) 2008-2010 United States Government as represented by the
+ * Copyright (c) 2008-2011 United States Government as represented by the
  * U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
