@@ -1,6 +1,6 @@
 # - Find Tcl/Tk commands, includes and libraries.
 #
-# Copyright (c) 2010 United States Government as represented by
+# Copyright (c) 2011 United States Government as represented by
 # the U.S. Army Research Laboratory.
 #
 # Copyright 2001-2009 Kitware, Inc.
