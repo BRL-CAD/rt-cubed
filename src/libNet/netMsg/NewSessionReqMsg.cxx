@@ -1,7 +1,7 @@
 /*            N E W S E S S I O N R E Q M S G . C X X
  * BRLCAD
  *
- * Copyright (c) 2010 United States Government as represented by
+ * Copyright (c) 2011 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This library is free software; you can redistribute it and/or
