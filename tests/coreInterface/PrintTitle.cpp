@@ -1,7 +1,7 @@
 /*               P R I N T T I T L E . C P P
  * BRL-CAD
  *
- * Copyright (c) 2010 United States Government as represented by
+ * Copyright (c) 2011 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * This file is in the public domain.
