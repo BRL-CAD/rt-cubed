@@ -90,12 +90,6 @@ IF (NOT X11_FOUND)
 #	RETURN()
 ENDIF (NOT X11_FOUND)
 
-#Find TCL
-FIND_PACKAGE ( TCL REQUIRED )
-IF (NOT TCL_FOUND)
-    MESSAGE(STATUS "\tDid not find TCL!")
-	RETURN()
-ENDIF (NOT TCL_FOUND)
 
 #Find BRLCAD
 FIND_PACKAGE ( BRLCAD REQUIRED )
@@ -126,13 +120,13 @@ MESSAGE(STATUS "\t\tQt Version: \t${QT_VERSION}")
 MESSAGE(STATUS "All Dependancies Found")
 MESSAGE(STATUS "")
 
-#Decend into the source tree.
+#Descend into the source tree.
 MESSAGE(STATUS "Configuring Projects...")
 ADD_SUBDIRECTORY(./src)
 MESSAGE(STATUS "All Projects configured.")
 MESSAGE(STATUS "")
 
-#Decend into the test tree.
+#Descend into the test tree.
 IF (RT3_BUILD_TESTS)
     MESSAGE(STATUS "Configuring Tests...")
 	ADD_SUBDIRECTORY(./tests)

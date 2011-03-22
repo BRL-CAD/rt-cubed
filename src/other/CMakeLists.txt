@@ -25,9 +25,3 @@
 #	$Author:  $
 #
 ##########################################################################
-
-#ADD_SUBDIRECTORY(./ois)
-#ADD_SUBDIRECTORY(./ogre)
-
-ADD_SUBDIRECTORY(./sqlite_3_7_4)
-

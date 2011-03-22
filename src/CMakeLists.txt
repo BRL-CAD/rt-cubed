@@ -26,22 +26,7 @@
 #
 ##########################################################################
 
-#Deps first
-ADD_SUBDIRECTORY(./other/)
-
 #Libs next
-ADD_SUBDIRECTORY(./date)
-ADD_SUBDIRECTORY(./GE)
-ADD_SUBDIRECTORY(./utility)
-ADD_SUBDIRECTORY(./libJob)
-ADD_SUBDIRECTORY(./libEvent)
-ADD_SUBDIRECTORY(./libPkgCpp)
-ADD_SUBDIRECTORY(./libNet)
+#ADD_SUBDIRECTORY(./date)
 ADD_SUBDIRECTORY(./coreInterface)
-
-#Apps Last
-ADD_SUBDIRECTORY(./GS)
-#ADD_SUBDIRECTORY(./adminpanel)
-
-# Client Library set
-ADD_SUBDIRECTORY(client)
+#ADD_SUBDIRECTORY(./g3d)

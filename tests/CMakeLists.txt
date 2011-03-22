@@ -26,11 +26,4 @@
 #
 ##########################################################################
 
-ADD_SUBDIRECTORY(./libNet)
-ADD_SUBDIRECTORY(./GE)
-ADD_SUBDIRECTORY(./GS)
-ADD_SUBDIRECTORY(./utility)
-ADD_SUBDIRECTORY(./libJob)
-ADD_SUBDIRECTORY(./libpkgcpp)
-ADD_SUBDIRECTORY(./libEvent)
 ADD_SUBDIRECTORY(./coreInterface)
