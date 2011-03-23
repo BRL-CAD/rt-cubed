@@ -19,7 +19,7 @@
 #	information.
 #
 #########################################################################
-#	@file rt^3/src/coreInterface/CMakeLists.txt
+#	@file rt^3/src/ge/CMakeLists.txt
 #
 #	Origin -
 #		TNO (Netherlands)
@@ -28,7 +28,6 @@
 #########################################################################
 
 IF(BRLCAD_VERSION_FOUND)
-
 	SET(BRLCADVERSION_H_CONTENT
 		"#define BRLCAD_LIB_MAJOR ${BRLCAD_MAJOR_VERSION}\n"
 		"#define BRLCAD_LIB_MINOR ${BRLCAD_MINOR_VERSION}\n"
@@ -47,48 +46,39 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	)
 
 	#set Source files
-	set ( coreinterface_SRCS
-		Arb8.cpp
-		Combination.cpp
-		Cone.cpp
-		ConstDatabase.cpp
-		Database.cpp
-		Ellipsoid.cpp
-		EllipticalTorus.cpp
-		FileDatabase.cpp
-		globals.cpp
-		Halfspace.cpp
-		HyperbolicCylinder.cpp
-		Hyperboloid.cpp
-		MemoryDatabase.cpp
-		Object.cpp
-		ParabolicCylinder.cpp
-		Paraboloid.cpp
-		Particle.cpp
-		Torus.cpp
-		Unknown.cpp
+	set ( ge_SRCS
+		../coreInterface/Arb8.cpp
+		../coreInterface/Combination.cpp
+		../coreInterface/Cone.cpp
+		../coreInterface/ConstDatabase.cpp
+		../coreInterface/Database.cpp
+		../coreInterface/Ellipsoid.cpp
+		../coreInterface/EllipticalTorus.cpp
+		../coreInterface/FileDatabase.cpp
+		../coreInterface/globals.cpp
+		../coreInterface/Halfspace.cpp
+		../coreInterface/HyperbolicCylinder.cpp
+		../coreInterface/Hyperboloid.cpp
+		../coreInterface/MemoryDatabase.cpp
+		../coreInterface/Object.cpp
+		../coreInterface/ParabolicCylinder.cpp
+		../coreInterface/Paraboloid.cpp
+		../coreInterface/Particle.cpp
+		../coreInterface/Torus.cpp
+		../coreInterface/Unknown.cpp
 	)
 
 	IF(BUILD_SHARED_LIBS)
-		add_library(coreinterface SHARED ${coreinterface_SRCS})
-#		target_link_libraries(coreinterface ${})
-#		set_target_properties(coreinterface PROPERTIES PREFIX "")
-		install(TARGETS coreinterface DESTINATION lib)
+		add_library(ge SHARED ${ge_SRCS})
+		install(TARGETS ge DESTINATION lib)
 	ENDIF(BUILD_SHARED_LIBS)
 
 	IF(BUILD_STATIC_LIBS)
-		add_library(coreinterface-static STATIC ${coreinterface_SRCS})
-#		target_link_libraries(coreinterface-static ${})
-		IF(NOT WIN32)
-#			set_target_properties(coreinterface-static PROPERTIES PREFIX "")
-#			set_target_properties(coreinterface-static PROPERTIES OUTPUT_NAME "libcoreinterface")
-		ELSE(NOT WIN32)
-#			set_target_properties(coreinterface-static PROPERTIES PREFIX "lib")
-		ENDIF(NOT WIN32)
-		install(TARGETS coreinterface-static DESTINATION lib)
+		add_library(ge-static STATIC ${ge_SRCS})
+		install(TARGETS ge-static DESTINATION lib)
 	ENDIF(BUILD_STATIC_LIBS)
 	
-	SET(coreinterface_inst_HDRS	
+	SET(ge_inst_HDRS	
 		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
 		${RT3_SOURCE_DIR}/include/brlcad/Combination.h
 		${RT3_SOURCE_DIR}/include/brlcad/Cone.h
@@ -109,8 +99,8 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/Torus.h
 		${RT3_SOURCE_DIR}/include/brlcad/Unknown.h
 	)
-	INSTALL(FILES ${coreinterface_inst_HDRS} DESTINATION include)
+	INSTALL(FILES ${ge_inst_HDRS} DESTINATION include)
 
 ELSE(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
-	MESSAGE(STATUS "\tConfiguration for 'coreInterface'...  Omitted.")
+	MESSAGE(STATUS "\tConfiguration for 'ge'...  Omitted.")
 ENDIF(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
