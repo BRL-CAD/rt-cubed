@@ -27,8 +27,6 @@
 #
 #########################################################################
 
-RT3_PROJECT(coreinterface)
-
 IF(BRLCAD_VERSION_FOUND)
 
 	SET(BRLCADVERSION_H_CONTENT
@@ -36,24 +34,20 @@ IF(BRLCAD_VERSION_FOUND)
 		"#define BRLCAD_LIB_MINOR ${BRLCAD_MINOR_VERSION}\n"
 		"#define BRLCAD_LIB_PATCH ${BRLCAD_PATCH_VERSION}\n"
 	)
-	FILE(WRITE ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h ${BRLCADVERSION_H_CONTENT})
+	FILE(WRITE ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h ${BRLCADVERSION_H_CONTENT})
 ENDIF(BRLCAD_VERSION_FOUND)
 
 
-if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
-	#Set Include Dirs
-	RT3_PROJECT_ADD_INCLUDE_DIRS(
-	    ${TCL_INCLUDE_DIRS}
-	    ${BRLCAD_INC_DIRS}
-	)
+if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 
-	#Set Libs
-	RT3_PROJECT_ADD_LIBS(
-	    ${BRLCAD_LIBRARIES}
+	#Set Include Dirs
+	include_directories (
+		${RT3_SOURCE_DIR}/include/brlcad
+	    ${BRLCAD_INCLUDE_DIRS}
 	)
 
 	#set Source files
-	RT3_PROJECT_ADD_SOURCES (
+	set ( coreinterface_SRCS
 		Arb8.cpp
 		Combination.cpp
 		Cone.cpp
@@ -75,11 +69,47 @@ if(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
 		Unknown.cpp
 	)
 
-	#Temporary fix fo the types.h vs unistd.h vs stdint.h vs pstdint.h declaration conflicts
-	#SET_SOURCE_FILES_PROPERTIES(${LIBCOREINTERFACE_SOURCES} PROPERTIES COMPILE_FLAGS "-DHAVE_STDINT_H")
+	IF(BUILD_SHARED_LIBS)
+		add_library(coreinterface SHARED ${coreinterface_SRCS})
+		target_link_libraries(coreinterface ${})
+		set_target_properties(coreinterface PROPERTIES PREFIX "")
+		install(TARGETS coreinterface DESTINATION lib)
+	ENDIF(BUILD_SHARED_LIBS)
+	IF(BUILD_STATIC_LIBS)
+		add_library(coreinterface-static STATIC ${coreinterface_SRCS})
+		target_link_libraries(coreinterface-static ${})
+		IF(NOT WIN32)
+			set_target_properties(coreinterface-static PROPERTIES PREFIX "")
+			set_target_properties(coreinterface-static PROPERTIES OUTPUT_NAME "libcoreinterface")
+		ELSE(NOT WIN32)
+			set_target_properties(coreinterface-static PROPERTIES PREFIX "lib")
+		ENDIF(NOT WIN32)
+		install(TARGETS coreinterface-static DESTINATION lib)
+	ENDIF(BUILD_STATIC_LIBS)
+	
+	SET(coreinterface_inst_HDRS	
+		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
+		${RT3_SOURCE_DIR}/include/brlcad/Combination.h
+		${RT3_SOURCE_DIR}/include/brlcad/Cone.h
+		${RT3_SOURCE_DIR}/include/brlcad/ConstDatabase.h
+		${RT3_SOURCE_DIR}/include/brlcad/Database.h
+		${RT3_SOURCE_DIR}/include/brlcad/Ellipsoid.h
+		${RT3_SOURCE_DIR}/include/brlcad/EllipticalTorus.h
+		${RT3_SOURCE_DIR}/include/brlcad/FileDatabase.h
+		${RT3_SOURCE_DIR}/include/brlcad/globals.h
+		${RT3_SOURCE_DIR}/include/brlcad/Halfspace.h
+		${RT3_SOURCE_DIR}/include/brlcad/HyperbolicCylinder.h
+		${RT3_SOURCE_DIR}/include/brlcad/Hyperboloid.h
+		${RT3_SOURCE_DIR}/include/brlcad/MemoryDatabase.h
+		${RT3_SOURCE_DIR}/include/brlcad/Object.h
+		${RT3_SOURCE_DIR}/include/brlcad/ParabolicCylinder.h
+		${RT3_SOURCE_DIR}/include/brlcad/Paraboloid.h
+		${RT3_SOURCE_DIR}/include/brlcad/Particle.h
+		${RT3_SOURCE_DIR}/include/brlcad/Torus.h
+		${RT3_SOURCE_DIR}/include/brlcad/Unknown.h
+	)
+	INSTALL(FILES ${coreinterface_inst_HDRS} DESTINATION include)
 
-	#Build the project
-	RT3_PROJECT_BUILD_LIB()
-ELSE(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
-	MESSAGE(STATUS "\tConfiguration for '${PROJECT_NAME}'...  Omitted.")
-ENDIF(EXISTS ${RT3_PUBLIC_HEADER_DIR}/brlcad/brlcadversion.h)
+ELSE(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
+	MESSAGE(STATUS "\tConfiguration for 'coreInterface'...  Omitted.")
+ENDIF(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
