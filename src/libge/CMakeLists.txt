@@ -101,6 +101,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/Unknown.h
 	)
 	INSTALL(FILES ${ge_inst_HDRS} DESTINATION include/brlcad)
+	TARGET_LINK_LIBRARIES(ge ${_BRLCAD_LIBRARY_bu} ${_BRLCAD_LIBRARY_bn} ${_BRLCAD_LIBRARY_rt} ${_BRLCAD_LIBRARY_wdb})
 
 ELSE(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	MESSAGE(STATUS "\tConfiguration for 'ge'...  Omitted.")
