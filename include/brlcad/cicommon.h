@@ -17,7 +17,7 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file Common.h
+/** @file cicommon.h
  *
  *  BRL-CAD core C++ interface:
  *      declares common understanding

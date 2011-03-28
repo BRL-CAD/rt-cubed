@@ -30,7 +30,7 @@
 #ifndef BRLCAD_CONSTDATABASE_INCLUDED
 #define BRLCAD_CONSTDATABASE_INCLUDED
 
-#include <brlcad/common.h>
+#include <brlcad/cicommon.h>
 #include <brlcad/Object.h>
 
 

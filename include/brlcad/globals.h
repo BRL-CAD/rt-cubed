@@ -31,7 +31,7 @@
 #ifndef BRLCAD_GLOBALS_INCLUDED
 #define BRLCAD_GLOBALS_INCLUDED
 
-#include <brlcad/common.h>
+#include <brlcad/cicommon.h>
 
 
 namespace BRLCAD {

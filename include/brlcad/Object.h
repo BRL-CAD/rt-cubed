@@ -30,7 +30,7 @@
 #ifndef BRLCAD_OBJECT_INCLUDED
 #define BRLCAD_OBJECT_INCLUDED
 
-#include <brlcad/common.h>
+#include <brlcad/cicommon.h>
 
 
 struct resource;

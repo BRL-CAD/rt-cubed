@@ -80,6 +80,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	
 	SET(ge_inst_HDRS	
 		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
+		${RT3_SOURCE_DIR}/include/brlcad/cicommon.h
 		${RT3_SOURCE_DIR}/include/brlcad/Combination.h
 		${RT3_SOURCE_DIR}/include/brlcad/Cone.h
 		${RT3_SOURCE_DIR}/include/brlcad/ConstDatabase.h
@@ -99,7 +100,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/Torus.h
 		${RT3_SOURCE_DIR}/include/brlcad/Unknown.h
 	)
-	INSTALL(FILES ${ge_inst_HDRS} DESTINATION include)
+	INSTALL(FILES ${ge_inst_HDRS} DESTINATION include/brlcad)
 
 ELSE(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	MESSAGE(STATUS "\tConfiguration for 'ge'...  Omitted.")
