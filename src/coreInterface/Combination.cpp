@@ -754,7 +754,11 @@ Combination::Combination
             BU_UNSETJUMP;
 
             if (m_internalp != 0) {
-                bu_vls_free(&m_internalp->shader);
+                if (m_internalp->shader.vls_magic != 0)
+                    bu_vls_free(&m_internalp->shader);
+
+                if (m_internalp->material.vls_magic != 0)
+                    bu_vls_free(&m_internalp->shader);
 
                 if (m_internalp->tree != 0)
                     db_free_tree(m_internalp->tree, m_resp);
