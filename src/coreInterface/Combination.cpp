@@ -731,6 +731,8 @@ Combination::Combination
             m_internalp = static_cast<rt_comb_internal*>(bu_calloc(1, sizeof(rt_comb_internal), "BRLCAD::Combination::Combination::m_internalp"));
 
             m_internalp->magic = internalFrom->magic;
+            bu_vls_init(&m_internalp->shader);
+            bu_vls_init(&m_internalp->material);
 
             if (internalFrom->tree != 0)
                 m_internalp->tree = db_dup_subtree(internalFrom->tree, m_resp);
