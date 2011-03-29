@@ -47,6 +47,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 
 	#set Source files
 	set ( ge_SRCS
+		GeometryEngine.cxx
 		../coreInterface/Arb8.cpp
 		../coreInterface/Combination.cpp
 		../coreInterface/Cone.cpp
@@ -79,6 +80,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	ENDIF(BUILD_STATIC_LIBS)
 	
 	SET(ge_inst_HDRS	
+		${RT3_SOURCE_DIR}/include/GeometryEngine.h
 		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
 		${RT3_SOURCE_DIR}/include/brlcad/cicommon.h
 		${RT3_SOURCE_DIR}/include/brlcad/Combination.h
