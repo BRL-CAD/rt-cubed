@@ -225,8 +225,10 @@ bool Database::Add
                 bu_vls_strcpy(&internalTo->material, bu_vls_addr(&internalFrom->material));
             }
 
-            if ((id != ID_NULL) && (object.Name() != 0)) {
-                ret = (wdb_export(m_wdbp, object.Name(), rtInternal, id, 1.) == 0);
+            const char* objectName = object.Name();
+
+            if ((id != ID_NULL) && (objectName != 0) && (strlen(objectName) > 0)) {
+                ret = (wdb_export(m_wdbp, objectName, rtInternal, id, 1.) == 0);
 
                 // copy attributes
                 if (ret) {
