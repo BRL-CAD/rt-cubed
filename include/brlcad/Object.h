@@ -37,6 +37,7 @@ struct resource;
 struct directory;
 struct rt_db_internal;
 struct db_i;
+struct bu_external;
 struct bu_attribute_value_set;
 
 
@@ -111,6 +112,7 @@ namespace BRLCAD {
         void                  RemoveAttribute(const char* key) throw();              ///> removes the first attribute with this key
         void                  ClearAttributes(void) throw();                         ///> removes all attributes
 
+        bu_external* 		  GenerateBUExternal(void) const throw();
 
     protected:
         resource*       m_resp;
