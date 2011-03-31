@@ -33,13 +33,15 @@
 namespace BRLCAD {
 	class MinimalObject : public BRLCAD::Object {
 	public:
-		MinimalObject(void) throw(bad_alloc);
 		virtual ~MinimalObject(void) throw();
 
 		bu_external* getBuExternal();
 		std::string getFilePath();
 		std::string getFileName();
 		std::string getObjectName();
+
+	protected:
+		MinimalObject(void) throw(bad_alloc);
 
 	private:
 		bu_external* ext;
