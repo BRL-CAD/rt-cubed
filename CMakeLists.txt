@@ -145,3 +145,4 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
 # Global setup done, on to specific projects
 ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(tests)

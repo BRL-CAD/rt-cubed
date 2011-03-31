@@ -26,4 +26,8 @@
 #
 ##########################################################################
 
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RT3_SOURCE_DIR}/tests-bin)
+
 ADD_SUBDIRECTORY(./coreInterface)
+ADD_SUBDIRECTORY(./libge)
+

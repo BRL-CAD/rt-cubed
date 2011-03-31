@@ -27,20 +27,18 @@
 #	APPROXIMATES THE ECONOMIC OBJECTIVES.
 #
 #########################################################################
-#	@file rt^3/tests/coreInterface/CMakeLists.txt
+#	@file rt^3/tests/libge/CMakeLists.txt
 #
-#	Origin -
-#		IABG mbH (Germany)
 #
 ##########################################################################
 
 include_directories (
 )
 
-set (ciTests_SRC
-	PrintTitle.cpp
+set (geTest_SRC
+	GeometryEngineTest.cxx
 )
 
-add_executable(printTitle ${ciTests_SRC} )
-target_link_libraries(printTitle coreinterface)
+add_executable(geTest ${geTest_SRC} )
+target_link_libraries(geTest coreinterface)
 
