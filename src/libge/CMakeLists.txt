@@ -81,10 +81,13 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		install(TARGETS ge-static DESTINATION lib)
 	ENDIF(BUILD_STATIC_LIBS)
 	
-	SET(ge_inst_HDRS	
+	INSTALL(FILES 
 		${RT3_SOURCE_DIR}/include/GeometryEngine.h
 		${RT3_SOURCE_DIR}/include/MinimalDatabase.h
 		${RT3_SOURCE_DIR}/include/MinimalObject.h
+	DESTINATION include)
+	
+	SET(ge_inst_HDRS	
 		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
 		${RT3_SOURCE_DIR}/include/brlcad/cicommon.h
 		${RT3_SOURCE_DIR}/include/brlcad/Combination.h
