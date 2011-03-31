@@ -33,6 +33,7 @@
 ##########################################################################
 
 include_directories (
+	${BRLCAD_INCLUDE_DIRS}
 )
 
 set (geTest_SRC
