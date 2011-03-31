@@ -25,10 +25,15 @@
  */
 
 #include "MinimalObject.h"
+#include <iostream>
 
 using namespace BRLCAD;
 
 MinimalObject::MinimalObject(void) throw(bad_alloc) {
+	this->ext = NULL;
+	this->filePath = "";
+	this->fileName = "";
+	this->objName = "";
 }
 
 MinimalObject::~MinimalObject(void) throw() {
@@ -59,6 +64,14 @@ MinimalObject::getObjectName()
 	return this->objName;
 }
 
+void
+MinimalObject::printObjState()
+{
+	std::cout << "ext*: " << ((this->ext == NULL) ? "NULL" : "Set") << "\n";
+	std::cout << "filePath: " << filePath << "\n";
+	std::cout << "fileName: " << fileName << "\n";
+	std::cout << "objName: " << objName << std::endl;
+}
 
 // Local Variables:
 // tab-width: 8

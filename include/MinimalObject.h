@@ -40,6 +40,8 @@ namespace BRLCAD {
 		std::string getFileName();
 		std::string getObjectName();
 
+		void printObjState();
+
 	protected:
 		MinimalObject(void) throw(bad_alloc);
 
