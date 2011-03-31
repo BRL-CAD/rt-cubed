@@ -61,14 +61,77 @@ MinimalDatabase::getObjectByName(std::string name) {
 
 std::list<MinimalObject*>*
 MinimalDatabase::getAllObjectsBelow(std::string name) {
-	//TODO implement this recursive treewalk
-	return NULL;
+	std::list<MinimalObject*>* list = new std::list<MinimalObject*>();
+	this->getAllObjectsBelow(name, list);
+	return list;
+}
+
+void
+MinimalDatabase::getAllObjectsBelow(std::string name, std::list<MinimalObject*>* list) {
+	Object* o = this->Get(name.c_str());
+
+	/* Validate */
+	if (o == NULL)
+		return;
+
+	bu_external* ext = this->GetExternal(name.c_str());
+	if (ext == NULL)
+		return;
+
+	/* Archive */
+	//TODO need to check to see if list already contains new element.
+	list->push_back(new MinimalObject(this->currentFilePath,name, ext));
+
+	/* Recurse */
+	const BRLCAD::Combination* comb = dynamic_cast<const BRLCAD::Combination*>(o);
+	if (comb != 0)
+		this->_searchNode(comb->Tree(), list);
+
+}
+
+void
+MinimalDatabase::_searchNode(BRLCAD::Combination::ConstTreeNode node, std::list<MinimalObject*>* list) {
+
+	switch (node.Operation()) {
+	case BRLCAD::Combination::ConstTreeNode::Union:
+	case BRLCAD::Combination::ConstTreeNode::Intersection:
+	case BRLCAD::Combination::ConstTreeNode::Subtraction:
+	case BRLCAD::Combination::ConstTreeNode::ExclusiveOr:
+		_searchNode(node.LeftOperand(), list);
+		_searchNode(node.RightOperand(),list);
+		break;
+
+	case BRLCAD::Combination::ConstTreeNode::Not:
+		_searchNode(node.Operand(), list);
+		break;
+
+	case BRLCAD::Combination::ConstTreeNode::Leaf:
+		this->getAllObjectsBelow(node.Name(), list);
+	}
+
 }
 
 std::list<MinimalObject*>*
 MinimalDatabase::getAllObjects() {
-	//TODO implement this recursive treewalk
-	return NULL;
+	/*
+	 * Its ugly and performs two look ups per object, but it works for now.
+	 * //TODO implement a dedicated iterator for this
+	 */
+	ConstDatabase::TopObjectIterator it = this->FirstTopObject();
+	std::list<MinimalObject*>* list = new std::list<MinimalObject*>();
+
+	std::string name = "";
+
+	while (it.Good()) {
+		name = it.Name();
+
+		if (name.length() > 0)
+			this->getAllObjectsBelow(name, list);
+
+		++it;
+	}
+
+	return list;
 }
 
 std::list<MinimalObject*>*

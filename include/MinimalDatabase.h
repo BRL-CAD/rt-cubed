@@ -30,6 +30,7 @@
 #include "MinimalObject.h"
 
 #include "brlcad/MemoryDatabase.h"
+#include "brlcad/Combination.h"
 #include "brlcad/cicommon.h"
 #include <new>
 #include <list>
@@ -55,12 +56,16 @@ namespace BRLCAD {
 
  		MinimalObject* getObjectByName(std::string name);
 		std::list<MinimalObject*>* getAllObjectsBelow(std::string name);
+		void getAllObjectsBelow(std::string name, std::list<MinimalObject*>* list);
 		std::list<MinimalObject*>* getAllObjects();
 		std::list<MinimalObject*>* getAllTopObjects();
 
 	private:
 		/// Performs database object look ups, but copies the contents into a bu_external which it returns
 		bu_external* GetExternal(const char* objectName) const;
+
+		void _searchNode(BRLCAD::Combination::ConstTreeNode node, std::list<MinimalObject*>* list);
+
 		std::string currentFilePath;
 	};
 }

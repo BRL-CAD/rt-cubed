@@ -26,26 +26,39 @@
 #include "MinimalDatabase.h"
 #include "MinimalObject.h"
 #include "brlcad/Arb8.h"
+#include "brlcad/MemoryDatabase.h"
 
 using namespace BRLCAD;
 
-MinimalDatabase*
-makeDbForTesting()
+void
+addPrims(Database* db)
 {
-	MinimalDatabase* md = new MinimalDatabase();
-
 	Arb8 prim01;
 	prim01.SetName("prim01.s");
-	md->Add(prim01);
+	db->Add(prim01);
 
 	Arb8 prim02;
 	prim02.SetName("prim02.s");
-	md->Add(prim02);
+	db->Add(prim02);
 
 	Arb8 prim03;
 	prim03.SetName("prim03.s");
-	md->Add(prim03);
+	db->Add(prim03);
 
+    BRLCAD::Combination group;
+    group.SetName("all");
+    group.AddLeaf("prim03.s");
+	db->Add(group);
+
+
+
+}
+
+MinimalDatabase*
+makeMinimalDbForTesting()
+{
+	MinimalDatabase* md = new MinimalDatabase("test.g");
+	addPrims(md);
 	return md;
 }
 
@@ -53,12 +66,46 @@ makeDbForTesting()
 
 int main (int   argc, char* argv[])
 {
-	MinimalDatabase* md = makeDbForTesting();
+	//MinimalDatabase* md = makeMinimalDbForTesting();
+	MinimalDatabase* md = new MinimalDatabase("moss.g");
 
-	MinimalObject* mob01 = md->getObjectByName("prim01.s");
+	std::cout << "Testing a known good object name: ";
+	MinimalObject* moe = md->getObjectByName("prim02.s");
+	if (moe == NULL)
+		std::cout << "NULL\n";
+	else
+		moe->printObjState();
+	std::cout << std::endl;
 
+	std::cout << "Testing a known bad object name: ";
+	moe = md->getObjectByName("prim02.ss");
+	if (moe == NULL)
+		std::cout << "NULL\n";
+	else
+		moe->printObjState();
+	std::cout << std::endl;
 
+	std::cout << "Testing getAllTopObjects:\n";
+	std::list<MinimalObject*>* objs = md->getAllTopObjects();
+	std::list<MinimalObject*>::iterator it = objs->begin();
 
+	while (it != objs->end()) {
+		moe = *it;
+		std::cout << "\t" << moe->getObjectName() << "\n";
+		++it;
+	}
+
+	std::cout << "Testing getAllObjects:\n";
+	objs = md->getAllObjects();
+	it = objs->begin();
+
+	while (it != objs->end()) {
+		moe = *it;
+		std::cout << "\t" << moe->getObjectName() << "\n";
+		++it;
+	}
+
+	return 0;
 }
 
 // Local Variables:
