@@ -1,0 +1,3 @@
+
+
+- Create custom iterator for MinimalDatabase::getAllTopObjects()

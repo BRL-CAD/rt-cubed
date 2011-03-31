@@ -61,17 +61,38 @@ MinimalDatabase::getObjectByName(std::string name) {
 
 std::list<MinimalObject*>*
 MinimalDatabase::getAllObjectsBelow(std::string name) {
+	//TODO implement this recursive treewalk
 	return NULL;
 }
 
 std::list<MinimalObject*>*
 MinimalDatabase::getAllObjects() {
+	//TODO implement this recursive treewalk
 	return NULL;
 }
 
 std::list<MinimalObject*>*
 MinimalDatabase::getAllTopObjects() {
-	return NULL;
+	/*
+	 * Its ugly and performs two look ups per object, but it works for now.
+	 * //TODO implement a dedicated iterator for this
+	 */
+	ConstDatabase::TopObjectIterator it = this->FirstTopObject();
+	std::list<MinimalObject*>* objs = new std::list<MinimalObject*>();
+	MinimalObject* obj = NULL;
+	std::string name = "";
+
+	while (it.Good()) {
+		name = it.Name();
+
+		if (name.length() > 0) {
+			obj = this->getObjectByName(name);
+			objs->push_back(obj);
+		}
+		++it;
+	}
+
+	return objs;
 }
 
 bu_external*
