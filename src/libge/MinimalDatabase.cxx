@@ -26,12 +26,14 @@
 
 #include "MinimalDatabase.h"
 
-MinimalDatabase::MinimalDatabase() {
+using namespace BRLCAD;
+
+MinimalDatabase::MinimalDatabase(void) throw(bad_alloc) {
 	// TODO Auto-generated constructor stub
 
 }
 
-MinimalDatabase::~MinimalDatabase() {
+MinimalDatabase::~MinimalDatabase(void) throw() {
 	// TODO Auto-generated destructor stub
 }
 

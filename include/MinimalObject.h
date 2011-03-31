@@ -27,12 +27,15 @@
 #ifndef __MINIMALOBJECT_H__
 #define __MINIMALOBJECT_H__
 
-class MinimalObject {
-public:
-	MinimalObject();
-	virtual ~MinimalObject();
-};
+#include <brlcad/Object.h>
 
+namespace BRLCAD {
+	class MinimalObject : public BRLCAD::Object {
+	public:
+		MinimalObject(void) throw(bad_alloc);
+		virtual ~MinimalObject(void) throw();
+	};
+}
 #endif /* __MINIMALOBJECT_H__ */
 
 /*

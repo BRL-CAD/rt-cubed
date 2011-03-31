@@ -27,12 +27,17 @@
 #ifndef __MINIMALDATABASE_H__
 #define __MINIMALDATABASE_H__
 
-class MinimalDatabase {
-public:
-	MinimalDatabase();
-	virtual ~MinimalDatabase();
-};
+#include <brlcad/MemoryDatabase.h>
+#include <brlcad/cicommon.h>
+#include <new>
 
+namespace BRLCAD {
+	class MinimalDatabase : public MemoryDatabase {
+	public:
+		MinimalDatabase(void) throw(bad_alloc);
+		virtual ~MinimalDatabase(void) throw();
+	};
+}
 #endif /* __MINIMALDATABASE_H__ */
 
 /*

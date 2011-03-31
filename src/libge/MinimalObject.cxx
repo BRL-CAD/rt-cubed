@@ -26,12 +26,14 @@
 
 #include "MinimalObject.h"
 
-MinimalObject::MinimalObject() {
+using namespace BRLCAD;
+
+MinimalObject::MinimalObject(void) throw(bad_alloc) {
 	// TODO Auto-generated constructor stub
 
 }
 
-MinimalObject::~MinimalObject() {
+MinimalObject::~MinimalObject(void) throw() {
 	// TODO Auto-generated destructor stub
 }
 
