@@ -36,18 +36,22 @@ MinimalDatabase::~MinimalDatabase(void) throw() {
 
 MinimalObject*
 MinimalDatabase::getObjectByName(std::string name) {
+	return NULL;
 }
 
 std::list<MinimalObject*>*
 MinimalDatabase::getAllObjectsBelow(std::string name) {
+	return NULL;
 }
 
 std::list<MinimalObject*>*
 MinimalDatabase::getAllObjects() {
+	return NULL;
 }
 
 std::list<MinimalObject*>*
 MinimalDatabase::getAllTopObjects() {
+	return NULL;
 }
 
 
