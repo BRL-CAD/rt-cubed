@@ -54,7 +54,15 @@ MinimalObject::getObjectName()
 {
 	return this->objName;
 }
-
+std::string
+MinimalObject::getFullRepoPath()
+{
+	std::string fullPath("");
+	fullPath += this->getFilePath(); /* full path to file */
+	fullPath += "/";
+	fullPath += this->getObjectName(); /* obj name in file */
+	return fullPath;
+}
 void
 MinimalObject::printObjState()
 {

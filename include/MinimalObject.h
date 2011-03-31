@@ -38,6 +38,7 @@ namespace BRLCAD {
 		bu_external* getBuExternal();
 		std::string getFilePath();
 		std::string getObjectName();
+		std::string getFullRepoPath();
 
 		void printObjState();
 
