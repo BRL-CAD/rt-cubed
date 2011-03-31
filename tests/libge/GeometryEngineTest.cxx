@@ -23,8 +23,40 @@
  *
  */
 
+#include "MinimalDatabase.h"
+#include "MinimalObject.h"
+#include "brlcad/Arb8.h"
+
+using namespace BRLCAD;
+
+MinimalDatabase*
+makeDbForTesting()
+{
+	MinimalDatabase* md = new MinimalDatabase();
+
+	Arb8 prim01;
+	prim01.SetName("prim01.s");
+	md->Add(prim01);
+
+	Arb8 prim02;
+	prim02.SetName("prim02.s");
+	md->Add(prim02);
+
+	Arb8 prim03;
+	prim03.SetName("prim03.s");
+	md->Add(prim03);
+
+	return md;
+}
+
+
+
 int main (int   argc, char* argv[])
 {
+	MinimalDatabase* md = makeDbForTesting();
+
+	MinimalObject* mob01 = md->getObjectByName("prim01.s");
+
 
 
 }

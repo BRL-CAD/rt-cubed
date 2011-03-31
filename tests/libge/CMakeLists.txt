@@ -40,5 +40,5 @@ set (geTest_SRC
 )
 
 add_executable(geTest ${geTest_SRC} )
-target_link_libraries(geTest coreinterface)
+target_link_libraries(geTest coreinterface ge)
 
