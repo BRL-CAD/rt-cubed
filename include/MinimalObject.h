@@ -33,6 +33,7 @@
 namespace BRLCAD {
 	class MinimalObject {
 	public:
+		MinimalObject(std::string filePath, std::string objName, bu_external* ext);
 		virtual ~MinimalObject(void);
 
 		bu_external* getBuExternal();
@@ -42,9 +43,6 @@ namespace BRLCAD {
 
 		void printObjState();
 
-		friend class MinimalDatabase;
-	protected:
-		MinimalObject(std::string filePath, std::string objName, bu_external* ext);
 
 	private:
 		bu_external* ext;
