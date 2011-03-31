@@ -27,28 +27,26 @@
 #ifndef __MINIMALOBJECT_H__
 #define __MINIMALOBJECT_H__
 
-#include <brlcad/Object.h>
+#include <bu.h>
 #include <string>
 
 namespace BRLCAD {
 	class MinimalObject {
 	public:
-		virtual ~MinimalObject(void) throw();
+		virtual ~MinimalObject(void);
 
 		bu_external* getBuExternal();
 		std::string getFilePath();
-		std::string getFileName();
 		std::string getObjectName();
 
 		void printObjState();
 
 	protected:
-		MinimalObject(Object& obj) throw(bad_alloc);
+		MinimalObject();
 
 	private:
 		bu_external* ext;
 		std::string filePath;
-		std::string fileName;
 		std::string objName;
 
 	};

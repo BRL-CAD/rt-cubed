@@ -29,14 +29,13 @@
 
 using namespace BRLCAD;
 
-MinimalObject::MinimalObject(Object& obj) throw(bad_alloc) {
+MinimalObject::MinimalObject() {
 	this->ext = NULL;
 	this->filePath = "";
-	this->fileName = "";
 	this->objName = "";
 }
 
-MinimalObject::~MinimalObject(void) throw() {
+MinimalObject::~MinimalObject(void) {
 
 }
 
@@ -44,12 +43,6 @@ bu_external*
 MinimalObject::getBuExternal()
 {
 	return this->ext;
-}
-
-std::string
-MinimalObject::getFileName()
-{
-	return this->fileName;
 }
 
 std::string
@@ -69,7 +62,6 @@ MinimalObject::printObjState()
 {
 	std::cout << "ext*: " << ((this->ext == NULL) ? "NULL" : "Set") << "\n";
 	std::cout << "filePath: " << filePath << "\n";
-	std::cout << "fileName: " << fileName << "\n";
 	std::cout << "objName: " << objName << std::endl;
 }
 
