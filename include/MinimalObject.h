@@ -41,8 +41,9 @@ namespace BRLCAD {
 
 		void printObjState();
 
+		friend class MinimalDatabase;
 	protected:
-		MinimalObject();
+		MinimalObject(std::string filePath, std::string objName, bu_external* ext);
 
 	private:
 		bu_external* ext;

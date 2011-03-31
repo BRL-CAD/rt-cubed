@@ -29,11 +29,9 @@
 
 using namespace BRLCAD;
 
-MinimalObject::MinimalObject() {
-	this->ext = NULL;
-	this->filePath = "";
-	this->objName = "";
-}
+MinimalObject::MinimalObject(
+		std::string filePath, std::string objName, bu_external* ext
+) : ext(ext), filePath(filePath), objName(objName){}
 
 MinimalObject::~MinimalObject(void) {
 
