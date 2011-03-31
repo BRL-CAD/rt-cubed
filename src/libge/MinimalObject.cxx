@@ -29,13 +29,36 @@
 using namespace BRLCAD;
 
 MinimalObject::MinimalObject(void) throw(bad_alloc) {
-	// TODO Auto-generated constructor stub
-
 }
 
 MinimalObject::~MinimalObject(void) throw() {
-	// TODO Auto-generated destructor stub
+
 }
+
+bu_external*
+MinimalObject::getBuExternal()
+{
+	return this->ext;
+}
+
+std::string
+MinimalObject::getFileName()
+{
+	return this->fileName;
+}
+
+std::string
+MinimalObject::getFilePath()
+{
+	return this->filePath;
+}
+
+std::string
+MinimalObject::getObjectName()
+{
+	return this->objName;
+}
+
 
 // Local Variables:
 // tab-width: 8
