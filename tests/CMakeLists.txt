@@ -25,11 +25,9 @@
 #	$Author:  $
 #
 ##########################################################################
-message(status "out dir: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ")
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/../tests-bin)
 
-message(status "out dir: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ")
 
 ADD_SUBDIRECTORY(./coreInterface)
 ADD_SUBDIRECTORY(./libge)
