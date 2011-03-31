@@ -48,6 +48,8 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	#set Source files
 	set ( ge_SRCS
 		GeometryEngine.cxx
+		MinimalDatabase.cxx
+		MinimalObject.cxx
 		../coreInterface/Arb8.cpp
 		../coreInterface/Combination.cpp
 		../coreInterface/Cone.cpp
@@ -81,6 +83,8 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	
 	SET(ge_inst_HDRS	
 		${RT3_SOURCE_DIR}/include/GeometryEngine.h
+		${RT3_SOURCE_DIR}/include/MinimalDatabase.h
+		${RT3_SOURCE_DIR}/include/MinimalObject.h
 		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
 		${RT3_SOURCE_DIR}/include/brlcad/cicommon.h
 		${RT3_SOURCE_DIR}/include/brlcad/Combination.h
