@@ -36,8 +36,12 @@
 
 using namespace BRLCAD;
 
-MinimalDatabase::MinimalDatabase() throw(bad_alloc) : MemoryDatabase() {
+MinimalDatabase::MinimalDatabase() throw(bad_alloc)
+		: MemoryDatabase(), currentFilePath("") {}
 
+MinimalDatabase::MinimalDatabase(std::string filePath) throw(bad_alloc)
+		: MemoryDatabase(), currentFilePath(filePath) {
+	this->Load();
 }
 
 MinimalDatabase::~MinimalDatabase(void) throw() {
@@ -52,7 +56,7 @@ MinimalDatabase::getObjectByName(std::string name) {
 		return NULL;
 	}
 
-	return NULL;
+	return new MinimalObject(currentFilePath, name, ext);
 }
 
 std::list<MinimalObject*>*
@@ -83,9 +87,6 @@ MinimalDatabase::GetExternal
                 directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
 
                 if (pDir != RT_DIR_NULL) {
-                    //rt_db_internal intern;
-                    //int id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
-
                     /* Check to see if passed in ext was malloced */
                     if (ext == NULL)
                     	ext = (bu_external*)bu_calloc(sizeof(bu_external),1,"GetExternal bu_external calloc");
@@ -97,7 +98,6 @@ MinimalDatabase::GetExternal
                 		bu_free(ext, "Freeing bu_external due to error.");
                 		return ext;
                 	}
-                   // rt_db_free_internal(&intern);
                 }
             }
         }
@@ -106,6 +106,42 @@ MinimalDatabase::GetExternal
     return ext;
 }
 
+std::string
+MinimalDatabase::getFilePath() {
+	return this->currentFilePath;
+}
+
+bool
+MinimalDatabase::Load() throw() {
+	return this->Load(this->currentFilePath);
+}
+
+bool
+MinimalDatabase::Load(const std::string name) throw() {
+	return this->Load(name.c_str());
+}
+
+bool
+MinimalDatabase::Load(const char* name) throw() {
+	this->currentFilePath = name;
+	return MemoryDatabase::Load(name);
+}
+
+bool
+MinimalDatabase::Save() throw() {
+	return this->Save(this->currentFilePath);
+}
+
+bool
+MinimalDatabase::Save(const std::string name) throw() {
+	return this->Save(name.c_str());
+}
+
+bool
+MinimalDatabase::Save(const char* name) throw() {
+	this->currentFilePath = name;
+	return MemoryDatabase::Save(name);
+}
 
 // Local Variables:
 // tab-width: 8

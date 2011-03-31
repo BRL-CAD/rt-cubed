@@ -38,8 +38,20 @@
 namespace BRLCAD {
 	class MinimalDatabase : public MemoryDatabase {
 	public:
-		MinimalDatabase(void) throw(bad_alloc);
+		MinimalDatabase() throw(bad_alloc);
+		MinimalDatabase(std::string filePath) throw(bad_alloc);
 		virtual ~MinimalDatabase(void) throw();
+
+		bool Load(const std::string name) throw() ;
+		bool Load(const char* name) throw() ;
+		bool Load() throw() ;
+
+		bool Save(const std::string name) throw() ;
+		bool Save(const char* name) throw() ;
+		bool Save() throw() ;
+
+
+		std::string getFilePath();
 
  		MinimalObject* getObjectByName(std::string name);
 		std::list<MinimalObject*>* getAllObjectsBelow(std::string name);
@@ -49,7 +61,7 @@ namespace BRLCAD {
 	private:
 		/// Performs database object look ups, but copies the contents into a bu_external which it returns
 		bu_external* GetExternal(const char* objectName) const;
-
+		std::string currentFilePath;
 	};
 }
 #endif /* __MINIMALDATABASE_H__ */
