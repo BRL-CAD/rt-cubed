@@ -122,8 +122,6 @@ namespace BRLCAD {
         //@}
 
 
-        bu_external*      GetBUExternal(const char* objectName) const;
-
         /// @name Active set functions
         //@{
         /// add the database object \a objectName to the active set

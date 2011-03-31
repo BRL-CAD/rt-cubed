@@ -110,9 +110,7 @@ namespace BRLCAD {
         void                  AddMultiAttribute(const char* key,
                                                 const char* value) throw(bad_alloc); ///> creates an attribute entry with this values even if there exitsts already one with this key
         void                  RemoveAttribute(const char* key) throw();              ///> removes the first attribute with this key
-        void                  ClearAttributes(void) throw();                         ///> removes all attributes
-
-        bu_external* 		  GenerateBUExternal(void) const throw();
+        void                  ClearAttributes(void) throw();
 
     protected:
         resource*       m_resp;

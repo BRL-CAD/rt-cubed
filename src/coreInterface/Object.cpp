@@ -416,28 +416,6 @@ bool Object::Validate(void) const throw() {
     return (name != 0) && (strlen(name) > 0);
 }
 
-/*
- * Caller is responsible for releasing the returned bu_external
- */
-bu_external*
-Object::GenerateBUExternal(void) const throw() {
-    struct bu_external* ext;
-    ext = (bu_external*)bu_malloc(sizeof(bu_external),"");
-
-    BU_INIT_EXTERNAL(ext);
-
-    RT_CK_DBI(this->m_dbip);
-    RT_CK_DIR(this->m_pDir);
-
-	int rVal = db_get_external(ext, this->m_pDir, this->m_dbip);
-	if (rVal < 0) {
-    	return NULL;
-    }
-
-    return ext;
-}
-
-
 const bu_attribute_value_set* Object::GetAvs(void) const throw() {
     const bu_attribute_value_set* ret = 0;
 

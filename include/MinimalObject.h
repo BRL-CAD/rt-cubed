@@ -31,7 +31,7 @@
 #include <string>
 
 namespace BRLCAD {
-	class MinimalObject : public BRLCAD::Object {
+	class MinimalObject {
 	public:
 		virtual ~MinimalObject(void) throw();
 
@@ -43,7 +43,7 @@ namespace BRLCAD {
 		void printObjState();
 
 	protected:
-		MinimalObject(void) throw(bad_alloc);
+		MinimalObject(Object& obj) throw(bad_alloc);
 
 	private:
 		bu_external* ext;

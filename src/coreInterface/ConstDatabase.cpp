@@ -606,35 +606,3 @@ void ConstDatabase::ShootRay
         BU_UNSETJUMP;
     }
 }
-
-bu_external*
-ConstDatabase::GetBUExternal
-(
-		const char* objectName
-) const {
-
-    class TestCB : public ObjectCallback {
-     public:
-     	TestCB(void) : ConstDatabase::ObjectCallback(),
-         ext(0) {}
-
-         virtual ~TestCB(void) throw() {}
-
-         virtual void operator()(const Object& object) {
-             	this->ext = object.GenerateBUExternal();
-          }
-
-         bu_external* GetBUExternal(void) const throw() {
-             return this->ext;
-         }
-
-
-     private:
-         struct bu_external* ext;
-     } callbackIntern;
-
-    Get(objectName, callbackIntern);
-
-    return callbackIntern.GetBUExternal();
-}
-

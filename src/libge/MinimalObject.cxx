@@ -29,7 +29,7 @@
 
 using namespace BRLCAD;
 
-MinimalObject::MinimalObject(void) throw(bad_alloc) {
+MinimalObject::MinimalObject(Object& obj) throw(bad_alloc) {
 	this->ext = NULL;
 	this->filePath = "";
 	this->fileName = "";
