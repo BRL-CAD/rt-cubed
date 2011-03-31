@@ -27,15 +27,25 @@
 #ifndef __MINIMALDATABASE_H__
 #define __MINIMALDATABASE_H__
 
+#include "MinimalObject.h"
+
 #include <brlcad/MemoryDatabase.h>
 #include <brlcad/cicommon.h>
 #include <new>
+#include <list>
+#include <string.h>
 
 namespace BRLCAD {
 	class MinimalDatabase : public MemoryDatabase {
 	public:
 		MinimalDatabase(void) throw(bad_alloc);
 		virtual ~MinimalDatabase(void) throw();
+
+		MinimalObject* getObjectByName(std::string name);
+		std::list<MinimalObject*>* getAllObjectsBelow(std::string name);
+		std::list<MinimalObject*>* getAllObjects();
+		std::list<MinimalObject*>* getAllTopObjects();
+
 	};
 }
 #endif /* __MINIMALDATABASE_H__ */

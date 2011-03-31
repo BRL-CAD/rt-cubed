@@ -29,13 +29,27 @@
 using namespace BRLCAD;
 
 MinimalDatabase::MinimalDatabase(void) throw(bad_alloc) {
-	// TODO Auto-generated constructor stub
-
 }
 
 MinimalDatabase::~MinimalDatabase(void) throw() {
-	// TODO Auto-generated destructor stub
 }
+
+MinimalObject*
+MinimalDatabase::getObjectByName(std::string name) {
+}
+
+std::list<MinimalObject*>*
+MinimalDatabase::getAllObjectsBelow(std::string name) {
+}
+
+std::list<MinimalObject*>*
+MinimalDatabase::getAllObjects() {
+}
+
+std::list<MinimalObject*>*
+MinimalDatabase::getAllTopObjects() {
+}
+
 
 // Local Variables:
 // tab-width: 8
