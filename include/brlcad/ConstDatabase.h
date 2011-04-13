@@ -32,8 +32,7 @@
 
 #include <brlcad/cicommon.h>
 #include <brlcad/Object.h>
-#include <stdio.h>
-#include <iostream>
+
 
 struct rt_i;
 struct resource;
@@ -120,7 +119,6 @@ namespace BRLCAD {
         /** Do not forget to BRLCAD::Object::Destroy() the copy when you are finished with it! */
         Object*           Get(const char* objectName) const;
         //@}
-
 
         /// @name Active set functions
         //@{

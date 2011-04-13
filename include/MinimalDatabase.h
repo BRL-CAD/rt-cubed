@@ -35,6 +35,8 @@
 #include <new>
 #include <list>
 #include <string.h>
+#include <stdio.h>
+#include <iostream>
 
 namespace BRLCAD {
 	class MinimalDatabase : public MemoryDatabase {
