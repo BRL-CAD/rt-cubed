@@ -45,6 +45,27 @@ MinimalDatabase::MinimalDatabase(std::string filePath) throw(bad_alloc)
 }
 
 MinimalDatabase::~MinimalDatabase(void) throw() {
+    if (m_wdbp != 0) {
+        if (!BU_SETJUMP)
+            wdb_close(m_wdbp);
+
+        BU_UNSETJUMP;
+        m_wdbp = NULL;
+    }
+
+    if (m_rtip != 0) {
+        if (!BU_SETJUMP)
+            rt_free_rti(m_rtip);
+
+        BU_UNSETJUMP;
+        m_rtip = NULL;
+    }
+
+    if (m_resp != 0) {
+        rt_clean_resource_complete(0, m_resp);
+        bu_free(m_resp, "BRLCAD::ConstDatabase::~ConstDatabase::m_resp");
+        m_resp = NULL;
+    }
 }
 
 MinimalObject*
@@ -158,12 +179,48 @@ MinimalDatabase::getAllTopObjects() {
 	return objs;
 }
 
-bu_external*
-MinimalDatabase::GetExternal
+
+std::list<MinimalObject*>*
+MinimalDatabase::getAllObjs()
+{
+	std::list<MinimalObject*>* objList = new std::list<MinimalObject*>();
+
+	ConstDatabase::TopObjectIterator it = this->FirstTopObject();
+	std::string name = "";
+
+	while (it.Good()) {
+		name = it.Name();
+		if (name.length() > 0)
+			this->getAllObjsBelowRecursor(this->currentFilePath + "/", name.c_str(), objList);
+		++it;
+	}
+
+	return objList;
+}
+
+
+std::list<MinimalObject*>*
+MinimalDatabase::getAllObjsBelow
 (
-    const char*     objectName
-) const {
+	const std::string objectName
+) {
+	std::list<MinimalObject*>* objList = new std::list<MinimalObject*>();
+
+	if (objectName.length() > 0)
+		this->getAllObjsBelowRecursor(this->currentFilePath + "/", objectName.c_str(), objList);
+
+	return objList;
+}
+
+void
+MinimalDatabase::getAllObjsBelowRecursor
+(
+	const std::string currentPath,
+	const char*     objectName,
+	std::list<MinimalObject*>* objList
+)  {
 	bu_external* ext = NULL;
+	MinimalObject* obj = NULL;
 
     if (m_rtip != 0) {
         if (!BU_SETJUMP) {
@@ -171,18 +228,108 @@ MinimalDatabase::GetExternal
                 directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
 
                 if (pDir != RT_DIR_NULL) {
-                    /* Check to see if passed in ext was malloced */
-                    if (ext == NULL)
-                    	ext = (bu_external*)bu_calloc(sizeof(bu_external),1,"GetExternal bu_external calloc");
+                    rt_db_internal intern;
+                    int            id = rt_db_get_internal(&intern, pDir, m_rtip->rti_dbip, 0, m_resp);
 
-                	int rVal = db_get_external(ext, pDir, this->m_rtip->rti_dbip);
+                    try {
+						ext = buildExternal(pDir, m_rtip->rti_dbip);
 
-                	if (rVal < 0) {
+						if (ext == NULL) {
+							std::cout << "buildExternal FAILED\n";
+						} else {
+							obj = this->buildMinimalObject(currentPath, objectName, ext);
+							if (ext == NULL) {
+								std::cout << "buildMinimalObject FAILED\n";
+							} else {
+
+								/* Add to list */
+								objList->push_back(obj);
+
+								/* Recurse on combs */
+								if (id == ID_COMBINATION) {
+									MinimalCombination comb (m_resp, pDir, &intern, m_rtip->rti_dbip);
+									std::string newPath = currentPath + "/" + objectName;
+
+									treeNodeRecursor(comb.Tree(), newPath, objList);
+								}
+							}
+						}
+                    }
+                    catch(...) {
                         BU_UNSETJUMP;
-                		bu_free(ext, "Freeing bu_external due to error.");
-                		return ext;
-                	}
+                        rt_db_free_internal(&intern);
+                        throw;
+                    }
+
+                    rt_db_free_internal(&intern);
                 }
+            }
+        }
+
+        BU_UNSETJUMP;
+    }
+}
+
+
+void
+MinimalDatabase::treeNodeRecursor
+(
+		const BRLCAD::Combination::ConstTreeNode& node,
+		const std::string currentPath,
+		std::list<MinimalObject*>* objList
+) {
+    switch (node.Operation()) {
+        case BRLCAD::Combination::ConstTreeNode::Union:
+        case BRLCAD::Combination::ConstTreeNode::Intersection:
+        case BRLCAD::Combination::ConstTreeNode::Subtraction:
+        case BRLCAD::Combination::ConstTreeNode::ExclusiveOr:
+        	treeNodeRecursor(node.LeftOperand(), currentPath, objList);
+        	treeNodeRecursor(node.RightOperand(), currentPath, objList);
+            break;
+
+        case BRLCAD::Combination::ConstTreeNode::Not:
+        	treeNodeRecursor(node.Operand(), currentPath, objList);
+            break;
+
+        case BRLCAD::Combination::ConstTreeNode::Leaf:
+        	std::string nodeName = node.Name();
+			this->getAllObjsBelowRecursor(currentPath, nodeName.c_str(), objList);
+    }
+
+}
+
+struct bu_external*
+MinimalDatabase::buildExternal(struct directory* pDir, struct db_i* dbip) {
+	bu_external* ext = (bu_external*)bu_calloc(sizeof(bu_external),1,"GetExternal bu_external calloc");
+
+	int rVal = db_get_external(ext, pDir, dbip);
+
+	if (rVal < 0) {
+		bu_free(ext, "Freeing bu_external due to error.");
+		return NULL;
+	}
+	return ext;
+}
+
+MinimalObject*
+MinimalDatabase::buildMinimalObject(std::string path, std::string objName, bu_external* ext)
+{
+	return new MinimalObject(path, objName, ext);
+}
+
+bu_external*
+MinimalDatabase::GetExternal
+(
+    const char*     objectName
+) {
+	bu_external* ext = NULL;
+
+    if (m_rtip != 0) {
+        if (!BU_SETJUMP) {
+            if ((objectName != 0) && (strlen(objectName) > 0)) {
+                directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
+                if (pDir != RT_DIR_NULL)
+                	ext = this->buildExternal(pDir, this->m_rtip->rti_dbip);
             }
         }
         BU_UNSETJUMP;

@@ -31,11 +31,9 @@ using namespace BRLCAD;
 
 MinimalObject::MinimalObject(
 		std::string filePath, std::string objName, bu_external* ext
-) : ext(ext), filePath(filePath), objName(objName){}
+) : ext(ext), filePath(filePath), objName(objName) {}
 
-MinimalObject::~MinimalObject(void) {
-
-}
+MinimalObject::~MinimalObject(void){}
 
 bu_external*
 MinimalObject::getBuExternal()
@@ -54,6 +52,7 @@ MinimalObject::getObjectName()
 {
 	return this->objName;
 }
+
 std::string
 MinimalObject::getFullRepoPath()
 {
@@ -63,6 +62,7 @@ MinimalObject::getFullRepoPath()
 	fullPath += this->getObjectName(); /* obj name in file */
 	return fullPath;
 }
+
 void
 MinimalObject::printObjState()
 {
