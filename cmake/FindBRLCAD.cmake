@@ -47,7 +47,6 @@
 #     BRLCAD_RT_LIBRARY - BRL-CAD Raytracing library
 #     BRLCAD_SYSV_LIBRARY - libsysv
 #     BRLCAD_TERMIO_LIBRARY - libtermio (non WIN32 systems)
-#     BRLCAD_TIE_LIBRARY - libtie
 #     BRLCAD_WDB_LIBRARY - BRL-CAD Write Database library
 #
 #  Technically these are external but we need the versions
@@ -192,7 +191,6 @@ SET(BRL-CAD_LIBS_SEARCH_LIST
 	rt
 	sysv
 	termio
-	tie
 	wdb
 )
 
