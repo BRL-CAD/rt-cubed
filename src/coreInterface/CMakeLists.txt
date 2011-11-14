@@ -61,6 +61,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		HyperbolicCylinder.cpp
 		Hyperboloid.cpp
 		MemoryDatabase.cpp
+		NonManifoldGeometry.cpp
 		Object.cpp
 		ParabolicCylinder.cpp
 		Paraboloid.cpp
@@ -87,8 +88,8 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		ENDIF(NOT WIN32)
 		install(TARGETS coreinterface-static DESTINATION lib)
 	ENDIF(BUILD_STATIC_LIBS)
-	
-	SET(coreinterface_inst_HDRS	
+
+	SET(coreinterface_inst_HDRS
 		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
 		${RT3_SOURCE_DIR}/include/brlcad/cicommon.h
 		${RT3_SOURCE_DIR}/include/brlcad/Combination.h
@@ -103,6 +104,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/HyperbolicCylinder.h
 		${RT3_SOURCE_DIR}/include/brlcad/Hyperboloid.h
 		${RT3_SOURCE_DIR}/include/brlcad/MemoryDatabase.h
+		${RT3_SOURCE_DIR}/include/brlcad/NonManifoldGeometry.h
 		${RT3_SOURCE_DIR}/include/brlcad/Object.h
 		${RT3_SOURCE_DIR}/include/brlcad/ParabolicCylinder.h
 		${RT3_SOURCE_DIR}/include/brlcad/Paraboloid.h

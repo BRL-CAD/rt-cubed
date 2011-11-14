@@ -37,6 +37,7 @@
 #include <brlcad/Ellipsoid.h>
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
+#include <brlcad/NonManifoldGeometry.h>
 #include <brlcad/Particle.h>
 #include <brlcad/ParabolicCylinder.h>
 #include <brlcad/HyperbolicCylinder.h>
@@ -143,6 +144,15 @@ bool Database::Add
 
                 BU_GETSTRUCT(rtInternal, rt_half_internal);
                 memcpy(rtInternal, halfspace->Internal(), sizeof(rt_half_internal));
+            }
+            else if (object.Type() == NonManifoldGeometry::ClassName()) {
+                id = ID_NMG; // 11
+
+                const NonManifoldGeometry* nmg = dynamic_cast<const NonManifoldGeometry*>(&object);
+
+                assert(nmg != 0);
+
+                rtInternal = nmg_clone_model(nmg->Internal());
             }
             else if (object.Type() == Particle::ClassName()) {
                 id = ID_PARTICLE; // 16

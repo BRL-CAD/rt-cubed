@@ -38,6 +38,7 @@
 #include <brlcad/Ellipsoid.h>
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
+#include <brlcad/NonManifoldGeometry.h>
 #include <brlcad/Particle.h>
 #include <brlcad/ParabolicCylinder.h>
 #include <brlcad/HyperbolicCylinder.h>
@@ -284,6 +285,10 @@ void ConstDatabase::Get
 
                         case ID_HALF: // 6
                             callback(Halfspace(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
+
+                        case ID_NMG: // 11
+                            callback(NonManifoldGeometry(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
                         case ID_PARTICLE: // 16
