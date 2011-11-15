@@ -342,7 +342,7 @@ void ConstDatabase::Get
 Object* ConstDatabase::Get
 (
     const char* objectName
-) const {
+) const throw(bad_alloc, std::bad_alloc) {
     class ObjectCallbackIntern : public ObjectCallback {
     public:
         ObjectCallbackIntern(void) : ConstDatabase::ObjectCallback(),
@@ -368,6 +368,101 @@ Object* ConstDatabase::Get
     Get(objectName, callbackIntern);
 
     return callbackIntern.GetObject();
+}
+
+
+static tree* FacetizeRegionEnd
+(
+    db_tree_state*      tsp,
+    const db_full_path* pathp,
+    tree*               curtree,
+    genptr_t            clientData
+) {
+    tree* ret = TREE_NULL;
+
+    if (tsp != 0)
+        RT_CK_DBTS(tsp);
+
+    if (pathp != 0)
+        RT_CK_FULL_PATH(pathp);
+
+    tree**  facetizeTree = static_cast<tree**>(clientData);
+    bu_list vhead;
+    BU_LIST_INIT(&vhead);
+
+    if (curtree->tr_op == OP_NOP)
+        ret = curtree;
+    else {
+        if (*facetizeTree) {
+            tree *tr;
+
+            BU_GETUNION(tr, tree);
+            RT_TREE_INIT(tr);
+
+            tr->tr_op           = OP_UNION;
+            tr->tr_b.tb_regionp = REGION_NULL;
+            tr->tr_b.tb_left    = *facetizeTree;
+            tr->tr_b.tb_right   = curtree;
+
+            *facetizeTree = tr;
+        }
+        else
+            *facetizeTree = curtree;
+    }
+
+    return ret;
+}
+
+
+NonManifoldGeometry* ConstDatabase::Facetize
+(
+    const char* objectName
+) const throw(bad_alloc, std::bad_alloc) {
+    NonManifoldGeometry* ret          = new NonManifoldGeometry;
+
+    if (m_rtip != 0) {
+        if (!BU_SETJUMP) {
+            tree*                facetizeTree = 0;
+            db_tree_state        initState;
+
+            db_init_db_tree_state(&initState, m_rtip->rti_dbip, m_resp);
+            initState.ts_ttol = &m_rtip->rti_ttol;
+            initState.ts_tol  = &m_rtip->rti_tol;
+            initState.ts_m    = &ret->m_internalp;
+
+            if (db_walk_tree(m_rtip->rti_dbip,
+                             1, 
+                             &objectName,
+                             1,
+                             &initState,
+                             0,
+                             FacetizeRegionEnd,
+                             nmg_booltree_leaf_tess,
+                             &facetizeTree) == 0) {
+                if (facetizeTree != 0)
+                    nmg_boolean(facetizeTree, ret->m_internalp, &m_rtip->rti_tol, &rt_uniresource);
+            }
+
+            // ok, now we have a mess here: the model/region with the faces is both in ret and facetizeTree
+            // freeing facetizeTree would destroy the ret too
+            // therefore we make a copy and destroy facetizeTree and the old ret->m_internalp afterwards
+            assert(ret->m_internalp == facetizeTree->tr_d.td_r->m_p);
+
+            model* messedModel = ret->m_internalp;
+            ret->m_internalp   = nmg_clone_model(messedModel);
+
+            db_free_tree(facetizeTree, &rt_uniresource);
+            nmg_km(messedModel);
+        }
+        else {
+            BU_UNSETJUMP;
+            throw bad_alloc("BRLCAD::Object::Facetize");
+        }
+
+        BU_UNSETJUMP;
+    }
+
+    return ret;
 }
 
 

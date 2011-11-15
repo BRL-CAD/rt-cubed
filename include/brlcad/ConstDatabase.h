@@ -40,6 +40,9 @@ struct directory;
 
 
 namespace BRLCAD {
+    class NonManifoldGeometry;
+
+
     class BRLCAD_COREINTERFACE_EXPORT ConstDatabase {
     public:
         ConstDatabase(void) throw(bad_alloc);
@@ -48,12 +51,12 @@ namespace BRLCAD {
         /// associates the handle with a BRL-CAD database file (*.g)
         /** If the handle was already associated with a database file this association will be discarded.
             The file will be opened for reading only. */
-        virtual bool      Load(const char* fileName) throw();
+        virtual bool         Load(const char* fileName) throw();
 
         /// @name Parsing the database
         //@{
         /// title string read from the database
-        const char*       Title(void) const throw();
+        const char*          Title(void) const throw();
 
 
         class BRLCAD_COREINTERFACE_EXPORT TopObjectIterator {
@@ -93,7 +96,7 @@ namespace BRLCAD {
 
         /// returns the first of the top level objects via an iterator object
         /** To get a list of all top level objects you have to use the iterator returned by this function. */
-        TopObjectIterator FirstTopObject(void) const throw();
+        TopObjectIterator    FirstTopObject(void) const throw();
         //@}
 
         /// @name Accessing objects
@@ -112,12 +115,16 @@ namespace BRLCAD {
         };
 
         /// selects a single object and hand it over to an ObjectCallback (read only)
-        void              Get(const char*     objectName,
-                              ObjectCallback& callback) const;
+        void                 Get(const char*     objectName,
+                                 ObjectCallback& callback) const;
 
         /// overloaded member function, provided for convenience: selects a single object and and returns a copy of it
         /** Do not forget to BRLCAD::Object::Destroy() the copy when you are finished with it! */
-        Object*           Get(const char* objectName) const;
+        Object*              Get(const char* objectName) const throw(bad_alloc, std::bad_alloc);
+
+        /// facetizes a single object's tree and returns it as a non-manifold geometry
+        /** Do not forget to BRLCAD::Object::Destroy() the non-manifold geometry when you are finished with it! */
+        NonManifoldGeometry* Facetize(const char* objectName) const throw(bad_alloc, std::bad_alloc);
         //@}
 
         /// @name Active set functions
@@ -125,13 +132,13 @@ namespace BRLCAD {
         /// add the database object \a objectName to the active set
         /** The function accepts a space separated list of object names too,
             but it is not sure that this behaviour will be kept in future versions. */
-        void              Select(const char* objectName) throw();
+        void                 Select(const char* objectName) throw();
         /// clear the active set
-        void              UnSelectAll(void) throw();
+        void                 UnSelectAll(void) throw();
 
-        bool              SelectionIsEmpty(void) const throw();
-        Vector3D          BoundingBoxMinima(void) const throw();
-        Vector3D          BoundingBoxMaxima(void) const throw();
+        bool                 SelectionIsEmpty(void) const throw();
+        Vector3D             BoundingBoxMinima(void) const throw();
+        Vector3D             BoundingBoxMaxima(void) const throw();
 
         /// ray trace
         class Hit {
@@ -182,8 +189,8 @@ namespace BRLCAD {
         };
 
 
-        void              ShootRay(const Ray3D& ray,
-                                   HitCallback& callback) const;
+        void                 ShootRay(const Ray3D& ray,
+                                      HitCallback& callback) const;
         //@}
 
     protected:
