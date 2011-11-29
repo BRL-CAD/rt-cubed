@@ -439,20 +439,21 @@ NonManifoldGeometry* ConstDatabase::Facetize
                              FacetizeRegionEnd,
                              nmg_booltree_leaf_tess,
                              &facetizeTree) == 0) {
-                if (facetizeTree != 0)
+                if (facetizeTree != 0) {
                     nmg_boolean(facetizeTree, ret->m_internalp, &m_rtip->rti_tol, &rt_uniresource);
+
+                    // ok, now we have a mess here: the model/region with the faces is both in ret and facetizeTree
+                    // freeing facetizeTree would destroy the ret too
+                    // therefore we make a copy and destroy facetizeTree and the old ret->m_internalp afterwards
+                    assert(ret->m_internalp == facetizeTree->tr_d.td_r->m_p);
+
+                    model* messedModel = ret->m_internalp;
+                    ret->m_internalp   = nmg_clone_model(messedModel);
+
+                    db_free_tree(facetizeTree, &rt_uniresource);
+                    nmg_km(messedModel);
+                }
             }
-
-            // ok, now we have a mess here: the model/region with the faces is both in ret and facetizeTree
-            // freeing facetizeTree would destroy the ret too
-            // therefore we make a copy and destroy facetizeTree and the old ret->m_internalp afterwards
-            assert(ret->m_internalp == facetizeTree->tr_d.td_r->m_p);
-
-            model* messedModel = ret->m_internalp;
-            ret->m_internalp   = nmg_clone_model(messedModel);
-
-            db_free_tree(facetizeTree, &rt_uniresource);
-            nmg_km(messedModel);
         }
         else {
             BU_UNSETJUMP;
