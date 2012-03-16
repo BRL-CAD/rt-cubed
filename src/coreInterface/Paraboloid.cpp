@@ -40,7 +40,7 @@ using namespace BRLCAD;
 
 Paraboloid::Paraboloid(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_epa_internal);
+        BU_GET(m_internalp, rt_epa_internal);
         m_internalp->epa_magic = RT_EPA_INTERNAL_MAGIC;
 
         Set(Vector3D(),Vector3D(0,0,1),Vector3D(0,1,0),1);
@@ -62,7 +62,7 @@ const Vector3D& semiMajorAxis,
 double          semiMinorAxisLength
 ) throw(bad_alloc) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_epa_internal);
+        BU_GET(m_internalp, rt_epa_internal);
         m_internalp->epa_magic = RT_EPA_INTERNAL_MAGIC;
 
         Set(basePoint, height, semiMajorAxis, semiMinorAxisLength);
@@ -85,7 +85,7 @@ double          semiMajorAxisLength,
 double          semiMinorAxisLength
 ) throw(bad_alloc) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_epa_internal);
+        BU_GET(m_internalp, rt_epa_internal);
         m_internalp->epa_magic = RT_EPA_INTERNAL_MAGIC;
 
         Set(basePoint, height, semiMajorAxisDirection, semiMajorAxisLength, semiMinorAxisLength);
@@ -104,7 +104,7 @@ Paraboloid::Paraboloid
     const Paraboloid& original
 ) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_epa_internal);
+        BU_GET(m_internalp, rt_epa_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_epa_internal));
     }
     else {

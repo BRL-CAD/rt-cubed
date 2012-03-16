@@ -102,7 +102,7 @@ bool Database::Add
 
                 assert(torus != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_tor_internal);
+                BU_GET(rtInternal, rt_tor_internal);
                 memcpy(rtInternal, torus->Internal(), sizeof(rt_tor_internal));
             }
             else if (object.Type() == Cone::ClassName()) {
@@ -112,7 +112,7 @@ bool Database::Add
 
                 assert(cone != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_tgc_internal);
+                BU_GET(rtInternal, rt_tgc_internal);
                 memcpy(rtInternal, cone->Internal(), sizeof(rt_tgc_internal));
             }
             else if (object.Type() == Ellipsoid::ClassName()) {
@@ -122,7 +122,7 @@ bool Database::Add
 
                 assert(ellipsoid != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_ell_internal);
+                BU_GET(rtInternal, rt_ell_internal);
                 memcpy(rtInternal, ellipsoid->Internal(), sizeof(rt_ell_internal));
             }
             else if (object.Type() == Arb8::ClassName()) {
@@ -132,7 +132,7 @@ bool Database::Add
 
                 assert(arb8 != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_arb_internal);
+                BU_GET(rtInternal, rt_arb_internal);
                 memcpy(rtInternal, arb8->Internal(), sizeof(rt_arb_internal));
             }
             else if (object.Type() == Halfspace::ClassName()) {
@@ -142,7 +142,7 @@ bool Database::Add
 
                 assert(halfspace != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_half_internal);
+                BU_GET(rtInternal, rt_half_internal);
                 memcpy(rtInternal, halfspace->Internal(), sizeof(rt_half_internal));
             }
             else if (object.Type() == NonManifoldGeometry::ClassName()) {
@@ -161,7 +161,7 @@ bool Database::Add
 
                 assert(particle != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_part_internal);
+                BU_GET(rtInternal, rt_part_internal);
                 memcpy(rtInternal, particle->Internal(), sizeof(rt_part_internal));
             }
             else if (object.Type() == ParabolicCylinder::ClassName()) {
@@ -171,7 +171,7 @@ bool Database::Add
 
                 assert(parabolicCylinder != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_rpc_internal);
+                BU_GET(rtInternal, rt_rpc_internal);
                 memcpy(rtInternal, parabolicCylinder->Internal(), sizeof(rt_rpc_internal));
             }
             else if (object.Type() == HyperbolicCylinder::ClassName()) {
@@ -181,7 +181,7 @@ bool Database::Add
 
                 assert(hyperbolicCylinder != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_rhc_internal);
+                BU_GET(rtInternal, rt_rhc_internal);
                 memcpy(rtInternal, hyperbolicCylinder->Internal(), sizeof(rt_rhc_internal));
             }
             else if (object.Type() == Paraboloid::ClassName()) {
@@ -191,7 +191,7 @@ bool Database::Add
 
                 assert(paraboloid != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_epa_internal);
+                BU_GET(rtInternal, rt_epa_internal);
                 memcpy(rtInternal, paraboloid->Internal(), sizeof(rt_epa_internal));
             }
             else if (object.Type() == Hyperboloid::ClassName()) {
@@ -201,7 +201,7 @@ bool Database::Add
 
                 assert(hyperboloid != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_ehy_internal);
+                BU_GET(rtInternal, rt_ehy_internal);
                 memcpy(rtInternal, hyperboloid->Internal(), sizeof(rt_ehy_internal));
             }
             else if (object.Type() == EllipticalTorus::ClassName()) {
@@ -211,7 +211,7 @@ bool Database::Add
 
                 assert(ellipticalTorus != 0);
 
-                BU_GETSTRUCT(rtInternal, rt_eto_internal);
+                BU_GET(rtInternal, rt_eto_internal);
                 memcpy(rtInternal, ellipticalTorus->Internal(), sizeof(rt_eto_internal));
             }
             else if (object.Type() == Combination::ClassName()) {
@@ -223,7 +223,7 @@ bool Database::Add
 
                 const rt_comb_internal* internalFrom = combination->Internal();
 
-                BU_GETSTRUCT(rtInternal, rt_comb_internal);
+                BU_GET(rtInternal, rt_comb_internal);
                 memcpy(rtInternal, internalFrom, sizeof(rt_comb_internal));
 
                 rt_comb_internal* internalTo = static_cast<rt_comb_internal*>(rtInternal);

@@ -40,7 +40,7 @@ using namespace BRLCAD;
 
 ParabolicCylinder::ParabolicCylinder(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_rpc_internal);
+        BU_GET(m_internalp, rt_rpc_internal);
         m_internalp->rpc_magic = RT_RPC_INTERNAL_MAGIC;
 
         Set(Vector3D(), Vector3D(0., 0., 1.), Vector3D(1., 0., 0.), 1.);
@@ -62,7 +62,7 @@ ParabolicCylinder::ParabolicCylinder
     double          halfWidth
 ) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_rpc_internal);
+        BU_GET(m_internalp, rt_rpc_internal);
         m_internalp->rpc_magic = RT_RPC_INTERNAL_MAGIC;
 
         Set(basePoint, height, depth, halfWidth);
@@ -81,7 +81,7 @@ ParabolicCylinder::ParabolicCylinder
     const ParabolicCylinder& original
 ) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_rpc_internal);
+        BU_GET(m_internalp, rt_rpc_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_rpc_internal));
     }
     else {

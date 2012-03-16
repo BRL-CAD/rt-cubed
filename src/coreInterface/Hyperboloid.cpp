@@ -40,7 +40,7 @@ using namespace BRLCAD;
 
 Hyperboloid::Hyperboloid(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_ehy_internal);
+        BU_GET(m_internalp, rt_ehy_internal);
         m_internalp->ehy_magic = RT_EHY_INTERNAL_MAGIC;
 
         Set(Vector3D(), Vector3D(0, 0, 1), Vector3D(0, 1, 0), 1, 1);
@@ -63,7 +63,7 @@ Hyperboloid::Hyperboloid
     double          apexAsymptoteDistance
 ) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_ehy_internal);
+        BU_GET(m_internalp, rt_ehy_internal);
         m_internalp->ehy_magic = RT_EHY_INTERNAL_MAGIC;
 
         Set(basePoint, height, semiMajorAxis, semiMinorAxisLength, apexAsymptoteDistance);
@@ -87,7 +87,7 @@ Hyperboloid::Hyperboloid
     double          apexAsymptoteDistance
 ) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_ehy_internal);
+        BU_GET(m_internalp, rt_ehy_internal);
         m_internalp->ehy_magic = RT_EHY_INTERNAL_MAGIC;
 
         Set(basePoint, height, semiMajorAxisDirection, semiMajorAxisLength, semiMinorAxisLength, apexAsymptoteDistance);
@@ -106,7 +106,7 @@ Hyperboloid::Hyperboloid
     const Hyperboloid& original
 ) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_ehy_internal);
+        BU_GET(m_internalp, rt_ehy_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_ehy_internal));
     }
     else {

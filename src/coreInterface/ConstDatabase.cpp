@@ -396,7 +396,7 @@ static tree* FacetizeRegionEnd
         if (*facetizeTree) {
             tree *tr;
 
-            BU_GETUNION(tr, tree);
+            BU_GET(tr, tree);
             RT_TREE_INIT(tr);
 
             tr->tr_op           = OP_UNION;

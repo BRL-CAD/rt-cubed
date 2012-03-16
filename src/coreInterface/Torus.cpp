@@ -40,7 +40,7 @@ using namespace BRLCAD;
 
 Torus::Torus(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_tor_internal);
+        BU_GET(m_internalp, rt_tor_internal);
         m_internalp->magic = RT_TOR_INTERNAL_MAGIC;
 
         Set(Vector3D(), Vector3D(0,0,1), 2, 1);
@@ -62,7 +62,7 @@ Torus::Torus
     double          tubeRadius
 ) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_tor_internal);
+        BU_GET(m_internalp, rt_tor_internal);
         m_internalp->magic = RT_TOR_INTERNAL_MAGIC;
 
         Set(center, normalToTubeCenterLinePlane, tubeCenterLineRadius, tubeRadius);
@@ -81,7 +81,7 @@ Torus::Torus
     const Torus& original
 ) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_tor_internal);
+        BU_GET(m_internalp, rt_tor_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_tor_internal));
     }
     else {

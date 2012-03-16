@@ -40,7 +40,7 @@ using namespace BRLCAD;
 
 Particle::Particle(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_part_internal);
+        BU_GET(m_internalp, rt_part_internal);
         m_internalp->part_magic = RT_PART_INTERNAL_MAGIC;
 
         Set(Vector3D(), Vector3D(0., 0., 1.), 1., 1.);
@@ -62,7 +62,7 @@ Particle::Particle
     double          topRadius
 ) throw(bad_alloc) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_part_internal);
+        BU_GET(m_internalp, rt_part_internal);
         m_internalp->part_magic = RT_PART_INTERNAL_MAGIC;
 
         Set(basePoint, height, baseRadius, topRadius);
@@ -81,7 +81,7 @@ Particle::Particle
     const Particle& original
 ) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_part_internal);
+        BU_GET(m_internalp, rt_part_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_part_internal));
     }
     else {

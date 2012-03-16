@@ -40,7 +40,7 @@ using namespace BRLCAD;
 
 Ellipsoid::Ellipsoid(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_ell_internal);
+        BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
 
         SetSphere(Vector3D(), 1.);
@@ -62,7 +62,7 @@ Ellipsoid::Ellipsoid
     const Vector3D& semiPrincipalAxisC
 ) throw(bad_alloc) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_ell_internal);
+        BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
 
         Set(center, semiPrincipalAxisA, semiPrincipalAxisB, semiPrincipalAxisC);
@@ -83,7 +83,7 @@ Ellipsoid::Ellipsoid
     double          radius
 ) throw(bad_alloc) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_ell_internal);
+        BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
 
         Set(center, semiPrincipalAxis, radius);
@@ -103,7 +103,7 @@ Ellipsoid::Ellipsoid
     double          radius
 ) throw(bad_alloc) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_ell_internal);
+        BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
 
         SetSphere(center, radius);
@@ -122,7 +122,7 @@ Ellipsoid::Ellipsoid
     const Ellipsoid& original
 ) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_ell_internal);
+        BU_GET(m_internalp, rt_ell_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_ell_internal));
     }
     else {

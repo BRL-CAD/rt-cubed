@@ -40,7 +40,7 @@ using namespace BRLCAD;
 
 Cone::Cone(void) throw(bad_alloc) : Object () {
     if(!BU_SETJUMP){
-        BU_GETSTRUCT(m_internalp, rt_tgc_internal);
+        BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
 
         Set(Vector3D(), Vector3D(0., 0., 1.), 1., 0.);
@@ -65,7 +65,7 @@ Cone::Cone
 ) throw(bad_alloc)
 {
     if(!BU_SETJUMP){
-        BU_GETSTRUCT(m_internalp, rt_tgc_internal);
+        BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
 
         Set(basePoint, height, semiPrincipalAxisA, semiPrincipalAxisB, ratioCtoA, ratioDtoB);
@@ -90,7 +90,7 @@ Cone::Cone
 ) throw(bad_alloc)
 {
     if(!BU_SETJUMP){
-        BU_GETSTRUCT(m_internalp, rt_tgc_internal);
+        BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
 
         Set(basePoint, height, semiPrincipalAxisA, semiPrincipalAxisB, scale);
@@ -114,7 +114,7 @@ Cone::Cone
 ) throw(bad_alloc)
 {
     if(!BU_SETJUMP){
-        BU_GETSTRUCT(m_internalp, rt_tgc_internal);
+        BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
 
         Set(basePoint, height, semiPrincipalAxisA, semiPrincipalAxisB);
@@ -138,7 +138,7 @@ Cone::Cone
 ) throw(bad_alloc)
 {
     if(!BU_SETJUMP){
-        BU_GETSTRUCT(m_internalp, rt_tgc_internal);
+        BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
 
         Set(basePoint, height, radiusBase, radiusTop);
@@ -161,7 +161,7 @@ Cone::Cone
 ) throw(bad_alloc)
 {
     if(!BU_SETJUMP){
-        BU_GETSTRUCT(m_internalp, rt_tgc_internal);
+        BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
 
         Set(basePoint, height, radius);
@@ -181,7 +181,7 @@ Cone::Cone
     const Cone& original
 ) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_tgc_internal);
+        BU_GET(m_internalp, rt_tgc_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_tgc_internal));
     }
     else {

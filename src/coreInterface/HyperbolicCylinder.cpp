@@ -40,7 +40,7 @@ using namespace BRLCAD;
 
 HyperbolicCylinder::HyperbolicCylinder(void) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_rhc_internal);
+        BU_GET(m_internalp, rt_rhc_internal);
         m_internalp->rhc_magic = RT_RHC_INTERNAL_MAGIC;
 
         Set(Vector3D(),Vector3D(0., 0., 1.),Vector3D(1., 0., 0.), 1., 1.);
@@ -63,7 +63,7 @@ HyperbolicCylinder::HyperbolicCylinder
     double          apexAsymptoteDistance
 ) throw(bad_alloc) : Object() {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_rhc_internal);
+        BU_GET(m_internalp, rt_rhc_internal);
         m_internalp->rhc_magic = RT_RHC_INTERNAL_MAGIC;
 
         Set(basePoint, height, depth, halfWidth, apexAsymptoteDistance);
@@ -82,7 +82,7 @@ HyperbolicCylinder::HyperbolicCylinder
     const HyperbolicCylinder& original
 ) throw(bad_alloc) : Object(original) {
     if (!BU_SETJUMP) {
-        BU_GETSTRUCT(m_internalp, rt_rhc_internal);
+        BU_GET(m_internalp, rt_rhc_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_rhc_internal));
     }
     else {
