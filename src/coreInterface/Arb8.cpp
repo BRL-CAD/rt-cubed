@@ -642,7 +642,8 @@ bool Arb8::IsValid(void) const throw() {
             }
             break;
 
-        // case FT_Degenerated: nothing has to be checked
+	default:;
+            // case FT_Degenerated: nothing has to be checked
         }
     }
 

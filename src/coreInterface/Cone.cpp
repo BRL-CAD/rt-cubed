@@ -433,7 +433,6 @@ const char* Cone::Type(void) const throw() {
 
 bool Cone::IsValid(void) const throw(){
     bool                   ret       = false;
-    double                 workScal = 0;
     const rt_tgc_internal* internalp = Internal();
         double magA = MAGNITUDE(internalp->a);
         double magB = MAGNITUDE(internalp->b);

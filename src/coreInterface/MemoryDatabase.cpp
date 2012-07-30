@@ -29,9 +29,9 @@
 
 #include <cassert>
 
-#include <brlcad/MemoryDatabase.h>
-
 #include "raytrace.h"
+
+#include <brlcad/MemoryDatabase.h>
 
 
 using namespace BRLCAD;

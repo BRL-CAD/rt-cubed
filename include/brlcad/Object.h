@@ -30,6 +30,8 @@
 #ifndef BRLCAD_OBJECT_INCLUDED
 #define BRLCAD_OBJECT_INCLUDED
 
+#include <cstddef>
+
 #include <brlcad/cicommon.h>
 
 

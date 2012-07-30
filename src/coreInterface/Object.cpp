@@ -121,7 +121,7 @@ Object::~Object(void) throw() {
         rt_clean_resource_complete(0, m_resp);
         bu_free(m_resp, "BRLCAD::Object::~Object::m_resp");
     }
-};
+}
 
 
 void Object::Destroy(void) throw() {

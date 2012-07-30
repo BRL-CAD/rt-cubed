@@ -61,8 +61,8 @@ using namespace BRLCAD;
 
 static int NullLogger
 (
-    genptr_t data,
-    genptr_t string
+    genptr_t UNUSED(data),
+    genptr_t UNUSED(string)
 ) {
     return 0;
 }
@@ -658,7 +658,7 @@ static int HitDo
 (
     application* ap,
     partition*   partitionHead,
-    seg*         segment
+    seg*         UNUSED(segment)
 ) {
     ConstDatabase::HitCallback* callback = static_cast<ConstDatabase::HitCallback*>(ap->a_uptr);
 
@@ -679,7 +679,8 @@ void ConstDatabase::ShootRay
     HitCallback& callback
 ) const {
     if (!SelectionIsEmpty()) {
-        application ap = {0};
+        application ap;
+        RT_APPLICATION_INIT(&ap);
 
         ap.a_hit      = HitDo;
         ap.a_miss     = 0;

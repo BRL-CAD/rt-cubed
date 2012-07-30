@@ -27,9 +27,9 @@
  *      IABG mbH (Germany)
  */
 
-#include <brlcad/FileDatabase.h>
-
 #include "raytrace.h"
+
+#include <brlcad/FileDatabase.h>
 
 
 using namespace BRLCAD;
