@@ -29,7 +29,6 @@
 
 #include <cstring>
 #include <cassert>
-#include <algorithm>
 
 #include "raytrace.h"
 
@@ -1018,7 +1017,7 @@ void Combination::SetRed
 (
     double value
 ) throw() {
-    value = std::min(std::max(value, 0.), 1.);
+    value = FMIN(FMAX(value, 0.), 1.);
 
     Internal()->rgb[0] = static_cast<unsigned char>(floor(value * 255 + 0.5));
 }
@@ -1033,7 +1032,7 @@ void Combination::SetGreen
 (
     double value
 ) throw() {
-    value = std::min(std::max(value, 0.), 1.);
+    value = FMIN(FMAX(value, 0.), 1.);
 
     Internal()->rgb[1] = static_cast<unsigned char>(floor(value * 255 + 0.5));
 }
@@ -1048,7 +1047,7 @@ void Combination::SetBlue
 (
     double value
 ) throw() {
-    value = std::min(std::max(value, 0.), 1.);
+    value = FMIN(FMAX(value, 0.), 1.);
 
     Internal()->rgb[2] = static_cast<unsigned char>(floor(value * 255 + 0.5));
 }
