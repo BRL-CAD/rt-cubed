@@ -595,7 +595,7 @@ bool Arb8::IsValid(void) const throw() {
 
                 // check if the face normals are collinear and thus, if the face is planar
                 vect_t temp;
-                VCROSS(temp, normal1, normal2)
+                VCROSS(temp, normal1, normal2);
 
                 if (!VNEAR_ZERO(temp, SQRT_SMALL_FASTF)) {
                     ret = false;
