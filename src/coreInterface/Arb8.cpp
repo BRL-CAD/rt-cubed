@@ -31,6 +31,7 @@
 
 #include "rtgeom.h"
 #include "raytrace.h"
+#include "bu/parallel.h"
 
 #ifdef min
 #   undef min
@@ -42,7 +43,7 @@
 
 #include <algorithm>
 
-#include<brlcad/Arb8.h>
+#include <brlcad/Arb8.h>
 
 
 using namespace BRLCAD;

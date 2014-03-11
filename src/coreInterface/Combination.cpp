@@ -31,6 +31,7 @@
 #include <cassert>
 
 #include "raytrace.h"
+#include "bu/parallel.h"
 
 #include <brlcad/Combination.h>
 

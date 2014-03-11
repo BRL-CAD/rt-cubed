@@ -28,6 +28,7 @@
  */
 
 #include "raytrace.h"
+#include "bu/parallel.h"
 
 #include <brlcad/FileDatabase.h>
 

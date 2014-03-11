@@ -31,8 +31,9 @@
 
 #include "rtgeom.h"
 #include "raytrace.h"
+#include "bu/parallel.h"
 
-#include<brlcad/ParabolicCylinder.h>
+#include <brlcad/ParabolicCylinder.h>
 
 
 using namespace BRLCAD;

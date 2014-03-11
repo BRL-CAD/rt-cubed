@@ -30,6 +30,7 @@
 #include <cassert>
 
 #include "raytrace.h"
+#include "bu/parallel.h"
 
 #include <brlcad/MemoryDatabase.h>
 

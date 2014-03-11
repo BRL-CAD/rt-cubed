@@ -31,6 +31,7 @@
 
 #include "raytrace.h"
 #include "rtgeom.h"
+#include "bu/parallel.h"
 
 #include <brlcad/Torus.h>
 #include <brlcad/Cone.h>

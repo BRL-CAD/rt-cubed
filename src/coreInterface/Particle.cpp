@@ -31,8 +31,9 @@
 
 #include "rtgeom.h"
 #include "raytrace.h"
+#include "bu/parallel.h"
 
-#include<brlcad/Particle.h>
+#include <brlcad/Particle.h>
 
 
 using namespace BRLCAD;

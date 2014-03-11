@@ -32,6 +32,7 @@
 #include <cassert>
 
 #include "raytrace.h"
+#include "bu/parallel.h"
 
 #include <brlcad/Torus.h>
 #include <brlcad/Cone.h>
