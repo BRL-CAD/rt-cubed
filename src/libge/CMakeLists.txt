@@ -63,6 +63,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		../coreInterface/HyperbolicCylinder.cpp
 		../coreInterface/Hyperboloid.cpp
 		../coreInterface/MemoryDatabase.cpp
+		../coreInterface/NonManifoldGeometry.cpp
 		../coreInterface/Object.cpp
 		../coreInterface/ParabolicCylinder.cpp
 		../coreInterface/Paraboloid.cpp
@@ -102,6 +103,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/HyperbolicCylinder.h
 		${RT3_SOURCE_DIR}/include/brlcad/Hyperboloid.h
 		${RT3_SOURCE_DIR}/include/brlcad/MemoryDatabase.h
+		${RT3_SOURCE_DIR}/include/brlcad/NonManifoldGeometry.h
 		${RT3_SOURCE_DIR}/include/brlcad/Object.h
 		${RT3_SOURCE_DIR}/include/brlcad/ParabolicCylinder.h
 		${RT3_SOURCE_DIR}/include/brlcad/Paraboloid.h
