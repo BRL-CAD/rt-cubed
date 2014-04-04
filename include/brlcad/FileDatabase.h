@@ -42,7 +42,8 @@ namespace BRLCAD {
         virtual ~FileDatabase(void) throw();
 
         /// loads a BRL-CAD database file (*.g)
-        /** All changes to the database will be immediately written to this file. */
+        /** If the file doesn't exist it will becreated
+         *  All changes to the database will be immediately written to this file. */
         virtual bool Load(const char* fileName) throw();
 
     private:
