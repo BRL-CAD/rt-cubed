@@ -55,8 +55,8 @@ int BRLCAD_COREINTERFACE_EXPORT BRLCAD::PatchVersion(void) throw() {
 
 static int Logger
 (
-    genptr_t data,
-    genptr_t string
+    void* data,
+    void* string
 ) {
     if (data != 0) {
         LogHandler* logHandler = static_cast<LogHandler*>(data);

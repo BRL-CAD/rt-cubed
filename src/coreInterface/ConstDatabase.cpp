@@ -62,8 +62,8 @@ using namespace BRLCAD;
 
 static int NullLogger
 (
-    genptr_t UNUSED(data),
-    genptr_t UNUSED(string)
+    void* UNUSED(data),
+    void* UNUSED(string)
 ) {
     return 0;
 }
@@ -377,7 +377,7 @@ static tree* FacetizeRegionEnd
     db_tree_state*      tsp,
     const db_full_path* pathp,
     tree*               curtree,
-    genptr_t            clientData
+    void*               clientData
 ) {
     tree* ret = TREE_NULL;
 
