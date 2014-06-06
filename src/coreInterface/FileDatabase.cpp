@@ -68,10 +68,16 @@ bool FileDatabase::Load
         if (!BU_SETJUMP) {
             struct db_i* dbip = db_open(fileName, "rw");
 
-            if (dbip == DBI_NULL)
+            if (dbip != DBI_NULL) {
+                if (db_dirbuild(dbip) != 0) {
+                    db_close(dbip);
+                    dbip = DBI_NULL;
+                }
+            }
+            else
                 dbip = db_create(fileName, 5);
 
-            if (db_dirbuild(dbip) == 0) {
+            if (dbip != DBI_NULL) {
                 m_wdbp = wdb_dbopen(dbip, RT_WDB_TYPE_DB_DISK); // takes ownership of dbip
 
                 if (m_wdbp != 0) {
