@@ -60,6 +60,7 @@ namespace BRLCAD {
                 Leaf          ///< actually an operand
             };
 
+            ConstTreeNode(void) throw() : m_tree(0) {}
             ConstTreeNode(const ConstTreeNode& original) throw() : m_tree(original.m_tree) {}
             virtual ~ConstTreeNode(void) throw() {}
 
@@ -75,10 +76,13 @@ namespace BRLCAD {
             const char*          Name(void) const throw();         ///< the name of the operand object in a leaf
             const double*        Matrix(void) const throw();       ///< the transformation matrix of the operand object in a leaf
 
+                                 operator void*(void) {            ///< to test if the node is NULL
+                return m_tree;
+            }
+
         protected:
             tree* m_tree;
 
-            ConstTreeNode(void) throw() : m_tree(0) {}
             ConstTreeNode(tree* original) throw() : m_tree(original) {}
 
             friend class TreeNode; // part 2/2 of a work-around a bug in i686-apple-darwin9-gcc-4.0.1 (GCC) 4.0.1 (Apple Inc. build 5465)
@@ -88,6 +92,7 @@ namespace BRLCAD {
 
         class BRLCAD_COREINTERFACE_EXPORT TreeNode : public ConstTreeNode {
         public:
+            TreeNode(void) throw() : ConstTreeNode(), m_internalp(0), m_resp(0) {}
             TreeNode(const TreeNode& original) throw() : ConstTreeNode(original),
                                                          m_internalp(original.m_internalp),
                                                          m_resp(original.m_resp) {}
@@ -165,7 +170,6 @@ namespace BRLCAD {
             rt_comb_internal* m_internalp;
             resource*         m_resp;
 
-            TreeNode(void) throw() : ConstTreeNode(), m_internalp(0), m_resp(0) {}
             TreeNode(tree*             original,
                      rt_comb_internal* internalp,
                      resource*         resp) throw() : ConstTreeNode(original), m_internalp(internalp), m_resp(resp) {}
