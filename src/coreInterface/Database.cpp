@@ -38,6 +38,7 @@
 #include <brlcad/Ellipsoid.h>
 #include <brlcad/Arb8.h>
 #include <brlcad/Halfspace.h>
+#include <brlcad/Sphere.h>
 #include <brlcad/NonManifoldGeometry.h>
 #include <brlcad/Particle.h>
 #include <brlcad/ParabolicCylinder.h>
@@ -145,6 +146,16 @@ bool Database::Add
 
                 BU_GET(rtInternal, rt_half_internal);
                 memcpy(rtInternal, halfspace->Internal(), sizeof(rt_half_internal));
+            }
+            else if (object.Type() == Sphere::ClassName()) {
+                id = ID_SPH; // 10
+
+                const Sphere* sphere = dynamic_cast<const Sphere*>(&object);
+
+                assert(sphere != 0);
+
+                BU_GET(rtInternal, rt_ell_internal);
+                memcpy(rtInternal, sphere->Internal(), sizeof(rt_ell_internal));
             }
             else if (object.Type() == NonManifoldGeometry::ClassName()) {
                 id = ID_NMG; // 11

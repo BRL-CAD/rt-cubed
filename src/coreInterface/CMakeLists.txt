@@ -67,6 +67,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		ParabolicCylinder.cpp
 		Paraboloid.cpp
 		Particle.cpp
+		Sphere.cpp
 		Torus.cpp
 		Unknown.cpp
 	)
@@ -110,6 +111,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/ParabolicCylinder.h
 		${RT3_SOURCE_DIR}/include/brlcad/Paraboloid.h
 		${RT3_SOURCE_DIR}/include/brlcad/Particle.h
+		${RT3_SOURCE_DIR}/include/brlcad/Sphere.h
 		${RT3_SOURCE_DIR}/include/brlcad/Torus.h
 		${RT3_SOURCE_DIR}/include/brlcad/Unknown.h
 	)
