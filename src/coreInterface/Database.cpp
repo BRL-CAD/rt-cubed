@@ -268,7 +268,7 @@ bool Database::Add
                             for (size_t i = 0; i < origAvs->count; ++i)
                                 bu_avs_add_nonunique(&avs, origAvs->avp->name, origAvs->avp->value);
 
-                            ret = (db5_replace_attributes(pDir, &avs, m_rtip->rti_dbip) == 0);
+                            ret = (db5_update_attributes(pDir, &avs, m_rtip->rti_dbip) == 0);
                         }
                     }
                 }
