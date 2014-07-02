@@ -31,7 +31,6 @@
 
 #include "raytrace.h"
 #include "rtgeom.h"
-#include "bu/parallel.h"
 
 #include <brlcad/Halfspace.h>
 

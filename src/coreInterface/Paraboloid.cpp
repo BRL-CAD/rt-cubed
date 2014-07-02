@@ -31,7 +31,6 @@
 
 #include "rtgeom.h"
 #include "raytrace.h"
-#include "bu/parallel.h"
 
 #include <brlcad/Paraboloid.h>
 
