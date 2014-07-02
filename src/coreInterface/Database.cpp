@@ -266,7 +266,7 @@ bool Database::Add
                             bu_avs_init(&avs, origAvs->count, "BRLCAD::Database::Add");
 
                             for (size_t i = 0; i < origAvs->count; ++i)
-                                bu_avs_add_nonunique(&avs, origAvs->avp->name, origAvs->avp->value);
+                                bu_avs_add_nonunique(&avs, origAvs->avp[i].name, origAvs->avp[i].value);
 
                             ret = (db5_update_attributes(pDir, &avs, m_rtip->rti_dbip) == 0);
                         }
