@@ -223,8 +223,8 @@ const char* Object::Attribute
         do {
             --index;
 
-            if (strcmp(avs->avp->name, key) == 0) {
-                ret = avs->avp->value;
+            if (strcmp(avs->avp[index].name, key) == 0) {
+                ret = avs->avp[index].value;
                 break;
             }
         } while (index != 0);
@@ -249,9 +249,9 @@ Object::AttributeIterator Object::MultiAttribute
         do {
             --index;
 
-            if (strcmp(avs->avp->name, key) == 0) {
+            if (strcmp(avs->avp[index].name, key) == 0) {
                 avsRet    = avs;
-                keyIntern = avs->avp->name;
+                keyIntern = avs->avp[index].name;
                 break;
             }
         } while (index != 0);
