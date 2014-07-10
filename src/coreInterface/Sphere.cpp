@@ -139,9 +139,11 @@ void Sphere::SetRadius(double radius) throw() {
     assert(radius > SMALL_FASTF);
 
     if (!NEAR_ZERO(radius, SMALL_FASTF)) {
-        VSET(m_internalp->a, radius, 0., 0.);
-        VSET(m_internalp->b, 0., radius, 0.);
-        VSET(m_internalp->c, 0., 0., radius);
+        rt_ell_internal* internalp = Internal();
+
+        VSET(internalp->a, radius, 0., 0.);
+        VSET(internalp->b, 0., radius, 0.);
+        VSET(internalp->c, 0., 0., radius);
     }
 }
 
@@ -157,9 +159,9 @@ void Sphere::Set
         rt_ell_internal* internalp = Internal();
 
         VMOVE(internalp->v, center.coordinates);
-        VSET(m_internalp->a, radius, 0., 0.);
-        VSET(m_internalp->b, 0., radius, 0.);
-        VSET(m_internalp->c, 0., 0., radius);
+        VSET(internalp->a, radius, 0., 0.);
+        VSET(internalp->b, 0., radius, 0.);
+        VSET(internalp->c, 0., 0., radius);
     }
 }
 
