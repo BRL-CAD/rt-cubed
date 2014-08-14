@@ -50,6 +50,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	#set Source files
 	set ( coreinterface_SRCS
 		Arb8.cpp
+		BagOfTriangles.cpp
 		Combination.cpp
 		Cone.cpp
 		ConstDatabase.cpp
@@ -94,6 +95,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 
 	SET(coreinterface_inst_HDRS
 		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
+		${RT3_SOURCE_DIR}/include/brlcad/BagOfTriangles.h
 		${RT3_SOURCE_DIR}/include/brlcad/cicommon.h
 		${RT3_SOURCE_DIR}/include/brlcad/Combination.h
 		${RT3_SOURCE_DIR}/include/brlcad/Cone.h
