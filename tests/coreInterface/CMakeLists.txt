@@ -2,7 +2,7 @@
 #
 #	BRL-CAD
 #
-#	Copyright (c) 2011 United States Government as represented by
+#	Copyright (c) 2011-2014 United States Government as represented by
 #	the U.S. Army Research Laboratory.
 #
 #	This file is in the public domain.
@@ -28,19 +28,19 @@
 #
 #########################################################################
 #	@file rt^3/tests/coreInterface/CMakeLists.txt
-#
-#	Origin -
-#		IABG mbH (Germany)
-#
 ##########################################################################
 
 include_directories (
 )
 
-set (ciTests_SRC
-	PrintTitle.cpp
-)
-
-add_executable(printTitle ${ciTests_SRC} )
+add_executable(printTitle PrintTitle.cpp)
 target_link_libraries(printTitle coreinterface)
 
+set (ciTests_SRC
+	halfspace.cpp
+	primitives.cpp
+)
+
+add_executable(tester_ci_primitives ${ciTests_SRC})
+target_link_libraries(tester_ci_primitives coreinterface)
+add_test(NAME tester_ci_primitives_01 COMMAND tester_ci_primitives test.g)

@@ -143,6 +143,9 @@ include_directories(
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
+# Tests
+ENABLE_TESTING()
+
 # Global setup done, on to specific projects
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(tests)
