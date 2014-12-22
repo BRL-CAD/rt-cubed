@@ -48,12 +48,12 @@ int main
 	    if (database.Load(argv[1])) {
 		test_halfspace(database);
 	    } else {
-		std::cout << "Could not load file: " << argv[1] << std::endln;
+		std::cout << "Could not load file: " << argv[1] << std::endl;
 		ret = 2;
 	    }
 	}
 	catch(BRLCAD::bad_alloc& e) {
-	    std::cout << "Out of memory in: " << e.what() << std::endln;
+	    std::cout << "Out of memory in: " << e.what() << std::endl;
 	    ret = 3;
 	}
     }

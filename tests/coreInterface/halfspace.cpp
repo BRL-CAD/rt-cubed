@@ -42,10 +42,10 @@ void test_halfspace(BRLCAD::Database& database) {
 	if (halfspace.IsValid())
 	    database.Add(halfspace);
 	else
-	    std::cout << "Halfspace not valid" << std::endln;
+	    std::cout << "Halfspace not valid" << std::endl;
     }
     else
-        std::cout << "default Halfspace not valid" << std::endln;
+        std::cout << "default Halfspace not valid" << std::endl;
 }
 
 
