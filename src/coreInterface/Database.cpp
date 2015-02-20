@@ -309,8 +309,8 @@ void Database::Get
 ) {
     class ObjectCallbackIntern : public ConstDatabase::ObjectCallback {
     public:
-        ObjectCallbackIntern(Database::ObjectCallback& callback) : ConstDatabase::ObjectCallback(),
-                                                                   m_callback(callback) {}
+        ObjectCallbackIntern(Database::ObjectCallback& cb) : ConstDatabase::ObjectCallback(),
+                                                             m_callback(cb) {}
 
         virtual ~ObjectCallbackIntern(void) throw() {}
 
@@ -342,13 +342,13 @@ void Database::Set
 ) throw(bad_alloc) {
     class ObjectCallbackIntern : public ObjectCallback {
     public:
-        ObjectCallbackIntern(const Object& object) : ObjectCallback(),
-                                                     m_object(object) {}
+        ObjectCallbackIntern(const Object& obj) : ObjectCallback(),
+                                                  m_object(obj) {}
 
         virtual ~ObjectCallbackIntern(void) throw() {}
 
-        virtual void operator()(Object& object) {
-            object = m_object;
+        virtual void operator()(Object& obj) {
+            obj = m_object;
         }
 
     private:
