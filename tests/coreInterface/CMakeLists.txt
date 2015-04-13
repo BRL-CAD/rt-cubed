@@ -31,6 +31,8 @@
 ##########################################################################
 
 include_directories (
+	${BRLCAD_INCLUDE_DIRS}
+	${TCL_INCLUDE_PATH}
 )
 
 add_executable(printTitle PrintTitle.cpp)
