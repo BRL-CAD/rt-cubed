@@ -43,6 +43,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	include_directories (
 		${RT3_SOURCE_DIR}/include/brlcad
 	    ${BRLCAD_INCLUDE_DIRS}
+            ${TCL_INCLUDE_PATH}
 	)
 
 	#set Source files

@@ -29,7 +29,7 @@
 
 #include <cassert>
 
-#include "rtgeom.h"
+#include "rt/geom.h"
 #include "raytrace.h"
 #include "bu/parallel.h"
 

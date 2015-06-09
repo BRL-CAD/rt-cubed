@@ -30,7 +30,7 @@
 #include <cassert>
 
 #include "raytrace.h"
-#include "rtgeom.h"
+#include "rt/geom.h"
 #include "bu/parallel.h"
 
 #include <brlcad/Halfspace.h>
