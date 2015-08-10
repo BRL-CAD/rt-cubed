@@ -1,4 +1,4 @@
- /*                  H A L F S P A C E . C P P
+/*                  H A L F S P A C E . C P P
  * BRL-CAD
  *
  * Copyright (c) 2014 United States Government as represented by
@@ -45,14 +45,15 @@ void test_halfspace(BRLCAD::Database& database) {
 	    std::cout << "Halfspace not valid" << std::endl;
     }
     else
-        std::cout << "default Halfspace not valid" << std::endl;
+	std::cout << "default Halfspace not valid" << std::endl;
 }
 
 
 /*
  * Local Variables:
- * mode: C
+ * mode: C++
  * tab-width: 8
+ * c-basic-offset: 4
  * indent-tabs-mode: t
  * c-file-style: "stroustrup"
  * End:

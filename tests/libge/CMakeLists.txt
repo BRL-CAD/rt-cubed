@@ -34,7 +34,7 @@
 
 include_directories (
 	${BRLCAD_INCLUDE_DIRS}
-        ${TCL_INCLUDE_PATH}
+	${TCL_INCLUDE_PATH}
 )
 
 set (geTest_SRC
@@ -43,4 +43,3 @@ set (geTest_SRC
 
 add_executable(geTest ${geTest_SRC} )
 target_link_libraries(geTest coreinterface ge)
-

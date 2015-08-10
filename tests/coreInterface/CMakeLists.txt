@@ -39,8 +39,12 @@ add_executable(printTitle PrintTitle.cpp)
 target_link_libraries(printTitle coreinterface)
 
 set (ciTests_SRC
+	cone.cpp
+	ellipsoid.cpp
 	halfspace.cpp
+	pipe.cpp
 	primitives.cpp
+	sphere.cpp
 )
 
 add_executable(tester_ci_primitives ${ciTests_SRC})

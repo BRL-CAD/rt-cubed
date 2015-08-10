@@ -68,6 +68,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		ParabolicCylinder.cpp
 		Paraboloid.cpp
 		Particle.cpp
+		Pipe.cpp
 		Sketch.cpp
 		Sphere.cpp
 		Torus.cpp

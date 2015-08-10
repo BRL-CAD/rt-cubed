@@ -1,4 +1,4 @@
- /*                  P R I M I T I V E S . C P P
+/*                  P R I M I T I V E S . C P P
  * BRL-CAD
  *
  * Copyright (c) 2014 United States Government as represented by
@@ -47,6 +47,10 @@ int main
 
 	    if (database.Load(argv[1])) {
 		test_halfspace(database);
+		test_ellipsoid(database);
+		test_sphere(database);
+		test_cone(database);
+		test_pipe(database);
 	    } else {
 		std::cout << "Could not load file: " << argv[1] << std::endl;
 		ret = 2;
@@ -64,8 +68,9 @@ int main
 
 /*
  * Local Variables:
- * mode: C
+ * mode: C++
  * tab-width: 8
+ * c-basic-offset: 4
  * indent-tabs-mode: t
  * c-file-style: "stroustrup"
  * End:

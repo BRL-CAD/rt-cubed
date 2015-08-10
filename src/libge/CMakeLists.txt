@@ -42,8 +42,8 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	#Set Include Dirs
 	include_directories (
 		${RT3_SOURCE_DIR}/include/brlcad
-	    ${BRLCAD_INCLUDE_DIRS}
-            ${TCL_INCLUDE_PATH}
+		${BRLCAD_INCLUDE_DIRS}
+		${TCL_INCLUDE_PATH}
 	)
 
 	#set Source files
@@ -69,6 +69,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		../coreInterface/ParabolicCylinder.cpp
 		../coreInterface/Paraboloid.cpp
 		../coreInterface/Particle.cpp
+		../coreInterface/Pipe.cpp
 		../coreInterface/Torus.cpp
 		../coreInterface/Unknown.cpp
 	)
@@ -82,13 +83,13 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		add_library(ge-static STATIC ${ge_SRCS})
 		install(TARGETS ge-static DESTINATION lib)
 	ENDIF(BUILD_STATIC_LIBS)
-	
+
 	INSTALL(FILES 
 		${RT3_SOURCE_DIR}/include/GeometryEngine.h
 		${RT3_SOURCE_DIR}/include/MinimalDatabase.h
 		${RT3_SOURCE_DIR}/include/MinimalObject.h
 	DESTINATION include)
-	
+
 	SET(ge_inst_HDRS	
 		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
 		${RT3_SOURCE_DIR}/include/brlcad/cicommon.h
@@ -109,6 +110,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/ParabolicCylinder.h
 		${RT3_SOURCE_DIR}/include/brlcad/Paraboloid.h
 		${RT3_SOURCE_DIR}/include/brlcad/Particle.h
+		${RT3_SOURCE_DIR}/include/brlcad/Pipe.h
 		${RT3_SOURCE_DIR}/include/brlcad/Torus.h
 		${RT3_SOURCE_DIR}/include/brlcad/Unknown.h
 	)

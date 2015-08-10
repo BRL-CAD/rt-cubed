@@ -29,7 +29,11 @@
 #include "brlcad/Database.h"
 
 
+void test_cone(BRLCAD::Database& database);
+void test_ellipsoid(BRLCAD::Database& database);
 void test_halfspace(BRLCAD::Database& database);
+void test_pipe(BRLCAD::Database& database);
+void test_sphere(BRLCAD::Database& database);
 
 
 #endif // PRIMITIVES_H
@@ -37,8 +41,9 @@ void test_halfspace(BRLCAD::Database& database);
 
 /*
  * Local Variables:
- * mode: C
+ * mode: C++
  * tab-width: 8
+ * c-basic-offset: 4
  * indent-tabs-mode: t
  * c-file-style: "stroustrup"
  * End:
