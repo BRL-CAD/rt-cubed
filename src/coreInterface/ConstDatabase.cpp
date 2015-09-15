@@ -437,7 +437,7 @@ NonManifoldGeometry* ConstDatabase::Facetize
             initState.ts_m    = &ret->m_internalp;
 
             if (db_walk_tree(m_rtip->rti_dbip,
-                             1, 
+                             1,
                              &objectName,
                              1,
                              &initState,
@@ -545,17 +545,20 @@ Vector3D ConstDatabase::BoundingBoxMaxima(void) const throw() {
 class ConstDatabaseHit : public ConstDatabase::Hit {
 public:
     ConstDatabaseHit(application* ap,
-                     partition*   part) throw() : ConstDatabase::Hit(),
+                     partition*   part,
+                     region*      reg) throw() : ConstDatabase::Hit(),
                                                   m_application(ap),
                                                   m_partition(part),
+                                                  m_region(reg),
                                                   m_inVectorsComputed(false),
                                                   m_outVectorsComputed(false) {
         assert(m_application != 0);
         assert(m_partition != 0);
+        assert(m_region != 0);
    }
 
     virtual const char* Name(void) const throw() {
-        return m_partition->pt_regionp->reg_name;
+        return m_region->reg_name;
     }
 
     virtual double      DistanceIn(void) const throw() {
@@ -619,24 +622,25 @@ public:
     }
 
     virtual bool        HasColor(void) const throw() {
-        return (m_partition->pt_regionp->reg_mater.ma_color_valid != 0);
+        return (m_region->reg_mater.ma_color_valid != 0);
     }
 
     virtual double      Red(void) const throw() {
-        return m_partition->pt_regionp->reg_mater.ma_color[0];
+        return m_region->reg_mater.ma_color[0];
     }
 
     virtual double      Green(void) const throw() {
-        return m_partition->pt_regionp->reg_mater.ma_color[1];
+        return m_region->reg_mater.ma_color[1];
     }
 
     virtual double      Blue(void) const throw() {
-        return m_partition->pt_regionp->reg_mater.ma_color[2];
+        return m_region->reg_mater.ma_color[2];
     }
 
 private:
     application* m_application;
     partition*   m_partition;
+    region*      m_region;
     mutable bool m_inVectorsComputed;
     mutable bool m_outVectorsComputed;
 
@@ -667,15 +671,20 @@ static int HitDo
     seg*         UNUSED(segment)
 ) {
     ConstDatabase::HitCallback* callback = static_cast<ConstDatabase::HitCallback*>(ap->a_uptr);
+    int&                        ret      = ap->a_return;
 
-    for (partition* part = partitionHead->pt_forw;
-         part != partitionHead;
-         part = part->pt_forw) {
-        if (!((*callback)(ConstDatabaseHit(ap, part))))
-            break;
+    if (ret == 0) {
+        for (partition* part = partitionHead->pt_forw;
+             part != partitionHead;
+             part = part->pt_forw) {
+            if (!((*callback)(ConstDatabaseHit(ap, part, part->pt_regionp)))) {
+                ret = 1;
+                break;
+            }
+        }
     }
 
-    return 0; // return won't be evaluated
+    return ret;
 }
 
 
@@ -688,14 +697,90 @@ void ConstDatabase::ShootRay
         application ap;
         RT_APPLICATION_INIT(&ap);
 
+        ap.a_hit          = HitDo;
+        ap.a_miss         = 0;
+        ap.a_overlap      = 0;
+        ap.a_multioverlap = 0;
+        ap.a_rt_i         = m_rtip;
+        ap.a_level        = 0;
+        ap.a_onehit       = 0; // all hits
+        ap.a_resource     = m_resp;
+        ap.a_return       = 0;
+        ap.a_uptr         = &callback;
+
+        VMOVE(ap.a_ray.r_pt, ray.origin.coordinates);
+        VMOVE(ap.a_ray.r_dir, ray.direction.coordinates);
+        VUNITIZE(ap.a_ray.r_dir);
+
+        if (!BU_SETJUMP) {
+            try {
+                rt_shootray(&ap);
+            }
+            catch(...) {
+                BU_UNSETJUMP;
+                throw;
+            }
+        }
+
+        BU_UNSETJUMP;
+    }
+}
+
+
+static void MultioverlapDo
+(
+    application* ap,
+    partition*   part,
+    bu_ptbl*     regiontable,
+    partition*   UNUSED(inputHdp)
+) {
+    ConstDatabase::HitCallback* callback = static_cast<ConstDatabase::HitCallback*>(ap->a_uptr);
+    int&                        ret      = ap->a_return;
+
+    if (ret == 0) {
+        for (size_t i = 0; i < BU_PTBL_LEN(regiontable); ++i) {
+            region* reg = reinterpret_cast<region*>(BU_PTBL_GET(regiontable, i));
+
+            if (reg == REGION_NULL)
+                continue;
+
+            RT_CK_REGION(reg);
+
+            if (!((*callback)(ConstDatabaseHit(ap, part, reg)))) {
+                ret = 1;
+                break;
+            }
+        }
+    }
+
+    bu_ptbl_reset(regiontable);
+}
+
+
+void ConstDatabase::ShootRay
+(
+    const Ray3D& ray,
+    HitCallback& callback,
+    int          flags
+) const {
+    if (!SelectionIsEmpty()) {
+        application ap;
+        RT_APPLICATION_INIT(&ap);
+
         ap.a_hit      = HitDo;
         ap.a_miss     = 0;
         ap.a_overlap  = 0;
         ap.a_rt_i     = m_rtip;
         ap.a_level    = 0;
-        ap.a_onehit   = 0; // all hits
+        ap.a_onehit   = flags & StopAfterFirstHit;
         ap.a_resource = m_resp;
+        ap.a_return   = 0;
         ap.a_uptr     = &callback;
+
+        if (flags & WithOverlaps)
+            ap.a_multioverlap = MultioverlapDo;
+        else
+            ap.a_multioverlap = 0;
 
         VMOVE(ap.a_ray.r_pt, ray.origin.coordinates);
         VMOVE(ap.a_ray.r_dir, ray.direction.coordinates);

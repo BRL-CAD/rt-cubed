@@ -191,6 +191,13 @@ namespace BRLCAD {
 
         void                 ShootRay(const Ray3D& ray,
                                       HitCallback& callback) const;
+
+        static const int StopAfterFirstHit = 1;
+        static const int WithOverlaps      = 2;
+
+        void                 ShootRay(const Ray3D& ray,
+                                      HitCallback& callback,
+                                      int          flags) const;
         //@}
 
     protected:
