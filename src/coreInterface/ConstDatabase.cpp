@@ -47,6 +47,7 @@
 #include <brlcad/Paraboloid.h>
 #include <brlcad/Hyperboloid.h>
 #include <brlcad/EllipticalTorus.h>
+#include <brlcad/BagOfTriangles.h>
 #include <brlcad/Combination.h>
 #include <brlcad/Unknown.h>
 #include <brlcad/ConstDatabase.h>
@@ -319,6 +320,10 @@ void ConstDatabase::Get
 
                         case ID_ETO: // 21
                             callback(EllipticalTorus(m_resp, pDir, &intern, m_rtip->rti_dbip));
+                            break;
+
+                        case ID_BOT: // 30
+                            callback(BagOfTriangles(m_resp, pDir, &intern, m_rtip->rti_dbip));
                             break;
 
                         case ID_COMBINATION: // 31

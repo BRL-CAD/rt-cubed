@@ -33,6 +33,8 @@
 #include "rt/geom.h"
 #include "bu/parallel.h"
 
+#include "private.h"
+
 #include <brlcad/Torus.h>
 #include <brlcad/Cone.h>
 #include <brlcad/Ellipsoid.h>
@@ -46,6 +48,7 @@
 #include <brlcad/Paraboloid.h>
 #include <brlcad/Hyperboloid.h>
 #include <brlcad/EllipticalTorus.h>
+#include <brlcad/BagOfTriangles.h>
 #include <brlcad/Combination.h>
 #include <brlcad/Database.h>
 
@@ -225,6 +228,18 @@ bool Database::Add
 
                 BU_GET(rtInternal, rt_eto_internal);
                 memcpy(rtInternal, ellipticalTorus->Internal(), sizeof(rt_eto_internal));
+            }
+            else if (object.Type() == BagOfTriangles::ClassName()) {
+                id = ID_BOT; // 30
+
+                const BagOfTriangles* bagOfTriangles = dynamic_cast<const BagOfTriangles*>(&object);
+
+                assert(bagOfTriangles != 0);
+
+                rt_bot_internal* bot = CloneBotInternal(*(bagOfTriangles->Internal()));
+                CleanUpBotInternal(*bot);
+
+                rtInternal = bot;
             }
             else if (object.Type() == Combination::ClassName()) {
                 id = ID_COMBINATION;  // 31

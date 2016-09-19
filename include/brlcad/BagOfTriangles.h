@@ -32,7 +32,7 @@
 struct rt_bot_internal;
 
 
-namespace BRLCAD { 
+namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT BagOfTriangles : public Object {
     public:
         enum BotMode {
@@ -56,36 +56,46 @@ namespace BRLCAD {
 
         class BRLCAD_COREINTERFACE_EXPORT Face {
         public:
-            Face(void) throw() : m_bot(0), m_faceIndex(0){}
-            Face(rt_bot_internal *original, size_t originalIndex) throw() : m_bot(original), m_faceIndex(originalIndex) {}
+            Face(void) throw() : m_bot(0), m_faceIndex(0) {}
             Face(const Face& original) throw() : m_bot(original.m_bot), m_faceIndex(original.m_faceIndex) {}
-            virtual ~Face(void) throw() {}
+            ~Face(void) throw() {}
 
             const Face& operator=(const Face& original) throw() {
-                m_bot = original.m_bot;
+                m_bot       = original.m_bot;
                 m_faceIndex = original.m_faceIndex;
+
                 return *this;
             }
 
             Vector3D    Point(size_t index) const throw();
-            void        SetPoint(size_t    index,
+            void        SetPoint(size_t          index,
                                  const Vector3D& point) throw(bad_alloc);
             void        SetPoints(const Vector3D& point1,
                                   const Vector3D& point2,
                                   const Vector3D& point3) throw(bad_alloc);
 
             double      Thickness(void) const throw();
-            void        SetThickness(double t) throw();
+            void        SetThickness(double value) throw();
 
             bool        ApendThickness(void) const throw();
             void        SetApendThickness(bool apendThickness) throw();
 
             Vector3D    Normal(size_t index) const throw();
-            void        SetNormal(const Vector3D& normal, size_t index) throw();
+            void        SetNormal(size_t          index,
+                                  const Vector3D& normal) throw();
+            void        SetNormals(const Vector3D& normal1,
+                                   const Vector3D& normal2,
+                                   const Vector3D& normal3) throw(bad_alloc);
 
                         operator void*(void) { ///< to test if the face is NULL
                 return m_bot;
             }
+
+        protected:
+            Face(rt_bot_internal* original,
+                 size_t           originalIndex) throw() : m_bot(original), m_faceIndex(originalIndex) {}
+
+            friend BagOfTriangles;
 
         private:
             rt_bot_internal* m_bot;
@@ -107,14 +117,12 @@ namespace BRLCAD {
         bool                  UseFloats(void) const throw();
         void                  SetUseFloats(bool useFloats) throw();
 
-        int                   NumberOfFaces(void) const throw();
+        size_t                NumberOfFaces(void) const throw();
 
-        Face*                 Get(size_t index) throw();
-        Face*                 AppendFace(void) throw(bad_alloc);
-        Face*                 InsertFace(size_t index,
-                                         const Vector3D& point1,
-                                         const Vector3D& point2,
-                                         const Vector3D& point3) throw(bad_alloc);
+        Face                  GetFace(size_t index) throw();
+        Face                  AddFace(const Vector3D& point1,
+                                      const Vector3D& point2,
+                                      const Vector3D& point3) throw(bad_alloc);
 
         void                  DeleteFace(size_t index) throw(bad_alloc);
 

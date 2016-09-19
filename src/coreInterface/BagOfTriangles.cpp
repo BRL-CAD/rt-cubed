@@ -23,7 +23,6 @@
  *      sketch (ID_BOT) database object implementation
  */
 
-
 #include <cstring>
 #include <cassert>
 
@@ -31,78 +30,82 @@
 #include "rt/geom.h"
 #include "bu/parallel.h"
 
+#include "private.h"
+
 #include <brlcad/BagOfTriangles.h>
 
 
 using namespace BRLCAD;
 
 
-static size_t AddToVerts
+static int AddVertex
 (
     const point_t&   point,
     rt_bot_internal& bot
 ) {
-    size_t ret = 0; // index of the added vertex
-    fastf_t tmp[3];
+    int ret = 0; // index of the added vertex
 
-    //vertex already there?
-    for(; ret < bot.num_vertices; ++ret) {
-        tmp[0] = bot.vertices[ret];
-        tmp[1] = bot.vertices[ret + 1];
-        tmp[2] = bot.vertices[ret + 2];
+    // vertex already there?
+    for (; ret < bot.num_vertices; ++ret) {
+        fastf_t tmp[3] = {bot.vertices[ret * 3], bot.vertices[ret * 3 + 1], bot.vertices[ret * 3 + 2]};
 
         if (VNEAR_EQUAL(point, tmp, VUNITIZE_TOL))
             break;
-    };
+    }
 
     if (ret == bot.num_vertices) {
         // add a new vertex
         ++bot.num_vertices;
-        bot.vertices = (fastf_t* ) bu_realloc(bot.vertices, bot.num_vertices * 3 * sizeof(fastf_t), "bot interface AddToVerts()");
-        bot.vertices[ret]     = point[0];
-        bot.vertices[ret + 1] = point[1];
-        bot.vertices[ret + 2] = point[2];
-    };
+        bot.vertices = static_cast<fastf_t*>(bu_realloc(bot.vertices, bot.num_vertices * 3 * sizeof(fastf_t), "bot interface AddVertex()"));
+        bot.vertices[ret * 3]     = point[0];
+        bot.vertices[ret * 3 + 1] = point[1];
+        bot.vertices[ret * 3 + 2] = point[2];
+    }
 
     return ret;
-};
+}
 
 
-static void RemoveFromVerts
+static void RemoveVertex
 (
-    size_t           index,
+    int              index,
     rt_bot_internal& bot
 ) {
     assert(index < bot.num_vertices);
 
-    if(index < bot.num_vertices) {
+    if (index < bot.num_vertices) {
         // is the vertex used elsewhere?
         size_t vertexUsage = 0;
-        for(int i = 0; i < bot.num_faces; ++i) {
-            if(bot.faces[i] == index) {
+
+        for (int i = 0; i < (3 * bot.num_faces); ++i) {
+            if (bot.faces[i] == index)
                 vertexUsage++;
-                break;
-            };
-        };
+        }
 
         if (vertexUsage <= 1) {
             // really remove it
-            memcpy(bot.vertices + index, bot.vertices + index + 3, (bot.num_vertices - index - 1) * sizeof(fastf_t));
+            memcpy(bot.vertices + index * 3, bot.vertices + (index + 1) * 3, (bot.num_vertices - index - 1) * 3 * sizeof(fastf_t));
 
             --bot.num_vertices;
-            bot.vertices = (fastf_t* ) bu_realloc(bot.vertices, bot.num_vertices * 3 * sizeof(fastf_t), "bot interface RemoveFromVerts()");
+            bot.vertices = static_cast<fastf_t*>(bu_realloc(bot.vertices, bot.num_vertices * 3 * sizeof(fastf_t), "bot interface RemoveVertex()"));
+
+            // update faces
+            for (int i = 0; i < (3 * bot.num_faces); ++i) {
+                if (bot.faces[i] > index)
+                    --bot.faces[i];
+            }
         }
-    };
-};
+    }
+}
 
 
-static size_t SwapVertex
+static int SwapVertex
 (
-    size_t           oldIndex,
+    int              oldIndex,
     const point_t&   newPoint,
     rt_bot_internal& bot
 ) {
-    size_t ret = -1; // index of the new vertex
+    int     ret; // index of the new vertex
     fastf_t tmp[3];
     tmp[0] = bot.vertices[oldIndex];
     tmp[1] = bot.vertices[oldIndex + 1];
@@ -111,114 +114,350 @@ static size_t SwapVertex
     if (VNEAR_EQUAL(newPoint, tmp, VUNITIZE_TOL))
         ret = oldIndex;
     else {
-        RemoveFromVerts(oldIndex, bot);
+        RemoveVertex(oldIndex, bot);
 
-        ret = AddToVerts(newPoint, bot);
+        ret = AddVertex(newPoint, bot);
     }
 
     return ret;
-};
+}
 
 
-void bot_free(struct rt_bot_internal *bot_ip)
-{
-    RT_BOT_CK_MAGIC(bot_ip);
-    bot_ip->magic = 0;          /* sanity */
-
-    if (bot_ip->tie != NULL) {
-    bot_ip->tie = NULL;
-    }
-
-    if (bot_ip->vertices != NULL) {
-    bu_free(bot_ip->vertices, "BOT vertices");
-    bot_ip->vertices = NULL;
-    bot_ip->num_vertices = 0;
-    }
-    if (bot_ip->faces != NULL) {
-    bu_free(bot_ip->faces, "BOT faces");
-    bot_ip->faces = NULL;
-    bot_ip->num_faces = 0;
-    }
-
-    if (bot_ip->mode == RT_BOT_PLATE || bot_ip->mode == RT_BOT_PLATE_NOCOS) {
-    if (bot_ip->thickness != NULL) {
-        bu_free(bot_ip->thickness, "BOT thickness");
-        bot_ip->thickness = NULL;
-    }
-    if (bot_ip->face_mode != NULL) {
-        bu_free(bot_ip->face_mode, "BOT face_mode");
-        bot_ip->face_mode = NULL;
-    }
-    }
-
-    if (bot_ip->normals != NULL) {
-    bu_free(bot_ip->normals, "BOT normals");
-    }
-
-    if (bot_ip->face_normals != NULL) {
-    bu_free(bot_ip->face_normals, "BOT normals");
-    }
-
-    bu_free(bot_ip, "bot ifree");
-};
-
-
-struct rt_bot_internal *
-bot_copy(const struct rt_bot_internal *bot_ip) {
-
-    struct rt_bot_internal *out;
-
-    RT_BOT_CK_MAGIC(bot_ip);
-
-    BU_ALLOC(out, struct rt_bot_internal);
-    *out = *bot_ip;
-
-    if(out->num_faces)
-        out->faces =  (int*) bu_calloc(3 * out->num_faces, sizeof(int), "out->faces");
-
-    for(int i = 0; i < 3 * out->num_faces; i++)
-        out->faces[i] = bot_ip->faces[i];
-
-    if(out->num_vertices)
-        out->vertices = (fastf_t*) bu_calloc(3 * out->num_vertices, sizeof(fastf_t), "out->vertices");
-
-    for(int i = 0; i < 3 * out->num_vertices; i++)
-        out->vertices[i] = bot_ip->vertices[i];
-
-    if((out->num_faces != 0) && (out->thickness != NULL))
-        out->thickness =  (fastf_t*) bu_calloc(3 * out->num_faces, sizeof(fastf_t), "out->thickness");
-
-    for(int i = 0; i < 3 * out->num_faces; i++)
-        out->thickness[i] = bot_ip->thickness[i];
-
-    if(out->num_normals)
-        out->normals = (fastf_t*) bu_calloc(3 * out->num_normals, sizeof(fastf_t), "out->normals");
-
-    for(int i = 0; i < 3 * out->num_normals; i++)
-        out->normals[i] = bot_ip->normals[i];
-
-    if((out->num_face_normals != 0) && (out->normals != NULL))
-        out->face_normals = (int*) bu_calloc(3 * out->num_face_normals, sizeof(int), "out->face_normals");
-
-    return out;
-};
-
-
-void deleteFace(
-    size_t index,
+static int AddNormal
+(
+    const fastf_t    normal[3],
     rt_bot_internal& bot
 ) {
-    memcpy(bot.faces + index * 3, bot.faces + index * 3 + 3, (bot.num_faces - (index - 1) * 3) * sizeof(int));
+    int     ret = 0; // index of the added normal
+    fastf_t tmp[3];
 
-    if(bot.mode != RT_BOT_SURFACE && bot.mode != RT_BOT_SOLID)
-        memcpy(bot.thickness + index * 3, bot.thickness + index * 3 + 3, (bot.num_faces - (index - 1) * 3) * sizeof(fastf_t));
+    // normal already there?
+    for (; ret < bot.num_normals; ++ret) {
+        tmp[0] = bot.normals[ret];
+        tmp[1] = bot.normals[ret + 1];
+        tmp[2] = bot.normals[ret + 2];
+
+        if (VNEAR_EQUAL(normal, tmp, VUNITIZE_TOL))
+            break;
+    }
+
+    if (ret == bot.num_normals) {
+        // add a new normal
+        ++bot.num_normals;
+        bot.normals = static_cast<fastf_t*>(bu_realloc(bot.normals, bot.num_normals * 3 * sizeof(fastf_t), "bot interface AddNormal()"));
+        bot.normals[ret]     = normal[0];
+        bot.normals[ret + 1] = normal[1];
+        bot.normals[ret + 2] = normal[2];
+    }
+
+    return ret;
+}
+
+
+static void RemoveNormal
+(
+    int              index,
+    rt_bot_internal& bot
+) {
+    assert(index < bot.num_normals);
+
+    if (index < bot.num_normals) {
+        // is the normal used elsewhere?
+        size_t normalUsage = 0;
+
+        for (int i = 0; i < (3 * bot.num_face_normals); ++i) {
+            if (bot.face_normals[i] == index)
+                normalUsage++;
+        }
+
+        if (normalUsage <= 1) {
+            // really remove it
+            memcpy(bot.normals + index, bot.normals + index + 3, (bot.num_normals - index - 1) * 3 * sizeof(fastf_t));
+
+            --bot.num_normals;
+            bot.normals = static_cast<fastf_t*>(bu_realloc(bot.normals, bot.num_normals * 3 * sizeof(fastf_t), "bot interface RemoveNormal()"));
+
+            // update face normals
+            for (int i = 0; i < (3 * bot.num_face_normals); ++i) {
+                if (bot.face_normals[i] > index)
+                    --bot.face_normals[i];
+            }
+        }
+    }
+}
+
+
+static int SwapNormal
+(
+    int              oldIndex,
+    const fastf_t    newNormal[3],
+    rt_bot_internal& bot
+) {
+    int     ret; // index of the new normal
+    fastf_t tmp[3];
+    tmp[0] = bot.normals[oldIndex];
+    tmp[1] = bot.normals[oldIndex + 1];
+    tmp[2] = bot.normals[oldIndex + 2];
+
+    if (VNEAR_EQUAL(newNormal, tmp, VUNITIZE_TOL))
+        ret = oldIndex;
+    else {
+        RemoveNormal(oldIndex, bot);
+
+        ret = AddNormal(newNormal, bot);
+    }
+
+    return ret;
+}
+
+
+static void EnsureFaceNormals
+(
+    rt_bot_internal& bot
+) {
+    assert(bot.num_faces >= bot.num_face_normals);
+
+    if (bot.num_faces > 0) {
+        if (bot.face_normals == 0)
+            bot.face_normals = static_cast<int*>(bu_calloc(3 * bot.num_faces, sizeof(int), "bot interface EnsureFaceNormals(): face_normals"));
+        else if (bot.num_faces > bot.num_face_normals) {
+            bot.face_normals = static_cast<int*>(bu_realloc(bot.face_normals, 3 * bot.num_faces * sizeof(int), "bot interface EnsureFaceNormals(): face_normals"));
+
+            for (size_t i = bot.num_face_normals; i < bot.num_faces; ++i) {
+                fastf_t defaultNormal[3] = {0};
+                int     newIndex         = AddNormal(defaultNormal, bot);
+
+                bot.face_normals[3 * i]     = newIndex;
+                bot.face_normals[3 * i + 1] = newIndex;
+                bot.face_normals[3 * i + 2] = newIndex;
+            }
+        }
+
+        bot.num_face_normals = bot.num_faces;
+    }
+}
+
+
+static void FreeBotInternal
+(
+    rt_bot_internal* bot
+) {
+    assert(bot != 0);
+
+    RT_BOT_CK_MAGIC(bot);
+    bot->magic = 0; /* sanity */
+
+    if (bot->tie != 0)
+        bot->tie = 0;
+
+    if (bot->vertices != 0) {
+        bu_free(bot->vertices, "bot interface FreeBotInternal(): vertices");
+        bot->vertices     = 0;
+        bot->num_vertices = 0;
+    }
+
+    if (bot->faces != 0) {
+        bu_free(bot->faces, "bot interface FreeBotInternal(): faces");
+        bot->faces     = 0;
+        bot->num_faces = 0;
+    }
+
+    if (bot->thickness != 0) {
+        bu_free(bot->thickness, "bot interface FreeBotInternal(): thickness");
+        bot->thickness = 0;
+    }
+
+    if (bot->face_mode != 0) {
+        bu_free(bot->face_mode, "bot interface FreeBotInternal(): face_mode");
+        bot->face_mode = 0;
+    }
+
+    if (bot->normals != 0)
+        bu_free(bot->normals, "bot interface FreeBotInternal(): normals");
+
+    if (bot->face_normals != 0)
+        bu_free(bot->face_normals, "bot interface FreeBotInternal(): face_normals");
+
+    bu_free(bot, "bot interface FreeBotInternal(): rt_bot_internal");
+}
+
+
+rt_bot_internal* CloneBotInternal
+(
+    const rt_bot_internal& bot
+) {
+    RT_BOT_CK_MAGIC(&bot);
+
+    struct rt_bot_internal* ret;
+    BU_ALLOC(ret, struct rt_bot_internal);
+    *ret = bot;
+
+    if (bot.faces != 0) {
+        ret->faces =  static_cast<int*>(bu_malloc(3 * bot.num_faces * sizeof(int), "bot interface CloneBotInternal(): faces"));
+
+        memcpy(ret->faces, bot.faces, 3 * bot.num_faces * sizeof(int));
+    }
+
+    if (bot.vertices != 0) {
+        ret->vertices = static_cast<fastf_t*>(bu_malloc(3 * bot.num_vertices * sizeof(fastf_t), "bot interface CloneBotInternal(): vertices"));
+
+        memcpy(ret->vertices, bot.vertices, 3 * bot.num_vertices * sizeof(fastf_t));
+    }
+
+    if (bot.thickness != 0) {
+        ret->thickness = static_cast<fastf_t*>(bu_malloc(bot.num_faces * sizeof(fastf_t), "bot interface CloneBotInternal(): thickness"));
+
+        memcpy(ret->thickness, bot.thickness, bot.num_faces * sizeof(fastf_t));
+    }
+
+    if (bot.face_mode != 0)
+        ret->face_mode = bu_bitv_dup(bot.face_mode);
+
+    if (bot.normals != 0) {
+        ret->normals = static_cast<fastf_t*>(bu_malloc(3 * bot.num_normals * sizeof(fastf_t), "bot interface CloneBotInternal(): normals"));
+
+        memcpy(ret->normals, bot.normals, 3 * bot.num_normals * sizeof(fastf_t));
+    }
+
+    if (bot.face_normals != 0) {
+        ret->face_normals = static_cast<int*>(bu_malloc(3 * bot.num_face_normals * sizeof(int), "bot interface CloneBotInternal(): face_normals"));
+
+        memcpy(ret->face_normals, bot.face_normals, 3 * bot.num_face_normals * sizeof(int));
+    }
+
+    return ret;
+}
+
+
+void CleanUpBotInternal
+(
+    rt_bot_internal& bot
+) {
+    RT_BOT_CK_MAGIC(&bot);
+
+    // remove unused vertices
+    int vertexCount = 0;
+
+    while (vertexCount < bot.num_vertices) {
+        bool inUse = false;
+
+        for (int i = 0; i < (3 * bot.num_faces); ++i) {
+            if (bot.faces[i] == vertexCount) {
+                inUse = true;
+                break;
+            }
+        }
+
+        if (!inUse)
+            RemoveVertex(vertexCount, bot);
+        else
+            ++vertexCount;
+    }
+
+    // remove unused normals
+    if ((bot.normals != 0) && (bot.face_normals != 0)) {
+        int normalCount = 0;
+
+        while (normalCount < bot.num_normals) {
+            bool inUse = false;
+
+            for (int i = 0; i < (3 * bot.num_face_normals); ++i) {
+                if (bot.face_normals[i] == normalCount) {
+                    inUse = true;
+                    break;
+                }
+            }
+
+            if (!inUse)
+                RemoveNormal(normalCount, bot);
+            else
+                ++normalCount;
+        }
+    }
+
+    if ((bot.mode == RT_BOT_SURFACE) || (bot.mode == RT_BOT_SOLID)) {
+        if (bot.thickness != 0) {
+            bu_free(bot.thickness, "bot interface CleanUpBotInternal(): thickness");
+            bot.thickness = 0;
+        }
+
+        if (bot.face_mode != 0) {
+            bu_free(bot.face_mode, "bot interface CleanUpBotInternal(): face_mode");
+            bot.face_mode = 0;
+        }
+    }
+
+    if (bot.bot_flags & RT_BOT_HAS_SURFACE_NORMALS)
+        EnsureFaceNormals(bot);
+    else {
+        if (bot.normals != 0) {
+            bu_free(bot.normals, "bot interface CleanUpBotInternal(): normals");
+
+            bot.normals     = 0;
+            bot.num_normals = 0;
+        }
+
+        if (bot.face_normals != 0) {
+            bu_free(bot.face_normals, "bot interface CleanUpBotInternal(): face_normals");
+
+            bot.face_normals     = 0;
+            bot.num_face_normals = 0;
+        }
+    }
+}
+
+
+void RemoveFace
+(
+    size_t           index,
+    rt_bot_internal& bot
+) {
+    if (bot.num_faces > (index + 1))
+        memcpy(bot.faces + index * 3, bot.faces + index * 3 + 3, (bot.num_faces - index - 1) * 3 * sizeof(int));
+
+    bot.faces = static_cast<int*>(bu_realloc(bot.faces, (bot.num_faces - 1) * 3 * sizeof(int), "bot interface RemoveFace(): faces"));
+
+    if (bot.thickness != 0) {
+        assert(bot.mode != RT_BOT_SURFACE);
+        assert(bot.mode != RT_BOT_SOLID);
+
+        memcpy(bot.thickness + index, bot.thickness + index + 1, (bot.num_faces - index - 1) * sizeof(fastf_t));
+        bot.thickness = static_cast<fastf_t*>(bu_realloc(bot.thickness, (bot.num_faces - 1) * sizeof(fastf_t), "bot interface RemoveFace(): thickness"));
+    }
+
+    if (bot.face_mode != 0) {
+        assert(bot.mode != RT_BOT_SURFACE);
+        assert(bot.mode != RT_BOT_SOLID);
+
+        bu_bitv* temp = bu_bitv_new(bot.num_faces - 1);
+
+        for (size_t i = 0; i < index; ++i) {
+            if (BU_BITTEST(bot.face_mode, i))
+                BU_BITSET(temp, i);
+            else
+                BU_BITCLR(temp, i);
+        }
+
+        for (size_t i = (index + 1); i < bot.num_faces; ++i) {
+            if (BU_BITTEST(bot.face_mode, i))
+                BU_BITSET(temp, i - 1);
+            else
+                BU_BITCLR(temp, i - 1);
+        }
+
+        bu_bitv_free(bot.face_mode);
+        bot.face_mode = temp;
+    }
+
+    if ((bot.face_normals != 0) && (bot.num_face_normals > index)) {
+        if (bot.num_face_normals > (index + 1))
+            memcpy(bot.face_normals + index * 3, bot.face_normals + index * 3 + 3, (bot.num_face_normals - index - 1) * 3 * sizeof(int));
+
+        bot.face_normals = static_cast<int*>(bu_realloc(bot.face_normals, (bot.num_face_normals - 1) * 3 * sizeof(int), "bot interface RemoveFace(): face_normals"));
+    }
 
     --bot.num_faces;
-    bot.faces = (int* ) bu_realloc(bot.faces, bot.num_faces * 3 * sizeof(int), "bot deleteFace()");
-
-    if(bot.mode != RT_BOT_SURFACE && bot.mode != RT_BOT_SOLID)
-            bot.thickness = (fastf_t* ) bu_realloc(bot.thickness, bot.num_faces * 3 * sizeof(fastf_t), "bot delete()");
-};
+}
 
 
 BagOfTriangles::BagOfTriangles
@@ -228,18 +467,14 @@ BagOfTriangles::BagOfTriangles
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_bot_internal);
         m_internalp->magic = RT_BOT_INTERNAL_MAGIC;
-        m_internalp->num_vertices = 0;
-        m_internalp->num_faces = 0;
-        m_internalp->num_normals = 0;
-        m_internalp->num_face_normals = 0;
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::BagOfTriangles::BagOfTriangles");
+        throw bad_alloc("BRLCAD::BagOfTriangles::BagOfTriangles()");
     }
 
     BU_UNSETJUMP;
-};
+}
 
 
 BagOfTriangles::BagOfTriangles
@@ -247,15 +482,14 @@ BagOfTriangles::BagOfTriangles
     const BagOfTriangles& original
 ) throw(bad_alloc) {
     if (!BU_SETJUMP)
-        m_internalp = bot_copy(original.Internal());
+        m_internalp = CloneBotInternal(*original.Internal());
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::BagOfTriangles::BagOfTriangles");
+        throw bad_alloc("BRLCAD::BagOfTriangles::BagOfTriangles()");
     }
 
     BU_UNSETJUMP;
-
-};
+}
 
 
 BagOfTriangles::~BagOfTriangles
@@ -263,32 +497,33 @@ BagOfTriangles::~BagOfTriangles
     void
 ) throw() {
     if (m_internalp != 0)
-        bot_free(m_internalp);
-};
+        FreeBotInternal(m_internalp);
+}
 
 
 const BagOfTriangles& BagOfTriangles::operator=
 (
     const BagOfTriangles& original
 ) throw(bad_alloc) {
-    if(&original != this) {
+    if (&original != this) {
         Copy(original);
 
-        if(!BU_SETJUMP) {
+        if (!BU_SETJUMP) {
             rt_bot_internal*       thisInternal     = Internal();
             const rt_bot_internal* originalInternal = original.Internal();
 
-            thisInternal = bot_copy(originalInternal);
+            thisInternal = CloneBotInternal(*originalInternal);
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLAD::BagOfTriangles::operator=");
+            throw bad_alloc("BRLAD::BagOfTriangles::operator=()");
         }
 
         BU_UNSETJUMP;
     }
+
     return *this;
-};
+}
 
 
 Vector3D BagOfTriangles::Face::Point
@@ -298,17 +533,16 @@ Vector3D BagOfTriangles::Face::Point
     assert(index < 3);
     assert(m_bot != 0);
 
-    fastf_t  tmp[3];
     Vector3D ret;
 
-    if(m_bot != 0) {
-        tmp[0] = m_bot->vertices[m_bot->faces[m_faceIndex * 3 + index]];
-        tmp[1] = m_bot->vertices[m_bot->faces[m_faceIndex * 3 + index] + 1];
-        tmp[2] = m_bot->vertices[m_bot->faces[m_faceIndex * 3 + index] + 2];
-        ret = Vector3D(tmp);
+    if ((m_bot != 0) && (index < 3)) {
+        ret.coordinates[0] = m_bot->vertices[m_bot->faces[m_faceIndex * 3 + index] * 3];
+        ret.coordinates[1] = m_bot->vertices[m_bot->faces[m_faceIndex * 3 + index] * 3 + 1];
+        ret.coordinates[2] = m_bot->vertices[m_bot->faces[m_faceIndex * 3 + index] * 3 + 2];
     }
+
     return ret;
-};
+}
 
 
 void BagOfTriangles::Face::SetPoint
@@ -319,11 +553,12 @@ void BagOfTriangles::Face::SetPoint
     assert(index < 3);
     assert(m_bot != 0);
 
-    if(m_bot != 0) {
-        for(int i = 0; i < 3; i++)
-            m_bot->vertices[m_bot->faces[m_faceIndex * 3 + index] + i] = point.coordinates[i]; 
+    if ((m_bot != 0) && (index < 3)) {
+        point_t newPoint = {point.coordinates[0], point.coordinates[1], point.coordinates[2]};
+
+        m_bot->faces[m_faceIndex * 3 + index] = SwapVertex(m_bot->faces[m_faceIndex * 3 + index], newPoint, *m_bot);
     }
-};
+}
 
 
 void BagOfTriangles::Face::SetPoints
@@ -334,41 +569,57 @@ void BagOfTriangles::Face::SetPoints
 ) throw(bad_alloc) {
     assert(m_bot != 0);
 
-    if(m_bot != 0) {
+    if (m_bot != 0) {
         SetPoint(0, point1);
         SetPoint(1, point2);
         SetPoint(2, point3);
-    };
-};
+    }
+}
 
 
 double BagOfTriangles::Face::Thickness(void) const throw() {
     assert(m_bot != 0);
-    if(m_bot != 0) 
-        if(ApendThickness())
-            return m_bot->thickness[m_faceIndex];
-};
+    assert(m_bot->thickness != 0);
+    assert(m_bot->mode != RT_BOT_SOLID);
+    assert(m_bot->mode != RT_BOT_SURFACE);
+
+    double ret = 0.;
+
+    if ((m_bot != 0) && (m_bot->thickness != 0))
+        ret = m_bot->thickness[m_faceIndex];
+
+    return ret;
+}
 
 
 void BagOfTriangles::Face::SetThickness
 (
-    double t
+    double value
 ) throw() {
     assert(m_bot != 0);
-    if(m_bot != 0) 
-        if(ApendThickness()) 
-            m_bot->thickness[m_faceIndex] = t;
-};
+    assert(m_bot->thickness != 0);
+    assert(m_bot->mode != RT_BOT_SOLID);
+    assert(m_bot->mode != RT_BOT_SURFACE);
+
+    if (m_bot != 0) {
+        if (m_bot->thickness == 0)
+            m_bot->thickness = static_cast<fastf_t*>(bu_calloc(m_bot->num_faces, sizeof(fastf_t), "BRLAD::BagOfTriangles::Face::SetThickness(): thickness"));
+
+        m_bot->thickness[m_faceIndex] = value;
+    }
+}
 
 
 bool BagOfTriangles::Face::ApendThickness(void) const throw() {
     assert(m_bot != 0);
-    if(m_bot != 0) 
-        if(BU_BITSET(m_bot->face_mode, m_faceIndex))
-            return true;
 
-    return false;
-};
+    bool ret = false;
+
+    if ((m_bot != 0) && (m_bot->face_mode != 0))
+        ret = BU_BITTEST(m_bot->face_mode, m_faceIndex);
+
+    return ret;
+}
 
 
 void BagOfTriangles::Face::SetApendThickness
@@ -376,93 +627,102 @@ void BagOfTriangles::Face::SetApendThickness
     bool apendThickness
 ) throw() {
     assert(m_bot != 0);
-    if(m_bot != 0) {
-        if(apendThickness)
+
+    if (m_bot != 0) {
+        if (m_bot->face_mode == 0)
+            m_bot->face_mode = bu_bitv_new(m_bot->num_faces);
+
+        if (apendThickness)
             BU_BITSET(m_bot->face_mode, m_faceIndex);
         else
             BU_BITCLR(m_bot->face_mode, m_faceIndex);
     }
-};
+}
 
 
 Vector3D BagOfTriangles::Face::Normal
 (
     size_t index
 ) const throw() {
-    fastf_t tmp[3];
-    Vector3D ret;
     assert(m_bot != 0);
 
-    if(m_bot != 0) {
-        tmp[0] = m_bot->normals[m_bot->face_normals[m_faceIndex * 3 + index] * 3];
-        tmp[1] = m_bot->normals[m_bot->face_normals[m_faceIndex * 3 + index] * 3 + 1];
-        tmp[2] = m_bot->normals[m_bot->face_normals[m_faceIndex * 3 + index] * 3 + 2];
+    Vector3D ret;
+
+    if (m_bot != 0) {
+        fastf_t tmp[3] = {m_bot->normals[m_bot->face_normals[m_faceIndex * 3 + index] * 3],
+                          m_bot->normals[m_bot->face_normals[m_faceIndex * 3 + index] * 3 + 1],
+                          m_bot->normals[m_bot->face_normals[m_faceIndex * 3 + index] * 3 + 2]};
+
         ret = Vector3D(tmp);
-    };
+    }
 
     return ret;
-};
+}
 
 
 void BagOfTriangles::Face::SetNormal
 (
-    const Vector3D& normal,
-    size_t          index
+    size_t          index,
+    const Vector3D& normal
 ) throw() {
+    assert(index < 3);
     assert(m_bot != 0);
-    if(m_bot != 0) {
-        if(m_bot->num_normals == 0) {
-            m_bot->num_normals = m_bot->num_faces * 3;
-            m_bot->num_face_normals = m_bot->num_faces;
 
-            m_bot->normals = (fastf_t*) bu_calloc(m_bot->num_normals * 3, sizeof(fastf_t), "Face::SetNormal::m_bot->normals");
-            m_bot->face_normals = (int*) bu_calloc(m_bot->num_face_normals * 3, sizeof(int), "Face::SetNormal::m_bot->face_normals");
+    if ((m_bot != 0) && (index < 3)) {
+        EnsureFaceNormals(*m_bot);
 
-            m_bot->face_normals[m_faceIndex * 3 + index] = 0; // TODO:: find real value
+        point_t newNormal = {normal.coordinates[0], normal.coordinates[1], normal.coordinates[2]};
 
-            for(int i = 0; i < 3; i++)
-                m_bot->normals[m_bot->face_normals[m_faceIndex * 3 + index] * 3 + i] = normal.coordinates[i];
-        }
-        else {
-            m_bot->face_normals[m_faceIndex * 3 + index] = 0; // TODO:: find real value
-
-            for(int i = 0; i < 3; i++)
-                m_bot->normals[m_bot->face_normals[m_faceIndex * 3 + index] * 3 + i] = normal.coordinates[i];
-        }
-
+        m_bot->face_normals[m_faceIndex * 3 + index] = SwapNormal(m_bot->face_normals[m_faceIndex * 3 + index], newNormal, *m_bot);
     }
-};
+}
+
+
+void BagOfTriangles::Face::SetNormals
+(
+    const Vector3D& normal1,
+    const Vector3D& normal2,
+    const Vector3D& normal3
+) throw(bad_alloc) {
+    assert(m_bot != 0);
+
+    if (m_bot != 0) {
+        SetNormal(0, normal1);
+        SetNormal(1, normal2);
+        SetNormal(2, normal3);
+    }
+}
 
 
 BagOfTriangles::BotMode BagOfTriangles::Mode(void) const throw() {
     BagOfTriangles::BotMode ret;
 
-    switch(Internal()->mode) {
+    switch (Internal()->mode) {
         case RT_BOT_SURFACE:
-            ret = BagOfTriangles::Surface;
+            ret = Surface;
             break;
 
         case RT_BOT_SOLID:
-            ret = BagOfTriangles::Solid;
+            ret = Solid;
             break;
 
         case RT_BOT_PLATE:
-            ret = BagOfTriangles::Plate;
+            ret = Plate;
             break;
 
         case RT_BOT_PLATE_NOCOS:
             ret = EqualLineOfSightPlate;
-    };
+    }
 
     return ret;
-};
+}
 
 
 void BagOfTriangles::SetMode
 (
     BotMode mode
 ) throw(bad_alloc) {
-    switch(mode) {
+    switch (mode) {
         case Surface:
             Internal()->mode = RT_BOT_SURFACE;
             break;
@@ -477,24 +737,24 @@ void BagOfTriangles::SetMode
 
         case EqualLineOfSightPlate:
             Internal()->mode = RT_BOT_PLATE_NOCOS;
-    };
-};
+    }
+}
 
 
 BagOfTriangles::BotOrientation BagOfTriangles::Orientation(void) const throw() {
     BagOfTriangles::BotOrientation ret = BagOfTriangles::Unoriented;
 
-    switch(Internal()->orientation) {
+    switch (Internal()->orientation) {
         case RT_BOT_CW:
-            ret = BagOfTriangles::ClockWise;
+            ret = ClockWise;
             break;
 
         case RT_BOT_CCW:
-            ret = BagOfTriangles::CounterClockWise;
-    };
+            ret = CounterClockWise;
+    }
 
     return ret;
-};
+}
 
 
 void BagOfTriangles::SetOrientation
@@ -513,189 +773,131 @@ void BagOfTriangles::SetOrientation
         case CounterClockWise:
             Internal()->orientation = RT_BOT_CCW;
     }
-};
+}
 
 
 bool BagOfTriangles::FacesHaveNormals(void) const throw() {
-    if (Internal()->bot_flags & RT_BOT_HAS_SURFACE_NORMALS)
-        return true;
-    return false;
-};
+    return Internal()->bot_flags & RT_BOT_HAS_SURFACE_NORMALS;
+}
 
 
 void BagOfTriangles::SetFacesHaveNormals
 (
     bool facesHaveNormals
 ) throw(bad_alloc) {
-    if(facesHaveNormals) 
+    if (facesHaveNormals)
         Internal()->bot_flags |= RT_BOT_HAS_SURFACE_NORMALS;
     else
-        Internal()->bot_flags &= (1 << RT_BOT_HAS_SURFACE_NORMALS);
-};
+        Internal()->bot_flags &= RT_BOT_HAS_SURFACE_NORMALS;
+}
 
 
 bool BagOfTriangles::UseFaceNormals(void) const throw() {
-    if(Internal()->bot_flags & RT_BOT_USE_NORMALS)
-        return true;
-
-    return false;
-};
+    return (Internal()->bot_flags & RT_BOT_USE_NORMALS) != 0;
+}
 
 
 void BagOfTriangles::SetUseFaceNormals
 (
     bool useFaceNormals
 ) throw() {
-    if(useFaceNormals)
+    if (useFaceNormals)
         Internal()->bot_flags |= RT_BOT_USE_NORMALS;
     else
-        Internal()->bot_flags &= (1 << RT_BOT_USE_NORMALS);
-};
+        Internal()->bot_flags &= RT_BOT_USE_NORMALS;
+}
 
 
 bool BagOfTriangles::UseFloats(void) const throw() {
-    if(Internal()->bot_flags & RT_BOT_USE_FLOATS)
-        return true;
-    return false;
-};
+    return (Internal()->bot_flags & RT_BOT_USE_FLOATS) != 0;
+}
 
 
 void BagOfTriangles::SetUseFloats
 (
     bool useFloats
 ) throw() {
-    if(useFloats)
+    if (useFloats)
         Internal()->bot_flags |= RT_BOT_USE_FLOATS;
     else
-        Internal()->bot_flags &= (1 << RT_BOT_USE_FLOATS);
-};
+        Internal()->bot_flags &= RT_BOT_USE_FLOATS;
+}
 
 
-int BagOfTriangles::NumberOfFaces(void) const throw() {
+size_t BagOfTriangles::NumberOfFaces(void) const throw() {
     return Internal()->num_faces;
-};
+}
 
 
-BagOfTriangles::Face* BagOfTriangles::Get
+BagOfTriangles::Face BagOfTriangles::GetFace
 (
     size_t index
 ) throw() {
-    return new Face(Internal(), index);
-};
+    assert(index < Internal()->num_faces);
 
+    Face ret;
 
-BagOfTriangles::Face* BagOfTriangles::AppendFace(void) throw(bad_alloc) {
-    BagOfTriangles::Face* ret         = 0;
-    point_t               triangle[3] = {0.};
-    size_t                faceIndex;
-
-    if(!BU_SETJUMP) {
-        rt_bot_internal* bot = Internal();
-        if(Internal()->num_faces == 0) {
-            Internal()->faces = static_cast<int*>(bu_malloc(3 * sizeof(int), "BagOfTriangles::AppendFace: faces"));
-
-            if(Internal()->mode != RT_BOT_SURFACE && Internal()->mode != RT_BOT_SOLID)
-                Internal()->thickness = static_cast<fastf_t*>(bu_malloc(3*sizeof(fastf_t), "BagOfTriangles::AppendFace: thickness"));
-
-            Internal()->vertices     = static_cast<fastf_t*>(bu_malloc(9 * sizeof(fastf_t), "BagOfTriangles::AppendFace: vertices"));
-            Internal()->num_vertices = 3;
-
-            faceIndex = 0;
-
-        }
-        else {
-            Internal()->faces = static_cast<int*>(bu_realloc(Internal()->faces, (3*Internal()->num_faces + 1) * sizeof(int), "BagOfTriangles::AppendFace: faces"));
-
-            if(Internal()->mode != RT_BOT_SURFACE && Internal()->mode != RT_BOT_SOLID)
-                Internal()->thickness =static_cast<fastf_t*>(bu_realloc(Internal()->thickness, (3*Internal()->num_faces + 1)*sizeof(fastf_t), "BagOfTriangles::AppendFace: thickness"));
-
-            Internal()->vertices      = static_cast<fastf_t*>(bu_realloc(Internal()->vertices, 3 * (Internal()->num_vertices + 3 ) * sizeof(fastf_t), "BagOfTriangles::AppendFace: vertices"));
-            Internal()->num_vertices += 3;
-
-            faceIndex = Internal()->num_faces;
-        };
-
-        for(int i = 0; i < 3; i++) {
-            Internal()->faces[Internal()->num_faces+i] = Internal()->num_vertices;
-            AddToVerts(triangle[i], *bot);
-        };
-
-        Internal()->num_faces++;
-
-        if(Internal()->num_normals > 0) {
-            Internal()->normals           = static_cast<fastf_t*>(bu_realloc(Internal()->normals, 3 * (Internal()->num_normals + 3 ) * sizeof(fastf_t), "BagOfTriangles::AppendFace::normals"));
-            Internal()->face_normals      = static_cast<int*>(bu_realloc(Internal()->face_normals, 3 * (Internal()->num_face_normals + 1) * sizeof(int), "BagOfTriangles::AppendFace::face_normals"));
-            Internal()->num_normals      += 3;
-            Internal()->num_face_normals += 1;
-        };
-
-        ret = new Face(bot, faceIndex);
-    }
-    else {
-        BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::BagOfTriangles::AppendFace");
-    };
-
-    BU_UNSETJUMP;
+    if (index < Internal()->num_faces)
+        ret = Face(Internal(), index);
 
     return ret;
-};
+}
 
 
-BagOfTriangles::Face* BagOfTriangles::InsertFace
+BagOfTriangles::Face BagOfTriangles::AddFace
 (
-    size_t          index,
     const Vector3D& point1,
     const Vector3D& point2,
     const Vector3D& point3
 ) throw(bad_alloc) {
-    BagOfTriangles::Face* ret = 0;
-
-    assert(Internal()->num_faces > 0);
-    assert(index < Internal()->num_faces);
-
-    if(Internal()-> num_faces <= 0 || index > Internal()->num_faces)
-        return NULL;
+    BagOfTriangles::Face ret;
 
     if (!BU_SETJUMP) {
         rt_bot_internal* bot = Internal();
 
-        Internal()->faces = static_cast<int*>(bu_realloc(Internal()->faces, (Internal()->num_faces + 1) * 3 * sizeof(int), "BagOfTriangles::InsertFace: faces"));
+        bot->faces = static_cast<int*>(bu_realloc(bot->faces, (bot->num_faces + 1) * 3 * sizeof(int), "BagOfTriangles::AddFace(): faces"));
 
-        if(Internal()->mode != RT_BOT_SURFACE && Internal()->mode != RT_BOT_SOLID) {
-            Internal()->thickness = static_cast<fastf_t*>(bu_realloc(Internal()->thickness, (Internal()->num_faces + 1) * 3 * sizeof(fastf_t), "BagOfTriangles::InsertFace: thickness"));
+        point_t newPoint1 = {point1.coordinates[0], point1.coordinates[1], point1.coordinates[2]};
+        point_t newPoint2 = {point2.coordinates[0], point2.coordinates[1], point2.coordinates[2]};
+        point_t newPoint3 = {point3.coordinates[0], point3.coordinates[1], point3.coordinates[2]};
 
-            memmove(Internal()->thickness + index * 3 + 3, Internal()->thickness + 3, (Internal()->num_faces - index) * 3 * sizeof(int));
+        bot->faces[bot->num_faces * 3]     = AddVertex(newPoint1, *bot);
+        bot->faces[bot->num_faces * 3 + 1] = AddVertex(newPoint2, *bot);
+        bot->faces[bot->num_faces * 3 + 2] = AddVertex(newPoint3, *bot);
+
+        if(Internal()->thickness != 0) {
+            bot->thickness                 = static_cast<fastf_t*>(bu_realloc(bot->thickness, (bot->num_faces + 1) * sizeof(fastf_t), "BagOfTriangles::InsertFace: thickness"));
+            bot->thickness[bot->num_faces] = 1.;
         }
 
-        if(Internal()->num_normals > 0) {
-            Internal()->normals = static_cast<fastf_t*>(bu_realloc(Internal()->normals, 3 * (Internal()->num_normals + 3 ) * sizeof(fastf_t), "BagOfTriangles::InsertFace::normals"));
-            Internal()->face_normals = static_cast<int*>(bu_realloc(Internal()->face_normals, 3 * (Internal()->num_face_normals + 1 ) * sizeof(int), "BagOfTriangles::InsertFace::face_normals"));
+        if(Internal()->face_mode != 0) {
+            assert(bot->mode != RT_BOT_SURFACE);
+            assert(bot->mode != RT_BOT_SOLID);
 
-        };
+            bu_bitv* temp = bu_bitv_new(bot->num_faces + 1);
 
-        Internal()->vertices = static_cast<fastf_t*>(bu_realloc(Internal()->vertices, (Internal()->num_vertices + 3) * 3 * sizeof(fastf_t), "BagOfTriangles::InsertFace: vertices"));
+            for (size_t i = 0; i < bot->num_faces; ++i) {
+                if (BU_BITTEST(bot->face_mode, i))
+                    BU_BITSET(temp, i);
+                else
+                    BU_BITCLR(temp, i);
+            }
 
-        memmove(Internal()->faces + index * 3 + 3, Internal()->faces + 3, (Internal()->num_faces - index) * 3 * sizeof(int));
+            if  (bot->num_faces > 0) {
+                if (BU_BITTEST(bot->face_mode, bot->num_faces - 1))
+                    BU_BITSET(temp, bot->num_faces);
+                else
+                    BU_BITCLR(temp, bot->num_faces);
+            }
 
-        if(Internal()->num_normals > 0) {
-            memmove(Internal()->normals + Internal()->face_normals[index] * 3 + 3, Internal()->normals + 3, (Internal()->num_normals - Internal()->face_normals[index]) * 3 * sizeof(fastf_t));
-            memmove(Internal()->face_normals + index * 3 + 3, Internal()->face_normals + 3, (Internal()->num_face_normals - index) * 3 * sizeof(int));
+            bu_bitv_free(bot->face_mode);
+            bot->face_mode = temp;
         }
 
-        memmove(Internal()->vertices + (index +1) * 3,Internal()->vertices + index * 3, (Internal()->num_vertices - index * 3) * sizeof(fastf_t));
+        ++bot->num_faces;
+        EnsureFaceNormals(*bot);
 
-        Internal()->num_faces++;
-
-        if(Internal()->num_normals > 0) {
-            Internal()->num_normals      += 3;
-            Internal()->num_face_normals += 1;
-        }
-
-        Internal()->num_vertices += 3;
-
-        ret = new Face(bot, index);
-        ret->SetPoints(point1, point2, point3);
+        ret = Face(bot, bot->num_faces - 1);
     }
     else {
         BU_UNSETJUMP;
@@ -705,7 +907,7 @@ BagOfTriangles::Face* BagOfTriangles::InsertFace
     BU_UNSETJUMP;
 
     return ret;
-};
+}
 
 
 void BagOfTriangles::DeleteFace(
@@ -714,12 +916,12 @@ void BagOfTriangles::DeleteFace(
     assert(index < Internal()->num_faces);
 
     if (!BU_SETJUMP) {
-        for(int i = 0; i < 3; i++) 
-            RemoveFromVerts(Internal()->faces[index + i], *Internal());
+        for(int i = 0; i < 3; i++)
+            RemoveVertex(Internal()->faces[index * 3 + i], *Internal());
 
-        deleteFace(index, *Internal());
-    };
-};
+        RemoveFace(index, *Internal());
+    }
+}
 
 
 const Object& BagOfTriangles::operator=
@@ -733,27 +935,27 @@ const Object& BagOfTriangles::operator=
         *this = *bot;
 
     return *this;
-};
+}
 
 
 Object* BagOfTriangles::Clone(void) const throw(bad_alloc, std::bad_alloc) {
     return new BagOfTriangles(*this);
-};
+}
 
 
 const char* BagOfTriangles::ClassName(void) throw() {
     return "BagOfTriangles";
-};
+}
 
 
 const char* BagOfTriangles::Type(void) const throw() {
     return ClassName();
-};
+}
 
 
 bool BagOfTriangles::IsValid(void) const throw() {
     return true;
-};
+}
 
 
 BagOfTriangles::BagOfTriangles
@@ -777,7 +979,7 @@ rt_bot_internal* BagOfTriangles::Internal(void) throw() {
     RT_BOT_CK_MAGIC(ret);
 
     return ret;
-};
+}
 
 
 const rt_bot_internal* BagOfTriangles::Internal(void) const throw() {
@@ -788,7 +990,7 @@ const rt_bot_internal* BagOfTriangles::Internal(void) const throw() {
     else
         ret = m_internalp;
 
-    RT_SKETCH_CK_MAGIC(ret);
+    RT_BOT_CK_MAGIC(ret);
 
     return ret;
 }
