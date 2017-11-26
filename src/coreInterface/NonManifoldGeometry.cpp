@@ -554,7 +554,7 @@ void NonManifoldGeometry::Triangulate(void) throw(bad_alloc) {
     tolerance.para    = 1 - tolerance.perp;
 
     if (!BU_SETJUMP)
-        nmg_triangulate_model(Internal(), &tolerance);
+        nmg_triangulate_model(Internal(), &RTG.rtg_vlfree, &tolerance);
     else {
         BU_UNSETJUMP;
         throw bad_alloc("BRLCAD::NonManifoldGeometry::Triangulate");
@@ -577,7 +577,7 @@ void NonManifoldGeometry::Triangulate
     tolerance.para    = 1 - tolerance.perp;
 
     if (!BU_SETJUMP)
-        nmg_triangulate_shell(const_cast<shell*>(shellToTrinagulate.m_shell), &tolerance);
+        nmg_triangulate_shell(const_cast<shell*>(shellToTrinagulate.m_shell), &RTG.rtg_vlfree, &tolerance);
     else {
         BU_UNSETJUMP;
         throw bad_alloc("BRLCAD::NonManifoldGeometry::Triangulate");
@@ -600,7 +600,7 @@ void NonManifoldGeometry::Triangulate
     tolerance.para    = 1 - tolerance.perp;
 
     if (!BU_SETJUMP)
-        nmg_triangulate_fu(const_cast<faceuse*>(faceToTrinagulate.m_face), &tolerance);
+        nmg_triangulate_fu(const_cast<faceuse*>(faceToTrinagulate.m_face), &RTG.rtg_vlfree, &tolerance);
     else {
         BU_UNSETJUMP;
         throw bad_alloc("BRLCAD::NonManifoldGeometry::Triangulate");

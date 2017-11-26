@@ -223,7 +223,7 @@ bool Torus::IsValid(void) const throw() {
 
     if (!NEAR_ZERO(internalp->r_a, SMALL_FASTF) &&
         !NEAR_ZERO(internalp->r_h, SMALL_FASTF) &&
-        !BN_VEC_NON_UNIT_LEN(internalp->h) &&
+        NEAR_EQUAL(MAGNITUDE(internalp->h), 1., RT_LEN_TOL) &&
         (internalp->r_a >= internalp->r_h))
         ret = true;
 

@@ -329,11 +329,11 @@ bool Hyperboloid::IsValid(void) const throw() {
     const rt_ehy_internal* internalp = Internal();
 
     if (!VNEAR_ZERO(internalp->ehy_H, SMALL_FASTF) &&
-        !BN_VEC_NON_UNIT_LEN(internalp->ehy_Au) &&
+        NEAR_EQUAL(MAGNITUDE(internalp->ehy_Au), 1., RT_LEN_TOL) &&
         (internalp->ehy_r1 > SMALL_FASTF) &&
         (internalp->ehy_r1 >= internalp->ehy_r2) &&
         (internalp->ehy_c > SMALL_FASTF) &&
-        NEAR_ZERO(VDOT(internalp->ehy_H, Internal()->ehy_Au ), RT_DOT_TOL))
+        NEAR_ZERO(VDOT(internalp->ehy_H, internalp->ehy_Au ), RT_DOT_TOL))
         ret = true;
 
     return ret;
