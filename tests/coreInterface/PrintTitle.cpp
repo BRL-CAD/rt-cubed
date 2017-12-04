@@ -47,7 +47,7 @@ int main
     int ret = 0;
 
     if (argc < 2) {
-        std::cout << "Usage: " << argv[0] << " <BRL-CAD Database>";
+        std::cout << "Usage: " << argv[0] << " <BRL-CAD Database>" << std::endl;
         ret = 1;
     }
     else {
@@ -55,14 +55,14 @@ int main
             BRLCAD::ConstDatabase database;
 
             if (database.Load(argv[1]))
-                std::cout << database.Title();
+                std::cout << database.Title() << std::endl;
             else {
-                std::cout << "Could not load file: " << argv[1];
+                std::cerr << "Could not load file: " << argv[1] << std::endl;
                 ret = 2;
             }
         }
         catch(BRLCAD::bad_alloc& e) {
-            std::cout << "Out of memory in: " << e.what();
+            std::cerr << "Out of memory in: " << e.what() << std::endl;
             ret = 3;
         }
     }
