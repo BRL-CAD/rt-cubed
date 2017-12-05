@@ -28,6 +28,7 @@
 
 #Libs next
 #ADD_SUBDIRECTORY(./date)
+ADD_SUBDIRECTORY(./other)
 ADD_SUBDIRECTORY(./libge)
 ADD_SUBDIRECTORY(./coreInterface)
 #ADD_SUBDIRECTORY(./g3d)
