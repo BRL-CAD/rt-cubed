@@ -34,7 +34,7 @@
 using namespace BRLCAD;
 
 
-BRLCAD_EMBEDDEDLUA_EXPORT bool RunEmbeddedLua
+BRLCAD_EMBEDDEDLUA_EXPORT bool BRLCAD::RunEmbeddedLua
 (
     Database&   database,
     const char* script,
@@ -184,7 +184,7 @@ private:
 };
 
 
-BRLCAD_EMBEDDEDLUA_EXPORT EmbeddedLuaHandle* CreateEmbeddedLuaHandleInstance
+BRLCAD_EMBEDDEDLUA_EXPORT EmbeddedLuaHandle* BRLCAD::CreateEmbeddedLuaHandleInstance
 (
     Database& database,
     void      (*stdOut)(const char* text),
@@ -194,7 +194,7 @@ BRLCAD_EMBEDDEDLUA_EXPORT EmbeddedLuaHandle* CreateEmbeddedLuaHandleInstance
 }
 
 
-BRLCAD_EMBEDDEDLUA_EXPORT void DestroyEmbeddedLuaHandleInstance
+BRLCAD_EMBEDDEDLUA_EXPORT void BRLCAD::DestroyEmbeddedLuaHandleInstance
 (
     EmbeddedLuaHandle* handle
 ) {
