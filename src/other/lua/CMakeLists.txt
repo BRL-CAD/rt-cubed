@@ -1,4 +1,6 @@
-set (lua_SRC
+set(LUA_INCLUDE_DIR "$[CMAKE_CURRENT_SOURCE_DIR}/src" CACHE PATH "Lua include path for build")
+
+set(lua_SRC
     src/lapi.c
     src/lcode.c
     src/lctype.c
@@ -34,17 +36,17 @@ set (lua_SRC
     src/linit.c
 )
 
-IF(BUILD_SHARED_LIBS)
+if(BUILD_SHARED_LIBS)
     add_library(lua SHARED ${lua_SRC})
     install(TARGETS lua DESTINATION lib)
-ENDIF(BUILD_SHARED_LIBS)
+endif(BUILD_SHARED_LIBS)
 
-IF(BUILD_STATIC_LIBS)
+if(BUILD_STATIC_LIBS)
     add_library(lua-static STATIC ${lua_SRC})
     install(TARGETS lua-static DESTINATION lib)
-ENDIF(BUILD_STATIC_LIBS)
+endif(BUILD_STATIC_LIBS)
 
-SET(lua_HDRS
+set(lua_HDRS
     src/lua.h
     src/luaconf.h
     src/lualib.h
@@ -52,4 +54,4 @@ SET(lua_HDRS
     src/lua.hpp
 )
 
-INSTALL(FILES ${lua_HDRS} DESTINATION include)
+install(FILES ${lua_HDRS} DESTINATION include)
