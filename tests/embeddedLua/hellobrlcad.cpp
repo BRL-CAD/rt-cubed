@@ -51,7 +51,7 @@ int main
                 EmbeddedLuaHandle* handle = CreateEmbeddedLuaHandleInstance(database, 0, 0);
 
                 if (handle != 0) {
-                    handle->Execute("print(\"Hello \", Database.Title(), \"!\")");
+                    handle->Execute("print(\"Hello \", database:Title(), \"!\")");
                     DestroyEmbeddedLuaHandleInstance(handle);
                 }
                 else {

@@ -61,24 +61,30 @@ void InitDatabase
     lua_State*        luaState,
     BRLCAD::Database& database
 ) {
+    lua_newtable(luaState);
+    int methodtable = lua_gettop(luaState);
+    luaL_newmetatable(luaState, "Database");
+    int metatable   = lua_gettop(luaState);
+
+    lua_pushliteral(luaState, "__metatable");
+    lua_pushvalue(luaState, methodtable);
+    lua_settable(luaState, metatable);
+
+    lua_pushliteral(luaState, "__index");
+    lua_pushvalue(luaState, methodtable);
+    lua_settable(luaState, metatable);
+
+    lua_pop(luaState, 1);
+
+    lua_pushcclosure(luaState, GetTitle, 0);
+    lua_setfield(luaState, -2, "Title");
+
+    lua_pop(luaState, 1);
+
+    // register a global "database" variable
     Database** pDatabase = static_cast<Database**>(lua_newuserdata(luaState, sizeof(Database*)));
     *pDatabase = &database;
-
-    lua_getfield(luaState, LUA_REGISTRYINDEX, "Database");
-
-    if (!lua_istable(luaState, -1)) { // already created?
-        lua_pop(luaState, 1);
-        lua_newtable(luaState);       // create metatable
-        lua_pushvalue(luaState, -1);
-        lua_setfield(luaState, LUA_REGISTRYINDEX, "Database");  // registry.name = metatable
-
-        lua_pushvalue(luaState, -1);
-        lua_setfield(luaState, -2, "__index");
-
-        lua_pushstring(luaState, "Title");
-        lua_pushcfunction(luaState, &GetTitle);
-        lua_settable(luaState, -3);
-    }
-
+    luaL_getmetatable(luaState, "Database");
     lua_setmetatable(luaState, -2);
+    lua_setglobal(luaState, "database");
 }
