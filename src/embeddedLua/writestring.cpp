@@ -71,11 +71,19 @@ void brlcad_writestringerror
     if ((formatString != 0) && (textParameter != 0)) {
         size_t bufferSize = 256;
         char*  buffer     = static_cast<char*>(malloc(bufferSize));
+        int    printRet   = snprintf(buffer, bufferSize - 1, formatString, textParameter);
 
-        while (snprintf(buffer, bufferSize - 1, formatString, textParameter) < 0) {
-            bufferSize *= 2;
-            buffer      = static_cast<char*>(realloc(buffer, bufferSize));
+        while ((printRet < 0) || (printRet > (bufferSize - 1))) { // MSVS _snprintf vs. C99 snprintf
+            if (printRet > 0)
+                bufferSize = printRet + 1;
+            else
+                bufferSize *= 2;
+
+            buffer   = static_cast<char*>(realloc(buffer, bufferSize));
+            printRet = snprintf(buffer, bufferSize - 1, formatString, textParameter);
         }
+
+        buffer[bufferSize - 1] = '\0';
 
         if (brlcad_stdoutstream != 0) {
             brlcad_stdoutstream(buffer);

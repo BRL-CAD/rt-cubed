@@ -40,6 +40,7 @@
 #     BRLCAD_GED_LIBRARY - BRL-CAD Geometry Editing library
 #     BRLCAD_ICV_LIBRARY - BRL-CAD Image Conversion library
 #     BRLCAD_MULTISPECTRAL_LIBRARY - BRL-CAD multispectral library
+#     BRLCAD_NMG_LIBRARY - BRL-CAD non-manifold geometry library
 #     BRLCAD_OPTICAL_LIBRARY - BRL-CAD optical library
 #     BRLCAD_ORLE_LIBRARY - liborle
 #     BRLCAD_PKG_LIBRARY - BRL-CAD libpkg
@@ -184,6 +185,7 @@ SET(BRL-CAD_LIBS_SEARCH_LIST
 	ged
 	icv
 	multispectral
+	nmg
 	optical
 	orle
 	pkg

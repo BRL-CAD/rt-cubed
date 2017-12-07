@@ -75,11 +75,6 @@ static void RemoveFromVerts
         size_t vertexUsage = 0;
 
         for (int i = 0; i < sketch.curve.count; ++i) {
-            const struct line_seg *lsg;
-            const struct carc_seg *csg;
-            const struct nurb_seg *nsg;
-            const struct bezier_seg *bsg;
-
             const uint32_t *magic = static_cast<uint32_t*>(sketch.curve.segment[i]);
 
             switch (*magic) {
@@ -118,7 +113,7 @@ static void RemoveFromVerts
                 case CURVE_BEZIER_MAGIC: {
                         bezier_seg* bezier = static_cast<bezier_seg*>(sketch.curve.segment[i]);
 
-                        for (size_t j = 0; j <= bsg->degree; ++j) {
+                        for (size_t j = 0; j <= bezier->degree; ++j) {
                             if (bezier->ctl_points[j] == index)
                                 ++vertexUsage;
                         }
@@ -973,7 +968,7 @@ Sketch::Segment* Sketch::Get
 ) const throw(bad_alloc, std::bad_alloc) {
     class SegmentCallbackIntern: public ConstSegmentCallback {
     public:
-        SegmentCallbackIntern(void) : ConstSegmentCallback::ConstSegmentCallback(), m_segment(0) {}
+        SegmentCallbackIntern(void) : ConstSegmentCallback(), m_segment(0) {}
         virtual ~SegmentCallbackIntern(void) throw() {}
         virtual void operator()(const Segment& segment) {
             try {
@@ -988,6 +983,10 @@ Sketch::Segment* Sketch::Get
     private:
         Segment* m_segment;
     } segCallbackIntern;
+
+    Get(index, segCallbackIntern);
+
+    return segCallbackIntern.GetSegment();
 };
 
 
