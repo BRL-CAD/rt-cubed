@@ -32,3 +32,6 @@
 
 add_executable(helloworld helloworld.cpp)
 target_link_libraries(helloworld embeddedlua)
+
+add_executable(hellobrlcad hellobrlcad.cpp)
+target_link_libraries(hellobrlcad embeddedlua)

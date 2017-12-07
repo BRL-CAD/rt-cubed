@@ -29,6 +29,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set (embeddedLua_SRC
     embeddedlua.cpp
+    initbrlcad.cpp
+    luadatabase.cpp
     writestring.cpp
     ../other/lua/src/lapi.c
     ../other/lua/src/lcode.c

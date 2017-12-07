@@ -1,4 +1,4 @@
-/*                  W R I T E S T R I N G . H
+/*                  I N I T B R L C A D . H
  * BRL-CAD
  *
  * Copyright (c) 2017 United States Government as represented by
@@ -17,43 +17,25 @@
  * License along with this file; see the file named COPYING for more
  * information.
  */
-/** @file writestring.h
+/** @file initbrlcad.h
  *
  *  BRL-CAD embedded lua script:
- *      standard io stream redirection
+ *      BRL-CAD functions injection into Lua
  */
 
-#ifndef WRITESTRING_INCLUDED
-#define WRITESTRING_INCLUDED
+#ifndef INITBRLCAD_INCLUDED
+#define INITBRLCAD_INCLUDED
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "lua.hpp"
 
-
-extern void (*brlcad_stdoutstream)(const char* text);
-extern void (*brlcad_sterrstream)(const char* text);
+#include "brlcad/Database.h"
 
 
-void brlcad_writestring
+void InitBrlcad
 (
-    const char* text,
-    size_t      textLength
+    lua_State*        luaState,
+    BRLCAD::Database& database
 );
 
 
-void brlcad_writeline(void);
-
-
-void brlcad_writestringerror
-(
-    const char* formatString,
-    const char* textParameter
-);
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif // WRITESTRING_INCLUDED
+#endif // INITBRLCAD_INCLUDED

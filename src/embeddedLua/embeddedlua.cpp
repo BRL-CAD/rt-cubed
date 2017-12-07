@@ -28,6 +28,7 @@
 #include "lua.hpp"
 
 #include "writestring.h"
+#include "initbrlcad.h"
 #include "embeddedlua.h"
 
 
@@ -51,7 +52,7 @@ BRLCAD_EMBEDDEDLUA_EXPORT bool BRLCAD::RunEmbeddedLua
 
         if (luaState != 0) {
             luaL_openlibs(luaState);
-            //InitBrlcad(luaState, engine);
+            InitBrlcad(luaState, database);
 
             int error = luaL_loadbuffer(luaState, script, strlen(script), "BRL-CAD");
 
@@ -108,12 +109,12 @@ class EmbeddedLuaHandleImplementation : public EmbeddedLuaHandle {
 public:
     EmbeddedLuaHandleImplementation(Database& database,
                                     void      (*stdOut)(const char* text),
-                                    void      (*stdErr)(const char* text)) : EmbeddedLuaHandle(), m_database(database), m_stdOut(stdOut), m_stdErr(stdErr) {
+                                    void      (*stdErr)(const char* text)) : EmbeddedLuaHandle(), m_stdOut(stdOut), m_stdErr(stdErr) {
         m_luaState = luaL_newstate();
 
         if (m_luaState != 0) {
             luaL_openlibs(m_luaState);
-            //InitBrlcad(m_luaState, m_engine);
+            InitBrlcad(m_luaState, database);
         }
         else if (stdErr != 0)
             stdErr("Could not open Lua\n");
@@ -177,7 +178,6 @@ public:
     }
 
 private:
-    Database&  m_database;
     lua_State* m_luaState;
     void       (*m_stdOut)(const char* text);
     void       (*m_stdErr)(const char* text);
