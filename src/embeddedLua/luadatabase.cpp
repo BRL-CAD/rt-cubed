@@ -76,7 +76,7 @@ void InitDatabase
 
     lua_pop(luaState, 1);
 
-    lua_pushcclosure(luaState, GetTitle, 0);
+    lua_pushcfunction(luaState, GetTitle);
     lua_setfield(luaState, -2, "Title");
 
     lua_pop(luaState, 1);
