@@ -32,6 +32,11 @@
 using namespace BRLCAD;
 
 
+const char* const TheLuaScript = R"ESCSEQ(
+print("Hello ", database:Title(), "!")
+)ESCSEQ";
+
+
 int main
 (
     int   argc,
@@ -51,7 +56,7 @@ int main
                 EmbeddedLuaHandle* handle = CreateEmbeddedLuaHandleInstance(database, 0, 0);
 
                 if (handle != 0) {
-                    handle->Execute("print(\"Hello \", database:Title(), \"!\")");
+                    handle->Execute(TheLuaScript);
                     DestroyEmbeddedLuaHandleInstance(handle);
                 }
                 else {
