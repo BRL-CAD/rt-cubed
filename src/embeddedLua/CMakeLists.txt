@@ -5,18 +5,26 @@
 #	Copyright (c) 2017 United States Government as represented by
 #	the U.S. Army Research Laboratory.
 #
-#	This library is free software; you can redistribute it and/or
-#	modify it under the terms of the GNU Lesser General Public License
-#	version 2.1 as published by the Free Software Foundation.
+#	This file is in the public domain.
 #
-#	This library is distributed in the hope that it will be useful, but
-#	WITHOUT ANY WARRANTY; without even the implied warranty of
-#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-#	Lesser General Public License for more details.
+#	DISCLAIMER OF LIABILITY
 #
-#	You should have received a copy of the GNU Lesser General Public
-#	License along with this file; see the file named COPYING for more
-#	information.
+#	THIS FILE WAS CAREFULLY TESTED BY THE AUTHOR AND IS MADE AVAILABLE TO YOU
+#	FREE-OF-CHARGE IN A HIGH-GRADE ACTUAL STATUS. REFERENCE IS MADE HEREWITH TO
+#	THE FACT THAT IT IS NOT POSSIBLE TO DEVELOP SOFTWARE PROGRAMS SO THAT THEY
+#	ARE ERROR-FREE FOR ALL APPLICATION CONDITIONS. AS THE FILE IS LICENSED FREE
+#	OF CHARGE THERE IS NO WARRANTY FOR IT, INSOFAR AS SUCH WARRANTY IS NOT A
+#	MANDATORY REQUIREMENT OF THE APPLICABLE LAW, SUCH AS IN CASE OF WILFUL ACTS.
+#	IN ADDITION THERE IS NO LIABILITY ALSO INSOFAR AS SUCH LIABILITY IS NOT A
+#	MANDATORY REQUIREMENT OF THE APPLICABLE LAW, SUCH AS IN CASE OF WILFUL ACTS.
+#
+#	YOU DECLARE YOU ARE IN AGREEMENT WITH THE USE OF THIS FILE UNDER THE
+#	ABOVE-LISTED USAGE CONDITIONS AND THE EXCLUSION OF A GUARANTEE AND OF
+#	LIABILITY. SHOULD INDIVIDUAL PROVISIONS IN THESE CONDITIONS BE IN FULL OR IN
+#	PART VOID, INVALID OR CONTESTABLE, THE VALIDITY OF ALL OTHER PROVISIONS OR
+#	AGREEMENTS ARE UNAFFECTED BY THIS. FURTHER THE PARTIES UNDERTAKE AT THIS
+#	JUNCTURE TO AGREE A LEGALLY VALID REPLACEMENT CLAUSE WHICH MOST CLOSELY
+#	APPROXIMATES THE ECONOMIC OBJECTIVES.
 #
 #########################################################################
 #   @file rt^3/src/embeddedLua/CMakeLists.txt
