@@ -52,6 +52,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		MinimalDatabase.cxx
 		MinimalObject.cxx
 		../coreInterface/Arb8.cpp
+                ../coreInterface/BagOfTriangles.cpp
 		../coreInterface/Combination.cpp
 		../coreInterface/Cone.cpp
 		../coreInterface/ConstDatabase.cpp
@@ -70,6 +71,8 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		../coreInterface/Paraboloid.cpp
 		../coreInterface/Particle.cpp
 		../coreInterface/Pipe.cpp
+                ../coreInterface/Sketch.cpp
+                ../coreInterface/Sphere.cpp
 		../coreInterface/Torus.cpp
 		../coreInterface/Unknown.cpp
 	)
@@ -93,6 +96,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	SET(ge_inst_HDRS	
 		${RT3_SOURCE_DIR}/include/brlcad/Arb8.h
 		${RT3_SOURCE_DIR}/include/brlcad/cicommon.h
+		${RT3_SOURCE_DIR}/include/brlcad/BagOfTriangles.h
 		${RT3_SOURCE_DIR}/include/brlcad/Combination.h
 		${RT3_SOURCE_DIR}/include/brlcad/Cone.h
 		${RT3_SOURCE_DIR}/include/brlcad/ConstDatabase.h
@@ -112,10 +116,12 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/Particle.h
 		${RT3_SOURCE_DIR}/include/brlcad/Pipe.h
 		${RT3_SOURCE_DIR}/include/brlcad/Torus.h
+		${RT3_SOURCE_DIR}/include/brlcad/Sketch.h
+		${RT3_SOURCE_DIR}/include/brlcad/Sphere.h
 		${RT3_SOURCE_DIR}/include/brlcad/Unknown.h
 	)
 	INSTALL(FILES ${ge_inst_HDRS} DESTINATION include/brlcad)
-	TARGET_LINK_LIBRARIES(ge ${BRLCAD_BU_LIBRARY} ${BRLCAD_BN_LIBRARY} ${BRLCAD_RT_LIBRARY} ${BRLCAD_WDB_LIBRARY})
+	TARGET_LINK_LIBRARIES(ge ${BRLCAD_WDB_LIBRARY} ${BRLCAD_NMG_LIBRARY} ${BRLCAD_RT_LIBRARY} ${BRLCAD_BN_LIBRARY} ${BRLCAD_BU_LIBRARY})
 
 ELSE(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	MESSAGE(STATUS "\tConfiguration for 'ge'...  Omitted.")
