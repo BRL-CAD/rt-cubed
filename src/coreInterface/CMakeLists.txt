@@ -126,7 +126,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/Unknown.h
 	)
 	INSTALL(FILES ${coreinterface_inst_HDRS} DESTINATION include/brlcad)
-	TARGET_LINK_LIBRARIES(coreinterface ${BRLCAD_BU_LIBRARY} ${BRLCAD_BN_LIBRARY} ${BRLCAD_RT_LIBRARY} ${BRLCAD_WDB_LIBRARY} ${BRLCAD_NMG_LIBRARY})
+	TARGET_LINK_LIBRARIES(coreinterface ${BRLCAD_NMG_LIBRARY} ${BRLCAD_WDB_LIBRARY} ${BRLCAD_RT_LIBRARY} ${BRLCAD_BN_LIBRARY} ${BRLCAD_BU_LIBRARY})
 
 ELSE(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 	MESSAGE(STATUS "\tConfiguration for 'coreInterface'...  Omitted.")
