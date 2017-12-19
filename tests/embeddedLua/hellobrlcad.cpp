@@ -37,9 +37,7 @@
 using namespace BRLCAD;
 
 
-const char* const TheLuaScript = R"ESCSEQ(
-print("Hello ", database:Title(), "!")
-)ESCSEQ";
+const char* const TheLuaScript = "print(\"Hello \", database:Title(), \"!\")\n";
 
 
 int main
