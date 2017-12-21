@@ -99,7 +99,7 @@ IF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_STATIC_LIBS)
 
 SET(embeddedLua_HDRS
-    ${RT3_SOURCE_DIR}/include/embeddedLua.h
+    ${RT3_SOURCE_DIR}/include/embeddedlua.h
 )
 
 INSTALL(FILES ${embeddedLua_HDRS} DESTINATION include)
