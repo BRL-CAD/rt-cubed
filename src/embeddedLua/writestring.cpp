@@ -32,6 +32,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <cstdio>
 
 #include "writestring.h"
 
