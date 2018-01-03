@@ -61,6 +61,29 @@ static int GetTitle
 }
 
 
+static int Select
+(
+    lua_State* luaState
+) {
+    Database* database = GetDatabase(luaState);
+    const char *objectName = luaL_checkstring(luaState, -1);
+    database->Select(objectName);
+
+    return 0;
+}
+
+
+static int UnSelectAll
+(
+    lua_State* luaState
+) {
+    Database* database = GetDatabase(luaState);
+    database->UnSelectAll();
+
+    return 0;
+}
+
+
 void InitDatabase
 (
     lua_State*        luaState,
@@ -83,6 +106,12 @@ void InitDatabase
 
     lua_pushcfunction(luaState, GetTitle);
     lua_setfield(luaState, -2, "Title");
+
+    lua_pushcfunction(luaState, Select);
+    lua_setfield(luaState, -2, "Select");
+
+    lua_pushcfunction(luaState, UnSelectAll);
+    lua_setfield(luaState, -2, "UnSelectAll");
 
     lua_pop(luaState, 1);
 
