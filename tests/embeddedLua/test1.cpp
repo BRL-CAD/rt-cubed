@@ -31,11 +31,12 @@
 #include <iostream>
 #include <sstream>
 
-#include <embeddedlua.h>
 #include <brlcad/MemoryDatabase.h>
+#include <embeddedlua.h>
 
 
 using namespace BRLCAD;
+
 
 int main
 (
@@ -50,31 +51,31 @@ int main
     }
     else {
         try {
-        	std::stringstream TheLuaScript;
+            std::stringstream TheLuaScript;
             MemoryDatabase database;
 
             if (database.Load(argv[1])) {
                 EmbeddedLuaHandle* handle = CreateEmbeddedLuaHandleInstance(database, 0, 0);
 
                 if (handle != 0) {
-        			TheLuaScript << "database:Select(\"" << argv[2] << "\")\n";
+                    TheLuaScript << "database:Select(\"" << argv[2] << "\")\n";
                     handle->Execute(TheLuaScript.str().c_str());
 
                     if (!database.SelectionIsEmpty())
-                    	std::cout << "Successfully selected \"" << argv[2] << "\""<< std::endl;
+                        std::cout << "Successfully selected \"" << argv[2] << "\""<< std::endl;
                     else
-                    	std::cerr << "Could not select object \"" << argv[2] << "\"" << std::endl;
+                        std::cerr << "Could not select object \"" << argv[2] << "\"" << std::endl;
 
                     TheLuaScript.clear();
                     TheLuaScript.str("");
 
-        			TheLuaScript << "database:UnSelectAll()\n";
+                    TheLuaScript << "database:UnSelectAll()\n";
                     handle->Execute(TheLuaScript.str().c_str());
 
                     if (database.SelectionIsEmpty())
-                    	std::cout << "Successfully unselected all objects" << std::endl;
+                        std::cout << "Successfully unselected all objects" << std::endl;
                     else
-                    	std::cerr << "Could not unselect all objects" << std::endl;
+                        std::cerr << "Could not unselect all objects" << std::endl;
 
                     DestroyEmbeddedLuaHandleInstance(handle);
                 }
