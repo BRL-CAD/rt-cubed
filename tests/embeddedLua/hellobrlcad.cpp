@@ -25,7 +25,7 @@
 /** @file embeddedlua.cpp
  *
  *  BRL-CAD embedded lua script:
- *      Hello World! with BRL-CAD call test appliction
+ *      Hello World! with BRL-CAD call test application
  */
 
 #include <iostream>

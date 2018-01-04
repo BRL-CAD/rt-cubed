@@ -25,7 +25,7 @@
 /** @file embeddedlua.cpp
  *
  *  BRL-CAD embedded lua script:
- *      Hello World! test appliction
+ *      Hello World! test application
  */
 
 #include <iostream>
@@ -43,7 +43,7 @@ int main
     char* argv[]
 ) {
     int ret = 0;
-    
+
     MemoryDatabase     database;
     EmbeddedLuaHandle* handle = CreateEmbeddedLuaHandleInstance(database, 0, 0);
 
