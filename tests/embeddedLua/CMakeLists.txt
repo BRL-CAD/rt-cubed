@@ -36,5 +36,5 @@ target_link_libraries(helloworld embeddedlua)
 add_executable(hellobrlcad hellobrlcad.cpp)
 target_link_libraries(hellobrlcad embeddedlua)
 
-add_executable(test1 test1.cpp)
-target_link_libraries(test1 embeddedlua)
+add_executable(selectunselect selectunselect.cpp)
+target_link_libraries(selectunselect embeddedlua)
