@@ -61,7 +61,7 @@ static int Title
 }
 
 
-static int GetBoundingBoxMinima
+static int BoundingBoxMinima
 (
     lua_State* luaState
 ) {
@@ -76,7 +76,7 @@ static int GetBoundingBoxMinima
 }
 
 
-static int GetBoundingBoxMaxima
+static int BoundingBoxMaxima
 (
     lua_State* luaState
 ) {
@@ -145,10 +145,10 @@ void InitDatabase
     lua_pushcfunction(luaState, UnSelectAll);
     lua_setfield(luaState, -2, "UnSelectAll");
 
-    lua_pushcfunction(luaState, GetBoundingBoxMinima);
+    lua_pushcfunction(luaState, BoundingBoxMinima);
     lua_setfield(luaState, -2, "BoundingBoxMinima");
 
-    lua_pushcfunction(luaState, GetBoundingBoxMaxima);
+    lua_pushcfunction(luaState, BoundingBoxMaxima);
     lua_setfield(luaState, -2, "BoundingBoxMaxima");
 
     lua_pop(luaState, 1);
