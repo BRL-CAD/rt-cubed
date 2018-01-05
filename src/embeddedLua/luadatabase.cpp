@@ -61,6 +61,36 @@ static int Title
 }
 
 
+static int GetBoundingBoxMinima
+(
+    lua_State* luaState
+) {
+    Database* database          = GetDatabase(luaState);
+    Vector3D  boundingBoxMinima = database->BoundingBoxMinima();
+
+    lua_pushnumber(luaState, boundingBoxMinima.coordinates[0]);
+    lua_pushnumber(luaState, boundingBoxMinima.coordinates[1]);
+    lua_pushnumber(luaState, boundingBoxMinima.coordinates[2]);
+
+    return 3;
+}
+
+
+static int GetBoundingBoxMaxima
+(
+    lua_State* luaState
+) {
+    Database* database          = GetDatabase(luaState);
+    Vector3D  boundingBoxMaxima = database->BoundingBoxMaxima();
+
+    lua_pushnumber(luaState, boundingBoxMaxima.coordinates[0]);
+    lua_pushnumber(luaState, boundingBoxMaxima.coordinates[1]);
+    lua_pushnumber(luaState, boundingBoxMaxima.coordinates[2]);
+
+    return 3;
+}
+
+
 static int Select
 (
     lua_State* luaState
@@ -114,6 +144,12 @@ void InitDatabase
 
     lua_pushcfunction(luaState, UnSelectAll);
     lua_setfield(luaState, -2, "UnSelectAll");
+
+    lua_pushcfunction(luaState, GetBoundingBoxMinima);
+    lua_setfield(luaState, -2, "BoundingBoxMinima");
+
+    lua_pushcfunction(luaState, GetBoundingBoxMaxima);
+    lua_setfield(luaState, -2, "BoundingBoxMaxima");
 
     lua_pop(luaState, 1);
 
