@@ -38,3 +38,6 @@ target_link_libraries(hellobrlcad embeddedlua)
 
 add_executable(selectunselect selectunselect.cpp)
 target_link_libraries(selectunselect embeddedlua)
+
+add_executable(boundingbox boundingbox.cpp)
+target_link_libraries(boundingbox embeddedlua)
