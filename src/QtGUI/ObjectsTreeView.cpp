@@ -42,8 +42,14 @@ ObjectsTreeView::ObjectsTreeView
 
     setModel(m_objectsTree);
     setHeaderHidden(true);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    connect(this, &QTreeView::activated, this, &ObjectsTreeView::Activated);
+    connect(selectionModel(),
+            &QItemSelectionModel::selectionChanged,
+            this,
+            &ObjectsTreeView::Activated
+    );
 }
 
 
@@ -105,9 +111,17 @@ void ObjectsTreeView::Rebuild(void) {
 }
 
 
-void ObjectsTreeView::Activated(const QModelIndex& index) {
+void ObjectsTreeView::Activated(const QItemSelection & selected, const QItemSelection & deselected) {
+    QModelIndexList selectedIndexes;
+
     m_database.UnSelectAll();
-    m_database.Select(m_objectsTree->itemFromIndex(index)->text().toUtf8().data());
+    selectedIndexes = selectionModel()->selectedIndexes();
+
+    for (int i = 0; i < selectedIndexes.size(); i++) {
+        const QModelIndex selectedIndex = selectedIndexes.at(i);
+
+        m_database.Select(m_objectsTree->itemFromIndex(selectedIndex)->text().toUtf8().data());
+    }
 
     emit SelectionChanged();
 }

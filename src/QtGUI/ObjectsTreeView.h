@@ -53,7 +53,7 @@ private:
     QStandardItemModel*    m_objectsTree;
 
 private slots:
-    void Activated(const QModelIndex& index);
+    void Activated(const QItemSelection &, const QItemSelection &);
 };
 
 
