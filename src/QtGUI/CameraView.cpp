@@ -30,6 +30,7 @@
 
 #include <limits>
 #include <cmath>
+#include <math.h>
 
 #include <QGridLayout>
 #include <QLabel>
@@ -73,16 +74,35 @@ CameraView::CameraView
     mainLayout->addWidget(zEditLabel, 1, 4);
     mainLayout->addWidget(m_z, 1, 5);
 
+    QLabel* sXEditLabel = new QLabel("x:");
+    QLabel* sYEditLabel = new QLabel("y:");
+    QLabel* distanceLabel = new QLabel("d:");
+    m_sX = new QLineEdit("0");
+    m_sY = new QLineEdit("0");
+    m_distance = new QLineEdit("1");
+    m_sX->setValidator(new QDoubleValidator);
+    m_sY->setValidator(new QDoubleValidator);
+    m_distance->setValidator(new QDoubleValidator);
+    connect(m_sX, SIGNAL(textEdited(const QString&)), m_timer, SLOT(start(void)));
+    connect(m_sY, SIGNAL(textEdited(const QString&)), m_timer, SLOT(start(void)));
+    connect(m_distance, SIGNAL(textEdited(const QString&)), m_timer, SLOT(start(void)));
+    mainLayout->addWidget(sXEditLabel, 2, 0);
+    mainLayout->addWidget(m_sX, 2, 1);
+    mainLayout->addWidget(sYEditLabel, 2, 2);
+    mainLayout->addWidget(m_sY, 2, 3);
+    mainLayout->addWidget(distanceLabel, 2, 4);
+    mainLayout->addWidget(m_distance, 2, 5);
+
     QLabel* zoomLabel = new QLabel(tr("Zoom"));
-    mainLayout->addWidget(zoomLabel, 2, 0, 1, -1);
+    mainLayout->addWidget(zoomLabel, 3, 0, 1, -1);
 
     m_scale = new QLineEdit("1");
     m_scale->setValidator(new QDoubleValidator(std::numeric_limits<double>::epsilon(), std::numeric_limits<double>::max(), 16));
     connect(m_scale, SIGNAL(textEdited(const QString&)), m_timer, SLOT(start(void)));
-    mainLayout->addWidget(m_scale, 3, 1);
+    mainLayout->addWidget(m_scale, 4, 1);
 
     QLabel* rotationLabel = new QLabel(tr("Rotation"));
-    mainLayout->addWidget(rotationLabel, 4, 0, 1, -1);
+    mainLayout->addWidget(rotationLabel, 5, 0, 1, -1);
 
     m_xDial = new QDial;
     m_xDial->setWrapping(true);
@@ -99,13 +119,13 @@ CameraView::CameraView
     connect(m_xDial, SIGNAL(valueChanged(int)), m_timer, SLOT(start(void)));
     connect(m_yDial, SIGNAL(valueChanged(int)), m_timer, SLOT(start(void)));
     connect(m_zDial, SIGNAL(valueChanged(int)), m_timer, SLOT(start(void)));
-    mainLayout->addWidget(m_xDial, 5, 0, 1, 2);
-    mainLayout->addWidget(m_yDial, 5, 2, 1, 2);
-    mainLayout->addWidget(m_zDial, 5, 4, 1, 2);
+    mainLayout->addWidget(m_xDial, 6, 0, 1, 2);
+    mainLayout->addWidget(m_yDial, 6, 2, 1, 2);
+    mainLayout->addWidget(m_zDial, 6, 4, 1, 2);
 
     QPushButton* resetButton = new QPushButton(tr("Reset"));
     connect(resetButton, &QPushButton::clicked, this, &CameraView::Reset);
-    mainLayout->addWidget(resetButton, 6, 0, 1, -1);
+    mainLayout->addWidget(resetButton, 7, 0, 1, -1);
 }
 
 
@@ -117,6 +137,8 @@ void CameraView::Reset(void) {
     double           dbMaxExtension = std::max(dbDiagMinSize, dbDiagMaxSize);
     double           dbXCenter      = (dbMin.coordinates[0] + dbMax.coordinates[0]) / 2.;
     double           dbYCenter      = (dbMin.coordinates[1] + dbMax.coordinates[1]) / 2.;
+    double           dbZCenter      = (dbMin.coordinates[2] + dbMax.coordinates[2]) / 2.;
+    double           dbCenter       = sqrt(pow(dbXCenter, 2) + pow(dbYCenter, 2) + pow(dbZCenter, 2));
     double           dbXSize        = dbMax.coordinates[0] - dbMin.coordinates[0];
     double           dbYSize        = dbMax.coordinates[1] - dbMin.coordinates[1];
     double           imageWidth     = m_graphicView->width();
@@ -138,10 +160,13 @@ void CameraView::Reset(void) {
     else if ((imageHeight > 0) && (dbYSize > std::numeric_limits<double>::epsilon()))
         scale = dbYSize / imageHeight;
 
-    m_x->setText(QString::number(dbXCenter - scale * imageXCenter));
-    m_y->setText(QString::number(dbYCenter - scale * imageYCenter));
-    m_z->setText(QString::number(dbMaxExtension + 1.));
-    m_scale->setText(QString::number(scale));
+    m_x->setText(QString::number(dbXCenter));
+    m_y->setText(QString::number(dbYCenter));
+    m_z->setText(QString::number(dbZCenter));
+    m_sX->setText(QString::number(-(imageXCenter)));
+    m_sY->setText(QString::number(-(imageYCenter)));
+    m_scale->setText(QString::number(1/scale));
+    m_distance->setText(QString::number((dbMaxExtension - dbCenter)));
     m_xDial->setSliderPosition(0);
     m_yDial->setSliderPosition(0);
     m_zDial->setSliderPosition(0);
@@ -154,10 +179,12 @@ void CameraView::TimeOut(void) {
     QMatrix4x4 transformation;
 
     transformation.translate(m_x->text().toDouble(), m_y->text().toDouble(), m_z->text().toDouble());
-    transformation.scale(m_scale->text().toDouble());
-    transformation.rotate(m_xDial->value(), 1., 0., 0.);
     transformation.rotate(m_yDial->value(), 0., 1., 0.);
     transformation.rotate(m_zDial->value(), 0., 0., 1.);
+    transformation.rotate(m_xDial->value(), 1., 0., 0.);
+    transformation.translate(0, 0, m_distance->text().toDouble());
+    transformation.scale(1/m_scale->text().toDouble());
+    transformation.translate(m_sX->text().toDouble(), m_sY->text().toDouble());
 
     emit Changed(transformation);
 }

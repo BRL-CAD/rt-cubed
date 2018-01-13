@@ -59,8 +59,11 @@ private:
     QTimer*                m_timer;
     QLineEdit*             m_x;
     QLineEdit*             m_y;
+    QLineEdit*             m_sX;
+    QLineEdit*             m_sY;
     QLineEdit*             m_z;
     QLineEdit*             m_scale;
+    QLineEdit*             m_distance;
     QDial*                 m_xDial;
     QDial*                 m_yDial;
     QDial*                 m_zDial;
