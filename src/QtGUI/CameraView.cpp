@@ -119,13 +119,47 @@ CameraView::CameraView
     connect(m_xDial, SIGNAL(valueChanged(int)), m_timer, SLOT(start(void)));
     connect(m_yDial, SIGNAL(valueChanged(int)), m_timer, SLOT(start(void)));
     connect(m_zDial, SIGNAL(valueChanged(int)), m_timer, SLOT(start(void)));
+    connect(m_xDial, SIGNAL(valueChanged(int)), this, SLOT(RotationDialChanged()));
+    connect(m_yDial, SIGNAL(valueChanged(int)), this, SLOT(RotationDialChanged()));
+    connect(m_zDial, SIGNAL(valueChanged(int)), this, SLOT(RotationDialChanged()));
     mainLayout->addWidget(m_xDial, 6, 0, 1, 2);
     mainLayout->addWidget(m_yDial, 6, 2, 1, 2);
     mainLayout->addWidget(m_zDial, 6, 4, 1, 2);
 
+    QLabel* xRotEditLabel = new QLabel("xRot:");
+    QLabel* yRotEditLabel = new QLabel("yRot:");
+    QLabel* zRotEditLabel = new QLabel("zRot:");
+    m_xRot = new QLineEdit("0");
+    m_yRot = new QLineEdit("0");
+    m_zRot = new QLineEdit("0");
+    m_xRot->setValidator(new QDoubleValidator);
+    m_yRot->setValidator(new QDoubleValidator);
+    m_zRot->setValidator(new QDoubleValidator);
+    connect(m_xRot, SIGNAL(textEdited(const QString&)), this, SLOT(RotationFieldChanged()));
+    connect(m_yRot, SIGNAL(textEdited(const QString&)), this, SLOT(RotationFieldChanged()));
+    connect(m_zRot, SIGNAL(textEdited(const QString&)), this, SLOT(RotationFieldChanged()));
+    mainLayout->addWidget(xRotEditLabel, 7, 0);
+    mainLayout->addWidget(m_xRot, 7, 1);
+    mainLayout->addWidget(yRotEditLabel, 7, 2);
+    mainLayout->addWidget(m_yRot, 7, 3);
+    mainLayout->addWidget(zRotEditLabel, 7, 4);
+    mainLayout->addWidget(m_zRot, 7, 5);
+
     QPushButton* resetButton = new QPushButton(tr("Reset"));
     connect(resetButton, &QPushButton::clicked, this, &CameraView::Reset);
-    mainLayout->addWidget(resetButton, 7, 0, 1, -1);
+    mainLayout->addWidget(resetButton, 8, 0, 1, -1);
+}
+
+void CameraView::RotationFieldChanged() {
+    m_xDial->setSliderPosition(m_xRot->text().toDouble());
+    m_yDial->setSliderPosition(m_yRot->text().toDouble());
+    m_zDial->setSliderPosition(m_zRot->text().toDouble());
+}
+
+void CameraView::RotationDialChanged() {
+    m_xRot->setText(QString::number(m_xDial->value()));
+    m_yRot->setText(QString::number(m_yDial->value()));
+    m_zRot->setText(QString::number(m_zDial->value()));
 }
 
 

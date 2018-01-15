@@ -67,9 +67,14 @@ private:
     QDial*                 m_xDial;
     QDial*                 m_yDial;
     QDial*                 m_zDial;
+    QLineEdit*             m_xRot;
+    QLineEdit*             m_yRot;
+    QLineEdit*             m_zRot;
 
 private slots:
     void TimeOut(void);
+    void RotationFieldChanged();
+    void RotationDialChanged();
 };
 
 
