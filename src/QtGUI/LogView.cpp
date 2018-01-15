@@ -1,4 +1,4 @@
-/*                         M A I N W I N D O W . H
+/*                         L O G V I E W . C P P
  * BRL-CAD
  *
  * Copyright (c) 2018 United States Government as represented by
@@ -22,43 +22,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/** @file MainWindow.h
+/** @file LogView.cpp
  *
  *  BRL-CAD Qt GUI:
- *      the main window class declaration
+ *      implementation log output view
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
-#include <QMainWindow>
-
-#include <brlcad/ConstDatabase.h>
-
-#include "ObjectsTreeView.h"
-#include "CameraView.h"
-#include "GraphicView.h"
 #include "LogView.h"
 
 
-class MainWindow : public QMainWindow {
-    Q_OBJECT
-public:
-    MainWindow(const char* file,
-               QWidget*    parent = 0);
-
-private:
-    BRLCAD::ConstDatabase m_database;
-    GraphicView*          m_graphicView;
-    ObjectsTreeView*      m_objectsTreeView;
-    CameraView*           m_cameraView;
-    LogView*              m_logView;
-
-    void LoadDatabase(const char* fileName);
-
-private slots:
-    void OpenFile(void);
-};
+LogView::LogView
+(
+    QWidget* parent
+) : QPlainTextEdit(parent),
+    BRLCAD::LogHandler() {
+    setReadOnly(true);
+    BRLCAD::RegisterLogHandler(*this);
+}
 
 
-#endif // MAINWINDOW_H
+void LogView::operator()
+(
+    const char* logString
+) throw() {
+    insertPlainText(QString::fromUtf8(logString));
+}
+
+
+LogView::~LogView(void)
+{
+    BRLCAD::DeRegisterLogHandler(*this);
+}

@@ -36,6 +36,7 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 set(QtGUI_Sources
     CameraView.cpp
     GraphicView.cpp
+    LogView.cpp
     main.cpp
     MainWindow.cpp
     ObjectsTreeView.cpp

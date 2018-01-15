@@ -1,4 +1,4 @@
-/*                         M A I N W I N D O W . H
+/*                           L O G V I E W . H
  * BRL-CAD
  *
  * Copyright (c) 2018 United States Government as represented by
@@ -22,43 +22,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/** @file MainWindow.h
+/** @file LogView.h
  *
  *  BRL-CAD Qt GUI:
- *      the main window class declaration
+ *      declaration log output view
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef LOGVIEW_H
+#define LOGVIEW_H
 
-#include <QMainWindow>
+#include <QPlainTextEdit>
 
-#include <brlcad/ConstDatabase.h>
-
-#include "ObjectsTreeView.h"
-#include "CameraView.h"
-#include "GraphicView.h"
-#include "LogView.h"
+#include <brlcad/globals.h>
 
 
-class MainWindow : public QMainWindow {
+class LogView : public QPlainTextEdit, BRLCAD::LogHandler {
     Q_OBJECT
+
 public:
-    MainWindow(const char* file,
-               QWidget*    parent = 0);
+    LogView(QWidget* parent = 0);
+    ~LogView(void);
 
-private:
-    BRLCAD::ConstDatabase m_database;
-    GraphicView*          m_graphicView;
-    ObjectsTreeView*      m_objectsTreeView;
-    CameraView*           m_cameraView;
-    LogView*              m_logView;
-
-    void LoadDatabase(const char* fileName);
-
-private slots:
-    void OpenFile(void);
+    void operator()(const char* logString) throw();
 };
 
 
-#endif // MAINWINDOW_H
+#endif // LOGVIEW_H

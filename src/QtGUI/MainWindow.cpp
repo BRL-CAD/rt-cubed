@@ -46,7 +46,7 @@ MainWindow::MainWindow
     // create menus for menuBar
     QAction* fileOpenAction = new QAction(tr("&Open File"));
     fileOpenAction->setShortcuts(QKeySequence::Open);
-    fileOpenAction->setStatusTip(tr("Open A Existing File"));
+    fileOpenAction->setStatusTip(tr("Open an Existing File"));
     connect(fileOpenAction, &QAction::triggered, this, &MainWindow::OpenFile);
 
     // adding actions to QMenu
@@ -70,6 +70,13 @@ MainWindow::MainWindow
     m_cameraView = new CameraView(m_database, m_graphicView);
     cameraWidget->setWidget(m_cameraView);
     addDockWidget(Qt::RightDockWidgetArea, cameraWidget);
+
+    // display the logged information
+    QDockWidget* logWidget = new QDockWidget(tr("Logging"));
+
+    m_logView = new LogView();
+    logWidget->setWidget(m_logView);
+    addDockWidget(Qt::BottomDockWidgetArea, logWidget);
 
     connect(m_objectsTreeView, &ObjectsTreeView::SelectionChanged, m_graphicView, &GraphicView::Update);
     connect(m_cameraView, &CameraView::Changed, m_graphicView, &GraphicView::UpdateTrafo);
