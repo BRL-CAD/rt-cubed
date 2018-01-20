@@ -147,7 +147,8 @@ CameraView::CameraView
 
     QPushButton* resetButton = new QPushButton(tr("Reset"));
     connect(resetButton, &QPushButton::clicked, this, &CameraView::Reset);
-    mainLayout->addWidget(resetButton, 8, 0, 1, -1);
+    mainLayout->setRowStretch(8, 1);
+    mainLayout->addWidget(resetButton, 9, 0, 1, -1);
 }
 
 void CameraView::RotationFieldChanged() {
