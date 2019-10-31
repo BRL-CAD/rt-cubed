@@ -93,15 +93,3 @@ void BRLCAD_COREINTERFACE_EXPORT BRLCAD::DeRegisterLogHandler
 
     BU_UNSETJUMP;
 }
-
-
-void BRLCAD_COREINTERFACE_EXPORT BRLCAD::PrepareForMultithreading(void) throw(bad_alloc) {
-    if (!BU_SETJUMP)
-        bu_semaphore_init(RT_SEM_LAST);
-    else {
-        BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::PrepareForMultithreading");
-    }
-
-    BU_UNSETJUMP;
-}

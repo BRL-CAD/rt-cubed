@@ -61,12 +61,6 @@ namespace BRLCAD {
     void BRLCAD_COREINTERFACE_EXPORT RegisterLogHandler(LogHandler& logHandler) throw(bad_alloc);
     void BRLCAD_COREINTERFACE_EXPORT DeRegisterLogHandler(LogHandler& logHandler) throw();
     //@}
-
-    /// @name special BRL-CAD library setups
-    //@{
-    /// activate thread-protection - this makes the functions threadsafe but slower
-    void BRLCAD_COREINTERFACE_EXPORT PrepareForMultithreading(void) throw(bad_alloc);
-    //@}
 }
 
 
