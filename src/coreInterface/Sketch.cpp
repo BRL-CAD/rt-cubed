@@ -405,7 +405,7 @@ Vector3D Sketch::CircularArc::Center(void) const throw() {
 
 void Sketch::CircularArc::SetCenter(
     Vector2D c
-) throw() {
+) throw(bad_alloc) {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
 

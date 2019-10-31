@@ -126,7 +126,7 @@ namespace BRLCAD {
             void                SetEndPoint(const Vector2D& endPoint) throw(bad_alloc);
 
             Vector3D            Center(void) const throw();
-            void                SetCenter(Vector2D c) throw();
+            void                SetCenter(Vector2D c) throw(bad_alloc);
             double              Radius(void) const throw();
             void                SetRadius(double radius) throw();
             bool                CenterIsLeft(void) const throw();
