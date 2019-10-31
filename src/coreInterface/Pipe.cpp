@@ -53,16 +53,16 @@ static void PipeCopy
         * to be copied and one traverses the pipe internal where it
         * is being copied.
         */
-        wdb_pipept* temp = BU_LIST_FIRST(wdb_pipept, &(originalPipe->pipe_segs_head));
-        wdb_pipept* itr  = BU_LIST_FIRST(wdb_pipept, &(copiedPipe->pipe_segs_head));
+        wdb_pipe_pnt* temp = BU_LIST_FIRST(wdb_pipe_pnt, &(originalPipe->pipe_segs_head));
+        wdb_pipe_pnt* itr  = BU_LIST_FIRST(wdb_pipe_pnt, &(copiedPipe->pipe_segs_head));
 
         /* Allocate memory for every new entry in the bu_list of the
         * new pipe internal and copy the contents of pipe internal to
         * be copied into it. We use a separate structure for that
         * and that push that structure into the list. ------> (1)
         */
-        wdb_pipept* ctlPoint;
-        BU_GET(ctlPoint, wdb_pipept);
+        wdb_pipe_pnt* ctlPoint;
+        BU_GET(ctlPoint, wdb_pipe_pnt);
 
         for(int i = 0; i < 3; i++) 
             ctlPoint->pp_coord[i] = temp->pp_coord[i];
@@ -77,9 +77,9 @@ static void PipeCopy
         * list has been formed.
         */
         for (int count = 1; count < copiedPipe->pipe_count; ++count) {
-            itr  = BU_LIST_NEXT(wdb_pipept, &itr->l);
-            temp = BU_LIST_NEXT(wdb_pipept, &temp->l);
-            BU_GET(ctlPoint, wdb_pipept);
+            itr  = BU_LIST_NEXT(wdb_pipe_pnt, &itr->l);
+            temp = BU_LIST_NEXT(wdb_pipe_pnt, &temp->l);
+            BU_GET(ctlPoint, wdb_pipe_pnt);
 
             for(int i = 0; i < 3; i++)
                 ctlPoint->pp_coord[i] = temp->pp_coord[i];
@@ -266,10 +266,10 @@ Pipe::ControlPoint Pipe::Get
     bu_list*           seghead = &Internal()->pipe_segs_head;
 
     if(index < Internal()->pipe_count) {
-        wdb_pipept* itr = BU_LIST_FIRST(wdb_pipept, seghead);
+        wdb_pipe_pnt* itr = BU_LIST_FIRST(wdb_pipe_pnt, seghead);
 
         for (size_t count = 0; count < index; ++count)
-            itr = BU_LIST_NEXT(wdb_pipept, &itr->l);
+            itr = BU_LIST_NEXT(wdb_pipe_pnt, &itr->l);
 
         ret = ControlPoint(Internal(), itr);
     }
@@ -288,7 +288,7 @@ Pipe::ControlPoint Pipe::AppendControlPoint
     Pipe::ControlPoint ret;
 
     if(!BU_SETJUMP) {
-        wdb_pipept* ctlPoint = static_cast<wdb_pipept*>(bu_calloc(1, sizeof(wdb_pipept),"Pipe::AppendControlPoint: wdb_pipept"));
+        wdb_pipe_pnt* ctlPoint = static_cast<wdb_pipe_pnt*>(bu_calloc(1, sizeof(wdb_pipe_pnt),"Pipe::AppendControlPoint: wdb_pipe_pnt"));
 
         for(int i = 0; i < 3; i++)
             ctlPoint->pp_coord[i] = point.coordinates[i];
@@ -325,7 +325,7 @@ Pipe::ControlPoint Pipe::InsertControlPoint
 
     if (index <= Internal()->pipe_count) {
         if(!BU_SETJUMP) {
-            wdb_pipept* ctlPoint = static_cast<wdb_pipept*>(bu_calloc(1, sizeof(wdb_pipept),"Pipe::InsertControlPoint: wdb_pipept"));
+            wdb_pipe_pnt* ctlPoint = static_cast<wdb_pipe_pnt*>(bu_calloc(1, sizeof(wdb_pipe_pnt),"Pipe::InsertControlPoint: wdb_pipe_pnt"));
 
             for(int i = 0; i < 3; i++)
                 ctlPoint->pp_coord[i] = point.coordinates[i];
@@ -334,10 +334,10 @@ Pipe::ControlPoint Pipe::InsertControlPoint
             ctlPoint->pp_od         = outerDiameter;
             ctlPoint->pp_bendradius = bendRadius;
 
-            wdb_pipept* itr = BU_LIST_FIRST(wdb_pipept, &Internal()->pipe_segs_head);
+            wdb_pipe_pnt* itr = BU_LIST_FIRST(wdb_pipe_pnt, &Internal()->pipe_segs_head);
 
             for (size_t count = 0; count < index; ++count)
-                itr = BU_LIST_NEXT(wdb_pipept, &itr->l);
+                itr = BU_LIST_NEXT(wdb_pipe_pnt, &itr->l);
 
             BU_LIST_INSERT(&itr->l, &ctlPoint->l);
             Internal()->pipe_count += 1;
@@ -361,10 +361,10 @@ void Pipe::DeleteControlPoint
     assert(index < Internal()->pipe_count);
 
     if (index < Internal()->pipe_count) {
-        wdb_pipept* itr = BU_LIST_FIRST(wdb_pipept, &Internal()->pipe_segs_head);
+        wdb_pipe_pnt* itr = BU_LIST_FIRST(wdb_pipe_pnt, &Internal()->pipe_segs_head);
 
         for (size_t count = 0; count < index; ++count)
-            itr = BU_LIST_NEXT(wdb_pipept, &itr->l);
+            itr = BU_LIST_NEXT(wdb_pipe_pnt, &itr->l);
 
         BU_LIST_DEQUEUE(&(itr->l));
         bu_free(&(itr->l), "BRLCAD::Pipe::DeleteControlPoint");

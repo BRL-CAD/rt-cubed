@@ -30,7 +30,7 @@
 
 
 struct rt_pipe_internal;
-struct wdb_pipept;
+struct wdb_pipe_pnt;
 
 
 namespace BRLCAD {
@@ -73,10 +73,10 @@ namespace BRLCAD {
 
         private:
             rt_pipe_internal* m_pipe;
-            wdb_pipept*       m_controlPoint;
+            wdb_pipe_pnt*     m_controlPoint;
 
             ControlPoint(rt_pipe_internal* pipe,
-                         wdb_pipept*       controlPoint) throw() : m_pipe(pipe), m_controlPoint(controlPoint) {}
+                         wdb_pipe_pnt*     controlPoint) throw() : m_pipe(pipe), m_controlPoint(controlPoint) {}
 
             friend class Pipe;
         };
