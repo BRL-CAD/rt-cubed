@@ -29,6 +29,7 @@
  */
 
 #include <iostream>
+#include <cstring>
 
 #include "lua.hpp"
 
