@@ -78,13 +78,11 @@ set (embeddedLua_SRC
 add_definitions(-Dlua_writestring=brlcad_writestring)
 add_definitions(-Dlua_writeline=brlcad_writeline)
 add_definitions(-Dlua_writestringerror=brlcad_writestringerror)
+add_definitions(-DLUA_USER_H="writestring.h")
 
 IF(MSVC)
     add_definitions("-DBRLCAD_COREINTERFACE_EXPORT=__declspec(dllimport)")
     add_definitions("-DBRLCAD_EMBEDDEDLUA_EXPORT=__declspec(dllexport)")
-    add_definitions(-DLUA_USER_H="writestring.h")
-else(MSVC)
-    add_definitions(-DLUA_USER_H=\\\"writestring.h\\\")
 ENDIF(MSVC)
 
 IF(BUILD_SHARED_LIBS)
