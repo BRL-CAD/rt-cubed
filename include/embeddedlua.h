@@ -47,6 +47,7 @@ namespace BRLCAD {
     (
         Database&   database,
         const char* script,
+        const char* title,
         void        (*stdOut)(const char* text),
         void        (*stdErr)(const char* text)
     );
@@ -57,7 +58,8 @@ namespace BRLCAD {
     public:
         virtual ~EmbeddedLuaHandle(void) {}
 
-        virtual bool Execute(const char* script) = 0;
+        virtual bool Execute(const char* script,
+                             const char* title) = 0;
 
     protected:
         EmbeddedLuaHandle(void) {}

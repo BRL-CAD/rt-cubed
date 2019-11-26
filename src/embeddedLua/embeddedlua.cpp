@@ -28,7 +28,7 @@
  *      API declaration
  */
 
-#include <cstring>
+#include <iostream>
 
 #include "lua.hpp"
 
@@ -40,57 +40,120 @@
 using namespace BRLCAD;
 
 
+static int EmbeddedLuaErrorHandler
+(
+    lua_State* luaState
+) {
+    const char *errorString = lua_tostring(luaState, 1);
+
+    if (errorString == 0) {
+        if ((luaL_callmeta(luaState, 1, "__tostring") != 0) && (lua_type(luaState, -1) == LUA_TSTRING))
+            return 1; // that generated the error string
+        else
+            errorString = lua_pushfstring(luaState, "(error object is a %s value)", luaL_typename(luaState, 1));
+    }
+
+    luaL_traceback(luaState, luaState, errorString, 1);
+
+    return 1;
+}
+
+
 BRLCAD_EMBEDDEDLUA_EXPORT bool BRLCAD::RunEmbeddedLua
 (
     Database&   database,
     const char* script,
+    const char* title,
     void        (*stdOut)(const char* text),
     void        (*stdErr)(const char* text)
 ) {
     bool ret = true;
 
     if (script != 0) {
-        brlcad_stdoutstream = stdOut;
-        brlcad_sterrstream  = stdErr;
-
         lua_State* luaState = luaL_newstate();
 
         if (luaState != 0) {
+            brlcad_stdoutstream = stdOut;
+            brlcad_sterrstream  = stdErr;
+
             luaL_openlibs(luaState);
             InitBrlcad(luaState, database);
+            lua_pushcfunction(luaState, &EmbeddedLuaErrorHandler);
 
-            int error = luaL_loadbuffer(luaState, script, strlen(script), "BRL-CAD");
+            const char* scriptName = "BRL-CAD";
 
-            if (error == 0)
-                lua_call(luaState, 0, 0);
+            if (title != 0)
+                scriptName = title;
+
+            int error = luaL_loadbuffer(luaState, script, strlen(script), scriptName);
+
+            if (error == LUA_OK) {
+                error = lua_pcall(luaState, 0, 0, 1);
+
+                if (error != LUA_OK) {
+                    std::string logMessage = "Call: ";
+
+                    switch (error) {
+                    case LUA_ERRRUN:
+                        logMessage += "Lua runtime error: ";
+                        break;
+
+                    case LUA_ERRMEM:
+                        logMessage += "Lua memory allocation error: ";
+                        break;
+
+                    case LUA_ERRERR:
+                        logMessage += "Lua error handler error: ";
+                        break;
+
+                    case LUA_ERRGCMM:
+                        logMessage += "Lua garbage collection error: ";
+                        break;
+
+                    default:
+                        logMessage += "Unknown error code: ";
+                        break;
+                    }
+
+                    logMessage += lua_tostring(luaState, -1);
+                    logMessage += "\n";
+                    lua_pop(luaState, 1);
+
+                    if (stdErr != 0)
+                        stdErr(logMessage.c_str());
+                    else
+                        std::cerr << logMessage;
+
+                    ret = false;
+                }
+            }
             else {
-                ret = false;
+                std::string logMessage = "Load: ";
 
                 switch (error) {
                 case LUA_ERRSYNTAX:
-                    if (stdErr != 0)
-                        stdErr("Lua syntax error: ");
-
+                    logMessage += "Lua syntax error: ";
                     break;
 
                 case LUA_ERRMEM:
-                    if (stdErr != 0)
-                        stdErr("Lua memory allocation error: ");
-
+                    logMessage += "Lua memory allocation error: ";
                     break;
 
                 default:
-                    if (stdErr != 0)
-                        stdErr("Unknown lua_load return code: ");
-
+                    logMessage += "Unknown error code: ";
                     break;
                 }
 
-                const char* logMessage = lua_tostring(luaState, -1);
-
-                stdErr(logMessage);
-                stdErr("\n");
+                logMessage += lua_tostring(luaState, -1);
+                logMessage += "\n";
                 lua_pop(luaState, 1);
+
+                if (stdErr != 0)
+                    stdErr(logMessage.c_str());
+                else
+                    std::cerr << logMessage;
+
+                ret = false;
             }
 
             lua_close(luaState);
@@ -98,6 +161,8 @@ BRLCAD_EMBEDDEDLUA_EXPORT bool BRLCAD::RunEmbeddedLua
         else {
             if (stdErr != 0)
                 stdErr("Could not open Lua\n");
+            else
+                std::cerr << "Could not open Lua\n";
 
             ret = false;
         }
@@ -121,8 +186,12 @@ public:
             luaL_openlibs(m_luaState);
             InitBrlcad(m_luaState, database);
         }
-        else if (stdErr != 0)
-            stdErr("Could not open Lua\n");
+        else {
+            if (m_stdErr != 0)
+                m_stdErr("Could not open Lua\n");
+            else
+                std::cerr << "Could not open Lua\n";
+        }
     }
 
     virtual ~EmbeddedLuaHandleImplementation(void) {
@@ -130,7 +199,8 @@ public:
             lua_close(m_luaState);
     }
 
-    virtual bool Execute(const char* script) {
+    virtual bool Execute(const char* script,
+                         const char* title) {
         bool ret = true;
 
         if (script != 0) {
@@ -138,38 +208,82 @@ public:
             brlcad_sterrstream  = m_stdErr;
 
             if (m_luaState != 0) {
-                int error = luaL_loadbuffer(m_luaState, script, strlen(script), "BRL-CAD");
+                lua_pushcfunction(m_luaState, &EmbeddedLuaErrorHandler);
 
-                if (error == 0)
-                    lua_call(m_luaState, 0, 0);
+                const char* scriptName = "BRL-CAD";
+
+                if (title != 0)
+                    scriptName = title;
+
+                int error = luaL_loadbuffer(m_luaState, script, strlen(script), scriptName);
+
+                if (error == LUA_OK) {
+                    lua_pcall(m_luaState, 0, 0, 1);
+
+                    if (error != LUA_OK) {
+                        std::string logMessage = "Call: ";
+
+                        switch (error) {
+                        case LUA_ERRRUN:
+                            logMessage += "Lua runtime error: ";
+                            break;
+
+                        case LUA_ERRMEM:
+                            logMessage += "Lua memory allocation error: ";
+                            break;
+
+                        case LUA_ERRERR:
+                            logMessage += "Lua error handler error: ";
+                            break;
+
+                        case LUA_ERRGCMM:
+                            logMessage += "Lua garbage collection error: ";
+                            break;
+
+                        default:
+                            logMessage += "Unknown error code: ";
+                            break;
+                        }
+
+                        logMessage += lua_tostring(m_luaState, -1);
+                        logMessage += "\n";
+                        lua_pop(m_luaState, 1);
+
+                        if (m_stdErr != 0)
+                            m_stdErr(logMessage.c_str());
+                        else
+                            std::cerr << logMessage;
+
+                        ret = false;
+                    }
+                }
                 else {
-                    ret = false;
+                    std::string logMessage = "Load: ";
 
                     switch (error) {
                     case LUA_ERRSYNTAX:
-                        if (m_stdErr != 0)
-                            m_stdErr("Lua syntax error: ");
-
+                        logMessage += "Lua syntax error: ";
                         break;
 
                     case LUA_ERRMEM:
-                        if (m_stdErr != 0)
-                            m_stdErr("Lua memory allocation error: ");
-
+                        logMessage += "Lua memory allocation error: ";
                         break;
 
                     default:
-                        if (m_stdErr != 0)
-                            m_stdErr("Unknown lua_load return code: ");
-
+                        logMessage += "Unknown error code: ";
                         break;
                     }
 
-                    const char* logMessage = lua_tostring(m_luaState, -1);
-
-                    m_stdErr(logMessage);
-                    m_stdErr("\n");
+                    logMessage += lua_tostring(m_luaState, -1);
+                    logMessage += "\n";
                     lua_pop(m_luaState, 1);
+
+                    if (m_stdErr != 0)
+                        m_stdErr(logMessage.c_str());
+                    else
+                        std::cerr << logMessage;
+
+                    ret = false;
                 }
             }
             else

@@ -59,7 +59,7 @@ int main
 
                 if (handle != 0) {
                     TheLuaScript << "database:Select(\"" << argv[2] << "\")\n";
-                    handle->Execute(TheLuaScript.str().c_str());
+                    handle->Execute(TheLuaScript.str().c_str(), "select test");
 
                     if (!database.SelectionIsEmpty())
                         std::cout << "Successfully selected \"" << argv[2] << "\""<< std::endl;
@@ -70,7 +70,7 @@ int main
                     TheLuaScript.str("");
 
                     TheLuaScript << "database:UnSelectAll()\n";
-                    handle->Execute(TheLuaScript.str().c_str());
+                    handle->Execute(TheLuaScript.str().c_str(), "unselect test");
 
                     if (database.SelectionIsEmpty())
                         std::cout << "Successfully unselected all objects" << std::endl;

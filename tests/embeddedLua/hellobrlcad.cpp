@@ -59,7 +59,7 @@ int main
                 EmbeddedLuaHandle* handle = CreateEmbeddedLuaHandleInstance(database, 0, 0);
 
                 if (handle != 0) {
-                    handle->Execute(TheLuaScript);
+                    handle->Execute(TheLuaScript, "Hello BRL-CAD");
                     DestroyEmbeddedLuaHandleInstance(handle);
                 }
                 else {

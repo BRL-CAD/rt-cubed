@@ -68,14 +68,14 @@ int main
 
                     TheLuaScript << "print(\"BoundingBoxMinima: \")\n"
                                  << "print(database:BoundingBoxMinima())\n";
-                    handle->Execute(TheLuaScript.str().c_str());
+                    handle->Execute(TheLuaScript.str().c_str(), "bounding box minima test");
 
                     TheLuaScript.clear();
                     TheLuaScript.str("");
 
                     TheLuaScript << "print(\"BoundingBoxMaxima: \")\n"
                                  << "print(database:BoundingBoxMaxima())\n";
-                    handle->Execute(TheLuaScript.str().c_str());
+                    handle->Execute(TheLuaScript.str().c_str(), "bounding box maxima test");
 
                     if (ret == 0)
                         std::cout << "Successfully executed BoundingBoxMinima() and BoundingBoxMaxima()" << std::endl;

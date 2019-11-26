@@ -48,7 +48,7 @@ int main
     EmbeddedLuaHandle* handle = CreateEmbeddedLuaHandleInstance(database, 0, 0);
 
     if (handle != 0) {
-        handle->Execute("print(\"Hello World!\")");
+        handle->Execute("print(\"Hello World!\")", "Hello World");
         DestroyEmbeddedLuaHandleInstance(handle);
     }
     else {

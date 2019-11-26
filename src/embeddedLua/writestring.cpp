@@ -92,12 +92,12 @@ void brlcad_writestringerror
 
         buffer[bufferSize - 1] = '\0';
 
-        if (brlcad_stdoutstream != 0) {
-            brlcad_stdoutstream(buffer);
-            brlcad_stdoutstream("\n");
+        if (brlcad_sterrstream != 0) {
+            brlcad_sterrstream(buffer);
+            brlcad_sterrstream("\n");
         }
         else
-            std::cout << buffer << std::endl;
+            std::cerr << buffer << std::endl;
 
         free(buffer);
     }
