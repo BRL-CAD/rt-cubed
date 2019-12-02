@@ -40,7 +40,7 @@ static Database* GetDatabase
 (
     lua_State* luaState
 ) {
-    Database** database = static_cast<Database**>(luaL_checkudata(luaState, 1, "Database"));
+    Database** database = static_cast<Database**>(luaL_checkudata(luaState, 1, "BRLCAD.Database"));
 
     assert(database != 0);
     assert(*database != 0);
@@ -121,42 +121,45 @@ void InitDatabase
     lua_State*        luaState,
     BRLCAD::Database& database
 ) {
-    lua_newtable(luaState);
-    int methodtable = lua_gettop(luaState);
-    luaL_newmetatable(luaState, "Database");
-    int metatable   = lua_gettop(luaState);
+    lua_getglobal(luaState, "BRLCAD");
 
-    lua_pushliteral(luaState, "__metatable");
-    lua_pushvalue(luaState, methodtable);
-    lua_settable(luaState, metatable);
-
-    lua_pushliteral(luaState, "__index");
-    lua_pushvalue(luaState, methodtable);
-    lua_settable(luaState, metatable);
-
-    lua_pop(luaState, 1);
-
-    lua_pushcfunction(luaState, Title);
-    lua_setfield(luaState, -2, "Title");
-
-    lua_pushcfunction(luaState, Select);
-    lua_setfield(luaState, -2, "Select");
-
-    lua_pushcfunction(luaState, UnSelectAll);
-    lua_setfield(luaState, -2, "UnSelectAll");
-
-    lua_pushcfunction(luaState, BoundingBoxMinima);
-    lua_setfield(luaState, -2, "BoundingBoxMinima");
-
-    lua_pushcfunction(luaState, BoundingBoxMaxima);
-    lua_setfield(luaState, -2, "BoundingBoxMaxima");
-
-    lua_pop(luaState, 1);
+    if (!lua_istable(luaState, -1)) {
+        lua_pop(luaState, 1);
+        lua_newtable(luaState);
+        lua_setglobal(luaState, "BRLCAD");
+        lua_getglobal(luaState, "BRLCAD");
+    }
 
     // register a global "database" variable
     Database** pDatabase = static_cast<Database**>(lua_newuserdata(luaState, sizeof(Database*)));
     *pDatabase = &database;
-    luaL_getmetatable(luaState, "Database");
+
+    luaL_newmetatable(luaState, "BRLCAD.Database");
+    lua_pushvalue(luaState, -1);
+    lua_setfield(luaState, -2, "__index");
+
+    lua_pushstring(luaState, "Title");
+    lua_pushcfunction(luaState, Title);
+    lua_settable(luaState, -3);
+
+    lua_pushstring(luaState, "Select");
+    lua_pushcfunction(luaState, Select);
+    lua_settable(luaState, -3);
+
+    lua_pushstring(luaState, "UnSelectAll");
+    lua_pushcfunction(luaState, UnSelectAll);
+    lua_settable(luaState, -3);
+
+    lua_pushstring(luaState, "BoundingBoxMinima");
+    lua_pushcfunction(luaState, BoundingBoxMinima);
+    lua_settable(luaState, -3);
+
+    lua_pushstring(luaState, "BoundingBoxMaxima");
+    lua_pushcfunction(luaState, BoundingBoxMaxima);
+    lua_settable(luaState, -3);
+
     lua_setmetatable(luaState, -2);
-    lua_setglobal(luaState, "database");
+
+    lua_setfield(luaState, -2, "database");
+    lua_pop(luaState, 1);
 }
