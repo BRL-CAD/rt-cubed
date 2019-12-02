@@ -40,6 +40,7 @@ set (embeddedLua_SRC
     halfspace.cpp
     initbrlcad.cpp
     luadatabase.cpp
+    vector3d.cpp
     writestring.cpp
     ../other/lua/src/lapi.c
     ../other/lua/src/lcode.c
