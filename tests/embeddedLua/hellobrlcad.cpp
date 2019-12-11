@@ -37,7 +37,7 @@
 using namespace BRLCAD;
 
 
-const char* const TheLuaScript = "print(\"Hello \", database:Title(), \"!\")\n";
+const char* const TheLuaScript = "print(\"Hello \", BRLCAD.database:Title(), \"!\")\n";
 
 
 int main
