@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-EllipticalTorus::EllipticalTorus(void) throw(bad_alloc) : Object() {
+EllipticalTorus::EllipticalTorus(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_eto_internal);
         m_internalp->eto_magic = RT_ETO_INTERNAL_MAGIC;
@@ -48,7 +48,6 @@ EllipticalTorus::EllipticalTorus(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::EllipticalTorus::EllipticalTorus");
     }
 
     BU_UNSETJUMP;
@@ -62,7 +61,7 @@ EllipticalTorus::EllipticalTorus
     double          tubeCenterLineRadius,
     const Vector3D& tubeSemiMajorAxis,
     double          tubeSemiMinorAxisLength
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_eto_internal);
         m_internalp->eto_magic = RT_ETO_INTERNAL_MAGIC;
@@ -71,7 +70,6 @@ EllipticalTorus::EllipticalTorus
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::EllipticalTorus::EllipticalTorus");
     }
 
     BU_UNSETJUMP;
@@ -81,21 +79,20 @@ EllipticalTorus::EllipticalTorus
 EllipticalTorus::EllipticalTorus
 (
     const EllipticalTorus& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_eto_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_eto_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::EllipticalTorus::EllipticalTorus");
     }
 
     BU_UNSETJUMP;
 }
 
 
-EllipticalTorus::~EllipticalTorus(void) throw() {
+EllipticalTorus::~EllipticalTorus(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::EllipticalTorus::~EllipticalTorus::m_internalp");
 }
@@ -104,7 +101,7 @@ EllipticalTorus::~EllipticalTorus(void) throw() {
 const EllipticalTorus& EllipticalTorus::operator =
 (
     const EllipticalTorus& original
-) throw(bad_alloc) {
+) {
     if(&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_eto_internal));
@@ -114,7 +111,7 @@ const EllipticalTorus& EllipticalTorus::operator =
 }
 
 
-Vector3D EllipticalTorus::Center(void) const throw() {
+Vector3D EllipticalTorus::Center(void) const {
     return Vector3D(Internal()->eto_V);
 }
 
@@ -122,12 +119,12 @@ Vector3D EllipticalTorus::Center(void) const throw() {
 void EllipticalTorus::SetCenter
 (
     const Vector3D& center
-) throw() {
+) {
     VMOVE(Internal()->eto_V, center.coordinates);
 }
 
 
-Vector3D EllipticalTorus::Normal(void) const throw() {
+Vector3D EllipticalTorus::Normal(void) const {
     return Vector3D(Internal()->eto_N);
 }
 
@@ -135,7 +132,7 @@ Vector3D EllipticalTorus::Normal(void) const throw() {
 void EllipticalTorus::SetNormal
 (
     const Vector3D& normal
-) throw() {
+) {
     assert(!VNEAR_ZERO(normal.coordinates, SMALL_FASTF));
 
     VMOVE(Internal()->eto_N, normal.coordinates);
@@ -143,7 +140,7 @@ void EllipticalTorus::SetNormal
 }
 
 
-double EllipticalTorus::TubeCenterLineRadius(void) const throw() {
+double EllipticalTorus::TubeCenterLineRadius(void) const {
     return Internal()->eto_r;
 }
 
@@ -151,12 +148,12 @@ double EllipticalTorus::TubeCenterLineRadius(void) const throw() {
 void EllipticalTorus::SetTubeCenterLineRadius
 (
     double radius
-) throw() {
+) {
     Internal()->eto_r = radius;
 }
 
 
-Vector3D EllipticalTorus::TubeSemiMajorAxis(void) const throw() {
+Vector3D EllipticalTorus::TubeSemiMajorAxis(void) const {
     return Vector3D(Internal()->eto_C);
 }
 
@@ -164,12 +161,12 @@ Vector3D EllipticalTorus::TubeSemiMajorAxis(void) const throw() {
 void EllipticalTorus::SetTubeSemiMajorAxis
 (
     const Vector3D& axis
-) throw() {
+) {
     VMOVE(Internal()->eto_C, axis.coordinates);
 }
 
 
-double EllipticalTorus::TubeSemiMinorAxis(void) const throw() {
+double EllipticalTorus::TubeSemiMinorAxis(void) const {
     return Internal()->eto_rd;
 }
 
@@ -177,7 +174,7 @@ double EllipticalTorus::TubeSemiMinorAxis(void) const throw() {
 void EllipticalTorus::SetTubeSemiMinorAxis
 (
     double length
-) throw() {
+) {
     Internal()->eto_rd = length;
 }
 
@@ -189,7 +186,7 @@ void EllipticalTorus::Set
     double          tubeCenterLineRadius,
     const Vector3D& tubeSemiMajorAxis,
     double          tubeSemiMinorAxisLength
-) throw(){
+) {
      rt_eto_internal* internalp = Internal();
 
     VMOVE(internalp->eto_V, center.coordinates);
@@ -207,7 +204,7 @@ void EllipticalTorus::Set
 const Object& EllipticalTorus::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const EllipticalTorus* eto = dynamic_cast<const EllipticalTorus*>(&original);
     assert(eto != 0);
 
@@ -218,22 +215,22 @@ const Object& EllipticalTorus::operator=
 }
 
 
-Object* EllipticalTorus::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* EllipticalTorus::Clone(void) const {
     return new EllipticalTorus(*this);
 }
 
 
-const char* EllipticalTorus::ClassName(void) throw() {
+const char* EllipticalTorus::ClassName(void) {
     return "EllipticalTorus";
 }
 
 
-const char* EllipticalTorus::Type(void) const throw() {
+const char* EllipticalTorus::Type(void) const {
     return ClassName();
 }
 
 
-bool EllipticalTorus::IsValid(void) const throw(){
+bool EllipticalTorus::IsValid(void) const {
     bool                   ret       = false;
     const rt_eto_internal* internalp = Internal();
     double                 rc        = MAGNITUDE(internalp->eto_C);
@@ -271,10 +268,10 @@ EllipticalTorus::EllipticalTorus
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-const rt_eto_internal* EllipticalTorus::Internal(void) const throw() {
+const rt_eto_internal* EllipticalTorus::Internal(void) const {
     const rt_eto_internal* ret;
 
     if (m_ip != 0)
@@ -288,7 +285,7 @@ const rt_eto_internal* EllipticalTorus::Internal(void) const throw() {
 }
 
 
-rt_eto_internal* EllipticalTorus::Internal(void) throw() {
+rt_eto_internal* EllipticalTorus::Internal(void) {
     rt_eto_internal* ret;
 
     if(m_ip != 0)

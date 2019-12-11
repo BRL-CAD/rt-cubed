@@ -463,14 +463,13 @@ void RemoveFace
 BagOfTriangles::BagOfTriangles
 (
     void
-) throw(bad_alloc) : Object() {
+) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_bot_internal);
         m_internalp->magic = RT_BOT_INTERNAL_MAGIC;
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::BagOfTriangles::BagOfTriangles()");
     }
 
     BU_UNSETJUMP;
@@ -480,12 +479,11 @@ BagOfTriangles::BagOfTriangles
 BagOfTriangles::BagOfTriangles
 (
     const BagOfTriangles& original
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP)
         m_internalp = CloneBotInternal(*original.Internal());
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::BagOfTriangles::BagOfTriangles()");
     }
 
     BU_UNSETJUMP;
@@ -495,7 +493,7 @@ BagOfTriangles::BagOfTriangles
 BagOfTriangles::~BagOfTriangles
 (
     void
-) throw() {
+) {
     if (m_internalp != 0)
         FreeBotInternal(m_internalp);
 }
@@ -504,7 +502,7 @@ BagOfTriangles::~BagOfTriangles
 const BagOfTriangles& BagOfTriangles::operator=
 (
     const BagOfTriangles& original
-) throw(bad_alloc) {
+) {
     if (&original != this) {
         Copy(original);
 
@@ -516,7 +514,6 @@ const BagOfTriangles& BagOfTriangles::operator=
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLAD::BagOfTriangles::operator=()");
         }
 
         BU_UNSETJUMP;
@@ -529,7 +526,7 @@ const BagOfTriangles& BagOfTriangles::operator=
 Vector3D BagOfTriangles::Face::Point
 (
     size_t index
-) const throw() {
+) const {
     assert(index < 3);
     assert(m_bot != 0);
 
@@ -549,7 +546,7 @@ void BagOfTriangles::Face::SetPoint
 (
     size_t          index,
     const Vector3D& point
-) throw(bad_alloc) {
+) {
     assert(index < 3);
     assert(m_bot != 0);
 
@@ -566,7 +563,7 @@ void BagOfTriangles::Face::SetPoints
     const Vector3D& point1,
     const Vector3D& point2,
     const Vector3D& point3
-) throw(bad_alloc) {
+) {
     assert(m_bot != 0);
 
     if (m_bot != 0) {
@@ -577,7 +574,7 @@ void BagOfTriangles::Face::SetPoints
 }
 
 
-double BagOfTriangles::Face::Thickness(void) const throw() {
+double BagOfTriangles::Face::Thickness(void) const {
     assert(m_bot != 0);
     assert(m_bot->thickness != 0);
     assert(m_bot->mode != RT_BOT_SOLID);
@@ -595,7 +592,7 @@ double BagOfTriangles::Face::Thickness(void) const throw() {
 void BagOfTriangles::Face::SetThickness
 (
     double value
-) throw() {
+) {
     assert(m_bot != 0);
     assert(m_bot->thickness != 0);
     assert(m_bot->mode != RT_BOT_SOLID);
@@ -610,7 +607,7 @@ void BagOfTriangles::Face::SetThickness
 }
 
 
-bool BagOfTriangles::Face::ApendThickness(void) const throw() {
+bool BagOfTriangles::Face::ApendThickness(void) const {
     assert(m_bot != 0);
 
     bool ret = false;
@@ -625,7 +622,7 @@ bool BagOfTriangles::Face::ApendThickness(void) const throw() {
 void BagOfTriangles::Face::SetApendThickness
 (
     bool apendThickness
-) throw() {
+) {
     assert(m_bot != 0);
 
     if (m_bot != 0) {
@@ -643,7 +640,7 @@ void BagOfTriangles::Face::SetApendThickness
 Vector3D BagOfTriangles::Face::Normal
 (
     size_t index
-) const throw() {
+) const {
     assert(m_bot != 0);
 
     Vector3D ret;
@@ -664,7 +661,7 @@ void BagOfTriangles::Face::SetNormal
 (
     size_t          index,
     const Vector3D& normal
-) throw() {
+) {
     assert(index < 3);
     assert(m_bot != 0);
 
@@ -683,7 +680,7 @@ void BagOfTriangles::Face::SetNormals
     const Vector3D& normal1,
     const Vector3D& normal2,
     const Vector3D& normal3
-) throw(bad_alloc) {
+) {
     assert(m_bot != 0);
 
     if (m_bot != 0) {
@@ -694,7 +691,7 @@ void BagOfTriangles::Face::SetNormals
 }
 
 
-BagOfTriangles::BotMode BagOfTriangles::Mode(void) const throw() {
+BagOfTriangles::BotMode BagOfTriangles::Mode(void) const {
     BagOfTriangles::BotMode ret;
 
     switch (Internal()->mode) {
@@ -721,7 +718,7 @@ BagOfTriangles::BotMode BagOfTriangles::Mode(void) const throw() {
 void BagOfTriangles::SetMode
 (
     BotMode mode
-) throw(bad_alloc) {
+) {
     switch (mode) {
         case Surface:
             Internal()->mode = RT_BOT_SURFACE;
@@ -741,7 +738,7 @@ void BagOfTriangles::SetMode
 }
 
 
-BagOfTriangles::BotOrientation BagOfTriangles::Orientation(void) const throw() {
+BagOfTriangles::BotOrientation BagOfTriangles::Orientation(void) const {
     BagOfTriangles::BotOrientation ret = BagOfTriangles::Unoriented;
 
     switch (Internal()->orientation) {
@@ -760,7 +757,7 @@ BagOfTriangles::BotOrientation BagOfTriangles::Orientation(void) const throw() {
 void BagOfTriangles::SetOrientation
 (
     BotOrientation orientation
-) throw() {
+) {
     switch (orientation) {
         case Unoriented:
             Internal()->orientation = RT_BOT_UNORIENTED;
@@ -776,7 +773,7 @@ void BagOfTriangles::SetOrientation
 }
 
 
-bool BagOfTriangles::FacesHaveNormals(void) const throw() {
+bool BagOfTriangles::FacesHaveNormals(void) const {
     return Internal()->bot_flags & RT_BOT_HAS_SURFACE_NORMALS;
 }
 
@@ -784,7 +781,7 @@ bool BagOfTriangles::FacesHaveNormals(void) const throw() {
 void BagOfTriangles::SetFacesHaveNormals
 (
     bool facesHaveNormals
-) throw(bad_alloc) {
+) {
     if (facesHaveNormals)
         Internal()->bot_flags |= RT_BOT_HAS_SURFACE_NORMALS;
     else
@@ -792,7 +789,7 @@ void BagOfTriangles::SetFacesHaveNormals
 }
 
 
-bool BagOfTriangles::UseFaceNormals(void) const throw() {
+bool BagOfTriangles::UseFaceNormals(void) const {
     return (Internal()->bot_flags & RT_BOT_USE_NORMALS) != 0;
 }
 
@@ -800,7 +797,7 @@ bool BagOfTriangles::UseFaceNormals(void) const throw() {
 void BagOfTriangles::SetUseFaceNormals
 (
     bool useFaceNormals
-) throw() {
+) {
     if (useFaceNormals)
         Internal()->bot_flags |= RT_BOT_USE_NORMALS;
     else
@@ -808,7 +805,7 @@ void BagOfTriangles::SetUseFaceNormals
 }
 
 
-bool BagOfTriangles::UseFloats(void) const throw() {
+bool BagOfTriangles::UseFloats(void) const {
     return (Internal()->bot_flags & RT_BOT_USE_FLOATS) != 0;
 }
 
@@ -816,7 +813,7 @@ bool BagOfTriangles::UseFloats(void) const throw() {
 void BagOfTriangles::SetUseFloats
 (
     bool useFloats
-) throw() {
+) {
     if (useFloats)
         Internal()->bot_flags |= RT_BOT_USE_FLOATS;
     else
@@ -824,7 +821,7 @@ void BagOfTriangles::SetUseFloats
 }
 
 
-size_t BagOfTriangles::NumberOfFaces(void) const throw() {
+size_t BagOfTriangles::NumberOfFaces(void) const {
     return Internal()->num_faces;
 }
 
@@ -832,7 +829,7 @@ size_t BagOfTriangles::NumberOfFaces(void) const throw() {
 BagOfTriangles::Face BagOfTriangles::GetFace
 (
     size_t index
-) throw() {
+) {
     assert(index < Internal()->num_faces);
 
     Face ret;
@@ -849,7 +846,7 @@ BagOfTriangles::Face BagOfTriangles::AddFace
     const Vector3D& point1,
     const Vector3D& point2,
     const Vector3D& point3
-) throw(bad_alloc) {
+) {
     BagOfTriangles::Face ret;
 
     if (!BU_SETJUMP) {
@@ -901,7 +898,6 @@ BagOfTriangles::Face BagOfTriangles::AddFace
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::BagOfTriangles::InsertFace");
     }
 
     BU_UNSETJUMP;
@@ -912,7 +908,7 @@ BagOfTriangles::Face BagOfTriangles::AddFace
 
 void BagOfTriangles::DeleteFace(
     size_t index
-) throw(bad_alloc) {
+) {
     assert(index < Internal()->num_faces);
 
     if (!BU_SETJUMP) {
@@ -927,7 +923,7 @@ void BagOfTriangles::DeleteFace(
 const Object& BagOfTriangles::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const BagOfTriangles* bot = dynamic_cast<const BagOfTriangles*>(&original);
     assert(bot != 0);
 
@@ -938,22 +934,22 @@ const Object& BagOfTriangles::operator=
 }
 
 
-Object* BagOfTriangles::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* BagOfTriangles::Clone(void) const {
     return new BagOfTriangles(*this);
 }
 
 
-const char* BagOfTriangles::ClassName(void) throw() {
+const char* BagOfTriangles::ClassName(void) {
     return "BagOfTriangles";
 }
 
 
-const char* BagOfTriangles::Type(void) const throw() {
+const char* BagOfTriangles::Type(void) const {
     return ClassName();
 }
 
 
-bool BagOfTriangles::IsValid(void) const throw() {
+bool BagOfTriangles::IsValid(void) const {
     return true;
 }
 
@@ -964,11 +960,11 @@ BagOfTriangles::BagOfTriangles
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
 
-rt_bot_internal* BagOfTriangles::Internal(void) throw() {
+rt_bot_internal* BagOfTriangles::Internal(void) {
     rt_bot_internal* ret;
 
     if (m_ip != 0)
@@ -982,7 +978,7 @@ rt_bot_internal* BagOfTriangles::Internal(void) throw() {
 }
 
 
-const rt_bot_internal* BagOfTriangles::Internal(void) const throw() {
+const rt_bot_internal* BagOfTriangles::Internal(void) const {
     const rt_bot_internal* ret;
 
     if (m_ip != 0)

@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-Cone::Cone(void) throw(bad_alloc) : Object () {
+Cone::Cone(void) : Object () {
     if(!BU_SETJUMP){
         BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
@@ -48,7 +48,6 @@ Cone::Cone(void) throw(bad_alloc) : Object () {
     }
     else{
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Cone::Cone");
     }
 
     BU_UNSETJUMP;
@@ -63,8 +62,7 @@ Cone::Cone
     const Vector3D& semiPrincipalAxisB,
     double          ratioCtoA,
     double          ratioDtoB
-) throw(bad_alloc)
-{
+) {
     if(!BU_SETJUMP){
         BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
@@ -73,7 +71,6 @@ Cone::Cone
     }
     else{
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Cone::Cone");
     }
 
     BU_UNSETJUMP;
@@ -88,8 +85,7 @@ Cone::Cone
     const Vector3D& semiPrincipalAxisA,
     const Vector3D& semiPrincipalAxisB,
     double          scale
-) throw(bad_alloc)
-{
+) {
     if(!BU_SETJUMP){
         BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
@@ -98,7 +94,6 @@ Cone::Cone
     }
     else{
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Cone::Cone");
     }
 
     BU_UNSETJUMP;
@@ -112,8 +107,7 @@ Cone::Cone
     const Vector3D& height,
     const Vector3D& semiPrincipalAxisA,
     const Vector3D& semiPrincipalAxisB
-) throw(bad_alloc)
-{
+) {
     if(!BU_SETJUMP){
         BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
@@ -122,7 +116,6 @@ Cone::Cone
     }
     else{
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Cone::Cone");
     }
 
     BU_UNSETJUMP;
@@ -136,8 +129,7 @@ Cone::Cone
     const Vector3D& height,
     double          radiusBase,
     double          radiusTop
-) throw(bad_alloc)
-{
+) {
     if(!BU_SETJUMP){
         BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
@@ -146,7 +138,6 @@ Cone::Cone
     }
     else{
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Cone::Cone");
     }
 
     BU_UNSETJUMP;
@@ -159,8 +150,7 @@ Cone::Cone
     const Vector3D& basePoint,
     const Vector3D& height,
     double          radius
-) throw(bad_alloc)
-{
+) {
     if(!BU_SETJUMP){
         BU_GET(m_internalp, rt_tgc_internal);
         m_internalp->magic = RT_TGC_INTERNAL_MAGIC;
@@ -169,7 +159,6 @@ Cone::Cone
     }
     else{
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Cone::Cone");
     }
 
     BU_UNSETJUMP;
@@ -180,21 +169,20 @@ Cone::Cone
 Cone::Cone
 (
     const Cone& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_tgc_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_tgc_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Cone::Cone");
     }
 
     BU_UNSETJUMP;
 }
 
 
-Cone::~Cone(void) throw() {
+Cone::~Cone(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::Cone::~Cone::m_internalp");
 }
@@ -203,7 +191,7 @@ Cone::~Cone(void) throw() {
 const Cone& Cone::operator=
 (
     const Cone& original
-) throw(bad_alloc) {
+) {
     if(&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_tgc_internal));
@@ -213,7 +201,7 @@ const Cone& Cone::operator=
 }
 
 
-Vector3D Cone::BasePoint(void) const throw() {
+Vector3D Cone::BasePoint(void) const {
     return Vector3D(Internal()->v);
 }
 
@@ -221,12 +209,12 @@ Vector3D Cone::BasePoint(void) const throw() {
 void Cone::SetBasePoint
 (
     const Vector3D& basePoint
-) throw() {
+) {
     VMOVE(Internal()->v, basePoint.coordinates);
 }
 
 
-Vector3D Cone::Height(void) const throw() {
+Vector3D Cone::Height(void) const {
     return Vector3D(Internal()->h);
 }
 
@@ -234,7 +222,7 @@ Vector3D Cone::Height(void) const throw() {
 void Cone::SetHeight
 (
     const Vector3D& height
-) throw() {
+) {
     VMOVE(Internal()->h, height.coordinates);
 }
 
@@ -242,7 +230,7 @@ void Cone::SetHeight
 Vector3D Cone::SemiPrincipalAxis
 (
     size_t index
-) const throw(){
+) const {
     Vector3D ret;
 
     assert(index < 4);
@@ -272,7 +260,7 @@ void Cone::SetSemiPrincipalAxis
 (
     size_t          index,
     const Vector3D& semiPrincipalAxis
-) throw(){
+) {
     assert(index < 4);
 
     switch (index) {
@@ -302,7 +290,7 @@ void Cone::Set
     const Vector3D& semiPrincipalAxisB,
     double          ratioCtoA,
     double          ratioDtoB
-) throw() {
+) {
     rt_tgc_internal* internalp = Internal();
 
     VMOVE(internalp->v, basePoint.coordinates);
@@ -322,7 +310,7 @@ void Cone::Set
     const Vector3D& semiPrincipalAxisA,
     const Vector3D& semiPrincipalAxisB,
     double          scale
-) throw() {
+) {
     rt_tgc_internal* internalp = Internal();
 
     VMOVE(internalp->v, basePoint.coordinates);
@@ -341,7 +329,7 @@ void Cone::Set
     const Vector3D& height,
     const Vector3D& semiPrincipalAxisA,
     const Vector3D& semiPrincipalAxisB
-) throw() {
+) {
     rt_tgc_internal* internalp = Internal();
 
     VMOVE(internalp->v, basePoint.coordinates);
@@ -360,7 +348,7 @@ void Cone::Set
     const Vector3D& height,
     double          radiusBase,
     double          radiusTop
-) throw() {
+) {
     rt_tgc_internal* internalp = Internal();
     vect_t           semiPrincipalAxisA = {0.};
     vect_t           semiPrincipalAxisB = {0.};
@@ -384,7 +372,7 @@ void Cone::Set
     const Vector3D& basePoint,
     const Vector3D& height,
     double          radius
-) throw() {
+) {
     rt_tgc_internal* internalp = Internal();
     vect_t           semiPrincipalAxisA = {0.};
     vect_t           semiPrincipalAxisB = {0.};
@@ -406,7 +394,7 @@ void Cone::Set
 const Object& Cone::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Cone* tgc = dynamic_cast<const Cone*>(&original);
     assert(tgc != 0);
 
@@ -417,22 +405,22 @@ const Object& Cone::operator=
 }
 
 
-Object* Cone::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Cone::Clone(void) const {
     return new Cone(*this);
 }
 
 
-const char* Cone::ClassName(void) throw() {
+const char* Cone::ClassName(void) {
     return "Cone";
 }
 
 
-const char* Cone::Type(void) const throw() {
+const char* Cone::Type(void) const {
     return ClassName();
 }
 
 
-bool Cone::IsValid(void) const throw(){
+bool Cone::IsValid(void) const {
     bool                   ret       = false;
     const rt_tgc_internal* internalp = Internal();
         double magA = MAGNITUDE(internalp->a);
@@ -466,10 +454,10 @@ Cone::Cone
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-rt_tgc_internal* Cone::Internal(void) throw() {
+rt_tgc_internal* Cone::Internal(void) {
     rt_tgc_internal* ret;
 
     if(m_ip != 0)
@@ -483,7 +471,7 @@ rt_tgc_internal* Cone::Internal(void) throw() {
 }
 
 
-const rt_tgc_internal* Cone::Internal(void) const throw() {
+const rt_tgc_internal* Cone::Internal(void) const {
     const rt_tgc_internal* ret;
 
     if (m_ip != 0)

@@ -45,47 +45,47 @@ struct bu_attribute_value_set;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Object {
     public:
-        virtual ~Object(void) throw();
+        virtual ~Object(void);
 
         // works if both Objects are of the same derived class
-        virtual const Object& operator=(const Object& original) throw(bad_alloc) = 0;
+        virtual const Object& operator=(const Object& original) = 0;
 
         // a virtual constructor which creates the right derived class
         // and the corresponding destructor
         // which keeps the memory management in a healthy state
-        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc) = 0;
-        void                  Destroy(void) throw();
+        virtual Object*       Clone(void) const = 0;
+        void                  Destroy(void);
 
         // these two functions can be used to determine the type of the object
-        static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const throw()                           = 0;
+        static const char*    ClassName(void);
+        virtual const char*   Type(void) const                           = 0;
 
         // Is this object functional?
-        virtual bool          IsValid(void) const throw()                        = 0;
+        virtual bool          IsValid(void) const                        = 0;
 
         // for all objects
-        const char*           Name(void) const throw();
-        void                  SetName(const char* name) throw(bad_alloc);
+        const char*           Name(void) const;
+        void                  SetName(const char* name);
 
 
         class BRLCAD_COREINTERFACE_EXPORT AttributeIterator {
         public:
-            AttributeIterator(const AttributeIterator& original) throw() : m_avs(original.m_avs),
+            AttributeIterator(const AttributeIterator& original) : m_avs(original.m_avs),
                                                                            m_searchKey(original.m_searchKey),
                                                                            m_index(original.m_index) {}
-            ~AttributeIterator(void) throw() {}
+            ~AttributeIterator(void) {}
 
-            const AttributeIterator& operator=(const AttributeIterator& original) throw() {
+            const AttributeIterator& operator=(const AttributeIterator& original) {
                 m_avs       = original.m_avs;
                 m_searchKey = original.m_searchKey;
                 m_index     = original.m_index;
                 return *this;
             }
 
-            const AttributeIterator& operator++(void) throw();
-            bool                     Good(void) const throw();
-            const char*              Key(void) const throw();
-            const char*              Value(void) const throw();
+            const AttributeIterator& operator++(void);
+            bool                     Good(void) const;
+            const char*              Key(void) const;
+            const char*              Value(void) const;
 
         private:
             const bu_attribute_value_set* m_avs;
@@ -94,7 +94,7 @@ namespace BRLCAD {
 
             AttributeIterator(const bu_attribute_value_set* avs,
                               const char*                   searchKey,
-                              size_t                        index) throw();
+                              size_t                        index);
 
             friend class Object;
 
@@ -102,16 +102,16 @@ namespace BRLCAD {
         };
 
 
-        bool                  HasAttribute(const char* key) const throw();
-        AttributeIterator     FirstAttribute(void) const throw();                    ///> returns an iterator pointing on the first attribute
-        const char*           Attribute(const char* key) const throw();              ///> returns the value of the first attribute with this key
-        AttributeIterator     MultiAttribute(const char* key) const throw();         ///> returns an iterator pointing on the first attribute with this key
+        bool                  HasAttribute(const char* key) const;
+        AttributeIterator     FirstAttribute(void) const;            ///> returns an iterator pointing on the first attribute
+        const char*           Attribute(const char* key) const;      ///> returns the value of the first attribute with this key
+        AttributeIterator     MultiAttribute(const char* key) const; ///> returns an iterator pointing on the first attribute with this key
         void                  SetAttribute(const char* key,
-                                           const char* value) throw(bad_alloc);      ///> overwrites the attribute entry with this key or creates a new one if there is none
+                                           const char* value);       ///> overwrites the attribute entry with this key or creates a new one if there is none
         void                  AddMultiAttribute(const char* key,
-                                                const char* value) throw(bad_alloc); ///> creates an attribute entry with this values even if there exitsts already one with this key
-        void                  RemoveAttribute(const char* key) throw();              ///> removes the first attribute with this key
-        void                  ClearAttributes(void) throw();                         ///> removes all attributes
+                                                const char* value);  ///> creates an attribute entry with this values even if there exitsts already one with this key
+        void                  RemoveAttribute(const char* key);      ///> removes the first attribute with this key
+        void                  ClearAttributes(void);                 ///> removes all attributes
 
 
     protected:
@@ -120,23 +120,23 @@ namespace BRLCAD {
         rt_db_internal* m_ip;
         db_i*           m_dbip;
 
-        Object(void) throw(bad_alloc);
+        Object(void);
         Object(resource*       resp,
                directory*      pDir,
                rt_db_internal* ip,
-               db_i*           dbip) throw();
-        Object(const Object& original) throw(bad_alloc);
+               db_i*           dbip);
+        Object(const Object& original);
 
-        void Copy(const Object& original) throw(bad_alloc);
-        bool Validate(void) const throw();
+        void Copy(const Object& original);
+        bool Validate(void) const;
 
     private:
         // holds Objects's name if not connected to a database
         char*                   m_name;
         bu_attribute_value_set* m_avs;
 
-        const bu_attribute_value_set* GetAvs(void) const throw();
-        bu_attribute_value_set*       GetAvs(bool create) throw();
+        const bu_attribute_value_set* GetAvs(void) const;
+        bu_attribute_value_set*       GetAvs(bool create);
 
         friend class Database;
     };

@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-Ellipsoid::Ellipsoid(void) throw(bad_alloc) : Object() {
+Ellipsoid::Ellipsoid(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -48,7 +48,6 @@ Ellipsoid::Ellipsoid(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
@@ -61,7 +60,7 @@ Ellipsoid::Ellipsoid
     const Vector3D& semiPrincipalAxisA,
     const Vector3D& semiPrincipalAxisB,
     const Vector3D& semiPrincipalAxisC
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -70,7 +69,6 @@ Ellipsoid::Ellipsoid
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
@@ -82,7 +80,7 @@ Ellipsoid::Ellipsoid
     const Vector3D& center,
     const Vector3D& semiPrincipalAxis,
     double          radius
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -91,7 +89,6 @@ Ellipsoid::Ellipsoid
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
@@ -102,7 +99,7 @@ Ellipsoid::Ellipsoid
 (
     const Vector3D& center,
     double          radius
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -111,7 +108,6 @@ Ellipsoid::Ellipsoid
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
@@ -121,21 +117,20 @@ Ellipsoid::Ellipsoid
 Ellipsoid::Ellipsoid
 (
     const Ellipsoid& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ell_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_ell_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Ellipsoid::Ellipsoid");
     }
 
     BU_UNSETJUMP;
 }
 
 
-Ellipsoid::~Ellipsoid(void) throw() {
+Ellipsoid::~Ellipsoid(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::Ellipsoid::~Ellipsoid::m_internalp");
 }
@@ -144,7 +139,7 @@ Ellipsoid::~Ellipsoid(void) throw() {
 const Ellipsoid& Ellipsoid::operator=
 (
     const Ellipsoid& original
-) throw(bad_alloc) {
+){
     if(&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_ell_internal));
@@ -154,7 +149,7 @@ const Ellipsoid& Ellipsoid::operator=
 }
 
 
-Vector3D Ellipsoid::Center(void) const throw() {
+Vector3D Ellipsoid::Center(void) const {
     return Vector3D(Internal()->v);
 }
 
@@ -162,7 +157,7 @@ Vector3D Ellipsoid::Center(void) const throw() {
 void Ellipsoid::SetCenter
 (
     const Vector3D& center
-) throw(){
+) {
     VMOVE(Internal()->v, center.coordinates);
 }
 
@@ -170,7 +165,7 @@ void Ellipsoid::SetCenter
 Vector3D Ellipsoid::SemiPrincipalAxis
 (
     size_t index
-) const throw(){
+) const {
     Vector3D ret;
 
     assert(index < 3);
@@ -196,7 +191,7 @@ void Ellipsoid::SetSemiPrincipalAxis
 (
     size_t          index,
     const Vector3D& semiPrincipalAxis
-) throw(){
+) {
     assert(index < 3);
 
     switch (index) {
@@ -220,7 +215,7 @@ void Ellipsoid::Set
     const Vector3D& semiPrincipalAxisA,
     const Vector3D& semiPrincipalAxisB,
     const Vector3D& semiPrincipalAxisC
-) throw(){
+) {
     rt_ell_internal* internalp = Internal();
 
     VMOVE(internalp->v, center.coordinates);
@@ -235,7 +230,7 @@ void Ellipsoid::Set
     const Vector3D& center,
     const Vector3D& semiPrincipalAxis,
     double          radius
-) throw() {
+) {
     double length = MAGNITUDE(semiPrincipalAxis.coordinates);
 
     assert(length > SMALL_FASTF);
@@ -261,7 +256,7 @@ void Ellipsoid::SetFocals
     const Vector3D& focalA,
     const Vector3D& focalB,
     double          majorAxisLength
-) throw(){
+) {
     assert(majorAxisLength > SMALL_FASTF);
 
     if (majorAxisLength > SMALL_FASTF) {
@@ -305,7 +300,7 @@ void Ellipsoid::SetSphere
 (
     const Vector3D& center,
     double          radius
-) throw() {
+) {
     assert(radius > SMALL_FASTF);
 
     if (!NEAR_ZERO(radius, SMALL_FASTF)) {
@@ -322,7 +317,7 @@ void Ellipsoid::SetSphere
 const Object& Ellipsoid::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Ellipsoid* ell = dynamic_cast<const Ellipsoid*>(&original);
     assert(ell != 0);
 
@@ -333,22 +328,22 @@ const Object& Ellipsoid::operator=
 }
 
 
-Object* Ellipsoid::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Ellipsoid::Clone(void) const {
     return new Ellipsoid(*this);
 }
 
 
-const char* Ellipsoid::ClassName(void) throw() {
+const char* Ellipsoid::ClassName(void) {
     return "Ellipsoid";
 }
 
 
-const char* Ellipsoid::Type(void) const throw() {
+const char* Ellipsoid::Type(void) const {
     return ClassName();
 }
 
 
-bool Ellipsoid::IsValid(void) const throw() {
+bool Ellipsoid::IsValid(void) const {
     bool                   ret       = false;
     const rt_ell_internal* internalp = Internal();
 
@@ -370,10 +365,10 @@ Ellipsoid::Ellipsoid
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-rt_ell_internal* Ellipsoid::Internal(void) throw() {
+rt_ell_internal* Ellipsoid::Internal(void) {
     rt_ell_internal* ret;
 
     if (m_ip != 0)
@@ -387,7 +382,7 @@ rt_ell_internal* Ellipsoid::Internal(void) throw() {
 }
 
 
-const rt_ell_internal* Ellipsoid::Internal(void) const throw() {
+const rt_ell_internal* Ellipsoid::Internal(void) const {
     const rt_ell_internal* ret;
 
     if (m_ip != 0)

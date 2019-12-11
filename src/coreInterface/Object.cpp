@@ -43,7 +43,7 @@ using namespace BRLCAD;
 // class Object::AttributeIterator
 //
 
-const Object::AttributeIterator& Object::AttributeIterator::operator++(void) throw() {
+const Object::AttributeIterator& Object::AttributeIterator::operator++(void) {
     if (m_avs != 0) {
         if (m_index > 0) {
             --m_index;
@@ -54,7 +54,7 @@ const Object::AttributeIterator& Object::AttributeIterator::operator++(void) thr
                         m_avs = 0;
                         break;
                     }
-                    
+
                     --m_index;
                 }
             }
@@ -67,12 +67,12 @@ const Object::AttributeIterator& Object::AttributeIterator::operator++(void) thr
 }
 
 
-bool Object::AttributeIterator::Good(void) const throw() {
+bool Object::AttributeIterator::Good(void) const {
     return (m_avs != 0);
 }
 
 
-const char* Object::AttributeIterator::Key(void) const throw() {
+const char* Object::AttributeIterator::Key(void) const {
     const char* ret = 0;
 
     assert(m_avs != 0);
@@ -84,7 +84,7 @@ const char* Object::AttributeIterator::Key(void) const throw() {
 }
 
 
-const char* Object::AttributeIterator::Value(void) const throw() {
+const char* Object::AttributeIterator::Value(void) const {
     const char* ret = 0;
 
     assert(m_avs != 0);
@@ -101,14 +101,14 @@ Object::AttributeIterator::AttributeIterator
     const bu_attribute_value_set* avs,
     const char*                   searchKey,
     size_t                        index
-) throw() : m_avs(avs), m_searchKey(searchKey), m_index(index) {}
+) : m_avs(avs), m_searchKey(searchKey), m_index(index) {}
 
 
 //
 // class Object
 //
 
-Object::~Object(void) throw() {
+Object::~Object(void) {
     if (m_name != 0)
         bu_free(m_name, "BRLCAD::Object::~Object::m_name");
 
@@ -124,17 +124,17 @@ Object::~Object(void) throw() {
 }
 
 
-void Object::Destroy(void) throw() {
+void Object::Destroy(void) {
     delete this;
 }
 
 
-const char* Object::ClassName(void) throw() {
+const char* Object::ClassName(void) {
     return "Object";
 }
 
 
-const char* Object::Name(void) const throw() {
+const char* Object::Name(void) const {
     const char* ret = 0;
 
     assert(!((m_pDir != RT_DIR_NULL) && (m_name != 0)));
@@ -151,7 +151,7 @@ const char* Object::Name(void) const throw() {
 void Object::SetName
 (
     const char* name
-) throw(bad_alloc) {
+) {
     assert(!((m_pDir != RT_DIR_NULL) && (m_name != 0)));
 
     // not connected with a non-writable database
@@ -174,7 +174,6 @@ void Object::SetName
             else {
                 BU_UNSETJUMP;
                 m_name = 0;
-                throw bad_alloc("BRLCAD::Object::SetName");
             }
 
             BU_UNSETJUMP;
@@ -191,12 +190,12 @@ void Object::SetName
 bool Object::HasAttribute
 (
     const char* key
-) const throw() {
+) const {
     return (Attribute(key) != 0);
 }
 
 
-Object::AttributeIterator Object::FirstAttribute(void) const throw() {
+Object::AttributeIterator Object::FirstAttribute(void) const {
     const bu_attribute_value_set* avs    = GetAvs();
     const bu_attribute_value_set* avsRet = 0;
     size_t                        index  = 0;
@@ -213,7 +212,7 @@ Object::AttributeIterator Object::FirstAttribute(void) const throw() {
 const char* Object::Attribute
 (
     const char* key
-) const throw() {
+) const {
     const char*                   ret = 0;
     const bu_attribute_value_set* avs = GetAvs();
 
@@ -237,7 +236,7 @@ const char* Object::Attribute
 Object::AttributeIterator Object::MultiAttribute
 (
     const char* key
-) const throw() {
+) const {
     const bu_attribute_value_set* avs       = GetAvs();
     const bu_attribute_value_set* avsRet    = 0;
     const char*                   keyIntern = 0;
@@ -265,7 +264,7 @@ void Object::SetAttribute
 (
     const char* key,
     const char* value
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         bu_attribute_value_set* avs = GetAvs(true);
 
@@ -274,7 +273,6 @@ void Object::SetAttribute
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Object::SetMultiAttribute");
     }
 
     BU_UNSETJUMP;
@@ -285,7 +283,7 @@ void Object::AddMultiAttribute
 (
     const char* key,
     const char* value
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         bu_attribute_value_set* avs = GetAvs(true);
 
@@ -294,7 +292,6 @@ void Object::AddMultiAttribute
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Object::SetMultiAttribute");
     }
 
     BU_UNSETJUMP;
@@ -304,7 +301,7 @@ void Object::AddMultiAttribute
 void Object::RemoveAttribute
 (
     const char* key
-) throw() {
+) {
     bu_attribute_value_set* avs = GetAvs(false);
 
     if (avs != 0)
@@ -312,7 +309,7 @@ void Object::RemoveAttribute
 }
 
 
-void Object::ClearAttributes(void) throw() {
+void Object::ClearAttributes(void) {
     bu_attribute_value_set* avs = GetAvs(false);
 
     if (avs != 0)
@@ -320,14 +317,13 @@ void Object::ClearAttributes(void) throw() {
 }
 
 
-Object::Object(void) throw(bad_alloc) : m_pDir(0), m_ip(0), m_dbip(0), m_name(0), m_avs(0) {
+Object::Object(void) : m_pDir(0), m_ip(0), m_dbip(0), m_name(0), m_avs(0) {
     if (!BU_SETJUMP) {
         m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::Object::Object::m_resp"));
         rt_init_resource(m_resp, 0, NULL);
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Object::Object");
     }
 
     BU_UNSETJUMP;
@@ -340,7 +336,7 @@ Object::Object
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : m_resp(resp), m_pDir(pDir), m_ip(ip), m_dbip(dbip), m_name(0), m_avs(0) {
+) : m_resp(resp), m_pDir(pDir), m_ip(ip), m_dbip(dbip), m_name(0), m_avs(0) {
     assert(m_pDir != 0);
 }
 
@@ -348,7 +344,7 @@ Object::Object
 Object::Object
 (
     const Object& original
-) throw(bad_alloc) : m_resp(0), m_pDir(0), m_ip(0), m_dbip(0), m_name(0), m_avs(0) {
+) : m_resp(0), m_pDir(0), m_ip(0), m_dbip(0), m_name(0), m_avs(0) {
     if (!BU_SETJUMP) {
         m_resp = static_cast<resource*>(bu_calloc(1, sizeof(resource), "BRLCAD::Object::Object::m_resp"));
         rt_init_resource(m_resp, 0, NULL);
@@ -359,7 +355,6 @@ Object::Object
         if (m_resp != 0)
             bu_free(m_resp, "BRLCAD::Object::Object::m_resp");
 
-        throw bad_alloc("BRLCAD::Object::Object");
     }
 
     BU_UNSETJUMP;
@@ -371,7 +366,7 @@ Object::Object
 void Object::Copy
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     if (&original != this) {
         SetName(original.Name());
 
@@ -398,7 +393,6 @@ void Object::Copy
                 }
                 else {
                     BU_UNSETJUMP;
-                    throw bad_alloc("BRLCAD::Object::Copy");
                 }
 
                 BU_UNSETJUMP;
@@ -410,13 +404,13 @@ void Object::Copy
 }
 
 
-bool Object::Validate(void) const throw() {
+bool Object::Validate(void) const {
     const char* name = Name();
 
     return (name != 0) && (strlen(name) > 0);
 }
 
-const bu_attribute_value_set* Object::GetAvs(void) const throw() {
+const bu_attribute_value_set* Object::GetAvs(void) const {
     const bu_attribute_value_set* ret = 0;
 
     assert(!((m_pDir != RT_DIR_NULL) && (m_avs != 0)));
@@ -433,7 +427,7 @@ const bu_attribute_value_set* Object::GetAvs(void) const throw() {
 bu_attribute_value_set* Object::GetAvs
 (
     bool create
-) throw() {
+) {
     bu_attribute_value_set* ret = 0;
 
     assert(!((m_pDir != RT_DIR_NULL) && (m_avs != 0)));

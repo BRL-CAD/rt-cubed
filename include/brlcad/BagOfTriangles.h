@@ -48,44 +48,44 @@ namespace BRLCAD {
             CounterClockWise
         };
 
-        BagOfTriangles(void) throw(bad_alloc);
-        BagOfTriangles(const BagOfTriangles& original) throw(bad_alloc);
-        virtual ~BagOfTriangles(void) throw();
+        BagOfTriangles(void);
+        BagOfTriangles(const BagOfTriangles& original);
+        virtual ~BagOfTriangles(void);
 
-        const BagOfTriangles& operator=(const BagOfTriangles& original) throw(bad_alloc);
+        const BagOfTriangles& operator=(const BagOfTriangles& original);
 
         class BRLCAD_COREINTERFACE_EXPORT Face {
         public:
-            Face(void) throw() : m_bot(0), m_faceIndex(0) {}
-            Face(const Face& original) throw() : m_bot(original.m_bot), m_faceIndex(original.m_faceIndex) {}
-            ~Face(void) throw() {}
+            Face(void) : m_bot(0), m_faceIndex(0) {}
+            Face(const Face& original) : m_bot(original.m_bot), m_faceIndex(original.m_faceIndex) {}
+            ~Face(void) {}
 
-            const Face& operator=(const Face& original) throw() {
+            const Face& operator=(const Face& original) {
                 m_bot       = original.m_bot;
                 m_faceIndex = original.m_faceIndex;
 
                 return *this;
             }
 
-            Vector3D    Point(size_t index) const throw();
+            Vector3D    Point(size_t index) const;
             void        SetPoint(size_t          index,
-                                 const Vector3D& point) throw(bad_alloc);
+                                 const Vector3D& point);
             void        SetPoints(const Vector3D& point1,
                                   const Vector3D& point2,
-                                  const Vector3D& point3) throw(bad_alloc);
+                                  const Vector3D& point3);
 
-            double      Thickness(void) const throw();
-            void        SetThickness(double value) throw();
+            double      Thickness(void) const;
+            void        SetThickness(double value);
 
-            bool        ApendThickness(void) const throw();
-            void        SetApendThickness(bool apendThickness) throw();
+            bool        ApendThickness(void) const;
+            void        SetApendThickness(bool apendThickness);
 
-            Vector3D    Normal(size_t index) const throw();
+            Vector3D    Normal(size_t index) const;
             void        SetNormal(size_t          index,
-                                  const Vector3D& normal) throw();
+                                  const Vector3D& normal);
             void        SetNormals(const Vector3D& normal1,
                                    const Vector3D& normal2,
-                                   const Vector3D& normal3) throw(bad_alloc);
+                                   const Vector3D& normal3);
 
                         operator void*(void) { ///< to test if the face is NULL
                 return m_bot;
@@ -93,7 +93,7 @@ namespace BRLCAD {
 
         protected:
             Face(rt_bot_internal* original,
-                 size_t           originalIndex) throw() : m_bot(original), m_faceIndex(originalIndex) {}
+                 size_t           originalIndex) : m_bot(original), m_faceIndex(originalIndex) {}
 
             friend BagOfTriangles;
 
@@ -102,49 +102,49 @@ namespace BRLCAD {
             size_t           m_faceIndex;
         };
 
-        BotMode               Mode(void) const throw();
-        void                  SetMode(BotMode mode) throw(bad_alloc);
+        BotMode               Mode(void) const;
+        void                  SetMode(BotMode mode);
 
-        BotOrientation        Orientation(void) const throw();
-        void                  SetOrientation(BotOrientation orientation) throw();
+        BotOrientation        Orientation(void) const;
+        void                  SetOrientation(BotOrientation orientation);
 
-        bool                  FacesHaveNormals(void) const throw();
-        void                  SetFacesHaveNormals(bool facesHaveNormals) throw(bad_alloc);
+        bool                  FacesHaveNormals(void) const;
+        void                  SetFacesHaveNormals(bool facesHaveNormals);
 
-        bool                  UseFaceNormals(void) const throw();
-        void                  SetUseFaceNormals(bool useFaceNormals) throw();
+        bool                  UseFaceNormals(void) const;
+        void                  SetUseFaceNormals(bool useFaceNormals);
 
-        bool                  UseFloats(void) const throw();
-        void                  SetUseFloats(bool useFloats) throw();
+        bool                  UseFloats(void) const;
+        void                  SetUseFloats(bool useFloats);
 
-        size_t                NumberOfFaces(void) const throw();
+        size_t                NumberOfFaces(void) const;
 
-        Face                  GetFace(size_t index) throw();
+        Face                  GetFace(size_t index);
         Face                  AddFace(const Vector3D& point1,
                                       const Vector3D& point2,
-                                      const Vector3D& point3) throw(bad_alloc);
+                                      const Vector3D& point3);
 
-        void                  DeleteFace(size_t index) throw(bad_alloc);
+        void                  DeleteFace(size_t index);
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(bad_alloc);
-        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc);
-        static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const throw();
-        virtual bool          IsValid(void) const throw();
+        virtual const Object& operator=(const Object& original);
+        virtual Object*       Clone(void) const;
+        static const char*    ClassName(void);
+        virtual const char*   Type(void) const;
+        virtual bool          IsValid(void) const;
 
     protected:
         BagOfTriangles(resource*       resp,
                        directory*      pDir,
                        rt_db_internal* ip,
-                       db_i*           dbip = 0) throw();
+                       db_i*           dbip = 0);
 
         friend class ConstDatabase;
 
     private:
         struct rt_bot_internal *m_internalp;
-        const rt_bot_internal* Internal(void) const throw();
-        rt_bot_internal*       Internal(void) throw();
+        const rt_bot_internal* Internal(void) const;
+        rt_bot_internal*       Internal(void);
 
         friend class Database;
     };

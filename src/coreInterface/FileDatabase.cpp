@@ -36,16 +36,16 @@
 using namespace BRLCAD;
 
 
-FileDatabase::FileDatabase(void) throw(bad_alloc) : Database() {}
+FileDatabase::FileDatabase(void) : Database() {}
 
 
-FileDatabase::~FileDatabase(void) throw() {}
+FileDatabase::~FileDatabase(void) {}
 
 
 bool FileDatabase::Load
 (
     const char* fileName
-) throw() {
+) {
     bool ret = false;
 
     if (m_resp != 0) {

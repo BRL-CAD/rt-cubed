@@ -71,7 +71,7 @@ static int NullLogger
 }
 
 
-static void InitBrlCad(void) throw() {
+static void InitBrlCad(void) {
     static bool init = true;
 
     if (init) { // do it only once
@@ -89,7 +89,7 @@ static void InitBrlCad(void) throw() {
 // class ConstDatabase
 //
 
-ConstDatabase::ConstDatabase(void) throw(bad_alloc) : m_rtip(0), m_resp(0) {
+ConstDatabase::ConstDatabase(void) : m_rtip(0), m_resp(0) {
     InitBrlCad();
 
     if (rt_uniresource.re_magic != RESOURCE_MAGIC)
@@ -101,14 +101,13 @@ ConstDatabase::ConstDatabase(void) throw(bad_alloc) : m_rtip(0), m_resp(0) {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Object::Object");
     }
 
     BU_UNSETJUMP;
 }
 
 
-ConstDatabase::~ConstDatabase(void) throw() {
+ConstDatabase::~ConstDatabase(void) {
     if (m_rtip != 0) {
         if (!BU_SETJUMP)
             rt_free_rti(m_rtip);
@@ -126,7 +125,7 @@ ConstDatabase::~ConstDatabase(void) throw() {
 bool ConstDatabase::Load
 (
     const char* fileName
-) throw() {
+) {
     if (m_resp != 0) {
         if (m_rtip != 0) {
             if (!BU_SETJUMP)
@@ -162,7 +161,7 @@ bool ConstDatabase::Load
 }
 
 
-const char* ConstDatabase::Title(void) const throw() {
+const char* ConstDatabase::Title(void) const {
     const char* ret = 0;
 
     if (m_rtip != 0)
@@ -172,7 +171,7 @@ const char* ConstDatabase::Title(void) const throw() {
 }
 
 
-const ConstDatabase::TopObjectIterator& ConstDatabase::TopObjectIterator::operator++(void) throw() {
+const ConstDatabase::TopObjectIterator& ConstDatabase::TopObjectIterator::operator++(void) {
     if (m_pDir != 0) {
         const directory* oldPDir = m_pDir;
 
@@ -203,12 +202,12 @@ const ConstDatabase::TopObjectIterator& ConstDatabase::TopObjectIterator::operat
 }
 
 
-bool ConstDatabase::TopObjectIterator::Good(void) const throw() {
+bool ConstDatabase::TopObjectIterator::Good(void) const {
     return (m_pDir != 0);
 }
 
 
-const char* ConstDatabase::TopObjectIterator::Name(void) const throw() {
+const char* ConstDatabase::TopObjectIterator::Name(void) const {
     assert(m_pDir != 0);
 
     const char* ret = 0;
@@ -225,10 +224,10 @@ ConstDatabase::TopObjectIterator::TopObjectIterator
     size_t           hashTablePosition,
     const directory* pDir,
     const rt_i*      rtip
-) throw() : m_hashTablePosition(hashTablePosition), m_pDir(pDir), m_rtip(rtip) {}
+) : m_hashTablePosition(hashTablePosition), m_pDir(pDir), m_rtip(rtip) {}
 
 
-ConstDatabase::TopObjectIterator ConstDatabase::FirstTopObject(void) const throw() {
+ConstDatabase::TopObjectIterator ConstDatabase::FirstTopObject(void) const {
     size_t           hashTablePosition = 0;
     const directory* pDirectory        = 0;
 
@@ -337,7 +336,6 @@ void ConstDatabase::Get
                     catch(...) {
                         BU_UNSETJUMP;
                         rt_db_free_internal(&intern);
-                        throw;
                     }
 
                     rt_db_free_internal(&intern);
@@ -353,13 +351,13 @@ void ConstDatabase::Get
 Object* ConstDatabase::Get
 (
     const char* objectName
-) const throw(bad_alloc, std::bad_alloc) {
+) const {
     class ObjectCallbackIntern : public ObjectCallback {
     public:
         ObjectCallbackIntern(void) : ConstDatabase::ObjectCallback(),
                                      m_object(0) {}
 
-        virtual ~ObjectCallbackIntern(void) throw() {}
+        virtual ~ObjectCallbackIntern(void) {}
 
         virtual void operator()(const Object& object) {
             try {
@@ -368,7 +366,7 @@ Object* ConstDatabase::Get
             catch(std::bad_alloc&) {}
         }
 
-        Object*      GetObject(void) const throw() {
+        Object*      GetObject(void) const {
             return m_object;
         }
 
@@ -428,7 +426,7 @@ static tree* FacetizeRegionEnd
 NonManifoldGeometry* ConstDatabase::Facetize
 (
     const char* objectName
-) const throw(bad_alloc, std::bad_alloc) {
+) const {
     NonManifoldGeometry* ret          = new NonManifoldGeometry;
 
     if (m_rtip != 0) {
@@ -468,7 +466,6 @@ NonManifoldGeometry* ConstDatabase::Facetize
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Object::Facetize");
         }
 
         BU_UNSETJUMP;
@@ -481,7 +478,7 @@ NonManifoldGeometry* ConstDatabase::Facetize
 void ConstDatabase::Select
 (
     const char* objectName
-) throw() {
+) {
     if (m_rtip != 0) {
         if (!BU_SETJUMP)
             rt_gettree(m_rtip, objectName);
@@ -491,7 +488,7 @@ void ConstDatabase::Select
 }
 
 
-void ConstDatabase::UnSelectAll(void) throw() {
+void ConstDatabase::UnSelectAll(void) {
     if (m_rtip != 0) {
         if (!BU_SETJUMP)
             rt_clean(m_rtip);
@@ -501,7 +498,7 @@ void ConstDatabase::UnSelectAll(void) throw() {
 }
 
 
-bool ConstDatabase::SelectionIsEmpty(void) const throw() {
+bool ConstDatabase::SelectionIsEmpty(void) const {
     bool ret = true;
 
     if (m_rtip != 0)
@@ -511,7 +508,7 @@ bool ConstDatabase::SelectionIsEmpty(void) const throw() {
 }
 
 
-Vector3D ConstDatabase::BoundingBoxMinima(void) const throw() {
+Vector3D ConstDatabase::BoundingBoxMinima(void) const {
     Vector3D ret;
 
     if (!SelectionIsEmpty()) {
@@ -529,7 +526,7 @@ Vector3D ConstDatabase::BoundingBoxMinima(void) const throw() {
 }
 
 
-Vector3D ConstDatabase::BoundingBoxMaxima(void) const throw() {
+Vector3D ConstDatabase::BoundingBoxMaxima(void) const {
     Vector3D ret;
 
     if (!SelectionIsEmpty()) {
@@ -551,7 +548,7 @@ class ConstDatabaseHit : public ConstDatabase::Hit {
 public:
     ConstDatabaseHit(application* ap,
                      partition*   part,
-                     region*      reg) throw() : ConstDatabase::Hit(),
+                     region*      reg) : ConstDatabase::Hit(),
                                                   m_application(ap),
                                                   m_partition(part),
                                                   m_region(reg),
@@ -562,39 +559,39 @@ public:
         assert(m_region != 0);
    }
 
-    virtual const char* Name(void) const throw() {
+    virtual const char* Name(void) const {
         return m_region->reg_name;
     }
 
-    virtual double      DistanceIn(void) const throw() {
+    virtual double      DistanceIn(void) const {
         return m_partition->pt_inhit->hit_dist;
     }
 
-    virtual double      DistanceOut(void) const throw() {
+    virtual double      DistanceOut(void) const {
         return m_partition->pt_outhit->hit_dist;
     }
 
-    virtual Vector3D    PointIn(void) const throw() {
+    virtual Vector3D    PointIn(void) const {
         ComputeInVectors();
         return m_partition->pt_inhit->hit_point;
     }
 
-    virtual Vector3D    PointOut(void) const throw() {
+    virtual Vector3D    PointOut(void) const {
         ComputeOutVectors();
         return m_partition->pt_outhit->hit_point;
     }
 
-    virtual Vector3D    SurfaceNormalIn(void) const throw() {
+    virtual Vector3D    SurfaceNormalIn(void) const {
         ComputeInVectors();
         return m_partition->pt_inhit->hit_normal;
     }
 
-    virtual Vector3D    SurfaceNormalOut(void) const throw() {
+    virtual Vector3D    SurfaceNormalOut(void) const {
         ComputeOutVectors();
         return m_partition->pt_outhit->hit_normal;
     }
 
-    virtual Curvature3D SurfaceCurvatureIn(void) const throw() {
+    virtual Curvature3D SurfaceCurvatureIn(void) const {
         ComputeInVectors();
 
         curvature curv;
@@ -603,7 +600,7 @@ public:
         return Curvature3D(curv.crv_pdir, curv.crv_c1, curv.crv_c2);
     }
 
-    virtual Curvature3D SurfaceCurvatureOut(void) const throw() {
+    virtual Curvature3D SurfaceCurvatureOut(void) const {
         ComputeOutVectors();
 
         curvature curv;
@@ -612,33 +609,33 @@ public:
         return Curvature3D(curv.crv_pdir, curv.crv_c1, curv.crv_c2);
     }
 
-    virtual Mapping2D   Surface2DMappingIn(void) const throw() {
+    virtual Mapping2D   Surface2DMappingIn(void) const {
         uvcoord uv;
         RT_HIT_UVCOORD(m_application, m_partition->pt_inseg->seg_stp, m_partition->pt_inhit, &uv);
 
         return Mapping2D(Vector2D(uv.uv_u, uv.uv_v), Vector2D(uv.uv_du, uv.uv_dv));
     }
 
-    virtual Mapping2D   Surface2DMappingOut(void) const throw() {
+    virtual Mapping2D   Surface2DMappingOut(void) const {
         uvcoord uv;
         RT_HIT_UVCOORD(m_application, m_partition->pt_outseg->seg_stp, m_partition->pt_outhit, &uv);
 
         return Mapping2D(Vector2D(uv.uv_u, uv.uv_v), Vector2D(uv.uv_du, uv.uv_dv));
     }
 
-    virtual bool        HasColor(void) const throw() {
+    virtual bool        HasColor(void) const {
         return (m_region->reg_mater.ma_color_valid != 0);
     }
 
-    virtual double      Red(void) const throw() {
+    virtual double      Red(void) const {
         return m_region->reg_mater.ma_color[0];
     }
 
-    virtual double      Green(void) const throw() {
+    virtual double      Green(void) const {
         return m_region->reg_mater.ma_color[1];
     }
 
-    virtual double      Blue(void) const throw() {
+    virtual double      Blue(void) const {
         return m_region->reg_mater.ma_color[2];
     }
 
@@ -649,7 +646,7 @@ private:
     mutable bool m_inVectorsComputed;
     mutable bool m_outVectorsComputed;
 
-    void ComputeInVectors(void) const throw() {
+    void ComputeInVectors(void) const {
         if (!m_inVectorsComputed) {
             hit* pHit = m_partition->pt_inhit;
 
@@ -658,7 +655,7 @@ private:
         }
     }
 
-    void ComputeOutVectors(void) const throw() {
+    void ComputeOutVectors(void) const {
         if (!m_outVectorsComputed) {
             hit* pHit = m_partition->pt_outhit;
 
@@ -723,7 +720,6 @@ void ConstDatabase::ShootRay
             }
             catch(...) {
                 BU_UNSETJUMP;
-                throw;
             }
         }
 
@@ -797,7 +793,6 @@ void ConstDatabase::ShootRay
             }
             catch(...) {
                 BU_UNSETJUMP;
-                throw;
             }
         }
 

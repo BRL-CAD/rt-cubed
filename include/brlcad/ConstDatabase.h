@@ -45,29 +45,29 @@ namespace BRLCAD {
 
     class BRLCAD_COREINTERFACE_EXPORT ConstDatabase {
     public:
-        ConstDatabase(void) throw(bad_alloc);
-        virtual ~ConstDatabase(void) throw();
+        ConstDatabase(void);
+        virtual ~ConstDatabase(void);
 
         /// associates the handle with a BRL-CAD database file (*.g)
         /** If the handle was already associated with a database file this association will be discarded.
             The file will be opened for reading only. */
-        virtual bool         Load(const char* fileName) throw();
+        virtual bool         Load(const char* fileName);
 
         /// @name Parsing the database
         //@{
         /// title string read from the database
-        const char*          Title(void) const throw();
+        const char*          Title(void) const;
 
 
         class BRLCAD_COREINTERFACE_EXPORT TopObjectIterator {
         public:
-            TopObjectIterator(const TopObjectIterator& original) throw() : m_hashTablePosition(original.m_hashTablePosition),
+            TopObjectIterator(const TopObjectIterator& original) : m_hashTablePosition(original.m_hashTablePosition),
                                                                            m_pDir(original.m_pDir),
                                                                            m_rtip(original.m_rtip) {}
 
-            ~TopObjectIterator(void) throw() {}
+            ~TopObjectIterator(void) {}
 
-            const TopObjectIterator& operator=(const TopObjectIterator& original) throw() {
+            const TopObjectIterator& operator=(const TopObjectIterator& original) {
                 m_hashTablePosition = original.m_hashTablePosition;
                 m_pDir              = original.m_pDir;
                 m_rtip              = original.m_rtip;
@@ -75,9 +75,9 @@ namespace BRLCAD {
                 return *this;
             }
 
-            const TopObjectIterator& operator++(void) throw();
-            bool                     Good(void) const throw();
-            const char*              Name(void) const throw();
+            const TopObjectIterator& operator++(void);
+            bool                     Good(void) const;
+            const char*              Name(void) const;
 
         private:
             size_t           m_hashTablePosition;
@@ -86,7 +86,7 @@ namespace BRLCAD {
 
             TopObjectIterator(size_t           hashTablePosition,
                               const directory* pDir,
-                              const rt_i*      rtip) throw();
+                              const rt_i*      rtip);
 
             friend class ConstDatabase;
 
@@ -96,22 +96,22 @@ namespace BRLCAD {
 
         /// returns the first of the top level objects via an iterator object
         /** To get a list of all top level objects you have to use the iterator returned by this function. */
-        TopObjectIterator    FirstTopObject(void) const throw();
+        TopObjectIterator    FirstTopObject(void) const;
         //@}
 
         /// @name Accessing objects
         //@{
         class ObjectCallback {
         public:
-            virtual ~ObjectCallback(void) throw() {}
+            virtual ~ObjectCallback(void) {}
 
             /// the user has to implement this object method to evaluate the object
             virtual void operator()(const Object& object) = 0;
 
         protected:
-            ObjectCallback(void) throw() {}
-            ObjectCallback(const ObjectCallback&) throw() {}
-            const ObjectCallback& operator=(const ObjectCallback&) throw() {return *this;}
+            ObjectCallback(void) {}
+            ObjectCallback(const ObjectCallback&) {}
+            const ObjectCallback& operator=(const ObjectCallback&) {return *this;}
         };
 
         /// selects a single object and hand it over to an ObjectCallback (read only)
@@ -120,11 +120,11 @@ namespace BRLCAD {
 
         /// overloaded member function, provided for convenience: selects a single object and and returns a copy of it
         /** Do not forget to BRLCAD::Object::Destroy() the copy when you are finished with it! */
-        Object*              Get(const char* objectName) const throw(bad_alloc, std::bad_alloc);
+        Object*              Get(const char* objectName) const;
 
         /// facetizes a single object's tree and returns it as a non-manifold geometry
         /** Do not forget to BRLCAD::Object::Destroy() the non-manifold geometry when you are finished with it! */
-        NonManifoldGeometry* Facetize(const char* objectName) const throw(bad_alloc, std::bad_alloc);
+        NonManifoldGeometry* Facetize(const char* objectName) const;
         //@}
 
         /// @name Active set functions
@@ -132,41 +132,41 @@ namespace BRLCAD {
         /// add the database object \a objectName to the active set
         /** The function accepts a space separated list of object names too,
             but it is not sure that this behaviour will be kept in future versions. */
-        void                 Select(const char* objectName) throw();
+        void                 Select(const char* objectName);
         /// clear the active set
-        void                 UnSelectAll(void) throw();
+        void                 UnSelectAll(void);
 
-        bool                 SelectionIsEmpty(void) const throw();
-        Vector3D             BoundingBoxMinima(void) const throw();
-        Vector3D             BoundingBoxMaxima(void) const throw();
+        bool                 SelectionIsEmpty(void) const;
+        Vector3D             BoundingBoxMinima(void) const;
+        Vector3D             BoundingBoxMaxima(void) const;
 
         /// ray trace
         class Hit {
         public:
-            virtual ~Hit(void) throw() {}
+            virtual ~Hit(void) {}
 
-            virtual const char* Name(void) const throw()                = 0;
-            virtual double      DistanceIn(void) const throw()          = 0;
-            virtual double      DistanceOut(void) const throw()         = 0;
-            virtual Vector3D    PointIn(void) const throw()             = 0;
-            virtual Vector3D    PointOut(void) const throw()            = 0;
-            virtual Vector3D    SurfaceNormalIn(void) const throw()     = 0;
-            virtual Vector3D    SurfaceNormalOut(void) const throw()    = 0;
-            virtual Curvature3D SurfaceCurvatureIn(void) const throw()  = 0;
-            virtual Curvature3D SurfaceCurvatureOut(void) const throw() = 0;
-            virtual Mapping2D   Surface2DMappingIn(void) const throw()  = 0;
-            virtual Mapping2D   Surface2DMappingOut(void) const throw() = 0;
+            virtual const char* Name(void) const                = 0;
+            virtual double      DistanceIn(void) const          = 0;
+            virtual double      DistanceOut(void) const         = 0;
+            virtual Vector3D    PointIn(void) const             = 0;
+            virtual Vector3D    PointOut(void) const            = 0;
+            virtual Vector3D    SurfaceNormalIn(void) const     = 0;
+            virtual Vector3D    SurfaceNormalOut(void) const    = 0;
+            virtual Curvature3D SurfaceCurvatureIn(void) const  = 0;
+            virtual Curvature3D SurfaceCurvatureOut(void) const = 0;
+            virtual Mapping2D   Surface2DMappingIn(void) const  = 0;
+            virtual Mapping2D   Surface2DMappingOut(void) const = 0;
 
             /// some extracted data (originally from the region)
-            virtual bool        HasColor(void) const throw()            = 0;
-            virtual double      Red(void) const throw()                 = 0;
-            virtual double      Green(void) const throw()               = 0;
-            virtual double      Blue(void) const throw()                = 0;
+            virtual bool        HasColor(void) const            = 0;
+            virtual double      Red(void) const                 = 0;
+            virtual double      Green(void) const               = 0;
+            virtual double      Blue(void) const                = 0;
 
         protected:
-            Hit(void) throw() {}
-            Hit(const Hit&) throw() {}
-            const Hit& operator=(const Hit&) throw() {return *this;}
+            Hit(void) {}
+            Hit(const Hit&) {}
+            const Hit& operator=(const Hit&) {return *this;}
         };
 
 
@@ -180,12 +180,12 @@ namespace BRLCAD {
             /** Do not throw en exception here.
                 This method will be called from deep inside the brlcad libraries.
                 The status of the program after an exception will be undetermined. */
-            virtual bool operator()(const Hit& hit) throw() = 0;
+            virtual bool operator()(const Hit& hit) = 0;
 
         protected:
-            HitCallback(void) throw() {}
-            HitCallback(const HitCallback&) throw() {}
-            const HitCallback& operator=(const HitCallback&) throw() {return *this;}
+            HitCallback(void) {}
+            HitCallback(const HitCallback&) {}
+            const HitCallback& operator=(const HitCallback&) {return *this;}
         };
 
 

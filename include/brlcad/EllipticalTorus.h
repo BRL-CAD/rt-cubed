@@ -39,58 +39,58 @@ struct rt_eto_internal;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT EllipticalTorus : public Object {
     public:
-        EllipticalTorus(void) throw(bad_alloc);                                    ///< constructs a torus at origin with circular tube of unit radius, radius from center to tube-center of 2 and unit normal pointing in positive z direction
+        EllipticalTorus(void);                                    ///< constructs a torus at origin with circular tube of unit radius, radius from center to tube-center of 2 and unit normal pointing in positive z direction
         EllipticalTorus(const Vector3D& center,
                         const Vector3D& normalToTubeCenterLinePlane,
                         double          tubeCenterLineRadius,
                         const Vector3D& tubeSemiMajorAxis,
-                        double          tubeSemiMinorAxisLength) throw(bad_alloc); ///< center, normal of unit length (will be unitized of not of unit length), radius of revolution, semi-major axis of ellipse, length semi-minor axis of ellipse
-        EllipticalTorus(const EllipticalTorus& original) throw(bad_alloc);
-        virtual ~EllipticalTorus(void) throw();
+                        double          tubeSemiMinorAxisLength); ///< center, normal of unit length (will be unitized of not of unit length), radius of revolution, semi-major axis of ellipse, length semi-minor axis of ellipse
+        EllipticalTorus(const EllipticalTorus& original);
+        virtual ~EllipticalTorus(void);
 
-        const EllipticalTorus& operator=(const EllipticalTorus& original) throw(bad_alloc);
+        const EllipticalTorus& operator=(const EllipticalTorus& original);
 
-        Vector3D               Center(void) const throw();
-        void                   SetCenter(const Vector3D& center) throw();
+        Vector3D               Center(void) const;
+        void                   SetCenter(const Vector3D& center);
 
-        Vector3D               Normal(void) const throw();
-        void                   SetNormal(const Vector3D& normal) throw();
+        Vector3D               Normal(void) const;
+        void                   SetNormal(const Vector3D& normal);
 
-        double                 TubeCenterLineRadius(void) const throw();
-        void                   SetTubeCenterLineRadius(double radius) throw();
+        double                 TubeCenterLineRadius(void) const;
+        void                   SetTubeCenterLineRadius(double radius);
 
-        Vector3D               TubeSemiMajorAxis(void) const throw();
-        void                   SetTubeSemiMajorAxis(const Vector3D& axis) throw();
+        Vector3D               TubeSemiMajorAxis(void) const;
+        void                   SetTubeSemiMajorAxis(const Vector3D& axis);
 
-        double                 TubeSemiMinorAxis(void) const throw();
-        void                   SetTubeSemiMinorAxis(double length) throw();
+        double                 TubeSemiMinorAxis(void) const;
+        void                   SetTubeSemiMinorAxis(double length);
 
         void                   Set(const Vector3D& center,
                                    const Vector3D& normalToTubeCenterLinePlane,
                                    double          tubeCenterLineRadius,
                                    const Vector3D& tubeSemiMajorAxis,
-                                   double          tubeSemiMinorAxisLength) throw();
+                                   double          tubeSemiMinorAxisLength);
 
         // inherited from BRLCAD::Object
-        virtual const Object&  operator=(const Object& original) throw(bad_alloc);
-        virtual Object*        Clone(void) const throw(bad_alloc, std::bad_alloc);
-        static const char*     ClassName(void) throw();
-        virtual const char*    Type(void) const throw();
-        virtual bool           IsValid(void) const throw(); ///< checks if normal has positive length, if radii are not 0 and if ellipse not overlap itself when revolved
+        virtual const Object&  operator=(const Object& original);
+        virtual Object*        Clone(void) const;
+        static const char*     ClassName(void);
+        virtual const char*    Type(void) const;
+        virtual bool           IsValid(void) const; ///< checks if normal has positive length, if radii are not 0 and if ellipse not overlap itself when revolved
 
     protected:
         EllipticalTorus(resource*       resp,
                         directory*      pDir,
                         rt_db_internal* ip,
-                        db_i*           dbip) throw();
+                        db_i*           dbip);
 
         friend class ConstDatabase;
 
     private:
         rt_eto_internal* m_internalp;
 
-        const rt_eto_internal* Internal(void) const throw();
-        rt_eto_internal*       Internal(void) throw();
+        const rt_eto_internal* Internal(void) const;
+        rt_eto_internal*       Internal(void);
 
         friend class Database;
     };

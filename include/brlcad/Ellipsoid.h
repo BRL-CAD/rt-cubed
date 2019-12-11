@@ -39,62 +39,62 @@ struct rt_ell_internal;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Ellipsoid : public Object {
     public:
-        Ellipsoid(void) throw(bad_alloc);                               ///< constructs the unit circle around the origin
+        Ellipsoid(void);                               ///< constructs the unit circle around the origin
         Ellipsoid(const Vector3D& center,
                   const Vector3D& semiPrincipalAxisA,
                   const Vector3D& semiPrincipalAxisB,
-                  const Vector3D& semiPrincipalAxisC) throw(bad_alloc); ///< center and three perpendicular semi-principal-axes
+                  const Vector3D& semiPrincipalAxisC); ///< center and three perpendicular semi-principal-axes
         Ellipsoid(const Vector3D& center,
                   const Vector3D& semiPrincipalAxis,
-                  double          radius) throw(bad_alloc);             ///< center, one semi-principal-axis and radius (body of revolution)
+                  double          radius);             ///< center, one semi-principal-axis and radius (body of revolution)
         Ellipsoid(const Vector3D& center,
-                  double          radius) throw(bad_alloc);             ///< sphere with center and radius
-        Ellipsoid(const Ellipsoid& original) throw(bad_alloc);
-        virtual ~Ellipsoid(void) throw();
+                  double          radius);             ///< sphere with center and radius
+        Ellipsoid(const Ellipsoid& original);
+        virtual ~Ellipsoid(void);
 
-        const Ellipsoid&      operator=(const Ellipsoid& original) throw(bad_alloc);
+        const Ellipsoid&      operator=(const Ellipsoid& original);
 
-        Vector3D              Center(void) const throw();
-        void                  SetCenter(const Vector3D& center) throw();
+        Vector3D              Center(void) const;
+        void                  SetCenter(const Vector3D& center);
 
         /// semi principal axes are accessed by their index (0/1/2 for the vectos a/b/c)*/
-        Vector3D              SemiPrincipalAxis(size_t index) const throw();
+        Vector3D              SemiPrincipalAxis(size_t index) const;
         void                  SetSemiPrincipalAxis(size_t          index,
-                                                   const Vector3D& semiPrincipalAxis) throw();
+                                                   const Vector3D& semiPrincipalAxis);
 
         void                  Set(const Vector3D& center,
                                   const Vector3D& semiPrincipalAxisA,
                                   const Vector3D& semiPrincipalAxisB,
-                                  const Vector3D& semiPrincipalAxisC) throw();
+                                  const Vector3D& semiPrincipalAxisC);
         void                  Set(const Vector3D& center,
                                   const Vector3D& semiPrincipalAxis,
-                                  double          radius) throw();
+                                  double          radius);
         void                  SetFocals(const Vector3D& focalA,
                                         const Vector3D& focalB,
-                                        double          majorAxisLength) throw();
+                                        double          majorAxisLength);
         void                  SetSphere(const Vector3D& center,
-                                        double          radius) throw();
+                                        double          radius);
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(bad_alloc);
-        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc);
-        static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const throw();
-        virtual bool          IsValid(void) const throw(); ///< checks if semi-principal axes are perpendicular and if they have positive length
+        virtual const Object& operator=(const Object& original);
+        virtual Object*       Clone(void) const;
+        static const char*    ClassName(void);
+        virtual const char*   Type(void) const;
+        virtual bool          IsValid(void) const; ///< checks if semi-principal axes are perpendicular and if they have positive length
 
     protected:
         Ellipsoid(resource*       resp,
                   directory*      pDir,
                   rt_db_internal* ip,
-                  db_i*           dbip) throw();
+                  db_i*           dbip);
 
         friend class ConstDatabase;
 
     private:
         rt_ell_internal* m_internalp;
 
-        rt_ell_internal*       Internal(void) throw();
-        const rt_ell_internal* Internal(void) const throw();
+        rt_ell_internal*       Internal(void);
+        const rt_ell_internal* Internal(void) const;
 
         friend class Database;
     };

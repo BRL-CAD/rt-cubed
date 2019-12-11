@@ -49,18 +49,18 @@ namespace BRLCAD {
     struct Vector2D {
         double coordinates[2];
 
-        Vector2D(void) throw() {
+        Vector2D(void) {
             coordinates[0] = 0.;
             coordinates[1] = 0.;
         }
 
-        Vector2D(const double vector[2]) throw() {
+        Vector2D(const double vector[2]) {
             coordinates[0] = vector[0];
             coordinates[1] = vector[1];
         }
 
         Vector2D(double x,
-                 double y) throw() {
+                 double y) {
             coordinates[0] = x;
             coordinates[1] = y;
         }
@@ -72,20 +72,20 @@ namespace BRLCAD {
         Vector2D delta;
 
         Mapping2D(const Vector2D& pt,
-                  const Vector2D& dl) throw() : point(pt), delta(dl) {}
+                  const Vector2D& dl) : point(pt), delta(dl) {}
     };
 
 
     struct Vector3D {
         double coordinates[3];
 
-        Vector3D(void) throw() {
+        Vector3D(void) {
             coordinates[0] = 0.;
             coordinates[1] = 0.;
             coordinates[2] = 0.;
         }
 
-        Vector3D(const double vector[3]) throw() {
+        Vector3D(const double vector[3]) {
             coordinates[0] = vector[0];
             coordinates[1] = vector[1];
             coordinates[2] = vector[2];
@@ -93,7 +93,7 @@ namespace BRLCAD {
 
         Vector3D(double x,
                  double y,
-                 double z) throw() {
+                 double z) {
             coordinates[0] = x;
             coordinates[1] = y;
             coordinates[2] = z;
@@ -114,13 +114,13 @@ namespace BRLCAD {
 
         Curvature3D(const Vector3D& minDirection,
                     double          minCurvature,
-                    double          maxCurvature) throw() {
+                    double          maxCurvature) {
             minPrincipalDirection = minDirection;
             minPrincipalCurvature = minCurvature;
             maxPrincipalCurvature = maxCurvature;
         }
 
-        Curvature3D(void) throw() : minPrincipalDirection(),
+        Curvature3D(void) : minPrincipalDirection(),
                                     minPrincipalCurvature(0.),
                                     maxPrincipalCurvature(0.) {}
     };
@@ -128,18 +128,18 @@ namespace BRLCAD {
 
     class bad_alloc : public std::bad_alloc {
     public:
-        bad_alloc(const char* hint) throw() : std::bad_alloc(), m_hint(hint) {}
+        bad_alloc(const char* hint) : std::bad_alloc(), m_hint(hint) {}
 
-        bad_alloc(const bad_alloc& original) throw() : std::bad_alloc(original), m_hint(original.m_hint) {}
+        bad_alloc(const bad_alloc& original) : std::bad_alloc(original), m_hint(original.m_hint) {}
 
-        virtual const bad_alloc& operator=(const bad_alloc& original) throw() {
+        virtual const bad_alloc& operator=(const bad_alloc& original) {
             std::bad_alloc::operator=(original);
             m_hint = original.m_hint;
 
             return *this;
         }
 
-        virtual const char* what(void) const throw() {
+        virtual const char* what(void) const throw(){
             return m_hint;
         }
 

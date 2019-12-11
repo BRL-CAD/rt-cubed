@@ -62,7 +62,7 @@
 using namespace BRLCAD;
 
 
-Database::~Database(void) throw() {
+Database::~Database(void) {
     if (m_wdbp != 0) {
         if (!BU_SETJUMP)
             wdb_close(m_wdbp);
@@ -75,13 +75,12 @@ Database::~Database(void) throw() {
 void Database::SetTitle
 (
     const char* title
-) throw(bad_alloc) {
+) {
     if (m_wdbp != 0) {
         if (!BU_SETJUMP)
             db_update_ident(m_wdbp->dbip, title, m_wdbp->dbip->dbi_base2local);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Database::SetTitle");
         }
 
         BU_UNSETJUMP;
@@ -92,7 +91,7 @@ void Database::SetTitle
 bool Database::Add
 (
     const Object& object
-) throw() {
+) {
     bool ret = false;
 
     if (m_wdbp != 0) {
@@ -301,7 +300,7 @@ bool Database::Add
 void Database::Delete
 (
     const char* objectName
-) throw() {
+) {
     if (m_wdbp != 0) {
         if (!BU_SETJUMP) {
             directory* pDir = db_lookup(m_rtip->rti_dbip, objectName, LOOKUP_NOISE);
@@ -327,7 +326,7 @@ void Database::Get
         ObjectCallbackIntern(Database::ObjectCallback& cb) : ConstDatabase::ObjectCallback(),
                                                              m_callback(cb) {}
 
-        virtual ~ObjectCallbackIntern(void) throw() {}
+        virtual ~ObjectCallbackIntern(void) {}
 
         virtual void operator()(const Object& object) {
             Object& objectIntern = const_cast<Object&>(object);
@@ -354,13 +353,13 @@ void Database::Get
 void Database::Set
 (
     const Object& object
-) throw(bad_alloc) {
+) {
     class ObjectCallbackIntern : public ObjectCallback {
     public:
         ObjectCallbackIntern(const Object& obj) : ObjectCallback(),
                                                   m_object(obj) {}
 
-        virtual ~ObjectCallbackIntern(void) throw() {}
+        virtual ~ObjectCallbackIntern(void) {}
 
         virtual void operator()(Object& obj) {
             obj = m_object;
@@ -374,4 +373,4 @@ void Database::Set
 }
 
 
-Database::Database(void) throw(bad_alloc) : ConstDatabase(), m_wdbp(0) {}
+Database::Database(void) : ConstDatabase(), m_wdbp(0) {}

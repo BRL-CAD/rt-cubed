@@ -42,7 +42,7 @@ using namespace BRLCAD;
 static Combination::ConstTreeNode::Operator ConvertOperator
 (
     tree* brlcadTree
-) throw() {
+) {
     Combination::ConstTreeNode::Operator ret = Combination::ConstTreeNode::Null;
 
     if (brlcadTree != 0) {
@@ -83,7 +83,7 @@ static Combination::ConstTreeNode::Operator ConvertOperator
 static int ConvertOperatorBack
 (
     Combination::ConstTreeNode::Operator op
-) throw() {
+) {
     int ret = 0;
 
     switch (op) {
@@ -123,7 +123,7 @@ static tree* ParentTree
 (
     tree* searchTree,
     tree* rootTree
-) throw() {
+) {
     tree* ret = 0;
 
     switch (ConvertOperator(rootTree)) {
@@ -162,12 +162,12 @@ static tree* ParentTree
 // class Combination::ConstTreeNode
 //
 
-Combination::ConstTreeNode::Operator Combination::ConstTreeNode::Operation(void) const throw() {
+Combination::ConstTreeNode::Operator Combination::ConstTreeNode::Operation(void) const {
     return ConvertOperator(m_tree);
 }
 
 
-Combination::ConstTreeNode Combination::ConstTreeNode::LeftOperand(void) const throw() {
+Combination::ConstTreeNode Combination::ConstTreeNode::LeftOperand(void) const {
     ConstTreeNode ret;
 
     switch (ConvertOperator(m_tree)) {
@@ -186,7 +186,7 @@ Combination::ConstTreeNode Combination::ConstTreeNode::LeftOperand(void) const t
 }
 
 
-Combination::ConstTreeNode Combination::ConstTreeNode::RightOperand(void) const throw() {
+Combination::ConstTreeNode Combination::ConstTreeNode::RightOperand(void) const {
     ConstTreeNode ret;
 
     switch (ConvertOperator(m_tree)) {
@@ -205,7 +205,7 @@ Combination::ConstTreeNode Combination::ConstTreeNode::RightOperand(void) const 
 }
 
 
-Combination::ConstTreeNode Combination::ConstTreeNode::Operand(void) const throw() {
+Combination::ConstTreeNode Combination::ConstTreeNode::Operand(void) const {
     ConstTreeNode ret;
 
     switch (ConvertOperator(m_tree)) {
@@ -221,7 +221,7 @@ Combination::ConstTreeNode Combination::ConstTreeNode::Operand(void) const throw
 }
 
 
-const char* Combination::ConstTreeNode::Name(void) const throw() {
+const char* Combination::ConstTreeNode::Name(void) const {
     const char* ret = 0;
 
     switch (ConvertOperator(m_tree)) {
@@ -237,7 +237,7 @@ const char* Combination::ConstTreeNode::Name(void) const throw() {
 }
 
 
-const double* Combination::ConstTreeNode::Matrix(void) const throw() {
+const double* Combination::ConstTreeNode::Matrix(void) const {
     const double* ret = 0;
 
     switch (ConvertOperator(m_tree)) {
@@ -257,7 +257,7 @@ const double* Combination::ConstTreeNode::Matrix(void) const throw() {
 // class Combination::TreeNode
 //
 
-Combination::TreeNode Combination::TreeNode::LeftOperand(void) throw() {
+Combination::TreeNode Combination::TreeNode::LeftOperand(void) {
     TreeNode ret;
 
     switch (ConvertOperator(m_tree)) {
@@ -278,7 +278,7 @@ Combination::TreeNode Combination::TreeNode::LeftOperand(void) throw() {
 }
 
 
-Combination::TreeNode Combination::TreeNode::RightOperand(void) throw() {
+Combination::TreeNode Combination::TreeNode::RightOperand(void) {
     TreeNode ret;
 
     switch (ConvertOperator(m_tree)) {
@@ -299,7 +299,7 @@ Combination::TreeNode Combination::TreeNode::RightOperand(void) throw() {
 }
 
 
-Combination::TreeNode Combination::TreeNode::Operand(void) throw() {
+Combination::TreeNode Combination::TreeNode::Operand(void) {
     TreeNode ret;
 
     switch (ConvertOperator(m_tree)) {
@@ -320,7 +320,7 @@ Combination::TreeNode Combination::TreeNode::Operand(void) throw() {
 void Combination::TreeNode::SetName
 (
     const char* value
-) const throw(bad_alloc) {
+) const {
     switch (ConvertOperator(m_tree)) {
     case Leaf:
         if (value != 0) {
@@ -337,7 +337,6 @@ void Combination::TreeNode::SetName
             else {
                 BU_UNSETJUMP;
                 m_tree->tr_l.tl_name = 0;
-                throw bad_alloc("BRLCAD::Combination::TreeNode::SetName");
             }
 
             BU_UNSETJUMP;
@@ -357,14 +356,13 @@ void Combination::TreeNode::SetName
 void Combination::TreeNode::SetMatrix
 (
     double value[16]
-) const throw(bad_alloc) {
+) const {
     if (m_tree->tr_l.tl_mat == 0) {
         if (!BU_SETJUMP)
             m_tree->tr_l.tl_mat = bn_mat_dup(value);
         else {
             BU_UNSETJUMP;
             m_tree->tr_l.tl_mat = 0;
-            throw bad_alloc("BRLCAD::Combination::TreeNode::SetMatrix");
         }
 
         BU_UNSETJUMP;
@@ -377,7 +375,7 @@ void Combination::TreeNode::SetMatrix
 Combination::TreeNode Combination::TreeNode::Apply
 (
     Combination::ConstTreeNode::Operator op
-) throw(bad_alloc) {
+) {
     assert(m_tree != 0);
 
     TreeNode ret;
@@ -392,7 +390,6 @@ Combination::TreeNode Combination::TreeNode::Apply
             }
             else {
                 BU_UNSETJUMP;
-                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
             }
 
             BU_UNSETJUMP;
@@ -424,7 +421,7 @@ Combination::TreeNode Combination::TreeNode::Apply
 (
     Combination::ConstTreeNode::Operator op,
     const Combination::ConstTreeNode&    theOther
-) throw(bad_alloc) {
+) {
     assert(m_tree != 0);
     assert(theOther.m_tree != 0);
 
@@ -443,7 +440,6 @@ Combination::TreeNode Combination::TreeNode::Apply
             }
             else {
                 BU_UNSETJUMP;
-                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
             }
 
             BU_UNSETJUMP;
@@ -460,7 +456,6 @@ Combination::TreeNode Combination::TreeNode::Apply
             else {
                 BU_UNSETJUMP;
                 RT_FREE_TREE(newNode, m_resp);
-                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
             }
 
             BU_UNSETJUMP;
@@ -485,7 +480,7 @@ Combination::TreeNode Combination::TreeNode::Apply
 (
     Combination::ConstTreeNode::Operator op,
     const char*                          leafName
-) throw(bad_alloc) {
+) {
     assert(leafName != 0);
 
     TreeNode ret;
@@ -498,7 +493,6 @@ Combination::TreeNode Combination::TreeNode::Apply
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
         }
 
         BU_UNSETJUMP;
@@ -511,7 +505,6 @@ Combination::TreeNode Combination::TreeNode::Apply
             newLeaf.m_tree->tr_l.tl_name = bu_strdup(leafName);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
         }
 
         BU_UNSETJUMP;
@@ -530,7 +523,7 @@ Combination::TreeNode Combination::TreeNode::Apply
 (
     const Combination::ConstTreeNode&    theOther,
     Combination::ConstTreeNode::Operator op
-) throw(bad_alloc) {
+) {
     assert(m_tree != 0);
     assert(theOther.m_tree != 0);
 
@@ -549,7 +542,6 @@ Combination::TreeNode Combination::TreeNode::Apply
             }
             else {
                 BU_UNSETJUMP;
-                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
             }
 
             BU_UNSETJUMP;
@@ -565,7 +557,6 @@ Combination::TreeNode Combination::TreeNode::Apply
             else {
                 BU_UNSETJUMP;
                 RT_FREE_TREE(newNode, m_resp);
-                throw bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
             }
 
             BU_UNSETJUMP;
@@ -592,7 +583,7 @@ Combination::TreeNode Combination::TreeNode::Apply
 (
     const char*                          leafName,
     Combination::ConstTreeNode::Operator op
-) throw(bad_alloc) {
+) {
     assert(leafName != 0);
 
     TreeNode ret;
@@ -605,7 +596,6 @@ Combination::TreeNode Combination::TreeNode::Apply
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Combination::TreeNode::Apply");
         }
 
         BU_UNSETJUMP;
@@ -618,7 +608,6 @@ Combination::TreeNode Combination::TreeNode::Apply
             newLeaf.m_tree->tr_l.tl_name = bu_strdup(leafName);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Combination::TreeNode::Apply") ;
         }
 
         BU_UNSETJUMP;
@@ -633,7 +622,7 @@ Combination::TreeNode Combination::TreeNode::Apply
 }
 
 
-void Combination::TreeNode::Delete(void) throw() {
+void Combination::TreeNode::Delete(void) {
     assert(m_tree != 0);
 
     TreeNode ret;
@@ -701,12 +690,11 @@ void Combination::TreeNode::Delete(void) throw() {
 // class Combination
 //
 
-Combination::Combination(void) throw(bad_alloc) : Object(), m_internalp(0) {
+Combination::Combination(void) : Object(), m_internalp(0) {
     if (!BU_SETJUMP)
         m_internalp = static_cast<rt_comb_internal*>(bu_calloc(1, sizeof(rt_comb_internal), "BRLCAD::Combination::Combination::m_internalp"));
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Combination::Combination");
     }
 
     BU_UNSETJUMP;
@@ -721,7 +709,7 @@ Combination::Combination(void) throw(bad_alloc) : Object(), m_internalp(0) {
 Combination::Combination
 (
     const Combination& original
-) throw(bad_alloc) : Object(original), m_internalp(0) {
+) : Object(original), m_internalp(0) {
     if (&original != this) {
         Copy(original);
 
@@ -768,7 +756,6 @@ Combination::Combination
                 bu_free(m_internalp, "BRLCAD::Combination::Combination::m_internalp");
             }
 
-            throw bad_alloc("BRLCAD::Combination::Combination");
         }
 
         BU_UNSETJUMP;
@@ -776,7 +763,7 @@ Combination::Combination
 }
 
 
-Combination::~Combination(void) throw() {
+Combination::~Combination(void) {
     if (m_internalp != 0) {
         if (m_internalp->tree != 0)
             db_free_tree(m_internalp->tree, m_resp);
@@ -792,7 +779,7 @@ Combination::~Combination(void) throw() {
 const Combination& Combination::operator=
 (
     const Combination& original
-) throw(bad_alloc) {
+) {
     if (&original != this) {
         Copy(original);
 
@@ -825,7 +812,6 @@ const Combination& Combination::operator=
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Combination::Combination");
         }
 
         BU_UNSETJUMP;
@@ -835,12 +821,12 @@ const Combination& Combination::operator=
 }
 
 
-Combination::ConstTreeNode Combination::Tree(void) const throw() {
+Combination::ConstTreeNode Combination::Tree(void) const {
     return ConstTreeNode(Internal()->tree);
 }
 
 
-Combination::TreeNode Combination::Tree(void) throw() {
+Combination::TreeNode Combination::Tree(void) {
     return TreeNode(Internal()->tree, Internal(), m_resp);
 }
 
@@ -848,7 +834,7 @@ Combination::TreeNode Combination::Tree(void) throw() {
 void Combination::AddLeaf
 (
     const char* leafName
-) throw(bad_alloc) {
+) {
     rt_comb_internal* internalp = Internal();
 
     if (internalp->tree == 0) {
@@ -857,7 +843,6 @@ void Combination::AddLeaf
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Combination::AddLeaf");
         }
 
         BU_UNSETJUMP;
@@ -873,7 +858,6 @@ void Combination::AddLeaf
             RT_FREE_TREE(internalp->tree, m_resp);
             internalp->tree = 0;
 
-            throw bad_alloc("BRLCAD::Combination::AddLeaf");
         }
 
         BU_UNSETJUMP;
@@ -884,7 +868,7 @@ void Combination::AddLeaf
 }
 
 
-bool Combination::IsRegion(void) const throw() {
+bool Combination::IsRegion(void) const {
     return Internal()->region_flag != 0;
 }
 
@@ -892,12 +876,12 @@ bool Combination::IsRegion(void) const throw() {
 void Combination::SetIsRegion
 (
     bool value
-) throw() {
+) {
     Internal()->region_flag = (value) ? '\1' : '\0';
 }
 
 
-Combination::FastgenType Combination::FastgenRegion(void) const throw() {
+Combination::FastgenType Combination::FastgenRegion(void) const {
     Combination::FastgenType ret = Non;
 
     switch (Internal()->is_fastgen) {
@@ -924,7 +908,7 @@ Combination::FastgenType Combination::FastgenRegion(void) const throw() {
 void Combination::SetFastgenRegion
 (
     Combination::FastgenType value
-) throw() {
+) {
     switch (value) {
     case Non:
         Internal()->is_fastgen = REGION_NON_FASTGEN;
@@ -944,7 +928,7 @@ void Combination::SetFastgenRegion
 }
 
 
-int Combination::RegionId(void) const throw() {
+int Combination::RegionId(void) const {
     return Internal()->region_id;
 }
 
@@ -952,12 +936,12 @@ int Combination::RegionId(void) const throw() {
 void Combination:: SetRegionId
 (
     int value
-) throw() {
+) {
     Internal()->region_id = value;
 }
 
 
-int Combination::Aircode(void) const throw() {
+int Combination::Aircode(void) const {
     return Internal()->aircode;
 }
 
@@ -965,12 +949,12 @@ int Combination::Aircode(void) const throw() {
 void Combination::SetAircode
 (
     int value
-) throw() {
+) {
     Internal()->aircode = value;
 }
 
 
-int Combination::GiftMaterial(void) const throw() {
+int Combination::GiftMaterial(void) const {
     return Internal()->GIFTmater;
 }
 
@@ -978,12 +962,12 @@ int Combination::GiftMaterial(void) const throw() {
 void Combination::SetGiftMaterial
 (
     int value
-) throw() {
+) {
     Internal()->GIFTmater = value;
 }
 
 
-int Combination::LineOfSight(void) const throw() {
+int Combination::LineOfSight(void) const {
     return Internal()->los;
 }
 
@@ -991,12 +975,12 @@ int Combination::LineOfSight(void) const throw() {
 void Combination::SetLineOfSight
 (
     int value
-) throw() {
+) {
     Internal()->los = value;
 }
 
 
-bool Combination::HasColor(void) const throw() {
+bool Combination::HasColor(void) const {
     return Internal()->rgb_valid != 0;
 }
 
@@ -1004,12 +988,12 @@ bool Combination::HasColor(void) const throw() {
 void Combination::SetHasColor
 (
     bool value
-) throw() {
+) {
     Internal()->rgb_valid = (value) ? '\1' : '\0';
 }
 
 
-double Combination::Red(void) const throw() {
+double Combination::Red(void) const {
     return Internal()->rgb[0] / 255.;
 }
 
@@ -1017,14 +1001,14 @@ double Combination::Red(void) const throw() {
 void Combination::SetRed
 (
     double value
-) throw() {
+) {
     value = FMIN(FMAX(value, 0.), 1.);
 
     Internal()->rgb[0] = static_cast<unsigned char>(floor(value * 255 + 0.5));
 }
 
 
-double Combination::Green(void) const throw() {
+double Combination::Green(void) const {
     return Internal()->rgb[1] / 255.;
 }
 
@@ -1032,14 +1016,14 @@ double Combination::Green(void) const throw() {
 void Combination::SetGreen
 (
     double value
-) throw() {
+) {
     value = FMIN(FMAX(value, 0.), 1.);
 
     Internal()->rgb[1] = static_cast<unsigned char>(floor(value * 255 + 0.5));
 }
 
 
-double Combination::Blue(void) const throw() {
+double Combination::Blue(void) const {
     return Internal()->rgb[2] / 255.;
 }
 
@@ -1047,14 +1031,14 @@ double Combination::Blue(void) const throw() {
 void Combination::SetBlue
 (
     double value
-) throw() {
+) {
     value = FMIN(FMAX(value, 0.), 1.);
 
     Internal()->rgb[2] = static_cast<unsigned char>(floor(value * 255 + 0.5));
 }
 
 
-const char* Combination::Shader(void) const throw() {
+const char* Combination::Shader(void) const {
     return bu_vls_addr(&Internal()->shader);
 }
 
@@ -1062,19 +1046,18 @@ const char* Combination::Shader(void) const throw() {
 void Combination::SetShader
 (
     const char* value
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP)
         bu_vls_strcpy(&Internal()->shader, value);
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Combination::SetShader");
     }
 
     BU_UNSETJUMP;
 }
 
 
-bool Combination::Inherit(void) const throw() {
+bool Combination::Inherit(void) const {
     return Internal()->inherit != 0;
 }
 
@@ -1082,12 +1065,12 @@ bool Combination::Inherit(void) const throw() {
 void Combination::SetInherit
 (
     bool value
-) throw() {
+) {
     Internal()->inherit = (value) ? '\1' : '\0';
 }
 
 
-const char* Combination::Material(void) const throw() {
+const char* Combination::Material(void) const {
     return bu_vls_addr(&Internal()->material);
 }
 
@@ -1095,19 +1078,18 @@ const char* Combination::Material(void) const throw() {
 void Combination::SetMaterial
 (
     const char* value
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP)
         bu_vls_strcpy(&Internal()->material, value);
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Combination::SetMaterial");
     }
 
     BU_UNSETJUMP;
 }
 
 
-double Combination::Temperature(void) const throw() {
+double Combination::Temperature(void) const {
     return Internal()->temperature;
 }
 
@@ -1115,7 +1097,7 @@ double Combination::Temperature(void) const throw() {
 void Combination::SetTemperature
 (
     double value
-) throw() {
+) {
     Internal()->temperature = static_cast<float>(value);
 }
 
@@ -1123,7 +1105,7 @@ void Combination::SetTemperature
 const Object& Combination::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Combination* comb = dynamic_cast<const Combination*>(&original);
     assert(comb != 0);
 
@@ -1134,22 +1116,22 @@ const Object& Combination::operator=
 }
 
 
-Object* Combination::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Combination::Clone(void) const {
     return new Combination(*this);
 }
 
 
-const char* Combination::ClassName(void) throw() {
+const char* Combination::ClassName(void) {
     return "Combination";
 }
 
 
-const char* Combination::Type(void) const throw() {
+const char* Combination::Type(void) const {
     return ClassName();
 }
 
 
-bool Combination::IsValid(void) const throw() {
+bool Combination::IsValid(void) const {
     bool ret = Validate();
 
     if (ret) {
@@ -1175,10 +1157,10 @@ Combination::Combination
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-const rt_comb_internal* Combination::Internal(void) const throw() {
+const rt_comb_internal* Combination::Internal(void) const {
     const rt_comb_internal* ret;
 
     if (m_ip != 0)
@@ -1192,7 +1174,7 @@ const rt_comb_internal* Combination::Internal(void) const throw() {
 }
 
 
-rt_comb_internal* Combination::Internal(void) throw() {
+rt_comb_internal* Combination::Internal(void) {
     rt_comb_internal* ret;
 
     if (m_ip != 0)

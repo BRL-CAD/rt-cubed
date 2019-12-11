@@ -39,20 +39,20 @@ struct rt_wdb;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Database : public ConstDatabase {
     public:
-        virtual ~Database(void) throw();
+        virtual ~Database(void);
 
         /// loads a BRL-CAD database file (*.g)
         /** The implementation will be determed by the subclasses. */
-        virtual bool Load(const char* fileName) throw() = 0;
+        virtual bool Load(const char* fileName) = 0;
 
-        void         SetTitle(const char* title) throw(bad_alloc);
+        void         SetTitle(const char* title);
 
         /// adds an object to the database
-        bool         Add(const Object& object) throw();
+        bool         Add(const Object& object);
 
         /// removes an object from the database
         /** The object but not its references are removed. */
-        void         Delete(const char* objectName) throw();
+        void         Delete(const char* objectName);
 
         /// @name Accessing objects
         //@{
@@ -60,15 +60,15 @@ namespace BRLCAD {
 
         class ObjectCallback {
         public:
-            virtual ~ObjectCallback(void) throw() {}
+            virtual ~ObjectCallback(void) {}
 
             /// the user has to implement this object method to evaluate and modify the object
             virtual void operator()(Object& object) = 0;
 
         protected:
-            ObjectCallback(void) throw() {}
-            ObjectCallback(const ObjectCallback&) throw() {}
-            const ObjectCallback& operator=(const ObjectCallback&) throw() {return *this;}
+            ObjectCallback(void) {}
+            ObjectCallback(const ObjectCallback&) {}
+            const ObjectCallback& operator=(const ObjectCallback&) {return *this;}
         };
 
         /// selects a single object and hand it over to an ObjectCallback (for read and write)
@@ -77,13 +77,13 @@ namespace BRLCAD {
 
         /// provided for convenience: selects a single object and sets it to \a object
         /** The type of the object in the database and \a object must match. */
-        void         Set(const Object& object) throw(bad_alloc);
+        void         Set(const Object& object);
         //@}
 
     protected:
         rt_wdb* m_wdbp;
 
-        Database(void) throw(bad_alloc);
+        Database(void);
 
     private:
         Database(const Database&);                  // not implemented
