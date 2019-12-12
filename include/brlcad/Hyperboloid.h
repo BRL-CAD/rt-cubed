@@ -39,78 +39,78 @@ struct rt_ehy_internal;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Hyperboloid : public Object {
     public:
-        Hyperboloid(void) throw(bad_alloc);                                  ///< constructs a hyperboloid with height 1 at origin with a circular base and unit distance from apex to asymptote
+        Hyperboloid(void);                                  ///< constructs a hyperboloid with height 1 at origin with a circular base and unit distance from apex to asymptote
         Hyperboloid(const Vector3D& basePoint,
                     const Vector3D& height,
                     const Vector3D& semiMajorAxis,
                     double          semiMinorAxisLength,
-                    double          apexAsymptoteDistance) throw(bad_alloc); ///< length an direction of vector semi major axis used
+                    double          apexAsymptoteDistance); ///< length an direction of vector semi major axis used
         Hyperboloid(const Vector3D& basePoint,
                     const Vector3D& height,
                     const Vector3D& semiMajorAxisDirection,
                     double          semiMajorAxisLength,
                     double          semiMinorAxisLength,
-                    double          apexAsymptoteDistance) throw(bad_alloc); ///< semi major axis will be unitized and length of semi major axis is given by semiMajorAxisLength
-        Hyperboloid(const Hyperboloid& original) throw(bad_alloc);
-        virtual ~Hyperboloid(void) throw();
+                    double          apexAsymptoteDistance); ///< semi major axis will be unitized and length of semi major axis is given by semiMajorAxisLength
+        Hyperboloid(const Hyperboloid& original);
+        virtual ~Hyperboloid(void);
 
-        const Hyperboloid&    operator=(const Hyperboloid& original) throw(bad_alloc);
+        const Hyperboloid&    operator=(const Hyperboloid& original);
 
-        Vector3D              BasePoint(void) const throw();
-        void                  SetBasePoint(const Vector3D& point) throw();
+        Vector3D              BasePoint(void) const;
+        void                  SetBasePoint(const Vector3D& point);
 
-        Vector3D              Height(void) const throw();
-        void                  SetHeight(const Vector3D& height) throw();
+        Vector3D              Height(void) const;
+        void                  SetHeight(const Vector3D& height);
 
-        Vector3D              SemiMajorAxis(void) const throw();
-        void                  SetSemiMajorAxis(const Vector3D& axis) throw();
+        Vector3D              SemiMajorAxis(void) const;
+        void                  SetSemiMajorAxis(const Vector3D& axis);
         void                  SetSemiMajorAxis(const Vector3D& direction,
-                                               double          length) throw();
+                                               double          length);
 
-        Vector3D              SemiMajorAxisDirection(void) const throw();
-        void                  SetSemiMajorAxisDirection(const Vector3D& direction) throw();
+        Vector3D              SemiMajorAxisDirection(void) const;
+        void                  SetSemiMajorAxisDirection(const Vector3D& direction);
 
-        double                SemiMajorAxisLength(void) const throw();
-        void                  SetSemiMajorAxisLength(double length) throw();
+        double                SemiMajorAxisLength(void) const;
+        void                  SetSemiMajorAxisLength(double length);
 
-        double                SemiMinorAxisLength(void) const throw();
-        void                  SetSemiMinorAxisLength(double length) throw();
+        double                SemiMinorAxisLength(void) const;
+        void                  SetSemiMinorAxisLength(double length);
 
-        double                ApexAsymptoteDistance(void) const throw();
-        void                  SetApexAsymptoteDistance(double distance) throw();
+        double                ApexAsymptoteDistance(void) const;
+        void                  SetApexAsymptoteDistance(double distance);
 
         void                  Set(const Vector3D& basePoint,
                                   const Vector3D& height,
                                   const Vector3D& semiMajorAxis,
                                   double          semiMinorAxisLength,
-                                  double          apexAsymptoteDistance) throw();
+                                  double          apexAsymptoteDistance);
         void                  Set(const Vector3D& basePoint,
                                   const Vector3D& height,
                                   const Vector3D& semiMajorAxisDirection,
                                   double          semiMajorAxisLength,
                                   double          semiMinorAxisLength,
-                                  double          apexAsymptoteDistance) throw();
+                                  double          apexAsymptoteDistance);
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(bad_alloc);
-        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc);
-        static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const throw();
-        virtual bool          IsValid(void) const throw(); ///< checks for positive height, unit length of internal semi major axis vector, semi minor axis is not longer than semi major axis, both are nonzero, nonzero apex distance, and height and semi major axis are perpendicular
+        virtual const Object& operator=(const Object& original);
+        virtual Object*       Clone(void) const;
+        static const char*    ClassName(void);
+        virtual const char*   Type(void) const;
+        virtual bool          IsValid(void) const; ///< checks for positive height, unit length of internal semi major axis vector, semi minor axis is not longer than semi major axis, both are nonzero, nonzero apex distance, and height and semi major axis are perpendicular
 
     protected:
         Hyperboloid(resource*       resp,
                     directory*      pDir,
                     rt_db_internal* ip,
-                    db_i*           dbip) throw();
+                    db_i*           dbip);
 
         friend class ConstDatabase;
 
     private:
         rt_ehy_internal* m_internalp;
 
-        rt_ehy_internal*       Internal(void) throw();
-        const rt_ehy_internal* Internal(void) const throw();
+        rt_ehy_internal*       Internal(void);
+        const rt_ehy_internal* Internal(void) const;
 
         friend class Database;
     };

@@ -38,17 +38,17 @@
 using namespace BRLCAD;
 
 
-int BRLCAD_COREINTERFACE_EXPORT BRLCAD::MajorVersion(void) throw() {
+int BRLCAD_COREINTERFACE_EXPORT BRLCAD::MajorVersion(void) {
     return BRLCAD_LIB_MAJOR;
 }
 
 
-int BRLCAD_COREINTERFACE_EXPORT BRLCAD::MinorVersion(void) throw() {
+int BRLCAD_COREINTERFACE_EXPORT BRLCAD::MinorVersion(void) {
     return BRLCAD_LIB_MINOR;
 }
 
 
-int BRLCAD_COREINTERFACE_EXPORT BRLCAD::PatchVersion(void) throw() {
+int BRLCAD_COREINTERFACE_EXPORT BRLCAD::PatchVersion(void) {
     return BRLCAD_LIB_PATCH;
 }
 
@@ -72,12 +72,11 @@ static int Logger
 void BRLCAD_COREINTERFACE_EXPORT BRLCAD::RegisterLogHandler
 (
     LogHandler& logHandler
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP)
         bu_log_add_hook(Logger, &logHandler);
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::RegisterLogHandler");
     }
 
     BU_UNSETJUMP;
@@ -87,7 +86,7 @@ void BRLCAD_COREINTERFACE_EXPORT BRLCAD::RegisterLogHandler
 void BRLCAD_COREINTERFACE_EXPORT BRLCAD::DeRegisterLogHandler
 (
     LogHandler& logHandler
-) throw() {
+) {
     if (!BU_SETJUMP)
         bu_log_delete_hook(Logger, &logHandler);
 

@@ -38,7 +38,7 @@
 using namespace BRLCAD;
 
 
-MemoryDatabase::MemoryDatabase(void) throw(bad_alloc) : Database() {
+MemoryDatabase::MemoryDatabase(void) : Database() {
     db_i* dbip = 0;
 
     if (!BU_SETJUMP) {
@@ -47,7 +47,6 @@ MemoryDatabase::MemoryDatabase(void) throw(bad_alloc) : Database() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::MemoryDatabase::MemoryDatabase");
     }
 
     BU_UNSETJUMP;
@@ -60,7 +59,6 @@ MemoryDatabase::MemoryDatabase(void) throw(bad_alloc) : Database() {
         BU_UNSETJUMP;
         db_close(dbip);
         m_rtip = 0;
-        throw bad_alloc("BRLCAD::MemoryDatabase::MemoryDatabase");
     }
 
     BU_UNSETJUMP;
@@ -69,13 +67,13 @@ MemoryDatabase::MemoryDatabase(void) throw(bad_alloc) : Database() {
 }
 
 
-MemoryDatabase::~MemoryDatabase(void) throw() {}
+MemoryDatabase::~MemoryDatabase(void) {}
 
 
 bool MemoryDatabase::Load
 (
     const char* fileName
-) throw() {
+) {
     bool ret = false;
 
     if (!BU_SETJUMP) {
@@ -100,7 +98,7 @@ bool MemoryDatabase::Load
 bool MemoryDatabase::Save
 (
     const char* fileName
-) throw() {
+) {
     bool ret = false;
 
     if (!BU_SETJUMP) {

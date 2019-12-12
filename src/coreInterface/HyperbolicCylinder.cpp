@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-HyperbolicCylinder::HyperbolicCylinder(void) throw(bad_alloc) : Object() {
+HyperbolicCylinder::HyperbolicCylinder(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_rhc_internal);
         m_internalp->rhc_magic = RT_RHC_INTERNAL_MAGIC;
@@ -48,7 +48,6 @@ HyperbolicCylinder::HyperbolicCylinder(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::HyperbolicCylinder::HyperbolicCylinder");
     }
 
     BU_UNSETJUMP;
@@ -62,7 +61,7 @@ HyperbolicCylinder::HyperbolicCylinder
     const Vector3D& depth,
     double          halfWidth,
     double          apexAsymptoteDistance
-) throw(bad_alloc) : Object() {
+) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_rhc_internal);
         m_internalp->rhc_magic = RT_RHC_INTERNAL_MAGIC;
@@ -71,7 +70,6 @@ HyperbolicCylinder::HyperbolicCylinder
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::HyperbolicCylinder::HyperbolicCylinder");
     }
 
     BU_UNSETJUMP;
@@ -81,21 +79,20 @@ HyperbolicCylinder::HyperbolicCylinder
 HyperbolicCylinder::HyperbolicCylinder
 (
     const HyperbolicCylinder& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_rhc_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_rhc_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::HyperbolicCylinder::HyperbolicCylinder");
     }
 
     BU_UNSETJUMP;
 }
 
 
-HyperbolicCylinder::~HyperbolicCylinder(void) throw() {
+HyperbolicCylinder::~HyperbolicCylinder(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::HyperbolicCylinder::~HyperbolicCylinder::m_internalp");
 }
@@ -104,7 +101,7 @@ HyperbolicCylinder::~HyperbolicCylinder(void) throw() {
 const HyperbolicCylinder& HyperbolicCylinder::operator =
 (
     const HyperbolicCylinder& original
-) throw(bad_alloc) {
+) {
     if(&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_rhc_internal));
@@ -114,7 +111,7 @@ const HyperbolicCylinder& HyperbolicCylinder::operator =
 }
 
 
-Vector3D HyperbolicCylinder::BasePoint(void) const throw() {
+Vector3D HyperbolicCylinder::BasePoint(void) const {
     return Vector3D(Internal()->rhc_V);
 }
 
@@ -122,12 +119,12 @@ Vector3D HyperbolicCylinder::BasePoint(void) const throw() {
 void HyperbolicCylinder::SetBasePoint
 (
     const Vector3D& basePoint
-) throw() {
+) {
     VMOVE(Internal()->rhc_V, basePoint.coordinates);
 }
 
 
-Vector3D HyperbolicCylinder::Height(void) const throw() {
+Vector3D HyperbolicCylinder::Height(void) const {
     return Vector3D(Internal()->rhc_H);
 }
 
@@ -135,12 +132,12 @@ Vector3D HyperbolicCylinder::Height(void) const throw() {
 void HyperbolicCylinder::SetHeight
 (
     const Vector3D& height
-) throw() {
+) {
     VMOVE(Internal()->rhc_H, height.coordinates);
 }
 
 
-Vector3D HyperbolicCylinder::Depth(void) const throw() {
+Vector3D HyperbolicCylinder::Depth(void) const {
     return Vector3D(Internal()->rhc_B);
 }
 
@@ -148,12 +145,12 @@ Vector3D HyperbolicCylinder::Depth(void) const throw() {
 void HyperbolicCylinder::SetDepth
 (
     const Vector3D& depth
-) throw() {
+) {
     VMOVE(Internal()->rhc_B, depth.coordinates);
 }
 
 
-double HyperbolicCylinder::HalfWidth(void) const throw() {
+double HyperbolicCylinder::HalfWidth(void) const {
     return Internal()->rhc_r;
 }
 
@@ -161,12 +158,12 @@ double HyperbolicCylinder::HalfWidth(void) const throw() {
 void HyperbolicCylinder::SetHalfWidth
 (
     double length
-) throw() {
+) {
     Internal()->rhc_r = length;
 }
 
 
-double HyperbolicCylinder::ApexAsymptoteDistance(void) const throw() {
+double HyperbolicCylinder::ApexAsymptoteDistance(void) const {
     return Internal()->rhc_c;
 }
 
@@ -174,7 +171,7 @@ double HyperbolicCylinder::ApexAsymptoteDistance(void) const throw() {
 void HyperbolicCylinder::SetApexAsymptoteDistance
 (
     double distance
-) throw() {
+) {
     Internal()->rhc_c = distance;
 }
 
@@ -186,7 +183,7 @@ void HyperbolicCylinder::Set
     const Vector3D& depth,
     double          halfWidth,
     double          apexAsymptoteDistance
-) throw() {
+) {
     rt_rhc_internal* internalp = Internal();
 
     VMOVE(internalp->rhc_V, basePoint.coordinates);
@@ -200,7 +197,7 @@ void HyperbolicCylinder::Set
 const Object& HyperbolicCylinder::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const HyperbolicCylinder* rhc = dynamic_cast<const HyperbolicCylinder*>(&original);
     assert(rhc != 0);
 
@@ -211,22 +208,22 @@ const Object& HyperbolicCylinder::operator=
 }
 
 
-Object* HyperbolicCylinder::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* HyperbolicCylinder::Clone(void) const {
     return new HyperbolicCylinder(*this);
 }
 
 
-const char* HyperbolicCylinder::ClassName(void) throw() {
+const char* HyperbolicCylinder::ClassName(void) {
     return "HyperbolicCylinder";
 }
 
 
-const char* HyperbolicCylinder::Type(void) const throw() {
+const char* HyperbolicCylinder::Type(void) const {
     return ClassName();
 }
 
 
-bool HyperbolicCylinder::IsValid(void) const throw(){
+bool HyperbolicCylinder::IsValid(void) const {
     bool                   ret       = false;
     const rt_rhc_internal* internalp = Internal();
 
@@ -247,10 +244,10 @@ HyperbolicCylinder::HyperbolicCylinder
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-rt_rhc_internal* HyperbolicCylinder::Internal(void) throw() {
+rt_rhc_internal* HyperbolicCylinder::Internal(void) {
     rt_rhc_internal* ret;
 
     if(m_ip != 0)
@@ -264,7 +261,7 @@ rt_rhc_internal* HyperbolicCylinder::Internal(void) throw() {
 }
 
 
-const rt_rhc_internal* HyperbolicCylinder::Internal(void) const throw() {
+const rt_rhc_internal* HyperbolicCylinder::Internal(void) const {
     const rt_rhc_internal* ret;
 
     if (m_ip != 0)

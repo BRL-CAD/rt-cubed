@@ -37,9 +37,9 @@
 namespace BRLCAD {
     /// @name get BRL-CAD version information
     //@{
-    int BRLCAD_COREINTERFACE_EXPORT  MajorVersion(void) throw();
-    int BRLCAD_COREINTERFACE_EXPORT  MinorVersion(void) throw();
-    int BRLCAD_COREINTERFACE_EXPORT  PatchVersion(void) throw();
+    int BRLCAD_COREINTERFACE_EXPORT  MajorVersion(void);
+    int BRLCAD_COREINTERFACE_EXPORT  MinorVersion(void);
+    int BRLCAD_COREINTERFACE_EXPORT  PatchVersion(void);
     //@}
 
 
@@ -48,18 +48,18 @@ namespace BRLCAD {
     /// log handler (to be implemented by the caller)
     class LogHandler {
     public:
-        virtual ~LogHandler(void) throw() {}
+        virtual ~LogHandler(void) {}
 
-        virtual void operator()(const char* logString) throw() = 0;
+        virtual void operator()(const char* logString) = 0;
 
     protected:
-        LogHandler(void) throw() {}
-        LogHandler(const LogHandler&) throw() {}
-        const LogHandler& operator=(const LogHandler&) throw() {return *this;}
+        LogHandler(void) {}
+        LogHandler(const LogHandler&) {}
+        const LogHandler& operator=(const LogHandler&) {return *this;}
     };
 
-    void BRLCAD_COREINTERFACE_EXPORT RegisterLogHandler(LogHandler& logHandler) throw(bad_alloc);
-    void BRLCAD_COREINTERFACE_EXPORT DeRegisterLogHandler(LogHandler& logHandler) throw();
+    void BRLCAD_COREINTERFACE_EXPORT RegisterLogHandler(LogHandler& logHandler);
+    void BRLCAD_COREINTERFACE_EXPORT DeRegisterLogHandler(LogHandler& logHandler);
     //@}
 }
 

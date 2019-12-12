@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-Hyperboloid::Hyperboloid(void) throw(bad_alloc) : Object() {
+Hyperboloid::Hyperboloid(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ehy_internal);
         m_internalp->ehy_magic = RT_EHY_INTERNAL_MAGIC;
@@ -48,7 +48,6 @@ Hyperboloid::Hyperboloid(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Hyperboloid::Hyperboloid");
     }
 
     BU_UNSETJUMP;
@@ -62,7 +61,7 @@ Hyperboloid::Hyperboloid
     const Vector3D& semiMajorAxis,
     double          semiMinorAxisLength,
     double          apexAsymptoteDistance
-) throw(bad_alloc) : Object() {
+) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ehy_internal);
         m_internalp->ehy_magic = RT_EHY_INTERNAL_MAGIC;
@@ -71,7 +70,6 @@ Hyperboloid::Hyperboloid
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Hyperboloid::Hyperboloid");
     }
 
     BU_UNSETJUMP;
@@ -86,7 +84,7 @@ Hyperboloid::Hyperboloid
     double          semiMajorAxisLength,
     double          semiMinorAxisLength,
     double          apexAsymptoteDistance
-) throw(bad_alloc) : Object() {
+) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ehy_internal);
         m_internalp->ehy_magic = RT_EHY_INTERNAL_MAGIC;
@@ -95,7 +93,6 @@ Hyperboloid::Hyperboloid
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Hyperboloid::Hyperboloid");
     }
 
     BU_UNSETJUMP;
@@ -105,21 +102,20 @@ Hyperboloid::Hyperboloid
 Hyperboloid::Hyperboloid
 (
     const Hyperboloid& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ehy_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_ehy_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Hyperboloid::Hyperboloid");
     }
 
     BU_UNSETJUMP;
 }
 
 
-Hyperboloid::~Hyperboloid(void) throw() {
+Hyperboloid::~Hyperboloid(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::Hyperboloid::~Hyperboloid::m_internalp");
 }
@@ -128,7 +124,7 @@ Hyperboloid::~Hyperboloid(void) throw() {
 const Hyperboloid& Hyperboloid::operator=
 (
     const Hyperboloid& original
-) throw(bad_alloc) {
+) {
     if(&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_ehy_internal));
@@ -138,7 +134,7 @@ const Hyperboloid& Hyperboloid::operator=
 }
 
 
-Vector3D Hyperboloid::BasePoint(void) const throw() {
+Vector3D Hyperboloid::BasePoint(void) const {
     return Vector3D(Internal()->ehy_V);
 }
 
@@ -146,12 +142,12 @@ Vector3D Hyperboloid::BasePoint(void) const throw() {
 void Hyperboloid::SetBasePoint
 (
     const Vector3D& point
-) throw(){
+) {
     VMOVE(Internal()->ehy_V, point.coordinates);
 }
 
 
-Vector3D Hyperboloid::Height(void) const throw() {
+Vector3D Hyperboloid::Height(void) const {
     return Vector3D(Internal()->ehy_H);
 }
 
@@ -159,12 +155,12 @@ Vector3D Hyperboloid::Height(void) const throw() {
 void Hyperboloid::SetHeight
 (
     const Vector3D& height
-) throw(){
+) {
     VMOVE(Internal()->ehy_H, height.coordinates);
 }
 
 
-Vector3D Hyperboloid::SemiMajorAxis(void) const throw() {
+Vector3D Hyperboloid::SemiMajorAxis(void) const {
     Vector3D               ret;
     const rt_ehy_internal* internalp = Internal();
 
@@ -177,7 +173,7 @@ Vector3D Hyperboloid::SemiMajorAxis(void) const throw() {
 void Hyperboloid::SetSemiMajorAxis
 (
     const Vector3D& axis
-) throw(){
+) {
     rt_ehy_internal* internalp = Internal();
 
     VMOVE(internalp->ehy_Au, axis.coordinates);
@@ -190,7 +186,7 @@ void Hyperboloid::SetSemiMajorAxis
 (
     const Vector3D& direction,
     double          length
-) throw(){
+) {
     rt_ehy_internal* internalp = Internal();
 
     VMOVE(internalp->ehy_Au, direction.coordinates);
@@ -199,7 +195,7 @@ void Hyperboloid::SetSemiMajorAxis
 }
 
 
-Vector3D Hyperboloid::SemiMajorAxisDirection(void) const throw() {
+Vector3D Hyperboloid::SemiMajorAxisDirection(void) const {
     return Vector3D(Internal()->ehy_Au);
 }
 
@@ -207,7 +203,7 @@ Vector3D Hyperboloid::SemiMajorAxisDirection(void) const throw() {
 void Hyperboloid::SetSemiMajorAxisDirection
 (
     const Vector3D& direction
-) throw(){
+) {
     rt_ehy_internal* internalp = Internal();
 
     VMOVE(internalp->ehy_Au, direction.coordinates);
@@ -215,7 +211,7 @@ void Hyperboloid::SetSemiMajorAxisDirection
 }
 
 
-double Hyperboloid::SemiMajorAxisLength(void) const throw(){
+double Hyperboloid::SemiMajorAxisLength(void) const {
     return Internal()->ehy_r1;
 }
 
@@ -223,12 +219,12 @@ double Hyperboloid::SemiMajorAxisLength(void) const throw(){
 void Hyperboloid::SetSemiMajorAxisLength
 (
     double length
-) throw(){
+) {
     Internal()->ehy_r1 = length;
 }
 
 
-double Hyperboloid::SemiMinorAxisLength(void) const throw(){
+double Hyperboloid::SemiMinorAxisLength(void) const {
     return Internal()->ehy_r2;
 }
 
@@ -236,12 +232,12 @@ double Hyperboloid::SemiMinorAxisLength(void) const throw(){
 void Hyperboloid::SetSemiMinorAxisLength
 (
     double length
-) throw(){
+) {
     Internal()->ehy_r2 = length;
 }
 
 
-double Hyperboloid::ApexAsymptoteDistance(void) const throw(){
+double Hyperboloid::ApexAsymptoteDistance(void) const {
     return Internal()->ehy_c;
 }
 
@@ -249,7 +245,7 @@ double Hyperboloid::ApexAsymptoteDistance(void) const throw(){
 void Hyperboloid::SetApexAsymptoteDistance
 (
     double distance
-) throw(){
+) {
     Internal()->ehy_c = distance;
 }
 
@@ -261,7 +257,7 @@ void Hyperboloid::Set
     const Vector3D& semiMajorAxis,
     double          semiMinorAxisLength,
     double          apexAsymptoteDistance
-) throw(){
+) {
     rt_ehy_internal* internalp = Internal();
 
     VMOVE(internalp->ehy_V, basePoint.coordinates);
@@ -282,7 +278,7 @@ void Hyperboloid::Set
     double          semiMajorAxisLength,
     double          semiMinorAxisLength,
     double          apexAsymptoteDistance
-) throw(){
+) {
     rt_ehy_internal* internalp = Internal();
 
     VMOVE(internalp->ehy_V, basePoint.coordinates);
@@ -298,7 +294,7 @@ void Hyperboloid::Set
 const Object& Hyperboloid::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Hyperboloid* ehy = dynamic_cast<const Hyperboloid*>(&original);
     assert(ehy != 0);
 
@@ -309,22 +305,22 @@ const Object& Hyperboloid::operator=
 }
 
 
-Object* Hyperboloid::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Hyperboloid::Clone(void) const {
     return new Hyperboloid(*this);
 }
 
 
-const char* Hyperboloid::ClassName(void) throw() {
+const char* Hyperboloid::ClassName(void) {
     return "Hyperboloid";
 }
 
 
-const char* Hyperboloid::Type(void) const throw() {
+const char* Hyperboloid::Type(void) const {
     return ClassName();
 }
 
 
-bool Hyperboloid::IsValid(void) const throw() {
+bool Hyperboloid::IsValid(void) const {
     bool                   ret       = false;
     const rt_ehy_internal* internalp = Internal();
 
@@ -346,10 +342,10 @@ Hyperboloid::Hyperboloid
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-rt_ehy_internal* Hyperboloid::Internal(void) throw() {
+rt_ehy_internal* Hyperboloid::Internal(void) {
     rt_ehy_internal* ret;
 
     if(m_ip != 0)
@@ -363,7 +359,7 @@ rt_ehy_internal* Hyperboloid::Internal(void) throw() {
 }
 
 
-const rt_ehy_internal* Hyperboloid::Internal(void) const throw() {
+const rt_ehy_internal* Hyperboloid::Internal(void) const {
     const rt_ehy_internal* ret;
 
     if (m_ip != 0)

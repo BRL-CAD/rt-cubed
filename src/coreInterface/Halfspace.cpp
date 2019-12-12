@@ -39,12 +39,11 @@
 using namespace BRLCAD;
 
 
-Halfspace::Halfspace(void) throw(bad_alloc) : Object() {
+Halfspace::Halfspace(void) : Object() {
     if (!BU_SETJUMP)
         m_internalp = static_cast<rt_half_internal*>(bu_calloc(1, sizeof(rt_half_internal), "BRLCAD::Halfspace::Halfspace::m_internalp"));
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Halfspace::Halfspace");
     }
 
     BU_UNSETJUMP;
@@ -60,12 +59,11 @@ Halfspace::Halfspace(void) throw(bad_alloc) : Object() {
 Halfspace::Halfspace
 (
     const Halfspace& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP)
         m_internalp = static_cast<rt_half_internal*>(bu_calloc(1, sizeof(rt_half_internal), "BRLCAD::Halfspace::Halfspace::m_internalp"));
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Halfspace::Halfspace");
     }
 
     BU_UNSETJUMP;
@@ -74,13 +72,13 @@ Halfspace::Halfspace
 }
 
 
-Halfspace::~Halfspace(void) throw() {
+Halfspace::~Halfspace(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::Halfspace::~Halfspace::m_internalp");
 }
 
 
-const Halfspace& Halfspace::operator=(const Halfspace& original) throw(bad_alloc) {
+const Halfspace& Halfspace::operator=(const Halfspace& original) {
     if (&original != this) {
         Copy(original);
         memcpy(Internal()->eqn, original.Internal()->eqn, sizeof(plane_t));
@@ -90,12 +88,12 @@ const Halfspace& Halfspace::operator=(const Halfspace& original) throw(bad_alloc
 }
 
 
-Vector3D Halfspace::Normal(void) const throw() {
+Vector3D Halfspace::Normal(void) const {
     return Vector3D(Internal()->eqn);
 }
 
 
-void Halfspace::SetNormal(const Vector3D& normal) throw() {
+void Halfspace::SetNormal(const Vector3D& normal) {
     double length = MAGNITUDE(normal.coordinates);
 
     if (length >= VDIVIDE_TOL) {
@@ -107,12 +105,12 @@ void Halfspace::SetNormal(const Vector3D& normal) throw() {
 }
 
 
-double Halfspace::DistanceFromOrigin(void) const throw() {
+double Halfspace::DistanceFromOrigin(void) const {
     return Internal()->eqn[3];
 }
 
 
-void Halfspace::SetDistanceFromOrigin(double distance) throw() {
+void Halfspace::SetDistanceFromOrigin(double distance) {
     Internal()->eqn[3] = distance;
 }
 
@@ -120,7 +118,7 @@ void Halfspace::SetDistanceFromOrigin(double distance) throw() {
 const Object& Halfspace::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Halfspace* half = dynamic_cast<const Halfspace*>(&original);
     assert(half != 0);
 
@@ -131,22 +129,22 @@ const Object& Halfspace::operator=
 }
 
 
-Object* Halfspace::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Halfspace::Clone(void) const {
     return new Halfspace(*this);
 }
 
 
-const char* Halfspace::ClassName(void) throw() {
+const char* Halfspace::ClassName(void) {
     return "Halfspace";
 }
 
 
-const char* Halfspace::Type(void) const throw() {
+const char* Halfspace::Type(void) const {
     return ClassName();
 }
 
 
-bool Halfspace::IsValid(void) const throw() {
+bool Halfspace::IsValid(void) const {
     bool ret = Validate();
 
     if (ret) {
@@ -166,10 +164,10 @@ Halfspace::Halfspace
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-const rt_half_internal* Halfspace::Internal(void) const throw() {
+const rt_half_internal* Halfspace::Internal(void) const {
     const rt_half_internal* ret;
 
     if (m_ip != 0)
@@ -183,7 +181,7 @@ const rt_half_internal* Halfspace::Internal(void) const throw() {
 }
 
 
-rt_half_internal* Halfspace::Internal(void) throw() {
+rt_half_internal* Halfspace::Internal(void) {
     rt_half_internal* ret;
 
     if (m_ip != 0)

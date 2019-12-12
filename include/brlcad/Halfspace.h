@@ -39,29 +39,29 @@ struct rt_half_internal;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Halfspace : public Object {
     public:
-        Halfspace(void) throw(bad_alloc);
-        Halfspace(const Halfspace& original) throw(bad_alloc);
-        virtual ~Halfspace(void) throw();
+        Halfspace(void);
+        Halfspace(const Halfspace& original);
+        virtual ~Halfspace(void);
 
-        const Halfspace&      operator=(const Halfspace& original) throw(bad_alloc);
+        const Halfspace&      operator=(const Halfspace& original);
 
-        Vector3D              Normal(void) const throw();
-        void                  SetNormal(const Vector3D& normal) throw();
-        double                DistanceFromOrigin(void) const throw();
-        void                  SetDistanceFromOrigin(double distance) throw();
+        Vector3D              Normal(void) const;
+        void                  SetNormal(const Vector3D& normal);
+        double                DistanceFromOrigin(void) const;
+        void                  SetDistanceFromOrigin(double distance);
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(bad_alloc);
-        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc);
-        static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const throw();
-        virtual bool          IsValid(void) const throw();
+        virtual const Object& operator=(const Object& original);
+        virtual Object*       Clone(void) const;
+        static const char*    ClassName(void);
+        virtual const char*   Type(void) const;
+        virtual bool          IsValid(void) const;
 
     protected:
         Halfspace(resource*       resp,
                   directory*      pDir,
                   rt_db_internal* ip,
-                  db_i*           dbip = 0) throw();
+                  db_i*           dbip = 0);
 
         friend class ConstDatabase;
 
@@ -69,8 +69,8 @@ namespace BRLCAD {
         // holds Objects's content if not connected to a database
         rt_half_internal* m_internalp;
 
-        const rt_half_internal* Internal(void) const throw();
-        rt_half_internal*       Internal(void) throw();
+        const rt_half_internal* Internal(void) const;
+        rt_half_internal*       Internal(void);
 
         friend class Database;
     };
