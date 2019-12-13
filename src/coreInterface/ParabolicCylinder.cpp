@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-ParabolicCylinder::ParabolicCylinder(void) throw(bad_alloc) : Object() {
+ParabolicCylinder::ParabolicCylinder(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_rpc_internal);
         m_internalp->rpc_magic = RT_RPC_INTERNAL_MAGIC;
@@ -48,7 +48,6 @@ ParabolicCylinder::ParabolicCylinder(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::ParabolicCylinder::ParabolicCylinder");
     }
 
     BU_UNSETJUMP;
@@ -61,7 +60,7 @@ ParabolicCylinder::ParabolicCylinder
     const Vector3D& height,
     const Vector3D& depth,
     double          halfWidth
-) throw(bad_alloc) : Object() {
+) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_rpc_internal);
         m_internalp->rpc_magic = RT_RPC_INTERNAL_MAGIC;
@@ -70,7 +69,6 @@ ParabolicCylinder::ParabolicCylinder
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::ParabolicCylinder::ParabolicCylinder");
     }
 
     BU_UNSETJUMP;
@@ -80,21 +78,20 @@ ParabolicCylinder::ParabolicCylinder
 ParabolicCylinder::ParabolicCylinder
 (
     const ParabolicCylinder& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_rpc_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_rpc_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::ParabolicCylinder::ParabolicCylinder");
     }
 
     BU_UNSETJUMP;
 }
 
 
-ParabolicCylinder::~ParabolicCylinder(void) throw() {
+ParabolicCylinder::~ParabolicCylinder(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::ParabolicCylinder::~ParabolicCylinder::m_internalp");
 }
@@ -103,7 +100,7 @@ ParabolicCylinder::~ParabolicCylinder(void) throw() {
 const ParabolicCylinder& ParabolicCylinder::operator=
 (
     const ParabolicCylinder& original
-) throw(bad_alloc) {
+) {
     if(&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_rpc_internal));
@@ -113,7 +110,7 @@ const ParabolicCylinder& ParabolicCylinder::operator=
 }
 
 
-Vector3D ParabolicCylinder::BasePoint(void) const throw() {
+Vector3D ParabolicCylinder::BasePoint(void) const {
     return Vector3D(Internal()->rpc_V);
 }
 
@@ -121,12 +118,12 @@ Vector3D ParabolicCylinder::BasePoint(void) const throw() {
 void ParabolicCylinder::SetBasePoint
 (
     const Vector3D& basePoint
-) throw() {
+) {
     VMOVE(Internal()->rpc_V, basePoint.coordinates);
 }
 
 
-Vector3D ParabolicCylinder::Height(void) const throw() {
+Vector3D ParabolicCylinder::Height(void) const {
     return Vector3D(Internal()->rpc_H);
 }
 
@@ -134,12 +131,12 @@ Vector3D ParabolicCylinder::Height(void) const throw() {
 void ParabolicCylinder::SetHeight
 (
     const Vector3D& height
-) throw() {
+) {
     VMOVE(Internal()->rpc_H, height.coordinates);
 }
 
 
-Vector3D ParabolicCylinder::Depth(void) const throw() {
+Vector3D ParabolicCylinder::Depth(void) const {
     return Vector3D(Internal()->rpc_B);
 }
 
@@ -147,12 +144,12 @@ Vector3D ParabolicCylinder::Depth(void) const throw() {
 void ParabolicCylinder::SetDepth
 (
     const Vector3D& depth
-) throw() {
+) {
     VMOVE(Internal()->rpc_B, depth.coordinates);
 }
 
 
-double ParabolicCylinder::HalfWidth(void) const throw() {
+double ParabolicCylinder::HalfWidth(void) const {
     return Internal()->rpc_r;
 }
 
@@ -160,7 +157,7 @@ double ParabolicCylinder::HalfWidth(void) const throw() {
 void ParabolicCylinder::SetHalfWidth
 (
     double length
-) throw() {
+) {
     Internal()->rpc_r = length;
 }
 
@@ -171,7 +168,7 @@ void ParabolicCylinder::Set
     const Vector3D& height,
     const Vector3D& depth,
     double          halfWidth
-) throw() {
+) {
     rt_rpc_internal* internalp = Internal();
 
     VMOVE(internalp->rpc_V, basePoint.coordinates);
@@ -184,7 +181,7 @@ void ParabolicCylinder::Set
 const Object& ParabolicCylinder::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const ParabolicCylinder* rpc = dynamic_cast<const ParabolicCylinder*>(&original);
     assert(rpc != 0);
 
@@ -195,22 +192,22 @@ const Object& ParabolicCylinder::operator=
 }
 
 
-Object* ParabolicCylinder::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* ParabolicCylinder::Clone(void) const {
     return new ParabolicCylinder(*this);
 }
 
 
-const char* ParabolicCylinder::ClassName(void) throw() {
+const char* ParabolicCylinder::ClassName(void) {
     return "ParabolicCylinder";
 }
 
 
-const char* ParabolicCylinder::Type(void) const throw() {
+const char* ParabolicCylinder::Type(void) const {
     return ClassName();
 }
 
 
-bool ParabolicCylinder::IsValid(void) const throw() {
+bool ParabolicCylinder::IsValid(void) const {
     bool                   ret       = false;
     const rt_rpc_internal* internalp = Internal();
 
@@ -230,10 +227,10 @@ ParabolicCylinder::ParabolicCylinder
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-rt_rpc_internal* ParabolicCylinder::Internal(void) throw() {
+rt_rpc_internal* ParabolicCylinder::Internal(void) {
     rt_rpc_internal* ret;
 
     if(m_ip != 0)
@@ -247,7 +244,7 @@ rt_rpc_internal* ParabolicCylinder::Internal(void) throw() {
 }
 
 
-const rt_rpc_internal* ParabolicCylinder::Internal(void) const throw() {
+const rt_rpc_internal* ParabolicCylinder::Internal(void) const {
     const rt_rpc_internal* ret;
 
     if (m_ip != 0)

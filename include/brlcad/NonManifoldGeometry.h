@@ -44,11 +44,11 @@ struct model;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT NonManifoldGeometry : public Object {
     public:
-        NonManifoldGeometry(void) throw(bad_alloc);
-        NonManifoldGeometry(const NonManifoldGeometry& original) throw(bad_alloc);
-        virtual ~NonManifoldGeometry(void) throw();
+        NonManifoldGeometry(void);
+        NonManifoldGeometry(const NonManifoldGeometry& original);
+        virtual ~NonManifoldGeometry(void);
 
-        const NonManifoldGeometry& operator=(const NonManifoldGeometry& original) throw(bad_alloc);
+        const NonManifoldGeometry& operator=(const NonManifoldGeometry& original);
 
         // the classes for the subobjects are all non-changing
         // otherwise we would need every subclass in two kinds: constant and mutable
@@ -62,22 +62,22 @@ namespace BRLCAD {
 
         class BRLCAD_COREINTERFACE_EXPORT Vertex {
         public:
-            Vertex(const Vertex& original) throw() : m_vertex(original.m_vertex) {}
+            Vertex(const Vertex& original) : m_vertex(original.m_vertex) {}
 
-            ~Vertex(void) throw() {}
+            ~Vertex(void) {}
 
-            const Vertex& operator=(const Vertex& original) throw() {
+            const Vertex& operator=(const Vertex& original) {
                 m_vertex = original.m_vertex;
 
                 return *this;
             }
 
-                          operator const void*(void) const throw() {
+                          operator const void*(void) const {
                 return m_vertex;
             }
 
             // here we go
-            Vector3D      Point(void) const throw();
+            Vector3D      Point(void) const;
 
         private:
             const vertexuse* m_vertex;
@@ -85,29 +85,29 @@ namespace BRLCAD {
             friend class Edge;
             friend class Shell;
 
-            Vertex(void) throw() : m_vertex(0) {}
+            Vertex(void) : m_vertex(0) {}
         };
 
 
         class BRLCAD_COREINTERFACE_EXPORT Edge {
         public:
-            Edge(const Edge& original) throw() : m_edge(original.m_edge) {}
+            Edge(const Edge& original) : m_edge(original.m_edge) {}
 
-            ~Edge(void) throw() {}
+            ~Edge(void) {}
 
-            const Edge& operator=(const Edge& original) throw() {
+            const Edge& operator=(const Edge& original) {
                 m_edge = original.m_edge;
 
                 return *this;
             }
 
-                        operator const void*(void) const throw() {
+                        operator const void*(void) const {
                 return m_edge;
             }
 
             // here we go
-            Vertex      ForwardVertex(void) const throw();
-            Vertex      BackwardVertex(void) const throw();
+            Vertex      ForwardVertex(void) const;
+            Vertex      BackwardVertex(void) const;
 
         private:
             const edgeuse* m_edge;
@@ -115,34 +115,34 @@ namespace BRLCAD {
             friend class Loop;
             friend class Shell;
 
-            Edge(void) throw() : m_edge(0) {}
+            Edge(void) : m_edge(0) {}
         };
 
 
         class BRLCAD_COREINTERFACE_EXPORT Loop {
         public:
-            Loop(const Loop& original) throw() : m_loop(original.m_loop), m_currentEdge(original.m_currentEdge) {}
+            Loop(const Loop& original) : m_loop(original.m_loop), m_currentEdge(original.m_currentEdge) {}
 
-            ~Loop(void) throw() {}
+            ~Loop(void) {}
 
-            const Loop& operator=(const Loop& original) throw() {
+            const Loop& operator=(const Loop& original) {
                 m_loop        = original.m_loop;
                 m_currentEdge = original.m_currentEdge;
 
                 return *this;
             }
 
-                        operator const void*(void) const throw() {
+                        operator const void*(void) const {
                 return m_loop;
             }
 
             // here we go
-            bool        IsHole(void) const throw();
+            bool        IsHole(void) const;
 
             // it's an iterator
-            void        GotoFirstEdge(void) throw();
-            const Loop& operator++(void) throw();
-            Edge        CurrentEdge(void) const throw();
+            void        GotoFirstEdge(void);
+            const Loop& operator++(void);
+            Edge        CurrentEdge(void) const;
 
         private:
             const loopuse* m_loop;
@@ -151,31 +151,31 @@ namespace BRLCAD {
             friend class Face;
             friend class Shell;
 
-            Loop(void) throw() : m_loop(0), m_currentEdge(0) {}
+            Loop(void) : m_loop(0), m_currentEdge(0) {}
         };
 
 
         class BRLCAD_COREINTERFACE_EXPORT Face {
         public:
-            Face(const Face& original) throw() : m_face(original.m_face), m_currentLoop(original.m_currentLoop) {}
+            Face(const Face& original) : m_face(original.m_face), m_currentLoop(original.m_currentLoop) {}
 
-            ~Face(void) throw() {}
+            ~Face(void) {}
 
-            const Face& operator=(const Face& original) throw() {
+            const Face& operator=(const Face& original) {
                 m_face        = original.m_face;
                 m_currentLoop = original.m_currentLoop;
 
                 return *this;
             }
 
-                        operator const void*(void) const throw() {
+                        operator const void*(void) const {
                 return m_face;
             }
 
             // it's an iterator
-            void        GotoFirstLoop(void) throw();
-            const Face& operator++(void) throw();
-            Loop        CurrentLoop(void) const throw();
+            void        GotoFirstLoop(void);
+            const Face& operator++(void);
+            Loop        CurrentLoop(void) const;
 
         private:
             const faceuse* m_face;
@@ -184,21 +184,21 @@ namespace BRLCAD {
             friend class Shell;
             friend class NonManifoldGeometry;
 
-            Face(void) throw() : m_face(0), m_currentLoop(0) {}
+            Face(void) : m_face(0), m_currentLoop(0) {}
         };
 
 
         class BRLCAD_COREINTERFACE_EXPORT Shell {
         public:
-            Shell(const Shell& original) throw() : m_shell(original.m_shell),
+            Shell(const Shell& original) : m_shell(original.m_shell),
                                                    m_currentFace(original.m_currentFace),
                                                    m_currentLoop(original.m_currentLoop),
                                                    m_currentEdge(original.m_currentEdge),
                                                    m_currentVertex(original.m_currentVertex) {}
 
-            ~Shell(void) throw() {}
+            ~Shell(void) {}
 
-            const Shell& operator=(const Shell& original) throw() {
+            const Shell& operator=(const Shell& original) {
                 m_shell         = original.m_shell;
                 m_currentFace   = original.m_currentFace;
                 m_currentLoop   = original.m_currentLoop;
@@ -208,26 +208,26 @@ namespace BRLCAD {
                 return *this;
             }
 
-                        operator const void*(void) const throw() {
+                        operator const void*(void) const {
                 return m_shell;
             }
 
             // in fact it's a multiple iterator
-            void         GotoFirstFace(void) throw();
-            const Shell& GotoNextFace(void) throw();
-            Face         CurrentFace(void) const throw();
+            void         GotoFirstFace(void);
+            const Shell& GotoNextFace(void);
+            Face         CurrentFace(void) const;
 
-            void         GotoFirstLoop(void) throw();
-            const Shell& GotoNextLoop(void) throw();
-            Loop         CurrentLoop(void) const throw();
+            void         GotoFirstLoop(void);
+            const Shell& GotoNextLoop(void);
+            Loop         CurrentLoop(void) const;
 
-            void         GotoFirstEdge(void) throw();
-            const Shell& GotoNextEdge(void) throw();
-            Edge         CurrentEdge(void) const throw();
+            void         GotoFirstEdge(void);
+            const Shell& GotoNextEdge(void);
+            Edge         CurrentEdge(void) const;
 
-            void         GotoFirstVertex(void) throw();
-            const Shell& GotoNextVertex(void) throw();
-            Vertex       CurrentVertex(void) const throw();
+            void         GotoFirstVertex(void);
+            const Shell& GotoNextVertex(void);
+            Vertex       CurrentVertex(void) const;
 
         private:
             const shell*     m_shell;
@@ -239,31 +239,31 @@ namespace BRLCAD {
             friend class Region;
             friend class NonManifoldGeometry;
 
-            Shell(void) throw() : m_shell(0), m_currentFace(0), m_currentLoop(0), m_currentEdge(0), m_currentVertex(0) {}
+            Shell(void) : m_shell(0), m_currentFace(0), m_currentLoop(0), m_currentEdge(0), m_currentVertex(0) {}
         };
 
 
         class BRLCAD_COREINTERFACE_EXPORT Region {
         public:
-            Region(const Region& original) throw() : m_region(original.m_region), m_currentShell(original.m_currentShell) {}
+            Region(const Region& original) : m_region(original.m_region), m_currentShell(original.m_currentShell) {}
 
-            ~Region(void) throw() {}
+            ~Region(void) {}
 
-            const Region& operator=(const Region& original) throw() {
+            const Region& operator=(const Region& original) {
                 m_region       = original.m_region;
                 m_currentShell = original.m_currentShell;
 
                 return *this;
             }
 
-                        operator const void*(void) const throw() {
+                        operator const void*(void) const {
                 return m_region;
             }
 
             // it's an iterator
-            void          GotoFirstShell(void) throw();
-            const Region& operator++(void) throw();
-            Shell         CurrentShell(void) const throw();
+            void          GotoFirstShell(void);
+            const Region& operator++(void);
+            Shell         CurrentShell(void) const;
 
         private:
             const nmgregion* m_region;
@@ -271,7 +271,7 @@ namespace BRLCAD {
 
             friend class RegionIterator;
 
-            Region(void) throw() : m_region(0), m_currentShell(0) {}
+            Region(void) : m_region(0), m_currentShell(0) {}
         };
 
 
@@ -279,11 +279,11 @@ namespace BRLCAD {
         // i.e. a const NonManifoldGeometry can be used to iterate over the structure
         class BRLCAD_COREINTERFACE_EXPORT RegionIterator {
         public:
-            RegionIterator(const RegionIterator& original) throw() : m_model(original.m_model), m_currentRegion(original.m_currentRegion) {}
+            RegionIterator(const RegionIterator& original) : m_model(original.m_model), m_currentRegion(original.m_currentRegion) {}
 
-            ~RegionIterator(void) throw() {}
+            ~RegionIterator(void) {}
 
-            const RegionIterator& operator=(const RegionIterator& original) throw() {
+            const RegionIterator& operator=(const RegionIterator& original) {
                 m_model         = original.m_model;
                 m_currentRegion = original.m_currentRegion;
 
@@ -291,9 +291,9 @@ namespace BRLCAD {
             }
 
             // it's an iterator
-            void                  GotoFirstRegion(void) throw();
-            const RegionIterator& operator++(void) throw();
-            Region                CurrentRegion(void) const throw();
+            void                  GotoFirstRegion(void);
+            const RegionIterator& operator++(void);
+            Region                CurrentRegion(void) const;
 
         private:
             const model*     m_model;
@@ -301,95 +301,95 @@ namespace BRLCAD {
 
             friend class NonManifoldGeometry;
 
-            RegionIterator(void) throw() : m_model(0), m_currentRegion(0) {}
+            RegionIterator(void) : m_model(0), m_currentRegion(0) {}
         };
 
 
         // Basic Operations
         /*
-        Region       MakeRegion(void) throw(); // 0
+        Region       MakeRegion(void); // 0
 
-        Shell        MakeShell(Region, Vector3D& firstVertex) throw(bad_alloc); // nmg_msv(region)
+        Shell        MakeShell(Region, Vector3D& firstVertex); // nmg_msv(region)
 
         /// creates a new edge by connecting an existing vertex and reusing onother one
         Edge         MakeEdgeVertex(Vetrex& vertexAlreadyInShell,
-                                    Vetex&  vertexToAdd) throw(bad_alloc); // mmg_me(vertex, vertex, shell)
+                                    Vetex&  vertexToAdd); // mmg_me(vertex, vertex, shell)
         /// creates a new edge by connecting an existing vertex with a new one
         Edge         MakeEdgeVertex(Vetrex& vertexAlreadyInShell,
-                                    Vector3D&  vertexToAdd) throw(bad_alloc); // mmg_me(vertex, vertex, shell)
+                                    Vector3D&  vertexToAdd); // mmg_me(vertex, vertex, shell)
 
         /// creates a loop existing of one vertex by reusing one
-        Loop         MakeVertexLoop(Vetex& vertexToAdd) throw(bad_alloc);
+        Loop         MakeVertexLoop(Vetex& vertexToAdd);
         /// creates a loop existing of one vertex by adding a new one
-        Loop         MakeVertexLoop(Vector3D& vertexToAdd) throw(bad_alloc);
+        Loop         MakeVertexLoop(Vector3D& vertexToAdd);
 
         /// creates a loop by connecting two vertices
         Edge         MakeEdgeLoop(Vetrex& firstVertexToConnect,
-                                  Vertex& secondVertexToConnect) throw(bad_alloc);
+                                  Vertex& secondVertexToConnect);
 
         /// creates a face by using a loop as its boundary
         /// after this the loop isn't more a 1D subset of the manifold
-        Face   MakeFaceKillLoop(Loop& loopToConvert) throw(bad_alloc);
+        Face   MakeFaceKillLoop(Loop& loopToConvert);
         */
 
         // Extended Operations
         /*
         Vertex       SplitEdgeMakeVertex(EdgeUse&  edgeToSplit,
-                                         Vetex&    vertexToInsert) throw(bad_alloc);
+                                         Vetex&    vertexToInsert);
         Vertex       SplitEdgeMakeVertex(EdgeUse&  edgeToSplit,
-                                         Vector3D& vertexToInsert) throw(bad_alloc);
+                                         Vector3D& vertexToInsert);
 
         /// creates a new face from an existing one by dividing it with an additional edge
         Edge         MakeEdgeFace(Vetrex& firstVertexToConnect,
-                              Vertex& secondVertexToConnect) throw(bad_alloc);
+                              Vertex& secondVertexToConnect);
         /// connects two faces to form a new common one by removing a common edge
-        Face         KillEdgeFace(Edge& edgeToRemove) throw();
+        Face         KillEdgeFace(Edge& edgeToRemove);
 
         /// creates a new loop from an existing one by removing a "double-edge"
-        Loop         KillEdgeMakeLoop(Edge& edgeToRemove) throw();
+        Loop         KillEdgeMakeLoop(Edge& edgeToRemove);
         /// joins two loops by creating an edge between a point of each loop
         Loop         MakeEdgeKillLoop(Vetrex& firstVertexToConnect,
-                                      Vertex& secondVertexToConnect) throw(bad_alloc);
+                                      Vertex& secondVertexToConnect);
         */
-        void         Triangulate(void) throw(bad_alloc);
-        void         Triangulate(Shell& shellToTrinagulate) throw(bad_alloc);
-        void         Triangulate(Face& faceToTrinagulate) throw(bad_alloc);
+        void         Triangulate(void);
+        void         Triangulate(Shell& shellToTrinagulate);
+        void         Triangulate(Face& faceToTrinagulate);
 
         // Destruction Operations
         /*
-        void         KillRegion(Region& regionToRemove) throw();
-        void         KillShell(Shell& shellToRemove) throw();
+        void         KillRegion(Region& regionToRemove);
+        void         KillShell(Shell& shellToRemove);
 
         /// if the vertex is unconnected: the objects (vertex, loop with itself, ...) are removed
         /// if the vertex is connected with one other by an edge: the edge well be removed too
         /// if the vertex is connected with two othe vertices by edges: these two other vertices will be connected by an edge
-        Edge         KillVertex(Vetrex& vertexToRemove) throw();
+        Edge         KillVertex(Vetrex& vertexToRemove);
 
         /// in a loop: opens the loop
         /// if the edge is between two faces: the faces  wil be connected to form a new common one
-        Face         KillEdge(Edge& edgeToRemove) throw();
+        Face         KillEdge(Edge& edgeToRemove);
 
-        void         KillLoop(Loop* loopToRemove) throw();
+        void         KillLoop(Loop* loopToRemove);
 
         /// makes a loop from the face and removes the face
-        Loop         KillFaceMakeLoop(Face& faceToConvert) throw();
+        Loop         KillFaceMakeLoop(Face& faceToConvert);
         */
 
         // iterate over the regions
-        RegionIterator             Regions(void) const throw();
+        RegionIterator             Regions(void) const;
 
         // inherited from BRLCAD::Object
-        virtual const Object&      operator=(const Object& original) throw(bad_alloc);
-        virtual Object*            Clone(void) const throw(bad_alloc, std::bad_alloc);
-        static const char*         ClassName(void) throw();
-        virtual const char*        Type(void) const throw();
-        virtual bool               IsValid(void) const throw();
+        virtual const Object&      operator=(const Object& original);
+        virtual Object*            Clone(void) const;
+        static const char*         ClassName(void);
+        virtual const char*        Type(void) const;
+        virtual bool               IsValid(void) const;
 
     protected:
         NonManifoldGeometry(resource*       resp,
                             directory*      pDir,
                             rt_db_internal* ip,
-                            db_i*           dbip = 0) throw();
+                            db_i*           dbip = 0);
 
         friend class ConstDatabase;
 
@@ -397,8 +397,8 @@ namespace BRLCAD {
         // holds Objects's content if not connected to a database
         model* m_internalp;
 
-        const model* Internal(void) const throw();
-        model*       Internal(void) throw();
+        const model* Internal(void) const;
+        model*       Internal(void);
 
         friend class Database;
     };

@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-Particle::Particle(void) throw(bad_alloc) : Object() {
+Particle::Particle(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_part_internal);
         m_internalp->part_magic = RT_PART_INTERNAL_MAGIC;
@@ -48,7 +48,6 @@ Particle::Particle(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Particle::Particle");
     }
 
     BU_UNSETJUMP;
@@ -61,7 +60,7 @@ Particle::Particle
     const Vector3D& height,
     double          baseRadius,
     double          topRadius
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_part_internal);
         m_internalp->part_magic = RT_PART_INTERNAL_MAGIC;
@@ -70,7 +69,6 @@ Particle::Particle
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Particle::Particle");
     }
 
     BU_UNSETJUMP;
@@ -80,21 +78,20 @@ Particle::Particle
 Particle::Particle
 (
     const Particle& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_part_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_part_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Particle::Particle");
     }
 
     BU_UNSETJUMP;
 }
 
 
-Particle::~Particle(void) throw() {
+Particle::~Particle(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::Particle::~Particle::m_internalp");
 }
@@ -103,7 +100,7 @@ Particle::~Particle(void) throw() {
 const Particle& Particle::operator =
 (
     const Particle& original
-) throw(bad_alloc) {
+) {
     if(&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_part_internal));
@@ -113,7 +110,7 @@ const Particle& Particle::operator =
 }
 
 
-Vector3D Particle::BasePoint(void) const throw() {
+Vector3D Particle::BasePoint(void) const {
     return Vector3D(Internal()->part_V);
 }
 
@@ -121,14 +118,14 @@ Vector3D Particle::BasePoint(void) const throw() {
 void Particle::SetBasePoint
 (
     const Vector3D& basePoint
-) throw() {
+) {
     VMOVE(Internal()->part_V, basePoint.coordinates);
 
     SetType();
 }
 
 
-Vector3D Particle::Height(void) const throw() {
+Vector3D Particle::Height(void) const {
     return Vector3D(Internal()->part_H);
 }
 
@@ -136,14 +133,14 @@ Vector3D Particle::Height(void) const throw() {
 void Particle::SetHeight
 (
     const Vector3D& height
-) throw(){
+){
     VMOVE(Internal()->part_H, height.coordinates);
 
     SetType();
 }
 
 
-double Particle::BaseRadius(void) const throw() {
+double Particle::BaseRadius(void) const {
     return Internal()->part_vrad;
 }
 
@@ -151,14 +148,14 @@ double Particle::BaseRadius(void) const throw() {
 void Particle::SetBaseRadius
 (
     double baseRadius
-) throw() {
+) {
     Internal()->part_vrad = baseRadius;
 
     SetType();
 }
 
 
-double Particle::TopRadius(void) const throw(){
+double Particle::TopRadius(void) const{
     return Internal()->part_hrad;
 }
 
@@ -166,7 +163,7 @@ double Particle::TopRadius(void) const throw(){
 void Particle::SetTopRadius
 (
     double topRadius
-) throw() {
+) {
     Internal()->part_hrad = topRadius;
 
     SetType();
@@ -179,7 +176,7 @@ void Particle::Set
     const Vector3D& height,
     double          baseRadius,
     double          topRadius
-) throw() {
+) {
     rt_part_internal* internalp = Internal();
 
     VMOVE(internalp->part_V, basePoint.coordinates);
@@ -195,7 +192,7 @@ void Particle::Set
 const Object& Particle::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Particle* part = dynamic_cast<const Particle*>(&original);
     assert(part != 0);
 
@@ -206,22 +203,22 @@ const Object& Particle::operator=
 }
 
 
-Object* Particle::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Particle::Clone(void) const {
     return new Particle(*this);
 }
 
 
-const char* Particle::ClassName(void) throw() {
+const char* Particle::ClassName(void) {
     return "Particle";
 }
 
 
-const char* Particle::Type(void) const throw() {
+const char* Particle::Type(void) const {
     return ClassName();
 }
 
 
-bool Particle::IsValid(void) const throw() {
+bool Particle::IsValid(void) const {
     bool                    ret       = false;
     const rt_part_internal* internalp = Internal();
     double                  maxRadius;
@@ -255,10 +252,10 @@ Particle::Particle
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-void Particle::SetType(void) throw() {
+void Particle::SetType(void) {
     rt_part_internal* internalp = Internal();
     double            maxRadius;
     double            minRadius;
@@ -281,7 +278,7 @@ void Particle::SetType(void) throw() {
 }
 
 
-rt_part_internal* Particle::Internal(void) throw() {
+rt_part_internal* Particle::Internal(void) {
     rt_part_internal* ret;
 
     if(m_ip != 0)
@@ -295,7 +292,7 @@ rt_part_internal* Particle::Internal(void) throw() {
 }
 
 
-const rt_part_internal* Particle::Internal(void) const throw() {
+const rt_part_internal* Particle::Internal(void) const {
     const rt_part_internal* ret;
 
     if (m_ip != 0)

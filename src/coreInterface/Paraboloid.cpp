@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-Paraboloid::Paraboloid(void) throw(bad_alloc) : Object() {
+Paraboloid::Paraboloid(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_epa_internal);
         m_internalp->epa_magic = RT_EPA_INTERNAL_MAGIC;
@@ -48,7 +48,6 @@ Paraboloid::Paraboloid(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Paraboloid::Paraboloid");
     }
 
     BU_UNSETJUMP;
@@ -61,7 +60,7 @@ const Vector3D& basePoint,
 const Vector3D& height,
 const Vector3D& semiMajorAxis,
 double          semiMinorAxisLength
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_epa_internal);
         m_internalp->epa_magic = RT_EPA_INTERNAL_MAGIC;
@@ -70,7 +69,6 @@ double          semiMinorAxisLength
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Paraboloid::Paraboloid");
     }
 
     BU_UNSETJUMP;
@@ -84,7 +82,7 @@ const Vector3D& height,
 const Vector3D& semiMajorAxisDirection,
 double          semiMajorAxisLength,
 double          semiMinorAxisLength
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_epa_internal);
         m_internalp->epa_magic = RT_EPA_INTERNAL_MAGIC;
@@ -93,7 +91,6 @@ double          semiMinorAxisLength
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Paraboloid::Paraboloid");
     }
 
     BU_UNSETJUMP;
@@ -103,21 +100,20 @@ double          semiMinorAxisLength
 Paraboloid::Paraboloid
 (
     const Paraboloid& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_epa_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_epa_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Paraboloid::Paraboloid");
     }
 
     BU_UNSETJUMP;
 }
 
 
-Paraboloid::~Paraboloid(void) throw() {
+Paraboloid::~Paraboloid(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::Paraboloid::~Paraboloid::m_internalp");
 }
@@ -126,7 +122,7 @@ Paraboloid::~Paraboloid(void) throw() {
 const Paraboloid& Paraboloid::operator=
 (
     const Paraboloid& original
-) throw(bad_alloc) {
+) {
     if(&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_epa_internal));
@@ -136,7 +132,7 @@ const Paraboloid& Paraboloid::operator=
 }
 
 
-Vector3D Paraboloid::BasePoint(void) const throw() {
+Vector3D Paraboloid::BasePoint(void) const {
     return Vector3D(Internal()->epa_V);
 }
 
@@ -144,12 +140,12 @@ Vector3D Paraboloid::BasePoint(void) const throw() {
 void Paraboloid::SetBasePoint
 (
     const Vector3D& point
-) throw() {
+) {
     VMOVE(Internal()->epa_V, point.coordinates);
 }
 
 
-Vector3D Paraboloid::Height(void) const throw() {
+Vector3D Paraboloid::Height(void) const {
     return Vector3D(Internal()->epa_H);
 }
 
@@ -157,12 +153,12 @@ Vector3D Paraboloid::Height(void) const throw() {
 void Paraboloid::SetHeight
 (
     const Vector3D& height
-) throw() {
+) {
     VMOVE(Internal()->epa_H, height.coordinates);
 }
 
 
-Vector3D Paraboloid::SemiMajorAxis(void) const throw() {
+Vector3D Paraboloid::SemiMajorAxis(void) const {
     Vector3D               ret;
     const rt_epa_internal* internalp = Internal();
 
@@ -175,7 +171,7 @@ Vector3D Paraboloid::SemiMajorAxis(void) const throw() {
 void Paraboloid::SetSemiMajorAxis
 (
     const Vector3D& axis
-) throw() {
+) {
     rt_epa_internal* internalp = Internal();
 
     VMOVE(internalp->epa_Au, axis.coordinates);
@@ -188,7 +184,7 @@ void Paraboloid::SetSemiMajorAxis
 (
     const Vector3D& direction,
     double          length
-) throw() {
+) {
     rt_epa_internal* internalp = Internal();
 
     VMOVE(internalp->epa_Au, direction.coordinates);
@@ -197,7 +193,7 @@ void Paraboloid::SetSemiMajorAxis
 }
 
 
-Vector3D Paraboloid::SemiMajorAxisDirection(void) const throw() {
+Vector3D Paraboloid::SemiMajorAxisDirection(void) const {
     return Vector3D(Internal()->epa_Au);
 }
 
@@ -205,7 +201,7 @@ Vector3D Paraboloid::SemiMajorAxisDirection(void) const throw() {
 void Paraboloid::SetSemiMajorAxisDirection
 (
     const Vector3D& direction
-) throw() {
+) {
     rt_epa_internal* internalp = Internal();
 
     VMOVE(internalp->epa_Au, direction.coordinates);
@@ -213,7 +209,7 @@ void Paraboloid::SetSemiMajorAxisDirection
 }
 
 
-double Paraboloid::SemiMajorAxisLength(void) const throw() {
+double Paraboloid::SemiMajorAxisLength(void) const {
     return Internal()->epa_r1;
 }
 
@@ -221,12 +217,12 @@ double Paraboloid::SemiMajorAxisLength(void) const throw() {
 void Paraboloid::SetSemiMajorAxisLength
 (
 double length
-) throw() {
+) {
     Internal()->epa_r1 = length;
 }
 
 
-double Paraboloid::SemiMinorAxisLength(void) const throw() {
+double Paraboloid::SemiMinorAxisLength(void) const {
     return Internal()->epa_r2;
 }
 
@@ -234,7 +230,7 @@ double Paraboloid::SemiMinorAxisLength(void) const throw() {
 void Paraboloid::SetSemiMinorAxisLength
 (
 double length
-) throw() {
+) {
     Internal()->epa_r2 = length;
 }
 
@@ -245,7 +241,7 @@ const Vector3D& basePoint,
 const Vector3D& height,
 const Vector3D& semiMajorAxis,
 double          semiMinorAxisLength
-) throw() {
+) {
     rt_epa_internal* internalp = Internal();
 
     VMOVE(internalp->epa_V, basePoint.coordinates);
@@ -264,7 +260,7 @@ const Vector3D& height,
 const Vector3D& semiMajorAxisDirection,
 double          semiMajorAxisLength,
 double          semiMinorAxisLength
-) throw() {
+) {
     rt_epa_internal* internalp = Internal();
 
     VMOVE(internalp->epa_V, basePoint.coordinates);
@@ -279,7 +275,7 @@ double          semiMinorAxisLength
 const Object& Paraboloid::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Paraboloid* epa = dynamic_cast<const Paraboloid*>(&original);
     assert(epa != 0);
 
@@ -290,22 +286,22 @@ const Object& Paraboloid::operator=
 }
 
 
-Object* Paraboloid::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Paraboloid::Clone(void) const {
     return new Paraboloid(*this);
 }
 
 
-const char* Paraboloid::ClassName(void) throw() {
+const char* Paraboloid::ClassName(void) {
     return "Paraboloid";
 }
 
 
-const char* Paraboloid::Type(void) const throw() {
+const char* Paraboloid::Type(void) const {
     return ClassName();
 }
 
 
-bool Paraboloid::IsValid(void) const throw() {
+bool Paraboloid::IsValid(void) const {
     bool                   ret       = false;
     const rt_epa_internal* internalp = Internal();
 
@@ -326,10 +322,10 @@ Paraboloid::Paraboloid
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-rt_epa_internal* Paraboloid::Internal(void) throw() {
+rt_epa_internal* Paraboloid::Internal(void) {
     rt_epa_internal* ret;
 
     if(m_ip != 0)
@@ -343,7 +339,7 @@ rt_epa_internal* Paraboloid::Internal(void) throw() {
 }
 
 
-const rt_epa_internal* Paraboloid::Internal(void) const throw() {
+const rt_epa_internal* Paraboloid::Internal(void) const {
     const rt_epa_internal* ret;
 
     if (m_ip != 0)

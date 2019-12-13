@@ -41,7 +41,7 @@ using namespace BRLCAD;
 // class NonManifoldGeometry::Vetrex
 //
 
-Vector3D NonManifoldGeometry::Vertex::Point(void) const throw() {
+Vector3D NonManifoldGeometry::Vertex::Point(void) const {
     Vector3D ret;
 
     if (m_vertex != 0) {
@@ -66,7 +66,7 @@ Vector3D NonManifoldGeometry::Vertex::Point(void) const throw() {
 // class NonManifoldGeometry::Edge
 //
 
-NonManifoldGeometry::Vertex NonManifoldGeometry::Edge::ForwardVertex(void) const throw() {
+NonManifoldGeometry::Vertex NonManifoldGeometry::Edge::ForwardVertex(void) const {
     Vertex ret;
 
     if (m_edge != 0) {
@@ -83,7 +83,7 @@ NonManifoldGeometry::Vertex NonManifoldGeometry::Edge::ForwardVertex(void) const
 }
 
 
-NonManifoldGeometry::Vertex NonManifoldGeometry::Edge::BackwardVertex(void) const throw() {
+NonManifoldGeometry::Vertex NonManifoldGeometry::Edge::BackwardVertex(void) const {
     Vertex ret;
 
     if (m_edge != 0) {
@@ -108,7 +108,7 @@ NonManifoldGeometry::Vertex NonManifoldGeometry::Edge::BackwardVertex(void) cons
 // class NonManifoldGeometry::Loop
 //
 
-bool NonManifoldGeometry::Loop::IsHole(void) const throw() {
+bool NonManifoldGeometry::Loop::IsHole(void) const {
     bool ret = false;
 
     if (m_loop != 0) {
@@ -122,7 +122,7 @@ bool NonManifoldGeometry::Loop::IsHole(void) const throw() {
 }
 
 
-void NonManifoldGeometry::Loop::GotoFirstEdge(void) throw() {
+void NonManifoldGeometry::Loop::GotoFirstEdge(void) {
     m_currentEdge = 0;
 
     if (m_loop != 0) {
@@ -138,7 +138,7 @@ void NonManifoldGeometry::Loop::GotoFirstEdge(void) throw() {
 }
 
 
-const NonManifoldGeometry::Loop& NonManifoldGeometry::Loop::operator++(void) throw() {
+const NonManifoldGeometry::Loop& NonManifoldGeometry::Loop::operator++(void) {
     if ((m_loop != 0) && (m_currentEdge != 0)) {
         NMG_CK_LOOPUSE(m_loop);
 
@@ -152,7 +152,7 @@ const NonManifoldGeometry::Loop& NonManifoldGeometry::Loop::operator++(void) thr
 }
 
 
-NonManifoldGeometry::Edge NonManifoldGeometry::Loop::CurrentEdge(void) const throw() {
+NonManifoldGeometry::Edge NonManifoldGeometry::Loop::CurrentEdge(void) const {
     Edge ret;
 
     if (m_currentEdge != 0) {
@@ -169,7 +169,7 @@ NonManifoldGeometry::Edge NonManifoldGeometry::Loop::CurrentEdge(void) const thr
 // class NonManifoldGeometry::Face
 //
 
-void NonManifoldGeometry::Face::GotoFirstLoop(void) throw(){
+void NonManifoldGeometry::Face::GotoFirstLoop(void){
     m_currentLoop = 0;
 
     if (m_face != 0) {
@@ -183,7 +183,7 @@ void NonManifoldGeometry::Face::GotoFirstLoop(void) throw(){
 }
 
 
-const NonManifoldGeometry::Face& NonManifoldGeometry::Face::operator++(void) throw() {
+const NonManifoldGeometry::Face& NonManifoldGeometry::Face::operator++(void) {
     if ((m_face != 0) && (m_currentLoop != 0)) {
         NMG_CK_FACEUSE(m_face);
 
@@ -197,7 +197,7 @@ const NonManifoldGeometry::Face& NonManifoldGeometry::Face::operator++(void) thr
 }
 
 
-NonManifoldGeometry::Loop NonManifoldGeometry::Face::CurrentLoop(void) const throw() {
+NonManifoldGeometry::Loop NonManifoldGeometry::Face::CurrentLoop(void) const {
     Loop ret;
 
     if (m_currentLoop != 0) {
@@ -214,7 +214,7 @@ NonManifoldGeometry::Loop NonManifoldGeometry::Face::CurrentLoop(void) const thr
 // class NonManifoldGeometry::Shell
 //
 
-void NonManifoldGeometry::Shell::GotoFirstFace(void) throw() {
+void NonManifoldGeometry::Shell::GotoFirstFace(void) {
     m_currentFace = 0;
 
     if (m_shell != 0) {
@@ -236,7 +236,7 @@ void NonManifoldGeometry::Shell::GotoFirstFace(void) throw() {
 }
 
 
-const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextFace(void) throw() {
+const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextFace(void) {
     if ((m_shell != 0) && (m_currentFace != 0)) {
         NMG_CK_SHELL(m_shell);
 
@@ -258,7 +258,7 @@ const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextFace(void)
 }
 
 
-NonManifoldGeometry::Face NonManifoldGeometry::Shell::CurrentFace(void) const throw() {
+NonManifoldGeometry::Face NonManifoldGeometry::Shell::CurrentFace(void) const {
     Face ret;
 
     if (m_currentFace != 0) {
@@ -271,7 +271,7 @@ NonManifoldGeometry::Face NonManifoldGeometry::Shell::CurrentFace(void) const th
 }
 
 
-void NonManifoldGeometry::Shell::GotoFirstLoop(void) throw() {
+void NonManifoldGeometry::Shell::GotoFirstLoop(void) {
     m_currentLoop = 0;
 
     if (m_shell != 0) {
@@ -285,7 +285,7 @@ void NonManifoldGeometry::Shell::GotoFirstLoop(void) throw() {
 }
 
 
-const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextLoop(void) throw() {
+const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextLoop(void) {
     if ((m_shell != 0) && (m_currentLoop != 0)) {
         NMG_CK_SHELL(m_shell);
 
@@ -299,7 +299,7 @@ const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextLoop(void)
 }
 
 
-NonManifoldGeometry::Loop NonManifoldGeometry::Shell::CurrentLoop(void) const throw() {
+NonManifoldGeometry::Loop NonManifoldGeometry::Shell::CurrentLoop(void) const {
     Loop ret;
 
     if (m_currentLoop != 0) {
@@ -312,7 +312,7 @@ NonManifoldGeometry::Loop NonManifoldGeometry::Shell::CurrentLoop(void) const th
 }
 
 
-void NonManifoldGeometry::Shell::GotoFirstEdge(void) throw() {
+void NonManifoldGeometry::Shell::GotoFirstEdge(void) {
     m_currentEdge = 0;
 
     if (m_shell != 0) {
@@ -326,7 +326,7 @@ void NonManifoldGeometry::Shell::GotoFirstEdge(void) throw() {
 }
 
 
-const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextEdge(void) throw() {
+const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextEdge(void) {
     if ((m_shell != 0) && (m_currentEdge != 0)) {
         NMG_CK_SHELL(m_shell);
 
@@ -340,7 +340,7 @@ const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextEdge(void)
 }
 
 
-NonManifoldGeometry::Edge NonManifoldGeometry::Shell::CurrentEdge(void) const throw() {
+NonManifoldGeometry::Edge NonManifoldGeometry::Shell::CurrentEdge(void) const {
     Edge ret;
 
     if (m_currentEdge != 0) {
@@ -353,7 +353,7 @@ NonManifoldGeometry::Edge NonManifoldGeometry::Shell::CurrentEdge(void) const th
 }
 
 
-void NonManifoldGeometry::Shell::GotoFirstVertex(void) throw() {
+void NonManifoldGeometry::Shell::GotoFirstVertex(void) {
     m_currentVertex = 0;
 
     if (m_shell != 0) {
@@ -364,14 +364,14 @@ void NonManifoldGeometry::Shell::GotoFirstVertex(void) throw() {
 }
 
 
-const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextVertex(void) throw() {
+const NonManifoldGeometry::Shell& NonManifoldGeometry::Shell::GotoNextVertex(void) {
     m_currentVertex = 0;
 
     return *this;
 }
 
 
-NonManifoldGeometry::Vertex NonManifoldGeometry::Shell::CurrentVertex(void) const throw() {
+NonManifoldGeometry::Vertex NonManifoldGeometry::Shell::CurrentVertex(void) const {
     Vertex ret;
 
     if (m_currentVertex != 0) {
@@ -388,7 +388,7 @@ NonManifoldGeometry::Vertex NonManifoldGeometry::Shell::CurrentVertex(void) cons
 // class NonManifoldGeometry::Region
 //
 
-void NonManifoldGeometry::Region::GotoFirstShell(void) throw() {
+void NonManifoldGeometry::Region::GotoFirstShell(void) {
     m_currentShell = 0;
 
     if (m_region != 0) {
@@ -402,7 +402,7 @@ void NonManifoldGeometry::Region::GotoFirstShell(void) throw() {
 }
 
 
-const NonManifoldGeometry::Region& NonManifoldGeometry::Region::operator++(void) throw() {
+const NonManifoldGeometry::Region& NonManifoldGeometry::Region::operator++(void) {
     if ((m_region != 0) && (m_currentShell != 0)) {
         NMG_CK_REGION(m_region);
 
@@ -416,7 +416,7 @@ const NonManifoldGeometry::Region& NonManifoldGeometry::Region::operator++(void)
 }
 
 
-NonManifoldGeometry::Shell NonManifoldGeometry::Region::CurrentShell(void) const throw() {
+NonManifoldGeometry::Shell NonManifoldGeometry::Region::CurrentShell(void) const {
     Shell ret;
 
     if (m_currentShell != 0) {
@@ -433,7 +433,7 @@ NonManifoldGeometry::Shell NonManifoldGeometry::Region::CurrentShell(void) const
 // class NonManifoldGeometry::RegionIterator
 //
 
-void NonManifoldGeometry::RegionIterator::GotoFirstRegion(void) throw() {
+void NonManifoldGeometry::RegionIterator::GotoFirstRegion(void) {
     m_currentRegion = 0;
 
     if (m_model != 0) {
@@ -447,7 +447,7 @@ void NonManifoldGeometry::RegionIterator::GotoFirstRegion(void) throw() {
 }
 
 
-const NonManifoldGeometry::RegionIterator& NonManifoldGeometry::RegionIterator::operator++(void) throw() {
+const NonManifoldGeometry::RegionIterator& NonManifoldGeometry::RegionIterator::operator++(void) {
     if ((m_model != 0) && (m_currentRegion != 0)) {
         NMG_CK_MODEL(m_model);
 
@@ -461,7 +461,7 @@ const NonManifoldGeometry::RegionIterator& NonManifoldGeometry::RegionIterator::
 }
 
 
-NonManifoldGeometry::Region NonManifoldGeometry::RegionIterator::CurrentRegion(void) const throw() {
+NonManifoldGeometry::Region NonManifoldGeometry::RegionIterator::CurrentRegion(void) const {
     Region ret;
 
     if (m_currentRegion != 0) {
@@ -478,12 +478,11 @@ NonManifoldGeometry::Region NonManifoldGeometry::RegionIterator::CurrentRegion(v
 // class NonManifoldGeometry
 //
 
-NonManifoldGeometry::NonManifoldGeometry(void) throw(bad_alloc) : Object(), m_internalp(0) {
+NonManifoldGeometry::NonManifoldGeometry(void) : Object(), m_internalp(0) {
     if (!BU_SETJUMP)
         m_internalp = nmg_mm();
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::NonManifoldGeometry::NonManifoldGeometry");
     }
 
     BU_UNSETJUMP;
@@ -493,21 +492,20 @@ NonManifoldGeometry::NonManifoldGeometry(void) throw(bad_alloc) : Object(), m_in
 NonManifoldGeometry::NonManifoldGeometry
 (
     const NonManifoldGeometry& original
-) throw(bad_alloc) : Object(original), m_internalp(0) {
+) : Object(original), m_internalp(0) {
     Copy(original);
 
     if (!BU_SETJUMP)
         m_internalp = nmg_clone_model(original.Internal());
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::NonManifoldGeometry::NonManifoldGeometry");
     }
 
     BU_UNSETJUMP;
 }
 
 
-NonManifoldGeometry::~NonManifoldGeometry(void) throw() {
+NonManifoldGeometry::~NonManifoldGeometry(void) {
     if (m_internalp != 0)
         nmg_km(m_internalp);
 }
@@ -516,7 +514,7 @@ NonManifoldGeometry::~NonManifoldGeometry(void) throw() {
 const NonManifoldGeometry& NonManifoldGeometry::operator=
 (
     const NonManifoldGeometry& original
-) throw(bad_alloc) {
+) {
     if (&original != this) {
         Copy(original);
 
@@ -529,7 +527,6 @@ const NonManifoldGeometry& NonManifoldGeometry::operator=
             nmgModel = nmg_clone_model(original.Internal());
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::NonManifoldGeometry::=");
         }
 
         BU_UNSETJUMP;
@@ -544,7 +541,7 @@ const NonManifoldGeometry& NonManifoldGeometry::operator=
 }
 
 
-void NonManifoldGeometry::Triangulate(void) throw(bad_alloc) {
+void NonManifoldGeometry::Triangulate(void) {
     bn_tol tolerance;
 
     tolerance.magic   = BN_TOL_MAGIC;
@@ -557,7 +554,6 @@ void NonManifoldGeometry::Triangulate(void) throw(bad_alloc) {
         nmg_triangulate_model(Internal(), &RTG.rtg_vlfree, &tolerance);
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::NonManifoldGeometry::Triangulate");
     }
 
     BU_UNSETJUMP;
@@ -567,7 +563,7 @@ void NonManifoldGeometry::Triangulate(void) throw(bad_alloc) {
 void NonManifoldGeometry::Triangulate
 (
     Shell& shellToTrinagulate
-) throw(bad_alloc) {
+) {
     bn_tol tolerance;
 
     tolerance.magic   = BN_TOL_MAGIC;
@@ -580,7 +576,6 @@ void NonManifoldGeometry::Triangulate
         nmg_triangulate_shell(const_cast<shell*>(shellToTrinagulate.m_shell), &RTG.rtg_vlfree, &tolerance);
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::NonManifoldGeometry::Triangulate");
     }
 
     BU_UNSETJUMP;
@@ -590,7 +585,7 @@ void NonManifoldGeometry::Triangulate
 void NonManifoldGeometry::Triangulate
 (
     Face& faceToTrinagulate
-) throw(bad_alloc) {
+) {
     bn_tol tolerance;
 
     tolerance.magic   = BN_TOL_MAGIC;
@@ -603,14 +598,13 @@ void NonManifoldGeometry::Triangulate
         nmg_triangulate_fu(const_cast<faceuse*>(faceToTrinagulate.m_face), &RTG.rtg_vlfree, &tolerance);
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::NonManifoldGeometry::Triangulate");
     }
 
     BU_UNSETJUMP;
 }
 
 
-NonManifoldGeometry::RegionIterator NonManifoldGeometry::Regions(void) const throw() {
+NonManifoldGeometry::RegionIterator NonManifoldGeometry::Regions(void) const {
     NonManifoldGeometry::RegionIterator ret;
     ret.m_model = Internal();
 
@@ -621,7 +615,7 @@ NonManifoldGeometry::RegionIterator NonManifoldGeometry::Regions(void) const thr
 const Object& NonManifoldGeometry::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const NonManifoldGeometry* nmg = dynamic_cast<const NonManifoldGeometry*>(&original);
     assert(nmg != 0);
 
@@ -632,22 +626,22 @@ const Object& NonManifoldGeometry::operator=
 }
 
 
-Object* NonManifoldGeometry::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* NonManifoldGeometry::Clone(void) const {
     return new NonManifoldGeometry(*this);
 }
 
 
-const char* NonManifoldGeometry::ClassName(void) throw() {
+const char* NonManifoldGeometry::ClassName(void) {
     return "NonManifoldGeometry";
 }
 
 
-const char* NonManifoldGeometry::Type(void) const throw() {
+const char* NonManifoldGeometry::Type(void) const {
     return ClassName();
 }
 
 
-bool NonManifoldGeometry::IsValid(void) const throw() {
+bool NonManifoldGeometry::IsValid(void) const {
     bool ret = Validate();
 
     if (ret) {
@@ -670,10 +664,10 @@ NonManifoldGeometry::NonManifoldGeometry
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-const model* NonManifoldGeometry::Internal(void) const throw() {
+const model* NonManifoldGeometry::Internal(void) const {
     const model* ret;
 
     if (m_ip != 0)
@@ -687,7 +681,7 @@ const model* NonManifoldGeometry::Internal(void) const throw() {
 }
 
 
-model* NonManifoldGeometry::Internal(void) throw() {
+model* NonManifoldGeometry::Internal(void) {
     model* ret;
 
     if (m_ip != 0)
