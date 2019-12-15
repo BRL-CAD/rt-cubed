@@ -64,7 +64,7 @@ static void PipeCopy
         wdb_pipe_pnt* ctlPoint;
         BU_GET(ctlPoint, wdb_pipe_pnt);
 
-        for(int i = 0; i < 3; i++) 
+        for(int i = 0; i < 3; i++)
             ctlPoint->pp_coord[i] = temp->pp_coord[i];
 
         ctlPoint->pp_id         = temp->pp_id;
@@ -94,7 +94,7 @@ static void PipeCopy
 }
 
 
-Pipe::Pipe(void) throw(bad_alloc) : Object() {
+Pipe::Pipe(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_pipe_internal);
         m_internalp->pipe_magic = RT_PIPE_INTERNAL_MAGIC;
@@ -103,7 +103,6 @@ Pipe::Pipe(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Pipe::Pipe");
     }
 
     BU_UNSETJUMP;
@@ -113,7 +112,7 @@ Pipe::Pipe(void) throw(bad_alloc) : Object() {
 Pipe::Pipe
 (
     const Pipe& original
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_pipe_internal);
         m_internalp->pipe_magic = RT_PIPE_INTERNAL_MAGIC;
@@ -123,7 +122,6 @@ Pipe::Pipe
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Pipe::Pipe");
     }
 
     BU_UNSETJUMP;
@@ -133,7 +131,7 @@ Pipe::Pipe
 Pipe::~Pipe
 (
     void
-) throw() {
+) {
     if (m_internalp != 0) {
         bu_list_free(&m_internalp->pipe_segs_head);
         bu_free(m_internalp, "BRLCAD::Pipe::~Pipe::m_internalp");
@@ -144,7 +142,7 @@ Pipe::~Pipe
 const Pipe& Pipe::operator=
 (
     const Pipe& original
-) throw(bad_alloc) {
+) {
     if(&original != this) {
         Copy(original);
 
@@ -152,7 +150,6 @@ const Pipe& Pipe::operator=
             PipeCopy(Internal(), original.Internal());
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLAD::Pipe::operator=");
         }
 
         BU_UNSETJUMP;
@@ -162,7 +159,7 @@ const Pipe& Pipe::operator=
 }
 
 
-Vector3D Pipe::ControlPoint::Point(void) const throw() {
+Vector3D Pipe::ControlPoint::Point(void) const {
     assert(m_pipe != 0);
 
     Vector3D ret;
@@ -177,7 +174,7 @@ Vector3D Pipe::ControlPoint::Point(void) const throw() {
 void Pipe::ControlPoint::SetPoint
 (
     const Vector3D& point
-) throw() {
+) {
     assert(m_pipe != 0);
 
     if(m_pipe != 0) {
@@ -187,7 +184,7 @@ void Pipe::ControlPoint::SetPoint
 }
 
 
-double Pipe::ControlPoint::InnerDiameter(void) const throw() {
+double Pipe::ControlPoint::InnerDiameter(void) const {
     assert(m_pipe != 0);
 
     double ret;
@@ -202,7 +199,7 @@ double Pipe::ControlPoint::InnerDiameter(void) const throw() {
 void Pipe::ControlPoint::SetInnerDiameter
 (
     double id
-) throw() {
+) {
     assert(m_pipe != 0);
 
     if(m_pipe != 0)
@@ -210,7 +207,7 @@ void Pipe::ControlPoint::SetInnerDiameter
 }
 
 
-double Pipe::ControlPoint::OuterDiameter(void) const throw() {
+double Pipe::ControlPoint::OuterDiameter(void) const {
     assert(m_pipe != 0);
 
     double ret;
@@ -225,7 +222,7 @@ double Pipe::ControlPoint::OuterDiameter(void) const throw() {
 void Pipe::ControlPoint::SetOuterDiameter
 (
     double od
-) throw() {
+) {
     assert(m_pipe != 0);
 
     if(m_pipe != 0)
@@ -233,7 +230,7 @@ void Pipe::ControlPoint::SetOuterDiameter
 }
 
 
-double Pipe::ControlPoint::BendRadius(void) const throw() {
+double Pipe::ControlPoint::BendRadius(void) const {
     assert(m_pipe != 0);
 
     double ret;
@@ -248,7 +245,7 @@ double Pipe::ControlPoint::BendRadius(void) const throw() {
 void Pipe::ControlPoint::SetBendRadius
 (
     double br
-) throw() {
+) {
     assert(m_pipe != 0);
 
     if(m_pipe != 0)
@@ -259,7 +256,7 @@ void Pipe::ControlPoint::SetBendRadius
 Pipe::ControlPoint Pipe::Get
 (
     size_t index
-) throw() {
+) {
     assert(index < Internal()->pipe_count);
 
     Pipe::ControlPoint ret;
@@ -284,7 +281,7 @@ Pipe::ControlPoint Pipe::AppendControlPoint
     double          innerDiameter,
     double          outerDiameter,
     double          bendRadius
-) throw(bad_alloc) {
+) {
     Pipe::ControlPoint ret;
 
     if(!BU_SETJUMP) {
@@ -304,7 +301,6 @@ Pipe::ControlPoint Pipe::AppendControlPoint
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLAD::Pipe::AppendControlPoint");
     }
 
     return ret;
@@ -318,7 +314,7 @@ Pipe::ControlPoint Pipe::InsertControlPoint
     double          innerDiameter,
     double          outerDiameter,
     double          bendRadius
-) throw(bad_alloc) {
+) {
     assert(index <= Internal()->pipe_count);
 
     Pipe::ControlPoint ret;
@@ -346,7 +342,6 @@ Pipe::ControlPoint Pipe::InsertControlPoint
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLAD::Pipe::InsertControlPoint");
         }
     }
 
@@ -357,7 +352,7 @@ Pipe::ControlPoint Pipe::InsertControlPoint
 void Pipe::DeleteControlPoint
 (
     size_t index
-) throw() {
+) {
     assert(index < Internal()->pipe_count);
 
     if (index < Internal()->pipe_count) {
@@ -377,7 +372,7 @@ void Pipe::DeleteControlPoint
 const Object& Pipe::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Pipe* pipe = dynamic_cast<const Pipe*>(&original);
     assert(pipe != 0);
 
@@ -388,22 +383,22 @@ const Object& Pipe::operator=
 }
 
 
-Object* Pipe::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Pipe::Clone(void) const {
     return new Pipe(*this);
 }
 
 
-const char* Pipe::ClassName(void) throw() {
+const char* Pipe::ClassName(void) {
     return "Pipe";
 }
 
 
-const char* Pipe::Type(void) const throw() {
+const char* Pipe::Type(void) const {
     return ClassName();
 }
 
 
-bool Pipe::IsValid(void) const throw() {
+bool Pipe::IsValid(void) const {
     const rt_pipe_internal* pipe = Internal();
 
     return ((bu_list_len(&pipe->pipe_segs_head) == pipe->pipe_count) &&
@@ -417,10 +412,10 @@ Pipe::Pipe
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-const rt_pipe_internal* Pipe::Internal(void) const throw() {
+const rt_pipe_internal* Pipe::Internal(void) const {
     const rt_pipe_internal* ret;
 
     if (m_ip != 0)
@@ -434,7 +429,7 @@ const rt_pipe_internal* Pipe::Internal(void) const throw() {
 }
 
 
-rt_pipe_internal* Pipe::Internal(void) throw() {
+rt_pipe_internal* Pipe::Internal(void) {
     rt_pipe_internal* ret;
 
     if (m_ip != 0)

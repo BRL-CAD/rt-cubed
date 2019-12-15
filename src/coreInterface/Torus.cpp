@@ -39,7 +39,7 @@
 using namespace BRLCAD;
 
 
-Torus::Torus(void) throw(bad_alloc) : Object() {
+Torus::Torus(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_tor_internal);
         m_internalp->magic = RT_TOR_INTERNAL_MAGIC;
@@ -48,7 +48,6 @@ Torus::Torus(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Torus::Torus");
     }
 
     BU_UNSETJUMP;
@@ -61,7 +60,7 @@ Torus::Torus
     const Vector3D& normalToTubeCenterLinePlane,
     double          tubeCenterLineRadius,
     double          tubeRadius
-) throw(bad_alloc) : Object() {
+) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_tor_internal);
         m_internalp->magic = RT_TOR_INTERNAL_MAGIC;
@@ -70,7 +69,6 @@ Torus::Torus
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Torus::Torus");
     }
 
     BU_UNSETJUMP;
@@ -80,21 +78,20 @@ Torus::Torus
 Torus::Torus
 (
     const Torus& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_tor_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_tor_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Torus::Torus");
     }
 
     BU_UNSETJUMP;
 }
 
 
-Torus::~Torus(void) throw() {
+Torus::~Torus(void) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::Torus::~Torus::m_internalp");
 }
@@ -103,7 +100,7 @@ Torus::~Torus(void) throw() {
 const Torus& Torus::operator =
 (
     const Torus& original
-) throw(bad_alloc) {
+) {
     if (&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_tor_internal));
@@ -113,7 +110,7 @@ const Torus& Torus::operator =
 }
 
 
-Vector3D Torus::Center(void) const throw() {
+Vector3D Torus::Center(void) const {
     return Vector3D(Internal()->v);
 }
 
@@ -121,12 +118,12 @@ Vector3D Torus::Center(void) const throw() {
 void Torus::SetCenter
 (
     const Vector3D& center
-) throw() {
+) {
     VMOVE(Internal()->v, center.coordinates);
 }
 
 
-Vector3D Torus::Normal(void) const throw(){
+Vector3D Torus::Normal(void) const{
     return Vector3D(Internal()->h);
 }
 
@@ -134,7 +131,7 @@ Vector3D Torus::Normal(void) const throw(){
 void Torus::SetNormal
 (
     const Vector3D& normal
-) throw() {
+) {
     assert(!VNEAR_ZERO(normal.coordinates, SMALL_FASTF));
 
     VMOVE(Internal()->h, normal.coordinates);
@@ -142,7 +139,7 @@ void Torus::SetNormal
 }
 
 
-double Torus::TubeCenterLineRadius(void) const throw() {
+double Torus::TubeCenterLineRadius(void) const {
     return Internal()->r_a;
 }
 
@@ -150,12 +147,12 @@ double Torus::TubeCenterLineRadius(void) const throw() {
 void Torus::SetTubeCenterLineRadius
 (
     double radius
-) throw(){
+){
     Internal()->r_a = radius;
 }
 
 
-double Torus::TubeRadius(void) const throw(){
+double Torus::TubeRadius(void) const{
     return Internal()->r_h;
 }
 
@@ -163,7 +160,7 @@ double Torus::TubeRadius(void) const throw(){
 void Torus::SetTubeRadius
 (
     double radius
-) throw() {
+) {
     Internal()->r_h = radius;
 }
 
@@ -174,7 +171,7 @@ void Torus::Set
     const Vector3D& normalToTubeCenterLinePlane,
     double          tubeCenterLineRadius,
     double          tubeRadius
-) throw() {
+) {
         rt_tor_internal* internalp = Internal();
 
         VMOVE(internalp->v, center.coordinates);
@@ -191,7 +188,7 @@ void Torus::Set
 const Object& Torus::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Torus* tor = dynamic_cast<const Torus*>(&original);
     assert(tor != 0);
 
@@ -202,22 +199,22 @@ const Object& Torus::operator=
 }
 
 
-Object* Torus::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Torus::Clone(void) const {
     return new Torus(*this);
 }
 
 
-const char* Torus::ClassName(void) throw() {
+const char* Torus::ClassName(void) {
     return "Torus";
 }
 
 
-const char* Torus::Type(void) const throw() {
+const char* Torus::Type(void) const {
     return ClassName();
 }
 
 
-bool Torus::IsValid(void) const throw() {
+bool Torus::IsValid(void) const {
     bool                   ret       = false;
     const rt_tor_internal* internalp = Internal();
 
@@ -237,10 +234,10 @@ Torus::Torus
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-const rt_tor_internal* Torus::Internal(void) const throw() {
+const rt_tor_internal* Torus::Internal(void) const {
     const rt_tor_internal* ret;
 
     if (m_ip != 0)
@@ -254,7 +251,7 @@ const rt_tor_internal* Torus::Internal(void) const throw() {
 }
 
 
-rt_tor_internal* Torus::Internal(void) throw() {
+rt_tor_internal* Torus::Internal(void) {
     rt_tor_internal* ret;
 
     if(m_ip != 0)

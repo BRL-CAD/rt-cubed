@@ -21,6 +21,7 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1.3)
 
+message("found cmake ${CMAKE_VERSION}")
 PROJECT(RT3)
 
 #Set path for cmake modules.

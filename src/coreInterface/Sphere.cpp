@@ -35,7 +35,7 @@
 using namespace BRLCAD;
 
 
-Sphere::Sphere(void) throw(bad_alloc) : Object() {
+Sphere::Sphere(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -43,7 +43,6 @@ Sphere::Sphere(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Sphere::Sphere");
     }
 
     BU_UNSETJUMP;
@@ -54,7 +53,7 @@ Sphere::Sphere
 (
     const Vector3D& center,
     double          radius
-) throw(bad_alloc) : Object() {
+) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ell_internal);
         m_internalp->magic = RT_ELL_INTERNAL_MAGIC;
@@ -62,7 +61,6 @@ Sphere::Sphere
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Sphere::Sphere");
     }
 
     BU_UNSETJUMP;
@@ -72,14 +70,13 @@ Sphere::Sphere
 Sphere::Sphere
 (
     const Sphere& original
-) throw(bad_alloc) : Object(original) {
+) : Object(original) {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_ell_internal);
         memcpy(m_internalp, original.Internal(), sizeof(rt_ell_internal));
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Sphere::Sphere");
     }
 
     BU_UNSETJUMP;
@@ -90,13 +87,13 @@ Sphere::Sphere
 Sphere::~Sphere
 (
     void
-) throw() {
+) {
     if (m_internalp != 0)
         bu_free(m_internalp, "BRLCAD::Sphere::~Sphere::m_internalp");
 }
 
 
-const Sphere& Sphere::operator=(const Sphere& original) throw(bad_alloc) {
+const Sphere& Sphere::operator=(const Sphere& original) {
     if (&original != this) {
         Copy(original);
         memcpy(Internal(), original.Internal(), sizeof(rt_ell_internal));
@@ -109,7 +106,7 @@ const Sphere& Sphere::operator=(const Sphere& original) throw(bad_alloc) {
 const Object& Sphere::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Sphere* sph = dynamic_cast<const Sphere*>(&original);
     assert(sph != 0);
 
@@ -120,22 +117,22 @@ const Object& Sphere::operator=
 }
 
 
-Vector3D Sphere::Center(void) const throw() {
+Vector3D Sphere::Center(void) const {
     return Vector3D(Internal()->v);
 }
 
 
-void Sphere::SetCenter(const Vector3D& center) throw(){
+void Sphere::SetCenter(const Vector3D& center){
     VMOVE(Internal()->v, center.coordinates);
 }
 
 
-double Sphere::Radius(void) const throw() {
+double Sphere::Radius(void) const {
     return MAGNITUDE(Internal()->a);;
 }
 
 
-void Sphere::SetRadius(double radius) throw() {
+void Sphere::SetRadius(double radius) {
     assert(radius > SMALL_FASTF);
 
     if (!NEAR_ZERO(radius, SMALL_FASTF)) {
@@ -152,7 +149,7 @@ void Sphere::Set
 (
     const Vector3D& center,
     double          radius
-) throw() {
+) {
     assert(radius > SMALL_FASTF);
 
     if (!NEAR_ZERO(radius, SMALL_FASTF)) {
@@ -166,22 +163,22 @@ void Sphere::Set
 }
 
 
-Object* Sphere::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Sphere::Clone(void) const {
     return new Sphere(*this);
 }
 
 
-const char* Sphere::ClassName(void) throw() {
+const char* Sphere::ClassName(void) {
     return "Sphere";
 }
 
 
-const char* Sphere::Type(void) const throw() {
+const char* Sphere::Type(void) const {
     return ClassName();
 }
 
 
-bool Sphere::IsValid(void) const throw() {
+bool Sphere::IsValid(void) const {
     bool   ret                        = false;
     const  rt_ell_internal* internalp = Internal();
     double dist                       = 0.0005 * 0.0005;
@@ -206,10 +203,10 @@ Sphere::Sphere
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}
 
 
-const rt_ell_internal* Sphere::Internal(void) const throw() {
+const rt_ell_internal* Sphere::Internal(void) const {
     const rt_ell_internal* ret;
 
     if (m_ip != 0)
@@ -223,7 +220,7 @@ const rt_ell_internal* Sphere::Internal(void) const throw() {
 }
 
 
-rt_ell_internal* Sphere::Internal(void) throw() {
+rt_ell_internal* Sphere::Internal(void) {
     rt_ell_internal* ret;
 
     if (m_ip != 0)

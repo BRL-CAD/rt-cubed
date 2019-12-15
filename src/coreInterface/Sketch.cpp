@@ -159,7 +159,7 @@ static void AppendSegment
 (
     void*               segment,
     rt_sketch_internal* sketch
-) throw(bad_alloc) {
+) {
     if (sketch->curve.count == 0) {
         sketch->curve.reverse = static_cast<int*>(bu_malloc(sizeof(int), "Sketch::AppendLine: reverse"));
         sketch->curve.segment = static_cast<void**>(bu_malloc(sizeof(void*), "Sketch::AppendLine: segment"));
@@ -184,7 +184,7 @@ static void InsertSegment
     void*               segment,
     size_t              index,
     rt_sketch_internal* sketch
-) throw(bad_alloc) {
+) {
     assert(sketch->curve.count > 0);
 
     sketch->curve.reverse = static_cast<int*>(bu_realloc(sketch->curve.reverse,
@@ -203,7 +203,7 @@ static void InsertSegment
 };
 
 
-Sketch::Sketch(void) throw(bad_alloc) : Object() {
+Sketch::Sketch(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_sketch_internal);
         m_internalp->magic = RT_SKETCH_INTERNAL_MAGIC;
@@ -212,7 +212,6 @@ Sketch::Sketch(void) throw(bad_alloc) : Object() {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Sphere::Sphere");
     }
 
     BU_UNSETJUMP;
@@ -222,12 +221,11 @@ Sketch::Sketch(void) throw(bad_alloc) : Object() {
 Sketch::Sketch
 (
     const Sketch& original
-) throw(bad_alloc) {
+) {
     if (!BU_SETJUMP)
         m_internalp = rt_copy_sketch(original.Internal());
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Sketch::Sketch");
     }
 
     BU_UNSETJUMP;
@@ -235,7 +233,7 @@ Sketch::Sketch
 };
 
 
-Sketch::~Sketch(void) throw() {
+Sketch::~Sketch(void) {
     if (m_internalp != 0) {
         if (m_internalp->verts != 0)
             bu_free(m_internalp->verts, "BRLCAD::Sketch::~Sketch::m_internalp->verts");
@@ -249,7 +247,7 @@ Sketch::~Sketch(void) throw() {
 
 const Sketch& Sketch::operator=(
     const Sketch& original
-) throw(bad_alloc) {
+) {
     if (&original != this) {
         Copy(original);
 
@@ -270,7 +268,6 @@ const Sketch& Sketch::operator=(
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::operator=");
         }
 
         BU_UNSETJUMP;
@@ -284,7 +281,7 @@ const Sketch& Sketch::operator=(
 // Segment class
 //
 
-void Sketch::Segment::Destroy(void) throw() {
+void Sketch::Segment::Destroy(void) {
     delete this;
 }
 
@@ -293,7 +290,7 @@ void Sketch::Segment::Destroy(void) throw() {
 // Line class
 //
 
-Sketch::Segment::SegmentType Sketch::Line::Type(void) const throw() {
+Sketch::Segment::SegmentType Sketch::Line::Type(void) const {
      Sketch::Segment::SegmentType ret = Sketch::Segment::Null;
 
     if ((m_lineSegment != 0) && (m_sketch != 0))
@@ -304,12 +301,12 @@ Sketch::Segment::SegmentType Sketch::Line::Type(void) const throw() {
 };
 
 
-Sketch::Segment* Sketch::Line::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Sketch::Segment* Sketch::Line::Clone(void) const {
     return new Line(*this);
 };
 
 
-Vector2D Sketch::Line::StartPoint(void) const throw() {
+Vector2D Sketch::Line::StartPoint(void) const {
     assert(m_lineSegment != 0);
     assert(m_sketch != 0);
 
@@ -325,7 +322,7 @@ Vector2D Sketch::Line::StartPoint(void) const throw() {
 void Sketch::Line::SetStartPoint
 (
         const Vector2D& startPoint
-) throw(bad_alloc) {
+) {
     assert(m_lineSegment != 0);
     assert(m_sketch != 0);
 
@@ -334,7 +331,6 @@ void Sketch::Line::SetStartPoint
             SwapVertex(m_lineSegment->start, startPoint.coordinates, *m_sketch);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::Line::SetStartPoint");
         }
 
         BU_UNSETJUMP;
@@ -342,7 +338,7 @@ void Sketch::Line::SetStartPoint
 };
 
 
-Vector2D Sketch::Line::EndPoint(void) const throw() {
+Vector2D Sketch::Line::EndPoint(void) const {
     assert(m_lineSegment != 0);
     assert(m_sketch != 0);
 
@@ -358,7 +354,7 @@ Vector2D Sketch::Line::EndPoint(void) const throw() {
 void Sketch::Line::SetEndPoint
 (
         const Vector2D& endPoint
-) throw(bad_alloc) {
+) {
     assert(m_lineSegment != 0);
     assert(m_sketch != 0);
 
@@ -367,7 +363,6 @@ void Sketch::Line::SetEndPoint
             SwapVertex(m_lineSegment->end, endPoint.coordinates, *m_sketch);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::Line::SetEndPoint");
         }
 
         BU_UNSETJUMP;
@@ -379,7 +374,7 @@ void Sketch::Line::SetEndPoint
 // CircularArc class
 //
 
-Vector3D Sketch::CircularArc::Center(void) const throw() {
+Vector3D Sketch::CircularArc::Center(void) const {
     Vector3D ret;
 
     assert(m_circularArcSegment != 0);
@@ -405,7 +400,7 @@ Vector3D Sketch::CircularArc::Center(void) const throw() {
 
 void Sketch::CircularArc::SetCenter(
     Vector2D c
-) throw(bad_alloc) {
+) {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
 
@@ -415,7 +410,6 @@ void Sketch::CircularArc::SetCenter(
             SwapVertex(m_circularArcSegment->center, c.coordinates, *m_sketch);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::CircularArc::SetCenter");
         }
 
         BU_UNSETJUMP;
@@ -423,7 +417,7 @@ void Sketch::CircularArc::SetCenter(
 }
 
 
-Sketch::Segment::SegmentType Sketch::CircularArc::Type(void) const throw() {
+Sketch::Segment::SegmentType Sketch::CircularArc::Type(void) const {
      Sketch::Segment::SegmentType ret = Sketch::Segment::Null;
 
     if ((m_circularArcSegment != 0) && (m_sketch != 0))
@@ -433,12 +427,12 @@ Sketch::Segment::SegmentType Sketch::CircularArc::Type(void) const throw() {
 
 };
 
-Sketch::Segment* Sketch::CircularArc::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Sketch::Segment* Sketch::CircularArc::Clone(void) const {
     return new CircularArc(*this);
 };
 
 
-Vector2D Sketch::CircularArc::StartPoint(void) const throw() {
+Vector2D Sketch::CircularArc::StartPoint(void) const {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
 
@@ -454,7 +448,7 @@ Vector2D Sketch::CircularArc::StartPoint(void) const throw() {
 void Sketch::CircularArc::SetStartPoint
 (
         const Vector2D& startPoint
-) throw(bad_alloc) {
+) {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
 
@@ -464,7 +458,6 @@ void Sketch::CircularArc::SetStartPoint
             SwapVertex(m_circularArcSegment->start, startPoint.coordinates, *m_sketch);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::CircularArc::SetStartPoint");
         }
 
         BU_UNSETJUMP;
@@ -472,7 +465,7 @@ void Sketch::CircularArc::SetStartPoint
 };
 
 
-Vector2D Sketch::CircularArc::EndPoint(void) const throw() {
+Vector2D Sketch::CircularArc::EndPoint(void) const {
     return Vector2D(m_sketch->verts[m_circularArcSegment->end]);
 };
 
@@ -480,7 +473,7 @@ Vector2D Sketch::CircularArc::EndPoint(void) const throw() {
 void Sketch::CircularArc::SetEndPoint
 (
         const Vector2D& endPoint
-) throw(bad_alloc) {
+) {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
 
@@ -490,7 +483,6 @@ void Sketch::CircularArc::SetEndPoint
             SwapVertex(m_circularArcSegment->end, endPoint.coordinates, *m_sketch);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::CircularArc::SetEndPoint");
         }
 
         BU_UNSETJUMP;
@@ -498,7 +490,7 @@ void Sketch::CircularArc::SetEndPoint
 };
 
 
-double Sketch::CircularArc::Radius(void) const throw() {
+double Sketch::CircularArc::Radius(void) const {
    assert(m_circularArcSegment != 0);
    assert(m_sketch != 0);
    return m_circularArcSegment->radius;
@@ -508,14 +500,14 @@ double Sketch::CircularArc::Radius(void) const throw() {
 void Sketch::CircularArc::SetRadius
 (
     double Radius
-) throw() {
+) {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
     m_circularArcSegment->radius =  Radius;
 };
 
 
-bool Sketch::CircularArc::CenterIsLeft(void) const throw() {
+bool Sketch::CircularArc::CenterIsLeft(void) const {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
     return m_circularArcSegment->center_is_left;
@@ -525,14 +517,14 @@ bool Sketch::CircularArc::CenterIsLeft(void) const throw() {
 void Sketch::CircularArc::SetCenterIsLeft
 (
     bool centerIsLeft
-    ) throw() {
+    ) {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
     m_circularArcSegment->center_is_left = centerIsLeft;
 };
 
 
-bool Sketch::CircularArc::ClockwiseOriented(void) const throw() {
+bool Sketch::CircularArc::ClockwiseOriented(void) const {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
     return this->m_circularArcSegment->orientation;
@@ -542,7 +534,7 @@ bool Sketch::CircularArc::ClockwiseOriented(void) const throw() {
 void Sketch::CircularArc::SetClockwiseOriented
 (
     bool clockwiseOriented
-) throw() {
+) {
     assert(m_circularArcSegment != 0);
     assert(m_sketch != 0);
     m_circularArcSegment->orientation = clockwiseOriented;
@@ -553,7 +545,7 @@ void Sketch::CircularArc::SetClockwiseOriented
 // Nurb class
 //
 
-Sketch::Segment::SegmentType Sketch::Nurb::Type(void) const throw() {
+Sketch::Segment::SegmentType Sketch::Nurb::Type(void) const {
      Sketch::Segment::SegmentType ret = Sketch::Segment::Null;
 
     if ((m_nurbSegment != 0) && (m_sketch != 0))
@@ -562,12 +554,12 @@ Sketch::Segment::SegmentType Sketch::Nurb::Type(void) const throw() {
 };
 
 
-Sketch::Segment* Sketch::Nurb::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Sketch::Segment* Sketch::Nurb::Clone(void) const {
     return new Nurb(*this);
 };
 
 
-Vector2D Sketch::Nurb::StartPoint(void) const throw() {
+Vector2D Sketch::Nurb::StartPoint(void) const {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     Vector2D ret;
@@ -581,7 +573,7 @@ Vector2D Sketch::Nurb::StartPoint(void) const throw() {
 void Sketch::Nurb::SetStartPoint
 (
         const Vector2D& startPoint
-) throw(bad_alloc) {
+) {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
 
@@ -590,7 +582,6 @@ void Sketch::Nurb::SetStartPoint
             SwapVertex(m_nurbSegment->ctl_points[0], startPoint.coordinates, *m_sketch);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::Nurb::SetStartPoint");
         }
 
         BU_UNSETJUMP;
@@ -598,7 +589,7 @@ void Sketch::Nurb::SetStartPoint
 };
 
 
-Vector2D Sketch::Nurb::EndPoint(void) const throw() {
+Vector2D Sketch::Nurb::EndPoint(void) const {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     Vector2D ret;
@@ -611,7 +602,7 @@ Vector2D Sketch::Nurb::EndPoint(void) const throw() {
 void Sketch::Nurb::SetEndPoint
 (
         const Vector2D& endPoint
-) throw(bad_alloc) {
+) {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
 
@@ -620,7 +611,6 @@ void Sketch::Nurb::SetEndPoint
             SwapVertex(m_nurbSegment->ctl_points[m_nurbSegment->c_size], endPoint.coordinates, *m_sketch);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::Nurb::SetEndPoint");
         }
 
         BU_UNSETJUMP;
@@ -628,14 +618,14 @@ void Sketch::Nurb::SetEndPoint
 };
 
 
-size_t Sketch::Nurb::Order(void) const throw() {
+size_t Sketch::Nurb::Order(void) const {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     return m_nurbSegment->order;
 };
 
 
-bool  Sketch::Nurb::IsRational(void) const throw() {
+bool  Sketch::Nurb::IsRational(void) const {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     if(m_nurbSegment->weights)
@@ -644,7 +634,7 @@ bool  Sketch::Nurb::IsRational(void) const throw() {
 };
 
 
-size_t Sketch::Nurb::NumberOfKnots(void) const throw() {
+size_t Sketch::Nurb::NumberOfKnots(void) const {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     return m_nurbSegment->k.k_size;
@@ -654,14 +644,14 @@ size_t Sketch::Nurb::NumberOfKnots(void) const throw() {
 double Sketch::Nurb::Knot
 (
     size_t index
-) const throw() {
+) const {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     return m_nurbSegment->k.knots[index];
 };
 
 
-size_t Sketch::Nurb::NumberOfControlPoints(void)const throw() {
+size_t Sketch::Nurb::NumberOfControlPoints(void)const {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     return this->m_nurbSegment->c_size;
@@ -671,7 +661,7 @@ size_t Sketch::Nurb::NumberOfControlPoints(void)const throw() {
 Vector2D Sketch::Nurb::ControlPoint
 (
     size_t index
-) const throw() {
+) const {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     Vector2D ret;
@@ -684,7 +674,7 @@ Vector2D Sketch::Nurb::ControlPoint
 double Sketch::Nurb::ControlPointWeight
 (
     size_t index
-) const throw() {
+) const {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     if(!IsRational())
@@ -696,7 +686,7 @@ double Sketch::Nurb::ControlPointWeight
 void Sketch::Nurb::SetOrder
 (
     size_t order
-) throw() {
+) {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
     m_nurbSegment->order = order;
@@ -706,7 +696,7 @@ void Sketch::Nurb::SetOrder
 void Sketch::Nurb::AddKnot
 (
     double knot
-) throw() {
+) {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
 
@@ -721,7 +711,7 @@ void Sketch::Nurb::AddKnot
 void Sketch::Nurb::AddControlPoint
 (
     const Vector2D& point
-) throw() {
+) {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
 
@@ -745,7 +735,7 @@ void Sketch::Nurb::AddControlPointWeight
 (
     const Vector2D& point,
     double          weight
-) throw() {
+) {
     assert(m_nurbSegment != 0);
     assert(m_sketch != 0);
 
@@ -762,7 +752,7 @@ void Sketch::Nurb::AddControlPointWeight
 // Bezier class
 //
 
- Sketch::Segment::SegmentType Sketch::Bezier::Type(void) const throw() {
+ Sketch::Segment::SegmentType Sketch::Bezier::Type(void) const {
      Sketch::Segment::SegmentType ret = Sketch::Segment::Null;
 
     if ((m_bezierSegment != 0) && (m_sketch != 0))
@@ -773,12 +763,12 @@ void Sketch::Nurb::AddControlPointWeight
 };
 
 
-Sketch::Segment* Sketch::Bezier::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Sketch::Segment* Sketch::Bezier::Clone(void) const {
     return new Bezier(*this);
 };
 
 
-Vector2D Sketch::Bezier::StartPoint(void) const throw() {
+Vector2D Sketch::Bezier::StartPoint(void) const {
     assert(m_bezierSegment != 0);
     assert(m_sketch != 0);
 
@@ -792,7 +782,7 @@ Vector2D Sketch::Bezier::StartPoint(void) const throw() {
 void Sketch::Bezier::SetStartPoint
 (
         const Vector2D& startPoint
-) throw(bad_alloc) {
+) {
     assert(m_bezierSegment != 0);
     assert(m_sketch != 0);
 
@@ -801,7 +791,6 @@ void Sketch::Bezier::SetStartPoint
             SwapVertex(m_bezierSegment->ctl_points[0], startPoint.coordinates, *m_sketch);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::Bezier::SetStartPoint");
         }
 
         BU_UNSETJUMP;
@@ -809,7 +798,7 @@ void Sketch::Bezier::SetStartPoint
 };
 
 
-Vector2D Sketch::Bezier::EndPoint(void) const throw() {
+Vector2D Sketch::Bezier::EndPoint(void) const {
     return Vector2D(m_sketch->verts[m_bezierSegment->ctl_points[m_bezierSegment->degree]]);
 };
 
@@ -817,7 +806,7 @@ Vector2D Sketch::Bezier::EndPoint(void) const throw() {
 void Sketch::Bezier::SetEndPoint
 (
         const Vector2D& endPoint
-) throw(bad_alloc) {
+) {
     assert(m_bezierSegment != 0);
     assert(m_sketch != 0);
 
@@ -826,7 +815,6 @@ void Sketch::Bezier::SetEndPoint
             SwapVertex(m_bezierSegment->ctl_points[m_bezierSegment->degree], endPoint.coordinates, *m_sketch);
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::Bezier::SetEndPoint");
         }
 
         BU_UNSETJUMP;
@@ -834,7 +822,7 @@ void Sketch::Bezier::SetEndPoint
 };
 
 
-size_t Sketch::Bezier::Degree(void) const throw() {
+size_t Sketch::Bezier::Degree(void) const {
     assert(m_bezierSegment != 0);
     assert(m_sketch != 0);
 
@@ -844,7 +832,7 @@ size_t Sketch::Bezier::Degree(void) const throw() {
 
 Vector2D Sketch::Bezier::ControlPoint(
     size_t index
-) const throw() {
+) const {
     assert(m_bezierSegment != 0);
     assert(m_sketch != 0);
 
@@ -858,7 +846,7 @@ Vector2D Sketch::Bezier::ControlPoint(
 void Sketch::Bezier::AddControlPoint
 (
     const Vector2D& Point
-) throw() {
+) {
     assert(m_bezierSegment != 0);
     assert(m_sketch != 0);
 
@@ -883,7 +871,7 @@ void Sketch::Get
 (
     size_t                index,
     ConstSegmentCallback& callback
-) const throw() {
+) const {
     if(Internal() != 0) {
         if(!BU_SETJUMP) {
             const uint32_t *magic = reinterpret_cast<uint32_t*>(Internal()->curve.segment[index]);
@@ -925,7 +913,7 @@ void Sketch::Get
 (
     size_t           index,
     SegmentCallback& callback
-) throw() {
+) {
     if(Internal() != 0) {
         if(!BU_SETJUMP) {
             const uint32_t *magic = reinterpret_cast<uint32_t*>(Internal()->curve.segment[index]);
@@ -965,18 +953,18 @@ void Sketch::Get
 Sketch::Segment* Sketch::Get
 (
     size_t index
-) const throw(bad_alloc, std::bad_alloc) {
+) const {
     class SegmentCallbackIntern: public ConstSegmentCallback {
     public:
         SegmentCallbackIntern(void) : ConstSegmentCallback(), m_segment(0) {}
-        virtual ~SegmentCallbackIntern(void) throw() {}
+        virtual ~SegmentCallbackIntern(void) {}
         virtual void operator()(const Segment& segment) {
             try {
                 m_segment = segment.Clone();
             }
             catch(std::bad_alloc&) {}
         }
-        Sketch::Segment* GetSegment(void) const throw() {
+        Sketch::Segment* GetSegment(void) const {
             return m_segment;
         };
 
@@ -990,7 +978,7 @@ Sketch::Segment* Sketch::Get
 };
 
 
-Sketch::Line* Sketch::AppendLine(void) throw(bad_alloc, std::bad_alloc) {
+Sketch::Line* Sketch::AppendLine(void) {
     Sketch::Line* ret = 0;
 
     if (!BU_SETJUMP) {
@@ -1011,7 +999,6 @@ Sketch::Line* Sketch::AppendLine(void) throw(bad_alloc, std::bad_alloc) {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Sketch::AppendLine");
     }
 
     BU_UNSETJUMP;
@@ -1023,7 +1010,7 @@ Sketch::Line* Sketch::AppendLine(void) throw(bad_alloc, std::bad_alloc) {
 Sketch::Line* Sketch::InsertLine
 (
         size_t index
-) throw(bad_alloc, std::bad_alloc) {
+) {
     Sketch::Line*       ret    = 0;
     rt_sketch_internal* sketch = Internal();
 
@@ -1045,7 +1032,6 @@ Sketch::Line* Sketch::InsertLine
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::InsertLine");
         }
 
         BU_UNSETJUMP;
@@ -1055,7 +1041,7 @@ Sketch::Line* Sketch::InsertLine
 };
 
 
-Sketch::CircularArc* Sketch::AppendArc(void) throw(bad_alloc, std::bad_alloc) {
+Sketch::CircularArc* Sketch::AppendArc(void) {
     Sketch::CircularArc* ret = 0;
 
     if (!BU_SETJUMP) {
@@ -1076,7 +1062,6 @@ Sketch::CircularArc* Sketch::AppendArc(void) throw(bad_alloc, std::bad_alloc) {
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::AppendArc");
         }
 
         BU_UNSETJUMP;
@@ -1088,7 +1073,7 @@ Sketch::CircularArc* Sketch::AppendArc(void) throw(bad_alloc, std::bad_alloc) {
 Sketch::CircularArc* Sketch::InsertArc
 (
         size_t index
-) throw(bad_alloc, std::bad_alloc) {
+) {
     Sketch::CircularArc*       ret    = 0;
     rt_sketch_internal* sketch = Internal();
 
@@ -1110,7 +1095,6 @@ Sketch::CircularArc* Sketch::InsertArc
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::InsertLine");
         }
 
         BU_UNSETJUMP;
@@ -1120,7 +1104,7 @@ Sketch::CircularArc* Sketch::InsertArc
 };
 
 
-Sketch::Nurb* Sketch::AppendNurb(void) throw(bad_alloc, std::bad_alloc) {
+Sketch::Nurb* Sketch::AppendNurb(void) {
     Sketch::Nurb* ret = 0;
     if (!BU_SETJUMP) {
         rt_sketch_internal* sketch = Internal();
@@ -1140,7 +1124,6 @@ Sketch::Nurb* Sketch::AppendNurb(void) throw(bad_alloc, std::bad_alloc) {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Sketch::AppendLine");
     }
 
     BU_UNSETJUMP;
@@ -1152,7 +1135,7 @@ Sketch::Nurb* Sketch::AppendNurb(void) throw(bad_alloc, std::bad_alloc) {
 Sketch::Nurb* Sketch::InsertNurb
 (
         size_t index
-) throw(bad_alloc, std::bad_alloc) {
+) {
     Sketch::Nurb*       ret    = 0;
     rt_sketch_internal* sketch = Internal();
     if (index < sketch->curve.count) {
@@ -1173,7 +1156,6 @@ Sketch::Nurb* Sketch::InsertNurb
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::InsertNurb");
         }
 
         BU_UNSETJUMP;
@@ -1183,7 +1165,7 @@ Sketch::Nurb* Sketch::InsertNurb
 };
 
 
-Sketch::Bezier* Sketch::AppendBezier(void) throw(bad_alloc, std::bad_alloc) {
+Sketch::Bezier* Sketch::AppendBezier(void) {
     Sketch::Bezier* ret = 0;
     if (!BU_SETJUMP) {
     rt_sketch_internal* sketch = Internal();
@@ -1202,7 +1184,6 @@ Sketch::Bezier* Sketch::AppendBezier(void) throw(bad_alloc, std::bad_alloc) {
     }
     else {
         BU_UNSETJUMP;
-        throw bad_alloc("BRLCAD::Sketch::AppendLine");
     }
 
     BU_UNSETJUMP;
@@ -1214,7 +1195,7 @@ Sketch::Bezier* Sketch::AppendBezier(void) throw(bad_alloc, std::bad_alloc) {
 Sketch::Bezier* Sketch::InsertBezier
 (
     size_t index
-) throw(bad_alloc, std::bad_alloc) {
+) {
     Sketch::Bezier*       ret    = 0;
     rt_sketch_internal* sketch = Internal();
     if (index < sketch->curve.count) {
@@ -1235,7 +1216,6 @@ Sketch::Bezier* Sketch::InsertBezier
         }
         else {
             BU_UNSETJUMP;
-            throw bad_alloc("BRLCAD::Sketch::InsertNurb");
         }
         BU_UNSETJUMP;
     }
@@ -1294,7 +1274,7 @@ static void FreeSegment
 void Sketch::DeleteSegment
 (
     size_t index
-) throw(bad_alloc) {
+) {
     assert(index < Internal()->curve.count);
 
     if(index < Internal()->curve.count)
@@ -1318,7 +1298,7 @@ void Sketch::DeleteSegment
 };
 
 
-int Sketch::NumberOfSegments(void) const throw() {
+int Sketch::NumberOfSegments(void) const {
     return Internal()->curve.count;
 };
 
@@ -1371,7 +1351,7 @@ void Sketch::SetEmbeddingPlaneOrigin
 const Object& Sketch::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Sketch* sketch = dynamic_cast<const Sketch*>(&original);
     assert(sketch != 0);
 
@@ -1382,22 +1362,22 @@ const Object& Sketch::operator=
 };
 
 
-Object* Sketch::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Sketch::Clone(void) const {
     return new Sketch(*this);
 };
 
 
-const char* Sketch::ClassName(void) throw() {
+const char* Sketch::ClassName(void) {
     return "Sketch";
 };
 
 
-const char* Sketch::Type(void) const throw() {
+const char* Sketch::Type(void) const {
     return ClassName();
 };
 
 
-rt_sketch_internal* Sketch::Internal(void) throw() {
+rt_sketch_internal* Sketch::Internal(void) {
     rt_sketch_internal* ret;
 
     if (m_ip != 0)
@@ -1411,7 +1391,7 @@ rt_sketch_internal* Sketch::Internal(void) throw() {
 };
 
 
-const rt_sketch_internal* Sketch::Internal(void) const throw() {
+const rt_sketch_internal* Sketch::Internal(void) const {
     const rt_sketch_internal* ret;
 
     if (m_ip != 0)
@@ -1425,7 +1405,7 @@ const rt_sketch_internal* Sketch::Internal(void) const throw() {
 }
 
 
-bool Sketch::IsValid(void) const throw() {
+bool Sketch::IsValid(void) const {
     if (rt_check_curve(&Internal()->curve, Internal(), 1))
         return false;
     return true;
@@ -1438,4 +1418,4 @@ Sketch::Sketch
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip), m_internalp(0) {}
+) : Object(resp, pDir, ip, dbip), m_internalp(0) {}

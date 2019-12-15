@@ -39,53 +39,53 @@ struct rt_tor_internal;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Torus : public Object {
     public:
-        Torus(void) throw(bad_alloc);                       ///< constructs a torus at origin with unit tubeRadius, radius from center to tube-center of 2 and unit normal pointing in positive z direction
+        Torus(void);                       ///< constructs a torus at origin with unit tubeRadius, radius from center to tube-center of 2 and unit normal pointing in positive z direction
         Torus(const Vector3D& center,
               const Vector3D& normalToTubeCenterLinePlane,
               double          tubeCenterLineRadius,
-              double          tubeRadius) throw(bad_alloc); ///< center, normal of unit length (will be unitized of not of unit length), radius and radius of tube
-        Torus(const Torus& original) throw(bad_alloc);
-        virtual ~Torus(void) throw();
+              double          tubeRadius); ///< center, normal of unit length (will be unitized of not of unit length), radius and radius of tube
+        Torus(const Torus& original);
+        virtual ~Torus(void);
 
-        const Torus&          operator=(const Torus& original) throw(bad_alloc);
+        const Torus&          operator=(const Torus& original);
 
-        Vector3D              Center(void) const throw();
-        void                  SetCenter(const Vector3D& center) throw();
+        Vector3D              Center(void) const;
+        void                  SetCenter(const Vector3D& center);
 
-        Vector3D              Normal(void) const throw();
-        void                  SetNormal(const Vector3D& normal) throw();
+        Vector3D              Normal(void) const;
+        void                  SetNormal(const Vector3D& normal);
 
-        double                TubeCenterLineRadius(void) const throw();
-        void                  SetTubeCenterLineRadius(double radius) throw();
+        double                TubeCenterLineRadius(void) const;
+        void                  SetTubeCenterLineRadius(double radius);
 
-        double                TubeRadius(void) const throw();
-        void                  SetTubeRadius(double radius) throw();
+        double                TubeRadius(void) const;
+        void                  SetTubeRadius(double radius);
 
         void                  Set(const Vector3D& center,
                                   const Vector3D& normalToTubeCenterLinePlane,
                                   double          tubeCenterLineRadius,
-                                  double          tubeRadius) throw();
+                                  double          tubeRadius);
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(bad_alloc);
-        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc);
-        static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const throw();
-        virtual bool          IsValid(void) const throw(); ///< checks if normal has length 1, if radii are positive and if tubeCenterLineRadius is at least tubeRadius
+        virtual const Object& operator=(const Object& original);
+        virtual Object*       Clone(void) const;
+        static const char*    ClassName(void);
+        virtual const char*   Type(void) const;
+        virtual bool          IsValid(void) const; ///< checks if normal has length 1, if radii are positive and if tubeCenterLineRadius is at least tubeRadius
 
     protected:
         Torus(resource*       resp,
               directory*      pDir,
               rt_db_internal* ip,
-              db_i*           dbip) throw();
+              db_i*           dbip);
 
         friend class ConstDatabase;
 
     private:
         rt_tor_internal* m_internalp;
 
-        const rt_tor_internal* Internal(void) const throw();
-        rt_tor_internal*       Internal(void) throw();
+        const rt_tor_internal* Internal(void) const;
+        rt_tor_internal*       Internal(void);
 
         friend class Database;
     };

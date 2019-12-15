@@ -35,33 +35,33 @@ struct rt_ell_internal;
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Sphere : public Object {
     public:
-        Sphere(void) throw(bad_alloc);
+        Sphere(void);
         Sphere(const  Vector3D& center,
-               double radius)throw(bad_alloc);
-        Sphere(const Sphere& original) throw(bad_alloc);
-        virtual ~Sphere(void) throw();
+               double radius);
+        Sphere(const Sphere& original);
+        virtual ~Sphere(void);
 
-        const Sphere&         operator=(const Sphere& original) throw(bad_alloc);
+        const Sphere&         operator=(const Sphere& original);
 
-        Vector3D              Center(void) const throw();
-        void                  SetCenter(const Vector3D& normal) throw();
-        double                Radius(void) const throw();
-        void                  SetRadius(double distance) throw();
+        Vector3D              Center(void) const;
+        void                  SetCenter(const Vector3D& normal);
+        double                Radius(void) const;
+        void                  SetRadius(double distance);
         void                  Set(const Vector3D& center,
-                                  double          radius) throw();
+                                  double          radius);
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(bad_alloc);
-        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc);
-        static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const throw();
-        virtual bool          IsValid(void) const throw();
+        virtual const Object& operator=(const Object& original);
+        virtual Object*       Clone(void) const;
+        static const char*    ClassName(void);
+        virtual const char*   Type(void) const;
+        virtual bool          IsValid(void) const;
 
     protected:
         Sphere(resource*       resp,
                directory*      pDir,
                rt_db_internal* ip,
-               db_i*           dbip = 0) throw();
+               db_i*           dbip = 0);
 
         friend class ConstDatabase;
 
@@ -69,8 +69,8 @@ namespace BRLCAD {
         // holds Objects's content if not connected to a database
         rt_ell_internal* m_internalp;
 
-        const rt_ell_internal* Internal(void) const throw();
-        rt_ell_internal*       Internal(void) throw();
+        const rt_ell_internal* Internal(void) const;
+        rt_ell_internal*       Internal(void);
 
         friend class Database;
     };

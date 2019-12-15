@@ -36,17 +36,17 @@
 namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Unknown : public Object {
     public:
-        Unknown(const Unknown& original) throw(bad_alloc);
-        virtual ~Unknown(void) throw();
+        Unknown(const Unknown& original);
+        virtual ~Unknown(void);
 
-        const Unknown&        operator=(const Unknown& original) throw(bad_alloc);
+        const Unknown&        operator=(const Unknown& original);
 
         // inherited from BRLCAD::Object
-        virtual const Object& operator=(const Object& original) throw(bad_alloc);
-        virtual Object*       Clone(void) const throw(bad_alloc, std::bad_alloc);
-        static const char*    ClassName(void) throw();
-        virtual const char*   Type(void) const throw();
-        virtual bool          IsValid(void) const throw();
+        virtual const Object& operator=(const Object& original);
+        virtual Object*       Clone(void) const;
+        static const char*    ClassName(void);
+        virtual const char*   Type(void) const;
+        virtual bool          IsValid(void) const;
 
         // there is nothing special with BRLCAD::Unknown
 
@@ -54,7 +54,7 @@ namespace BRLCAD {
         Unknown(resource*       resp,
                 directory*      pDir,
                 rt_db_internal* ip,
-                db_i*           dbip = 0) throw();
+                db_i*           dbip = 0);
 
         friend class ConstDatabase;
 

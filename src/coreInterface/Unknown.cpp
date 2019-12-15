@@ -38,16 +38,16 @@ using namespace BRLCAD;
 Unknown::Unknown
 (
     const Unknown& original
-) throw(bad_alloc) : Object(original) {}
+) : Object(original) {}
 
 
-Unknown::~Unknown(void) throw() {}
+Unknown::~Unknown(void) {}
 
 
 const Unknown& Unknown::operator=
 (
     const Unknown& original
-) throw(bad_alloc) {
+) {
     Copy(original);
 
     return *this;
@@ -57,7 +57,7 @@ const Unknown& Unknown::operator=
 const Object& Unknown::operator=
 (
     const Object& original
-) throw(bad_alloc) {
+) {
     const Unknown* unknown = dynamic_cast<const Unknown*>(&original);
     assert(unknown != 0);
 
@@ -68,22 +68,22 @@ const Object& Unknown::operator=
 }
 
 
-Object* Unknown::Clone(void) const throw(bad_alloc, std::bad_alloc) {
+Object* Unknown::Clone(void) const {
     return new Unknown(*this);
 }
 
 
-const char* Unknown::ClassName(void) throw() {
+const char* Unknown::ClassName(void) {
     return "Unknown";
 }
 
 
-const char* Unknown::Type(void) const throw() {
+const char* Unknown::Type(void) const {
     return ClassName();
 }
 
 
-bool Unknown::IsValid(void) const throw() {
+bool Unknown::IsValid(void) const {
     return Validate(); // the opportunistic solution
 }
 
@@ -94,4 +94,4 @@ Unknown::Unknown
     directory*      pDir,
     rt_db_internal* ip,
     db_i*           dbip
-) throw() : Object(resp, pDir, ip, dbip) {}
+) : Object(resp, pDir, ip, dbip) {}
