@@ -51,17 +51,17 @@ namespace BRLCAD {
 
 	class MinimalDatabase : public MemoryDatabase {
 	public:
-		MinimalDatabase() throw(bad_alloc);
-		MinimalDatabase(std::string filePath) throw(bad_alloc);
-		virtual ~MinimalDatabase(void) throw();
+		MinimalDatabase();
+		MinimalDatabase(std::string filePath);
+		virtual ~MinimalDatabase(void);
 
-		bool Load(const std::string name) throw() ;
-		bool Load(const char* name) throw() ;
-		bool Load() throw() ;
+		bool Load(const std::string name);
+		bool Load(const char* name);
+		bool Load();
 
-		bool Save(const std::string name) throw() ;
-		bool Save(const char* name) throw() ;
-		bool Save() throw() ;
+		bool Save(const std::string name);
+		bool Save(const char* name);
+		bool Save();
 
 
 		std::string getFilePath();

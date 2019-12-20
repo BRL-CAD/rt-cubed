@@ -36,15 +36,15 @@
 
 using namespace BRLCAD;
 
-MinimalDatabase::MinimalDatabase() throw(bad_alloc)
+MinimalDatabase::MinimalDatabase()
 		: MemoryDatabase(), currentFilePath("") {}
 
-MinimalDatabase::MinimalDatabase(std::string filePath) throw(bad_alloc)
+MinimalDatabase::MinimalDatabase(std::string filePath)
 		: MemoryDatabase(), currentFilePath(filePath) {
 	this->Load();
 }
 
-MinimalDatabase::~MinimalDatabase(void) throw() {
+MinimalDatabase::~MinimalDatabase(void) {
     if (m_wdbp != 0) {
         if (!BU_SETJUMP)
             wdb_close(m_wdbp);
@@ -343,33 +343,33 @@ MinimalDatabase::getFilePath() {
 }
 
 bool
-MinimalDatabase::Load() throw() {
+MinimalDatabase::Load() {
 	return this->Load(this->currentFilePath);
 }
 
 bool
-MinimalDatabase::Load(const std::string name) throw() {
+MinimalDatabase::Load(const std::string name) {
 	return this->Load(name.c_str());
 }
 
 bool
-MinimalDatabase::Load(const char* name) throw() {
+MinimalDatabase::Load(const char* name) {
 	this->currentFilePath = name;
 	return MemoryDatabase::Load(name);
 }
 
 bool
-MinimalDatabase::Save() throw() {
+MinimalDatabase::Save() {
 	return this->Save(this->currentFilePath);
 }
 
 bool
-MinimalDatabase::Save(const std::string name) throw() {
+MinimalDatabase::Save(const std::string name) {
 	return this->Save(name.c_str());
 }
 
 bool
-MinimalDatabase::Save(const char* name) throw() {
+MinimalDatabase::Save(const char* name) {
 	this->currentFilePath = name;
 	return MemoryDatabase::Save(name);
 }
