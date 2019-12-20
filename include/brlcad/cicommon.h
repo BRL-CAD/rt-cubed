@@ -139,7 +139,7 @@ namespace BRLCAD {
             return *this;
         }
 
-        virtual const char* what(void) const {
+        virtual const char* what(void) const throw(){
             return m_hint;
         }
 
