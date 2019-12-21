@@ -65,6 +65,30 @@ template<_GetObject getObject> static int SetName
 }
 
 
+template<_GetObject getObject> static int Type
+(
+    lua_State* luaState
+) {
+    BRLCAD::Object& object = (*getObject)(luaState, 1);
+
+    lua_pushstring(luaState, object.Type());
+
+    return 1;
+}
+
+
+template<_GetObject getObject> static int IsValid
+(
+    lua_State* luaState
+) {
+    BRLCAD::Object& object = (*getObject)(luaState, 1);
+
+    lua_pushboolean(luaState, object.IsValid());
+
+    return 1;
+}
+
+
 template<_GetObject getObject> static void PushObjectMetatable
 (
     lua_State* luaState
@@ -74,6 +98,14 @@ template<_GetObject getObject> static void PushObjectMetatable
     lua_settable(luaState, -3);
 
     lua_pushstring(luaState, "SetName");
+    lua_pushcfunction(luaState, &SetName<getObject>);
+    lua_settable(luaState, -3);
+
+    lua_pushstring(luaState, "Type");
+    lua_pushcfunction(luaState, &SetName<getObject>);
+    lua_settable(luaState, -3);
+
+    lua_pushstring(luaState, "IsValid");
     lua_pushcfunction(luaState, &SetName<getObject>);
     lua_settable(luaState, -3);
 }
