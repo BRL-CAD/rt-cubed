@@ -31,8 +31,9 @@
 #include <cassert>
 
 #include "objectbase.h"
-#include "halfspace.h"
 #include "vector3d.h"
+#include "halfspace.h"
+
 
 struct ScriptHalfspace {
     BRLCAD::Halfspace* object;
