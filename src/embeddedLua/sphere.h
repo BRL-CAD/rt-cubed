@@ -1,7 +1,7 @@
-/*                  I N I T B R L C A D . C P P
+/*                         SPHERE . H
  * BRL-CAD
  *
- * Copyright (c) 2017 United States Government as represented by
+ * Copyright (c) 2020 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,25 +22,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/** @file initbrlcad.cpp
+/** @file sphere.h
  *
  *  BRL-CAD embedded lua script:
- *      BRL-CAD functions injection into Lua
+ *      BRLCAD::Sphere functions
  */
 
-#include "halfspace.h"
-#include "sphere.h"
-#include "luadatabase.h"
-#include "initbrlcad.h"
+#ifndef SPHERE_INCLUDED
+#define SPHERE_INCLUDED
+
+#include "lua.hpp"
+
+#include "brlcad/Sphere.h"
 
 
-void InitBrlcad
+void InitSphere
 (
-    lua_State*        luaState,
-    BRLCAD::Database& database
-) {
-    InitHalfspace(luaState);
-    InitSphere(luaState);
+    lua_State* luaState
+);
 
-    InitDatabase(luaState, database);
-}
+
+int PushSphere
+(
+    lua_State*         luaState,
+    BRLCAD::Sphere*    object,
+    bool               takeOwnership
+);
+
+
+BRLCAD::Sphere* TestSphere
+(
+    lua_State* luaState,
+    int        narg
+);
+
+
+#endif // SPHERE_INCLUDED
