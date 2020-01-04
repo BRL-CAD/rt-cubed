@@ -28,6 +28,7 @@
  *      BRL-CAD functions injection into Lua
  */
 
+#include "halfspace.h"
 #include "luadatabase.h"
 #include "initbrlcad.h"
 
@@ -37,5 +38,7 @@ void InitBrlcad
     lua_State*        luaState,
     BRLCAD::Database& database
 ) {
+    InitHalfspace(luaState);
+
     InitDatabase(luaState, database);
 }
