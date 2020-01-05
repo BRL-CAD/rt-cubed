@@ -1,4 +1,4 @@
-/*                         SPHERE . H
+/*                         S P H E R E . H
  * BRL-CAD
  *
  * Copyright (c) 2020 United States Government as represented by
@@ -44,9 +44,9 @@ void InitSphere
 
 int PushSphere
 (
-    lua_State*         luaState,
-    BRLCAD::Sphere*    object,
-    bool               takeOwnership
+    lua_State*      luaState,
+    BRLCAD::Sphere* object,
+    bool            takeOwnership
 );
 
 

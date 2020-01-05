@@ -1,4 +1,4 @@
-/*                         SPHERE . CPP
+/*                         S P H E R E . CPP
  * BRL-CAD
  *
  * Copyright (c) 2020 United States Government as represented by
@@ -37,7 +37,7 @@
 
 struct ScriptSphere {
     BRLCAD::Sphere* object;
-    bool               own;
+    bool            own;
 };
 
 
@@ -241,9 +241,9 @@ void InitSphere
 
 int PushSphere
 (
-    lua_State*         luaState,
+    lua_State*      luaState,
     BRLCAD::Sphere* object,
-    bool               takeOwnership
+    bool            takeOwnership
 ) {
     int ret = 0;
 
