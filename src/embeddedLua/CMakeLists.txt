@@ -41,6 +41,7 @@ set (embeddedLua_SRC
     initbrlcad.cpp
     luadatabase.cpp
     sphere.cpp
+    torus.cpp
     vector3d.cpp
     writestring.cpp
     ../other/lua/src/lapi.c
