@@ -103,7 +103,7 @@ static int SetCenter
     lua_State* luaState
 ) {
     BRLCAD::Sphere&  object = GetSphere(luaState, 1);
-    BRLCAD::Vector3D center = GetVector3D(luaState, 1);
+    BRLCAD::Vector3D center = GetVector3D(luaState, 2);
 
     object.SetCenter(center);
 
