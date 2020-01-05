@@ -91,9 +91,8 @@ static int Normal
     lua_State* luaState
 ) {
     BRLCAD::Halfspace& object = GetHalfspace(luaState, 1);
-    BRLCAD::Vector3D   value  = GetVector3D(luaState, 1);
 
-    PushVector3D(luaState, value);
+    PushVector3D(luaState, object.Normal());
 
     return 1;
 }

@@ -91,9 +91,8 @@ static int Center
     lua_State* luaState
 ) {
     BRLCAD::Sphere& object = GetSphere(luaState, 1);
-    BRLCAD::Vector3D   value  = GetVector3D(luaState, 1);
 
-    PushVector3D(luaState, value);
+    PushVector3D(luaState, object.Center());
 
     return 1;
 }
@@ -104,9 +103,9 @@ static int SetCenter
     lua_State* luaState
 ) {
     BRLCAD::Sphere&  object = GetSphere(luaState, 1);
-    BRLCAD::Vector3D normal = GetVector3D(luaState, 1);
+    BRLCAD::Vector3D center = GetVector3D(luaState, 1);
 
-    object.SetCenter(normal);
+    object.SetCenter(center);
 
     return 0;
 }
@@ -128,7 +127,7 @@ static int SetRadius
 (
     lua_State* luaState
 ) {
-    BRLCAD::Sphere& object = GetSphere(luaState, 1);
+    BRLCAD::Sphere& object   = GetSphere(luaState, 1);
     double          distance = luaL_checknumber(luaState, 2);
 
     object.SetRadius(distance);
@@ -142,8 +141,8 @@ static int Set
     lua_State* luaState
 ) {
     BRLCAD::Sphere&  object = GetSphere(luaState, 1);
-    BRLCAD::Vector3D center = GetVector3D(luaState, 1);
-    double           radius = luaL_checknumber(luaState, 2);
+    BRLCAD::Vector3D center = GetVector3D(luaState, 2);
+    double           radius = luaL_checknumber(luaState, 3);
 
     object.Set(center, radius);
 
