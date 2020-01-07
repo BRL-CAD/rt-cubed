@@ -40,19 +40,35 @@ using namespace BRLCAD;
 
 
 Halfspace::Halfspace(void) : Object() {
-    if (!BU_SETJUMP)
-        m_internalp = static_cast<rt_half_internal*>(bu_calloc(1, sizeof(rt_half_internal), "BRLCAD::Halfspace::Halfspace::m_internalp"));
-    else {
-        BU_UNSETJUMP;
+    if (!BU_SETJUMP) {
+        BU_GET(m_internalp, rt_half_internal);
+        m_internalp->magic = RT_HALF_INTERNAL_MAGIC;
+        m_internalp->eqn[X] = 0.;
+        m_internalp->eqn[Y] = 0.;
+        m_internalp->eqn[Z] = 1.;
+        m_internalp->eqn[3] = 0.;
     }
+    else
+        BU_UNSETJUMP;
 
     BU_UNSETJUMP;
+}
 
-    m_internalp->magic = RT_HALF_INTERNAL_MAGIC;
-    m_internalp->eqn[X] = 0.;
-    m_internalp->eqn[Y] = 0.;
-    m_internalp->eqn[Z] = 1.;
-    m_internalp->eqn[3] = 0.;
+
+Halfspace::Halfspace
+(
+    const  Vector3D& normal,
+    double           distanceFromOrigin
+) {
+    if (!BU_SETJUMP) {
+        BU_GET(m_internalp, rt_half_internal);
+        m_internalp->magic = RT_HALF_INTERNAL_MAGIC;
+        Set(normal, distanceFromOrigin);
+    }
+    else
+        BU_UNSETJUMP;
+
+    BU_UNSETJUMP;
 }
 
 
@@ -60,15 +76,14 @@ Halfspace::Halfspace
 (
     const Halfspace& original
 ) : Object(original) {
-    if (!BU_SETJUMP)
-        m_internalp = static_cast<rt_half_internal*>(bu_calloc(1, sizeof(rt_half_internal), "BRLCAD::Halfspace::Halfspace::m_internalp"));
-    else {
-        BU_UNSETJUMP;
+    if (!BU_SETJUMP) {
+        BU_GET(m_internalp, rt_half_internal);
+        memcpy(m_internalp, original.Internal(), sizeof(rt_half_internal));
     }
+    else
+        BU_UNSETJUMP;
 
     BU_UNSETJUMP;
-
-    memcpy(m_internalp, original.Internal(), sizeof(rt_half_internal));
 }
 
 
@@ -78,7 +93,10 @@ Halfspace::~Halfspace(void) {
 }
 
 
-const Halfspace& Halfspace::operator=(const Halfspace& original) {
+const Halfspace& Halfspace::operator=
+(
+    const Halfspace& original
+) {
     if (&original != this) {
         Copy(original);
         memcpy(Internal()->eqn, original.Internal()->eqn, sizeof(plane_t));
@@ -93,7 +111,10 @@ Vector3D Halfspace::Normal(void) const {
 }
 
 
-void Halfspace::SetNormal(const Vector3D& normal) {
+void Halfspace::SetNormal
+(
+    const Vector3D& normal
+) {
     double length = MAGNITUDE(normal.coordinates);
 
     if (length >= VDIVIDE_TOL) {
@@ -110,8 +131,21 @@ double Halfspace::DistanceFromOrigin(void) const {
 }
 
 
-void Halfspace::SetDistanceFromOrigin(double distance) {
+void Halfspace::SetDistanceFromOrigin
+(
+    double distance
+) {
     Internal()->eqn[3] = distance;
+}
+
+
+void Halfspace::Set
+(
+    const Vector3D& normal,
+    double          distanceFromOrigin
+) {
+    SetNormal(normal);
+    SetDistanceFromOrigin(distanceFromOrigin);
 }
 
 

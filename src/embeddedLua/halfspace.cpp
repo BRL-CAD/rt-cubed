@@ -64,6 +64,12 @@ static int CreateHalfspace
 
         if (original != 0)
             ret = new BRLCAD::Halfspace(*original);
+        else {
+            BRLCAD::Vector3D normal             = GetVector3D(luaState, 1);
+            double           distanceFromOrigin = luaL_checknumber(luaState, 2);
+
+            ret = new BRLCAD::Halfspace(normal, distanceFromOrigin);
+        }
     }
 
     if (ret == 0)
@@ -136,6 +142,20 @@ static int SetDistanceFromOrigin
 }
 
 
+static int Set
+(
+    lua_State* luaState
+) {
+    BRLCAD::Halfspace& object             = GetHalfspace(luaState, 1);
+    BRLCAD::Vector3D   normal             = GetVector3D(luaState, 2);
+    double             distanceFromOrigin = luaL_checknumber(luaState, 3);
+
+    object.Set(normal, distanceFromOrigin);
+
+    return 0;
+}
+
+
 static int ClassName
 (
     lua_State* luaState
@@ -188,6 +208,10 @@ static void GetHalfspaceMetatable
 
         lua_pushstring(luaState, "SetDistanceFromOrigin");
         lua_pushcfunction(luaState, &SetDistanceFromOrigin);
+        lua_settable(luaState, -3);
+
+        lua_pushstring(luaState, "Set");
+        lua_pushcfunction(luaState, &Set);
         lua_settable(luaState, -3);
 
         lua_pushstring(luaState, "Clone");

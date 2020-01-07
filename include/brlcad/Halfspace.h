@@ -40,6 +40,8 @@ namespace BRLCAD {
     class BRLCAD_COREINTERFACE_EXPORT Halfspace : public Object {
     public:
         Halfspace(void);
+        Halfspace(const  Vector3D& normal,
+                  double           distanceFromOrigin);
         Halfspace(const Halfspace& original);
         virtual ~Halfspace(void);
 
@@ -47,8 +49,12 @@ namespace BRLCAD {
 
         Vector3D              Normal(void) const;
         void                  SetNormal(const Vector3D& normal);
+
         double                DistanceFromOrigin(void) const;
         void                  SetDistanceFromOrigin(double distance);
+
+        void                  Set(const Vector3D& normal,
+                                  double          distanceFromOrigin);
 
         // inherited from BRLCAD::Object
         virtual const Object& operator=(const Object& original);
