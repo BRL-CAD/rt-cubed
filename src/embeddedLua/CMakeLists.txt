@@ -39,6 +39,7 @@ set (embeddedLua_SRC
     ellipticaltorus.cpp
     embeddedlua.cpp
     halfspace.cpp
+    hyperboliccylinder.cpp
     initbrlcad.cpp
     luadatabase.cpp
     sphere.cpp

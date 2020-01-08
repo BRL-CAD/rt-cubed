@@ -1,7 +1,7 @@
-/*                  I N I T B R L C A D . C P P
+/*                         H Y P E R B O L I C C Y L I N D E R . H
  * BRL-CAD
  *
- * Copyright (c) 2017 United States Government as represented by
+ * Copyright (c) 2020 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,31 +22,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/** @file initbrlcad.cpp
+/** @file hyperboliccylinder.h
  *
  *  BRL-CAD embedded lua script:
- *      BRL-CAD functions injection into Lua
+ *      BRLCAD::HyperbolicCylinder functions
  */
 
-#include "halfspace.h"
-#include "hyperboliccylinder.h"
-#include "sphere.h"
-#include "luadatabase.h"
-#include "torus.h"
-#include "ellipticaltorus.h"
-#include "initbrlcad.h"
+#ifndef HYPERBOLICCYLINDER_INCLUDED
+#define HYPERBOLICCYLINDER_INCLUDED
+
+#include "lua.hpp"
+
+#include "brlcad/HyperbolicCylinder.h"
 
 
-void InitBrlcad
+void InitHyperbolicCylinder
 (
-    lua_State*        luaState,
-    BRLCAD::Database& database
-) {
-    InitEllipticalTorus(luaState);
-    InitHalfspace(luaState);
-    InitHyperbolicCylinder(luaState);
-    InitSphere(luaState);
-    InitTorus(luaState);
+    lua_State* luaState
+);
 
-    InitDatabase(luaState, database);
-}
+
+int PushHyperbolicCylinder
+(
+    lua_State*                  luaState,
+    BRLCAD::HyperbolicCylinder* object,
+    bool                        takeOwnership
+);
+
+
+BRLCAD::HyperbolicCylinder* TestHyperbolicCylinder
+(
+    lua_State* luaState,
+    int        narg
+);
+
+
+#endif // HYPERBOLICCYLINDER_INCLUDED

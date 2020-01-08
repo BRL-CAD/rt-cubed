@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/** @file EllipticalTorus.h
+/** @file ellipticaltorus.h
  *
  *  BRL-CAD embedded lua script:
  *      BRLCAD::EllipticalTorus functions
