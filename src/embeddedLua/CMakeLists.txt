@@ -40,6 +40,7 @@ set (embeddedLua_SRC
     embeddedlua.cpp
     halfspace.cpp
     hyperboliccylinder.cpp
+    hyperboloid.cpp
     initbrlcad.cpp
     luadatabase.cpp
     sphere.cpp
