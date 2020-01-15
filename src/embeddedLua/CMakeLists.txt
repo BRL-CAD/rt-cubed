@@ -43,6 +43,7 @@ set (embeddedLua_SRC
     hyperboloid.cpp
     initbrlcad.cpp
     luadatabase.cpp
+    paraboliccylinder.cpp
     sphere.cpp
     torus.cpp
     vector3d.cpp
