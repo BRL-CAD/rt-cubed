@@ -41,3 +41,6 @@ target_link_libraries(selectunselect embeddedlua)
 
 add_executable(boundingbox boundingbox.cpp)
 target_link_libraries(boundingbox embeddedlua)
+
+add_executable(databasetitle databasetitle.cpp)
+target_link_libraries(databasetitle embeddedlua)
