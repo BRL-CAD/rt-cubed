@@ -44,3 +44,4 @@ target_link_libraries(boundingbox embeddedlua)
 
 add_executable(databasetitle databasetitle.cpp)
 target_link_libraries(databasetitle embeddedlua)
+add_test(NAME lua_database_title COMMAND databasetitle ${BRLCAD_BASE_DIR}/share/db/castle.g)
