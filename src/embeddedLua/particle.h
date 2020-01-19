@@ -1,7 +1,7 @@
-/*                  I N I T B R L C A D . C P P
+/*                         P A R T I C L E . H
  * BRL-CAD
  *
- * Copyright (c) 2017 United States Government as represented by
+ * Copyright (c) 2020 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,37 +22,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/** @file initbrlcad.cpp
+/** @file particle.h
  *
  *  BRL-CAD embedded lua script:
- *      BRL-CAD functions injection into Lua
+ *      BRLCAD::Particle functions
  */
 
-#include "ellipticaltorus.h"
-#include "halfspace.h"
-#include "hyperboliccylinder.h"
-#include "hyperboloid.h"
-#include "luadatabase.h"
-#include "sphere.h"
-#include "paraboliccylinder.h"
-#include "particle.h"
-#include "torus.h"
-#include "initbrlcad.h"
+#ifndef PARTICLE_INCLUDED
+#define PARTICLE_INCLUDED
+
+#include "lua.hpp"
+
+#include "brlcad/Particle.h"
 
 
-void InitBrlcad
+void InitParticle
+(
+    lua_State* luaState
+);
+
+
+int PushParticle
 (
     lua_State*        luaState,
-    BRLCAD::Database& database
-) {
-    InitEllipticalTorus(luaState);
-    InitHalfspace(luaState);
-    InitHyperbolicCylinder(luaState);
-    InitHyperboloid(luaState);
-    InitParabolicCylinder(luaState);
-    InitParticle(luaState);
-    InitSphere(luaState);
-    InitTorus(luaState);
+    BRLCAD::Particle* object,
+    bool              takeOwnership
+);
 
-    InitDatabase(luaState, database);
-}
+
+BRLCAD::Particle* TestParticle
+(
+    lua_State* luaState,
+    int        narg
+);
+
+
+#endif // PARTICLE_INCLUDED

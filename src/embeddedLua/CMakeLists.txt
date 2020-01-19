@@ -44,6 +44,7 @@ set (embeddedLua_SRC
     initbrlcad.cpp
     luadatabase.cpp
     paraboliccylinder.cpp
+    particle.cpp
     sphere.cpp
     torus.cpp
     vector3d.cpp
