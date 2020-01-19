@@ -1,7 +1,7 @@
-/*                  I N I T B R L C A D . C P P
+/*                         P A R A B O L O I D . H
  * BRL-CAD
  *
- * Copyright (c) 2017 United States Government as represented by
+ * Copyright (c) 2020 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,39 +22,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/** @file initbrlcad.cpp
+/** @file paraboloid.h
  *
  *  BRL-CAD embedded lua script:
- *      BRL-CAD functions injection into Lua
+ *      BRLCAD::Paraboloid functions
  */
 
-#include "ellipticaltorus.h"
-#include "halfspace.h"
-#include "hyperboliccylinder.h"
-#include "hyperboloid.h"
-#include "luadatabase.h"
-#include "sphere.h"
-#include "paraboliccylinder.h"
-#include "paraboloid.h"
-#include "particle.h"
-#include "torus.h"
-#include "initbrlcad.h"
+#ifndef PARABOLOID_INCLUDED
+#define PARABOLOID_INCLUDED
+
+#include "lua.hpp"
+
+#include "brlcad/Paraboloid.h"
 
 
-void InitBrlcad
+void InitParaboloid
 (
-    lua_State*        luaState,
-    BRLCAD::Database& database
-) {
-    InitEllipticalTorus(luaState);
-    InitHalfspace(luaState);
-    InitHyperbolicCylinder(luaState);
-    InitHyperboloid(luaState);
-    InitParabolicCylinder(luaState);
-    InitParaboloid(luaState);
-    InitParticle(luaState);
-    InitSphere(luaState);
-    InitTorus(luaState);
+    lua_State* luaState
+);
 
-    InitDatabase(luaState, database);
-}
+
+int PushParaboloid
+(
+    lua_State*          luaState,
+    BRLCAD::Paraboloid* object,
+    bool                takeOwnership
+);
+
+
+BRLCAD::Paraboloid* TestParaboloid
+(
+    lua_State* luaState,
+    int        narg
+);
+
+
+#endif // PARABOLOID_INCLUDED
