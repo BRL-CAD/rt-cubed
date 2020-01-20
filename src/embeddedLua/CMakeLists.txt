@@ -36,6 +36,7 @@ include_directories (
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set (embeddedLua_SRC
+    arb8.cpp
     ellipsoid.cpp
     ellipticaltorus.cpp
     embeddedlua.cpp

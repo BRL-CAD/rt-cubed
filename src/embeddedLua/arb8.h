@@ -1,7 +1,7 @@
-/*                  I N I T B R L C A D . C P P
+/*                         A R B 8 . H
  * BRL-CAD
  *
- * Copyright (c) 2017 United States Government as represented by
+ * Copyright (c) 2020 United States Government as represented by
  * the U.S. Army Research Laboratory.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,43 +22,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/** @file initbrlcad.cpp
+/** @file arb8.h
  *
  *  BRL-CAD embedded lua script:
- *      BRL-CAD functions injection into Lua
+ *      BRLCAD::Arb8 functions
  */
 
-#include "arb8.h"
-#include "ellipsoid.h"
-#include "ellipticaltorus.h"
-#include "halfspace.h"
-#include "hyperboliccylinder.h"
-#include "hyperboloid.h"
-#include "luadatabase.h"
-#include "sphere.h"
-#include "paraboliccylinder.h"
-#include "paraboloid.h"
-#include "particle.h"
-#include "torus.h"
-#include "initbrlcad.h"
+#ifndef ARB8_INCLUDED
+#define ARB8_INCLUDED
+
+#include "lua.hpp"
+
+#include "brlcad/Arb8.h"
 
 
-void InitBrlcad
+void InitArb8
 (
-    lua_State*        luaState,
-    BRLCAD::Database& database
-) {
-    InitArb8(luaState);
-    InitEllipsoid(luaState);
-    InitEllipticalTorus(luaState);
-    InitHalfspace(luaState);
-    InitHyperbolicCylinder(luaState);
-    InitHyperboloid(luaState);
-    InitParabolicCylinder(luaState);
-    InitParaboloid(luaState);
-    InitParticle(luaState);
-    InitSphere(luaState);
-    InitTorus(luaState);
+    lua_State* luaState
+);
 
-    InitDatabase(luaState, database);
-}
+
+int PushArb8
+(
+    lua_State*    luaState,
+    BRLCAD::Arb8* object,
+    bool          takeOwnership
+);
+
+
+BRLCAD::Arb8* TestArb8
+(
+    lua_State* luaState,
+    int        narg
+);
+
+
+#endif // ARB8_INCLUDED
