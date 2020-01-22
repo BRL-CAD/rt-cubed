@@ -70,9 +70,10 @@ namespace BRLCAD {
 
         class BRLCAD_COREINTERFACE_EXPORT AttributeIterator {
         public:
+            AttributeIterator(void) : m_avs(0), m_searchKey(0), m_index(-1) {}
             AttributeIterator(const AttributeIterator& original) : m_avs(original.m_avs),
-                                                                           m_searchKey(original.m_searchKey),
-                                                                           m_index(original.m_index) {}
+                                                                   m_searchKey(original.m_searchKey),
+                                                                   m_index(original.m_index) {}
             ~AttributeIterator(void) {}
 
             const AttributeIterator& operator=(const AttributeIterator& original) {
@@ -97,8 +98,6 @@ namespace BRLCAD {
                               size_t                        index);
 
             friend class Object;
-
-            AttributeIterator(void); // not implemented
         };
 
 
