@@ -45,6 +45,7 @@ set (embeddedLua_SRC
     hyperboloid.cpp
     initbrlcad.cpp
     luadatabase.cpp
+    objectattributeiterator.cpp
     paraboliccylinder.cpp
     paraboloid.cpp
     particle.cpp
