@@ -38,11 +38,11 @@ static BRLCAD::Object::AttributeIterator& GetObjectAttributeIterator
     lua_State* luaState,
     int        narg
 ) {
-    BRLCAD::Object::AttributeIterator* object = static_cast<BRLCAD::Object::AttributeIterator*>(luaL_testudata(luaState, narg, "BRLCAD.ObjectAttributeIterator"));
+    BRLCAD::Object::AttributeIterator** object = static_cast<BRLCAD::Object::AttributeIterator**>(luaL_testudata(luaState, narg, "BRLCAD.ObjectAttributeIterator"));
 
-    assert(object != 0);
+    assert((object != 0) && (*object != 0));
 
-    return *object;
+    return **object;
 }
 
 
@@ -50,10 +50,10 @@ static int Destruct
 (
     lua_State* luaState
 ) {
-    BRLCAD::Object::AttributeIterator* object = static_cast<BRLCAD::Object::AttributeIterator*>(luaL_testudata(luaState, 1, "BRLCAD.ObjectAttributeIterator"));
+    BRLCAD::Object::AttributeIterator** object = static_cast<BRLCAD::Object::AttributeIterator**>(luaL_testudata(luaState, 1, "BRLCAD.ObjectAttributeIterator"));
 
-    if (object)
-        delete object;
+    if ((object != 0) && (*object != 0))
+        delete *object;
 
     return 0;
 }
@@ -63,11 +63,11 @@ static int Next
 (
     lua_State* luaState
 ) {
-    BRLCAD::Object::AttributeIterator& object = GetObjectAttributeIterator(luaState, 1);
+    BRLCAD::Object::AttributeIterator& iterator = GetObjectAttributeIterator(luaState, 1);
 
-    ++object;
+    ++iterator;
 
-    lua_pushboolean(luaState, object.Good());
+    lua_pushboolean(luaState, iterator.Good());
 
     return 1;
 }
@@ -77,9 +77,9 @@ static int Good
 (
     lua_State* luaState
 ) {
-    BRLCAD::Object::AttributeIterator& object = GetObjectAttributeIterator(luaState, 1);
+    BRLCAD::Object::AttributeIterator& iterator = GetObjectAttributeIterator(luaState, 1);
 
-    lua_pushboolean(luaState, object.Good());
+    lua_pushboolean(luaState, iterator.Good());
 
     return 1;
 }
@@ -89,9 +89,9 @@ static int Key
 (
     lua_State* luaState
 ) {
-    BRLCAD::Object::AttributeIterator& object = GetObjectAttributeIterator(luaState, 1);
+    BRLCAD::Object::AttributeIterator& iterator = GetObjectAttributeIterator(luaState, 1);
 
-    lua_pushstring(luaState, object.Key());
+    lua_pushstring(luaState, iterator.Key());
 
     return 1;
 }
@@ -101,9 +101,9 @@ static int Value
 (
     lua_State* luaState
 ) {
-    BRLCAD::Object::AttributeIterator& object = GetObjectAttributeIterator(luaState, 1);
+    BRLCAD::Object::AttributeIterator& iterator = GetObjectAttributeIterator(luaState, 1);
 
-    lua_pushstring(luaState, object.Value());
+    lua_pushstring(luaState, iterator.Value());
 
     return 1;
 }
@@ -148,18 +148,14 @@ static void GetObjectAttributeIteratorMetatable
 int PushObjectAttributeIterator
 (
     lua_State*                               luaState,
-    const BRLCAD::Object::AttributeIterator* iterator
+    const BRLCAD::Object::AttributeIterator& iterator
 ) {
-    int ret = 0;
+    BRLCAD::Object::AttributeIterator** iteratorObject = static_cast<BRLCAD::Object::AttributeIterator**>(lua_newuserdata(luaState, sizeof(BRLCAD::Object::AttributeIterator*)));
 
-    if (iterator != 0) {
-        const BRLCAD::Object::AttributeIterator* object = iterator;
+    *iteratorObject = new BRLCAD::Object::AttributeIterator(iterator);
 
-        GetObjectAttributeIteratorMetatable(luaState);
-        lua_setmetatable(luaState, -2);
+    GetObjectAttributeIteratorMetatable(luaState);
+    lua_setmetatable(luaState, -2);
 
-        ret = 1;
-    }
-
-    return ret;
+    return 1;
 }
