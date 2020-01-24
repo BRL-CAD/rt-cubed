@@ -64,6 +64,25 @@ static int CreateHyperboloid
 
         if (original != 0)
             ret = new BRLCAD::Hyperboloid(*original);
+        else if (lua_gettop(luaState) == 5) {
+            BRLCAD::Vector3D basePoint             = GetVector3D(luaState, 1);
+            BRLCAD::Vector3D height                = GetVector3D(luaState, 2);
+            BRLCAD::Vector3D semiMajorAxis         = GetVector3D(luaState, 3);
+            double           semiMinorAxisLength   = luaL_checknumber(luaState, 4);
+            double           apexAsymptoteDistance = luaL_checknumber(luaState, 5);
+
+            ret = new BRLCAD::Hyperboloid(basePoint, height, semiMajorAxis, semiMinorAxisLength, apexAsymptoteDistance);
+        }
+        else {
+            BRLCAD::Vector3D basePoint              = GetVector3D(luaState, 1);
+            BRLCAD::Vector3D height                 = GetVector3D(luaState, 2);
+            BRLCAD::Vector3D semiMajorAxisDirection = GetVector3D(luaState, 3);
+            double           semiMajorAxisLength    = luaL_checknumber(luaState, 4);
+            double           semiMinorAxisLength    = luaL_checknumber(luaState, 5);
+            double           apexAsymptoteDistance  = luaL_checknumber(luaState, 6);
+
+            ret = new BRLCAD::Hyperboloid(basePoint, height, semiMajorAxisDirection, semiMajorAxisLength, semiMinorAxisLength, apexAsymptoteDistance);
+        }
     }
 
     if (ret == 0)

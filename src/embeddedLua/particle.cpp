@@ -64,6 +64,14 @@ static int CreateParticle
 
         if (original != 0)
             ret = new BRLCAD::Particle(*original);
+        else {
+            BRLCAD::Vector3D basePoint  = GetVector3D(luaState, 1);
+            BRLCAD::Vector3D height     = GetVector3D(luaState, 2);
+            double           baseRadius = luaL_checknumber(luaState, 3);
+            double           topRadius  = luaL_checknumber(luaState, 4);
+
+            ret = new BRLCAD::Particle(basePoint, height, baseRadius, topRadius);
+        }
     }
 
     if (ret == 0)

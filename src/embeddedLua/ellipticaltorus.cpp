@@ -64,6 +64,15 @@ static int CreateEllipticalTorus
 
         if (original != 0)
             ret = new BRLCAD::EllipticalTorus(*original);
+        else {
+            BRLCAD::Vector3D center                      = GetVector3D(luaState, 1);
+            BRLCAD::Vector3D normalToTubeCenterLinePlane = GetVector3D(luaState, 2);
+            double           tubeCenterLineRadius        = luaL_checknumber(luaState, 3);
+            BRLCAD::Vector3D tubeSemiMajorAxis           = GetVector3D(luaState, 4);
+            double           tubeSemiMinorAxisLength     = luaL_checknumber(luaState, 5);
+
+            ret = new BRLCAD::EllipticalTorus(center, normalToTubeCenterLinePlane, tubeCenterLineRadius, tubeSemiMajorAxis, tubeSemiMinorAxisLength);
+        }
     }
 
     if (ret == 0)

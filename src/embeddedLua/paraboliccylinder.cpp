@@ -64,6 +64,14 @@ static int CreateParabolicCylinder
 
         if (original != 0)
             ret = new BRLCAD::ParabolicCylinder(*original);
+        else {
+            BRLCAD::Vector3D basePoint = GetVector3D(luaState, 1);
+            BRLCAD::Vector3D height    = GetVector3D(luaState, 2);
+            BRLCAD::Vector3D depth     = GetVector3D(luaState, 3);
+            double           halfWidth = luaL_checknumber(luaState, 4);
+
+            ret = new BRLCAD::ParabolicCylinder(basePoint, height, depth, halfWidth);
+        }
     }
 
     if (ret == 0)

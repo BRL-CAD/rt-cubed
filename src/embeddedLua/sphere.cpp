@@ -64,6 +64,12 @@ static int CreateSphere
 
         if (original != 0)
             ret = new BRLCAD::Sphere(*original);
+        else {
+            BRLCAD::Vector3D center = GetVector3D(luaState, 1);
+            double           radius = luaL_checknumber(luaState, 2);
+
+            ret = new BRLCAD::Sphere(center, radius);
+        }
     }
 
     if (ret == 0)

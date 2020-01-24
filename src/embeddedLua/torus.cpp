@@ -64,6 +64,14 @@ static int CreateTorus
 
         if (original != 0)
             ret = new BRLCAD::Torus(*original);
+        else {
+            BRLCAD::Vector3D center                      = GetVector3D(luaState, 1);
+            BRLCAD::Vector3D normalToTubeCenterLinePlane = GetVector3D(luaState, 2);
+            double           tubeCenterLineRadius        = luaL_checknumber(luaState, 3);
+            double           tubeRadius                  = luaL_checknumber(luaState, 4);
+
+            ret = new BRLCAD::Torus(center, normalToTubeCenterLinePlane, tubeCenterLineRadius, tubeRadius);
+        }
     }
 
     if (ret == 0)

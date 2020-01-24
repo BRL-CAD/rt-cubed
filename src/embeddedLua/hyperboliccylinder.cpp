@@ -64,6 +64,15 @@ static int CreateHyperbolicCylinder
 
         if (original != 0)
             ret = new BRLCAD::HyperbolicCylinder(*original);
+        else {
+            BRLCAD::Vector3D basePoint             = GetVector3D(luaState, 1);
+            BRLCAD::Vector3D height                = GetVector3D(luaState, 2);
+            BRLCAD::Vector3D depth                 = GetVector3D(luaState, 3);
+            double           halfWidth             = luaL_checknumber(luaState, 4);
+            double           apexAsymptoteDistance = luaL_checknumber(luaState, 5);
+
+            ret = new BRLCAD::HyperbolicCylinder(basePoint, height, depth, halfWidth, apexAsymptoteDistance);
+        }
     }
 
     if (ret == 0)
