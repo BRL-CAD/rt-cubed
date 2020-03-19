@@ -257,7 +257,9 @@ bool Database::Add
                 if (internalFrom->tree != 0)
                     internalTo->tree = db_dup_subtree(internalFrom->tree, object.m_resp);
 
+                bu_vls_init(&internalTo->shader);
                 bu_vls_strcpy(&internalTo->shader, bu_vls_addr(&internalFrom->shader));
+                bu_vls_init(&internalTo->material);
                 bu_vls_strcpy(&internalTo->material, bu_vls_addr(&internalFrom->material));
             }
 
