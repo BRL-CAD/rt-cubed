@@ -94,6 +94,23 @@ static void PipeCopy
 }
 
 
+rt_pipe_internal* ClonePipeInternal
+(
+    const rt_pipe_internal& pipe
+) {
+    rt_pipe_internal* ret = 0;
+
+    BU_GET(ret, rt_pipe_internal);
+    ret->pipe_magic = RT_PIPE_INTERNAL_MAGIC;
+    ret->pipe_count = 0;
+    BU_LIST_INIT(&(ret->pipe_segs_head));
+
+    PipeCopy(ret, &pipe);
+
+    return ret;
+}
+
+
 Pipe::Pipe(void) : Object() {
     if (!BU_SETJUMP) {
         BU_GET(m_internalp, rt_pipe_internal);
@@ -114,11 +131,7 @@ Pipe::Pipe
     const Pipe& original
 ) {
     if (!BU_SETJUMP) {
-        BU_GET(m_internalp, rt_pipe_internal);
-        m_internalp->pipe_magic = RT_PIPE_INTERNAL_MAGIC;
-        m_internalp->pipe_count = 0;
-        BU_LIST_INIT(&(m_internalp->pipe_segs_head));
-        PipeCopy(m_internalp, original.Internal());
+        m_internalp = ClonePipeInternal(*original.Internal());
     }
     else {
         BU_UNSETJUMP;
