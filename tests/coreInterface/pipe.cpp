@@ -112,7 +112,7 @@ bool testPipeGetControlPointMethod()
     outerDiameter = 6.0;
     bendRadius = 5.0;		/* bendRadius > outerDiameter / 2 */
     cp = p.AppendControlPoint(point, innerDiameter, outerDiameter, bendRadius);
-    cp = p.Get(1);
+    cp = p.GetControlPoint(1);
     const Vector3D setPoint = cp.Point();
     double setInnerDiameter = cp.InnerDiameter();
     double setOuterDiameter = cp.OuterDiameter();
@@ -189,7 +189,7 @@ bool testControlPointSetPointMethod()
     outerDiameter = 6.0;
     bendRadius = 5.0;		/* bendRadius > outerDiameter / 2 */
     cp = p.AppendControlPoint(point, innerDiameter, outerDiameter, bendRadius);
-    cp = p.Get(1);
+    cp = p.GetControlPoint(1);
     cp.SetPoint(point);
     const Vector3D setPoint = cp.Point();
     return(VECTOR3D_EQUAL(point, setPoint));
@@ -209,7 +209,7 @@ bool testControlPointSetInnerDiameterMethod()
     outerDiameter = 6.0;
     bendRadius = 5.0;		/* bendRadius > outerDiameter / 2 */
     cp = p.AppendControlPoint(point, innerDiameter, outerDiameter, bendRadius);
-    cp = p.Get(0);
+    cp = p.GetControlPoint(0);
     cp.SetInnerDiameter(innerDiameter);
     double setInnerDiameter = cp.InnerDiameter();
     return(EQUAL(innerDiameter, setInnerDiameter));
@@ -229,7 +229,7 @@ bool testControlPointSetOuterDiameterMethod()
     outerDiameter = 6.0;
     bendRadius = 5.0;		/* bendRadius > outerDiameter / 2 */
     cp = p.AppendControlPoint(point, innerDiameter, outerDiameter, bendRadius);
-    cp = p.Get(0);
+    cp = p.GetControlPoint(0);
     cp.SetOuterDiameter(outerDiameter);
     double setOuterDiameter = cp.OuterDiameter();
     return(EQUAL(outerDiameter, setOuterDiameter));
@@ -249,7 +249,7 @@ bool testControlPointSetBendRadiusMethod()
     outerDiameter = 6.0;
     bendRadius = 5.0;		/* bendRadius > outerDiameter / 2 */
     cp = p.AppendControlPoint(point, innerDiameter, outerDiameter, bendRadius);
-    cp = p.Get(1);
+    cp = p.GetControlPoint(1);
     cp.SetBendRadius(bendRadius);
     double setBendRadius = cp.BendRadius();
     return(EQUAL(bendRadius, setBendRadius));
@@ -262,8 +262,8 @@ bool testPipeDeleteControlPointMethod()
     Pipe::ControlPoint cp1;
     Pipe::ControlPoint cp2;
     p1.DeleteControlPoint(0);
-    cp1 = p1.Get(0);
-    cp2 = p2.Get(0);
+    cp1 = p1.GetControlPoint(0);
+    cp2 = p2.GetControlPoint(0);
     const Vector3D point1 = cp1.Point();
     const Vector3D point2 = cp2.Point();
     const double innerDiameter1 = cp1.InnerDiameter();
