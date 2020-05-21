@@ -79,8 +79,10 @@ static void InitBrlCad(void) {
     if (init) { // do it only once
         init = false;
 
-        if (!BU_SETJUMP)
+        if (!BU_SETJUMP) {
+            BU_LIST_INIT(&RTG.rtg_vlfree);
             bu_log_add_hook(NullLogger, 0);
+        }
 
         BU_UNSETJUMP;
     }
