@@ -73,6 +73,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		Sphere.cpp
 		Torus.cpp
 		Unknown.cpp
+		VectorList.cpp
 	)
 
 	IF(MSVC)
@@ -124,6 +125,7 @@ if(EXISTS ${RT3_SOURCE_DIR}/include/brlcad/brlcadversion.h)
 		${RT3_SOURCE_DIR}/include/brlcad/Sphere.h
 		${RT3_SOURCE_DIR}/include/brlcad/Torus.h
 		${RT3_SOURCE_DIR}/include/brlcad/Unknown.h
+		${RT3_SOURCE_DIR}/include/brlcad/VectorList.h
 	)
 	INSTALL(FILES ${coreinterface_inst_HDRS} DESTINATION include/brlcad)
 	TARGET_LINK_LIBRARIES(coreinterface ${BRLCAD_NMG_LIBRARY} ${BRLCAD_WDB_LIBRARY} ${BRLCAD_RT_LIBRARY} ${BRLCAD_BN_LIBRARY} ${BRLCAD_BU_LIBRARY})

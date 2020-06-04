@@ -32,6 +32,7 @@
 
 #include <brlcad/cicommon.h>
 #include <brlcad/Object.h>
+#include <brlcad/VectorList.h>
 
 
 struct rt_i;
@@ -121,10 +122,16 @@ namespace BRLCAD {
         /// overloaded member function, provided for convenience: selects a single object and and returns a copy of it
         /** Do not forget to BRLCAD::Object::Destroy() the copy when you are finished with it! */
         Object*              Get(const char* objectName) const;
+        //@}
 
+        /// @name Generating alternative representations
         /// facetizes a single object's tree and returns it as a non-manifold geometry
         /** Do not forget to BRLCAD::Object::Destroy() the non-manifold geometry when you are finished with it! */
         NonManifoldGeometry* Facetize(const char* objectName) const;
+
+        /// plot a single object's tree and write the resulting wireframe to a vector list
+        void                 Plot(const char* objectName,
+                                  VectorList& vectorList) const;
         //@}
 
         /// @name Active set functions
