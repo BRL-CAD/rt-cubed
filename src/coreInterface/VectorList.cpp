@@ -908,6 +908,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_LINE_DRAW: {
@@ -915,6 +917,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_START: {
@@ -922,6 +926,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_MOVE: {
@@ -929,6 +935,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_DRAW: {
@@ -936,6 +944,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_END: {
@@ -943,6 +953,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_VERTNORM: {
@@ -950,6 +962,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_START: {
@@ -957,6 +971,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_MOVE: {
@@ -964,6 +980,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_DRAW: {
@@ -971,6 +989,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_END: {
@@ -978,6 +998,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_VERTNORM: {
@@ -985,6 +1007,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POINT_DRAW: {
@@ -992,6 +1016,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POINT_SIZE: {
@@ -999,6 +1025,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_LINE_WIDTH: {
@@ -1006,6 +1034,9 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
+
                     }
 
                     case BN_VLIST_DISPLAY_MAT: {
@@ -1013,6 +1044,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_MODEL_MAT: {
@@ -1020,6 +1053,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     default:
@@ -1051,6 +1086,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_LINE_DRAW: {
@@ -1058,6 +1095,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_START: {
@@ -1065,6 +1104,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_MOVE: {
@@ -1072,6 +1113,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_DRAW: {
@@ -1079,6 +1122,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_END: {
@@ -1086,6 +1131,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POLY_VERTNORM: {
@@ -1093,6 +1140,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_START: {
@@ -1100,6 +1149,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_MOVE: {
@@ -1107,6 +1158,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_DRAW: {
@@ -1114,6 +1167,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_END: {
@@ -1121,6 +1176,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_TRI_VERTNORM: {
@@ -1128,6 +1185,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POINT_DRAW: {
@@ -1135,6 +1194,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_POINT_SIZE: {
@@ -1142,6 +1203,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_LINE_WIDTH: {
@@ -1149,6 +1212,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_DISPLAY_MAT: {
@@ -1156,6 +1221,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     case BN_VLIST_MODEL_MAT: {
@@ -1163,6 +1230,8 @@ void VectorList::Iterate
 
                         if (!callBack(&element))
                             cont = false;
+
+                        break;
                     }
 
                     default:
