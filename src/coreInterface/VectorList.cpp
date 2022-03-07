@@ -27,7 +27,7 @@
 
 #include "bu/parallel.h"
 #include "rt/global.h"
-#include "rt/vlist.h"
+#include "bv/vlist.h"
 
 #include <brlcad/VectorList.h>
 
@@ -79,7 +79,7 @@ void VectorList::PointDraw::SetPoint
 
 VectorList::PointDraw::PointDraw
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_point() {}
 
@@ -128,7 +128,7 @@ void VectorList::PointSize::SetSize
 
 VectorList::PointSize::PointSize
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_size(1.) {}
 
@@ -177,7 +177,7 @@ void VectorList::LineMove::SetPoint
 
 VectorList::LineMove::LineMove
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_point() {}
 
@@ -226,7 +226,7 @@ void VectorList::LineDraw::SetPoint
 
 VectorList::LineDraw::LineDraw
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_point() {}
 
@@ -275,7 +275,7 @@ void VectorList::LineWidth::SetWidth
 
 VectorList::LineWidth::LineWidth
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_width(1.) {}
 
@@ -324,7 +324,7 @@ void VectorList::TriangleStart::SetNormal
 
 VectorList::TriangleStart::TriangleStart
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_normal() {}
 
@@ -373,7 +373,7 @@ void VectorList::TriangleMove::SetPoint
 
 VectorList::TriangleMove::TriangleMove
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_point() {}
 
@@ -422,7 +422,7 @@ void VectorList::TriangleDraw::SetPoint
 
 VectorList::TriangleDraw::TriangleDraw
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_point() {}
 
@@ -471,7 +471,7 @@ void VectorList::TriangleEnd::SetPoint
 
 VectorList::TriangleEnd::TriangleEnd
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_point() {}
 
@@ -520,7 +520,7 @@ void VectorList::TriangleVertexNormal::SetNormal
 
 VectorList::TriangleVertexNormal::TriangleVertexNormal
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_normal() {}
 
@@ -569,7 +569,7 @@ void VectorList::PolygonStart::SetNormal
 
 VectorList::PolygonStart::PolygonStart
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_normal() {}
 
@@ -618,7 +618,7 @@ void VectorList::PolygonMove::SetPoint
 
 VectorList::PolygonMove::PolygonMove
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_point() {}
 
@@ -667,7 +667,7 @@ void VectorList::PolygonDraw::SetPoint
 
 VectorList::PolygonDraw::PolygonDraw
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_point() {}
 
@@ -716,7 +716,7 @@ void VectorList::PolygonEnd::SetPoint
 
 VectorList::PolygonEnd::PolygonEnd
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_point() {}
 
@@ -765,7 +765,7 @@ void VectorList::PolygonVertexNormal::SetNormal
 
 VectorList::PolygonVertexNormal::PolygonVertexNormal
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_normal() {}
 
@@ -814,7 +814,7 @@ void VectorList::DisplaySpace::SetReferencePoint
 
 VectorList::DisplaySpace::DisplaySpace
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index), m_referencePoint() {}
 
@@ -837,7 +837,7 @@ VectorList::Element::ElementType VectorList::ModelSpace::Type(void) const {
 
 VectorList::ModelSpace::ModelSpace
 (
-    bn_vlist* chunk,
+    bv_vlist* chunk,
     size_t    index
 ) : VectorList::Element(chunk, index) {}
 
@@ -859,7 +859,7 @@ VectorList::VectorList
     BU_LIST_INIT(m_vlist);
 
     if (!BU_SETJUMP)
-        rt_vlist_copy(m_vlist, original.m_vlist);
+        bv_vlist_copy(&RTG.rtg_vlfree, m_vlist, original.m_vlist);
     else
         BU_UNSETJUMP;
 
@@ -881,7 +881,7 @@ const VectorList& VectorList::operator=
         RT_FREE_VLIST(m_vlist);
 
         if (!BU_SETJUMP)
-            rt_vlist_copy(m_vlist, original.m_vlist);
+            bv_vlist_copy(&RTG.rtg_vlfree, m_vlist, original.m_vlist);
         else
             BU_UNSETJUMP;
 
@@ -898,12 +898,12 @@ void VectorList::Iterate
 ) const {
     if (m_vlist != 0) {
         bool      cont = true;
-        bn_vlist* chunk;
+        bv_vlist* chunk;
 
-        for (BU_LIST_FOR(chunk, bn_vlist, m_vlist)) {
+        for (BU_LIST_FOR(chunk, bv_vlist, m_vlist)) {
             for (size_t i = 0; i < chunk->nused; ++i) {
                 switch (chunk->cmd[i]) {
-                    case BN_VLIST_LINE_MOVE: {
+                    case BV_VLIST_LINE_MOVE: {
                         LineMove element(chunk, i);
 
                         if (!callBack(&element))
@@ -912,7 +912,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_LINE_DRAW: {
+                    case BV_VLIST_LINE_DRAW: {
                         LineDraw element(chunk, i);
 
                         if (!callBack(&element))
@@ -921,7 +921,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_START: {
+                    case BV_VLIST_POLY_START: {
                         PolygonStart element(chunk, i);
 
                         if (!callBack(&element))
@@ -930,7 +930,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_MOVE: {
+                    case BV_VLIST_POLY_MOVE: {
                         PolygonMove element(chunk, i);
 
                         if (!callBack(&element))
@@ -939,7 +939,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_DRAW: {
+                    case BV_VLIST_POLY_DRAW: {
                         PolygonDraw element(chunk, i);
 
                         if (!callBack(&element))
@@ -948,7 +948,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_END: {
+                    case BV_VLIST_POLY_END: {
                         PolygonEnd element(chunk, i);
 
                         if (!callBack(&element))
@@ -957,7 +957,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_VERTNORM: {
+                    case BV_VLIST_POLY_VERTNORM: {
                         PolygonVertexNormal element(chunk, i);
 
                         if (!callBack(&element))
@@ -966,7 +966,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_START: {
+                    case BV_VLIST_TRI_START: {
                         TriangleStart element(chunk, i);
 
                         if (!callBack(&element))
@@ -975,7 +975,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_MOVE: {
+                    case BV_VLIST_TRI_MOVE: {
                         TriangleMove element(chunk, i);
 
                         if (!callBack(&element))
@@ -984,7 +984,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_DRAW: {
+                    case BV_VLIST_TRI_DRAW: {
                         TriangleDraw element(chunk, i);
 
                         if (!callBack(&element))
@@ -993,7 +993,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_END: {
+                    case BV_VLIST_TRI_END: {
                         TriangleEnd element(chunk, i);
 
                         if (!callBack(&element))
@@ -1002,7 +1002,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_VERTNORM: {
+                    case BV_VLIST_TRI_VERTNORM: {
                         TriangleVertexNormal element(chunk, i);
 
                         if (!callBack(&element))
@@ -1011,7 +1011,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POINT_DRAW: {
+                    case BV_VLIST_POINT_DRAW: {
                         PointDraw element(chunk, i);
 
                         if (!callBack(&element))
@@ -1020,7 +1020,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POINT_SIZE: {
+                    case BV_VLIST_POINT_SIZE: {
                         PointSize element(chunk, i);
 
                         if (!callBack(&element))
@@ -1029,7 +1029,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_LINE_WIDTH: {
+                    case BV_VLIST_LINE_WIDTH: {
                         LineWidth element(chunk, i);
 
                         if (!callBack(&element))
@@ -1039,7 +1039,7 @@ void VectorList::Iterate
 
                     }
 
-                    case BN_VLIST_DISPLAY_MAT: {
+                    case BV_VLIST_DISPLAY_MAT: {
                         DisplaySpace element(chunk, i);
 
                         if (!callBack(&element))
@@ -1048,7 +1048,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_MODEL_MAT: {
+                    case BV_VLIST_MODEL_MAT: {
                         ModelSpace element(chunk, i);
 
                         if (!callBack(&element))
@@ -1076,12 +1076,12 @@ void VectorList::Iterate
 ) {
     if (m_vlist != 0) {
         bool      cont = true;
-        bn_vlist* chunk;
+        bv_vlist* chunk;
 
-        for (BU_LIST_FOR(chunk, bn_vlist, m_vlist)) {
+        for (BU_LIST_FOR(chunk, bv_vlist, m_vlist)) {
             for (size_t i = 0; i < chunk->nused; ++i) {
                 switch (chunk->cmd[i]) {
-                    case BN_VLIST_LINE_MOVE: {
+                    case BV_VLIST_LINE_MOVE: {
                         LineMove element(chunk, i);
 
                         if (!callBack(&element))
@@ -1090,7 +1090,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_LINE_DRAW: {
+                    case BV_VLIST_LINE_DRAW: {
                         LineDraw element(chunk, i);
 
                         if (!callBack(&element))
@@ -1099,7 +1099,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_START: {
+                    case BV_VLIST_POLY_START: {
                         PolygonStart element(chunk, i);
 
                         if (!callBack(&element))
@@ -1108,7 +1108,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_MOVE: {
+                    case BV_VLIST_POLY_MOVE: {
                         PolygonMove element(chunk, i);
 
                         if (!callBack(&element))
@@ -1117,7 +1117,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_DRAW: {
+                    case BV_VLIST_POLY_DRAW: {
                         PolygonDraw element(chunk, i);
 
                         if (!callBack(&element))
@@ -1126,7 +1126,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_END: {
+                    case BV_VLIST_POLY_END: {
                         PolygonEnd element(chunk, i);
 
                         if (!callBack(&element))
@@ -1135,7 +1135,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POLY_VERTNORM: {
+                    case BV_VLIST_POLY_VERTNORM: {
                         PolygonVertexNormal element(chunk, i);
 
                         if (!callBack(&element))
@@ -1144,7 +1144,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_START: {
+                    case BV_VLIST_TRI_START: {
                         TriangleStart element(chunk, i);
 
                         if (!callBack(&element))
@@ -1153,7 +1153,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_MOVE: {
+                    case BV_VLIST_TRI_MOVE: {
                         TriangleMove element(chunk, i);
 
                         if (!callBack(&element))
@@ -1162,7 +1162,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_DRAW: {
+                    case BV_VLIST_TRI_DRAW: {
                         TriangleDraw element(chunk, i);
 
                         if (!callBack(&element))
@@ -1171,7 +1171,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_END: {
+                    case BV_VLIST_TRI_END: {
                         TriangleEnd element(chunk, i);
 
                         if (!callBack(&element))
@@ -1180,7 +1180,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_TRI_VERTNORM: {
+                    case BV_VLIST_TRI_VERTNORM: {
                         TriangleVertexNormal element(chunk, i);
 
                         if (!callBack(&element))
@@ -1189,7 +1189,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POINT_DRAW: {
+                    case BV_VLIST_POINT_DRAW: {
                         PointDraw element(chunk, i);
 
                         if (!callBack(&element))
@@ -1198,7 +1198,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_POINT_SIZE: {
+                    case BV_VLIST_POINT_SIZE: {
                         PointSize element(chunk, i);
 
                         if (!callBack(&element))
@@ -1207,7 +1207,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_LINE_WIDTH: {
+                    case BV_VLIST_LINE_WIDTH: {
                         LineWidth element(chunk, i);
 
                         if (!callBack(&element))
@@ -1216,7 +1216,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_DISPLAY_MAT: {
+                    case BV_VLIST_DISPLAY_MAT: {
                         DisplaySpace element(chunk, i);
 
                         if (!callBack(&element))
@@ -1225,7 +1225,7 @@ void VectorList::Iterate
                         break;
                     }
 
-                    case BN_VLIST_MODEL_MAT: {
+                    case BV_VLIST_MODEL_MAT: {
                         ModelSpace element(chunk, i);
 
                         if (!callBack(&element))
@@ -1258,7 +1258,7 @@ bool VectorList::Append
             case Element::ElementType::PointDraw: {
                 const PointDraw& actualElement = static_cast<const PointDraw&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BN_VLIST_POINT_DRAW);
+                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BV_VLIST_POINT_DRAW);
                 break;
             }
 
@@ -1272,14 +1272,14 @@ bool VectorList::Append
             case Element::ElementType::LineMove: {
                 const LineMove& actualElement = static_cast<const LineMove&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BN_VLIST_LINE_MOVE);
+                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BV_VLIST_LINE_MOVE);
                 break;
             }
 
             case Element::ElementType::LineDraw: {
                 const LineDraw& actualElement = static_cast<const LineDraw&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BN_VLIST_LINE_DRAW);
+                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BV_VLIST_LINE_DRAW);
                 break;
             }
 
@@ -1293,70 +1293,70 @@ bool VectorList::Append
             case Element::ElementType::TriangleStart: {
                 const TriangleStart& actualElement = static_cast<const TriangleStart&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Normal().coordinates, BN_VLIST_TRI_START);
+                RT_ADD_VLIST(m_vlist, actualElement.Normal().coordinates, BV_VLIST_TRI_START);
                 break;
             }
 
             case Element::ElementType::TriangleMove: {
                 const TriangleMove& actualElement = static_cast<const TriangleMove&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BN_VLIST_TRI_MOVE);
+                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BV_VLIST_TRI_MOVE);
                 break;
             }
 
             case Element::ElementType::TriangleDraw: {
                 const TriangleDraw& actualElement = static_cast<const TriangleDraw&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BN_VLIST_TRI_DRAW);
+                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BV_VLIST_TRI_DRAW);
                 break;
             }
 
             case Element::ElementType::TriangleEnd: {
                 const TriangleEnd& actualElement = static_cast<const TriangleEnd&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BN_VLIST_TRI_END);
+                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BV_VLIST_TRI_END);
                 break;
             }
 
             case Element::ElementType::TriangleVertexNormal: {
                 const TriangleVertexNormal& actualElement = static_cast<const TriangleVertexNormal&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Normal().coordinates, BN_VLIST_TRI_VERTNORM);
+                RT_ADD_VLIST(m_vlist, actualElement.Normal().coordinates, BV_VLIST_TRI_VERTNORM);
                 break;
             }
 
             case Element::ElementType::PolygonStart: {
                 const PolygonStart& actualElement = static_cast<const PolygonStart&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Normal().coordinates, BN_VLIST_POLY_START);
+                RT_ADD_VLIST(m_vlist, actualElement.Normal().coordinates, BV_VLIST_POLY_START);
                 break;
             }
 
             case Element::ElementType::PolygonMove: {
                 const PolygonMove& actualElement = static_cast<const PolygonMove&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BN_VLIST_POLY_MOVE);
+                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BV_VLIST_POLY_MOVE);
                 break;
             }
 
             case Element::ElementType::PolygonDraw: {
                 const PolygonDraw& actualElement = static_cast<const PolygonDraw&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BN_VLIST_POLY_DRAW);
+                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BV_VLIST_POLY_DRAW);
                 break;
             }
 
             case Element::ElementType::PolygonEnd: {
                 const PolygonEnd& actualElement = static_cast<const PolygonEnd&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BN_VLIST_POLY_END);
+                RT_ADD_VLIST(m_vlist, actualElement.Point().coordinates, BV_VLIST_POLY_END);
                 break;
             }
 
             case Element::ElementType::PolygonVertexNormal: {
                 const PolygonVertexNormal& actualElement = static_cast<const PolygonVertexNormal&>(element);
 
-                RT_ADD_VLIST(m_vlist, actualElement.Normal().coordinates, BN_VLIST_POLY_VERTNORM);
+                RT_ADD_VLIST(m_vlist, actualElement.Normal().coordinates, BV_VLIST_POLY_VERTNORM);
                 break;
             }
 
