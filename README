@@ -25,7 +25,7 @@ default settings, run the following commands:
 git clone https://github.com/BRL-CAD/rt-cubed
 mkdir -p rt-cubed/.build
 cd rt-cubed/.build
-cmake .. -DBRLCAD_VERSION=7.32.5 -DBRLCAD_BASE_DIR=/path/to/brlcad/.build
+cmake .. -DBRLCAD_VERSION=7.32.5 -DBRLCAD_ROOT=/path/to/brlcad/.build
 make -j4
 
 
