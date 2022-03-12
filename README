@@ -1,4 +1,4 @@
-Rt^3
+MOOSE: Modular Object-Oriented Solidity Engine
 
 This module is a development framework for a new BRL-CAD GUI.  It's
 intended to be only for developers at this time.  If you're checking
@@ -6,35 +6,40 @@ this out, it's expected that you are a competent developer.  Please
 direct all feedback to the BRL-CAD developer mailing list.  Thank you
 for your patience and understanding.
 
-Compilation & Installation (mafm, GSoC 2008 WIP)
-------------------------------------------------
-
-Read INSTALL and skip the rest of this file for now.
 
 Compilation & Installation
 --------------------------
 
-YOU SHOULD INSTALL BRL-CAD BEFORE COMPILING AND INSTALLING RT^3
+Read INSTALL and skip the rest of this file for now.
+
+
+Compilation & Installation
+--------------------------
+
+YOU MUST COMPILE & INSTALL BRL-CAD BEFORE COMPILING RT^3
 
 For more details on building the sources and options available, see
 the INSTALL file.  To build the sources and get up and running with
 default settings, run the following commands:
 
-# install BRL-CAD into /usr/brlcad before doing this!
-./autogen.sh
-./configure --prefix=/usr/brlcad
-make
-sudo make install
+git clone https://github.com/BRL-CAD/rt-cubed
+mkdir -p rt-cubed/.build
+cd rt-cubed/.build
+cmake .. -DBRLCAD_VERSION=7.32.5 -DBRLCAD_BASE_DIR=/path/to/brlcad/.build
+make -j4
+
 
 Known Bugs
 ----------
 
 See BUGS
 
+
 Contributors
 ------------
 
 See AUTHORS
+
 
 Development
 -----------
