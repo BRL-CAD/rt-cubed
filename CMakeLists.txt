@@ -19,10 +19,17 @@
 #	information.
 #	
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.1.3)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.12)
 
 message("found cmake ${CMAKE_VERSION}")
 PROJECT(RT3)
+
+# Policy CMP0074 allows CMake to search
+# "prefixes specified by the <PackageName>_ROOT in find_package"
+# https://cmake.org/cmake/help/git-stage/policy/CMP0074.html
+if (POLICY CMP0074)
+  cmake_policy(SET CMP0074 NEW)
+endif (POLICY CMP0074)
 
 #Set path for cmake modules.
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
