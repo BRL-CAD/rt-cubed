@@ -361,16 +361,21 @@ bool Database::Get
             m_callback(objectIntern);
 
             if (objectIntern.IsValid()) {
+                bool success = false;
+
                 if (!BU_SETJUMP)
-                    rt_db_put_internal(objectIntern.m_pDir,
-                                       objectIntern.m_dbip,
-                                       objectIntern.m_ip,
-                                       objectIntern.m_resp);
+                    success = (rt_db_put_internal(objectIntern.m_pDir,
+                                                  objectIntern.m_dbip,
+                                                  objectIntern.m_ip,
+                                                  objectIntern.m_resp) == 0);
+
+                BU_UNSETJUMP;
+
+                if (!success)
+                    m_okay = false;
             }
             else
                 m_okay = false;
-
-            BU_UNSETJUMP;
         }
 
     private:
