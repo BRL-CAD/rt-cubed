@@ -96,7 +96,7 @@ bool Database::Add
 ) {
     bool ret = false;
 
-    if (m_wdbp != 0) {
+    if (object.IsValid() && (m_wdbp != 0)) {
         if (!BU_SETJUMP) {
             int   id         = ID_NULL;
             void* rtInternal = 0;
@@ -338,7 +338,7 @@ void Database::Delete
 }
 
 
-void Database::Get
+bool Database::Get
 (
     const char*     objectName,
     ObjectCallback& callback
@@ -346,33 +346,45 @@ void Database::Get
     class ObjectCallbackIntern : public ConstDatabase::ObjectCallback {
     public:
         ObjectCallbackIntern(Database::ObjectCallback& cb) : ConstDatabase::ObjectCallback(),
-                                                             m_callback(cb) {}
+                                                             m_callback(cb),
+                                                             m_okay(true) {}
 
         virtual ~ObjectCallbackIntern(void) {}
+
+        bool         Okay(void) const {
+            return m_okay;
+        }
 
         virtual void operator()(const Object& object) {
             Object& objectIntern = const_cast<Object&>(object);
 
             m_callback(objectIntern);
 
-            if (!BU_SETJUMP)
-                rt_db_put_internal(objectIntern.m_pDir,
-                                   objectIntern.m_dbip,
-                                   objectIntern.m_ip,
-                                   objectIntern.m_resp);
+            if (objectIntern.IsValid()) {
+                if (!BU_SETJUMP)
+                    rt_db_put_internal(objectIntern.m_pDir,
+                                       objectIntern.m_dbip,
+                                       objectIntern.m_ip,
+                                       objectIntern.m_resp);
+            }
+            else
+                m_okay = false;
 
             BU_UNSETJUMP;
         }
 
     private:
         Database::ObjectCallback& m_callback;
+        bool                      m_okay;
     } callbackIntern(callback);
 
     ConstDatabase::Get(objectName, callbackIntern);
+
+    return callbackIntern.Okay();
 }
 
 
-void Database::Set
+bool Database::Set
 (
     const Object& object
 ) {
@@ -391,7 +403,7 @@ void Database::Set
         const Object& m_object;
     } callbackIntern(object);
 
-    Get(object.Name(), callbackIntern);
+    return Get(object.Name(), callbackIntern);
 }
 
 
