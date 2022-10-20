@@ -60,7 +60,7 @@ MemoryDatabase::MemoryDatabase(void) : Database() {
 
     BU_UNSETJUMP;
 
-    m_wdbp = dbip->dbi_wdbp;   // takes ownership of dbip
+    m_wdbp = dbip->dbi_wdbp_inmem; // takes ownership of dbip
 }
 
 
@@ -94,7 +94,7 @@ bool MemoryDatabase::Load
 
             m_rtip = rt_new_rti(dbip);
             rt_init_resource(m_resp, 0, m_rtip);
-            m_wdbp = dbip->dbi_wdbp;
+            m_wdbp = dbip->dbi_wdbp_inmem;
 
             // fill database
             ret = (db_dump(m_wdbp, source->rti_dbip) == 0);
@@ -140,7 +140,7 @@ bool MemoryDatabase::Load
 
             m_rtip = rt_new_rti(dbip);
             rt_init_resource(m_resp, 0, m_rtip);
-            m_wdbp = dbip->dbi_wdbp;
+            m_wdbp = dbip->dbi_wdbp_inmem;
 
             // fill database
             ret = (db_dump(m_wdbp, source->rti_dbip) == 0);
